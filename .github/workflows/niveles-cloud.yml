@@ -9,6 +9,7 @@ on:
       - 'src/niveles_cloud.py'
       - 'src/procesar_niveles.js'
       - 'src/niveles_postprocess.py'
+      - 'src/generar_word_niveles.py'
       - 'requirements.txt'
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
@@ -24,7 +25,7 @@ permissions:
 jobs:
   recolectar-niveles:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 18
     concurrency:
       group: niveles-cloud-collector
       cancel-in-progress: true
@@ -63,7 +64,10 @@ jobs:
       - name: Calcular ciclo 06:00 y generar gráficas PNG
         run: python src/niveles_postprocess.py
 
-      - name: Publicar datos y gráficas de niveles en repositorio privado
+      - name: Generar y verificar Word de niveles
+        run: python src/generar_word_niveles.py
+
+      - name: Publicar datos, gráficas y Word de niveles
         shell: bash
         run: |
           git config user.name "Agente Hidrometeorologico Cloud"
@@ -72,10 +76,11 @@ jobs:
                   data/niveles/Ultimo_Corte \
                   data/niveles/Estado \
                   data/niveles/Estado_Niveles_Cloud.json \
-                  data/niveles/Graficas
+                  data/niveles/Graficas \
+                  data/niveles/Reportes
           if git diff --cached --quiet; then
             echo "Sin cambios de niveles para publicar."
           else
-            git commit -m "Actualiza niveles y gráficas del ciclo 06:00 [skip ci]"
+            git commit -m "Actualiza niveles, gráficas y Word [skip ci]"
             git push
           fi
