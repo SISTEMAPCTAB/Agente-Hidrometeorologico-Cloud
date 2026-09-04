@@ -1,6 +1,6 @@
 {
   "agent": "Niveles Hidrométricos Cloud",
-  "run_utc": "2026-09-04T21:29:21.485939+00:00",
+  "run_utc": "2026-09-04T22:00:16.047422+00:00",
   "complete": true,
   "selected_account": "principal",
   "lookback_days": 7,
@@ -20,9 +20,9 @@
     },
     {
       "label": "fuente1",
-      "ok": true,
+      "ok": false,
       "candidate_count": 0,
-      "reason": null
+      "reason": "HTTPError: 422 Client Error: Unprocessable Entity for url: https://correo.tabasco.gob.mx/service/soap"
     }
   ],
   "rule_missing_data": "Si una fila horaria está incompleta o falta un valor, se conserva el último valor observado válido por estación y se marca como heredado; ausencia nunca equivale a cero."
