@@ -1,0 +1,77 @@
+name: Niveles Hidrométricos Cloud
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/niveles_cloud.py'
+      - 'src/procesar_niveles.js'
+      - 'package.json'
+      - '.github/workflows/niveles-cloud.yml'
+  schedule:
+    # Ejecuciones previas a los cortes de ChatGPT de 10:15, 12:15, 14:15, 16:15 y 18:15 h.
+    # America/Mexico_City = UTC-6.
+    - cron: '3 16,18,20,22 * * *'
+    - cron: '3 0 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  recolectar-niveles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: niveles-cloud-collector
+      cancel-in-progress: false
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Instalar dependencias Python
+        run: pip install -r requirements.txt
+
+      - name: Instalar dependencias Node
+        run: npm install --no-audit --no-fund
+
+      - name: Ejecutar niveles hidrométricos cloud
+        env:
+          CARBONIO_BASE: https://correo.tabasco.gob.mx
+          CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
+          CARBONIO_PASSWORD: ${{ secrets.CARBONIO_PASSWORD }}
+          CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
+          CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
+          NIVELES_BASE: data/niveles
+        run: python src/niveles_cloud.py
+
+      - name: Publicar datos de niveles en repositorio privado
+        shell: bash
+        run: |
+          git config user.name "Agente Hidrometeorologico Cloud"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/niveles/Historico \
+                  data/niveles/Ultimo_Corte \
+                  data/niveles/Estado \
+                  data/niveles/Estado_Niveles_Cloud.json \
+                  data/niveles/Graficas
+          if git diff --cached --quiet; then
+            echo "Sin cambios de niveles para publicar."
+          else
+            git commit -m "Actualiza niveles hidrométricos cloud [skip ci]"
+            git push
+          fi
