@@ -45,6 +45,21 @@ def fmt(v, signed=False):
     return f"{n:+.2f}" if signed else f"{n:.2f}"
 
 
+def fmt_namo_difference(v):
+    """distancia_namo se almacena como nivel_actual - NAMO."""
+    if v is None:
+        return "s/d"
+    try:
+        n = float(v)
+    except Exception:
+        return str(v)
+    if abs(n) < 0.005:
+        return "0.00 (en NAMO)"
+    if n < 0:
+        return f"{abs(n):.2f} abajo"
+    return f"{n:.2f} arriba"
+
+
 def set_cell_font(cell, size=7.5, bold=False):
     for p in cell.paragraphs:
         for r in p.runs:
@@ -151,7 +166,10 @@ def main():
     p.add_run("si falta lectura nueva, se conserva el último valor válido y se marca como heredado; ausencia nunca equivale a cero.")
 
     add_heading(doc, "Resumen por estación", 1)
-    headers = ["Sistema", "Estación", "Actual m", "Base 06 m", "Δ vs 06 m", "Δ anterior m", "Tendencia", "Dato", "Última observación real"]
+    headers = [
+        "Sistema", "Estación", "Actual m", "Dif. al NAMO", "Base 06 m",
+        "Δ vs 06 m", "Δ anterior m", "Tendencia", "Dato", "Última observación real"
+    ]
     table = doc.add_table(rows=1, cols=len(headers))
     for i, h in enumerate(headers):
         table.rows[0].cells[i].text = h
@@ -159,16 +177,17 @@ def main():
         cells = table.add_row().cells
         vals = [
             row.get("rio", ""), row.get("estacion", ""), fmt(row.get("ultimo_nivel")),
+            fmt_namo_difference(row.get("distancia_namo")),
             fmt(row.get("nivel_base_06")), fmt(row.get("delta_vs_06"), True),
             fmt(row.get("delta_reporte"), True), row.get("tendencia", ""),
             row.get("estado_dato", ""), row.get("ultima_actualizacion_real", "")
         ]
         for i, v in enumerate(vals):
             cells[i].text = str(v)
-    style_table(table)
+    style_table(table, header_size=7.0, body_size=6.8)
 
     add_heading(doc, "Referencia NAMO/NAME y ventanas históricas", 1)
-    headers2 = ["Estación", "Δ24 h", "Δ48 h", "Δ72 h", "Dist. NAMO m", "Dist. NAME m", "Base 06", "Estado base"]
+    headers2 = ["Estación", "Δ24 h", "Δ48 h", "Δ72 h", "Diferencia al NAMO", "Dist. NAME m", "Base 06", "Estado base"]
     table2 = doc.add_table(rows=1, cols=len(headers2))
     for i, h in enumerate(headers2):
         table2.rows[0].cells[i].text = h
@@ -176,7 +195,7 @@ def main():
         cells = table2.add_row().cells
         vals = [
             row.get("estacion", ""), fmt(row.get("delta_24h"), True), fmt(row.get("delta_48h"), True),
-            fmt(row.get("delta_72h"), True), fmt(row.get("distancia_namo"), True),
+            fmt(row.get("delta_72h"), True), fmt_namo_difference(row.get("distancia_namo")),
             fmt(row.get("distancia_name"), True), row.get("fecha_hora_base_ciclo", ""), row.get("estado_base_06", "")
         ]
         for i, v in enumerate(vals):
@@ -189,12 +208,12 @@ def main():
     add_heading(doc, "Criterio operativo", 1)
     doc.add_paragraph(
         "La variación Δ vs 06:00 mide el cambio acumulado dentro del ciclo operativo vigente. "
-        "La variación Δ anterior mide el cambio inmediato respecto al corte previo. Los valores heredados "
-        "se muestran para continuidad operativa y no deben interpretarse como observaciones nuevas."
+        "La variación Δ anterior mide el cambio inmediato respecto al corte previo. "
+        "La diferencia al NAMO indica cuánto se encuentra el nivel actual por debajo o por encima del NAMO. "
+        "Los valores heredados se muestran para continuidad operativa y no deben interpretarse como observaciones nuevas."
     )
 
     doc.save(LATEST)
-    # Verificación estructural: ZIP Office válido y reapertura con python-docx.
     with zipfile.ZipFile(LATEST, "r") as zf:
         bad = zf.testzip()
         if bad:
@@ -216,6 +235,7 @@ def main():
         "bytes": LATEST.stat().st_size,
         "sha256": digest,
         "graphs_embedded": (GRAPH_DIR / "tablero_operativo.png").exists(),
+        "difference_to_namo_in_main_table": True,
     }
     WORD_STATUS.write_text(json.dumps(status, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(status, ensure_ascii=False, indent=2))
