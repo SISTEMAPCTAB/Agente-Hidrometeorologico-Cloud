@@ -45,6 +45,8 @@ jobs:
           CARBONIO_BASE: https://correo.tabasco.gob.mx
           CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
           CARBONIO_PASSWORD: ${{ secrets.CARBONIO_PASSWORD }}
+          CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
+          CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
           SOURCE1_REGEX: ${{ vars.SOURCE1_REGEX }}
           SOURCE2_REGEX: ${{ vars.SOURCE2_REGEX }}
           OUTPUT_DIR: out
