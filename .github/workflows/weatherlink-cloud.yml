@@ -7,9 +7,11 @@ on:
       - main
     paths:
       - 'src/weatherlink_cloud.py'
+      - 'src/generar_word_weatherlink.py'
       - 'config/weatherlink_stations.json'
       - 'data/weatherlink/seed.csv'
       - 'data/weatherlink/seed_daily.json'
+      - 'requirements.txt'
       - '.github/workflows/weatherlink-cloud.yml'
   schedule:
     # Cada 30 minutos, separado de los horarios Carbonio.
@@ -22,7 +24,7 @@ permissions:
 jobs:
   recolectar-weatherlink:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     concurrency:
       group: weatherlink-cloud-collector
       cancel-in-progress: false
@@ -43,7 +45,10 @@ jobs:
       - name: Ejecutar WeatherLink Cloud
         run: python src/weatherlink_cloud.py
 
-      - name: Publicar estado y tabla WeatherLink
+      - name: Generar y verificar Word WeatherLink
+        run: python src/generar_word_weatherlink.py
+
+      - name: Publicar estado, tabla y Word WeatherLink
         shell: bash
         run: |
           git config user.name "Agente Hidrometeorologico Cloud"
@@ -51,10 +56,11 @@ jobs:
           git add data/weatherlink/state.json \
                   data/weatherlink/latest.json \
                   data/weatherlink/Tabla_WeatherLink_Cloud.csv \
-                  data/weatherlink/Estado_WeatherLink_Cloud.json
+                  data/weatherlink/Estado_WeatherLink_Cloud.json \
+                  data/weatherlink/Reportes
           if git diff --cached --quiet; then
             echo "Sin cambios WeatherLink para publicar."
           else
-            git commit -m "Actualiza WeatherLink cloud [skip ci]"
+            git commit -m "Actualiza WeatherLink cloud y Word [skip ci]"
             git push
           fi
