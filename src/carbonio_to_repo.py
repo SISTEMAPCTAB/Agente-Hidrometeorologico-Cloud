@@ -17,8 +17,10 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(
 
 CARBONIO_BASE = os.getenv("CARBONIO_BASE", "https://correo.tabasco.gob.mx").rstrip("/")
 SOAP_URL = f"{CARBONIO_BASE}/service/soap"
-USER = os.environ["CARBONIO_USER"]
-PASSWORD = os.environ["CARBONIO_PASSWORD"]
+PRIMARY_USER = os.environ["CARBONIO_USER"]
+PRIMARY_PASSWORD = os.environ["CARBONIO_PASSWORD"]
+FUENTE1_USER = os.getenv("CARBONIO_USER_FUENTE1", "").strip()
+FUENTE1_PASSWORD = os.getenv("CARBONIO_PASSWORD_FUENTE1", "").strip()
 SOURCE1_REGEX = os.getenv("SOURCE1_REGEX", "").strip()
 SOURCE2_REGEX = os.getenv("SOURCE2_REGEX", "").strip()
 MX_TZ = ZoneInfo("America/Mexico_City")
@@ -53,7 +55,7 @@ def token_from(auth_response):
     return str(t)
 
 
-def authenticate() -> str:
+def authenticate(user: str, password: str) -> str:
     payload = {
         "Header": {"context": {"_jsns": "urn:zimbra"}},
         "Body": {"AuthRequest": {
@@ -61,56 +63,30 @@ def authenticate() -> str:
             "csrfTokenSecured": True,
             "persistAuthTokenCookie": False,
             "generateDeviceId": True,
-            "account": {"by": "name", "_content": USER},
-            "password": PASSWORD,
+            "account": {"by": "name", "_content": user},
+            "password": password,
         }},
         "_jsns": "urn:zimbraSoap",
     }
     return token_from(soap_post(payload)["Body"]["AuthResponse"])
 
 
-def search_page(token: str, query: str, limit=100, offset=0):
+def search_messages(token: str, limit=150):
     payload = {
         "Header": {"context": {"_jsns": "urn:zimbra", "authToken": token}},
         "Body": {"SearchRequest": {
             "_jsns": "urn:zimbraMail",
-            "query": query,
+            "query": "in:inbox",
             "types": "message",
             "sortBy": "dateDesc",
             "limit": limit,
-            "offset": offset,
         }},
         "_jsns": "urn:zimbraSoap",
     }
-    resp = soap_post(payload).get("Body", {}).get("SearchResponse", {})
-    m = resp.get("m", [])
+    m = soap_post(payload).get("Body", {}).get("SearchResponse", {}).get("m", [])
     if not m:
         return []
     return m if isinstance(m, list) else [m]
-
-
-def collect_messages(token: str):
-    # Primero amplía Inbox hasta 500 mensajes. Si aún faltan fuentes,
-    # intenta todo el buzón; así no depende de que un correo siga en Inbox.
-    collected = []
-    seen = set()
-    plans = [("in:inbox", 5), ("in:anywhere", 5)]
-    for query, pages in plans:
-        try:
-            for page in range(pages):
-                batch = search_page(token, query, 100, page * 100)
-                if not batch:
-                    break
-                for m in batch:
-                    mid = str(m.get("id", ""))
-                    if mid and mid not in seen:
-                        seen.add(mid)
-                        collected.append(m)
-                if len(batch) < 100:
-                    break
-        except Exception as exc:
-            LOG.warning("Búsqueda '%s' no disponible: %s", query, exc)
-    return collected
 
 
 def get_message(token: str, message_id: str):
@@ -149,14 +125,10 @@ def classify(subject: str, filename: str):
         return "FUENTE2"
     if SOURCE1_REGEX and re.search(SOURCE1_REGEX, raw, re.I):
         return "FUENTE1"
-
-    # FUENTE2: boletín de 8 am, normalmente con nombre "Boletin del ...".
     if re.search(r"\bboletin\s+del\b", text) or "8 am" in text or "8am" in text:
         return "FUENTE2"
     if "hidrometria y climatologia" in text and "presas" not in text:
         return "FUENTE2"
-
-    # FUENTE1: boletín hidrométrico/climatológico y de presas.
     if re.search(r"\bboletin\s+\d{1,2}[-_/]\d{1,2}[-_/]\d{4}\b", text):
         return "FUENTE1"
     if "presas" in text and "hidrometr" in text and "climat" in text:
@@ -166,8 +138,47 @@ def classify(subject: str, filename: str):
     return None
 
 
-def download_pdf(token: str, message_id: str, part: str) -> bytes:
-    url = (f"{CARBONIO_BASE}/service/home/{quote(USER, safe='')}/"
+def message_local_time(summary: dict):
+    try:
+        return datetime.fromtimestamp(int(summary.get("d")) / 1000.0, tz=timezone.utc).astimezone(MX_TZ)
+    except Exception:
+        return None
+
+
+def scan_account(user: str, password: str, desired=None):
+    token = authenticate(user, password)
+    LOG.info("Autenticación Carbonio correcta para una cuenta configurada.")
+    messages = search_messages(token, 150)
+    LOG.info("Mensajes revisados en cuenta: %d", len(messages))
+    found = {}
+    desired = set(desired or ("FUENTE1", "FUENTE2"))
+    for summary in messages:
+        if desired.issubset(found.keys()):
+            break
+        mid = str(summary.get("id", ""))
+        subject = str(summary.get("su", ""))
+        if not mid:
+            continue
+        detail = get_message(token, mid)
+        for att in walk_attachments(detail.get("mp", [])):
+            if att["content_type"] != "application/pdf" and not att["filename"].lower().endswith(".pdf"):
+                continue
+            source = classify(subject, att["filename"])
+            if source in desired and source not in found:
+                found[source] = {
+                    "message_id": mid,
+                    "subject": subject,
+                    "message_time": message_local_time(summary),
+                    "user": user,
+                    "token": token,
+                    **att,
+                }
+                LOG.info("%s localizado: %s | %s", source, subject, att["filename"])
+    return found, len(messages)
+
+
+def download_pdf(user: str, token: str, message_id: str, part: str) -> bytes:
+    url = (f"{CARBONIO_BASE}/service/home/{quote(user, safe='')}/"
            f"?id={quote(str(message_id), safe='')}&part={quote(str(part), safe='')}"
            f"&auth=qp&zauthtoken={quote(token, safe='')}")
     r = requests.get(url, timeout=60)
@@ -190,14 +201,6 @@ def extract_text(pdf_bytes: bytes) -> str:
     return "".join(pages).strip() + "\n"
 
 
-def message_local_time(summary: dict):
-    raw = summary.get("d")
-    try:
-        return datetime.fromtimestamp(int(raw) / 1000.0, tz=timezone.utc).astimezone(MX_TZ)
-    except Exception:
-        return None
-
-
 def write_text(path: Path, text: str):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
@@ -213,42 +216,20 @@ def main():
     now_local = now_utc.astimezone(MX_TZ)
     OUT.mkdir(parents=True, exist_ok=True)
 
-    token = authenticate()
-    LOG.info("Autenticación Carbonio correcta.")
-    messages = collect_messages(token)
-    LOG.info("Mensajes únicos revisables: %d", len(messages))
+    selected, scanned_primary = scan_account(PRIMARY_USER, PRIMARY_PASSWORD)
+    scanned_secondary = 0
 
-    selected = {}
-    for summary in messages:
-        if len(selected) == 2:
-            break
-        mid = str(summary.get("id", ""))
-        subject = str(summary.get("su", ""))
-        if not mid:
-            continue
-        try:
-            detail = get_message(token, mid)
-        except Exception as exc:
-            LOG.warning("No se pudo leer mensaje %s: %s", mid, exc)
-            continue
-        for att in walk_attachments(detail.get("mp", [])):
-            if att["content_type"] != "application/pdf" and not att["filename"].lower().endswith(".pdf"):
-                continue
-            source = classify(subject, att["filename"])
-            if source and source not in selected:
-                selected[source] = {
-                    "message_id": mid,
-                    "subject": subject,
-                    "message_time": message_local_time(summary),
-                    **att,
-                }
-                LOG.info("%s localizado: %s | %s", source, subject, att["filename"])
+    if "FUENTE1" not in selected and FUENTE1_USER and FUENTE1_PASSWORD:
+        second, scanned_secondary = scan_account(FUENTE1_USER, FUENTE1_PASSWORD, desired=("FUENTE1",))
+        selected.update(second)
 
     status = {
         "agent": "Agente-Hidrometeorologico-Cloud",
         "run_utc": now_utc.isoformat(),
         "run_local": now_local.isoformat(),
-        "messages_scanned": len(messages),
+        "messages_scanned_primary": scanned_primary,
+        "messages_scanned_fuente1_account": scanned_secondary,
+        "fuente1_secondary_account_configured": bool(FUENTE1_USER and FUENTE1_PASSWORD),
         "sources": {},
         "complete": False,
     }
@@ -256,19 +237,19 @@ def main():
     for source in ("FUENTE1", "FUENTE2"):
         item = selected.get(source)
         if not item:
-            status["sources"][source] = {"status": "not_found"}
+            reason = "not_found"
+            if source == "FUENTE1" and not (FUENTE1_USER and FUENTE1_PASSWORD):
+                reason = "secondary_account_not_configured_or_not_found_in_primary"
+            status["sources"][source] = {"status": reason}
             continue
 
-        pdf = download_pdf(token, item["message_id"], item["part"])
+        pdf = download_pdf(item["user"], item["token"], item["message_id"], item["part"])
         text = extract_text(pdf)
         msg_time = item["message_time"] or now_local
         bulletin_date = msg_time.strftime("%Y-%m-%d")
         header = (
-            f"FUENTE: {source}\n"
-            f"ASUNTO: {item['subject']}\n"
-            f"ARCHIVO ORIGINAL: {item['filename']}\n"
-            f"ID MENSAJE: {item['message_id']}\n"
-            f"FECHA/HORA MENSAJE: {msg_time.isoformat()}\n"
+            f"FUENTE: {source}\nASUNTO: {item['subject']}\nARCHIVO ORIGINAL: {item['filename']}\n"
+            f"ID MENSAJE: {item['message_id']}\nFECHA/HORA MENSAJE: {msg_time.isoformat()}\n"
             f"FECHA/HORA RECOLECCIÓN: {now_local.isoformat()}\n\n"
         )
         full_text = header + text
