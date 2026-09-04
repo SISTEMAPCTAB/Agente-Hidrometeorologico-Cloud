@@ -14,25 +14,25 @@ on:
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
   schedule:
-    # Ejecuciones previas a los cortes de ChatGPT de 10:15, 12:15, 14:15, 16:15 y 18:15 h.
-    # America/Mexico_City = UTC-6.
     - cron: '3 16,18,20,22 * * *'
     - cron: '3 0 * * *'
 
 permissions:
   contents: write
 
+concurrency:
+  group: agente-hidrometeorologico-repo-writer
+  cancel-in-progress: false
+
 jobs:
   recolectar-niveles:
     runs-on: ubuntu-latest
     timeout-minutes: 18
-    concurrency:
-      group: niveles-cloud-collector
-      cancel-in-progress: true
-
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -82,5 +82,6 @@ jobs:
             echo "Sin cambios de niveles para publicar."
           else
             git commit -m "Actualiza niveles, gráficas y Word [skip ci]"
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi
