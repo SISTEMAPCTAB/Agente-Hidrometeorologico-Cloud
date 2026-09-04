@@ -14,24 +14,24 @@ on:
       - 'requirements.txt'
       - '.github/workflows/weatherlink-cloud.yml'
   schedule:
-    # Cada 30 minutos, separado de los horarios Carbonio.
-    # America/Mexico_City = UTC-6 durante 2026.
     - cron: '23,53 * * * *'
 
 permissions:
   contents: write
 
+concurrency:
+  group: agente-hidrometeorologico-repo-writer
+  cancel-in-progress: false
+
 jobs:
   recolectar-weatherlink:
     runs-on: ubuntu-latest
     timeout-minutes: 12
-    concurrency:
-      group: weatherlink-cloud-collector
-      cancel-in-progress: false
-
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -62,5 +62,6 @@ jobs:
             echo "Sin cambios WeatherLink para publicar."
           else
             git commit -m "Actualiza WeatherLink cloud y Word [skip ci]"
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi
