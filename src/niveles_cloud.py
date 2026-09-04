@@ -44,9 +44,11 @@ def norm(value: str) -> str:
 
 def is_levels_subject(subject: str) -> bool:
     s = norm(subject)
+    # Solo reportes de niveles de ríos/presas. Los boletines genéricos de
+    # Hidrometría y Climatología de 6/8 am pertenecen a otra fuente y tienen
+    # un formato PDF diferente, por lo que no deben entrar a este extractor.
     return (
-        "boletin de hidrometria" in s
-        or "informe de niveles" in s
+        "informe de niveles" in s
         or "niveles del" in s
         or "niveles de las 18" in s
     )
