@@ -1,0 +1,21 @@
+{
+  "agent": "Agente-Hidrometeorologico-Cloud",
+  "run_utc": "2026-09-04T19:55:16.603128+00:00",
+  "run_local": "2026-09-04T13:55:16.603128-06:00",
+  "sources": {
+    "FUENTE1": {
+      "status": "not_found"
+    },
+    "FUENTE2": {
+      "status": "ok",
+      "subject": "Se envía Boletín de Hidrometría y Climatología de 8 am",
+      "message_id": "14894",
+      "original_filename": "Boletin del 04 de Septiembre  del 2026.pdf",
+      "message_time": "2026-09-04T08:20:49-06:00",
+      "bulletin_date": "2026-09-04",
+      "bytes": 134181,
+      "text_chars": 2621
+    }
+  },
+  "complete": false
+}
