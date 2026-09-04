@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const pdfParse = require("pdf-parse");
 
 function arg(name, fallback=null){
   const i = process.argv.indexOf(name);
@@ -35,107 +34,152 @@ const STATIONS = [
 ];
 
 function norm(s){
-  return String(s||"")
-    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+  return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"")
     .toUpperCase().replace(/\s+/g," ").trim();
 }
-
 function parseDate(text){
-  const t = norm(text);
-  const m = t.match(/(?:A|DEL)\s+(\d{1,2})\s+DE\s+(ENERO|FEBRERO|MARZO|ABRIL|MAYO|JUNIO|JULIO|AGOSTO|SEPTIEMBRE|OCTUBRE|NOVIEMBRE|DICIEMBRE)\s+(?:DEL?\s+)?(20\d{2})/);
+  const t=norm(text);
+  const m=t.match(/(?:A|DEL)\s+(\d{1,2})\s+DE\s+(ENERO|FEBRERO|MARZO|ABRIL|MAYO|JUNIO|JULIO|AGOSTO|SEPTIEMBRE|OCTUBRE|NOVIEMBRE|DICIEMBRE)\s+(?:DEL?\s+)?(20\d{2})/);
   if(!m) return new Date().toISOString().slice(0,10);
   const mo={ENERO:1,FEBRERO:2,MARZO:3,ABRIL:4,MAYO:5,JUNIO:6,JULIO:7,AGOSTO:8,SEPTIEMBRE:9,OCTUBRE:10,NOVIEMBRE:11,DICIEMBRE:12}[m[2]];
   return `${m[3]}-${String(mo).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`;
 }
-
 function targetHour(subject){
-  const s = norm(subject);
-  let m=s.match(/(?:DE LAS|LAS|DE)\s*(\d{1,2})\s*(?:HR|HRS|HORA|HORAS)/);
+  const s=norm(subject);
+  let m=s.match(/(?:DE LAS|LAS|DE)\s*(\d{1,2})(?::00)?\s*(?:HR|HRS|HORA|HORAS|AM)/);
   if(m) return Number(m[1]);
-  if(/8\s*AM/.test(s) || /8:00/.test(s)) return 8;
+  if(/8\s*AM/.test(s)||/8:00/.test(s)) return 8;
   return null;
 }
+function isNumeric(s){
+  return /^-?\d+(?:,\d{3})*(?:\.\d+)?$/.test(String(s).trim());
+}
+function toNum(s){
+  const v=Number(String(s).replace(/,/g,""));
+  return Number.isFinite(v)?v:null;
+}
+function median(arr){
+  const a=[...arr].sort((x,y)=>x-y);
+  if(!a.length) return null;
+  return a.length%2 ? a[(a.length-1)/2] : (a[a.length/2-1]+a[a.length/2])/2;
+}
 
-function parseHourlyRows(text){
+async function extractPage1Geometry(pdfFile){
+  const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  const data = new Uint8Array(fs.readFileSync(pdfFile));
+  const doc = await pdfjs.getDocument({data, disableWorker:true}).promise;
+  const page = await doc.getPage(1);
+  const tc = await page.getTextContent();
+  return tc.items.map(it=>({
+    str:String(it.str||"").trim(),
+    x:Number(it.transform?.[4]||0),
+    y:Number(it.transform?.[5]||0),
+    w:Number(it.width||0),
+    h:Number(it.height||0)
+  })).filter(it=>it.str);
+}
+
+function groupHourRows(items){
+  const hourItems=items.filter(it=>/^\d{2}:00$/.test(it.str));
   const rows=[];
-  for(const raw of text.split(/\r?\n/)){
-    const m=raw.trim().match(/^(\d{2}):00\s+(.+)$/);
-    if(!m) continue;
-    const hour=Number(m[1]);
-    const nums=[...m[2].matchAll(/-?\d+(?:,\d{3})*(?:\.\d+)?/g)]
-      .map(x=>Number(x[0].replace(/,/g,"")))
-      .filter(Number.isFinite);
-    rows.push({hour, nums, raw});
+  for(const hi of hourItems){
+    const hour=Number(hi.str.slice(0,2));
+    const near=items.filter(it=>Math.abs(it.y-hi.y)<=2.6 && it.x>hi.x+5 && isNumeric(it.str))
+      .sort((a,b)=>a.x-b.x);
+    rows.push({hour,y:hi.y,hourX:hi.x,cells:near});
   }
   return rows;
 }
 
-function exactRow(rows, wantedHour){
-  if(wantedHour == null) return null;
-  return rows.find(r=>r.hour===wantedHour) || null;
-}
-
-function chooseLatestCompleteRow(rows, wantedHour){
-  const complete=rows.filter(r=>r.nums.length>=15);
-  if(!complete.length) return null;
-  if(wantedHour != null){
-    const before=complete.filter(r=>r.hour<=wantedHour).sort((a,b)=>b.hour-a.hour)[0];
-    if(before) return before;
-  }
-  return complete.sort((a,b)=>b.hour-a.hour)[0];
-}
-
-function levelsFromCompleteRow(row){
-  // Solo se asignan valores por posición cuando la fila contiene la serie completa.
-  // Si la fila objetivo viene incompleta, NO se corre el arreglo: se conserva el último
-  // valor válido de cada estación y el punto se marca como heredado.
-  const vals=row.nums.slice(-15);
-  if(vals.length!==15) throw new Error(`Fila horaria incompleta (${vals.length} valores).`);
-  return STATIONS.map((s,i)=>({...s,nivel:vals[i],estado_dato:"observado"}));
-}
-
-function lastValidByStation(history, station){
-  const rows=history
-    .filter(r=>r.estacion===station && Number.isFinite(r.nivel) && r.estado_dato==="observado")
-    .sort((a,b)=>new Date(a.fecha_hora)-new Date(b.fecha_hora));
-  return rows.length ? rows.at(-1) : null;
-}
-
-function buildSnapshot(history, rows, wantedHour){
-  const target = exactRow(rows, wantedHour);
-
-  if(target && target.nums.length>=15){
-    return {
-      sourceHour: target.hour,
-      snapshotHour: wantedHour,
-      sourceStatus: "observado",
-      levels: levelsFromCompleteRow(target)
-    };
-  }
-
-  const inherited = STATIONS.map(st=>{
-    const prev=lastValidByStation(history, st.estacion);
-    return {
-      ...st,
-      nivel: prev ? prev.nivel : null,
-      estado_dato: prev ? "heredado" : "sin_dato",
-      ultima_actualizacion_real: prev ? prev.fecha_hora : null
-    };
+function establishRiverColumns(rows,wanted){
+  const candidates=rows.filter(r=>r.cells.length>=15 && (wanted==null || r.hour<=wanted));
+  if(!candidates.length) return null;
+  candidates.sort((a,b)=>{
+    if(b.cells.length!==a.cells.length) return b.cells.length-a.cells.length;
+    return b.hour-a.hour;
   });
+  const ref=candidates[0];
+  const xs=ref.cells.map(c=>c.x).sort((a,b)=>a-b);
+  const riverXs=xs.slice(-15);
+  const gaps=riverXs.slice(1).map((x,i)=>x-riverXs[i]);
+  const med=median(gaps)||20;
+  return {riverXs,tolerance:Math.max(5,med*0.48),referenceHour:ref.hour,referenceCount:ref.cells.length};
+}
 
-  const seed = chooseLatestCompleteRow(rows, wantedHour);
-  return {
-    sourceHour: seed ? seed.hour : null,
-    snapshotHour: wantedHour,
-    sourceStatus: "heredado",
-    seedLevels: seed ? levelsFromCompleteRow(seed) : null,
-    levels: inherited
-  };
+function mapTargetRow(row,columns){
+  if(!row) return Array(15).fill(null);
+  const result=Array(15).fill(null);
+  for(const cell of row.cells){
+    let best=-1,bestDist=Infinity;
+    columns.riverXs.forEach((x,i)=>{
+      const d=Math.abs(cell.x-x);
+      if(d<bestDist){bestDist=d;best=i;}
+    });
+    if(best>=0 && bestDist<=columns.tolerance){
+      result[best]=toNum(cell.str);
+    }
+  }
+  return result;
 }
 
 function loadHistory(file){
   if(!fs.existsSync(file)) return [];
-  try { return JSON.parse(fs.readFileSync(file,"utf8")); } catch { return []; }
+  try{return JSON.parse(fs.readFileSync(file,"utf8"));}catch{return []}
+}
+function realRows(history,station){
+  return history.filter(r=>
+    r.estacion===station &&
+    Number.isFinite(r.nivel) &&
+    (r.estado_dato==null || r.estado_dato==="observado")
+  ).sort((a,b)=>new Date(a.fecha_hora)-new Date(b.fecha_hora));
+}
+function allRows(history,station){
+  return history.filter(r=>r.estacion===station && Number.isFinite(r.nivel))
+    .sort((a,b)=>new Date(a.fecha_hora)-new Date(b.fecha_hora));
+}
+function lastReal(history,station){
+  const rows=realRows(history,station);
+  return rows.length?rows.at(-1):null;
+}
+function atOrBefore(rows,target){
+  const q=rows.filter(r=>new Date(r.fecha_hora).getTime()<=target);
+  return q.length?q.at(-1):null;
+}
+function deltaWindow(history,station,hours){
+  const rows=realRows(history,station);
+  if(!rows.length)return null;
+  const last=rows.at(-1);
+  const a=atOrBefore(rows,new Date(last.fecha_hora).getTime()-hours*3600000);
+  return a?last.nivel-a.nivel:null;
+}
+function trend(history,station){
+  const rows=realRows(history,station);
+  if(rows.length<2)return {label:"Sin tendencia suficiente",arrow:"",delta:null};
+  const d=rows.at(-1).nivel-rows.at(-2).nivel,eps=.01;
+  if(Math.abs(d)<=eps)return {label:"Estable",arrow:"→",delta:d};
+  if(d>0){
+    if(rows.length>=3){
+      const p=rows.at(-2).nivel-rows.at(-3).nivel;
+      if(p>eps && d>p*1.5)return {label:"Ascenso acelerado",arrow:"↑↑",delta:d};
+      if(p<-eps)return {label:"Cambio a ascenso",arrow:"↗",delta:d};
+    }
+    return {label:"Ascenso",arrow:"↑",delta:d};
+  }
+  if(rows.length>=3){
+    const p=rows.at(-2).nivel-rows.at(-3).nivel;
+    if(p<-eps && Math.abs(d)>Math.abs(p)*1.5)return {label:"Descenso acelerado",arrow:"↓↓",delta:d};
+    if(p>eps)return {label:"Cambio a descenso",arrow:"↘",delta:d};
+  }
+  return {label:"Descenso",arrow:"↓",delta:d};
+}
+function windowSeries(history,station,hours){
+  const rows=allRows(history,station);
+  if(!rows.length)return [];
+  const end=new Date(rows.at(-1).fecha_hora).getTime();
+  const start=end-hours*3600000;
+  const anchor=atOrBefore(rows,start);
+  const inside=rows.filter(r=>new Date(r.fecha_hora).getTime()>start && new Date(r.fecha_hora).getTime()<=end);
+  return anchor?[anchor,...inside]:inside;
 }
 function saveHistory(history,jsonFile,csvFile){
   fs.writeFileSync(jsonFile,JSON.stringify(history,null,2));
@@ -143,174 +187,108 @@ function saveHistory(history,jsonFile,csvFile){
   const esc=v=>`"${String(v??"").replace(/"/g,'""')}"`;
   fs.writeFileSync(csvFile,cols.join(",")+"\n"+history.map(r=>cols.map(c=>esc(r[c])).join(",")).join("\n"));
 }
-function stationRows(history,station,soloObservados=false){
-  return history.filter(r=>
-      r.estacion===station &&
-      Number.isFinite(r.nivel) &&
-      (!soloObservados || r.estado_dato==="observado")
-    )
-    .sort((a,b)=>new Date(a.fecha_hora)-new Date(b.fecha_hora));
-}
-function atOrBefore(rows,target){
-  const a=rows.filter(r=>new Date(r.fecha_hora).getTime()<=target);
-  return a.length ? a[a.length-1] : null;
-}
-function deltaWindow(history,station,hours){
-  const rows=stationRows(history,station,true);
-  if(!rows.length) return null;
-  const last=rows[rows.length-1];
-  const anchor=atOrBefore(rows,new Date(last.fecha_hora).getTime()-hours*3600000);
-  return anchor ? last.nivel-anchor.nivel : null;
-}
-function trend(history,station){
-  const rows=stationRows(history,station,true);
-  if(rows.length<2) return {label:"Sin tendencia suficiente",arrow:"",delta:null};
-  const a=rows.at(-2), b=rows.at(-1), d=b.nivel-a.nivel;
-  const eps=.01;
-  if(Math.abs(d)<=eps) return {label:"Estable",arrow:"→",delta:d};
-  if(d>eps){
-    if(rows.length>=3){
-      const p=rows.at(-2).nivel-rows.at(-3).nivel;
-      if(p>eps && d>p*1.5) return {label:"Ascenso acelerado",arrow:"↑↑",delta:d};
-      if(p<-eps) return {label:"Cambio a ascenso",arrow:"↗",delta:d};
-    }
-    return {label:"Ascenso",arrow:"↑",delta:d};
-  }
-  if(rows.length>=3){
-    const p=rows.at(-2).nivel-rows.at(-3).nivel;
-    if(p<-eps && Math.abs(d)>Math.abs(p)*1.5) return {label:"Descenso acelerado",arrow:"↓↓",delta:d};
-    if(p>eps) return {label:"Cambio a descenso",arrow:"↘",delta:d};
-  }
-  return {label:"Descenso",arrow:"↓",delta:d};
-}
-function windowSeries(history,station,hours){
-  const rows=stationRows(history,station);
-  if(!rows.length) return [];
-  const end=new Date(rows.at(-1).fecha_hora).getTime();
-  const start=end-hours*3600000;
-  const anchor=atOrBefore(rows,start);
-  const inside=rows.filter(r=>new Date(r.fecha_hora).getTime()>start && new Date(r.fecha_hora).getTime()<=end);
-  return anchor ? [anchor,...inside] : inside;
-}
 function safe(s){return String(s).replace(/[\\/:*?"<>|]/g,"_");}
 function svg(st,series,hours,tr,history){
-  if(!series.length) return null;
+  if(!series.length)return null;
   const W=1200,H=620,p={l:90,r:40,t:105,b:90};
   const vals=series.map(r=>r.nivel);
-  if(st.namo!=null) vals.push(st.namo);
-  if(st.name!=null) vals.push(st.name);
+  if(st.namo!=null)vals.push(st.namo);
+  if(st.name!=null)vals.push(st.name);
   let min=Math.min(...vals),max=Math.max(...vals);
   if(max===min){min-=1;max+=1}
-  const mar=Math.max((max-min)*.08,.1); min-=mar; max+=mar;
+  const mar=Math.max((max-min)*.08,.1);min-=mar;max+=mar;
   const X=i=>p.l+(W-p.l-p.r)*(series.length===1?.5:i/(series.length-1));
   const Y=v=>p.t+(H-p.t-p.b)*(1-(v-min)/(max-min));
-  const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const esc=s=>String(s).replace(/[&<>\"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   const f=v=>v==null?"s/d":`${v>=0?"+":""}${v.toFixed(2)} m`;
   const d24=deltaWindow(history,st.estacion,24),d48=deltaWindow(history,st.estacion,48),d72=deltaWindow(history,st.estacion,72);
   let grid="",yl="";
   for(let i=0;i<=5;i++){const v=min+(max-min)*i/5,yy=Y(v);grid+=`<line x1="${p.l}" y1="${yy}" x2="${W-p.r}" y2="${yy}" stroke="#ddd"/>`;yl+=`<text x="${p.l-12}" y="${yy+5}" text-anchor="end" font-size="15">${v.toFixed(2)}</text>`}
   let refs="";
-  if(st.namo!=null) refs+=`<line x1="${p.l}" y1="${Y(st.namo)}" x2="${W-p.r}" y2="${Y(st.namo)}" stroke="#b8860b" stroke-width="3" stroke-dasharray="10 7"/><text x="${W-p.r-5}" y="${Y(st.namo)-8}" text-anchor="end" font-size="17" font-weight="bold">NAMO ${st.namo.toFixed(2)} m</text>`;
-  if(st.name!=null) refs+=`<line x1="${p.l}" y1="${Y(st.name)}" x2="${W-p.r}" y2="${Y(st.name)}" stroke="#7a0019" stroke-width="3" stroke-dasharray="10 7"/><text x="${W-p.r-5}" y="${Y(st.name)-8}" text-anchor="end" font-size="17" font-weight="bold">NAME ${st.name.toFixed(2)} m</text>`;
+  if(st.namo!=null)refs+=`<line x1="${p.l}" y1="${Y(st.namo)}" x2="${W-p.r}" y2="${Y(st.namo)}" stroke="#b8860b" stroke-width="3" stroke-dasharray="10 7"/><text x="${W-p.r-5}" y="${Y(st.namo)-8}" text-anchor="end" font-size="17" font-weight="bold">NAMO ${st.namo.toFixed(2)} m</text>`;
+  if(st.name!=null)refs+=`<line x1="${p.l}" y1="${Y(st.name)}" x2="${W-p.r}" y2="${Y(st.name)}" stroke="#7a0019" stroke-width="3" stroke-dasharray="10 7"/><text x="${W-p.r-5}" y="${Y(st.name)-8}" text-anchor="end" font-size="17" font-weight="bold">NAME ${st.name.toFixed(2)} m</text>`;
   const pts=series.map((r,i)=>`${X(i)},${Y(r.nivel)}`).join(" ");
-  const dots=series.map((r,i)=>`<circle cx="${X(i)}" cy="${Y(r.nivel)}" r="5" fill="#1261a0"/>`).join("");
+  const dots=series.map((r,i)=>{
+    const inherited=r.estado_dato==="heredado";
+    return `<circle cx="${X(i)}" cy="${Y(r.nivel)}" r="5" fill="${inherited?"white":"#1261a0"}" stroke="#1261a0" stroke-width="2"/>`;
+  }).join("");
   const xl=series.map((r,i)=>{const d=new Date(r.fecha_hora);const lab=d.toLocaleString("es-MX",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false});return `<text x="${X(i)}" y="${H-p.b+30}" text-anchor="middle" font-size="13">${esc(lab)}</text>`}).join("");
-  return `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><rect width="100%" height="100%" fill="white"/><text x="${p.l}" y="35" font-size="27" font-weight="bold">${esc(st.rio)} — ${esc(st.estacion)} — ${hours} h</text><text x="${p.l}" y="68" font-size="18">Último: ${series.at(-1).nivel.toFixed(2)} m | ${tr.label} ${tr.arrow} | Δ24h ${f(d24)} | Δ48h ${f(d48)} | Δ72h ${f(d72)}</text>${grid}${yl}${refs}<polyline fill="none" stroke="#1261a0" stroke-width="4" points="${pts}"/>${dots}${xl}<text x="${W/2}" y="${H-22}" text-anchor="middle" font-size="14">Cada punto corresponde a un reporte real. El primer punto puede ser el último dato válido anterior a la ventana.</text></svg>`;
+  return `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><rect width="100%" height="100%" fill="white"/><text x="${p.l}" y="35" font-size="27" font-weight="bold">${esc(st.rio)} — ${esc(st.estacion)} — ${hours} h</text><text x="${p.l}" y="68" font-size="18">Último: ${series.at(-1).nivel.toFixed(2)} m | ${tr.label} ${tr.arrow} | Δ24h ${f(d24)} | Δ48h ${f(d48)} | Δ72h ${f(d72)}</text>${grid}${yl}${refs}<polyline fill="none" stroke="#1261a0" stroke-width="4" points="${pts}"/>${dots}${xl}<text x="${W/2}" y="${H-22}" text-anchor="middle" font-size="14">Punto lleno = observado; punto hueco = valor heredado por ausencia de nueva lectura.</text></svg>`;
 }
 
 (async()=>{
-  const data=await pdfParse(fs.readFileSync(pdfPath));
-  const text=(data.text||"").replace(/\u00a0/g," ");
-  const date=parseDate(text);
+  const items=await extractPage1Geometry(pdfPath);
+  const allText=items.map(x=>x.str).join(" ");
+  const date=parseDate(allText);
   const wanted=targetHour(subject);
-  const rows=parseHourlyRows(text);
-  if(wanted==null) throw new Error("No se pudo identificar la hora del corte desde el asunto.");
+  if(wanted==null)throw new Error("No se pudo identificar la hora del corte desde el asunto.");
 
-  const histDir=path.join(base,"Historico"), graphDir=path.join(base,"Graficas"), cutDir=path.join(base,"Ultimo_Corte"), evDir=path.join(base,"Evidencia_Texto");
-  for(const d of [histDir,graphDir,cutDir,evDir]) fs.mkdirSync(d,{recursive:true});
+  const rows=groupHourRows(items);
+  const columns=establishRiverColumns(rows,wanted);
+  if(!columns)throw new Error("No se pudo establecer la geometría de las 15 columnas hidrométricas.");
+
+  const target=rows.find(r=>r.hour===wanted)||null;
+  const mapped=mapTargetRow(target,columns);
+
+  const histDir=path.join(base,"Historico"),graphDir=path.join(base,"Graficas"),cutDir=path.join(base,"Ultimo_Corte"),evDir=path.join(base,"Evidencia_Texto");
+  for(const d of [histDir,graphDir,cutDir,evDir])fs.mkdirSync(d,{recursive:true});
   const histJson=path.join(histDir,"niveles_historicos.json");
   const histCsv=path.join(histDir,"niveles_historicos.csv");
   let history=loadHistory(histJson);
-
-  const snap=buildSnapshot(history, rows, wanted);
-
-  if(snap.seedLevels && snap.sourceHour!=null){
-    const seedStamp=`${date}T${String(snap.sourceHour).padStart(2,"0")}:00:00-06:00`;
-    for(const r of snap.seedLevels){
-      const seedKey=`${seedStamp}|${r.estacion}|SEED|${messageId}`;
-      if(!history.some(x=>x._key===seedKey)){
-        history.push({
-          _key:seedKey,fecha_hora:seedStamp,rio:r.rio,estacion:r.estacion,nivel:r.nivel,
-          namo:r.namo,name:r.name,fuente:path.basename(pdfPath),asunto:subject,message_id:messageId,
-          hora_fuente:`${String(snap.sourceHour).padStart(2,"0")}:00`,
-          estado_dato:"observado",ultima_actualizacion_real:seedStamp
-        });
-      }
-    }
-  }
-
-  const snapshot=buildSnapshot(history, rows, wanted);
-  const levels=snapshot.levels;
   const stamp=`${date}T${String(wanted).padStart(2,"0")}:00:00-06:00`;
 
-  fs.writeFileSync(path.join(evDir,`${date}_${String(wanted).padStart(2,"0")}00_MSG${messageId}.txt`),text);
-
-  let added=0, observedAdded=0, inheritedAdded=0, noDataAdded=0;
-  for(const r of levels){
-    const key=`${stamp}|${r.estacion}|${messageId}`;
-    if(history.some(x=>x._key===key)) continue;
-
-    let ultimaReal = r.ultima_actualizacion_real || null;
-    if(r.estado_dato==="observado") ultimaReal = stamp;
-    if(r.estado_dato==="heredado" && !ultimaReal){
-      const prev=lastValidByStation(history,r.estacion);
-      ultimaReal=prev ? prev.fecha_hora : null;
+  let added=0,observedAdded=0,inheritedAdded=0,noDataAdded=0;
+  const diagnostic=[];
+  for(let i=0;i<STATIONS.length;i++){
+    const st=STATIONS[i];
+    const observed=mapped[i];
+    const prev=lastReal(history,st.estacion);
+    let nivel=null,estado="sin_dato",ultimaReal=null;
+    if(Number.isFinite(observed)){
+      nivel=observed;estado="observado";ultimaReal=stamp;
+    }else if(prev){
+      nivel=prev.nivel;estado="heredado";ultimaReal=prev.fecha_hora;
     }
 
-    history.push({
-      _key:key,fecha_hora:stamp,rio:r.rio,estacion:r.estacion,nivel:r.nivel,
-      namo:r.namo,name:r.name,fuente:path.basename(pdfPath),asunto:subject,message_id:messageId,
-      hora_fuente:`${String(wanted).padStart(2,"0")}:00`,
-      estado_dato:r.estado_dato,
-      ultima_actualizacion_real:ultimaReal
-    });
-    added++;
-    if(r.estado_dato==="observado") observedAdded++;
-    else if(r.estado_dato==="heredado") inheritedAdded++;
-    else noDataAdded++;
+    const key=`${stamp}|${st.estacion}|${messageId}`;
+    if(!history.some(x=>x._key===key)){
+      history.push({_key:key,fecha_hora:stamp,rio:st.rio,estacion:st.estacion,nivel,
+        namo:st.namo,name:st.name,fuente:path.basename(pdfPath),asunto:subject,message_id:messageId,
+        hora_fuente:`${String(wanted).padStart(2,"0")}:00`,estado_dato:estado,ultima_actualizacion_real:ultimaReal});
+      added++;
+      if(estado==="observado")observedAdded++;
+      else if(estado==="heredado")inheritedAdded++;
+      else noDataAdded++;
+    }
+    diagnostic.push({estacion:st.estacion,nivel,estado});
   }
+
   history.sort((a,b)=>new Date(a.fecha_hora)-new Date(b.fecha_hora));
   saveHistory(history,histJson,histCsv);
+  fs.writeFileSync(path.join(evDir,`${date}_${String(wanted).padStart(2,"0")}00_MSG${messageId}_diagnostico.json`),
+    JSON.stringify({referenceHour:columns.referenceHour,referenceCount:columns.referenceCount,tolerance:columns.tolerance,targetCount:target?target.cells.length:0,diagnostic},null,2));
 
   const summary=[];
   for(const st of STATIONS){
-    const sr=stationRows(history,st.estacion);
-    if(!sr.length) continue;
-    const tr=trend(history,st.estacion),last=sr.at(-1);
-    const dir=path.join(graphDir,safe(st.rio),safe(st.estacion));
+    const sr=allRows(history,st.estacion);
+    if(!sr.length)continue;
+    const tr=trend(history,st.estacion),last=sr.at(-1),dir=path.join(graphDir,safe(st.rio),safe(st.estacion));
     fs.mkdirSync(dir,{recursive:true});
     for(const h of [24,48,72]){
       const s=windowSeries(history,st.estacion,h);
       const v=svg(st,s,h,tr,history);
-      if(v) fs.writeFileSync(path.join(dir,`${h}h.svg`),v);
+      if(v)fs.writeFileSync(path.join(dir,`${h}h.svg`),v);
     }
-    summary.push({
-      rio:st.rio,estacion:st.estacion,ultimo_nivel:last.nivel,
-      delta_reporte:tr.delta,tendencia:tr.label,
-      delta_24h:deltaWindow(history,st.estacion,24),
-      delta_48h:deltaWindow(history,st.estacion,48),
-      delta_72h:deltaWindow(history,st.estacion,72),
-      distancia_namo:st.namo==null?null:last.nivel-st.namo,
-      distancia_name:st.name==null?null:last.nivel-st.name,
-      fecha_hora:last.fecha_hora,
-      estado_dato:last.estado_dato || "observado",
-      ultima_actualizacion_real:last.ultima_actualizacion_real || (last.estado_dato==="observado" ? last.fecha_hora : null)
-    });
+    summary.push({rio:st.rio,estacion:st.estacion,ultimo_nivel:last.nivel,delta_reporte:tr.delta,
+      tendencia:tr.label,delta_24h:deltaWindow(history,st.estacion,24),delta_48h:deltaWindow(history,st.estacion,48),
+      delta_72h:deltaWindow(history,st.estacion,72),distancia_namo:st.namo==null||last.nivel==null?null:last.nivel-st.namo,
+      distancia_name:st.name==null||last.nivel==null?null:last.nivel-st.name,fecha_hora:last.fecha_hora,
+      estado_dato:last.estado_dato,ultima_actualizacion_real:last.ultima_actualizacion_real});
   }
   fs.writeFileSync(path.join(cutDir,"ultimo_resumen.json"),JSON.stringify(summary,null,2));
   const cols=["rio","estacion","ultimo_nivel","delta_reporte","tendencia","delta_24h","delta_48h","delta_72h","distancia_namo","distancia_name","fecha_hora","estado_dato","ultima_actualizacion_real"];
   const esc=v=>`"${String(v??"").replace(/"/g,'""')}"`;
   fs.writeFileSync(path.join(cutDir,"ultimo_resumen.csv"),cols.join(",")+"\n"+summary.map(r=>cols.map(c=>esc(r[c])).join(",")).join("\n"));
 
-  console.log(`OK. Reporte ${date} ${String(wanted).padStart(2,"0")}:00. Registros nuevos: ${added}. Observados: ${observedAdded}. Heredados: ${inheritedAdded}. Sin dato previo: ${noDataAdded}. Estaciones con histórico: ${summary.length}.`);
-})().catch(e=>{console.error("ERROR EXTRACTOR:",e.message);process.exit(1);});
+  console.log(`OK V3. Reporte ${date} ${String(wanted).padStart(2,"0")}:00. Columnas ref: ${columns.referenceCount}; celdas en corte: ${target?target.cells.length:0}. Registros nuevos: ${added}. Observados: ${observedAdded}. Heredados: ${inheritedAdded}. Sin dato previo: ${noDataAdded}. Estaciones con histórico: ${summary.length}.`);
+})().catch(e=>{console.error("ERROR V3:",e.stack||e.message);process.exit(1);});
