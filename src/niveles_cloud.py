@@ -1,11 +1,10 @@
 import json
 import os
 import re
-import shutil
 import subprocess
 import tempfile
 import unicodedata
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import quote
 
@@ -18,6 +17,7 @@ STATE_DIR = BASE / "Estado"
 PROCESSED_FILE = STATE_DIR / "mensajes_procesados.txt"
 STATUS_FILE = BASE / "Estado_Niveles_Cloud.json"
 PROCESSOR = Path("src/procesar_niveles.js")
+LOOKBACK_DAYS = int(os.getenv("NIVELES_LOOKBACK_DAYS", "7"))
 
 ACCOUNTS = [
     {
@@ -114,23 +114,42 @@ def search_page(token: str, query: str, limit: int, offset: int):
     return items if isinstance(items, list) else [items]
 
 
+def msg_timestamp(item):
+    try:
+        return int(item.get("d", 0))
+    except Exception:
+        return 0
+
+
+def is_recent(item):
+    ts = msg_timestamp(item)
+    if not ts:
+        return True
+    cutoff_ms = int((datetime.now(timezone.utc) - timedelta(days=LOOKBACK_DAYS)).timestamp() * 1000)
+    return ts >= cutoff_ms
+
+
 def collect_candidates(token: str):
     seen = set()
     out = []
-    # Mantiene el comportamiento de la PC (Inbox), pero amplía cobertura hasta 500 mensajes.
+    # El cloud conserva solo la ventana reciente necesaria para tendencias 24/48/72 h.
+    # Evita reprocesar años de correo durante el arranque inicial.
     for page in range(5):
         batch = search_page(token, "in:inbox", 100, page * 100)
         if not batch:
             break
+        page_has_recent = False
         for item in batch:
             mid = str(item.get("id", ""))
             subject = str(item.get("su", ""))
             if not mid or mid in seen:
                 continue
             seen.add(mid)
-            if is_levels_subject(subject):
-                out.append(item)
-        if len(batch) < 100:
+            if is_recent(item):
+                page_has_recent = True
+                if is_levels_subject(subject):
+                    out.append(item)
+        if len(batch) < 100 or not page_has_recent:
             break
     return out
 
@@ -207,18 +226,10 @@ def save_processed(ids):
     PROCESSED_FILE.write_text("\n".join(sorted(ids)) + ("\n" if ids else ""), encoding="utf-8")
 
 
-def msg_timestamp(item):
-    try:
-        return int(item.get("d", 0))
-    except Exception:
-        return 0
-
-
 def choose_account(results):
     viable = [r for r in results if r.get("ok") and r.get("candidates")]
     if not viable:
         return None
-    # Prefiere la cuenta con el mensaje de niveles más reciente; en empate, la de más candidatos.
     viable.sort(
         key=lambda r: (
             max((msg_timestamp(x) for x in r["candidates"]), default=0),
@@ -277,7 +288,7 @@ def main():
                     "candidates": candidates,
                 }
             )
-            print(f"Cuenta {account['label']}: {len(candidates)} candidatos de niveles.")
+            print(f"Cuenta {account['label']}: {len(candidates)} candidatos recientes de niveles.")
         except Exception as exc:
             account_results.append(
                 {
@@ -295,12 +306,13 @@ def main():
             "run_utc": now.isoformat(),
             "complete": False,
             "selected_account": None,
+            "lookback_days": LOOKBACK_DAYS,
             "accounts": [
                 {k: v for k, v in r.items() if k not in {"token", "user", "candidates"}}
                 | {"candidate_count": len(r.get("candidates", []))}
                 for r in account_results
             ],
-            "error": "No se localizaron mensajes candidatos de niveles en las cuentas configuradas.",
+            "error": "No se localizaron mensajes candidatos recientes de niveles en las cuentas configuradas.",
         }
         write_status(status)
         raise RuntimeError(status["error"])
@@ -368,8 +380,9 @@ def main():
     status = {
         "agent": "Niveles Hidrométricos Cloud",
         "run_utc": now.isoformat(),
-        "complete": summary_count > 0 and len(errors) == 0,
+        "complete": summary_count == 15 and len(errors) == 0,
         "selected_account": label,
+        "lookback_days": LOOKBACK_DAYS,
         "candidate_count": len(candidates),
         "processed_now": processed_now,
         "processed_total": len(processed),
