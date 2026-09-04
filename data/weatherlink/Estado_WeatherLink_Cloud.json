@@ -1,0 +1,20 @@
+{
+  "agent": "WeatherLink Cloud",
+  "run_utc": "2026-09-04T20:40:54.671942+00:00",
+  "run_local": "2026-09-04T14:40:54.671942-06:00",
+  "stations_expected": 32,
+  "stations_ok": 32,
+  "stations_error": 0,
+  "coverage_hours_since_seed": 2.66,
+  "window_maturity": {
+    "1h": true,
+    "6h": false,
+    "24h": false,
+    "48h": false,
+    "72h": false
+  },
+  "complete": true,
+  "errors": [],
+  "source": "WeatherLink public map endpoint /map/data/station/{uuid}",
+  "note": "1h y 24h se conservan como heredados del corte base hasta completar su ventana cloud; 6h/48h/72h quedan vacíos hasta reunir historia suficiente."
+}
