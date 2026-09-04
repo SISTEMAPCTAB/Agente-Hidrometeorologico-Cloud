@@ -2,6 +2,13 @@ name: Carbonio Cloud - boletines diarios
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'requirements.txt'
+      - '.github/workflows/carbonio-cloud.yml'
   schedule:
     # America/Mexico_City = UTC-6 durante 2026.
     # Tres intentos antes del análisis de las 11:00 h.
