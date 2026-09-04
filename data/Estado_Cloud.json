@@ -1,11 +1,13 @@
 {
   "agent": "Agente-Hidrometeorologico-Cloud",
-  "run_utc": "2026-09-04T19:59:21.234051+00:00",
-  "run_local": "2026-09-04T13:59:21.234051-06:00",
-  "messages_scanned": 500,
+  "run_utc": "2026-09-04T20:05:02.928123+00:00",
+  "run_local": "2026-09-04T14:05:02.928123-06:00",
+  "messages_scanned_primary": 150,
+  "messages_scanned_fuente1_account": 0,
+  "fuente1_secondary_account_configured": false,
   "sources": {
     "FUENTE1": {
-      "status": "not_found"
+      "status": "secondary_account_not_configured_or_not_found_in_primary"
     },
     "FUENTE2": {
       "status": "ok",
