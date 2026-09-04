@@ -1,13 +1,20 @@
 {
   "agent": "Agente-Hidrometeorologico-Cloud",
-  "run_utc": "2026-09-04T20:05:02.928123+00:00",
-  "run_local": "2026-09-04T14:05:02.928123-06:00",
+  "run_utc": "2026-09-04T20:09:11.327607+00:00",
+  "run_local": "2026-09-04T14:09:11.327607-06:00",
   "messages_scanned_primary": 150,
-  "messages_scanned_fuente1_account": 0,
-  "fuente1_secondary_account_configured": false,
+  "messages_scanned_fuente1_account": 150,
+  "fuente1_secondary_account_configured": true,
   "sources": {
     "FUENTE1": {
-      "status": "secondary_account_not_configured_or_not_found_in_primary"
+      "status": "ok",
+      "subject": "Boletín Hidrométrico, Climatológico y de Presas  , 4/09/2026",
+      "message_id": "6575",
+      "original_filename": "Boletin 04-09-2026.pdf",
+      "message_time": "2026-09-04T09:58:35-06:00",
+      "bulletin_date": "2026-09-04",
+      "bytes": 889585,
+      "text_chars": 11030
     },
     "FUENTE2": {
       "status": "ok",
@@ -20,5 +27,5 @@
       "text_chars": 2621
     }
   },
-  "complete": false
+  "complete": true
 }
