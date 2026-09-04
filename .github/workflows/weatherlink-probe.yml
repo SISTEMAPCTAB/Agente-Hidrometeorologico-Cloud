@@ -1,0 +1,48 @@
+name: WeatherLink Cloud - prueba de acceso
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/weatherlink_probe.py'
+      - '.github/workflows/weatherlink-probe.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  probar-weatherlink:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Probar acceso público a WeatherLink
+        run: python src/weatherlink_probe.py
+
+      - name: Guardar diagnóstico en repositorio privado
+        shell: bash
+        run: |
+          cp out/weatherlink_probe.json data/weatherlink_probe.json
+          git config user.name "Agente Hidrometeorologico Cloud"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/weatherlink_probe.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios en diagnóstico."
+          else
+            git commit -m "Actualiza diagnóstico WeatherLink [skip ci]"
+            git push
+          fi
