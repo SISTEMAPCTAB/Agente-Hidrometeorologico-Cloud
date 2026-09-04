@@ -10,7 +10,7 @@ on:
     - cron: '45 16 * * *'   # 10:45 h MX
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   recolectar-carbonio:
@@ -38,8 +38,30 @@ jobs:
           CARBONIO_BASE: https://correo.tabasco.gob.mx
           CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
           CARBONIO_PASSWORD: ${{ secrets.CARBONIO_PASSWORD }}
-          GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
-          GDRIVE_CLOUD_FOLDER_ID: 11SAvvqB2SpxOj6SiUb_UFmltCyveJl36
           SOURCE1_REGEX: ${{ vars.SOURCE1_REGEX }}
           SOURCE2_REGEX: ${{ vars.SOURCE2_REGEX }}
-        run: python src/carbonio_to_drive.py
+          OUTPUT_DIR: out
+        run: python src/carbonio_to_repo.py
+
+      - name: Conservar PDF de la ejecución como respaldo temporal
+        uses: actions/upload-artifact@v4
+        with:
+          name: carbonio-pdf-${{ github.run_id }}
+          path: out/artifacts/*.pdf
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Publicar datos de lectura en el repositorio privado
+        shell: bash
+        run: |
+          mkdir -p data
+          cp -R out/data/. data/
+          git config user.name "Agente Hidrometeorologico Cloud"
+          git config user.email "actions@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "Sin cambios de datos para publicar."
+          else
+            git commit -m "Actualiza boletines Carbonio cloud [skip ci]"
+            git push
+          fi
