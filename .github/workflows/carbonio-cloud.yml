@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - 'src/**'
+      - 'src/carbonio_to_repo.py'
       - 'requirements.txt'
       - '.github/workflows/carbonio-cloud.yml'
   schedule:
@@ -75,4 +75,4 @@ jobs:
             git push
           fi
 
-# Prueba controlada: cuenta secundaria dedicada a FUENTE1 habilitada por Secrets.
+# Cuenta secundaria dedicada a FUENTE1 habilitada por Secrets.
