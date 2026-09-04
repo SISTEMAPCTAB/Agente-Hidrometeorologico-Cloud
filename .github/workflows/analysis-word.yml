@@ -11,23 +11,24 @@ on:
       - 'requirements.txt'
       - '.github/workflows/analysis-word.yml'
   schedule:
-    # Respaldo: vuelve a intentar pocos minutos después del análisis de las 11:00 h.
-    - cron: '8 17 * * *'   # 11:08 h America/Mexico_City (UTC-6)
+    - cron: '8 17 * * *'
 
 permissions:
   contents: write
+
+concurrency:
+  group: agente-hidrometeorologico-repo-writer
+  cancel-in-progress: false
 
 jobs:
   generar-word-analisis:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    concurrency:
-      group: analysis-word-cloud
-      cancel-in-progress: true
-
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -51,5 +52,6 @@ jobs:
             echo "Sin cambios del Word del análisis."
           else
             git commit -m "Actualiza Word persistente del análisis [skip ci]"
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi
