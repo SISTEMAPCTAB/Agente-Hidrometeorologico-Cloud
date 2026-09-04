@@ -8,6 +8,8 @@ on:
     paths:
       - 'src/niveles_cloud.py'
       - 'src/procesar_niveles.js'
+      - 'src/niveles_postprocess.py'
+      - 'requirements.txt'
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
   schedule:
@@ -58,7 +60,10 @@ jobs:
           NIVELES_BASE: data/niveles
         run: python src/niveles_cloud.py
 
-      - name: Publicar datos de niveles en repositorio privado
+      - name: Calcular ciclo 06:00 y generar gráficas PNG
+        run: python src/niveles_postprocess.py
+
+      - name: Publicar datos y gráficas de niveles en repositorio privado
         shell: bash
         run: |
           git config user.name "Agente Hidrometeorologico Cloud"
@@ -71,6 +76,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Sin cambios de niveles para publicar."
           else
-            git commit -m "Actualiza niveles hidrométricos cloud [skip ci]"
+            git commit -m "Actualiza niveles y gráficas del ciclo 06:00 [skip ci]"
             git push
           fi
