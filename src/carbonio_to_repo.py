@@ -21,7 +21,6 @@ USER = os.environ["CARBONIO_USER"]
 PASSWORD = os.environ["CARBONIO_PASSWORD"]
 SOURCE1_REGEX = os.getenv("SOURCE1_REGEX", "").strip()
 SOURCE2_REGEX = os.getenv("SOURCE2_REGEX", "").strip()
-
 MX_TZ = ZoneInfo("America/Mexico_City")
 OUT = Path(os.getenv("OUTPUT_DIR", "out"))
 
@@ -70,22 +69,48 @@ def authenticate() -> str:
     return token_from(soap_post(payload)["Body"]["AuthResponse"])
 
 
-def search_messages(token: str, limit=100):
+def search_page(token: str, query: str, limit=100, offset=0):
     payload = {
         "Header": {"context": {"_jsns": "urn:zimbra", "authToken": token}},
         "Body": {"SearchRequest": {
             "_jsns": "urn:zimbraMail",
-            "query": "in:inbox",
+            "query": query,
             "types": "message",
             "sortBy": "dateDesc",
             "limit": limit,
+            "offset": offset,
         }},
         "_jsns": "urn:zimbraSoap",
     }
-    m = soap_post(payload).get("Body", {}).get("SearchResponse", {}).get("m", [])
+    resp = soap_post(payload).get("Body", {}).get("SearchResponse", {})
+    m = resp.get("m", [])
     if not m:
         return []
     return m if isinstance(m, list) else [m]
+
+
+def collect_messages(token: str):
+    # Primero amplía Inbox hasta 500 mensajes. Si aún faltan fuentes,
+    # intenta todo el buzón; así no depende de que un correo siga en Inbox.
+    collected = []
+    seen = set()
+    plans = [("in:inbox", 5), ("in:anywhere", 5)]
+    for query, pages in plans:
+        try:
+            for page in range(pages):
+                batch = search_page(token, query, 100, page * 100)
+                if not batch:
+                    break
+                for m in batch:
+                    mid = str(m.get("id", ""))
+                    if mid and mid not in seen:
+                        seen.add(mid)
+                        collected.append(m)
+                if len(batch) < 100:
+                    break
+        except Exception as exc:
+            LOG.warning("Búsqueda '%s' no disponible: %s", query, exc)
+    return collected
 
 
 def get_message(token: str, message_id: str):
@@ -124,13 +149,19 @@ def classify(subject: str, filename: str):
         return "FUENTE2"
     if SOURCE1_REGEX and re.search(SOURCE1_REGEX, raw, re.I):
         return "FUENTE1"
+
+    # FUENTE2: boletín de 8 am, normalmente con nombre "Boletin del ...".
     if re.search(r"\bboletin\s+del\b", text) or "8 am" in text or "8am" in text:
         return "FUENTE2"
     if "hidrometria y climatologia" in text and "presas" not in text:
         return "FUENTE2"
+
+    # FUENTE1: boletín hidrométrico/climatológico y de presas.
     if re.search(r"\bboletin\s+\d{1,2}[-_/]\d{1,2}[-_/]\d{4}\b", text):
         return "FUENTE1"
     if "presas" in text and "hidrometr" in text and "climat" in text:
+        return "FUENTE1"
+    if "boletin hidrometrico" in text or "boletin hidrometeorologico" in text:
         return "FUENTE1"
     return None
 
@@ -162,8 +193,7 @@ def extract_text(pdf_bytes: bytes) -> str:
 def message_local_time(summary: dict):
     raw = summary.get("d")
     try:
-        ts = int(raw) / 1000.0
-        return datetime.fromtimestamp(ts, tz=timezone.utc).astimezone(MX_TZ)
+        return datetime.fromtimestamp(int(raw) / 1000.0, tz=timezone.utc).astimezone(MX_TZ)
     except Exception:
         return None
 
@@ -185,8 +215,8 @@ def main():
 
     token = authenticate()
     LOG.info("Autenticación Carbonio correcta.")
-    messages = search_messages(token, 100)
-    LOG.info("Mensajes revisados: %d", len(messages))
+    messages = collect_messages(token)
+    LOG.info("Mensajes únicos revisables: %d", len(messages))
 
     selected = {}
     for summary in messages:
@@ -196,7 +226,11 @@ def main():
         subject = str(summary.get("su", ""))
         if not mid:
             continue
-        detail = get_message(token, mid)
+        try:
+            detail = get_message(token, mid)
+        except Exception as exc:
+            LOG.warning("No se pudo leer mensaje %s: %s", mid, exc)
+            continue
         for att in walk_attachments(detail.get("mp", [])):
             if att["content_type"] != "application/pdf" and not att["filename"].lower().endswith(".pdf"):
                 continue
@@ -214,6 +248,7 @@ def main():
         "agent": "Agente-Hidrometeorologico-Cloud",
         "run_utc": now_utc.isoformat(),
         "run_local": now_local.isoformat(),
+        "messages_scanned": len(messages),
         "sources": {},
         "complete": False,
     }
@@ -228,7 +263,6 @@ def main():
         text = extract_text(pdf)
         msg_time = item["message_time"] or now_local
         bulletin_date = msg_time.strftime("%Y-%m-%d")
-
         header = (
             f"FUENTE: {source}\n"
             f"ASUNTO: {item['subject']}\n"
@@ -238,11 +272,9 @@ def main():
             f"FECHA/HORA RECOLECCIÓN: {now_local.isoformat()}\n\n"
         )
         full_text = header + text
-
         write_text(OUT / "data" / "latest" / f"{source}.txt", full_text)
         write_text(OUT / "data" / "archive" / bulletin_date / f"{source}.txt", full_text)
         write_bytes(OUT / "artifacts" / f"{source}.pdf", pdf)
-
         status["sources"][source] = {
             "status": "ok",
             "subject": item["subject"],
