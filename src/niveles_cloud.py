@@ -44,9 +44,6 @@ def norm(value: str) -> str:
 
 def is_levels_subject(subject: str) -> bool:
     s = norm(subject)
-    # Solo reportes de niveles de ríos/presas. Los boletines genéricos de
-    # Hidrometría y Climatología de 6/8 am pertenecen a otra fuente y tienen
-    # un formato PDF diferente, por lo que no deben entrar a este extractor.
     return (
         "informe de niveles" in s
         or "niveles del" in s
@@ -134,24 +131,26 @@ def is_recent(item):
 def collect_candidates(token: str):
     seen = set()
     out = []
-    # El cloud conserva solo la ventana reciente necesaria para tendencias 24/48/72 h.
-    # Evita reprocesar años de correo durante el arranque inicial.
-    for page in range(5):
-        batch = search_page(token, "in:inbox", 100, page * 100)
-        if not batch:
-            break
-        page_has_recent = False
-        for item in batch:
-            mid = str(item.get("id", ""))
-            subject = str(item.get("su", ""))
-            if not mid or mid in seen:
-                continue
-            seen.add(mid)
-            if is_recent(item):
-                page_has_recent = True
-                if is_levels_subject(subject):
-                    out.append(item)
-        if len(batch) < 100 or not page_has_recent:
+    # Primero Inbox; si no encuentra reportes de niveles recientes, amplía a todo el buzón.
+    for query in ("in:inbox", "in:anywhere"):
+        for page in range(5):
+            batch = search_page(token, query, 100, page * 100)
+            if not batch:
+                break
+            page_has_recent = False
+            for item in batch:
+                mid = str(item.get("id", ""))
+                subject = str(item.get("su", ""))
+                if not mid or mid in seen:
+                    continue
+                seen.add(mid)
+                if is_recent(item):
+                    page_has_recent = True
+                    if is_levels_subject(subject):
+                        out.append(item)
+            if len(batch) < 100 or not page_has_recent:
+                break
+        if out:
             break
     return out
 
@@ -267,6 +266,16 @@ def write_status(status):
     STATUS_FILE.write_text(json.dumps(status, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def existing_summary_count():
+    summary_file = BASE / "Ultimo_Corte" / "ultimo_resumen.json"
+    if not summary_file.exists():
+        return 0
+    try:
+        return len(json.loads(summary_file.read_text(encoding="utf-8")))
+    except Exception:
+        return 0
+
+
 def main():
     BASE.mkdir(parents=True, exist_ok=True)
     STATE_DIR.mkdir(parents=True, exist_ok=True)
@@ -303,21 +312,33 @@ def main():
     selected = choose_account(account_results)
     now = datetime.now(timezone.utc)
     if not selected:
+        summary_count = existing_summary_count()
         status = {
             "agent": "Niveles Hidrométricos Cloud",
             "run_utc": now.isoformat(),
-            "complete": False,
+            "complete": summary_count == 15,
             "selected_account": None,
             "lookback_days": LOOKBACK_DAYS,
+            "candidate_count": 0,
+            "processed_now": 0,
+            "processed_total": len(load_processed()),
+            "stations_in_latest_summary": summary_count,
+            "latest_subject": None,
+            "latest_message_utc": None,
+            "errors": [],
             "accounts": [
                 {k: v for k, v in r.items() if k not in {"token", "user", "candidates"}}
                 | {"candidate_count": len(r.get("candidates", []))}
                 for r in account_results
             ],
-            "error": "No se localizaron mensajes candidatos recientes de niveles en las cuentas configuradas.",
+            "note": "No llegó un reporte nuevo de niveles en esta ejecución; se conserva el último corte válido y el postproceso actualiza comparaciones/gráficas sin inventar datos.",
+            "rule_missing_data": "Si una fila horaria está incompleta o falta un valor, se conserva el último valor observado válido por estación y se marca como heredado; ausencia nunca equivale a cero.",
         }
         write_status(status)
-        raise RuntimeError(status["error"])
+        print(json.dumps(status, ensure_ascii=False, indent=2))
+        if summary_count == 0:
+            raise RuntimeError("No hay reporte nuevo ni resumen previo válido de niveles.")
+        return
 
     label = selected["label"]
     token = selected["token"]
@@ -370,14 +391,7 @@ def main():
                 )
 
     save_processed(processed)
-
-    summary_file = BASE / "Ultimo_Corte" / "ultimo_resumen.json"
-    summary_count = 0
-    if summary_file.exists():
-        try:
-            summary_count = len(json.loads(summary_file.read_text(encoding="utf-8")))
-        except Exception:
-            summary_count = 0
+    summary_count = existing_summary_count()
 
     status = {
         "agent": "Niveles Hidrométricos Cloud",
