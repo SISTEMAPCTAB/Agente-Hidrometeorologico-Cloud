@@ -10,26 +10,26 @@ on:
       - 'requirements.txt'
       - '.github/workflows/carbonio-cloud.yml'
   schedule:
-    # America/Mexico_City = UTC-6 durante 2026.
-    # Tres intentos antes del análisis de las 11:00 h.
-    - cron: '30 15 * * *'   # 09:30 h MX
-    - cron: '15 16 * * *'   # 10:15 h MX
-    - cron: '45 16 * * *'   # 10:45 h MX
+    - cron: '30 15 * * *'
+    - cron: '15 16 * * *'
+    - cron: '45 16 * * *'
 
 permissions:
   contents: write
+
+concurrency:
+  group: agente-hidrometeorologico-repo-writer
+  cancel-in-progress: false
 
 jobs:
   recolectar-carbonio:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    concurrency:
-      group: carbonio-cloud-daily
-      cancel-in-progress: false
-
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -72,7 +72,8 @@ jobs:
             echo "Sin cambios de datos para publicar."
           else
             git commit -m "Actualiza boletines Carbonio cloud [skip ci]"
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi
 
 # Cuenta secundaria dedicada a FUENTE1 habilitada por Secrets.
