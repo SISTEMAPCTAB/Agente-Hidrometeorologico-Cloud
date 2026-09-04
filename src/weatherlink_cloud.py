@@ -1,7 +1,5 @@
 import csv
 import json
-import math
-import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -63,10 +61,16 @@ def load_json(path, default):
         return json.load(f)
 
 
+def json_default(value):
+    if isinstance(value, datetime):
+        return value.isoformat()
+    raise TypeError(f"Tipo no serializable: {type(value).__name__}")
+
+
 def write_json(path, obj):
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as f:
-        json.dump(obj, f, ensure_ascii=False, indent=2)
+        json.dump(obj, f, ensure_ascii=False, indent=2, default=json_default)
         f.write("\n")
 
 
