@@ -12,9 +12,9 @@ on:
       - 'data/weatherlink/seed_daily.json'
       - '.github/workflows/weatherlink-cloud.yml'
   schedule:
-    # Cada 30 minutos, desplazado de la hora para reducir retrasos del scheduler.
+    # Cada 30 minutos, separado de los horarios Carbonio.
     # America/Mexico_City = UTC-6 durante 2026.
-    - cron: '17,47 * * * *'
+    - cron: '23,53 * * * *'
 
 permissions:
   contents: write
