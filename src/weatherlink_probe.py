@@ -1,6 +1,7 @@
 import json
 import re
 from pathlib import Path
+from urllib.parse import urljoin
 
 import requests
 
@@ -22,8 +23,37 @@ def title_of(html):
     return re.sub(r"\s+", " ", m.group(1)).strip() if m else None
 
 
-def route_probe(name, url, station_name, uuid):
-    item = {"route": name, "requested_url": url}
+def snippets(html: str, term: str, limit=12, before=260, after=620):
+    low = html.lower()
+    out = []
+    pos = 0
+    while len(out) < limit:
+        idx = low.find(term.lower(), pos)
+        if idx < 0:
+            break
+        a = max(0, idx - before)
+        b = min(len(html), idx + after)
+        out.append(re.sub(r"\s+", " ", html[a:b]).strip())
+        pos = idx + max(1, len(term))
+    return out
+
+
+def interesting_urls(html: str, base_url: str):
+    found = []
+    for m in re.finditer(r"(?:src|href)=[\"']([^\"']+)[\"']", html, re.I):
+        u = urljoin(base_url, m.group(1))
+        if any(k in u.lower() for k in ("map", "station", "weatherlink", "api", "sensor", "data")) and u not in found:
+            found.append(u)
+    for raw in re.findall(r"https?://[^\"'<>\\\s]+", html):
+        if any(k in raw.lower() for k in ("map", "station", "weatherlink", "api", "sensor", "data")) and raw not in found:
+            found.append(raw)
+    return found[:80]
+
+
+def map_probe(station):
+    uuid = station["uuid"]
+    url = f"https://www.weatherlink.com/map/{uuid}"
+    item = {"route": "map", "requested_url": url}
     try:
         r = requests.get(url, headers=HEADERS, timeout=45, allow_redirects=True)
         html = r.text
@@ -33,35 +63,29 @@ def route_probe(name, url, station_name, uuid):
             "bytes": len(r.content),
             "title": title_of(html),
             "uuid_present": uuid in html,
-            "station_name_present": station_name.lower() in html.lower(),
+            "station_name_present": station["nombre"].lower() in html.lower(),
             "rain_present": "rain" in html.lower(),
-            "login_present": "password" in html.lower() and "username" in html.lower(),
+            "interesting_urls": interesting_urls(html, r.url),
+            "station_snippets": snippets(html, station["nombre"], 8),
+            "uuid_snippets": snippets(html, uuid, 8),
+            "rain_snippets": snippets(html, "rain", 18),
+            "stationdata_snippets": snippets(html, "stationdata", 12),
+            "sensor_snippets": snippets(html, "sensor", 12),
+            "ajax_snippets": snippets(html, "ajax", 12),
+            "json_snippets": snippets(html, "json", 12),
         })
     except Exception as exc:
         item["error"] = f"{type(exc).__name__}: {exc}"
     return item
 
 
-def probe_station(station):
-    uuid = station["uuid"]
-    variants = [
-        ("bulletin", f"https://www.weatherlink.com/bulletin/{uuid}"),
-        ("map", f"https://www.weatherlink.com/map/{uuid}"),
-        ("browse", f"https://www.weatherlink.com/browse/{uuid}"),
-        ("embed_summary", f"https://www.weatherlink.com/embeddablePage/show/{uuid}/summary"),
-        ("embed_wide", f"https://www.weatherlink.com/embeddablePage/show/{uuid}/wide"),
-    ]
-    return {
-        "nombre": station["nombre"],
-        "uuid": uuid,
-        "routes": [route_probe(name, url, station["nombre"], uuid) for name, url in variants],
-    }
-
-
 def main():
     data = {
-        "purpose": "Diagnóstico de rutas públicas WeatherLink desde GitHub Actions; sin credenciales y sin modificar WeatherLink.",
-        "stations": [probe_station(s) for s in STATIONS],
+        "purpose": "Inspección de datos y rutas embebidas en el mapa público WeatherLink desde GitHub Actions; sin credenciales y sin modificar WeatherLink.",
+        "stations": [
+            {"nombre": station["nombre"], "uuid": station["uuid"], "map": map_probe(station)}
+            for station in STATIONS
+        ],
     }
     out = Path("out/weatherlink_probe.json")
     out.parent.mkdir(parents=True, exist_ok=True)
