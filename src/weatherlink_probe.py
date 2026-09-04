@@ -1,7 +1,6 @@
 import json
 import re
 from pathlib import Path
-from urllib.parse import urljoin
 
 import requests
 
@@ -10,69 +9,83 @@ STATIONS = [
     {"nombre": "ASUR Villahermosa", "uuid": "77ead3a5-9f34-4f2d-aa8d-2dfeed3eba4f"},
     {"nombre": "Centro", "uuid": "903123f2-ae03-4f9c-9f75-2ce5ec49af35"},
 ]
-
+VERSION = "10.0.7.4-c92a18e7"
+BASE = "https://www.weatherlink.com"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/152 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "es-MX,es;q=0.9,en;q=0.7",
 }
 
 
-def title_of(html):
-    m = re.search(r"<title[^>]*>(.*?)</title>", html, re.I | re.S)
-    return re.sub(r"\s+", " ", m.group(1)).strip() if m else None
+def clean(s):
+    return re.sub(r"\s+", " ", s or "").strip()
 
 
-def snippets(html: str, term: str, limit=12, before=260, after=620):
-    low = html.lower()
+def snippets(text: str, term: str, limit=15, before=320, after=760):
+    low = text.lower()
     out = []
     pos = 0
     while len(out) < limit:
         idx = low.find(term.lower(), pos)
         if idx < 0:
             break
-        a = max(0, idx - before)
-        b = min(len(html), idx + after)
-        out.append(re.sub(r"\s+", " ", html[a:b]).strip())
+        out.append(clean(text[max(0, idx-before):min(len(text), idx+after)]))
         pos = idx + max(1, len(term))
     return out
 
 
-def interesting_urls(html: str, base_url: str):
-    found = []
-    for m in re.finditer(r"(?:src|href)=[\"']([^\"']+)[\"']", html, re.I):
-        u = urljoin(base_url, m.group(1))
-        if any(k in u.lower() for k in ("map", "station", "weatherlink", "api", "sensor", "data")) and u not in found:
-            found.append(u)
-    for raw in re.findall(r"https?://[^\"'<>\\\s]+", html):
-        if any(k in raw.lower() for k in ("map", "station", "weatherlink", "api", "sensor", "data")) and raw not in found:
-            found.append(raw)
-    return found[:80]
+def fetch_text(url):
+    r = requests.get(url, headers=HEADERS, timeout=45, allow_redirects=True)
+    r.raise_for_status()
+    return r.url, r.text
 
 
-def map_probe(station):
-    uuid = station["uuid"]
-    url = f"https://www.weatherlink.com/map/{uuid}"
-    item = {"route": "map", "requested_url": url}
+def inspect_js():
+    paths = [
+        f"/js/{VERSION}/map/map.js",
+        f"/js/{VERSION}/map/app.js",
+        f"/js/{VERSION}/map/infobox.js",
+        f"/js/{VERSION}/vendor/davis/ajax-handler.js",
+    ]
+    items = []
+    for path in paths:
+        url = BASE + path
+        item = {"url": url}
+        try:
+            final_url, text = fetch_text(url)
+            item.update({
+                "final_url": final_url,
+                "chars": len(text),
+                "ajax": snippets(text, "ajax", 20),
+                "station": snippets(text, "station", 25),
+                "system": snippets(text, "system", 25),
+                "current": snippets(text, "current", 20),
+                "observation": snippets(text, "observation", 20),
+                "sensor": snippets(text, "sensor", 20),
+                "rain": snippets(text, "rain", 20),
+                "url_literals": sorted(set(re.findall(r"[\"'](/[^\"']{2,160})[\"']", text)))[:200],
+            })
+        except Exception as exc:
+            item["error"] = f"{type(exc).__name__}: {exc}"
+        items.append(item)
+    return items
+
+
+def inspect_station(station):
+    url = f"{BASE}/map/{station['uuid']}"
+    item = {"url": url}
     try:
-        r = requests.get(url, headers=HEADERS, timeout=45, allow_redirects=True)
-        html = r.text
+        final_url, html = fetch_text(url)
+        sid = re.search(r"wl\.data\.systemId\s*=\s*(\d+)", html)
+        lat = re.search(r"wl\.data\.dLat\s*=\s*([-0-9.]+)", html)
+        lng = re.search(r"wl\.data\.dLng\s*=\s*([-0-9.]+)", html)
         item.update({
-            "status": r.status_code,
-            "final_url": r.url,
-            "bytes": len(r.content),
-            "title": title_of(html),
-            "uuid_present": uuid in html,
+            "final_url": final_url,
+            "system_id": int(sid.group(1)) if sid else None,
+            "lat": float(lat.group(1)) if lat else None,
+            "lng": float(lng.group(1)) if lng else None,
+            "guest": "wl.__bootstrap_is_guest = true" in html,
             "station_name_present": station["nombre"].lower() in html.lower(),
-            "rain_present": "rain" in html.lower(),
-            "interesting_urls": interesting_urls(html, r.url),
-            "station_snippets": snippets(html, station["nombre"], 8),
-            "uuid_snippets": snippets(html, uuid, 8),
-            "rain_snippets": snippets(html, "rain", 18),
-            "stationdata_snippets": snippets(html, "stationdata", 12),
-            "sensor_snippets": snippets(html, "sensor", 12),
-            "ajax_snippets": snippets(html, "ajax", 12),
-            "json_snippets": snippets(html, "json", 12),
         })
     except Exception as exc:
         item["error"] = f"{type(exc).__name__}: {exc}"
@@ -81,11 +94,12 @@ def map_probe(station):
 
 def main():
     data = {
-        "purpose": "Inspección de datos y rutas embebidas en el mapa público WeatherLink desde GitHub Actions; sin credenciales y sin modificar WeatherLink.",
+        "purpose": "Descubrir las llamadas de datos usadas por el mapa público de WeatherLink sin credenciales.",
         "stations": [
-            {"nombre": station["nombre"], "uuid": station["uuid"], "map": map_probe(station)}
-            for station in STATIONS
+            {"nombre": s["nombre"], "uuid": s["uuid"], **inspect_station(s)}
+            for s in STATIONS
         ],
+        "javascript": inspect_js(),
     }
     out = Path("out/weatherlink_probe.json")
     out.parent.mkdir(parents=True, exist_ok=True)
