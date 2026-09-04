@@ -1,92 +1,21 @@
 {
   "agent": "Niveles Hidrométricos Cloud",
-  "run_utc": "2026-09-04T21:28:04.599666+00:00",
-  "complete": false,
+  "run_utc": "2026-09-04T21:29:21.485939+00:00",
+  "complete": true,
   "selected_account": "principal",
   "lookback_days": 7,
-  "candidate_count": 47,
+  "candidate_count": 32,
   "processed_now": 0,
   "processed_total": 81,
   "stations_in_latest_summary": 15,
   "latest_subject": "INFORME DE NIVELES DE RIOS Y PRESAS DE 14 HRS",
   "latest_message_utc": "2026-09-04T20:15:13+00:00",
-  "errors": [
-    {
-      "message_id": "14593",
-      "subject": "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 6:00 AM",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    },
-    {
-      "message_id": "14597",
-      "subject": "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 8:00 AM",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    },
-    {
-      "message_id": "14617",
-      "subject": "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 6:00 AM",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    },
-    {
-      "message_id": "14622",
-      "subject": "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 8:00 AM",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    },
-    {
-      "message_id": "14661",
-      "subject": "​Se envía Boletín de Hidrometría y Climatología de 8 am",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    },
-    {
-      "message_id": "14663",
-      "subject": "​Se envía Boletín de Hidrometría y Climatología de 6 am",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    },
-    {
-      "message_id": "14717",
-      "subject": "​Se envía Boletín de Hidrometría y Climatología de 6 am",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    },
-    {
-      "message_id": "14721",
-      "subject": "​Se envía Boletín de Hidrometría y Climatología de 8 am",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    },
-    {
-      "message_id": "14778",
-      "subject": "Se envía Boletín de Hidrometría y Climatología de 6 am",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    },
-    {
-      "message_id": "14784",
-      "subject": "Se envía Boletín de Hidrometría y Climatología de 8 am",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    },
-    {
-      "message_id": "14826",
-      "subject": "Se envía Boletín de Hidrometría y Climatología de 6 am",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    },
-    {
-      "message_id": "14829",
-      "subject": "Se envía Boletín de Hidrometría y Climatología de 8 am",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    },
-    {
-      "message_id": "14889",
-      "subject": "Se envía Boletín de Hidrometría y Climatología de 6 am",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    },
-    {
-      "message_id": "14894",
-      "subject": "Se envía Boletín de Hidrometría y Climatología de 8 am",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    }
-  ],
+  "errors": [],
   "accounts": [
     {
       "label": "principal",
       "ok": true,
-      "candidate_count": 47,
+      "candidate_count": 32,
       "reason": null
     },
     {
