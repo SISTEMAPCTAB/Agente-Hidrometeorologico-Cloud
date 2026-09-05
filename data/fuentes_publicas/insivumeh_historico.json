@@ -10,18 +10,6 @@
       "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
       "estaciones": [
         {
-          "estacion": "El Porvenir",
-          "rio": "La Pasión",
-          "nivel_referencia_min_m": 1.03,
-          "nivel_referencia_max_m": 3.0,
-          "caudal_referencia_min_m3s": 93.04,
-          "caudal_referencia_max_m3s": 399.28,
-          "nivel_instantaneo_m": 2.36,
-          "caudal_instantaneo_m3s": 268.65,
-          "calidad": "extraido_del_BHVGM",
-          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
-        },
-        {
           "estacion": "Playa Grande",
           "rio": "Chixoy",
           "nivel_referencia_min_m": -0.22,
@@ -48,9 +36,9 @@
       ]
     }
   ],
-  "actualizado_utc": "2026-09-05T06:29:34.424114+00:00",
+  "actualizado_utc": "2026-09-05T06:35:01.514244+00:00",
   "ultima_evolucion_real": [],
   "ultimo_pdf_bhvgm": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
   "senal_usumacinta_alta": "Sin tendencia comparable aguas arriba",
-  "diagnostico_el_tigre": "token Usumacinta no localizado por pypdf"
+  "diagnostico_el_tigre": "El Tigre no fue estructurado con extracción layout; no se publica valor fabricado."
 }
