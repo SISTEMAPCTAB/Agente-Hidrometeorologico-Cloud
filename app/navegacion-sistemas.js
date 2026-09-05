@@ -1,19 +1,27 @@
 (() => {
-  const IDS=['presas','serranos','tulija','usumacinta'];
+  function norm(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
+  function sectionFromCard(card){
+    const t=norm(card.querySelector('.system-card-head strong')?.textContent);
+    if(t.includes('presas')||t.includes('samaria')||t.includes('carrizal'))return 'presas';
+    if(t.includes('serranos')||t.includes('grijalva'))return 'serranos';
+    if(t.includes('tulija')||t.includes('puxcatan')||t.includes('chilapa'))return 'tulija';
+    if(t.includes('usumacinta'))return 'usumacinta';
+    return null;
+  }
   function decorate(){
-    const cards=document.querySelectorAll('#systemSemaphoreStrip .system-card');
-    cards.forEach((card,i)=>{
-      const id=IDS[i]||null;
-      if(!id||card.dataset.navReady==='1')return;
-      card.dataset.navReady='1';
+    document.querySelectorAll('#systemSemaphoreStrip .system-card').forEach(card=>{
+      const id=sectionFromCard(card);
+      if(!id)return;
       card.dataset.section=id;
       card.setAttribute('role','button');
       card.setAttribute('tabindex','0');
       card.setAttribute('aria-label',`Abrir detalle operativo de ${card.querySelector('.system-card-head strong')?.textContent||id}`);
-      const cta=document.createElement('div');
-      cta.className='system-card-cta';
-      cta.innerHTML='<span>Ver detalle operativo</span><b aria-hidden="true">→</b>';
-      card.appendChild(cta);
+      if(!card.querySelector('.system-card-cta')){
+        const cta=document.createElement('div');
+        cta.className='system-card-cta';
+        cta.innerHTML='<span>Ver detalle operativo</span><b aria-hidden="true">→</b>';
+        card.appendChild(cta);
+      }
     });
   }
   function openSection(id){
@@ -21,17 +29,16 @@
     if(!btn)return;
     btn.click();
     window.setTimeout(()=>{
-      document.querySelector('.main')?.scrollTo?.({top:0,behavior:'smooth'});
       window.scrollTo({top:0,behavior:'smooth'});
       const content=document.getElementById('content');
       if(content){content.classList.add('detail-arrival');window.setTimeout(()=>content.classList.remove('detail-arrival'),900);}
-    },40);
+    },60);
   }
   function activate(card,e){
     if(!card)return;
     if(e.type==='keydown'&&!['Enter',' '].includes(e.key))return;
     if(e.type==='keydown')e.preventDefault();
-    openSection(card.dataset.section);
+    openSection(card.dataset.section||sectionFromCard(card));
   }
   document.addEventListener('click',e=>activate(e.target.closest('#systemSemaphoreStrip .system-card'),e));
   document.addEventListener('keydown',e=>activate(e.target.closest('#systemSemaphoreStrip .system-card'),e));
