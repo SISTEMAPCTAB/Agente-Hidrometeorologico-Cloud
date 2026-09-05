@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-09-05T05:19:23.056252+00:00",
+  "generated_utc": "2026-09-05T05:28:06.158434+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
@@ -161,7 +161,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sat, 05 Sep 2026 05:19:23 GMT"
+      "last_modified": "Sat, 05 Sep 2026 05:28:06 GMT"
     }
   },
   "smn360": {
@@ -261,7 +261,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sat, 05 Sep 2026 05:15:43 GMT"
+      "last_modified": "Sat, 05 Sep 2026 05:28:07 GMT"
     }
   },
   "insivumeh": {
@@ -302,19 +302,22 @@
         "periodo": "24h",
         "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_diaria.png",
         "tipo": "mapa_oficial",
-        "extraccion_areal": false
+        "extraccion_areal": false,
+        "estaciones_relevantes": []
       },
       {
         "periodo": "mensual",
         "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_mensual.png",
         "tipo": "mapa_oficial",
-        "extraccion_areal": false
+        "extraccion_areal": false,
+        "estaciones_relevantes": []
       },
       {
         "periodo": "semanal",
         "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_sem.png",
         "tipo": "mapa_oficial",
-        "extraccion_areal": false
+        "extraccion_areal": false,
+        "estaciones_relevantes": []
       }
     ],
     "epoca_lluviosa": {
@@ -323,16 +326,52 @@
       "rango": null,
       "estaciones_relevantes": [
         {
+          "estacion": "El Tigre",
+          "codigo": "INS171302AT",
+          "rama_aportante": "Usumacinta directo",
+          "acumulado_mm": 648.3,
+          "periodo": "epoca_lluviosa",
+          "confianza_influencia": "alta",
+          "uso": "contexto_antecedente",
+          "gobierna_semaforo": false
+        },
+        {
+          "estacion": "El Porvenir",
+          "codigo": "INS171001AT",
+          "rama_aportante": "La Pasión",
+          "acumulado_mm": 786.6,
+          "periodo": "epoca_lluviosa",
+          "confianza_influencia": "alta",
+          "uso": "contexto_antecedente",
+          "gobierna_semaforo": false
+        },
+        {
+          "estacion": "Bethel",
+          "codigo": "INS171301AT",
+          "rama_aportante": "Usumacinta/Lacantún-frontera",
+          "acumulado_mm": 635.5,
+          "periodo": "epoca_lluviosa",
+          "confianza_influencia": "media",
+          "uso": "contexto_antecedente",
+          "gobierna_semaforo": false
+        },
+        {
           "estacion": "Chixoy Hidro",
+          "codigo": "INS161301AT",
           "rama_aportante": "Chixoy/Salinas",
           "acumulado_mm": 615.7,
+          "periodo": "epoca_lluviosa",
+          "confianza_influencia": "alta",
           "uso": "contexto_antecedente",
           "gobierna_semaforo": false
         },
         {
           "estacion": "Panzos PHC Altaverapaz",
+          "codigo": "INS160701CV",
           "rama_aportante": "Chixoy/Salinas",
           "acumulado_mm": 1207.6,
+          "periodo": "epoca_lluviosa",
+          "confianza_influencia": "media",
           "uso": "contexto_antecedente",
           "gobierna_semaforo": false
         }
@@ -342,9 +381,65 @@
         "etag": "\"12e13-659f410938624-gzip\"",
         "last_modified": "Wed, 26 Aug 2026 14:30:45 GMT"
       },
-      "nota": "Datos puntuales; no representan promedio areal de la cuenca y no se suman."
+      "nota": "Acumulados puntuales por estación y periodo; no son promedio areal, no se suman y no gobiernan semáforo por sí solos."
     },
-    "ambito_operativo": "cuenca alta Usumacinta: Chixoy/Salinas, La Pasión, Petén y áreas aportantes verificadas",
+    "estaciones_objetivo": [
+      {
+        "estacion": "El Tigre",
+        "rama": "Usumacinta directo",
+        "codigo": "INS171302AT",
+        "confianza": "alta"
+      },
+      {
+        "estacion": "El Porvenir",
+        "rama": "La Pasión",
+        "codigo": "INS171001AT",
+        "confianza": "alta"
+      },
+      {
+        "estacion": "Bethel",
+        "rama": "Usumacinta/Lacantún-frontera",
+        "codigo": "INS171301AT",
+        "confianza": "media"
+      },
+      {
+        "estacion": "Machaquilá",
+        "rama": "La Pasión–Machaquilá",
+        "codigo": "INS171201AT",
+        "confianza": "alta"
+      },
+      {
+        "estacion": "Mactún",
+        "rama": "San Pedro",
+        "codigo": "INS170401AT",
+        "confianza": "alta"
+      },
+      {
+        "estacion": "Chixoy Hidro",
+        "rama": "Chixoy/Salinas",
+        "codigo": null,
+        "confianza": "alta"
+      },
+      {
+        "estacion": "Cobán",
+        "rama": "Chixoy/Salinas",
+        "codigo": null,
+        "confianza": "media"
+      },
+      {
+        "estacion": "Santa María Cahabón",
+        "rama": "Chixoy/Salinas",
+        "codigo": null,
+        "confianza": "media"
+      },
+      {
+        "estacion": "Panzos PHC Altaverapaz",
+        "rama": "Chixoy/Salinas",
+        "codigo": null,
+        "confianza": "media"
+      }
+    ],
+    "ambito_operativo": "ramas aportantes verificadas de la cuenca alta del Usumacinta; no Petén completo",
     "regla": "No convertir colores del mapa a mm exactos sin extracción geoespacial validada; no sumar estaciones ni tratarlas como promedio de cuenca.",
     "completo": true
   },
@@ -364,8 +459,7 @@
     },
     "ambito_operativo": "zonas aportantes verificadas de la cuenca alta del Usumacinta",
     "ultimo_boletin": null,
-    "completo": false,
-    "regla": "La coincidencia espacial con la cuenca alta es contexto antecedente; no implica por sí sola una creciente ni se transforma en porcentaje de cuenca."
+    "completo": false
   },
   "links": {
     "insivumeh_tendencia": "https://insivumeh.gob.gt/boletin-de-tendencia-de-niveles-2/",
