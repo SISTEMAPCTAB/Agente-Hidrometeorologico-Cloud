@@ -11,7 +11,8 @@ BHVGM='https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf'
 UA={'User-Agent':'Mozilla/5.0 Agente-Hidrometeorologico-Cloud/1.0'}
 TARGETS=[('El Tigre','Usumacinta'),('El Porvenir','La Pasión'),('San Agustín Chixoy','Chixoy'),('Playa Grande','Chixoy'),('Puente Chocox','Chixoy')]
 
-def asc(s): return re.sub(r'\s+',' ',unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode()).strip()
+def norm(s): return unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode()
+def asc(s): return re.sub(r'\s+',' ',norm(s)).strip()
 def pdftext(u):
  r=requests.get(u,headers=UA,timeout=35);r.raise_for_status();raw=r.content
  try:
@@ -25,34 +26,29 @@ def one(p,t):
 def header(txt):
  f=asc(txt);return {'boletin':one(r'BOLETIN\s*(?:No\.?|N[oº°]\.?)?\s*(\d+)',f) or one(r'BHVGM\s*[- ]?(\d+)[- ]?2026',f),'fecha':one(r'Fecha\s*:\s*(?:[A-Za-z]+\s+)?(\d{1,2}/\d{1,2}/\d{4})',f),'hora':one(r'Hora\s*:\s*(\d{1,2}:\d{2})',f)}
 def station_record(segment,name,river):
- # La fila BHVGM contiene exactamente seis magnitudes antes de la tendencia:
- # nivel normal min/max, caudal normal min/max, nivel actual y caudal instantáneo.
  clean=re.split(r'\bHora\s*:',segment,1,flags=re.I)[0]
  nums=[float(x) for x in re.findall(r'(?<![A-Za-z0-9])-?\d+(?:\.\d+)?',clean)]
  if len(nums)<6:return None
  vals=nums[-6:]
  return {'estacion':name,'rio':river,'nivel_referencia_min_m':vals[0],'nivel_referencia_max_m':vals[1],'caudal_referencia_min_m3s':vals[2],'caudal_referencia_max_m3s':vals[3],'nivel_instantaneo_m':vals[4],'caudal_instantaneo_m3s':vals[5],'calidad':'extraido_del_BHVGM','nota_referencia':'Máximos como referencia estadística; no son umbral de inundación.'}
 def stations(txt):
- # pdftotext -layout conserva cada estación en su propia línea. Buscar por línea evita
- # que textos como "Rio Bajo" o ubicaciones Playa Grande contaminen estaciones vecinas.
+ # IMPORTANTE: no colapsar saltos de línea antes de segmentar. La versión anterior
+ # usaba asc(line), pero asc() convierte también \n en espacios si recibe bloques.
+ # Aquí se normaliza cada línea por separado y se conserva la geometría de filas.
+ raw_lines=txt.splitlines();lines=[asc(x) for x in raw_lines if x.strip()]
  out=[];seen=set()
- lines=[asc(x) for x in txt.splitlines() if x.strip()]
  for name,river in TARGETS:
-  na,ra=asc(name),asc(river)
-  candidates=[]
-  for line in lines:
-   if re.search(r'\b'+re.escape(na)+r'\b',line,re.I) and re.search(r'\b'+re.escape(ra)+r'\b',line,re.I):
-    candidates.append(line)
-  # Respaldo para PDFs cuya extracción parte una fila en dos líneas.
-  if not candidates:
-   for i,line in enumerate(lines):
-    joined=asc(' '.join(lines[i:i+2]))
-    if re.search(r'\b'+re.escape(na)+r'\b',joined,re.I) and re.search(r'\b'+re.escape(ra)+r'\b',joined,re.I):
-     candidates.append(joined)
+  na,ra=asc(name),asc(river);candidates=[]
+  for i,line in enumerate(lines):
+   if re.search(r'\b'+re.escape(na)+r'\b',line,re.I) and re.search(r'\b'+re.escape(ra)+r'\b',line,re.I): candidates.append(line)
+   # Algunos PDF parten nombre/río de la misma fila; sólo unir como máximo 3 líneas.
+   if not candidates:
+    for width in (2,3):
+     joined=asc(' '.join(lines[i:i+width]))
+     if re.search(r'\b'+re.escape(na)+r'\b',joined,re.I) and re.search(r'\b'+re.escape(ra)+r'\b',joined,re.I): candidates.append(joined);break
   for seg in candidates:
    rec=station_record(seg,name,river)
-   if rec and name not in seen:
-    out.append(rec);seen.add(name);break
+   if rec and name not in seen: out.append(rec);seen.add(name);break
  return out
 def dt(r):
  try:return datetime.strptime(f"{r['fecha']} {r['hora']}",'%d/%m/%Y %H:%M')
