@@ -155,6 +155,17 @@ def ascii_text(s):
     s=s.replace('´','').replace("'",'')
     return re.sub(r'\s+',' ',s).strip()
 
+def parse_insivumeh_header(text):
+    """Extrae metadatos del encabezado oficial del BHVGM.
+    El boletín publica explícitamente número, fecha y hora; esa hora se conserva
+    como hora oficial del corte INSIVUMEH y no se sustituye por la hora de descarga.
+    """
+    flat=ascii_text(text)
+    numero=pick(r'BOLETIN\s*(?:No\.?|N[oº°]\.?)\s*(\d+)',flat)
+    fecha=pick(r'Fecha\s*:\s*(\d{1,2}/\d{1,2}/\d{4})',flat)
+    hora=pick(r'Hora\s*:\s*(\d{1,2}:\d{2})',flat)
+    return {'boletin':numero,'fecha':fecha,'hora':hora,'hora_fuente':'encabezado_BHVGM'}
+
 def parse_insivumeh_stations(text):
     """Extrae sólo estaciones objetivo con estructura suficientemente estable.
     Los dos últimos valores numéricos de cada fila se interpretan como nivel y caudal instantáneos,
@@ -185,7 +196,6 @@ def parse_insivumeh_stations(text):
         end=min(ends) if ends else min(len(flat),start+360)
         seg=flat[start:end]
         nums=[float(x) for x in re.findall(r'(?<!\w)-?\d+(?:\.\d+)?',seg)]
-        # La fila del BHVGM contiene seis valores principales antes de la marca de tendencia.
         if len(nums)<6: continue
         vals=nums[:6]
         out.append({
@@ -210,10 +220,11 @@ def parse_insivumeh():
     if not candidates:
         candidates=[(urljoin(INSI_DAILY,h),t) for h,t in p.links if '.pdf' in urljoin(INSI_DAILY,h).lower()]
     pdf_url=candidates[-1][0] if candidates else None
-    result={'fuente':'INSIVUMEH','producto':'Boletín diario hidrología aplicada - Vertiente Golfo de México','url_pagina':INSI_DAILY,'url_pdf':pdf_url,'http':meta,'estaciones_objetivo':['Chixoy/Salinas','La Pasión/El Porvenir','Usumacinta/El Tigre','Machaquilá'],'estaciones_estructuradas':[],'fragmentos_relevantes':[],'pdf_bytes':None,'completo':False}
+    result={'fuente':'INSIVUMEH','producto':'Boletín diario hidrología aplicada - Vertiente Golfo de México','url_pagina':INSI_DAILY,'url_pdf':pdf_url,'http':meta,'boletin':None,'fecha':None,'hora':None,'hora_fuente':None,'estaciones_objetivo':['Chixoy/Salinas','La Pasión/El Porvenir','Usumacinta/El Tigre','Machaquilá'],'estaciones_estructuradas':[],'fragmentos_relevantes':[],'pdf_bytes':None,'completo':False}
     if pdf_url:
         try:
             txt,n=extract_pdf_text(pdf_url); result['pdf_bytes']=n
+            result.update(parse_insivumeh_header(txt))
             result['fragmentos_relevantes']=find_context(txt,['Chixoy','Salinas','La Pasión','La Pasion','El Porvenir','El Tigre','Usumacinta','Machaquilá','Machaquila'],3)
             result['estaciones_estructuradas']=parse_insivumeh_stations(txt)
             result['completo']=bool(result['fragmentos_relevantes'])
