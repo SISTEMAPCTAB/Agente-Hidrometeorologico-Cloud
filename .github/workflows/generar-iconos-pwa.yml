@@ -1,0 +1,42 @@
+name: Generar iconos PWA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'app/app-icon-source.b64'
+      - '.github/workflows/generar-iconos-pwa.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  iconos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Instalar Pillow
+        run: pip install pillow
+      - name: Generar PNG 512 y 180
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64, io
+          from PIL import Image
+          raw=base64.b64decode(Path('app/app-icon-source.b64').read_text().strip())
+          im=Image.open(io.BytesIO(raw)).convert('RGB')
+          im=im.resize((512,512),Image.Resampling.LANCZOS)
+          im.save('app/app-icon-512.png',optimize=True)
+          im.resize((180,180),Image.Resampling.LANCZOS).save('app/apple-touch-icon.png',optimize=True)
+          PY
+      - name: Publicar iconos
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app/app-icon-512.png app/apple-touch-icon.png
+          git diff --cached --quiet || git commit -m 'Genera iconos PNG PWA e iPhone [skip ci]'
+          git push
