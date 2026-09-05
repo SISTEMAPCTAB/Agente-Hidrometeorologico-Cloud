@@ -9,7 +9,7 @@ OUT=Path('data/fuentes_publicas'); OUT.mkdir(parents=True,exist_ok=True)
 HIST=OUT/'insivumeh_historico.json'; LATEST=OUT/'latest.json'
 BHVGM='https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf'
 UA={'User-Agent':'Mozilla/5.0 Agente-Hidrometeorologico-Cloud/1.0'}
-TARGETS=[('El Tigre','Usumacinta'),('El Porvenir','La Pasión'),('San Agustín Chixoy','Chixoy'),('Puente Chocox','Chixoy')]
+TARGETS=[('El Tigre','Usumacinta'),('El Porvenir','La Pasión'),('San Agustín Chixoy','Chixoy'),('Playa Grande','Chixoy'),('Puente Chocox','Chixoy')]
 
 def asc(s): return re.sub(r'\s+',' ',unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode()).strip()
 def pdftext(u):
@@ -19,17 +19,27 @@ def one(p,t):
  m=re.search(p,t,re.I); return m.group(1).strip() if m else None
 def header(txt):
  f=asc(txt)
- return {'boletin':one(r'BOLETIN\s*(?:No\.?|N[oº°]\.?)\s*(\d+)',f),'fecha':one(r'Fecha\s*:\s*(?:[A-Za-z]+\s+)?(\d{1,2}/\d{1,2}/\d{4})',f),'hora':one(r'Hora\s*:\s*(\d{1,2}:\d{2})',f)}
+ return {
+  'boletin':one(r'BOLETIN\s*(?:No\.?|N[oº°]\.?)?\s*(\d+)(?:\s+ano\s+\d{4})?',f) or one(r'BHVGM\s*[- ]?(\d+)[- ]?2026',f),
+  'fecha':one(r'Fecha\s*:\s*(?:[A-Za-z]+\s+)?(\d{1,2}/\d{1,2}/\d{4})',f),
+  'hora':one(r'Hora\s*:\s*(\d{1,2}:\d{2})',f)
+ }
+def station_record(segment,name,river):
+ nums=[float(x) for x in re.findall(r'(?<!\w)-?\d+(?:\.\d+)?',segment)]
+ if len(nums)<6:return None
+ return {'estacion':name,'rio':river,'nivel_referencia_min_m':nums[0],'nivel_referencia_max_m':nums[1],'caudal_referencia_min_m3s':nums[2],'caudal_referencia_max_m3s':nums[3],'nivel_instantaneo_m':nums[4],'caudal_instantaneo_m3s':nums[5],'calidad':'extraido_del_BHVGM','nota_referencia':'Máximos como referencia estadística; no son umbral de inundación.'}
 def stations(txt):
- lines=[asc(x) for x in txt.splitlines() if x.strip()]; out=[]
+ f=asc(txt); low=f.lower(); found=[]
+ positions=[]
  for name,river in TARGETS:
-  needle=asc(name).lower(); line=next((x for x in lines if needle in x.lower()),None)
-  if not line: continue
-  pos=line.lower().find(needle); nums=[float(x) for x in re.findall(r'(?<!\w)-?\d+(?:\.\d+)?',line[pos:])]
-  # BHVGM: nivel normal min/max, caudal normal min/max, nivel actual, caudal instantaneo.
-  if len(nums)>=6:
-   out.append({'estacion':name,'rio':river,'nivel_referencia_min_m':nums[0],'nivel_referencia_max_m':nums[1],'caudal_referencia_min_m3s':nums[2],'caudal_referencia_max_m3s':nums[3],'nivel_instantaneo_m':nums[4],'caudal_instantaneo_m3s':nums[5],'calidad':'extraido_del_BHVGM','nota_referencia':'Máximos como referencia estadística; no son umbral de inundación.'})
- return out
+  p=low.find(asc(name).lower())
+  if p>=0:positions.append((p,name,river))
+ positions.sort()
+ for i,(p,name,river) in enumerate(positions):
+  end=positions[i+1][0] if i+1<len(positions) else min(len(f),p+500)
+  rec=station_record(f[p:end],name,river)
+  if rec:found.append(rec)
+ return found
 def dt(r):
  try:return datetime.strptime(f"{r['fecha']} {r['hora']}",'%d/%m/%Y %H:%M')
  except:return datetime.min
