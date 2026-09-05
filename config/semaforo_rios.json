@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "criterio_general": "La semaforización operativa de ríos se basa prioritariamente en lluvia observada/pronosticada aguas arriba y su coherencia con la respuesta hidrométrica. La diferencia respecto al NAMO se muestra como referencia de nivel, pero no determina por sí sola el color del río.",
+  "version": 2,
+  "criterio_general": "La semaforización operativa de ríos se basa prioritariamente en lluvia observada/pronosticada aguas arriba y su coherencia con la respuesta hidrométrica. La diferencia respecto al NAMO se muestra como referencia de nivel, pero no determina por sí sola el color del río. Se agrega un indicador complementario de estiaje, independiente del semáforo de lluvia.",
   "escala_lluvia_smn": [
     {"min_mm": 0, "max_mm": 50, "categoria": "normal", "descripcion": "sin lluvia relevante, chubascos o lluvias puntuales fuertes", "color": "azul"},
     {"min_mm": 50, "max_mm": 75, "categoria": "muy_fuertes", "descripcion": "lluvias puntuales muy fuertes", "color": "verde"},
@@ -9,6 +9,16 @@
     {"min_mm": 250, "max_mm": null, "categoria": "extraordinarias", "descripcion": "lluvias puntuales extraordinarias", "color": "morado"}
   ],
   "sin_dato": {"categoria": "sin_dato", "color": "gris"},
+  "indicador_estiaje": {
+    "criterio": "Indicador complementario, no sustituye el semáforo por lluvia. Sólo se activa con NAMINO oficial de la estación o referencia mínima oficial compatible.",
+    "margen_aproximacion_namino_m": 0.50,
+    "cafe": "nivel por encima del NAMINO pero a 0.50 m o menos de éste; margen operativo configurable, no umbral oficial de afectación",
+    "gris": "nivel igual o inferior al NAMINO oficial",
+    "negro": "más de 4 días (>96 h) sin precipitación observada relevante en la cuenca alta, o señal modelada consistente de persistencia seca en las ventanas disponibles",
+    "prioridad_visual": "Mostrar lluvia y estiaje como dos indicadores separados para no confundir presión por crecientes con condición de bajos niveles/sequedad.",
+    "regla_sin_namino": "Si no existe NAMINO oficial estructurado para una estación, mostrar NAMINO s/d y no asignar café/gris por aproximación inventada.",
+    "regla_modelo_seco": "La señal negra por modelo sólo se activa cuando todas las ventanas SMN 0–24, 24–48, 48–72 y 72–96 h de la cuenca tienen máximo pronosticado <=5 mm. No se interpreta como sequía meteorológica oficial."
+  },
   "sistemas": {
     "usumacinta": {
       "nombre": "Usumacinta",
@@ -43,6 +53,7 @@
     "Sin dato no equivale a 0 mm.",
     "No sumar estaciones puntuales para fabricar lluvia media de subcuenca.",
     "Cuando varias estaciones pertinentes de una misma subcuenca difieran, usar la categoría más alta como señal preventiva y mostrar la distribución espacial.",
-    "El semáforo es una señal de vigilancia hidrometeorológica, no una predicción determinista de desbordamiento."
+    "El semáforo es una señal de vigilancia hidrometeorológica, no una predicción determinista de desbordamiento.",
+    "La señal negra de persistencia seca es un indicador operativo de vigilancia y no sustituye al Monitor de Sequía en México."
   ]
 }
