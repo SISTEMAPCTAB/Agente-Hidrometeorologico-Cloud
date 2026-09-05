@@ -10,7 +10,7 @@ HIST=OUT/'insivumeh_historico.json'; LATEST=OUT/'latest.json'
 BHVGM='https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf'
 UA={'User-Agent':'Mozilla/5.0 Agente-Hidrometeorologico-Cloud/1.0'}
 TARGETS=[('El Tigre','Usumacinta'),('El Porvenir','La Pasión'),('San Agustín Chixoy','Chixoy'),('Playa Grande','Chixoy'),('Puente Chocox','Chixoy')]
-ROW_NAMES=['San Luis Ixcan','San Agustin Chixoy','Playa Grande','El Porvenir','Machaquila','El Tigre','San Pedro Mactun','Chachaclun','La Laguna Azul','Puente Chocox','Xemal','Nenton','Xococ','Yulquisis']
+ROW_NAMES=['Yulquisis','San Luis Ixcan','San Agustin Chixoy','Playa Grande','El Porvenir','Machaquila','El Tigre','San Pedro Mactun','Chachaclun','La Laguna','Puente Chocox','Xemal','Nenton','Xococ']
 
 def asc(s): return re.sub(r'\s+',' ',unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode()).strip()
 def pdftext(u):
@@ -32,21 +32,25 @@ def station_record(segment,name,river):
  vals=nums[-6:]
  return {'estacion':name,'rio':river,'nivel_referencia_min_m':vals[0],'nivel_referencia_max_m':vals[1],'caudal_referencia_min_m3s':vals[2],'caudal_referencia_max_m3s':vals[3],'nivel_instantaneo_m':vals[4],'caudal_instantaneo_m3s':vals[5],'calidad':'extraido_del_BHVGM','nota_referencia':'Máximos como referencia estadística; no son umbral de inundación.'}
 def row_segment(flat,name):
- na=asc(name);m=re.search(re.escape(na),flat,re.I)
+ na=asc(name)
+ # INSIVUMEH puede anteponer "Rio Bajo" a estaciones como El Tigre; el corte de fila
+ # debe iniciar antes de ese descriptor para no contaminar la fila anterior.
+ pat=(r'(?:Rio\s+Bajo\s+)?'+re.escape(na)) if na.lower()=='el tigre' else re.escape(na)
+ m=re.search(pat,flat,re.I)
  if not m:return None
  tail=flat[m.start():];positions=[]
  for other in ROW_NAMES:
   if asc(other).lower()==na.lower():continue
-  q=re.search(r'\b'+re.escape(asc(other))+r'\b',tail[len(na):],re.I)
-  if q:positions.append(len(na)+q.start())
- stop=min(positions) if positions else min(len(tail),600)
+  op=(r'(?:Rio\s+Bajo\s+)?'+re.escape(asc(other))) if asc(other).lower() in {'el tigre','nenton'} else re.escape(asc(other))
+  q=re.search(r'\b'+op+r'\b',tail[max(1,len(m.group(0))):],re.I)
+  if q:positions.append(max(1,len(m.group(0)))+q.start())
+ stop=min(positions) if positions else min(len(tail),700)
  return tail[:stop]
 def stations(txt):
  flat=asc(txt);out=[]
  for name,river in TARGETS:
   seg=row_segment(flat,name)
   if not seg:continue
-  # El nombre del río debe existir en la fila; la ubicación puede estar entre río y cifras.
   if not re.search(r'\b'+re.escape(asc(river))+r'\b',seg,re.I):continue
   rec=station_record(seg,name,river)
   if rec:out.append(rec)
