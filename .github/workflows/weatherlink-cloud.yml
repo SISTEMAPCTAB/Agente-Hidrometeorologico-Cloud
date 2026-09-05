@@ -12,6 +12,7 @@ on:
       - 'data/weatherlink/seed.csv'
       - 'data/weatherlink/seed_daily.json'
       - 'requirements.txt'
+      - '.gitattributes'
       - '.github/workflows/weatherlink-cloud.yml'
   schedule:
     - cron: '23,53 * * * *'
@@ -47,6 +48,20 @@ jobs:
 
       - name: Generar y verificar Word WeatherLink
         run: python src/generar_word_weatherlink.py
+
+      - name: Verificar entrega Word para PC y celular
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('data/weatherlink/Reportes/Estado_Word.json')
+          s = json.loads(p.read_text(encoding='utf-8'))
+          assert s.get('verified') is True, 'Word no verificado'
+          assert s.get('docx_structure_verified') is True, 'Estructura DOCX no verificada'
+          assert s.get('download_url', '').endswith('?raw=1'), 'Falta URL de descarga directa'
+          print('Word WeatherLink verificado y listo para descarga directa:', s['download_url'])
+          PY
 
       - name: Publicar estado, tabla y Word WeatherLink
         shell: bash
