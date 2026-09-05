@@ -31,5 +31,6 @@
     "Río Usumacinta": "data/niveles/Graficas/Sistemas/Rio_Usumacinta.png"
   },
   "tablero": "data/niveles/Graficas/tablero_operativo.png",
-  "regla_base": "Se usa lectura observada exacta de 06:00; si falta, último valor observado válido disponible al inicio del ciclo y se marca base_heredada. Una base heredada anterior al inicio del ciclo no se dibuja en la gráfica del día actual."
+  "regla_base": "Se usa lectura observada exacta de 06:00; si falta, último valor observado válido disponible al inicio del ciclo y se marca base_heredada. Una base heredada anterior al inicio del ciclo no se dibuja en la gráfica del día actual.",
+  "regla_escala": "La gráfica individual usa escala vertical ajustada al rango observado para hacer visibles variaciones pequeñas; NAMO/NAME se conservan como referencias numéricas y sólo se trazan como líneas si caen dentro de la ventana vertical operacional. Cada punto muestra su nivel en metros."
 }
