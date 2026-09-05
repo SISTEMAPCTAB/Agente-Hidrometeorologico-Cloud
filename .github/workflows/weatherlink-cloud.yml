@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - 'src/weatherlink_cloud.py'
+      - 'src/temperature_summary.py'
       - 'src/generar_word_weatherlink.py'
       - 'config/weatherlink_stations.json'
       - 'data/weatherlink/seed.csv'
@@ -46,6 +47,9 @@ jobs:
       - name: Ejecutar WeatherLink Cloud
         run: python src/weatherlink_cloud.py
 
+      - name: Actualizar resumen térmico diario
+        run: python src/temperature_summary.py
+
       - name: Generar y verificar Word WeatherLink
         run: python src/generar_word_weatherlink.py
 
@@ -63,7 +67,7 @@ jobs:
           print('Word WeatherLink verificado y listo para descarga directa:', s['download_url'])
           PY
 
-      - name: Publicar estado, tabla y Word WeatherLink
+      - name: Publicar estado, tabla, temperatura y Word WeatherLink
         shell: bash
         run: |
           git config user.name "Agente Hidrometeorologico Cloud"
@@ -72,11 +76,13 @@ jobs:
                   data/weatherlink/latest.json \
                   data/weatherlink/Tabla_WeatherLink_Cloud.csv \
                   data/weatherlink/Estado_WeatherLink_Cloud.json \
+                  data/weatherlink/temperature_state.json \
+                  data/weatherlink/temperature_summary.json \
                   data/weatherlink/Reportes
           if git diff --cached --quiet; then
             echo "Sin cambios WeatherLink para publicar."
           else
-            git commit -m "Actualiza WeatherLink cloud y Word [skip ci]"
+            git commit -m "Actualiza WeatherLink cloud, temperatura y Word [skip ci]"
             git pull --rebase origin main
             git push origin main
           fi
