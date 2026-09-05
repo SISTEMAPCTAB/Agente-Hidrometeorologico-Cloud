@@ -13,6 +13,12 @@ TARGETS=[('El Tigre','Usumacinta'),('El Porvenir','La Pasión'),('San Agustín C
 
 def norm(s): return unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode()
 def asc(s): return re.sub(r'\s+',' ',norm(s)).strip()
+def words_pattern(s):
+ # pdftotext puede insertar espacios entre letras/palabras por la geometría del PDF.
+ # Se busca cada palabra permitiendo cualquier cantidad de espacios internos.
+ words=asc(s).split()
+ return r'\b'+r'\s+'.join(re.escape(w) for w in words)+r'\b'
+def compact(s): return re.sub(r'[^a-z0-9]','',asc(s).lower())
 def pdftext(u):
  r=requests.get(u,headers=UA,timeout=35);r.raise_for_status();raw=r.content
  try:
@@ -32,20 +38,18 @@ def station_record(segment,name,river):
  vals=nums[-6:]
  return {'estacion':name,'rio':river,'nivel_referencia_min_m':vals[0],'nivel_referencia_max_m':vals[1],'caudal_referencia_min_m3s':vals[2],'caudal_referencia_max_m3s':vals[3],'nivel_instantaneo_m':vals[4],'caudal_instantaneo_m3s':vals[5],'calidad':'extraido_del_BHVGM','nota_referencia':'Máximos como referencia estadística; no son umbral de inundación.'}
 def stations(txt):
- # IMPORTANTE: no colapsar saltos de línea antes de segmentar. La versión anterior
- # usaba asc(line), pero asc() convierte también \n en espacios si recibe bloques.
- # Aquí se normaliza cada línea por separado y se conserva la geometría de filas.
  raw_lines=txt.splitlines();lines=[asc(x) for x in raw_lines if x.strip()]
  out=[];seen=set()
  for name,river in TARGETS:
-  na,ra=asc(name),asc(river);candidates=[]
+  np,rp=words_pattern(name),words_pattern(river);nc,rc=compact(name),compact(river);candidates=[]
   for i,line in enumerate(lines):
-   if re.search(r'\b'+re.escape(na)+r'\b',line,re.I) and re.search(r'\b'+re.escape(ra)+r'\b',line,re.I): candidates.append(line)
-   # Algunos PDF parten nombre/río de la misma fila; sólo unir como máximo 3 líneas.
+   lc=compact(line)
+   direct=(re.search(np,line,re.I) and re.search(rp,line,re.I)) or (nc in lc and rc in lc)
+   if direct:candidates.append(line)
    if not candidates:
     for width in (2,3):
-     joined=asc(' '.join(lines[i:i+width]))
-     if re.search(r'\b'+re.escape(na)+r'\b',joined,re.I) and re.search(r'\b'+re.escape(ra)+r'\b',joined,re.I): candidates.append(joined);break
+     joined=asc(' '.join(lines[i:i+width]));jc=compact(joined)
+     if (re.search(np,joined,re.I) and re.search(rp,joined,re.I)) or (nc in jc and rc in jc): candidates.append(joined);break
   for seg in candidates:
    rec=station_record(seg,name,river)
    if rec and name not in seen: out.append(rec);seen.add(name);break
