@@ -7,7 +7,7 @@ on:
       - main
     paths:
       - 'src/niveles_cloud.py'
-      - 'src/niveles_cloud_con_lluvia.py'
+      - 'src/lluvia_conagua_cloud.py'
       - 'src/procesar_niveles.js'
       - 'src/extraer_lluvia_conagua.js'
       - 'src/niveles_postprocess.py'
@@ -53,7 +53,7 @@ jobs:
       - name: Instalar dependencias Node
         run: npm install --no-audit --no-fund
 
-      - name: Ejecutar niveles y lluvia CONAGUA cloud
+      - name: Ejecutar niveles hidrométricos cloud
         env:
           CARBONIO_BASE: https://correo.tabasco.gob.mx
           CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
@@ -61,7 +61,17 @@ jobs:
           CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
           CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
           NIVELES_BASE: data/niveles
-        run: python src/niveles_cloud_con_lluvia.py
+        run: python src/niveles_cloud.py
+
+      - name: Extraer lluvia horaria CONAGUA del reporte más reciente
+        env:
+          CARBONIO_BASE: https://correo.tabasco.gob.mx
+          CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
+          CARBONIO_PASSWORD: ${{ secrets.CARBONIO_PASSWORD }}
+          CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
+          CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
+          NIVELES_BASE: data/niveles
+        run: python src/lluvia_conagua_cloud.py
 
       - name: Calcular ciclo 06:00 y generar gráficas PNG
         run: python src/niveles_postprocess.py
