@@ -19,6 +19,7 @@ INSI_RAIN='https://insivumeh.gob.gt/mapas-ultimas-24-horas/'
 INSI_RAIN_ROOT='https://insivumeh.gob.gt/img/MAPAS_24H/'
 INSI_RAIN_SEASON=INSI_RAIN_ROOT+'Resumen_Departamentos.html'
 BASINS=['Peñitas','Malpaso','Chicoasén','La Angostura','Bajo Grijalva-Ríos de la Sierra','Usumacinta','Presa Juan Sabines']
+UPPER_USU_TERMS=['peten','sayaxche','las cruces','alta verapaz','chixoy','chisec','cahabon','chahal','senahu','raxruha','quiche','ixcan','huehuetenango','barillas','la pasion','usumacinta']
 
 class LinkParser(HTMLParser):
  def __init__(self): super().__init__(); self.links=[]; self._href=None; self._txt=[]
@@ -111,11 +112,10 @@ def parse_insivumeh():
 def parse_accumulated_page(url,period):
  try:
   raw,meta=fetch_text(url);txt=clean_text(raw);date_range=pick(r'(?:Época lluviosa|[A-Za-z]+\s+\d{4})\s*:\s*([^\n]+)',txt);stations=[]
-  # Sólo estaciones conocidas como contexto de ramas aportantes; no se promedian ni se suman.
   for name,branch in [('Chixoy Hidro','Chixoy/Salinas'),('Cobán','Chixoy/Salinas'),('Santa María Cahabón','Chixoy/Salinas'),('Panzos PHC Altaverapaz','Chixoy/Salinas')]:
    m=re.search(re.escape(name)+r'.{0,220}?(\d+(?:\.\d+)?)\s*mm\s*acumulados',txt,re.I|re.S)
    if m:stations.append({'estacion':name,'rama_aportante':branch,'acumulado_mm':float(m.group(1)),'uso':'contexto_antecedente','gobierna_semaforo':False})
-  return {'periodo':period,'url':url,'rango':date_range,'estaciones_relevantes':stations,'http':meta,'nota':'Datos puntuales de estaciones; no representan promedio areal de la cuenca y no se suman.'}
+  return {'periodo':period,'url':url,'rango':date_range,'estaciones_relevantes':stations,'http':meta,'nota':'Datos puntuales; no representan promedio areal de la cuenca y no se suman.'}
  except Exception as e:return {'periodo':period,'url':url,'error':str(e),'estaciones_relevantes':[]}
 def parse_guatemala_rain():
  raw,meta=fetch_text(INSI_RAIN);p=LinkParser();p.feed(raw);links={}
@@ -124,18 +124,40 @@ def parse_guatemala_rain():
   if 'diario' in label and 'lluv' in label:links['24h']=u
   elif 'semanal' in label and 'lluv' in label:links['semanal']=u
   elif 'mensual' in label and 'lluv' in label:links['mensual']=u
- # La página oficial confirma mapas diario/semanal/mensual. Se conservan URLs de producto aun cuando sean imágenes dinámicas.
  products=[{'periodo':k,'url':v,'tipo':'mapa_oficial','extraccion_areal':False} for k,v in links.items()]
  season=parse_accumulated_page(INSI_RAIN_SEASON,'epoca_lluviosa')
  return {'fuente':'INSIVUMEH','producto':'Acumulados multitemporales Guatemala','pagina':INSI_RAIN,'http':meta,'mapas':products,'epoca_lluviosa':season,'ambito_operativo':'cuenca alta Usumacinta: Chixoy/Salinas, La Pasión, Petén y áreas aportantes verificadas','regla':'No convertir colores del mapa a mm exactos sin extracción geoespacial validada; no sumar estaciones ni tratarlas como promedio de cuenca.','completo':bool(products)}
 
+def relevant_saturation_text(txt):
+ flat=ascii_text(txt).lower();hits=[]
+ for sentence in re.split(r'(?<=[.!?])\s+',flat):
+  if ('saturacion' in sentence or '90%' in sentence or '90 %' in sentence) and any(t in sentence for t in UPPER_USU_TERMS):hits.append(sentence[:1200])
+ return hits[:12]
+def parse_saturation_pdf(url):
+ txt,n=extract_pdf_text(url);flat=ascii_text(txt);date=pick(r'(\d{1,2}\s+de\s+[A-Za-z]+\s+de\s+\d{4})',flat);hour=pick(r'(\d{1,2}:\d{2})\s*hrs',flat);contexts=relevant_saturation_text(txt)
+ upper=[];lower=[]
+ for c in contexts:
+  target=lower if ('capa inferior' in c or '30 centimetros hasta' in c) else upper
+  target.append(c)
+ return {'url_pdf':url,'fecha':date,'hora':hour,'pdf_bytes':n,'capa_superior_contexto':upper,'capa_inferior_contexto':lower,'umbral_destacado_pct':90,'modelo':'Sacramento / CAFFG','nota':'Contexto espacial textual oficial. No se asigna porcentaje puntual a la cuenca si el mapa no ofrece extracción geoespacial validada.'}
+def parse_guatemala_saturation():
+ raw,meta=fetch_text(INSI_SAT);p=LinkParser();p.feed(raw);candidates=[]
+ for href,txt in p.links:
+  u=urljoin(INSI_SAT,href);label=(txt+' '+href).lower()
+  if '.pdf' in u.lower() and ('satur' in label or 'bess' in label):candidates.append(u)
+ result={'fuente':'INSIVUMEH','producto':'Saturación del suelo','pagina':INSI_SAT,'http':meta,'modelo':'Sacramento / CAFFG','capas':{'superior':'0-30 cm','inferior':'30 cm a 1-3 m'},'ambito_operativo':'zonas aportantes verificadas de la cuenca alta del Usumacinta','ultimo_boletin':None,'completo':False,'regla':'La coincidencia espacial con la cuenca alta es contexto antecedente; no implica por sí sola una creciente ni se transforma en porcentaje de cuenca.'}
+ if candidates:
+  try:result['ultimo_boletin']=parse_saturation_pdf(candidates[-1]);result['completo']=True
+  except Exception as e:result['error_pdf']=str(e)
+ return result
+
 def main():
- now=datetime.now(timezone.utc).isoformat();status={'generated_utc':now,'complete':False,'errors':[]};payload={'generated_utc':now,'smn96':None,'smn360':None,'insivumeh':None,'guatemala_acumulados':None,'links':{'insivumeh_tendencia':INSI_TREND,'insivumeh_saturacion':INSI_SAT,'insivumeh_acumulados':INSI_RAIN}}
+ now=datetime.now(timezone.utc).isoformat();status={'generated_utc':now,'complete':False,'errors':[]};payload={'generated_utc':now,'smn96':None,'smn360':None,'insivumeh':None,'guatemala_acumulados':None,'guatemala_saturacion':None,'links':{'insivumeh_tendencia':INSI_TREND,'insivumeh_saturacion':INSI_SAT,'insivumeh_acumulados':INSI_RAIN}}
  for key,url,parser in [('smn96',SMN96,parse_smn96),('smn360',SMN360,parse_smn360)]:
   try:raw,meta=fetch_text(url);obj=parser(raw);obj['http']=meta;payload[key]=obj
   except Exception as e:status['errors'].append(f'{key}: {e}')
- for key,parser in [('insivumeh',parse_insivumeh),('guatemala_acumulados',parse_guatemala_rain)]:
+ for key,parser in [('insivumeh',parse_insivumeh),('guatemala_acumulados',parse_guatemala_rain),('guatemala_saturacion',parse_guatemala_saturation)]:
   try:payload[key]=parser()
   except Exception as e:status['errors'].append(f'{key}: {e}')
- status['complete']=all(payload.get(k) for k in ('smn96','smn360','insivumeh','guatemala_acumulados')) and not status['errors'];status['products']={k:{'available':bool(payload.get(k)),'complete':bool(payload.get(k,{}).get('completo')) if isinstance(payload.get(k),dict) else False} for k in ('smn96','smn360','insivumeh','guatemala_acumulados')};(OUT/'latest.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding='utf-8');(OUT/'Estado_Fuentes_Publicas.json').write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding='utf-8');print(json.dumps(status,ensure_ascii=False,indent=2))
+ keys=('smn96','smn360','insivumeh','guatemala_acumulados','guatemala_saturacion');status['complete']=all(payload.get(k) for k in keys) and not status['errors'];status['products']={k:{'available':bool(payload.get(k)),'complete':bool(payload.get(k,{}).get('completo')) if isinstance(payload.get(k),dict) else False} for k in keys};(OUT/'latest.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding='utf-8');(OUT/'Estado_Fuentes_Publicas.json').write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding='utf-8')
 if __name__=='__main__':main()
