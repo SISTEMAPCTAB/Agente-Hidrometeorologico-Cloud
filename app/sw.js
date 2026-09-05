@@ -1,4 +1,4 @@
-const CACHE='hmr-app-v34';
+const CACHE='hmr-app-v35';
 const ASSETS=['./','./index.html','./styles.css','./semaforo-rios.css','./estiaje.css','./temperature.css','./timeline-12h.css','./prioridades-operativas.css','./semaforo-sistemas.css','./navegacion-sistemas.css','./detalle-sistemas.css','./conagua-shape.js','./app.js','./semaforo-rios.js','./semaforo-cuencas.js','./estiaje-live.js','./rain-colors.js','./fuentes-live.js','./temperature-panel.js','./fuentes-creditos.js','./trazabilidad.js','./resumen-alertas.js','./prioridades-operativas.js','./semaforo-sistemas.js','./navegacion-sistemas.js','./detalle-sistemas.js','./situacion-operativa.js','./timeline-12h.js','./live.js','./manifest.webmanifest','./logo-ipcet.svg'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))));
