@@ -1,5 +1,5 @@
 from __future__ import annotations
-import io,json,re,unicodedata
+import io,json,re,subprocess,tempfile,unicodedata
 from datetime import datetime,timezone
 from pathlib import Path
 import requests
@@ -13,14 +13,22 @@ TARGETS=[('El Tigre','Usumacinta'),('El Porvenir','La Pasión'),('San Agustín C
 
 def asc(s): return re.sub(r'\s+',' ',unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode()).strip()
 def pdftext(u):
- r=requests.get(u,headers=UA,timeout=35); r.raise_for_status(); reader=PdfReader(io.BytesIO(r.content)); parts=[]
+ r=requests.get(u,headers=UA,timeout=35);r.raise_for_status();raw=r.content
+ # Poppler suele conservar mejor las filas tabulares del BHVGM que pypdf.
+ try:
+  with tempfile.NamedTemporaryFile(suffix='.pdf') as f:
+   f.write(raw);f.flush()
+   p=subprocess.run(['pdftotext','-layout',f.name,'-'],capture_output=True,text=True,timeout=25,check=True)
+   if p.stdout.strip():return p.stdout
+ except Exception:pass
+ reader=PdfReader(io.BytesIO(raw));parts=[]
  for p in reader.pages:
   try:t=p.extract_text(extraction_mode='layout') or ''
   except Exception:t=p.extract_text() or ''
   parts.append(t)
  return '\n'.join(parts)
 def one(p,t):
- m=re.search(p,t,re.I); return m.group(1).strip() if m else None
+ m=re.search(p,t,re.I);return m.group(1).strip() if m else None
 def header(txt):
  f=asc(txt)
  return {'boletin':one(r'BOLETIN\s*(?:No\.?|N[oº°]\.?)?\s*(\d+)',f) or one(r'BHVGM\s*[- ]?(\d+)[- ]?2026',f),'fecha':one(r'Fecha\s*:\s*(?:[A-Za-z]+\s+)?(\d{1,2}/\d{1,2}/\d{4})',f),'hora':one(r'Hora\s*:\s*(\d{1,2}:\d{2})',f)}
@@ -30,18 +38,15 @@ def station_record(segment,name,river):
  return {'estacion':name,'rio':river,'nivel_referencia_min_m':nums[0],'nivel_referencia_max_m':nums[1],'caudal_referencia_min_m3s':nums[2],'caudal_referencia_max_m3s':nums[3],'nivel_instantaneo_m':nums[4],'caudal_instantaneo_m3s':nums[5],'calidad':'extraido_del_BHVGM','nota_referencia':'Máximos como referencia estadística; no son umbral de inundación.'}
 def stations(txt):
  lines=[asc(x) for x in txt.splitlines() if x.strip()];out=[]
- aliases={'El Tigre':('El Tigre','Usumacinta'),'El Porvenir':('El Porvenir','La Pasion'),'San Agustin Chixoy':('San Agustin Chixoy','Chixoy'),'Playa Grande':('Playa Grande','Chixoy'),'Puente Chocox':('Puente Chocox','Chixoy')}
  for name,river in TARGETS:
   na=asc(name).lower();ra=asc(river).lower();line=next((x for x in lines if na in x.lower() and ra in x.lower()),None)
-  if not line:continue
-  start=line.lower().find(na);rec=station_record(line[start:],name,river)
-  if rec:out.append(rec)
- # respaldo sobre texto continuo por si layout no conserva una fila completa
+  if line:
+   start=line.lower().find(na);rec=station_record(line[start:],name,river)
+   if rec:out.append(rec)
  flat=asc(txt)
  for name,river in TARGETS:
   if any(x['estacion']==name for x in out):continue
-  pat=rf'{re.escape(asc(name))}\s+{re.escape(asc(river))}\b(.{{0,260}})'
-  m=re.search(pat,flat,re.I|re.S)
+  m=re.search(rf'{re.escape(asc(name))}\s+{re.escape(asc(river))}\b(.{{0,300}})',flat,re.I|re.S)
   if m:
    rec=station_record(m.group(0),name,river)
    if rec:out.append(rec)
@@ -54,7 +59,7 @@ def signal(ev):
  if not e:return 'Sin tendencia comparable aguas arriba'
  return {'incrementando':'Señal aguas arriba en aumento','estable':'Señal aguas arriba estable','disminuyendo':'Señal aguas arriba disminuyendo'}.get(e.get('tendencia_calculada'),'Sin tendencia comparable aguas arriba')
 def main():
- txt=pdftext(BHVGM);flat=asc(txt);h=header(txt);sts=stations(txt)
+ txt=pdftext(BHVGM);h=header(txt);sts=stations(txt)
  try:hist=json.loads(HIST.read_text(encoding='utf-8'))
  except:hist={'fuente':'INSIVUMEH','producto':'Histórico BHVGM estructurado','registros':[]}
  regs=hist.get('registros',[]);cut=f"{h.get('fecha','')}|{h.get('hora','')}"
@@ -71,8 +76,7 @@ def main():
     dn=x['nivel_instantaneo_m']-o['nivel_instantaneo_m'];dq=x['caudal_instantaneo_m3s']-o['caudal_instantaneo_m3s']
     ev.append({'estacion':x['estacion'],'rio':x['rio'],'desde':f"{a['fecha']} {a['hora']}",'hasta':f"{b['fecha']} {b['hora']}",'horas_transcurridas':round(hours,2),'delta_nivel_m':round(dn,3),'delta_caudal_m3s':round(dq,2),'tendencia_calculada':'incrementando' if dn>0.02 else 'disminuyendo' if dn<-0.02 else 'estable'})
  hist['ultima_evolucion_real']=ev;hist['senal_usumacinta_alta']=signal(ev);hist['ultimo_pdf_bhvgm']=BHVGM;hist['actualizado_utc']=datetime.now(timezone.utc).isoformat()
- if not any(x.get('estacion')=='El Tigre' for x in sts):
-  hist['diagnostico_el_tigre']='El Tigre no fue estructurado con extracción layout; no se publica valor fabricado.'
+ if not any(x.get('estacion')=='El Tigre' for x in sts):hist['diagnostico_el_tigre']='El Tigre no fue estructurado aun; no se publica valor fabricado.'
  else:hist.pop('diagnostico_el_tigre',None)
  HIST.write_text(json.dumps(hist,ensure_ascii=False,indent=2),encoding='utf-8')
  if LATEST.exists():
