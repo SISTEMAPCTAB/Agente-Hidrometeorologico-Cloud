@@ -1,0 +1,3 @@
+# Evita que Git/GitHub trate documentos Office como texto.
+*.docx binary
+*.docx -text
