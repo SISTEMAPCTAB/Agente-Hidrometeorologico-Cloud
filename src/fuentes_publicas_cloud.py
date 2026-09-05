@@ -9,6 +9,7 @@ import requests
 from pypdf import PdfReader
 
 OUT=Path('data/fuentes_publicas'); OUT.mkdir(parents=True,exist_ok=True)
+HIST=OUT/'insivumeh_historico.json'
 UA={'User-Agent':'Mozilla/5.0 Agente-Hidrometeorologico-Cloud/1.0'}; TIMEOUT=35
 SMN96='https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h';SMN360='https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-360h'
 INSI_DAILY='https://insivumeh.gob.gt/boletin-diario-hidrologia-aplicada/';INSI_TREND='https://insivumeh.gob.gt/boletin-de-tendencia-de-niveles-2/';INSI_SAT='https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/';INSI_RAIN='https://insivumeh.gob.gt/mapas-ultimas-24-horas/';INSI_RAIN_ROOT='https://insivumeh.gob.gt/img/MAPAS_24H/';INSI_RAIN_SEASON=INSI_RAIN_ROOT+'Resumen_Departamentos.html'
@@ -95,6 +96,30 @@ def parse_insivumeh():
  if pdf:
   txt,n=extract_pdf_text(pdf);r['pdf_bytes']=n;r.update(parse_insivumeh_header(txt));r['fragmentos_relevantes']=find_context(txt,['Chixoy','La Pasión','El Porvenir','El Tigre','Usumacinta','Machaquilá'],3);r['estaciones_estructuradas']=parse_insivumeh_stations(txt);r['completo']=bool(r['fragmentos_relevantes'])
  return r
+def parse_bhvgm_datetime(obj):
+ try:
+  return datetime.strptime(f"{obj.get('fecha')} {obj.get('hora')}",'%d/%m/%Y %H:%M').replace(tzinfo=timezone.utc)
+ except Exception:return None
+def update_insivumeh_history(current):
+ try:hist=json.loads(HIST.read_text(encoding='utf-8')) if HIST.exists() else {'fuente':'INSIVUMEH','producto':'Histórico BHVGM estructurado','registros':[]}
+ except Exception:hist={'fuente':'INSIVUMEH','producto':'Histórico BHVGM estructurado','registros':[]}
+ regs=hist.get('registros',[]);key=f"{current.get('fecha','')}|{current.get('hora','')}|{current.get('boletin','')}"
+ if current.get('fecha') and current.get('hora') and current.get('estaciones_estructuradas') and not any(r.get('clave')==key for r in regs):
+  regs.append({'clave':key,'boletin':current.get('boletin'),'fecha':current.get('fecha'),'hora':current.get('hora'),'url_pdf':current.get('url_pdf'),'estaciones':current.get('estaciones_estructuradas')})
+ def dt(r):return parse_bhvgm_datetime(r) or datetime.min.replace(tzinfo=timezone.utc)
+ regs=sorted(regs,key=dt)[-400:];hist['registros']=regs;hist['actualizado_utc']=datetime.now(timezone.utc).isoformat();HIST.write_text(json.dumps(hist,ensure_ascii=False,indent=2),encoding='utf-8')
+ comparable=[]
+ if len(regs)>=2:
+  a,b=regs[-2],regs[-1];ta,tb=dt(a),dt(b);hours=(tb-ta).total_seconds()/3600
+  if hours>0:
+   amap={x.get('estacion'):x for x in a.get('estaciones',[])}
+   for x in b.get('estaciones',[]):
+    old=amap.get(x.get('estacion'))
+    if not old:continue
+    dn=x.get('nivel_instantaneo_m')-old.get('nivel_instantaneo_m') if x.get('nivel_instantaneo_m') is not None and old.get('nivel_instantaneo_m') is not None else None
+    dq=x.get('caudal_instantaneo_m3s')-old.get('caudal_instantaneo_m3s') if x.get('caudal_instantaneo_m3s') is not None and old.get('caudal_instantaneo_m3s') is not None else None
+    comparable.append({'estacion':x.get('estacion'),'rio':x.get('rio'),'desde':f"{a.get('fecha')} {a.get('hora')}",'hasta':f"{b.get('fecha')} {b.get('hora')}",'horas_transcurridas':round(hours,2),'delta_nivel_m':round(dn,3) if dn is not None else None,'delta_caudal_m3s':round(dq,2) if dq is not None else None,'tendencia_calculada':'incrementando' if dn is not None and dn>0.02 else 'disminuyendo' if dn is not None and dn<-0.02 else 'estable' if dn is not None else 'sin_dato'})
+ hist['ultima_evolucion_real']=comparable;HIST.write_text(json.dumps(hist,ensure_ascii=False,indent=2),encoding='utf-8');return comparable
 def parse_accumulated_page(url,period):
  try:
   raw,meta=fetch_text(url);txt=clean_text(raw);stations=[]
@@ -130,12 +155,15 @@ def parse_guatemala_saturation():
   except Exception as e:r['error_pdf']=str(e)
  return r
 def main():
- now=datetime.now(timezone.utc).isoformat();status={'generated_utc':now,'complete':False,'errors':[]};payload={'generated_utc':now,'smn96':None,'smn360':None,'insivumeh':None,'guatemala_acumulados':None,'guatemala_saturacion':None,'links':{'insivumeh_tendencia':INSI_TREND,'insivumeh_saturacion':INSI_SAT,'insivumeh_acumulados':INSI_RAIN}}
+ now=datetime.now(timezone.utc).isoformat();status={'generated_utc':now,'complete':False,'errors':[]};payload={'generated_utc':now,'smn96':None,'smn360':None,'insivumeh':None,'insivumeh_evolucion_real':[],'guatemala_acumulados':None,'guatemala_saturacion':None,'links':{'insivumeh_tendencia':INSI_TREND,'insivumeh_saturacion':INSI_SAT,'insivumeh_acumulados':INSI_RAIN}}
  for key,url,parser in [('smn96',SMN96,parse_smn96),('smn360',SMN360,parse_smn360)]:
   try:raw,meta=fetch_text(url);obj=parser(raw);obj['http']=meta;payload[key]=obj
   except Exception as e:status['errors'].append(f'{key}: {e}')
  for key,parser in [('insivumeh',parse_insivumeh),('guatemala_acumulados',parse_guatemala_rain),('guatemala_saturacion',parse_guatemala_saturation)]:
   try:payload[key]=parser()
   except Exception as e:status['errors'].append(f'{key}: {e}')
- keys=('smn96','smn360','insivumeh','guatemala_acumulados','guatemala_saturacion');status['complete']=all(payload.get(k) for k in keys) and not status['errors'];status['products']={k:{'available':bool(payload.get(k)),'complete':bool(payload.get(k,{}).get('completo')) if isinstance(payload.get(k),dict) else False} for k in keys};(OUT/'latest.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding='utf-8');(OUT/'Estado_Fuentes_Publicas.json').write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding='utf-8')
+ if payload.get('insivumeh'):
+  try:payload['insivumeh_evolucion_real']=update_insivumeh_history(payload['insivumeh'])
+  except Exception as e:status['errors'].append(f'insivumeh_historico: {e}')
+ keys=('smn96','smn360','insivumeh','guatemala_acumulados','guatemala_saturacion');status['complete']=all(payload.get(k) for k in keys) and not status['errors'];status['products']={k:{'available':bool(payload.get(k)),'complete':bool(payload.get(k,{}).get('completo')) if isinstance(payload.get(k),dict) else False} for k in keys};status['historico_insivumeh']=str(HIST);(OUT/'latest.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding='utf-8');(OUT/'Estado_Fuentes_Publicas.json').write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding='utf-8')
 if __name__=='__main__':main()
