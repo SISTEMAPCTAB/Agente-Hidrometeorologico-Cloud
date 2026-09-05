@@ -164,17 +164,19 @@ def format_delta(value):
     return "s/d" if value is None else f"{value:+.2f} m"
 
 
-def operational_ylim(values):
+def reference_ylim(values, namo=None, name=None):
     vals = [float(v) for v in values if finite(v)]
+    if finite(namo):
+        vals.append(float(namo))
+    if finite(name):
+        vals.append(float(name))
     if not vals:
         return None
     lo, hi = min(vals), max(vals)
     span = hi - lo
-    # La escala se centra en la variación observada, no en NAMO/NAME lejanos.
-    # Esto evita que cambios de centímetros queden visualmente aplanados.
-    pad = max(0.08, span * 0.35)
-    if span < 0.08:
-        pad = 0.12
+    if span < 0.20:
+        span = 0.20
+    pad = max(0.08, span * 0.06)
     return lo - pad, hi + pad
 
 
@@ -191,7 +193,6 @@ def plot_station(meta, series, base, summary_row, cutoff):
     fig, ax = plt.subplots(figsize=(12, 6.4), dpi=140)
     ax.plot(x, y, marker="o", linewidth=2.4, markersize=5.5, label="Nivel observado del ciclo")
 
-    # Etiqueta cada lectura para que el nivel quede explícitamente representado.
     for i, (xx, yy, rr) in enumerate(zip(x, y, series)):
         ax.annotate(
             f"{yy:.2f} m",
@@ -209,22 +210,27 @@ def plot_station(meta, series, base, summary_row, cutoff):
     if inherited_x:
         ax.scatter(inherited_x, inherited_y, facecolors="none", edgecolors="black", s=70, linewidths=1.5, label="Dato heredado")
 
-    limits = operational_ylim(y)
+    limits = reference_ylim(y, meta.get("namo"), meta.get("name"))
     if limits:
         ax.set_ylim(*limits)
 
-    # NAMO/NAME siguen visibles como referencias numéricas, pero sólo se trazan
-    # como líneas si caen dentro de la ventana vertical operacional.
     ref_text = []
-    ymin, ymax = ax.get_ylim()
     if finite(meta.get("namo")):
         ref_text.append(f"NAMO {meta['namo']:.2f} m")
-        if ymin <= meta["namo"] <= ymax:
-            ax.axhline(meta["namo"], linestyle="--", linewidth=1.8, label=f"NAMO {meta['namo']:.2f} m")
+        ax.axhline(meta["namo"], linestyle="--", linewidth=2.2, label=f"NAMO {meta['namo']:.2f} m")
+        ax.text(
+            0.01, meta["namo"], f"NAMO {meta['namo']:.2f} m",
+            transform=ax.get_yaxis_transform(), ha="left", va="bottom",
+            fontsize=8, fontweight="bold"
+        )
     if finite(meta.get("name")):
         ref_text.append(f"NAME {meta['name']:.2f} m")
-        if ymin <= meta["name"] <= ymax:
-            ax.axhline(meta["name"], linestyle=":", linewidth=1.8, label=f"NAME {meta['name']:.2f} m")
+        ax.axhline(meta["name"], linestyle=":", linewidth=1.8, label=f"NAME {meta['name']:.2f} m")
+        ax.text(
+            0.01, meta["name"], f"NAME {meta['name']:.2f} m",
+            transform=ax.get_yaxis_transform(), ha="left", va="bottom",
+            fontsize=8
+        )
 
     base_time = dt(base.get("fecha_hora")) if base else None
     if base and finite(base.get("nivel")) and base_time and start <= base_time <= cutoff:
@@ -292,13 +298,17 @@ def plot_dashboard(summary, by_station, start, cutoff):
     axes = axes.flatten() if hasattr(axes, "flatten") else [axes]
     for ax, row in zip(axes, rows):
         series = cycle_series(by_station[row["estacion"]], start, cutoff)
+        meta = station_meta(by_station[row["estacion"]])
         if series:
             x = [dt(r["fecha_hora"]) for r in series]
             y = [r["nivel"] for r in series]
             ax.plot(x, y, marker="o", linewidth=1.6)
-            limits = operational_ylim(y)
+            limits = reference_ylim(y, meta.get("namo"), None)
             if limits:
                 ax.set_ylim(*limits)
+            if finite(meta.get("namo")):
+                ax.axhline(meta["namo"], linestyle="--", linewidth=1.2)
+                ax.text(0.01, meta["namo"], f"NAMO {meta['namo']:.2f}", transform=ax.get_yaxis_transform(), fontsize=6, va="bottom")
             ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M", tz=MX))
         ax.set_title(
             f"{row['estacion']} | {row['ultimo_nivel']:.2f} m\n"
@@ -418,7 +428,7 @@ def main():
         "graficas_sistema": system_graphs,
         "tablero": dashboard,
         "regla_base": "Se usa lectura observada exacta de 06:00; si falta, último valor observado válido disponible al inicio del ciclo y se marca base_heredada. Una base heredada anterior al inicio del ciclo no se dibuja en la gráfica del día actual.",
-        "regla_escala": "La gráfica individual usa escala vertical ajustada al rango observado para hacer visibles variaciones pequeñas; NAMO/NAME se conservan como referencias numéricas y sólo se trazan como líneas si caen dentro de la ventana vertical operacional. Cada punto muestra su nivel en metros.",
+        "regla_escala": "Todas las gráficas individuales incluyen el NAMO dentro de la escala vertical y lo trazan como línea de referencia. NAME también se traza cuando está disponible. Cada observación conserva su etiqueta en metros y los puntos se unen cronológicamente.",
     }
     (BASE / "Ultimo_Corte" / "indice_graficas.json").write_text(
         json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
