@@ -7,7 +7,9 @@ on:
       - main
     paths:
       - 'src/niveles_cloud.py'
+      - 'src/niveles_cloud_con_lluvia.py'
       - 'src/procesar_niveles.js'
+      - 'src/extraer_lluvia_conagua.js'
       - 'src/niveles_postprocess.py'
       - 'src/generar_word_niveles.py'
       - 'requirements.txt'
@@ -51,7 +53,7 @@ jobs:
       - name: Instalar dependencias Node
         run: npm install --no-audit --no-fund
 
-      - name: Ejecutar niveles hidrométricos cloud
+      - name: Ejecutar niveles y lluvia CONAGUA cloud
         env:
           CARBONIO_BASE: https://correo.tabasco.gob.mx
           CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
@@ -59,7 +61,7 @@ jobs:
           CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
           CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
           NIVELES_BASE: data/niveles
-        run: python src/niveles_cloud.py
+        run: python src/niveles_cloud_con_lluvia.py
 
       - name: Calcular ciclo 06:00 y generar gráficas PNG
         run: python src/niveles_postprocess.py
@@ -67,7 +69,7 @@ jobs:
       - name: Generar y verificar Word de niveles
         run: python src/generar_word_niveles.py
 
-      - name: Publicar datos, gráficas y Word de niveles
+      - name: Publicar niveles, lluvia CONAGUA, gráficas y Word
         shell: bash
         run: |
           git config user.name "Agente Hidrometeorologico Cloud"
@@ -76,12 +78,13 @@ jobs:
                   data/niveles/Ultimo_Corte \
                   data/niveles/Estado \
                   data/niveles/Estado_Niveles_Cloud.json \
+                  data/niveles/Lluvia_CONAGUA \
                   data/niveles/Graficas \
                   data/niveles/Reportes
           if git diff --cached --quiet; then
-            echo "Sin cambios de niveles para publicar."
+            echo "Sin cambios de niveles/lluvia para publicar."
           else
-            git commit -m "Actualiza niveles, gráficas y Word [skip ci]"
+            git commit -m "Actualiza niveles y lluvia CONAGUA [skip ci]"
             git pull --rebase origin main
             git push origin main
           fi
