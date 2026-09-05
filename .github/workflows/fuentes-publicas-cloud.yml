@@ -1,0 +1,56 @@
+name: Fuentes Públicas Cloud - SMN e INSIVUMEH
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/fuentes_publicas_cloud.py'
+      - 'requirements.txt'
+      - '.github/workflows/fuentes-publicas-cloud.yml'
+  schedule:
+    - cron: '*/10 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: agente-hidrometeorologico-repo-writer
+  cancel-in-progress: false
+
+jobs:
+  recolectar-fuentes-publicas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Consultar SMN e INSIVUMEH
+        run: python src/fuentes_publicas_cloud.py
+
+      - name: Publicar sólo cuando haya cambios
+        shell: bash
+        run: |
+          git config user.name "Agente Hidrometeorologico Cloud"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/fuentes_publicas
+          if git diff --cached --quiet; then
+            echo "Sin cambios en fuentes públicas."
+          else
+            git commit -m "Actualiza fuentes públicas SMN/INSIVUMEH [skip ci]"
+            git pull --rebase origin main
+            git push origin main
+          fi
