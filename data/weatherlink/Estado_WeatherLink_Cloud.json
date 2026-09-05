@@ -1,20 +1,22 @@
 {
   "agent": "WeatherLink Cloud",
-  "run_utc": "2026-09-05T01:34:26.138313+00:00",
-  "run_local": "2026-09-04T19:34:26.138313-06:00",
+  "run_utc": "2026-09-05T02:16:23.744008+00:00",
+  "run_local": "2026-09-04T20:16:23.744008-06:00",
   "stations_expected": 32,
   "stations_ok": 32,
   "stations_error": 0,
-  "coverage_hours_since_seed": 7.55,
+  "coverage_hours_since_seed": 8.25,
   "window_maturity": {
     "1h": true,
     "6h": true,
     "24h": false,
     "48h": false,
-    "72h": false
+    "72h": false,
+    "96h": false,
+    "120h": false
   },
   "complete": true,
   "errors": [],
   "source": "WeatherLink public map endpoint /map/data/station/{uuid}",
-  "note": "1h y 24h se conservan como heredados del corte base hasta completar su ventana cloud; 6h/48h/72h quedan vacíos hasta reunir historia suficiente."
+  "note": "1h y 24h se conservan como heredados del corte base hasta completar su ventana cloud; 6h/48h/72h/96h/120h quedan vacíos hasta reunir historia suficiente. Las ventanas 96/120 h permiten identificar persistencia seca observada sin inferirla de datos faltantes."
 }
