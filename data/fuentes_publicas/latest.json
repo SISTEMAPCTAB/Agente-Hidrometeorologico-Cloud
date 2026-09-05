@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-09-05T04:52:26.425847+00:00",
+  "generated_utc": "2026-09-05T05:15:44.398369+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
@@ -7,7 +7,6 @@
     "aviso": "247",
     "fecha": "04 de Septiembre del 2026.",
     "emision": "10:00h",
-    "resumen": "Un canal de baja presión sobre el sureste del país, en interacción con circulaciones ciclónicas y vaguadas en niveles altos de la atmósfera, además de la onda tropical núm. 36, originarán lluvias puntuales intensas en las cuencas Malpaso y Bajo Grijalva; lluvias puntuales muy fuertes en la cuenca de Peñitas; así como lluvias puntuales fuertes en las cuencas de Chicoasén, La Angostura, Usumacinta y Juan Sabines. Además, prevalecerá un ambiente caluroso a muy caluroso sobre la región.",
     "ventanas": {
       "0-24": {
         "Peñitas": {
@@ -162,7 +161,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sat, 05 Sep 2026 04:52:43 GMT"
+      "last_modified": "Sat, 05 Sep 2026 05:15:45 GMT"
     }
   },
   "smn360": {
@@ -172,7 +171,6 @@
     "aviso": "247",
     "fecha": "04 de Septiembre del 2026.",
     "emision": "10:00h",
-    "corrida_modelo": "12 UTC del día 03 de septiembre de 2026",
     "periodos": [
       {
         "ventana": "96-168 h",
@@ -263,12 +261,12 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sat, 05 Sep 2026 04:48:46 GMT"
+      "last_modified": "Sat, 05 Sep 2026 05:12:05 GMT"
     }
   },
   "insivumeh": {
     "fuente": "INSIVUMEH",
-    "producto": "Boletín diario hidrología aplicada - Vertiente Golfo de México",
+    "producto": "BHVGM",
     "url_pagina": "https://insivumeh.gob.gt/boletin-diario-hidrologia-aplicada/",
     "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
     "http": {
@@ -276,16 +274,6 @@
       "etag": null,
       "last_modified": null
     },
-    "boletin": null,
-    "fecha": "04/09/2026",
-    "hora": "20:00",
-    "hora_fuente": "encabezado_BHVGM",
-    "estaciones_objetivo": [
-      "Chixoy/Salinas",
-      "La Pasión/El Porvenir",
-      "Usumacinta/El Tigre",
-      "Machaquilá"
-    ],
     "estaciones_estructuradas": [],
     "fragmentos_relevantes": [
       "Caudal | Instant´ aneo (m3/s) Disminuir Mantenerse Incrementar Observaciones No. BHE | Chachacl´ un Lago Pet´ en Itz´ a San Jos´ e, Pet´ en 1.0 2.5 3.41 X Lago Crecido 1336-2025 | El Porvenir La Pasi´ on Las Cruces, Pet´ en 1.03 3.0 93.04 399.28 2.36 268.65 X | La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.1 6.89 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.69 0.05 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X",
@@ -293,11 +281,76 @@
       "Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.69 0.05 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 -0.1 179.51 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.59 8.57 X | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.4 174.89 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.5 45.22 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.15 12.87 X",
       "Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 -0.1 179.51 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.59 8.57 X | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.4 174.89 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.5 45.22 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.15 12.87 X | Xemal Selegua Colotenango, Huehuetenango 0.25 1.25 3.91 48.8 -0.4 0.14 X R ´ ıo Bajo"
     ],
+    "completo": true,
     "pdf_bytes": 305712,
+    "boletin": null,
+    "fecha": "04/09/2026",
+    "hora": "20:00",
+    "hora_fuente": "encabezado_BHVGM"
+  },
+  "guatemala_acumulados": {
+    "fuente": "INSIVUMEH",
+    "producto": "Acumulados multitemporales Guatemala",
+    "pagina": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
+    "http": {
+      "status_code": 200,
+      "etag": null,
+      "last_modified": null
+    },
+    "mapas": [
+      {
+        "periodo": "24h",
+        "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_diaria.png",
+        "tipo": "mapa_oficial",
+        "extraccion_areal": false
+      },
+      {
+        "periodo": "mensual",
+        "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_mensual.png",
+        "tipo": "mapa_oficial",
+        "extraccion_areal": false
+      },
+      {
+        "periodo": "semanal",
+        "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_sem.png",
+        "tipo": "mapa_oficial",
+        "extraccion_areal": false
+      }
+    ],
+    "epoca_lluviosa": {
+      "periodo": "epoca_lluviosa",
+      "url": "https://insivumeh.gob.gt/img/MAPAS_24H/Resumen_Departamentos.html",
+      "rango": null,
+      "estaciones_relevantes": [
+        {
+          "estacion": "Chixoy Hidro",
+          "rama_aportante": "Chixoy/Salinas",
+          "acumulado_mm": 615.7,
+          "uso": "contexto_antecedente",
+          "gobierna_semaforo": false
+        },
+        {
+          "estacion": "Panzos PHC Altaverapaz",
+          "rama_aportante": "Chixoy/Salinas",
+          "acumulado_mm": 1207.6,
+          "uso": "contexto_antecedente",
+          "gobierna_semaforo": false
+        }
+      ],
+      "http": {
+        "status_code": 200,
+        "etag": "\"12e13-659f410938624-gzip\"",
+        "last_modified": "Wed, 26 Aug 2026 14:30:45 GMT"
+      },
+      "nota": "Datos puntuales de estaciones; no representan promedio areal de la cuenca y no se suman."
+    },
+    "ambito_operativo": "cuenca alta Usumacinta: Chixoy/Salinas, La Pasión, Petén y áreas aportantes verificadas",
+    "regla": "No convertir colores del mapa a mm exactos sin extracción geoespacial validada; no sumar estaciones ni tratarlas como promedio de cuenca.",
     "completo": true
   },
   "links": {
     "insivumeh_tendencia": "https://insivumeh.gob.gt/boletin-de-tendencia-de-niveles-2/",
-    "insivumeh_saturacion": "https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/"
+    "insivumeh_saturacion": "https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/",
+    "insivumeh_acumulados": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/"
   }
 }
