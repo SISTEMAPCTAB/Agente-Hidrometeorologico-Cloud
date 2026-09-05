@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-09-05T06:11:30.295372+00:00",
+  "generated_utc": "2026-09-05T06:14:12.118814+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
@@ -161,7 +161,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sat, 05 Sep 2026 06:11:47 GMT"
+      "last_modified": "Sat, 05 Sep 2026 06:14:12 GMT"
     }
   },
   "smn360": {
@@ -261,7 +261,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sat, 05 Sep 2026 06:11:31 GMT"
+      "last_modified": "Sat, 05 Sep 2026 06:10:32 GMT"
     }
   },
   "insivumeh": {
@@ -469,7 +469,7 @@
   },
   "senal_usumacinta_alta": "Sin tendencia comparable aguas arriba",
   "insivumeh_bhvgm_actual": {
-    "boletin": null,
+    "boletin": "741",
     "fecha": "04/09/2026",
     "hora": "20:00",
     "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
@@ -483,6 +483,18 @@
         "caudal_referencia_max_m3s": 399.28,
         "nivel_instantaneo_m": 2.36,
         "caudal_instantaneo_m3s": 268.65,
+        "calidad": "extraido_del_BHVGM",
+        "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+      },
+      {
+        "estacion": "Playa Grande",
+        "rio": "Chixoy",
+        "nivel_referencia_min_m": -0.22,
+        "nivel_referencia_max_m": 1.9,
+        "caudal_referencia_min_m3s": 178.87,
+        "caudal_referencia_max_m3s": 633.81,
+        "nivel_instantaneo_m": -0.1,
+        "caudal_instantaneo_m3s": 179.51,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       },
