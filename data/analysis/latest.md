@@ -1,4 +1,4 @@
-CORTE: 2026-09-05 11:00
+CORTE: 2026-09-05 13:17
 # Análisis operativo hidrometeorológico · Grijalva–Usumacinta
 
 Documento automático de apoyo operativo. Sólo usa datos disponibles en el repositorio; sin dato no equivale a cero y los datos heredados o rezagados se identifican como tales.
@@ -9,7 +9,22 @@ Documento automático de apoyo operativo. Sólo usa datos disponibles en el repo
 - **Tulijá–Puxcatán–Chilapa:** evolución 12 h estable.
 - **Usumacinta:** evolución 12 h estable.
 
-## Hidrometría observada y NAMO
+## Análisis breve por subcuenca
+
+### Presas–Mezcalapa–Samaria y Carrizal
+Evolución 12 h estable/mixta. sin ascensos positivos de 24 h entre los datos comparables; mayor descenso: Samaria -0.02 m; referencia más próxima al NAMO: Samaria a 3.36 m. SMN: 0-24 h 5 a 25 mm; 24-48 h 0.1 a 5 mm; 48-72 h 5 a 25 mm; 72-96 h 5 a 25 mm. La lectura operativa debe confirmarse en los cortes siguientes; el pronóstico incrementa vigilancia, pero no implica por sí solo una creciente.
+
+### Ríos Serranos–Grijalva
+Evolución 12 h estable. mayor ascenso 24 h: Porvenir +0.14 m; mayor descenso: Tapijulapa -0.02 m; referencia más próxima al NAMO: San Joaquín a 3.32 m. SMN: 0-24 h 50 a 75 mm; 24-48 h 5 a 25 mm; 48-72 h 25 a 50 mm; 72-96 h 50 a 75 mm. La lectura operativa debe confirmarse en los cortes siguientes; el pronóstico incrementa vigilancia, pero no implica por sí solo una creciente.
+
+### Tulijá–Puxcatán–Chilapa
+Evolución 12 h estable. sin ascensos positivos de 24 h entre los datos comparables; mayor descenso: Macuspana -0.01 m; referencia más próxima al NAMO: Macuspana a 8.72 m. SMN: 0-24 h 50 a 75 mm; 24-48 h 5 a 25 mm; 48-72 h 25 a 50 mm; 72-96 h 50 a 75 mm. La lectura operativa debe confirmarse en los cortes siguientes; el pronóstico incrementa vigilancia, pero no implica por sí solo una creciente.
+
+### Usumacinta
+Evolución 12 h estable. mayor ascenso 24 h: Boca del Cerro +0.15 m; referencia más próxima al NAMO: San Pedro a 0.51 m. SMN: 0-24 h 25 a 50 mm; 24-48 h 25 a 50 mm; 48-72 h 75 a 150 mm; 72-96 h 75 a 150 mm. Cuenca alta Guatemala: El Porvenir 2.28 m/254.6 m³/s, El Tigre 6.03 m/1130.3 m³/s. La lectura operativa debe confirmarse en los cortes siguientes; el pronóstico incrementa vigilancia, pero no implica por sí solo una creciente.
+
+## Hidrometría observada, NAMO y NAMINO
+El NAMO y el NAMINO son referencias fijas oficiales cuando están publicados para la estación. El NAMINO cobra especial relevancia operativa en condiciones de niveles bajos; no se inventan valores faltantes.
 | Sistema | Estación | Nivel m | Δ24 h m | Tendencia | Distancia a NAMO m | Calidad |
 |---|---|---:|---:|---|---:|---|
 | Usumacinta | Boca del Cerro | 12.80 | 0.15 | Ascenso | -6.41 | observado |
@@ -48,28 +63,28 @@ CONAGUA, corte 2026-09-05: mayores registros 24 h publicados:
 - 48-72 h: Peñitas: 5 a 25 mm; Bajo Grijalva-Ríos de la Sierra: 25 a 50 mm; Usumacinta: 75 a 150 mm.
 - 72-96 h: Peñitas: 5 a 25 mm; Bajo Grijalva-Ríos de la Sierra: 50 a 75 mm; Usumacinta: 75 a 150 mm.
 
-## Pronóstico SMN 96–360 h
-- 96-168 h (del 08 al 11 de septiembre de 2026): En el periodo de pronóstico, se prevén lluvias con acumulados de 150 a 250 mm en las cuencas de Usumacinta; lluvias con acumulados de 75 a 150 mm en las cuencas de Bajo Grijalva y Malpaso; lluvias con acumulados de 50 a 75 mm en la cuenca de Peñitas y l luvias con acumulados de 25 a 50 mm en Chicoasén, Juan Sabines y La Angostura.
-- 168-360 h (del 11 al 19 de septiembre 2026): Durante el periodo de pronóstico, se prevén lluvias con acumulados de 400 a 500 mm en la cuenca de Malpaso; lluvias de 300 a 400 mm en las cuencas de Usumacinta y Peñitas; lluvias de 150 a 250 mm en la cuenca de Baja Grijalva; lluvias con acumulados de 75 a 150 mm en las cuencas de Chicoasén y La Angostura, así como lluvias con acumulados de 50 a 75 mm en Jan Sabines.
-La incertidumbre aumenta después de 96 h; estos rangos son escenario de vigilancia y no precipitación observada.
-
 ## Cuenca alta del Usumacinta · Guatemala
 - Playa Grande–Chixoy: nivel -0.05 m · caudal 188.16 m³/s · BHVGM 742 05/09/2026 08:00 h.
 - El Porvenir–La Pasión: nivel 2.28 m · caudal 254.61 m³/s · BHVGM 742 05/09/2026 08:00 h.
 - El Tigre–Usumacinta: nivel 6.03 m · caudal 1130.35 m³/s · BHVGM 742 05/09/2026 08:00 h.
 - Cadena operativa: Chixoy/Salinas + La Pasión/El Porvenir + Usumacinta/El Tigre → Lacantún → Boca del Cerro → Balancán → Emiliano Zapata → Jonuta → Centla.
-- Los máximos BHVGM son referencias estadísticas, no umbrales de inundación. Los cortes de Guatemala y Tabasco se comparan conservando su hora real; el desfase no se interpreta como tiempo de tránsito.
+- Los máximos BHVGM son referencias estadísticas, no umbrales de inundación. El desfase entre cortes no se interpreta como tiempo de tránsito.
 
 ## Temperatura e índice de calor
-- Tabasco: máxima válida del día 32.8 °C; máximo índice de calor 49.3 °C en ASUR Villahermosa · Peligro.
+- Tabasco: máxima válida 32.8 °C; índice de calor máximo 49.3 °C en ASUR Villahermosa · Peligro.
+
+## Perspectiva y evaluación operativa
+- **24–48 h:** contrastar la lluvia observada y el primer tramo del pronóstico con la evolución real de niveles; reforzar vigilancia sólo donde coincidan lluvia relevante, ascenso o persistencia.
+- **48–96 h:** vigilar especialmente las subcuencas con rangos SMN más altos y verificar en cada nuevo corte si aparece respuesta hidrométrica.
+- **7–15 días:** usar únicamente productos oficiales vigentes como escenario de planeación; la incertidumbre es mayor y no debe presentarse como lluvia observada ni como creciente confirmada.
 
 ## Conclusiones operativas
-- Mantener vigilancia priorizada por lluvia observada válida, ascensos hidrométricos reales, persistencia de tendencia y pronóstico oficial; NAMO se conserva como referencia de proximidad y no como semáforo oficial.
+- Priorizar lluvia observada válida, ascensos reales, persistencia y pronóstico oficial. NAMO y NAMINO se conservan como referencias hidrométricas; el NAMINO adquiere prioridad cuando los niveles descienden hacia mínimos.
 - No sumar estaciones puntuales para fabricar acumulados de cuenca.
-- En Usumacinta, mantener seguimiento conjunto de La Pasión/El Porvenir, Chixoy/Salinas y El Tigre cuando sea publicado, contrastándolo con Boca del Cerro y estaciones aguas abajo sin afirmar causalidad automática.
+- En Usumacinta, mantener lectura conjunta de La Pasión/El Porvenir, Chixoy/Salinas, El Tigre, Boca del Cerro y estaciones aguas abajo, sin afirmar causalidad automática.
 
 ## Fuentes y calidad
-- CONAGUA/OCFS: boletines hidrométricos, climatológicos, presas y reporte horario de lluvia.
-- SMN: pronóstico especial por cuencas 96 h y 360 h.
-- INSIVUMEH: BHVGM y productos de contexto de la cuenca alta.
-- WeatherLink: observaciones cloud; ventanas inmaduras, heredadas o rezagadas no se presentan como actuales.
+- CONAGUA/OCFS: boletines hidrométricos, climatológicos, presas y lluvia.
+- SMN: pronóstico especial por cuencas.
+- INSIVUMEH: BHVGM y contexto de cuenca alta.
+- WeatherLink: observaciones cloud; datos inmaduros, heredados o rezagados no se presentan como actuales.
