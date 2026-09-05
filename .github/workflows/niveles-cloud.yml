@@ -11,6 +11,7 @@ on:
       - 'src/procesar_niveles.js'
       - 'src/extraer_lluvia_conagua.js'
       - 'src/niveles_postprocess.py'
+      - 'src/resumen_12h_niveles.py'
       - 'src/generar_word_niveles.py'
       - 'requirements.txt'
       - 'package.json'
@@ -76,6 +77,9 @@ jobs:
       - name: Calcular ciclo 06:00 y generar gráficas PNG
         run: python src/niveles_postprocess.py
 
+      - name: Generar resumen compacto últimas 12 h
+        run: python src/resumen_12h_niveles.py
+
       - name: Generar y verificar Word de niveles
         run: python src/generar_word_niveles.py
 
@@ -85,6 +89,7 @@ jobs:
           git config user.name "Agente Hidrometeorologico Cloud"
           git config user.email "actions@users.noreply.github.com"
           git add data/niveles/Historico \
+                  data/niveles/Resumen_12h \
                   data/niveles/Ultimo_Corte \
                   data/niveles/Estado \
                   data/niveles/Estado_Niveles_Cloud.json \
