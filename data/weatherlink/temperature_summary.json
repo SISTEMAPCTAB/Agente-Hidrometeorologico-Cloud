@@ -1,11 +1,11 @@
 {
   "date_local": "2026-09-05",
-  "updated_local": "2026-09-05T04:44:53.263593-06:00",
+  "updated_local": "2026-09-05T07:34:40.327946-06:00",
   "units": {
     "temperature": "°C",
     "heat_index": "°C"
   },
-  "current_valid_stations": 6,
+  "current_valid_stations": 5,
   "current_excluded_stations": [
     {
       "estacion": "ACALA PCIVILCHIAPAS",
@@ -110,20 +110,24 @@
     {
       "estacion": "Urrutia",
       "motivo": "edad_mayor_2h"
+    },
+    {
+      "estacion": "Yaxhá - INSIVUMEH PETEN",
+      "motivo": "edad_mayor_2h"
     }
   ],
   "max_current_age_seconds": 7200,
   "stations": [
     {
       "estacion": "SEMAR Capitanía de Pto. Dos Bocas",
-      "max_temp_c": 30.0,
-      "max_temp_time": "Sep 05, 2026/ 12:17 AM",
+      "max_temp_c": 30.6,
+      "max_temp_time": "Sep 05, 2026/ 7:33 AM",
       "max_heat_index_c": 40.4,
       "max_heat_index_time": "Sep 05, 2026/ 12:17 AM",
       "max_heat_basis": "Índice de calor",
       "territory": "Tabasco",
       "ubicacion": "Puerto Ceiba, Tab., Mexico",
-      "last_valid_time": "Sep 05, 2026/ 4:44 AM",
+      "last_valid_time": "Sep 05, 2026/ 7:33 AM",
       "nivel_riesgo_max": "Peligro"
     },
     {
@@ -135,7 +139,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Otra ubicación",
       "ubicacion": "Ciudad del Carmen, Camp., Mexico",
-      "last_valid_time": "Sep 05, 2026/ 4:43 AM",
+      "last_valid_time": "Sep 05, 2026/ 7:33 AM",
       "nivel_riesgo_max": "Precaución extrema"
     },
     {
@@ -147,7 +151,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Otra ubicación",
       "ubicacion": "Alvarado, Ver., Mexico",
-      "last_valid_time": "Sep 05, 2026/ 4:44 AM",
+      "last_valid_time": "Sep 05, 2026/ 7:34 AM",
       "nivel_riesgo_max": "Precaución extrema"
     },
     {
@@ -163,6 +167,18 @@
       "nivel_riesgo_max": "Precaución"
     },
     {
+      "estacion": "Sinai",
+      "max_temp_c": 25.0,
+      "max_temp_time": "Sep 05, 2026/ 7:30 AM",
+      "max_heat_index_c": 25.0,
+      "max_heat_index_time": "Sep 05, 2026/ 7:30 AM",
+      "max_heat_basis": "Temperatura del aire",
+      "territory": "Otra ubicación",
+      "ubicacion": "Palenque, Chis., Mexico",
+      "last_valid_time": "Sep 05, 2026/ 7:30 AM",
+      "nivel_riesgo_max": "Normal"
+    },
+    {
       "estacion": "PASO LA MINA",
       "max_temp_c": 24.4,
       "max_temp_time": "Sep 05, 2026/ 12:00 AM",
@@ -171,19 +187,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Ingenio Presidente Benito Juárez, Tab., Mexico",
-      "last_valid_time": "Sep 05, 2026/ 4:00 AM",
-      "nivel_riesgo_max": "Normal"
-    },
-    {
-      "estacion": "Sinai",
-      "max_temp_c": 23.3,
-      "max_temp_time": "Sep 05, 2026/ 4:30 AM",
-      "max_heat_index_c": 23.3,
-      "max_heat_index_time": "Sep 05, 2026/ 4:30 AM",
-      "max_heat_basis": "Temperatura del aire",
-      "territory": "Otra ubicación",
-      "ubicacion": "Palenque, Chis., Mexico",
-      "last_valid_time": "Sep 05, 2026/ 4:30 AM",
+      "last_valid_time": "Sep 05, 2026/ 7:00 AM",
       "nivel_riesgo_max": "Normal"
     }
   ],
@@ -191,7 +195,7 @@
     {
       "territorio": "Tabasco",
       "estaciones": 2,
-      "max_temp_c": 30.0,
+      "max_temp_c": 30.6,
       "max_heat_index_c": 40.4,
       "estacion_mas_caliente": "SEMAR Capitanía de Pto. Dos Bocas",
       "nivel_riesgo": "Peligro"
