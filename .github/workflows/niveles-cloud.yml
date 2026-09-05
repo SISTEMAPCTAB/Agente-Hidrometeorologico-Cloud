@@ -16,8 +16,8 @@ on:
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
   schedule:
-    - cron: '3 16,18,20,22 * * *'
-    - cron: '3 0 * * *'
+    - cron: '3,18 16,18,20,22 * * *'
+    - cron: '3,18 0 * * *'
 
 permissions:
   contents: write
