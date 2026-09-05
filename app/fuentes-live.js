@@ -25,11 +25,20 @@
     return `<div class="panel wide"><h2>SMN · Escenario 360 h</h2><div class="maturity-row"><span class="badge ok">Aviso ${esc(d.aviso||'s/d')}</span><span class="badge">${esc(d.fecha||'fecha s/d')}</span>${d.corrida_modelo?`<span class="badge">Corrida ${esc(d.corrida_modelo)}</span>`:''}</div><div class="source-grid">${periods.map(p=>`<div class="source-card"><div><strong>${esc(p.ventana||'periodo')}</strong><span class="badge warn">Mayor incertidumbre</span></div><p><b>Validez:</b> ${esc(p.validez||'s/d')}</p><p>${esc(p.descripcion||'')}</p></div>`).join('')||'<div class="empty-state">Sin periodos estructurados.</div>'}</div><div class="section-note">Escenario de vigilancia de mediano plazo. No equivale a predicción determinista de niveles o crecientes.</div></div>`;
   }
 
+  function stationCard(x){
+    const nivel=Number.isFinite(Number(x?.nivel_instantaneo_m))?`${Number(x.nivel_instantaneo_m).toFixed(2)} m`:'s/d';
+    const caudal=Number.isFinite(Number(x?.caudal_instantaneo_m3s))?`${Number(x.caudal_instantaneo_m3s).toFixed(2)} m³/s`:'s/d';
+    const important=String(x?.estacion||'').toLowerCase()==='el tigre';
+    return `<div class="source-card${important?' source-card-priority':''}"><div><strong>${esc(x?.estacion||'Estación')}</strong><span class="badge ${important?'warn':''}">${esc(x?.rio||'río s/d')}</span></div><p><b>Nivel actual:</b> ${esc(nivel)}</p><p><b>Caudal instantáneo:</b> ${esc(caudal)}</p><small>${esc(x?.ubicacion||'')} · ${esc(x?.calidad||'dato estructurado')}</small></div>`;
+  }
+
   function insivumehPanel(data){
     const d=data?.insivumeh;
     if(!d || d.__error) return '<div class="panel wide"><div class="empty-state">INSIVUMEH aún no disponible en JSON cloud.</div></div>';
     const frags=Array.isArray(d.fragmentos_relevantes)?d.fragmentos_relevantes:[];
-    return `<div class="panel wide"><h2>INSIVUMEH · Formación aguas arriba de Boca del Cerro</h2><div class="maturity-row"><span class="badge ${d.completo?'ok':'warn'}">${d.completo?'Dato localizado':'En validación'}</span><span class="badge">Vertiente Golfo de México</span></div><div class="source-grid">${frags.map((x,i)=>`<div class="source-card"><div><strong>Referencia ${i+1}</strong><span class="badge">oficial</span></div><p>${esc(x)}</p></div>`).join('')||'<div class="empty-state">El boletín fue localizado, pero todavía no contiene texto estructurable de las estaciones objetivo.</div>'}</div><div class="section-note">Prioridad: Chixoy/Salinas, La Pasión/El Porvenir, Usumacinta/El Tigre y Machaquilá. Se conserva la hora y denominación oficial cuando el PDF la expone.</div></div>`;
+    const stations=Array.isArray(d.estaciones_estructuradas)?d.estaciones_estructuradas:[];
+    const emitted=(d.fecha||d.hora)?`${d.fecha||'fecha s/d'} · ${d.hora?`Hora ${d.hora}`:'hora s/d'}`:'Fecha/hora s/d';
+    return `<div class="panel wide"><h2>INSIVUMEH · Formación aguas arriba de Boca del Cerro</h2><div class="maturity-row"><span class="badge ${d.completo?'ok':'warn'}">${d.completo?'Dato localizado':'En validación'}</span><span class="badge">Vertiente Golfo de México</span>${d.boletin?`<span class="badge">Boletín ${esc(d.boletin)}</span>`:''}<span class="badge ok">${esc(emitted)}</span></div>${stations.length?`<div class="source-grid">${stations.map(stationCard).join('')}</div>`:`<div class="source-grid">${frags.map((x,i)=>`<div class="source-card"><div><strong>Referencia ${i+1}</strong><span class="badge">oficial</span></div><p>${esc(x)}</p></div>`).join('')||'<div class="empty-state">El boletín fue localizado, pero todavía no contiene texto estructurable de las estaciones objetivo.</div>'}</div>`}<div class="section-note"><b>Hora oficial del corte:</b> se toma directamente del encabezado del boletín BHVGM de INSIVUMEH (campos Fecha y Hora), no de la hora de descarga en GitHub. Prioridad: Chixoy/Salinas, La Pasión/El Porvenir, <b>Usumacinta/El Tigre</b> y Machaquilá. El Tigre mide directamente el río Usumacinta en Las Cruces, Petén.</div></div>`;
   }
 
   function liveStatusPanel(){
