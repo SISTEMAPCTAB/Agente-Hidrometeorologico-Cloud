@@ -22,6 +22,17 @@ ARCHIVE_DIR = REPORT_DIR / "Archivo"
 LATEST = REPORT_DIR / "Reporte_WeatherLink_Ultimo.docx"
 WORD_STATUS = REPORT_DIR / "Estado_Word.json"
 
+REPOSITORY = "SISTEMAPCTAB/Agente-Hidrometeorologico-Cloud"
+BRANCH = "main"
+LATEST_BROWSER_URL = (
+    f"https://github.com/{REPOSITORY}/blob/{BRANCH}/"
+    "data/weatherlink/Reportes/Reporte_WeatherLink_Ultimo.docx"
+)
+LATEST_DOWNLOAD_URL = LATEST_BROWSER_URL + "?raw=1"
+REPORTS_FOLDER_URL = (
+    f"https://github.com/{REPOSITORY}/tree/{BRANCH}/data/weatherlink/Reportes"
+)
+
 BLUE = RGBColor(31, 78, 121)
 
 
@@ -69,6 +80,38 @@ def heading(doc, text, size=12):
     return p
 
 
+def verify_docx(path):
+    """Verifica que el archivo sea un DOCX real y estructuralmente legible."""
+    if not path.exists():
+        raise RuntimeError("No se generó el archivo DOCX.")
+    if path.stat().st_size < 5000:
+        raise RuntimeError("DOCX generado demasiado pequeño.")
+
+    signature = path.read_bytes()[:4]
+    if signature[:2] != b"PK":
+        raise RuntimeError("El archivo no tiene firma ZIP/DOCX válida.")
+
+    required = {"[Content_Types].xml", "word/document.xml", "_rels/.rels"}
+    with zipfile.ZipFile(path, "r") as zf:
+        bad = zf.testzip()
+        if bad:
+            raise RuntimeError(f"DOCX corrupto; entrada dañada: {bad}")
+        names = set(zf.namelist())
+        missing = required - names
+        if missing:
+            raise RuntimeError(
+                "DOCX incompleto; faltan componentes: " + ", ".join(sorted(missing))
+            )
+
+    # Segunda lectura independiente con python-docx.
+    Document(str(path))
+    return {
+        "zip_signature": signature.hex(),
+        "required_parts_ok": True,
+        "python_docx_open_ok": True,
+    }
+
+
 def main():
     if not CSV_PATH.exists():
         raise RuntimeError("No existe Tabla_WeatherLink_Cloud.csv")
@@ -80,7 +123,9 @@ def main():
     conagua_status = load_json(CONAGUA_STATUS, {})
     conagua_rows = load_json(CONAGUA_LATEST, [])
 
-    cut = datetime.fromisoformat(status.get("run_local", datetime.now().astimezone().isoformat()).replace("Z", "+00:00"))
+    cut = datetime.fromisoformat(
+        status.get("run_local", datetime.now().astimezone().isoformat()).replace("Z", "+00:00")
+    )
     cut_label = cut.strftime("%d/%m/%Y %H:%M h")
     archive_name = f"Reporte_WeatherLink_{cut.strftime('%Y-%m-%d_%H%M')}.docx"
 
@@ -114,7 +159,9 @@ def main():
     p = doc.add_paragraph()
     p.add_run("WeatherLink cloud: ").bold = True
     p.add_run("COMPLETO" if status.get("complete") else "INCOMPLETO")
-    p.add_run(f" | Estaciones OK: {status.get('stations_ok', 's/d')}/{status.get('stations_expected', 's/d')}")
+    p.add_run(
+        f" | Estaciones OK: {status.get('stations_ok', 's/d')}/{status.get('stations_expected', 's/d')}"
+    )
     maturity = status.get("window_maturity", {})
     p.add_run(" | Madurez ventanas: ").bold = True
     p.add_run(", ".join(f"{k}={'sí' if v else 'no'}" for k, v in maturity.items()))
@@ -127,7 +174,9 @@ def main():
             v, rr = max(valid, key=lambda x: x[0])
             p = doc.add_paragraph()
             p.add_run(f"Máximo {label}: ").bold = True
-            p.add_run(f"{v:.1f} mm en {rr.get('Estacion')} ({rr.get('Corte fuente')}); calidad: {rr.get('Calidad')}.")
+            p.add_run(
+                f"{v:.1f} mm en {rr.get('Estacion')} ({rr.get('Corte fuente')}); calidad: {rr.get('Calidad')}."
+            )
 
     delayed = [r for r in rows if (r.get("Estado") or "").lower() != "ok"]
     p = doc.add_paragraph()
@@ -135,15 +184,19 @@ def main():
     p.add_run(str(len(delayed)))
 
     heading(doc, "WeatherLink — 32 estaciones", 11.5)
-    headers = ["Estación", "Ubicación", "1 h", "6 h", "24 h", "48 h", "72 h", "Mes", "Rango 24 h", "Estado", "Corte fuente", "Calidad"]
+    headers = [
+        "Estación", "Ubicación", "1 h", "6 h", "24 h", "48 h", "72 h", "Mes",
+        "Rango 24 h", "Estado", "Corte fuente", "Calidad"
+    ]
     table = doc.add_table(rows=1, cols=len(headers))
     for i, h in enumerate(headers):
         table.rows[0].cells[i].text = h
     for rr in rows:
         vals = [
-            rr.get("Estacion", ""), rr.get("Ubicacion", ""), rr.get("1 h mm", ""), rr.get("6 h mm", ""),
-            rr.get("24 h mm", ""), rr.get("48 h mm", ""), rr.get("72 h mm", ""), rr.get("Mes mm", ""),
-            rr.get("Rango SMN 24h", ""), rr.get("Estado", ""), rr.get("Corte fuente", ""), rr.get("Calidad", "")
+            rr.get("Estacion", ""), rr.get("Ubicacion", ""), rr.get("1 h mm", ""),
+            rr.get("6 h mm", ""), rr.get("24 h mm", ""), rr.get("48 h mm", ""),
+            rr.get("72 h mm", ""), rr.get("Mes mm", ""), rr.get("Rango SMN 24h", ""),
+            rr.get("Estado", ""), rr.get("Corte fuente", ""), rr.get("Calidad", "")
         ]
         cells = table.add_row().cells
         for i, v in enumerate(vals):
@@ -153,7 +206,10 @@ def main():
     heading(doc, "Lluvia observada CONAGUA — complemento", 11.5)
     p = doc.add_paragraph()
     p.add_run("Regla de captura: ").bold = True
-    p.add_run("celda en blanco = sin dato; nunca se convierte a 0 mm. Solo se muestra 0 mm cuando CONAGUA publica explícitamente cero.")
+    p.add_run(
+        "celda en blanco = sin dato; nunca se convierte a 0 mm. "
+        "Solo se muestra 0 mm cuando CONAGUA publica explícitamente cero."
+    )
 
     if not conagua_rows:
         doc.add_paragraph("Sin corte CONAGUA disponible para complementar este reporte.")
@@ -163,7 +219,10 @@ def main():
         p.add_run("Estado de identificación CONAGUA: ").bold = True
         p.add_run(mode)
         if mode == "columnas_no_hidrometricas_en_revision":
-            doc.add_paragraph("Las columnas detectadas permanecen en validación y no se presentan como estaciones oficiales hasta confirmar sus encabezados.")
+            doc.add_paragraph(
+                "Las columnas detectadas permanecen en validación y no se presentan como estaciones oficiales "
+                "hasta confirmar sus encabezados."
+            )
 
         headers_c = ["Hora", "Estación/columna", "Lluvia mm", "Estado", "Fuente"]
         table_c = doc.add_table(rows=1, cols=len(headers_c))
@@ -172,7 +231,10 @@ def main():
         for rr in conagua_rows:
             lluvia = rr.get("lluvia_mm")
             lluvia_txt = "s/d" if lluvia is None else f"{float(lluvia):.1f}"
-            vals = [rr.get("fecha_hora", ""), rr.get("estacion", ""), lluvia_txt, rr.get("estado_dato", ""), rr.get("fuente", "CONAGUA")]
+            vals = [
+                rr.get("fecha_hora", ""), rr.get("estacion", ""), lluvia_txt,
+                rr.get("estado_dato", ""), rr.get("fuente", "CONAGUA")
+            ]
             cells = table_c.add_row().cells
             for i, v in enumerate(vals):
                 cells[i].text = str(v)
@@ -194,17 +256,18 @@ def main():
     )
 
     doc.save(LATEST)
-    with zipfile.ZipFile(LATEST, "r") as zf:
-        bad = zf.testzip()
-        if bad:
-            raise RuntimeError(f"DOCX corrupto; entrada dañada: {bad}")
-    Document(str(LATEST))
-    if LATEST.stat().st_size < 5000:
-        raise RuntimeError("DOCX generado demasiado pequeño.")
+    verification = verify_docx(LATEST)
 
     archived = ARCHIVE_DIR / archive_name
     shutil.copy2(LATEST, archived)
+    verify_docx(archived)
+
     digest = hashlib.sha256(LATEST.read_bytes()).hexdigest()
+    archive_browser_url = (
+        f"https://github.com/{REPOSITORY}/blob/{BRANCH}/"
+        f"data/weatherlink/Reportes/Archivo/{archive_name}"
+    )
+
     word_status = {
         "report": "Vigilancia WeatherLink + CONAGUA",
         "cut": cut.isoformat(),
@@ -213,10 +276,22 @@ def main():
         "archive_path": str(archived).replace("\\", "/"),
         "bytes": LATEST.stat().st_size,
         "sha256": digest,
+        "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "docx_structure_verified": True,
+        "zip_signature": verification["zip_signature"],
+        "python_docx_open_ok": verification["python_docx_open_ok"],
         "conagua_included": bool(conagua_rows),
         "conagua_mode": conagua_status.get("modo"),
+        "browser_url": LATEST_BROWSER_URL,
+        "download_url": LATEST_DOWNLOAD_URL,
+        "reports_folder_url": REPORTS_FOLDER_URL,
+        "archive_browser_url": archive_browser_url,
+        "archive_download_url": archive_browser_url + "?raw=1",
+        "delivery_note": "Para celular o PC usar download_url (?raw=1); evita abrir el DOCX como texto/binario en el visor de GitHub.",
     }
-    WORD_STATUS.write_text(json.dumps(word_status, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    WORD_STATUS.write_text(
+        json.dumps(word_status, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
     print(json.dumps(word_status, ensure_ascii=False, indent=2))
 
 
