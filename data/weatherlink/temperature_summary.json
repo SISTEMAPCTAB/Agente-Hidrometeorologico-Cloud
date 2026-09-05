@@ -1,0 +1,225 @@
+{
+  "date_local": "2026-09-04",
+  "updated_local": "2026-09-04T20:59:48.894080-06:00",
+  "units": {
+    "temperature": "°C",
+    "heat_index": "°C"
+  },
+  "current_valid_stations": 7,
+  "current_excluded_stations": [
+    {
+      "estacion": "ACALA PCIVILCHIAPAS",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "AMATÁN PCIVILCHIAPAS",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "ASUR Villahermosa",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "ATA",
+      "motivo": "edad_mayor_2h"
+    },
+    {
+      "estacion": "BERRIOZÁBAL PCIVILCHIAPAS",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "Centro",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "CHAPULTENANGO PCIVILCHIAPAS",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "CHILÓN PCIVILCHIAPAS",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "Cipat Chiapas",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "CitrusMax IP Gateway S2",
+      "motivo": "edad_mayor_2h"
+    },
+    {
+      "estacion": "dacbiolujat",
+      "motivo": "edad_mayor_2h"
+    },
+    {
+      "estacion": "ETM Bertollini",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "IGeofisica-M2",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "Impulsora",
+      "motivo": "sin_temperatura"
+    },
+    {
+      "estacion": "IXHUATAN PCIVILCHIAPAS",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "JUÁREZ PCIVILCHIAPAS",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "La Pampa",
+      "motivo": "edad_mayor_2h"
+    },
+    {
+      "estacion": "MAYA BERRIOZABAL PCIVILCHIAPAS",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "OSTUACÁN PCIVILCHIAPAS",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "PALENQUE PCIVILCHIAPAS",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "PICHUCALCO PCIVILCHIAPAS",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "REFORMA PCIVILCHIAPAS",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "SALTO DE AGUA PCIVILCHIAPAS",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "SAN CAYETANO CONSOLA",
+      "motivo": "calidad_rezagada_o_heredada"
+    },
+    {
+      "estacion": "Urrutia",
+      "motivo": "edad_mayor_2h"
+    }
+  ],
+  "max_current_age_seconds": 7200,
+  "stations": [
+    {
+      "estacion": "SEMAR Capitanía de Pto. Dos Bocas",
+      "max_temp_c": 30.0,
+      "max_temp_time": "Sep 04, 2026/ 8:59 PM",
+      "max_heat_index_c": 40.8,
+      "max_heat_index_time": "Sep 04, 2026/ 8:59 PM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Tabasco",
+      "ubicacion": "Puerto Ceiba, Tab., Mexico",
+      "last_valid_time": "Sep 04, 2026/ 8:59 PM",
+      "nivel_riesgo_max": "Peligro"
+    },
+    {
+      "estacion": "SEMAR Capitanía de Pto. Alvarado, Ver.",
+      "max_temp_c": 30.0,
+      "max_temp_time": "Sep 04, 2026/ 8:59 PM",
+      "max_heat_index_c": 39.5,
+      "max_heat_index_time": "Sep 04, 2026/ 8:59 PM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Otra ubicación",
+      "ubicacion": "Alvarado, Ver., Mexico",
+      "last_valid_time": "Sep 04, 2026/ 8:59 PM",
+      "nivel_riesgo_max": "Peligro"
+    },
+    {
+      "estacion": "SEMAR E.I.O. Cd. del Carmen.",
+      "max_temp_c": 30.6,
+      "max_temp_time": "Sep 04, 2026/ 8:59 PM",
+      "max_heat_index_c": 38.5,
+      "max_heat_index_time": "Sep 04, 2026/ 8:59 PM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Otra ubicación",
+      "ubicacion": "Ciudad del Carmen, Camp., Mexico",
+      "last_valid_time": "Sep 04, 2026/ 8:59 PM",
+      "nivel_riesgo_max": "Precaución extrema"
+    },
+    {
+      "estacion": "Yaxhá - INSIVUMEH PETEN",
+      "max_temp_c": 28.3,
+      "max_temp_time": "Sep 04, 2026/ 8:59 PM",
+      "max_heat_index_c": 33.9,
+      "max_heat_index_time": "Sep 04, 2026/ 8:59 PM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Guatemala/Petén",
+      "ubicacion": "Laguna Yaxjá, Petén, Guatemala",
+      "last_valid_time": "Sep 04, 2026/ 8:59 PM",
+      "nivel_riesgo_max": "Precaución extrema"
+    },
+    {
+      "estacion": "Sinai",
+      "max_temp_c": 28.9,
+      "max_temp_time": "Sep 04, 2026/ 8:45 PM",
+      "max_heat_index_c": 33.0,
+      "max_heat_index_time": "Sep 04, 2026/ 8:45 PM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Otra ubicación",
+      "ubicacion": "Palenque, Chis., Mexico",
+      "last_valid_time": "Sep 04, 2026/ 8:45 PM",
+      "nivel_riesgo_max": "Precaución extrema"
+    },
+    {
+      "estacion": "Modesta_1",
+      "max_temp_c": 28.9,
+      "max_temp_time": "Sep 04, 2026/ 7:00 PM",
+      "max_heat_index_c": 30.6,
+      "max_heat_index_time": "Sep 04, 2026/ 7:00 PM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Tabasco",
+      "ubicacion": "Benito Juárez Garcia Poblado C-21, Tab., Mexico",
+      "last_valid_time": "Sep 04, 2026/ 7:00 PM",
+      "nivel_riesgo_max": "Precaución"
+    },
+    {
+      "estacion": "PASO LA MINA",
+      "max_temp_c": 24.4,
+      "max_temp_time": "Sep 04, 2026/ 8:00 PM",
+      "max_heat_index_c": 24.4,
+      "max_heat_index_time": "Sep 04, 2026/ 8:00 PM",
+      "max_heat_basis": "Temperatura del aire",
+      "territory": "Tabasco",
+      "ubicacion": "Ingenio Presidente Benito Juárez, Tab., Mexico",
+      "last_valid_time": "Sep 04, 2026/ 8:00 PM",
+      "nivel_riesgo_max": "Normal"
+    }
+  ],
+  "territories": [
+    {
+      "territorio": "Tabasco",
+      "estaciones": 3,
+      "max_temp_c": 30.0,
+      "max_heat_index_c": 40.8,
+      "estacion_mas_caliente": "SEMAR Capitanía de Pto. Dos Bocas",
+      "nivel_riesgo": "Peligro"
+    },
+    {
+      "territorio": "Otra ubicación",
+      "estaciones": 3,
+      "max_temp_c": 30.6,
+      "max_heat_index_c": 39.5,
+      "estacion_mas_caliente": "SEMAR Capitanía de Pto. Alvarado, Ver.",
+      "nivel_riesgo": "Peligro"
+    },
+    {
+      "territorio": "Guatemala/Petén",
+      "estaciones": 1,
+      "max_temp_c": 28.3,
+      "max_heat_index_c": 33.9,
+      "estacion_mas_caliente": "Yaxhá - INSIVUMEH PETEN",
+      "nivel_riesgo": "Precaución extrema"
+    }
+  ],
+  "note": "Máximas del día construidas sólo con observaciones WeatherLink válidas recibidas por el agente cloud. Datos rezagados/heredados o con más de 2 h de antigüedad no actualizan las máximas. No se reconstruyen horas anteriores a la primera observación válida almacenada del día."
+}
