@@ -56,16 +56,12 @@
       });
     });
   }
-  function ensureLegend(root){
-    const panel=[...root.querySelectorAll('.panel')].find(p=>/lluvia|weatherlink|conagua/i.test(p.textContent));
-    if(!panel || panel.querySelector('.rain-legend')) return;
-    const legend=document.createElement('div'); legend.className='rain-legend';
-    legend.innerHTML='<strong>Escala SMN</strong>'+LEVELS.slice(0,6).map(x=>`<span class="${x.cls}">${x.range} · ${x.label}</span>`).join('');
-    panel.insertBefore(legend,panel.children[1]||null);
+  function removeDuplicateLegends(root){
+    root.querySelectorAll('.rain-legend').forEach(el=>el.remove());
   }
   function apply(){
     const root=document.getElementById('content'); if(!root) return;
-    decorateBars(root); decorateTables(root); ensureLegend(root);
+    decorateBars(root); decorateTables(root); removeDuplicateLegends(root);
   }
   document.addEventListener('DOMContentLoaded',()=>{
     apply(); const root=document.getElementById('content');
