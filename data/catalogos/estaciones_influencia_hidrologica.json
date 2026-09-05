@@ -1,0 +1,44 @@
+{
+  "version": "1.0",
+  "criterio": "Vinculación hidrológica operativa. No implica que una medición puntual represente el acumulado medio de toda la subcuenca. Las asociaciones por ubicación nominal que aún requieren coordenada/polígono se marcan como provisional.",
+  "sistemas": {
+    "presas": "Presas–Mezcalapa–Samaria y Carrizal",
+    "serranos": "Ríos Serranos (Oxolotán, Amatán, Tacotalpa, Teapa, Puyacatengo, La Sierra y Pichucalco)–Grijalva",
+    "tulija": "Tulijá–Puxcatán–Chilapa",
+    "usumacinta": "Usumacinta"
+  },
+  "estaciones": [
+    {"fuente":"CONAGUA","estacion":"PEÑITAS","subcuenca":"Presa Peñitas","sistema":"presas","receptor":"Peñitas → Mezcalapa → bifurcación Samaria/Carrizal","influencia":"directa","confianza":"alta"},
+    {"fuente":"CONAGUA","estacion":"MEZCALAPA","subcuenca":"R. Mezcalapa","sistema":"presas","receptor":"Mezcalapa → bifurcación Samaria/Carrizal","influencia":"directa","confianza":"alta"},
+    {"fuente":"CONAGUA","estacion":"PLATANAR","subcuenca":"R. Platanar","sistema":"presas","receptor":"Platanar → Mezcalapa antes de bifurcación","influencia":"directa","confianza":"alta"},
+    {"fuente":"CONAGUA","estacion":"SAMARIA","subcuenca":"R. Samaria","sistema":"presas","receptor":"Samaria","influencia":"directa","confianza":"alta"},
+    {"fuente":"CONAGUA","estacion":"MACAYO MARGEN IZQUIERDA","subcuenca":"R. Carrizal","sistema":"presas","receptor":"Carrizal → Grijalva","influencia":"control/entorno","confianza":"alta"},
+    {"fuente":"CONAGUA","estacion":"OXOLOTÁN","subcuenca":"R. Tacotalpa / cabecera Oxolotán","sistema":"serranos","receptor":"Oxolotán → Tacotalpa → La Sierra → Grijalva","influencia":"directa","confianza":"alta"},
+    {"fuente":"CONAGUA","estacion":"TAPIJULAPA","subcuenca":"R. Tacotalpa","sistema":"serranos","receptor":"Tacotalpa → La Sierra → Grijalva","influencia":"directa","confianza":"alta"},
+    {"fuente":"CONAGUA","estacion":"TEAPA","subcuenca":"R. De la Sierra","sistema":"serranos","receptor":"Teapa → La Sierra → Grijalva","influencia":"directa","confianza":"alta"},
+    {"fuente":"CONAGUA","estacion":"PUYACATENGO","subcuenca":"R. De la Sierra","sistema":"serranos","receptor":"Puyacatengo → La Sierra → Grijalva","influencia":"directa","confianza":"alta"},
+    {"fuente":"CONAGUA","estacion":"RÍOS DE LA SIERRA","subcuenca":"R. De la Sierra","sistema":"serranos","receptor":"La Sierra → Grijalva","influencia":"directa","confianza":"alta"},
+    {"fuente":"WEATHERLINK","estacion":"AMATÁN PCIVILCHIAPAS","subcuenca":"Ríos Serranos / Amatán","sistema":"serranos","receptor":"Amatán → sistema La Sierra → Grijalva","influencia":"aguas arriba","confianza":"media","validacion":"provisional hasta cruce coordenada-polígono"},
+    {"fuente":"WEATHERLINK","estacion":"PICHUCALCO PCIVILCHIAPAS","subcuenca":"R. Pichucalco","sistema":"serranos","receptor":"Pichucalco → La Sierra/Grijalva","influencia":"directa","confianza":"alta"},
+    {"fuente":"WEATHERLINK","estacion":"IXHUATAN PCIVILCHIAPAS","subcuenca":"por validar espacialmente","sistema":"serranos","receptor":"zona alta norte de Chiapas hacia sistema Grijalva","influencia":"aguas arriba","confianza":"baja","validacion":"requiere coordenada-polígono"},
+    {"fuente":"WEATHERLINK","estacion":"CHAPULTENANGO PCIVILCHIAPAS","subcuenca":"por validar espacialmente","sistema":"serranos","receptor":"zona alta norte de Chiapas hacia sistema Grijalva","influencia":"aguas arriba","confianza":"baja","validacion":"requiere coordenada-polígono"},
+    {"fuente":"WEATHERLINK","estacion":"JUÁREZ PCIVILCHIAPAS","subcuenca":"por validar espacialmente","sistema":"presas","receptor":"zona Peñitas/Mezcalapa","influencia":"aguas arriba","confianza":"media","validacion":"requiere coordenada-polígono"},
+    {"fuente":"WEATHERLINK","estacion":"OSTUACÁN PCIVILCHIAPAS","subcuenca":"Presa Peñitas / entorno inmediato","sistema":"presas","receptor":"Peñitas → Mezcalapa","influencia":"aguas arriba","confianza":"alta"},
+    {"fuente":"WEATHERLINK","estacion":"SALTO DE AGUA PCIVILCHIAPAS","subcuenca":"R. Tulijá","sistema":"tulija","receptor":"Tulijá → Chilapa → Grijalva","influencia":"directa/aguas arriba","confianza":"alta"},
+    {"fuente":"WEATHERLINK","estacion":"CHILÓN PCIVILCHIAPAS","subcuenca":"R. Tulijá","sistema":"tulija","receptor":"Tulijá → Chilapa → Grijalva","influencia":"aguas arriba","confianza":"media","validacion":"provisional hasta cruce coordenada-polígono"},
+    {"fuente":"WEATHERLINK","estacion":"PALENQUE PCIVILCHIAPAS","subcuenca":"entorno Tulijá/Chilapa–Usumacinta","sistema":"tulija","receptor":"Tulijá/Chilapa → Grijalva","influencia":"regional","confianza":"baja","validacion":"requiere coordenada-polígono; no usar para atribución causal"},
+    {"fuente":"WEATHERLINK","estacion":"Sinai","subcuenca":"entorno Tulijá/Chilapa–Usumacinta","sistema":"tulija","receptor":"por validar","influencia":"regional","confianza":"baja","validacion":"requiere coordenada-polígono"},
+    {"fuente":"WEATHERLINK","estacion":"ETM Bertollini","subcuenca":"R. Usumacinta","sistema":"usumacinta","receptor":"Usumacinta en Emiliano Zapata → Jonuta → Centla","influencia":"local","confianza":"alta"},
+    {"fuente":"WEATHERLINK","estacion":"IGeofisica-M2","subcuenca":"R. Usumacinta","sistema":"usumacinta","receptor":"Usumacinta en Emiliano Zapata → Jonuta → Centla","influencia":"local","confianza":"alta"},
+    {"fuente":"WEATHERLINK","estacion":"Urrutia","subcuenca":"por validar, Petén","sistema":"usumacinta","receptor":"alta cuenca Usumacinta según ubicación exacta","influencia":"regional aguas arriba","confianza":"baja","validacion":"no atribuir aporte hasta validar coordenadas y drenaje"},
+    {"fuente":"WEATHERLINK","estacion":"Yaxhá - INSIVUMEH PETEN","subcuenca":"por validar, Petén","sistema":"usumacinta","receptor":"alta cuenca Usumacinta según ubicación exacta","influencia":"regional aguas arriba","confianza":"baja","validacion":"no atribuir aporte hasta validar coordenadas y drenaje"}
+  ],
+  "reglas_app": [
+    "No sumar estaciones puntuales para fabricar lluvia media de subcuenca.",
+    "Mostrar fuente, periodo, hora, calidad y confianza de la asociación hidrológica.",
+    "Dato rezagado no se presenta como condición actual.",
+    "Asociaciones de confianza baja no se usan para afirmar causalidad ni aporte directo.",
+    "Cuando existan coordenadas, sustituir asociaciones provisionales por cruce espacial con polígonos oficiales de subcuenca.",
+    "Contrastar lluvia con estación hidrométrica aguas abajo y distinguir antecedente, respuesta observada y señal aún no reflejada."
+  ]
+}
