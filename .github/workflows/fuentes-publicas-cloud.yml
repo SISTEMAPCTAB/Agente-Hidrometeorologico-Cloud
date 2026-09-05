@@ -8,6 +8,7 @@ on:
     paths:
       - 'src/fuentes_publicas_cloud.py'
       - 'src/insivumeh_historico.py'
+      - 'src/insivumeh_contexto.py'
       - 'requirements.txt'
       - '.github/workflows/fuentes-publicas-cloud.yml'
   schedule:
@@ -47,6 +48,9 @@ jobs:
 
       - name: Actualizar histórico BHVGM y evolución real
         run: python src/insivumeh_historico.py
+
+      - name: Robustecer lluvia y saturación INSIVUMEH
+        run: python src/insivumeh_contexto.py
 
       - name: Publicar sólo cuando haya cambios
         shell: bash
