@@ -5,7 +5,8 @@
     conagua:`${BASE}/data/niveles/Lluvia_CONAGUA/ultimo_corte.json`,
     weather:`${BASE}/data/weatherlink/latest.json`,
     weatherState:`${BASE}/data/weatherlink/Estado_WeatherLink_Cloud.json`,
-    publicSources:`${BASE}/data/fuentes_publicas/latest.json`
+    publicSources:`${BASE}/data/fuentes_publicas/latest.json`,
+    levels:`${BASE}/data/niveles/Ultimo_Corte/ultimo_resumen.json`
   };
   const RIVERS_BY_SECTION={
     'Ríos Serranos–Grijalva':['Oxolotán','Amatán','Tacotalpa','Teapa','Puyacatengo','La Sierra','Pichucalco'],
@@ -17,6 +18,21 @@
     'Ríos Serranos–Grijalva':'Bajo Grijalva-Ríos de la Sierra',
     'Usumacinta':'Usumacinta',
     'Presas–Mezcalapa–Samaria y Carrizal':'Peñitas'
+  };
+  const LEVEL_STATION_BY_RIVER={
+    'Oxolotán':['Oxolotán'],
+    'Tacotalpa':['Tapijulapa'],
+    'Teapa':['Teapa'],
+    'Puyacatengo':['Puyacatengo'],
+    'La Sierra':['Pueblo Nuevo','Ríos de la Sierra'],
+    'Pichucalco':['Pichucalco'],
+    'Tulijá':['Salto de Agua'],
+    'Puxcatán':['Puxcatán'],
+    'Chilapa':['Chilapa'],
+    'Usumacinta':['Boca del Cerro'],
+    'Mezcalapa':['Mezcalapa'],
+    'Samaria':['Samaria'],
+    'Carrizal':['González']
   };
   let latest={};
   let timer=null;
@@ -42,9 +58,12 @@
   }
   function classify(mm){return window.RiverSemaphore?.classify(mm)||{categoria:'sin_dato',color:'gris',className:'river-signal nodata'};}
 
+  function linksForRiver(river){
+    return (latest.catalog?.estaciones||[]).filter(x=>x.gobierna_semaforo===true&&(x.rios_objetivo||[]).some(r=>norm(r)===norm(river)));
+  }
+
   function evaluateRiver(river){
-    const cat=latest.catalog?.estaciones||[];
-    const links=cat.filter(x=>x.gobierna_semaforo===true&&(x.rios_objetivo||[]).some(r=>norm(r)===norm(river)));
+    const links=linksForRiver(river);
     const obs=[];
     for(const l of links){
       let o=null;
@@ -75,6 +94,62 @@
       if(!r||r.min_mm===null||r.min_mm===undefined)return null;
       return {ventana:p.ventana,validez:p.validez,texto:r.texto,min:Number(r.min_mm),max:Number(r.max_mm),color:classify(Number(r.min_mm))};
     }).filter(Boolean);
+  }
+
+  function modelDry(section){
+    const basin=SMN_BASIN_BY_SECTION[section];
+    if(!basin)return {active:false,reason:'sin cuenca SMN específica'};
+    const wins=['0-24','24-48','48-72','72-96'];
+    const rows=wins.map(w=>latest.publicSources?.smn96?.ventanas?.[w]?.[basin]);
+    if(rows.some(r=>!r||!Number.isFinite(Number(r.max_mm))))return {active:false,reason:'ventanas incompletas'};
+    const active=rows.every(r=>Number(r.max_mm)<=5);
+    return {active,reason:active?'SMN 96 h mantiene máximos ≤5 mm en las cuatro ventanas':'SMN 96 h no mantiene una señal seca continua',rows};
+  }
+
+  function observedDry(river){
+    const links=linksForRiver(river).filter(l=>norm(l.fuente)==='weatherlink');
+    const mature=latest.weatherState?.window_maturity?.['96h']===true || Number(latest.weather?.coverage_hours)>=96;
+    if(!mature||!links.length)return {active:false,available:false};
+    const vals=[];
+    for(const l of links){
+      const s=(latest.weather?.stations||[]).find(x=>norm(x.nombre)===norm(l.estacion));
+      if(!s||norm(s.quality).includes('rezagado'))continue;
+      const mm=s.accumulations_mm?.['96'];
+      if(mm!==null&&mm!==undefined&&Number.isFinite(Number(mm)))vals.push(Number(mm));
+    }
+    if(!vals.length)return {active:false,available:false};
+    return {active:vals.every(v=>v<=0.05),available:true,max96:Math.max(...vals)};
+  }
+
+  function findLevelRow(river){
+    const names=LEVEL_STATION_BY_RIVER[river]||[river];
+    const rows=Array.isArray(latest.levels)?latest.levels:[];
+    return rows.find(r=>names.some(n=>norm(r.estacion)===norm(n)))||null;
+  }
+
+  function getNamino(row){
+    if(!row)return null;
+    for(const k of ['namino','NAMINO','nivel_namino','namino_m','namino_msnm']){
+      if(row[k]!==null&&row[k]!==undefined&&Number.isFinite(Number(row[k])))return Number(row[k]);
+    }
+    if(row.distancia_namino!==null&&row.distancia_namino!==undefined&&Number.isFinite(Number(row.distancia_namino))&&Number.isFinite(Number(row.ultimo_nivel)))return Number(row.ultimo_nivel)-Number(row.distancia_namino);
+    return null;
+  }
+
+  function lowFlow(river,section){
+    const row=findLevelRow(river);
+    const namino=getNamino(row);
+    let levelStatus={kind:'nodata',html:'<span class="river-signal nodata">NAMINO s/d</span>',text:'Sin NAMINO oficial estructurado para este punto; no se asigna café/gris.'};
+    if(row&&namino!==null&&Number.isFinite(Number(row.ultimo_nivel))){
+      const level=Number(row.ultimo_nivel), d=level-namino;
+      if(d<=0)levelStatus={kind:'gris',html:`<span class="river-signal signal-gris-bajo">Gris · nivel ${level.toFixed(2)} ≤ NAMINO ${namino.toFixed(2)}</span>`,text:`${row.estacion} igual o por debajo del NAMINO oficial.`};
+      else if(d<=0.50)levelStatus={kind:'cafe',html:`<span class="river-signal signal-cafe">Café · ${d.toFixed(2)} m sobre NAMINO</span>`,text:`${row.estacion} se encuentra dentro del margen operativo de 0.50 m sobre NAMINO.`};
+      else levelStatus={kind:'normal',html:`<span class="river-signal signal-azul">Nivel mínimo sin señal · ${d.toFixed(2)} m sobre NAMINO</span>`,text:`${row.estacion} permanece a más de 0.50 m sobre NAMINO.`};
+    }
+    const obsDry=observedDry(river), mdl=modelDry(section);
+    const dry=obsDry.active||mdl.active;
+    const dryHtml=dry?`<span class="river-signal signal-negro">Negro · persistencia seca</span>`:`<span class="river-signal nodata">Sequedad prolongada: ${obsDry.available?'no activa':'observación 96 h no madura'}${mdl.reason?` · ${esc(mdl.reason)}`:''}</span>`;
+    return {row,namino,levelStatus,dry,obsDry,mdl,dryHtml};
   }
 
   function guatemalaObservedAreal(){
@@ -110,13 +185,14 @@
     return `<div class="hydro-context"><strong>Contraste hidrológico INSIVUMEH</strong><span>${esc(targets||'Chixoy/Salinas · La Pasión/El Porvenir · El Tigre/Usumacinta')}</span><small>Se usa para verificar si la señal de lluvia aguas arriba ya tiene respuesta hidrométrica. Nivel/caudal no se convierten en milímetros ni definen por sí solos el color de lluvia.</small></div>`;
   }
 
-  function card(result){
+  function card(result,section){
     const c=result.color;
     const top=result.obs[0];
     const signalClass=c.className||`river-signal signal-${c.color}`;
     const value=result.max===null?'s/d':`${result.max.toFixed(1)} mm`;
     const details=result.obs.length?result.obs.slice(0,4).map(o=>`<li><b>${esc(o.estacion)}</b> · ${o.mm.toFixed(1)} mm / ${esc(o.periodo)} · ${esc(o.subcuenca)} · ${esc(o.hora)} · confianza ${esc(o.confianza)}</li>`).join(''):'<li>Sin observación aguas arriba válida de 24 h para gobernar el color.</li>';
-    return `<article class="river-basin-card"><div class="river-basin-head"><h3>${esc(result.river)}</h3><span class="${signalClass}">${value} · ${esc(String(c.categoria||'sin_dato').replaceAll('_',' '))}</span></div><ul>${details}</ul>${top?`<small>Color actual gobernado por la mayor categoría observada válida dentro de estaciones vinculadas a la subcuenca. No es lluvia media areal.</small>`:'<small>Gris significa falta de observación aguas arriba válida, no 0 mm.</small>'}</article>`;
+    const low=lowFlow(result.river,section);
+    return `<article class="river-basin-card"><div class="river-basin-head"><h3>${esc(result.river)}</h3><span class="${signalClass}">${value} · ${esc(String(c.categoria||'sin_dato').replaceAll('_',' '))}</span></div><ul>${details}</ul><div class="lowflow-row">${low.levelStatus.html}${low.dryHtml}</div><div class="lowflow-note">${esc(low.levelStatus.text)}${low.dry?` Persistencia seca activa: ${esc(low.obsDry.active?'más de 96 h observadas sin lluvia relevante':low.mdl.reason)}.`:''}</div>${top?`<small>Color de lluvia gobernado por la mayor categoría observada válida de la subcuenca. Café/gris/negro son indicadores complementarios de estiaje y sequedad; no sustituyen el semáforo de lluvia.</small>`:'<small>Gris del semáforo de lluvia significa falta de observación aguas arriba válida, no 0 mm. El indicador de bajos niveles se calcula por separado.</small>'}</article>`;
   }
 
   function render(){
@@ -129,14 +205,14 @@
     const wrap=document.createElement('section');
     wrap.id='riverBasinSemaphore';
     wrap.className='panel wide river-basin-panel';
-    wrap.innerHTML=`<h2>Semáforo preventivo por lluvia aguas arriba</h2>${window.RiverSemaphore?.legend?.()||''}<div class="river-basin-grid">${results.map(card).join('')}</div>${arealPanel(title)}${insivumehHydroContext(title)}<div class="section-note">Criterio observado: azul 0–50 mm; verde 50–75; amarillo 75–150; rojo 150–250; morado ≥250. El NAMO permanece como referencia del nivel y no determina este color. WeatherLink 24 h heredado o dato rezagado no gobierna el semáforo. Los pronósticos SMN se presentan como señal anticipada independiente.</div>`;
+    wrap.innerHTML=`<h2>Semáforo preventivo por lluvia aguas arriba</h2>${window.RiverSemaphore?.legend?.()||''}<div class="lowflow-legend"><strong>Indicador complementario de estiaje</strong><span class="river-signal signal-cafe">Café · acercamiento a NAMINO (≤0.50 m sobre NAMINO)</span><span class="river-signal signal-gris-bajo">Gris · igual o debajo de NAMINO</span><span class="river-signal signal-negro">Negro · >4 días sin lluvia o tendencia seca modelada</span></div><div class="river-basin-grid">${results.map(r=>card(r,title)).join('')}</div>${arealPanel(title)}${insivumehHydroContext(title)}<div class="section-note">El NAMO permanece como referencia del nivel y no determina el color por lluvia. El indicador café/gris sólo se activa con NAMINO oficial estructurado; si no existe, se muestra NAMINO s/d. Negro es una señal operativa de persistencia seca, no sustituye al Monitor de Sequía en México.</div>`;
     content.prepend(wrap);
   }
 
   async function refresh(){
     try{
-      const [catalog,conagua,weather,weatherState,publicSources]=await Promise.all([json(URLS.catalog),json(URLS.conagua),json(URLS.weather),json(URLS.weatherState),json(URLS.publicSources)]);
-      latest={catalog,conagua,weather,weatherState,publicSources};
+      const [catalog,conagua,weather,weatherState,publicSources,levels]=await Promise.all([json(URLS.catalog),json(URLS.conagua),json(URLS.weather),json(URLS.weatherState),json(URLS.publicSources),json(URLS.levels)]);
+      latest={catalog,conagua,weather,weatherState,publicSources,levels};
       render();
     }catch(e){console.warn('Semáforo por subcuenca no actualizado:',e);}
   }
