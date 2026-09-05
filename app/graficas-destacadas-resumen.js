@@ -5,10 +5,10 @@
     timeline:`${BASE}/data/niveles/Resumen_12h/resumen_12h.json`
   };
   const SYSTEMS=[
-    {id:'presas',label:'Presas–Mezcalapa–Samaria/Carrizal',terms:['samaria','gonzalez','mezcalapa','carrizal','platanar','macayo','penitas']},
-    {id:'serranos',label:'Ríos Serranos–Grijalva',terms:['oxolotan','tapijulapa','teapa','puyacatengo','pueblo nuevo','san joaquin','rios de la sierra','pichucalco','amatan']},
+    {id:'presas',label:'Presas–Mezcalapa–Samaria y Carrizal',terms:['samaria','gonzalez','mezcalapa','carrizal','platanar','macayo','penitas']},
+    {id:'serranos',label:'Ríos Serranos–Grijalva',terms:['oxolotan','tapijulapa','teapa','puyacatengo','pueblo nuevo','san joaquin','rios de la sierra','pichucalco','amatan','tacotalpa']},
     {id:'tulija',label:'Tulijá–Puxcatán–Chilapa',terms:['salto de agua','tulija','puxcatan','chilapa','macuspana']},
-    {id:'usumacinta',label:'Usumacinta',terms:['boca del cerro','usumacinta','san pedro','balancan','emiliano zapata','jonuta','tres brazos']}
+    {id:'usumacinta',label:'Usumacinta',terms:['boca del cerro','usumacinta','san pedro']}
   ];
   const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -16,7 +16,11 @@
   let data=null,loading=null;
   async function get(u){const r=await fetch(`${u}?v=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw new Error(r.status);return r.json()}
   async function ensure(){if(data)return;if(loading)return loading;loading=Promise.all([get(URLS.levels),get(URLS.timeline)]).then(([levels,timeline])=>{data={levels:Array.isArray(levels)?levels:[],timeline:timeline||{}}}).catch(()=>{data={levels:[],timeline:{}}}).finally(()=>loading=null);return loading}
-  function systemOf(row){const txt=norm(`${row.estacion||''} ${row.rio||''}`);return SYSTEMS.find(s=>s.terms.some(t=>txt.includes(norm(t))))||null}
+  function systemOf(row){
+    const txt=norm(`${row.estacion||''} ${row.rio||''}`);
+    if(txt.includes('pichucalco'))return SYSTEMS.find(s=>s.id==='serranos');
+    return SYSTEMS.find(s=>s.terms.some(t=>txt.includes(norm(t))))||null;
+  }
   function t12For(systemId,station){const sys=(data?.timeline?.systems||[]).find(s=>s.id===systemId);return (sys?.estaciones||[]).find(r=>norm(r.estacion)===norm(station))||null}
   function priority(row,sys){
     if(norm(row.estado_dato)!=='observado')return null;
@@ -29,28 +33,38 @@
     else if(dn!==null){group=1;metric=-Math.abs(dn);reason='Cercanía al NAMO'}
     return {row,sys,d24,d12,dn,group,metric,reason};
   }
-  function select(items){
-    const sorted=[...items].sort((a,b)=>b.group-a.group||b.metric-a.metric||((a.dn??-999)-(b.dn??-999))||String(a.row.estacion).localeCompare(String(b.row.estacion),'es'));
-    const chosen=[],count={};
-    for(const x of sorted){if(chosen.length>=4)break;if((count[x.sys.id]||0)>=2)continue;chosen.push(x);count[x.sys.id]=(count[x.sys.id]||0)+1;}
-    if(chosen.length<2){for(const x of sorted){if(chosen.includes(x))continue;chosen.push(x);if(chosen.length>=2)break;}}
-    return chosen;
+  function dedupe(items){
+    const seen=new Set();
+    return items.filter(x=>{
+      const key=norm(x.row.grafica_png||`${x.row.estacion}|${x.row.rio||''}`);
+      if(seen.has(key))return false;
+      seen.add(key);return true;
+    });
+  }
+  function grouped(items){
+    const clean=dedupe(items);
+    const out=[];
+    for(const sys of SYSTEMS){
+      const rows=clean.filter(x=>x.sys.id===sys.id).sort((a,b)=>b.group-a.group||b.metric-a.metric||Math.abs(a.dn??999)-Math.abs(b.dn??999)||String(a.row.estacion).localeCompare(String(b.row.estacion),'es'));
+      if(rows.length)out.push({sys,rows:rows.slice(0,2)});
+    }
+    return out;
   }
   const fmtDelta=v=>v===null?'s/d':`${v>0?'+':''}${v.toFixed(2)} m`;
   const fmtNamo=v=>v===null?'NAMO s/d':`${Math.abs(v).toFixed(2)} m ${v<0?'bajo':'sobre'} NAMO`;
   function graphUrl(row){const stamp=encodeURIComponent(row.ultima_actualizacion_real||row.fecha_hora||Date.now());return `${BASE}/${esc(row.grafica_png)}?corte=${stamp}`}
-  function card(x,i){return `<figure class="summary-hydro-figure"><div class="summary-hydro-head"><div><span class="summary-hydro-rank">#${i+1}</span><strong>${esc(x.row.estacion)}</strong><small>${esc(x.sys.label)} · ${esc(x.row.rio||'s/d')}</small></div><span class="summary-hydro-reason">${esc(x.reason)}</span></div><div class="summary-hydro-meta"><span><small>Δ24 h</small><b>${esc(fmtDelta(x.d24))}</b></span><span><small>Δ12 h real</small><b>${esc(fmtDelta(x.d12))}</b></span><span><small>Referencia</small><b>${esc(fmtNamo(x.dn))}</b></span><span><small>Dato</small><b>Observado</b></span></div><img loading="lazy" src="${graphUrl(x.row)}" alt="Gráfica hidrométrica destacada de ${esc(x.row.estacion)}"><figcaption>Corte ${esc(x.row.fecha_hora||'s/d')} · observaciones válidas unidas punto a punto en orden cronológico.</figcaption></figure>`}
+  function card(x){return `<figure class="summary-hydro-figure"><div class="summary-hydro-head"><div><strong>${esc(x.row.estacion)}</strong><small>${esc(x.row.rio||'s/d')}</small></div><span class="summary-hydro-reason">${esc(x.reason)}</span></div><div class="summary-hydro-meta"><span><small>Δ24 h</small><b>${esc(fmtDelta(x.d24))}</b></span><span><small>Δ12 h real</small><b>${esc(fmtDelta(x.d12))}</b></span><span><small>Referencia</small><b>${esc(fmtNamo(x.dn))}</b></span><span><small>Dato</small><b>Observado</b></span></div><img loading="lazy" src="${graphUrl(x.row)}" alt="Gráfica hidrométrica de ${esc(x.row.estacion)}"><figcaption>Corte ${esc(x.row.fecha_hora||'s/d')} · observaciones válidas unidas punto a punto.</figcaption></figure>`}
   async function render(){
     if(document.querySelector('#nav button.active')?.dataset.section!=='resumen')return;
     const content=document.getElementById('content');if(!content)return;
     content.querySelector('#summaryHydroHighlights')?.remove();
     await ensure();if(document.querySelector('#nav button.active')?.dataset.section!=='resumen')return;
     const items=(data.levels||[]).map(r=>{const s=systemOf(r);return s?priority(r,s):null}).filter(Boolean);
-    const picked=select(items);
-    if(!picked.length)return;
+    const groups=grouped(items);
+    if(!groups.length)return;
     const section=document.createElement('section');section.id='summaryHydroHighlights';section.className='panel wide summary-hydro-panel';
-    section.innerHTML=`<div class="summary-hydro-title"><div><span>Lectura hidrométrica priorizada</span><h2>Gráficas destacadas del estado</h2><p>Se muestran sólo 2–4 estaciones observadas que concentran la mayor señal operativa disponible.</p></div><span class="badge">Selección automática</span></div><div class="summary-hydro-grid">${picked.map(card).join('')}</div><div class="section-note"><b>Criterio:</b> las observaciones válidas se conectan punto a punto, en orden cronológico y sin suavizado. Los datos heredados no se interpretan como observación nueva. Primero se priorizan ascensos válidos de 24 h; después ascensos reales de 12 h; luego ascensos del corte y cercanía al NAMO.</div>`;
-    const anchor=content.querySelector('#systemSemaphoreStrip')||content.querySelector('#priorityVisual')||content.querySelector('#operationalAlerts');
+    section.innerHTML=`<div class="summary-hydro-title"><div><span>Lectura hidrométrica por cuenca</span><h2>Gráficas destacadas del estado</h2><p>Sin duplicados y ordenadas por sistema hidrológico. Se muestran hasta dos estaciones observadas por cuenca, priorizando la mayor señal operativa.</p></div><span class="badge">Orden hidrológico</span></div>${groups.map(g=>`<section class="summary-hydro-basin"><h3>${esc(g.sys.label)}</h3><div class="summary-hydro-grid">${g.rows.map(card).join('')}</div></section>`).join('')}<div class="section-note"><b>Orden:</b> Presas–Mezcalapa–Samaria y Carrizal → Ríos Serranos–Grijalva → Tulijá–Puxcatán–Chilapa → Usumacinta. Pichucalco se clasifica explícitamente dentro de Ríos Serranos–Grijalva. No se repite una misma gráfica en el panel inicial.</div>`;
+    const anchor=content.querySelector('#systemSemaphoreStrip')||content.querySelector('#operationalAlerts');
     if(anchor)anchor.insertAdjacentElement('afterend',section);else content.prepend(section);
   }
   function reset(){data=null;setTimeout(render,450)}
