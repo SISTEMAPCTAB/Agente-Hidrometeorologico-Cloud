@@ -6,18 +6,13 @@ import requests
 from pypdf import PdfReader
 
 OUT=Path('data/fuentes_publicas'); OUT.mkdir(parents=True,exist_ok=True)
-HIST=OUT/'insivumeh_historico.json'; LATEST=OUT/'latest.json'
+HIST=OUT/'insivumeh_historico.json'; LATEST=OUT/'latest.json'; DIAG=OUT/'diagnostico_bhvgm_el_tigre.txt'
 BHVGM='https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf'
 UA={'User-Agent':'Mozilla/5.0 Agente-Hidrometeorologico-Cloud/1.0'}
 TARGETS=[('El Tigre','Usumacinta'),('El Porvenir','La Pasión'),('San Agustín Chixoy','Chixoy'),('Playa Grande','Chixoy'),('Puente Chocox','Chixoy')]
 
 def norm(s): return unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode()
 def asc(s): return re.sub(r'\s+',' ',norm(s)).strip()
-def words_pattern(s):
- # pdftotext puede insertar espacios entre letras/palabras por la geometría del PDF.
- # Se busca cada palabra permitiendo cualquier cantidad de espacios internos.
- words=asc(s).split()
- return r'\b'+r'\s+'.join(re.escape(w) for w in words)+r'\b'
 def compact(s): return re.sub(r'[^a-z0-9]','',asc(s).lower())
 def pdftext(u):
  r=requests.get(u,headers=UA,timeout=35);r.raise_for_status();raw=r.content
@@ -38,22 +33,31 @@ def station_record(segment,name,river):
  vals=nums[-6:]
  return {'estacion':name,'rio':river,'nivel_referencia_min_m':vals[0],'nivel_referencia_max_m':vals[1],'caudal_referencia_min_m3s':vals[2],'caudal_referencia_max_m3s':vals[3],'nivel_instantaneo_m':vals[4],'caudal_instantaneo_m3s':vals[5],'calidad':'extraido_del_BHVGM','nota_referencia':'Máximos como referencia estadística; no son umbral de inundación.'}
 def stations(txt):
- raw_lines=txt.splitlines();lines=[asc(x) for x in raw_lines if x.strip()]
- out=[];seen=set()
+ lines=[asc(x) for x in txt.splitlines() if x.strip()];out=[];seen=set()
  for name,river in TARGETS:
-  np,rp=words_pattern(name),words_pattern(river);nc,rc=compact(name),compact(river);candidates=[]
+  nc,rc=compact(name),compact(river);candidates=[]
   for i,line in enumerate(lines):
-   lc=compact(line)
-   direct=(re.search(np,line,re.I) and re.search(rp,line,re.I)) or (nc in lc and rc in lc)
-   if direct:candidates.append(line)
-   if not candidates:
-    for width in (2,3):
-     joined=asc(' '.join(lines[i:i+width]));jc=compact(joined)
-     if (re.search(np,joined,re.I) and re.search(rp,joined,re.I)) or (nc in jc and rc in jc): candidates.append(joined);break
+   for width in (1,2,3,4):
+    joined=' '.join(lines[i:i+width]);jc=compact(joined)
+    if nc in jc and rc in jc:
+     candidates.append(joined);break
   for seg in candidates:
    rec=station_record(seg,name,river)
-   if rec and name not in seen: out.append(rec);seen.add(name);break
+   if rec and name not in seen:out.append(rec);seen.add(name);break
  return out
+def write_diag(txt,h,sts):
+ lines=txt.splitlines();hits=[]
+ for i,line in enumerate(lines):
+  c=compact(line)
+  if 'tigre' in c or 'usumacinta' in c:
+   a=max(0,i-3);b=min(len(lines),i+4);hits.append((i+1,lines[a:b]))
+ body=[f"BHVGM={BHVGM}",f"cabecera={json.dumps(h,ensure_ascii=False)}",f"el_tigre_estructurado={any(x.get('estacion')=='El Tigre' for x in sts)}",f"total_lineas={len(lines)}",'']
+ if hits:
+  for n,block in hits:
+   body.append(f'--- alrededor de linea {n} ---');body.extend(f'{x!r}' for x in block);body.append('')
+ else:
+  body.append('No se localizaron cadenas TIGRE/USUMACINTA en la salida pdftotext -layout.');body.append('Primeras 80 lineas:');body.extend(f'{x!r}' for x in lines[:80])
+ DIAG.write_text('\n'.join(body),encoding='utf-8')
 def dt(r):
  try:return datetime.strptime(f"{r['fecha']} {r['hora']}",'%d/%m/%Y %H:%M')
  except:return datetime.min
@@ -62,7 +66,7 @@ def signal(ev):
  if not e:return 'Sin tendencia comparable aguas arriba'
  return {'incrementando':'Señal aguas arriba en aumento','estable':'Señal aguas arriba estable','disminuyendo':'Señal aguas arriba disminuyendo'}.get(e.get('tendencia_calculada'),'Sin tendencia comparable aguas arriba')
 def main():
- txt=pdftext(BHVGM);h=header(txt);sts=stations(txt)
+ txt=pdftext(BHVGM);h=header(txt);sts=stations(txt);write_diag(txt,h,sts)
  try:hist=json.loads(HIST.read_text(encoding='utf-8'))
  except:hist={'fuente':'INSIVUMEH','producto':'Histórico BHVGM estructurado','registros':[]}
  regs=hist.get('registros',[]);cut=f"{h.get('fecha','')}|{h.get('hora','')}";regs=[r for r in regs if f"{r.get('fecha','')}|{r.get('hora','')}"!=cut]
@@ -78,7 +82,7 @@ def main():
     dn=x['nivel_instantaneo_m']-o['nivel_instantaneo_m'];dq=x['caudal_instantaneo_m3s']-o['caudal_instantaneo_m3s']
     ev.append({'estacion':x['estacion'],'rio':x['rio'],'desde':f"{a['fecha']} {a['hora']}",'hasta':f"{b['fecha']} {b['hora']}",'horas_transcurridas':round(hours,2),'delta_nivel_m':round(dn,3),'delta_caudal_m3s':round(dq,2),'tendencia_calculada':'incrementando' if dn>0.02 else 'disminuyendo' if dn<-0.02 else 'estable'})
  hist['ultima_evolucion_real']=ev;hist['senal_usumacinta_alta']=signal(ev);hist['ultimo_pdf_bhvgm']=BHVGM;hist['actualizado_utc']=datetime.now(timezone.utc).isoformat()
- if not any(x.get('estacion')=='El Tigre' for x in sts):hist['diagnostico_el_tigre']='El Tigre no fue estructurado aun; no se publica valor fabricado.'
+ if not any(x.get('estacion')=='El Tigre' for x in sts):hist['diagnostico_el_tigre']='El Tigre no fue estructurado aun; revisar diagnostico_bhvgm_el_tigre.txt; no se publica valor fabricado.'
  else:hist.pop('diagnostico_el_tigre',None)
  HIST.write_text(json.dumps(hist,ensure_ascii=False,indent=2),encoding='utf-8')
  if LATEST.exists():
