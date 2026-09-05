@@ -3,6 +3,7 @@
   const WORD_STATE_URL='../data/analysis/Reportes/Estado_Word.json';
   const WORD_URL='../data/analysis/Reportes/Analisis_Hidrometeorologico_Ultimo.docx';
   const MAX_AGE_HOURS=30;
+  let rendering=false;
 
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const inline=s=>esc(String(s||'')).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/`(.+?)`/g,'<code>$1</code>');
@@ -44,30 +45,35 @@
     const r=await fetch(`${url}?v=${Date.now()}`,{cache:'no-store'}); if(!r.ok)throw new Error(`${r.status}`); return type==='json'?r.json():r.text();
   }
 
-  async function renderAnalysis(){
+  async function renderAnalysis(force=false){
     const content=document.querySelector('#content'); const title=document.querySelector('#pageTitle');
-    if(!content||!title||!title.textContent.includes('Análisis 11:00'))return;
-    content.innerHTML='<div class="grid"><div class="panel wide analysis-shell"><h2>Análisis hidrometeorológico · 11:00 h</h2><p class="muted">Cargando último análisis vigente…</p></div></div>';
+    if(!content||!title||!title.textContent.includes('Análisis 11:00')||rendering)return;
+    if(!force&&content.querySelector('[data-analysis-view="true"]'))return;
+    rendering=true;
+    content.innerHTML='<div class="grid" data-analysis-view="true"><div class="panel wide analysis-shell"><h2>Análisis hidrometeorológico · 11:00 h</h2><p class="muted">Cargando último análisis vigente…</p></div></div>';
     try{
       const [md,wordState]=await Promise.all([fetchNoStore(ANALYSIS_URL),fetchNoStore(WORD_STATE_URL,'json').catch(()=>null)]);
-      const cut=parseCut(md); const age=ageHours(cut); const stale=!cut||age>MAX_AGE_HOURS;
+      const cut=parseCut(md); const stale=!cut||ageHours(cut)>MAX_AGE_HOURS;
       const cutLabel=cut?new Intl.DateTimeFormat('es-MX',{dateStyle:'medium',timeStyle:'short',timeZone:'America/Mexico_City'}).format(cut):'sin corte identificable';
       const wordOk=wordState?.verified===true;
-      content.innerHTML=`<div class="grid"><article class="panel wide analysis-shell">
+      content.innerHTML=`<div class="grid" data-analysis-view="true"><article class="panel wide analysis-shell">
         <div class="analysis-head"><div><h2>Análisis hidrometeorológico · 11:00 h</h2><p>Último análisis operativo integrado disponible en GitHub Cloud.</p></div><div class="analysis-cut ${stale?'stale':'current'}"><span>${stale?'No vigente':'Vigente'}</span><strong>${esc(cutLabel)}</strong></div></div>
         ${stale?'<div class="analysis-warning"><strong>Análisis 11:00 h no disponible para el corte actual.</strong> Se muestra el último análisis localizado sólo como antecedente y no debe interpretarse como situación vigente.</div>':''}
         <div class="analysis-body">${markdown(md)}</div>
         <div class="analysis-actions"><button class="btn" id="analysisRefreshBtn" type="button">Actualizar análisis</button>${wordOk?`<a class="btn secondary" href="${WORD_URL}" download>Word actual (opcional)</a>`:''}</div>
         <div class="section-note">La consulta operativa principal es esta vista de la App. El Word se conserva sólo como salida complementaria; no es necesario navegar un historial de análisis.</div>
       </article></div>`;
-      document.querySelector('#analysisRefreshBtn')?.addEventListener('click',renderAnalysis);
+      document.querySelector('#analysisRefreshBtn')?.addEventListener('click',()=>renderAnalysis(true));
     }catch(e){
-      content.innerHTML='<div class="grid"><div class="panel wide"><div class="analysis-warning"><strong>Análisis 11:00 h no disponible para el corte actual.</strong> No fue posible cargar el último análisis desde GitHub Cloud.</div></div></div>';
-    }
+      content.innerHTML='<div class="grid" data-analysis-view="true"><div class="panel wide"><div class="analysis-warning"><strong>Análisis 11:00 h no disponible para el corte actual.</strong> No fue posible cargar el último análisis desde GitHub Cloud.</div></div></div>';
+    }finally{rendering=false;}
   }
 
-  const observer=new MutationObserver(()=>{if(document.querySelector('#pageTitle')?.textContent.includes('Análisis 11:00'))renderAnalysis();});
+  const observer=new MutationObserver(()=>{
+    const title=document.querySelector('#pageTitle'); const content=document.querySelector('#content');
+    if(title?.textContent.includes('Análisis 11:00')&&content&&!content.querySelector('[data-analysis-view="true"]'))renderAnalysis();
+  });
   observer.observe(document.documentElement,{subtree:true,childList:true,characterData:true});
-  document.addEventListener('click',e=>{if(e.target.closest('[data-section="analisis"]'))setTimeout(renderAnalysis,0)});
-  window.addEventListener('load',()=>{if(document.querySelector('#pageTitle')?.textContent.includes('Análisis 11:00'))renderAnalysis();});
+  document.addEventListener('click',e=>{if(e.target.closest('[data-section="analisis"]'))setTimeout(()=>renderAnalysis(true),0)});
+  window.addEventListener('load',()=>renderAnalysis());
 })();
