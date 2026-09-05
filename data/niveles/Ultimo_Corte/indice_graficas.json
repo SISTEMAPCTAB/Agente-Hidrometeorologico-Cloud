@@ -1,7 +1,7 @@
 {
   "ciclo_inicio": "2026-09-05T06:00:00-06:00",
   "ciclo_fin": "2026-09-06T06:00:00-06:00",
-  "corte_actual": "2026-09-05T12:00:00-06:00",
+  "corte_actual": "2026-09-05T14:00:00-06:00",
   "estaciones": 15,
   "graficas_individuales": {
     "Samaria": "data/niveles/Graficas/Estaciones/Samaria/ciclo_actual.png",
@@ -32,5 +32,5 @@
   },
   "tablero": "data/niveles/Graficas/tablero_operativo.png",
   "regla_base": "Se usa lectura observada exacta de 06:00; si falta, último valor observado válido disponible al inicio del ciclo y se marca base_heredada. Una base heredada anterior al inicio del ciclo no se dibuja en la gráfica del día actual.",
-  "regla_escala": "La gráfica individual usa escala vertical ajustada al rango observado para hacer visibles variaciones pequeñas; NAMO/NAME se conservan como referencias numéricas y sólo se trazan como líneas si caen dentro de la ventana vertical operacional. Cada punto muestra su nivel en metros."
+  "regla_escala": "Todas las gráficas individuales incluyen el NAMO dentro de la escala vertical y lo trazan como línea de referencia. NAME también se traza cuando está disponible. Cada observación conserva su etiqueta en metros y los puntos se unen cronológicamente."
 }
