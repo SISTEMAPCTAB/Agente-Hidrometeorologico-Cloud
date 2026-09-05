@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "criterio": "Catálogo de referencias mínimas para el indicador de estiaje. Un valor NAMINO sólo se usa cuando existe fuente oficial específica y compatible con la estación hidrométrica. Si no existe o no ha sido validado, permanece null y la App no asigna café/gris.",
+  "margen_cafe_m": 0.50,
+  "fuentes_generales": [
+    {
+      "institucion": "CONAGUA",
+      "producto": "Sistema de Información Hidrológica / Pronóstico hidrológico Frontera Sur",
+      "url": "https://app.conagua.gob.mx/spr/fs.html",
+      "uso": "Identificación oficial de puntos de pronóstico; no implica que publique NAMINO para todos los puntos."
+    },
+    {
+      "institucion": "CONAGUA-OCFS",
+      "producto": "Boletín Hidrométrico, Climatológico y de Presas",
+      "uso": "Fuente operativa para niveles, NAMO/NAME cuando sean publicados y referencias oficiales específicas."
+    }
+  ],
+  "estaciones": [
+    {"sistema":"presas","rio":"Samaria","estacion":"Samaria","clave_oficial":"RH30SAMAR","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"presas","rio":"Carrizal","estacion":"González","clave_oficial":"RH30GONZA","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"presas","rio":"Mezcalapa","estacion":"Mezcalapa","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"serranos","rio":"Oxolotán","estacion":"Oxolotán","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"serranos","rio":"Tacotalpa","estacion":"Tapijulapa","clave_oficial":"RH30TAPIJ","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"serranos","rio":"Teapa","estacion":"Teapa","clave_oficial":"RH30TEAPA","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"serranos","rio":"Puyacatengo","estacion":"Puyacatengo","clave_oficial":"RH30PUYAC","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"serranos","rio":"La Sierra","estacion":"Pueblo Nuevo","clave_oficial":"RH30PNUEV","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"serranos","rio":"La Sierra","estacion":"San Joaquín","clave_oficial":"RH30SANJO","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"serranos","rio":"Pichucalco","estacion":"Pichucalco","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"tulija","rio":"Tulijá","estacion":"Salto de Agua","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"tulija","rio":"Puxcatán","estacion":"Puxcatán","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"tulija","rio":"Chilapa","estacion":"Chilapa","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Boca del Cerro","clave_oficial":"AFT10","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Balancán","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Emiliano Zapata","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Jonuta","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
+    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Tres Brazos","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"}
+  ],
+  "reglas": [
+    "Nunca inferir NAMINO a partir de NAMO, NAME, promedios históricos o mínimos recientes.",
+    "Nunca usar la distancia al NAMO para asignar café o gris.",
+    "Café: únicamente cuando nivel > NAMINO y diferencia <= 0.50 m.",
+    "Gris: únicamente cuando nivel <= NAMINO.",
+    "Negro se evalúa por persistencia seca y es independiente de café/gris.",
+    "Si NAMINO es null, mostrar NAMINO s/d y mantener café/gris desactivados."
+  ]
+}
