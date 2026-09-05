@@ -1,46 +1,50 @@
 {
-  "version": "1.0",
-  "criterio": "Catálogo de referencias mínimas para el indicador de estiaje. Un valor NAMINO sólo se usa cuando existe fuente oficial específica y compatible con la estación hidrométrica. Si no existe o no ha sido validado, permanece null y la App no asigna café/gris.",
+  "version": "2.0",
+  "criterio": "Catálogo de referencias mínimas fijas publicadas por CONAGUA-OCFS en el Boletín Hidrométrico, Climatológico y de Presas. El NAMINO/Nivel Mínimo es una referencia fija de estación y debe conservarse entre cortes hasta que la fuente oficial publique una modificación explícita. No se recalcula a partir del nivel observado.",
   "margen_cafe_m": 0.50,
-  "fuentes_generales": [
-    {
-      "institucion": "CONAGUA",
-      "producto": "Sistema de Información Hidrológica / Pronóstico hidrológico Frontera Sur",
-      "url": "https://app.conagua.gob.mx/spr/fs.html",
-      "uso": "Identificación oficial de puntos de pronóstico; no implica que publique NAMINO para todos los puntos."
-    },
-    {
-      "institucion": "CONAGUA-OCFS",
-      "producto": "Boletín Hidrométrico, Climatológico y de Presas",
-      "uso": "Fuente operativa para niveles, NAMO/NAME cuando sean publicados y referencias oficiales específicas."
-    }
-  ],
+  "fuente_validacion": {
+    "institucion": "CONAGUA-OCFS",
+    "producto": "Boletín Hidrométrico, Climatológico y de Presas",
+    "corte_validado": "2026-09-05",
+    "seccion": "Semáforo del Bajo Grijalva / Nivel Mínimo",
+    "regla": "Los valores de Nivel Mínimo publicados para cada estación se tratan como referencias fijas; un nuevo boletín sólo los sustituye si publica expresamente un valor distinto."
+  },
   "estaciones": [
-    {"sistema":"presas","rio":"Samaria","estacion":"Samaria","clave_oficial":"RH30SAMAR","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"presas","rio":"Carrizal","estacion":"González","clave_oficial":"RH30GONZA","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"presas","rio":"Mezcalapa","estacion":"Mezcalapa","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"serranos","rio":"Oxolotán","estacion":"Oxolotán","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"serranos","rio":"Tacotalpa","estacion":"Tapijulapa","clave_oficial":"RH30TAPIJ","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"serranos","rio":"Teapa","estacion":"Teapa","clave_oficial":"RH30TEAPA","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"serranos","rio":"Puyacatengo","estacion":"Puyacatengo","clave_oficial":"RH30PUYAC","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"serranos","rio":"La Sierra","estacion":"Pueblo Nuevo","clave_oficial":"RH30PNUEV","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"serranos","rio":"La Sierra","estacion":"San Joaquín","clave_oficial":"RH30SANJO","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"serranos","rio":"Pichucalco","estacion":"Pichucalco","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"tulija","rio":"Tulijá","estacion":"Salto de Agua","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"tulija","rio":"Puxcatán","estacion":"Puxcatán","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"tulija","rio":"Chilapa","estacion":"Chilapa","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Boca del Cerro","clave_oficial":"AFT10","namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Balancán","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Emiliano Zapata","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Jonuta","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"},
-    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Tres Brazos","clave_oficial":null,"namino":null,"unidad":"m","estado":"pendiente_fuente_oficial_especifica"}
+    {"sistema":"presas","rio":"Platanar","estacion":"Platanar","clave_oficial":null,"namino":29.07,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"presas","rio":"Samaria","estacion":"Samaria","clave_oficial":"RH30SAMAR","namino":10.40,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"presas","rio":"Carrizal","estacion":"González","clave_oficial":"RH30GONZA","namino":2.87,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"presas","rio":"Mezcalapa","estacion":"Mezcalapa","clave_oficial":null,"namino":null,"unidad":"m","estado":"sin_referencia_publicada_en_tabla_validada"},
+
+    {"sistema":"serranos","rio":"Oxolotán","estacion":"Oxolotán","clave_oficial":null,"namino":31.20,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"serranos","rio":"Tacotalpa","estacion":"Tapijulapa","clave_oficial":"RH30TAPIJ","namino":15.92,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"serranos","rio":"Teapa","estacion":"Teapa","clave_oficial":"RH30TEAPA","namino":33.80,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"serranos","rio":"Puyacatengo","estacion":"Puyacatengo","clave_oficial":"RH30PUYAC","namino":24.21,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"serranos","rio":"Pichucalco","estacion":"San Joaquín","clave_oficial":"RH30SANJO","namino":17.75,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"serranos","rio":"La Sierra","estacion":"Pueblo Nuevo","clave_oficial":"RH30PNUEV","namino":1.16,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"serranos","rio":"Amatán","estacion":"Amatán","clave_oficial":null,"namino":null,"unidad":"m","estado":"sin_referencia_publicada_en_tabla_validada"},
+
+    {"sistema":"grijalva","rio":"Grijalva","estacion":"Gaviotas","clave_oficial":"AFT5","namino":0.82,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"grijalva","rio":"Grijalva","estacion":"El Muelle","clave_oficial":"AFT6","namino":0.73,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"grijalva","rio":"Grijalva","estacion":"Porvenir","clave_oficial":"AFT7","namino":0.51,"unidad":"m","estado":"validado_fuente_oficial"},
+
+    {"sistema":"tulija","rio":"Tulijá","estacion":"Salto de Agua","clave_oficial":null,"namino":0.84,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"tulija","rio":"Puxcatán","estacion":"Macuspana","clave_oficial":null,"namino":0.69,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"tulija","rio":"Chilapa","estacion":"Chilapa","clave_oficial":null,"namino":null,"unidad":"m","estado":"sin_referencia_publicada_en_tabla_validada"},
+
+    {"sistema":"usumacinta","rio":"San Pedro","estacion":"San Pedro","clave_oficial":null,"namino":7.58,"unidad":"m","estado":"validado_fuente_oficial"},
+    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Boca del Cerro","clave_oficial":"AFT10","namino":10.63,"unidad":"m","estado":"validado_fuente_oficial","namo":19.21,"name":21.57},
+    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Balancán","clave_oficial":null,"namino":null,"unidad":"m","estado":"sin_referencia_publicada_en_tabla_validada"},
+    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Emiliano Zapata","clave_oficial":null,"namino":null,"unidad":"m","estado":"sin_referencia_publicada_en_tabla_validada"},
+    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Jonuta","clave_oficial":null,"namino":null,"unidad":"m","estado":"sin_referencia_publicada_en_tabla_validada"},
+    {"sistema":"usumacinta","rio":"Usumacinta","estacion":"Tres Brazos","clave_oficial":null,"namino":null,"unidad":"m","estado":"sin_referencia_publicada_en_tabla_validada"}
   ],
   "reglas": [
-    "Nunca inferir NAMINO a partir de NAMO, NAME, promedios históricos o mínimos recientes.",
-    "Nunca usar la distancia al NAMO para asignar café o gris.",
-    "Café: únicamente cuando nivel > NAMINO y diferencia <= 0.50 m.",
-    "Gris: únicamente cuando nivel <= NAMINO.",
-    "Negro se evalúa por persistencia seca y es independiente de café/gris.",
-    "Si NAMINO es null, mostrar NAMINO s/d y mantener café/gris desactivados."
+    "NAMINO/Nivel Mínimo es una referencia fija de estación; no cambia con cada observación.",
+    "No inferir NAMINO a partir de NAMO, NAME, mínimos recientes o promedios históricos.",
+    "Café: nivel observado por encima de NAMINO y a no más de 0.50 m.",
+    "Gris: nivel observado igual o por debajo del NAMINO.",
+    "Cuando el río se encuentra muy por encima del NAMINO, éste se conserva visible como referencia pero no debe competir visualmente con las señales de creciente.",
+    "Cuando los niveles descienden de forma importante, la proximidad al NAMINO adquiere prioridad operativa.",
+    "Si una estación no tiene Nivel Mínimo publicado en la tabla validada, mostrar NAMINO s/d y no inventar un valor."
   ]
 }
