@@ -171,27 +171,30 @@ def plot_station(meta, series, base, summary_row, cutoff):
     out_dir.mkdir(parents=True, exist_ok=True)
     out = out_dir / "ciclo_actual.png"
 
+    start = cycle_start_for(cutoff)
     x = [dt(r["fecha_hora"]) for r in series]
     y = [r["nivel"] for r in series]
     fig, ax = plt.subplots(figsize=(12, 6.4), dpi=140)
-    ax.plot(x, y, marker="o", linewidth=2.2, label="Nivel")
+    ax.plot(x, y, marker="o", linewidth=2.2, label="Nivel del ciclo actual")
 
     inherited_x = [dt(r["fecha_hora"]) for r in series if r.get("estado_dato") == "heredado"]
     inherited_y = [r["nivel"] for r in series if r.get("estado_dato") == "heredado"]
     if inherited_x:
-        ax.scatter(inherited_x, inherited_y, facecolors="none", edgecolors="black", s=70, linewidths=1.5, label="Heredado")
+        ax.scatter(inherited_x, inherited_y, facecolors="none", edgecolors="black", s=70, linewidths=1.5, label="Heredado dentro del ciclo")
 
     if finite(meta.get("namo")):
         ax.axhline(meta["namo"], linestyle="--", linewidth=1.8, label=f"NAMO {meta['namo']:.2f} m")
     if finite(meta.get("name")):
         ax.axhline(meta["name"], linestyle=":", linewidth=1.8, label=f"NAME {meta['name']:.2f} m")
-    if base and finite(base.get("nivel")):
-        ax.scatter([dt(base["fecha_hora"])], [base["nivel"]], marker="s", s=90, zorder=5, label=f"Base ciclo {base['nivel']:.2f} m")
+
+    base_time = dt(base.get("fecha_hora")) if base else None
+    if base and finite(base.get("nivel")) and base_time and start <= base_time <= cutoff:
+        ax.scatter([base_time], [base["nivel"]], marker="s", s=90, zorder=5, label=f"Base 06:00 {base['nivel']:.2f} m")
 
     ax.set_title(
         f"{meta['rio']} — {meta['estacion']}\n"
-        f"Ciclo 06:00 → {cutoff.strftime('%H:%M')} | Δ vs 06:00 {format_delta(summary_row['delta_vs_06'])} | "
-        f"Δ vs anterior {format_delta(summary_row['delta_reporte'])}"
+        f"{cutoff.strftime('%d/%m/%Y')} · ciclo 06:00 → {cutoff.strftime('%H:%M')} | "
+        f"Δ vs base {format_delta(summary_row['delta_vs_06'])} | Δ vs anterior {format_delta(summary_row['delta_reporte'])}"
     )
     ax.set_ylabel("Nivel (m)")
     ax.grid(True, alpha=0.25)
@@ -368,7 +371,7 @@ def main():
         "graficas_individuales": {r["estacion"]: r["grafica_png"] for r in summary},
         "graficas_sistema": system_graphs,
         "tablero": dashboard,
-        "regla_base": "Se usa lectura observada exacta de 06:00; si falta, último valor observado válido disponible al inicio del ciclo y se marca base_heredada.",
+        "regla_base": "Se usa lectura observada exacta de 06:00; si falta, último valor observado válido disponible al inicio del ciclo y se marca base_heredada. Una base heredada anterior al inicio del ciclo no se dibuja en la gráfica del día actual.",
     }
     (BASE / "Ultimo_Corte" / "indice_graficas.json").write_text(
         json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
