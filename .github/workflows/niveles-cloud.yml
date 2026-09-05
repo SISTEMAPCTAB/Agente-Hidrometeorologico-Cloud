@@ -7,8 +7,10 @@ on:
       - main
     paths:
       - 'src/niveles_cloud.py'
+      - 'src/niveles_horas_cloud.py'
       - 'src/lluvia_conagua_cloud.py'
       - 'src/procesar_niveles.js'
+      - 'src/procesar_niveles_horas.js'
       - 'src/extraer_lluvia_conagua.js'
       - 'src/niveles_postprocess.py'
       - 'src/resumen_12h_niveles.py'
@@ -63,6 +65,16 @@ jobs:
           CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
           NIVELES_BASE: data/niveles
         run: python src/niveles_cloud.py
+
+      - name: Completar todas las horas publicadas del boletín hidrométrico
+        env:
+          CARBONIO_BASE: https://correo.tabasco.gob.mx
+          CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
+          CARBONIO_PASSWORD: ${{ secrets.CARBONIO_PASSWORD }}
+          CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
+          CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
+          NIVELES_BASE: data/niveles
+        run: python src/niveles_horas_cloud.py
 
       - name: Extraer lluvia horaria CONAGUA del reporte más reciente
         env:
