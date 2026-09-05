@@ -14,7 +14,7 @@
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const num=v=>v===null||v===undefined||v===''?null:(Number.isFinite(Number(v))?Number(v):null);
   let data=null,loading=null;
-  async function get(u){const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw new Error(r.status);return r.json()}
+  async function get(u){const r=await fetch(`${u}?v=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw new Error(r.status);return r.json()}
   async function ensure(){if(data)return;if(loading)return loading;loading=Promise.all([get(URLS.levels),get(URLS.timeline)]).then(([levels,timeline])=>{data={levels:Array.isArray(levels)?levels:[],timeline:timeline||{}}}).catch(()=>{data={levels:[],timeline:{}}}).finally(()=>loading=null);return loading}
   function systemOf(row){const txt=norm(`${row.estacion||''} ${row.rio||''}`);return SYSTEMS.find(s=>s.terms.some(t=>txt.includes(norm(t))))||null}
   function t12For(systemId,station){const sys=(data?.timeline?.systems||[]).find(s=>s.id===systemId);return (sys?.estaciones||[]).find(r=>norm(r.estacion)===norm(station))||null}
@@ -38,7 +38,8 @@
   }
   const fmtDelta=v=>v===null?'s/d':`${v>0?'+':''}${v.toFixed(2)} m`;
   const fmtNamo=v=>v===null?'NAMO s/d':`${Math.abs(v).toFixed(2)} m ${v<0?'bajo':'sobre'} NAMO`;
-  function card(x,i){return `<figure class="summary-hydro-figure"><div class="summary-hydro-head"><div><span class="summary-hydro-rank">#${i+1}</span><strong>${esc(x.row.estacion)}</strong><small>${esc(x.sys.label)} · ${esc(x.row.rio||'s/d')}</small></div><span class="summary-hydro-reason">${esc(x.reason)}</span></div><div class="summary-hydro-meta"><span><small>Δ24 h</small><b>${esc(fmtDelta(x.d24))}</b></span><span><small>Δ12 h real</small><b>${esc(fmtDelta(x.d12))}</b></span><span><small>Referencia</small><b>${esc(fmtNamo(x.dn))}</b></span><span><small>Dato</small><b>Observado</b></span></div><img loading="lazy" src="${BASE}/${esc(x.row.grafica_png)}" alt="Gráfica hidrométrica destacada de ${esc(x.row.estacion)}"><figcaption>Corte ${esc(x.row.fecha_hora||'s/d')} · última observación real ${esc(x.row.ultima_actualizacion_real||x.row.fecha_hora||'s/d')}</figcaption></figure>`}
+  function graphUrl(row){const stamp=encodeURIComponent(row.ultima_actualizacion_real||row.fecha_hora||Date.now());return `${BASE}/${esc(row.grafica_png)}?corte=${stamp}`}
+  function card(x,i){return `<figure class="summary-hydro-figure"><div class="summary-hydro-head"><div><span class="summary-hydro-rank">#${i+1}</span><strong>${esc(x.row.estacion)}</strong><small>${esc(x.sys.label)} · ${esc(x.row.rio||'s/d')}</small></div><span class="summary-hydro-reason">${esc(x.reason)}</span></div><div class="summary-hydro-meta"><span><small>Δ24 h</small><b>${esc(fmtDelta(x.d24))}</b></span><span><small>Δ12 h real</small><b>${esc(fmtDelta(x.d12))}</b></span><span><small>Referencia</small><b>${esc(fmtNamo(x.dn))}</b></span><span><small>Dato</small><b>Observado</b></span></div><img loading="lazy" src="${graphUrl(x.row)}" alt="Gráfica hidrométrica destacada de ${esc(x.row.estacion)}"><figcaption>Corte ${esc(x.row.fecha_hora||'s/d')} · observaciones válidas unidas punto a punto en orden cronológico.</figcaption></figure>`}
   async function render(){
     if(document.querySelector('#nav button.active')?.dataset.section!=='resumen')return;
     const content=document.getElementById('content');if(!content)return;
@@ -48,7 +49,7 @@
     const picked=select(items);
     if(!picked.length)return;
     const section=document.createElement('section');section.id='summaryHydroHighlights';section.className='panel wide summary-hydro-panel';
-    section.innerHTML=`<div class="summary-hydro-title"><div><span>Lectura hidrométrica priorizada</span><h2>Gráficas destacadas del estado</h2><p>Se muestran sólo 2–4 estaciones observadas que concentran la mayor señal operativa disponible.</p></div><span class="badge">Selección automática</span></div><div class="summary-hydro-grid">${picked.map(card).join('')}</div><div class="section-note"><b>Criterio:</b> primero ascensos válidos de 24 h; después ascensos reales de 12 h; luego ascensos del corte y cercanía al NAMO. Δ24 h y Δ12 h permanecen separados. Los datos heredados no pueden ser seleccionados como destacados y el NAMO se usa sólo como referencia, no como semáforo de riesgo.</div>`;
+    section.innerHTML=`<div class="summary-hydro-title"><div><span>Lectura hidrométrica priorizada</span><h2>Gráficas destacadas del estado</h2><p>Se muestran sólo 2–4 estaciones observadas que concentran la mayor señal operativa disponible.</p></div><span class="badge">Selección automática</span></div><div class="summary-hydro-grid">${picked.map(card).join('')}</div><div class="section-note"><b>Criterio:</b> las observaciones válidas se conectan punto a punto, en orden cronológico y sin suavizado. Los datos heredados no se interpretan como observación nueva. Primero se priorizan ascensos válidos de 24 h; después ascensos reales de 12 h; luego ascensos del corte y cercanía al NAMO.</div>`;
     const anchor=content.querySelector('#systemSemaphoreStrip')||content.querySelector('#priorityVisual')||content.querySelector('#operationalAlerts');
     if(anchor)anchor.insertAdjacentElement('afterend',section);else content.prepend(section);
   }
