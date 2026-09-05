@@ -1,34 +1,70 @@
 # Agente Hidrometeorológico Cloud
 
-Versión en nube del recolector que alimenta el análisis hidrometeorológico diario de las 11:00 h.
+Sistema en nube para integrar, validar y presentar el análisis hidrometeorológico operativo diario de las 11:00 h para las cuencas Grijalva–Usumacinta.
 
-## Objetivo inicial
+## Arquitectura operativa final
 
-Ejecutar en paralelo, sin modificar ni desactivar el agente que actualmente funciona en la PC, la recolección de los dos boletines Carbonio.
+El sistema trabaja de forma independiente de la computadora local y utiliza GitHub Cloud como fuente de verdad:
 
-La versión cloud:
+1. Recolecta y valida fuentes operativas y públicas.
+2. Mantiene separados los datos actuales, heredados, rezagados y sin dato.
+3. Integra niveles hidrométricos, lluvia, WeatherLink, CONAGUA/OCFS, SMN e INSIVUMEH.
+4. Genera `data/analysis/latest.md` como análisis operativo vigente.
+5. La PWA despliega directamente el último análisis en el apartado **Análisis 11:00 h**.
+6. El Word se conserva sólo como salida complementaria opcional.
 
-- se autentica en Carbonio mediante GitHub Actions Secrets;
-- localiza FUENTE1 y FUENTE2;
-- descarga y valida los PDF;
-- extrae su texto;
-- publica `data/latest/FUENTE1.txt`, `data/latest/FUENTE2.txt` y `data/Estado_Cloud.json` dentro de este repositorio privado;
-- conserva los PDF de cada ejecución únicamente como artifact temporal de GitHub Actions durante 7 días;
-- mantiene un archivo de texto por fecha en `data/archive/` para comparaciones posteriores.
+## Orden operativo de sistemas
 
-## Horarios
+1. **Presas–Mezcalapa–Samaria y Carrizal**
+2. **Ríos Serranos–Grijalva**
+3. **Tulijá–Puxcatán–Chilapa**
+4. **Usumacinta**
 
-La acción intenta ejecutarse diariamente a las 09:30, 10:15 y 10:45 h de Tabasco/México durante 2026, además de permitir ejecución manual.
+Para Usumacinta se conserva la cadena de seguimiento:
+
+`Chixoy/Salinas + La Pasión/El Porvenir + Usumacinta/El Tigre → Lacantún → Boca del Cerro → Balancán → Emiliano Zapata → Jonuta → Centla`
+
+Los datos de estaciones con horas distintas no se consideran simultáneos. Los tiempos históricos de tránsito sólo se usan como contexto cuando existen observaciones compatibles y nunca de forma determinista.
+
+## Reglas de calidad
+
+- `sin dato` nunca equivale a cero.
+- Un valor heredado o rezagado no se presenta como observación actual.
+- La precipitación puntual no se suma para fabricar acumulados de cuenca.
+- Los máximos BHVGM de INSIVUMEH son referencias estadísticas, no umbrales de inundación.
+- Si El Tigre no aparece en el BHVGM vigente, no se fabrica ni se hereda como dato actual; el último valor anterior puede conservarse sólo como antecedente identificado.
+- NAMO se usa como referencia de proximidad, no como semáforo oficial.
+
+## PWA
+
+La consulta operativa principal es la aplicación en `app/`.
+
+El apartado **Análisis 11:00 h**:
+
+- carga directamente `data/analysis/latest.md`;
+- muestra fecha y hora del corte;
+- identifica si el análisis es vigente o sólo antecedente;
+- despliega encabezados, tablas, listas y conclusiones en móvil, tableta y PC;
+- ofrece el Word actual únicamente como descarga complementaria cuando está verificado.
+
+No es necesario mantener un historial visible de análisis en la aplicación. Los históricos técnicos que sí se conservan existen únicamente para cálculo de tendencias y control de calidad.
+
+## Word complementario
+
+Estado:
+`data/analysis/Reportes/Estado_Word.json`
+
+Último Word:
+`data/analysis/Reportes/Analisis_Hidrometeorologico_Ultimo.docx`
+
+El Word no es el medio principal de consulta diaria.
 
 ## Seguridad
 
-- No almacenar contraseñas, tokens, XML de credenciales ni claves en el repositorio.
-- Las credenciales se configuran exclusivamente como GitHub Actions Secrets `CARBONIO_USER` y `CARBONIO_PASSWORD`.
+- No almacenar contraseñas, tokens o claves en el repositorio.
+- Las credenciales se configuran exclusivamente como GitHub Actions Secrets.
 - El repositorio debe permanecer privado.
-- Durante la etapa de prueba, la versión cloud no elimina ni modifica archivos generados por el agente de la PC ni escribe sobre la carpeta `Boletines_Carbonio` de Google Drive.
 
-## Prueba manual
+## Operación cloud
 
-En GitHub: `Actions` → `Carbonio Cloud - boletines diarios` → `Run workflow` → `Run workflow`.
-
-Después de una ejecución correcta deben aparecer archivos dentro de `data/latest/` y `data/Estado_Cloud.json`.
+Los recolectores y generadores se ejecutan mediante GitHub Actions y no requieren que la computadora local permanezca encendida.
