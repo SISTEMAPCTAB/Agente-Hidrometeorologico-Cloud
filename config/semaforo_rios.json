@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "criterio_general": "La semaforización operativa de ríos se basa prioritariamente en lluvia observada/pronosticada aguas arriba y su coherencia con la respuesta hidrométrica. La diferencia respecto al NAMO se muestra como referencia de nivel, pero no determina por sí sola el color del río.",
+  "escala_lluvia_smn": [
+    {"min_mm": 0, "max_mm": 50, "categoria": "normal", "descripcion": "sin lluvia relevante, chubascos o lluvias puntuales fuertes", "color": "azul"},
+    {"min_mm": 50, "max_mm": 75, "categoria": "muy_fuertes", "descripcion": "lluvias puntuales muy fuertes", "color": "verde"},
+    {"min_mm": 75, "max_mm": 150, "categoria": "intensas", "descripcion": "lluvias puntuales intensas", "color": "amarillo"},
+    {"min_mm": 150, "max_mm": 250, "categoria": "torrenciales", "descripcion": "lluvias puntuales torrenciales", "color": "rojo"},
+    {"min_mm": 250, "max_mm": null, "categoria": "extraordinarias", "descripcion": "lluvias puntuales extraordinarias", "color": "morado"}
+  ],
+  "sin_dato": {"categoria": "sin_dato", "color": "gris"},
+  "sistemas": {
+    "usumacinta": {
+      "nombre": "Usumacinta",
+      "fuentes_aguas_arriba": ["INSIVUMEH acumulados Guatemala", "INSIVUMEH saturación", "Chixoy/Salinas", "La Pasión/El Porvenir", "El Tigre/Usumacinta", "Lacantún/OCFS", "WeatherLink Guatemala/Chiapas cuando sea hidrológicamente pertinente"],
+      "cadena": "Chixoy/Salinas + La Pasión/El Porvenir + El Tigre/Usumacinta → Lacantún → Boca del Cerro → Balancán → Emiliano Zapata → Jonuta → Centla",
+      "regla": "Asignar color por la mayor categoría de lluvia relevante localizada aguas arriba dentro de la cuenca aportante, considerando hora, acumulado, persistencia, saturación y respuesta hidrométrica. No extrapolar lluvia nacional de Guatemala a toda la cuenca.",
+      "observacion": "El color puede anticipar presión hidrológica antes de que el nivel en Boca del Cerro responda. El nivel/NAMO se reporta por separado."
+    },
+    "rios_serranos": {
+      "nombre": "Ríos Serranos–Grijalva",
+      "subcuencas": ["Oxolotán", "Amatán", "Tacotalpa", "Teapa", "Puyacatengo", "La Sierra", "Pichucalco"],
+      "fuentes_aguas_arriba": ["CONAGUA/OCFS", "WeatherLink Chiapas", "SMN acumulados observados/pronosticados", "estaciones Chiapas vinculadas por subcuenca"],
+      "regla": "Cada río recibe color con base en las estaciones de lluvia aguas arriba de su propia subcuenca; no usar lluvia de otra subcuenca serrana como sustituto.",
+      "observacion": "Contrastar color de lluvia con tendencia de las estaciones hidrométricas aguas abajo y con lluvia antecedente."
+    },
+    "tulija_puxcatan_chilapa": {
+      "nombre": "Tulijá–Puxcatán–Chilapa",
+      "fuentes_aguas_arriba": ["Salto de Agua", "Chilón", "estaciones asociadas a Tulijá", "estaciones asociadas a Puxcatán", "SMN", "OCFS"],
+      "cadena": "Tulijá + Puxcatán → Chilapa → Grijalva",
+      "regla": "Semaforizar Tulijá y Puxcatán por sus aportes aguas arriba; Chilapa toma la condición combinada más desfavorable de ambas ramas, sin sumar estaciones puntuales como lluvia media de cuenca."
+    },
+    "presas_mezcalapa_samaria_carrizal": {
+      "nombre": "Presas–Mezcalapa–Samaria y Carrizal",
+      "fuentes_aguas_arriba": ["Peñitas", "Ostuacán", "cuenca Presa Peñitas", "SMN cuenca Peñitas/Malpaso", "OCFS"],
+      "regla": "La lluvia aguas arriba es un componente de vigilancia, pero el color operativo final debe considerar también extracción de Peñitas, comportamiento del Mezcalapa, bifurcación Samaria/Carrizal y condición de El Macayo.",
+      "observacion": "No derivar el color de Samaria o Carrizal únicamente de lluvia local ni únicamente de distancia a NAMO."
+    }
+  },
+  "reglas_de_calidad": [
+    "Usar el acumulado del periodo explícitamente identificado; no mezclar 1 h, 6 h y 24 h como si fueran equivalentes.",
+    "Dato rezagado no cambia el semáforo como observación nueva.",
+    "Sin dato no equivale a 0 mm.",
+    "No sumar estaciones puntuales para fabricar lluvia media de subcuenca.",
+    "Cuando varias estaciones pertinentes de una misma subcuenca difieran, usar la categoría más alta como señal preventiva y mostrar la distribución espacial.",
+    "El semáforo es una señal de vigilancia hidrometeorológica, no una predicción determinista de desbordamiento."
+  ]
+}
