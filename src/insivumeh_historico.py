@@ -14,7 +14,6 @@ TARGETS=[('El Tigre','Usumacinta'),('El Porvenir','La Pasión'),('San Agustín C
 def asc(s): return re.sub(r'\s+',' ',unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode()).strip()
 def pdftext(u):
  r=requests.get(u,headers=UA,timeout=35);r.raise_for_status();raw=r.content
- # Poppler suele conservar mejor las filas tabulares del BHVGM que pypdf.
  try:
   with tempfile.NamedTemporaryFile(suffix='.pdf') as f:
    f.write(raw);f.flush()
@@ -33,9 +32,13 @@ def header(txt):
  f=asc(txt)
  return {'boletin':one(r'BOLETIN\s*(?:No\.?|N[oº°]\.?)?\s*(\d+)',f) or one(r'BHVGM\s*[- ]?(\d+)[- ]?2026',f),'fecha':one(r'Fecha\s*:\s*(?:[A-Za-z]+\s+)?(\d{1,2}/\d{1,2}/\d{4})',f),'hora':one(r'Hora\s*:\s*(\d{1,2}:\d{2})',f)}
 def station_record(segment,name,river):
- nums=[float(x) for x in re.findall(r'(?<!\w)-?\d+(?:\.\d+)?',segment)]
+ # La fila BHVGM contiene ubicación entre río y las seis cifras; por ello se toman
+ # las últimas seis cifras previas a la columna Hora/Tendencia, no las primeras.
+ clean=re.split(r'\bHora\s*:',segment,1,flags=re.I)[0]
+ nums=[float(x) for x in re.findall(r'(?<![A-Za-z0-9])-?\d+(?:\.\d+)?',clean)]
  if len(nums)<6:return None
- return {'estacion':name,'rio':river,'nivel_referencia_min_m':nums[0],'nivel_referencia_max_m':nums[1],'caudal_referencia_min_m3s':nums[2],'caudal_referencia_max_m3s':nums[3],'nivel_instantaneo_m':nums[4],'caudal_instantaneo_m3s':nums[5],'calidad':'extraido_del_BHVGM','nota_referencia':'Máximos como referencia estadística; no son umbral de inundación.'}
+ vals=nums[-6:]
+ return {'estacion':name,'rio':river,'nivel_referencia_min_m':vals[0],'nivel_referencia_max_m':vals[1],'caudal_referencia_min_m3s':vals[2],'caudal_referencia_max_m3s':vals[3],'nivel_instantaneo_m':vals[4],'caudal_instantaneo_m3s':vals[5],'calidad':'extraido_del_BHVGM','nota_referencia':'Máximos como referencia estadística; no son umbral de inundación.'}
 def stations(txt):
  lines=[asc(x) for x in txt.splitlines() if x.strip()];out=[]
  for name,river in TARGETS:
@@ -46,7 +49,7 @@ def stations(txt):
  flat=asc(txt)
  for name,river in TARGETS:
   if any(x['estacion']==name for x in out):continue
-  m=re.search(rf'{re.escape(asc(name))}\s+{re.escape(asc(river))}\b(.{{0,300}})',flat,re.I|re.S)
+  m=re.search(rf'{re.escape(asc(name))}\s+{re.escape(asc(river))}\b(.{{0,420}}?)(?=(?:San Luis Ixcan|San Agustin Chixoy|Playa Grande|El Porvenir|Machaquila|El Tigre|San Pedro Mactun|Chachaclun|Puente Chocox|Nenton|Xococ|Yulquisis)\b|OBSERVACIONES GENERALES|$)',flat,re.I|re.S)
   if m:
    rec=station_record(m.group(0),name,river)
    if rec:out.append(rec)
