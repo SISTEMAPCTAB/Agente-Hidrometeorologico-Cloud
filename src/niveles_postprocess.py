@@ -4,7 +4,7 @@ import math
 import re
 import unicodedata
 from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -164,6 +164,20 @@ def format_delta(value):
     return "s/d" if value is None else f"{value:+.2f} m"
 
 
+def operational_ylim(values):
+    vals = [float(v) for v in values if finite(v)]
+    if not vals:
+        return None
+    lo, hi = min(vals), max(vals)
+    span = hi - lo
+    # La escala se centra en la variación observada, no en NAMO/NAME lejanos.
+    # Esto evita que cambios de centímetros queden visualmente aplanados.
+    pad = max(0.08, span * 0.35)
+    if span < 0.08:
+        pad = 0.12
+    return lo - pad, hi + pad
+
+
 def plot_station(meta, series, base, summary_row, cutoff):
     if not series:
         return None
@@ -175,30 +189,59 @@ def plot_station(meta, series, base, summary_row, cutoff):
     x = [dt(r["fecha_hora"]) for r in series]
     y = [r["nivel"] for r in series]
     fig, ax = plt.subplots(figsize=(12, 6.4), dpi=140)
-    ax.plot(x, y, marker="o", linewidth=2.2, label="Nivel del ciclo actual")
+    ax.plot(x, y, marker="o", linewidth=2.4, markersize=5.5, label="Nivel observado del ciclo")
+
+    # Etiqueta cada lectura para que el nivel quede explícitamente representado.
+    for i, (xx, yy, rr) in enumerate(zip(x, y, series)):
+        ax.annotate(
+            f"{yy:.2f} m",
+            (xx, yy),
+            xytext=(0, 9 if i % 2 == 0 else -15),
+            textcoords="offset points",
+            ha="center",
+            va="bottom" if i % 2 == 0 else "top",
+            fontsize=8,
+            fontweight="bold",
+        )
 
     inherited_x = [dt(r["fecha_hora"]) for r in series if r.get("estado_dato") == "heredado"]
     inherited_y = [r["nivel"] for r in series if r.get("estado_dato") == "heredado"]
     if inherited_x:
-        ax.scatter(inherited_x, inherited_y, facecolors="none", edgecolors="black", s=70, linewidths=1.5, label="Heredado dentro del ciclo")
+        ax.scatter(inherited_x, inherited_y, facecolors="none", edgecolors="black", s=70, linewidths=1.5, label="Dato heredado")
 
+    limits = operational_ylim(y)
+    if limits:
+        ax.set_ylim(*limits)
+
+    # NAMO/NAME siguen visibles como referencias numéricas, pero sólo se trazan
+    # como líneas si caen dentro de la ventana vertical operacional.
+    ref_text = []
+    ymin, ymax = ax.get_ylim()
     if finite(meta.get("namo")):
-        ax.axhline(meta["namo"], linestyle="--", linewidth=1.8, label=f"NAMO {meta['namo']:.2f} m")
+        ref_text.append(f"NAMO {meta['namo']:.2f} m")
+        if ymin <= meta["namo"] <= ymax:
+            ax.axhline(meta["namo"], linestyle="--", linewidth=1.8, label=f"NAMO {meta['namo']:.2f} m")
     if finite(meta.get("name")):
-        ax.axhline(meta["name"], linestyle=":", linewidth=1.8, label=f"NAME {meta['name']:.2f} m")
+        ref_text.append(f"NAME {meta['name']:.2f} m")
+        if ymin <= meta["name"] <= ymax:
+            ax.axhline(meta["name"], linestyle=":", linewidth=1.8, label=f"NAME {meta['name']:.2f} m")
 
     base_time = dt(base.get("fecha_hora")) if base else None
     if base and finite(base.get("nivel")) and base_time and start <= base_time <= cutoff:
         ax.scatter([base_time], [base["nivel"]], marker="s", s=90, zorder=5, label=f"Base 06:00 {base['nivel']:.2f} m")
 
+    current_level = summary_row.get("ultimo_nivel")
+    refs = " · ".join(ref_text) if ref_text else "Referencias altas s/d"
     ax.set_title(
         f"{meta['rio']} — {meta['estacion']}\n"
         f"{cutoff.strftime('%d/%m/%Y')} · ciclo 06:00 → {cutoff.strftime('%H:%M')} | "
-        f"Δ vs base {format_delta(summary_row['delta_vs_06'])} | Δ vs anterior {format_delta(summary_row['delta_reporte'])}"
+        f"actual {current_level:.2f} m | Δ base {format_delta(summary_row['delta_vs_06'])} | "
+        f"Δ anterior {format_delta(summary_row['delta_reporte'])}\n{refs}"
     )
-    ax.set_ylabel("Nivel (m)")
-    ax.grid(True, alpha=0.25)
+    ax.set_ylabel("Nivel observado (m)")
+    ax.grid(True, alpha=0.28)
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M", tz=MX))
+    ax.yaxis.set_major_formatter(plt.FormatStrFormatter("%.2f"))
     fig.autofmt_xdate(rotation=0)
     ax.legend(loc="best", fontsize=8)
     fig.tight_layout()
@@ -253,6 +296,9 @@ def plot_dashboard(summary, by_station, start, cutoff):
             x = [dt(r["fecha_hora"]) for r in series]
             y = [r["nivel"] for r in series]
             ax.plot(x, y, marker="o", linewidth=1.6)
+            limits = operational_ylim(y)
+            if limits:
+                ax.set_ylim(*limits)
             ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M", tz=MX))
         ax.set_title(
             f"{row['estacion']} | {row['ultimo_nivel']:.2f} m\n"
@@ -372,6 +418,7 @@ def main():
         "graficas_sistema": system_graphs,
         "tablero": dashboard,
         "regla_base": "Se usa lectura observada exacta de 06:00; si falta, último valor observado válido disponible al inicio del ciclo y se marca base_heredada. Una base heredada anterior al inicio del ciclo no se dibuja en la gráfica del día actual.",
+        "regla_escala": "La gráfica individual usa escala vertical ajustada al rango observado para hacer visibles variaciones pequeñas; NAMO/NAME se conservan como referencias numéricas y sólo se trazan como líneas si caen dentro de la ventana vertical operacional. Cada punto muestra su nivel en metros.",
     }
     (BASE / "Ultimo_Corte" / "indice_graficas.json").write_text(
         json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
