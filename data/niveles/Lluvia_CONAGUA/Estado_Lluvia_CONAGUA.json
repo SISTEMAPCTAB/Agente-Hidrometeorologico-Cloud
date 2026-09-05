@@ -1,0 +1,22 @@
+{
+  "complete": true,
+  "fecha_reporte": "2026-09-04",
+  "hora_objetivo": 16,
+  "columnas_detectadas": 2,
+  "columnas_lluvia_identificadas": 0,
+  "modo": "columnas_no_hidrometricas_en_revision",
+  "regla_blancos": "Celda en blanco = sin_dato; nunca se convierte a 0 mm. Solo se conserva 0 cuando CONAGUA publica explícitamente cero.",
+  "columnas": [
+    {
+      "id": "col_1",
+      "etiqueta": "A T S PRESAS E",
+      "x": 92.8
+    },
+    {
+      "id": "col_2",
+      "etiqueta": "MALPASO PEÑITAS PRESAS",
+      "x": 119
+    }
+  ],
+  "latest_count": 2
+}
