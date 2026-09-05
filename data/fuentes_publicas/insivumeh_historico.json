@@ -48,9 +48,19 @@
       ]
     }
   ],
-  "actualizado_utc": "2026-09-05T13:33:47.800261+00:00",
+  "actualizado_utc": "2026-09-05T14:00:37.756814+00:00",
   "ultima_evolucion_real": [],
   "ultimo_pdf_bhvgm": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
   "senal_usumacinta_alta": "Sin tendencia comparable aguas arriba",
-  "diagnostico_el_tigre": "El Tigre no fue estructurado aun; revisar diagnostico_bhvgm_el_tigre.txt; no se publica valor fabricado."
+  "diagnostico_el_tigre": "El Tigre no fue publicado en BHVGM 741; se conserva el último publicado solo como antecedente y no como dato actual.",
+  "el_tigre_estado": {
+    "publicado_en_corte_actual": false,
+    "corte_actual": {
+      "boletin": "741",
+      "fecha": "04/09/2026",
+      "hora": "20:00"
+    },
+    "ultimo_publicado_anterior": null,
+    "regla": "Un dato anterior se conserva solo como antecedente; nunca sustituye ni gobierna el corte actual."
+  }
 }
