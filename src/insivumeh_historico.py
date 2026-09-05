@@ -61,6 +61,11 @@ def write_diag(txt,h,sts):
 def dt(r):
  try:return datetime.strptime(f"{r['fecha']} {r['hora']}",'%d/%m/%Y %H:%M')
  except:return datetime.min
+def last_station(regs,name):
+ for r in reversed(regs):
+  x=next((s for s in r.get('estaciones',[]) if s.get('estacion')==name),None)
+  if x:return {'boletin':r.get('boletin'),'fecha':r.get('fecha'),'hora':r.get('hora'),'url_pdf':r.get('url_pdf',BHVGM),'estacion':x}
+ return None
 def signal(ev):
  e=next((x for x in ev if x.get('estacion')=='El Tigre'),None)
  if not e:return 'Sin tendencia comparable aguas arriba'
@@ -81,10 +86,13 @@ def main():
     if not o:continue
     dn=x['nivel_instantaneo_m']-o['nivel_instantaneo_m'];dq=x['caudal_instantaneo_m3s']-o['caudal_instantaneo_m3s']
     ev.append({'estacion':x['estacion'],'rio':x['rio'],'desde':f"{a['fecha']} {a['hora']}",'hasta':f"{b['fecha']} {b['hora']}",'horas_transcurridas':round(hours,2),'delta_nivel_m':round(dn,3),'delta_caudal_m3s':round(dq,2),'tendencia_calculada':'incrementando' if dn>0.02 else 'disminuyendo' if dn<-0.02 else 'estable'})
+ current_tigre=next((x for x in sts if x.get('estacion')=='El Tigre'),None)
+ previous_tigre=last_station(regs[:-1] if current_tigre and regs else regs,'El Tigre')
  hist['ultima_evolucion_real']=ev;hist['senal_usumacinta_alta']=signal(ev);hist['ultimo_pdf_bhvgm']=BHVGM;hist['actualizado_utc']=datetime.now(timezone.utc).isoformat()
- if not any(x.get('estacion')=='El Tigre' for x in sts):hist['diagnostico_el_tigre']='El Tigre no fue estructurado aun; revisar diagnostico_bhvgm_el_tigre.txt; no se publica valor fabricado.'
+ hist['el_tigre_estado']={'publicado_en_corte_actual':bool(current_tigre),'corte_actual':h,'ultimo_publicado_anterior':previous_tigre if not current_tigre else None,'regla':'Un dato anterior se conserva solo como antecedente; nunca sustituye ni gobierna el corte actual.'}
+ if not current_tigre:hist['diagnostico_el_tigre']=f"El Tigre no fue publicado en BHVGM {h.get('boletin') or 's/d'}; se conserva el último publicado solo como antecedente y no como dato actual."
  else:hist.pop('diagnostico_el_tigre',None)
  HIST.write_text(json.dumps(hist,ensure_ascii=False,indent=2),encoding='utf-8')
  if LATEST.exists():
-  d=json.loads(LATEST.read_text(encoding='utf-8'));d['insivumeh_evolucion_real']=ev;d['senal_usumacinta_alta']=hist['senal_usumacinta_alta'];d['insivumeh_bhvgm_actual']={'boletin':h.get('boletin'),'fecha':h.get('fecha'),'hora':h.get('hora'),'url_pdf':BHVGM,'estaciones':sts};LATEST.write_text(json.dumps(d,ensure_ascii=False,indent=2),encoding='utf-8')
+  d=json.loads(LATEST.read_text(encoding='utf-8'));d['insivumeh_evolucion_real']=ev;d['senal_usumacinta_alta']=hist['senal_usumacinta_alta'];d['insivumeh_bhvgm_actual']={'boletin':h.get('boletin'),'fecha':h.get('fecha'),'hora':h.get('hora'),'url_pdf':BHVGM,'estaciones':sts,'el_tigre_publicado':bool(current_tigre)};d['insivumeh_el_tigre_antecedente']=previous_tigre if not current_tigre else None;d['insivumeh_el_tigre_regla']='Antecedente informativo: no es observación del corte actual, no se hereda y no gobierna tendencia ni semáforo.';LATEST.write_text(json.dumps(d,ensure_ascii=False,indent=2),encoding='utf-8')
 if __name__=='__main__':main()
