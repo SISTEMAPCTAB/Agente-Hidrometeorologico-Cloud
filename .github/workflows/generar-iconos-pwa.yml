@@ -38,5 +38,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add app/app-icon-512.png app/apple-touch-icon.png
-          git diff --cached --quiet || git commit -m 'Genera iconos PNG PWA e iPhone [skip ci]'
-          git push
+          git diff --cached --quiet && exit 0
+          git commit -m 'Genera iconos PNG PWA e iPhone [skip ci]'
+          git pull --rebase origin main
+          git push origin HEAD:main
