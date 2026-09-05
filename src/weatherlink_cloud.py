@@ -23,7 +23,7 @@ HEADERS = {
     "Referer": "https://www.weatherlink.com/map",
 }
 
-WINDOWS = (1, 6, 24, 48, 72)
+WINDOWS = (1, 6, 24, 48, 72, 96, 120)
 
 
 def parse_float(value):
@@ -241,7 +241,7 @@ def main():
                 st["prev_daily_mm"] = current_daily
                 st["prev_observed_utc"] = observed.isoformat()
 
-            prune_cutoff = now_utc - timedelta(hours=80)
+            prune_cutoff = now_utc - timedelta(hours=240)
             st["events"] = [e for e in st.get("events", []) if iso_to_dt(e.get("ts")) and iso_to_dt(e["ts"]) >= prune_cutoff]
 
             acc = {}
@@ -271,6 +271,8 @@ def main():
                 "24 h mm": fmt(acc[24]),
                 "48 h mm": fmt(acc[48]),
                 "72 h mm": fmt(acc[72]),
+                "96 h mm": fmt(acc[96]),
+                "120 h mm": fmt(acc[120]),
                 "Mes mm": fmt(st.get("month_mm")),
                 "Año mm": fmt(st.get("year_mm")),
                 "Rango SMN 24h": range24,
@@ -288,7 +290,7 @@ def main():
             errors.append({"estacion": station["nombre"], "error": f"{type(exc).__name__}: {exc}"})
             rows.append({
                 "Estacion": station["nombre"], "Ubicacion": station["ubicacion"], "1 h mm": "", "6 h mm": "",
-                "24 h mm": "", "48 h mm": "", "72 h mm": "", "Mes mm": "", "Año mm": "",
+                "24 h mm": "", "48 h mm": "", "72 h mm": "", "96 h mm": "", "120 h mm": "", "Mes mm": "", "Año mm": "",
                 "Rango SMN 24h": "Sin dato", "Siguiente umbral": "Sin dato", "Variables": "0",
                 "Estado": "Error cloud", "Corte fuente": "", "Calidad": "Sin dato"
             })
@@ -305,7 +307,7 @@ def main():
     })
 
     LATEST_CSV.parent.mkdir(parents=True, exist_ok=True)
-    fields = ["Estacion", "Ubicacion", "1 h mm", "6 h mm", "24 h mm", "48 h mm", "72 h mm", "Mes mm", "Año mm", "Rango SMN 24h", "Siguiente umbral", "Variables", "Estado", "Corte fuente", "Calidad"]
+    fields = ["Estacion", "Ubicacion", "1 h mm", "6 h mm", "24 h mm", "48 h mm", "72 h mm", "96 h mm", "120 h mm", "Mes mm", "Año mm", "Rango SMN 24h", "Siguiente umbral", "Variables", "Estado", "Corte fuente", "Calidad"]
     with LATEST_CSV.open("w", encoding="utf-8-sig", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fields, quoting=csv.QUOTE_ALL)
         writer.writeheader()
@@ -323,7 +325,7 @@ def main():
         "complete": ok == 32,
         "errors": errors,
         "source": "WeatherLink public map endpoint /map/data/station/{uuid}",
-        "note": "1h y 24h se conservan como heredados del corte base hasta completar su ventana cloud; 6h/48h/72h quedan vacíos hasta reunir historia suficiente.",
+        "note": "1h y 24h se conservan como heredados del corte base hasta completar su ventana cloud; 6h/48h/72h/96h/120h quedan vacíos hasta reunir historia suficiente. Las ventanas 96/120 h permiten identificar persistencia seca observada sin inferirla de datos faltantes.",
     }
     write_json(STATUS_JSON, status)
     print(json.dumps(status, ensure_ascii=False, indent=2))
