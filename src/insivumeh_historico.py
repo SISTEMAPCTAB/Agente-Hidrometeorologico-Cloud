@@ -10,7 +10,6 @@ HIST=OUT/'insivumeh_historico.json'; LATEST=OUT/'latest.json'
 BHVGM='https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf'
 UA={'User-Agent':'Mozilla/5.0 Agente-Hidrometeorologico-Cloud/1.0'}
 TARGETS=[('El Tigre','Usumacinta'),('El Porvenir','La Pasión'),('San Agustín Chixoy','Chixoy'),('Playa Grande','Chixoy'),('Puente Chocox','Chixoy')]
-ROW_NAMES=['Yulquisis','San Luis Ixcan','San Agustin Chixoy','Playa Grande','El Porvenir','Machaquila','El Tigre','San Pedro Mactun','Chachaclun','La Laguna','Puente Chocox','Xemal','Nenton','Xococ']
 
 def asc(s): return re.sub(r'\s+',' ',unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode()).strip()
 def pdftext(u):
@@ -26,34 +25,34 @@ def one(p,t):
 def header(txt):
  f=asc(txt);return {'boletin':one(r'BOLETIN\s*(?:No\.?|N[oº°]\.?)?\s*(\d+)',f) or one(r'BHVGM\s*[- ]?(\d+)[- ]?2026',f),'fecha':one(r'Fecha\s*:\s*(?:[A-Za-z]+\s+)?(\d{1,2}/\d{1,2}/\d{4})',f),'hora':one(r'Hora\s*:\s*(\d{1,2}:\d{2})',f)}
 def station_record(segment,name,river):
+ # La fila BHVGM contiene exactamente seis magnitudes antes de la tendencia:
+ # nivel normal min/max, caudal normal min/max, nivel actual y caudal instantáneo.
  clean=re.split(r'\bHora\s*:',segment,1,flags=re.I)[0]
  nums=[float(x) for x in re.findall(r'(?<![A-Za-z0-9])-?\d+(?:\.\d+)?',clean)]
  if len(nums)<6:return None
  vals=nums[-6:]
  return {'estacion':name,'rio':river,'nivel_referencia_min_m':vals[0],'nivel_referencia_max_m':vals[1],'caudal_referencia_min_m3s':vals[2],'caudal_referencia_max_m3s':vals[3],'nivel_instantaneo_m':vals[4],'caudal_instantaneo_m3s':vals[5],'calidad':'extraido_del_BHVGM','nota_referencia':'Máximos como referencia estadística; no son umbral de inundación.'}
-def row_segment(flat,name):
- na=asc(name)
- # INSIVUMEH puede anteponer "Rio Bajo" a estaciones como El Tigre; el corte de fila
- # debe iniciar antes de ese descriptor para no contaminar la fila anterior.
- pat=(r'(?:Rio\s+Bajo\s+)?'+re.escape(na)) if na.lower()=='el tigre' else re.escape(na)
- m=re.search(pat,flat,re.I)
- if not m:return None
- tail=flat[m.start():];positions=[]
- for other in ROW_NAMES:
-  if asc(other).lower()==na.lower():continue
-  op=(r'(?:Rio\s+Bajo\s+)?'+re.escape(asc(other))) if asc(other).lower() in {'el tigre','nenton'} else re.escape(asc(other))
-  q=re.search(r'\b'+op+r'\b',tail[max(1,len(m.group(0))):],re.I)
-  if q:positions.append(max(1,len(m.group(0)))+q.start())
- stop=min(positions) if positions else min(len(tail),700)
- return tail[:stop]
 def stations(txt):
- flat=asc(txt);out=[]
+ # pdftotext -layout conserva cada estación en su propia línea. Buscar por línea evita
+ # que textos como "Rio Bajo" o ubicaciones Playa Grande contaminen estaciones vecinas.
+ out=[];seen=set()
+ lines=[asc(x) for x in txt.splitlines() if x.strip()]
  for name,river in TARGETS:
-  seg=row_segment(flat,name)
-  if not seg:continue
-  if not re.search(r'\b'+re.escape(asc(river))+r'\b',seg,re.I):continue
-  rec=station_record(seg,name,river)
-  if rec:out.append(rec)
+  na,ra=asc(name),asc(river)
+  candidates=[]
+  for line in lines:
+   if re.search(r'\b'+re.escape(na)+r'\b',line,re.I) and re.search(r'\b'+re.escape(ra)+r'\b',line,re.I):
+    candidates.append(line)
+  # Respaldo para PDFs cuya extracción parte una fila en dos líneas.
+  if not candidates:
+   for i,line in enumerate(lines):
+    joined=asc(' '.join(lines[i:i+2]))
+    if re.search(r'\b'+re.escape(na)+r'\b',joined,re.I) and re.search(r'\b'+re.escape(ra)+r'\b',joined,re.I):
+     candidates.append(joined)
+  for seg in candidates:
+   rec=station_record(seg,name,river)
+   if rec and name not in seen:
+    out.append(rec);seen.add(name);break
  return out
 def dt(r):
  try:return datetime.strptime(f"{r['fecha']} {r['hora']}",'%d/%m/%Y %H:%M')
