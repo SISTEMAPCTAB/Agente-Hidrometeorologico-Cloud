@@ -1,6 +1,6 @@
 from __future__ import annotations
 import io,json,re,unicodedata
-from datetime import datetime
+from datetime import datetime,timezone
 from pathlib import Path
 import requests
 from pypdf import PdfReader
@@ -28,31 +28,23 @@ def station_record(segment,name,river):
  nums=[float(x) for x in re.findall(r'(?<!\w)-?\d+(?:\.\d+)?',segment)]
  if len(nums)<6:return None
  return {'estacion':name,'rio':river,'nivel_referencia_min_m':nums[0],'nivel_referencia_max_m':nums[1],'caudal_referencia_min_m3s':nums[2],'caudal_referencia_max_m3s':nums[3],'nivel_instantaneo_m':nums[4],'caudal_instantaneo_m3s':nums[5],'calidad':'extraido_del_BHVGM','nota_referencia':'Máximos como referencia estadística; no son umbral de inundación.'}
+def flexible_name(name):
+ # pypdf puede insertar espacios dentro de una palabra (p.ej. "T igre").
+ words=asc(name).split()
+ return r'\s+'.join(r'\s*'.join(map(re.escape,w)) for w in words)
 def stations(txt):
- f=asc(txt); low=f.lower(); found=[]
- # Se delimitan las filas con TODOS los nombres de estaciones del BHVGM, no sólo los objetivos.
- # Así una estación intermedia (p.ej. Machaquilá) no contamina los seis números de El Tigre.
- markers=[]
- row_names=['San Luis Ixcan','San Agustin Chixoy','Playa Grande','El Porvenir','Machaquila','El Tigre','San Pedro Mactun','Chachaclun','La Laguna Azul','Puente Chocox','Xemal','Nenton','Xococ']
- for n in row_names:
-  start=0; needle=asc(n).lower()
-  while True:
-   p=low.find(needle,start)
-   if p<0:break
-   markers.append((p,n)); start=p+len(needle)
- markers=sorted(set(markers))
- target_map={asc(n).lower():(n,r) for n,r in TARGETS}
- for i,(p,row_name) in enumerate(markers):
-  meta=target_map.get(asc(row_name).lower())
-  if not meta:continue
-  end=markers[i+1][0] if i+1<len(markers) else min(len(f),p+500)
-  name,river=meta; rec=station_record(f[p:end],name,river)
+ f=asc(txt); found=[]
+ # Extraer cada objetivo por su nombre + río y cortar antes de la siguiente fila.
+ # El lookahead evita que estaciones intermedias aporten números ajenos.
+ all_names=['San Luis Ixcan','San Agustin Chixoy','Playa Grande','El Porvenir','Machaquila','El Tigre','San Pedro Mactun','Chachaclun','La Laguna Azul','Puente Chocox','Xemal','Nenton','Xococ']
+ next_rows='|'.join(flexible_name(n) for n in all_names)
+ for name,river in TARGETS:
+  pat=rf'({flexible_name(name)})\s+({flexible_name(river)})(.*?)(?=(?:{next_rows})\s+|OBSERVACIONES GENERALES|$)'
+  m=re.search(pat,f,re.I|re.S)
+  if not m:continue
+  rec=station_record(m.group(0),name,river)
   if rec:found.append(rec)
- # deduplicar por estación conservando el primer registro válido del cuadro
- out=[]; seen=set()
- for r in found:
-  if r['estacion'] not in seen:out.append(r);seen.add(r['estacion'])
- return out
+ return found
 def dt(r):
  try:return datetime.strptime(f"{r['fecha']} {r['hora']}",'%d/%m/%Y %H:%M')
  except:return datetime.min
@@ -65,8 +57,8 @@ def main():
  try:hist=json.loads(HIST.read_text(encoding='utf-8'))
  except:hist={'fuente':'INSIVUMEH','producto':'Histórico BHVGM estructurado','registros':[]}
  regs=hist.get('registros',[])
- # El corte se identifica por fecha/hora; el número de boletín es metadato y no debe duplicar el mismo corte.
  cut=f"{h.get('fecha','')}|{h.get('hora','')}"
+ # reemplaza sólo el mismo corte para que una mejora del parser complete estaciones faltantes sin duplicar observaciones
  regs=[r for r in regs if f"{r.get('fecha','')}|{r.get('hora','')}"!=cut]
  if h.get('fecha') and h.get('hora') and sts:
   regs.append({'clave':f"{cut}|{h.get('boletin') or 's/d'}",**h,'url_pdf':BHVGM,'estaciones':sts})
@@ -80,7 +72,7 @@ def main():
     if not o:continue
     dn=x['nivel_instantaneo_m']-o['nivel_instantaneo_m']; dq=x['caudal_instantaneo_m3s']-o['caudal_instantaneo_m3s']
     ev.append({'estacion':x['estacion'],'rio':x['rio'],'desde':f"{a['fecha']} {a['hora']}",'hasta':f"{b['fecha']} {b['hora']}",'horas_transcurridas':round(hours,2),'delta_nivel_m':round(dn,3),'delta_caudal_m3s':round(dq,2),'tendencia_calculada':'incrementando' if dn>0.02 else 'disminuyendo' if dn<-0.02 else 'estable'})
- hist['ultima_evolucion_real']=ev; hist['senal_usumacinta_alta']=signal(ev); hist['ultimo_pdf_bhvgm']=BHVGM; hist['actualizado_utc']=datetime.utcnow().isoformat()+'Z'; HIST.write_text(json.dumps(hist,ensure_ascii=False,indent=2),encoding='utf-8')
+ hist['ultima_evolucion_real']=ev; hist['senal_usumacinta_alta']=signal(ev); hist['ultimo_pdf_bhvgm']=BHVGM; hist['actualizado_utc']=datetime.now(timezone.utc).isoformat(); HIST.write_text(json.dumps(hist,ensure_ascii=False,indent=2),encoding='utf-8')
  if LATEST.exists():
   d=json.loads(LATEST.read_text(encoding='utf-8')); d['insivumeh_evolucion_real']=ev; d['senal_usumacinta_alta']=hist['senal_usumacinta_alta']; d['insivumeh_bhvgm_actual']={'boletin':h.get('boletin'),'fecha':h.get('fecha'),'hora':h.get('hora'),'url_pdf':BHVGM,'estaciones':sts}; LATEST.write_text(json.dumps(d,ensure_ascii=False,indent=2),encoding='utf-8')
 if __name__=='__main__':main()
