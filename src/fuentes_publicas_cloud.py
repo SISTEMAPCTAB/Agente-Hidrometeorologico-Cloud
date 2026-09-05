@@ -4,6 +4,7 @@ import io
 import json
 import re
 import html
+import unicodedata
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
@@ -91,7 +92,6 @@ def parse_smn96(raw):
         m=re.search(r'Pronóstico\s*(0-24|24-48|48-72|72-96)\s*h',joined,re.I)
         if not m: continue
         win=m.group(1)
-        headers=row[1:8] if len(row)>=8 else BASINS
         for j in range(i+1,min(i+5,len(tp.rows))):
             rr=tp.rows[j]
             if rr and re.search(r'Precipitación',rr[0],re.I):
@@ -150,6 +150,57 @@ def find_context(text,terms,radius=2):
             if snippet not in seen: seen.add(snippet); out.append(snippet)
     return out[:20]
 
+def ascii_text(s):
+    s=unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode('ascii')
+    s=s.replace('´','').replace("'",'')
+    return re.sub(r'\s+',' ',s).strip()
+
+def parse_insivumeh_stations(text):
+    """Extrae sólo estaciones objetivo con estructura suficientemente estable.
+    Los dos últimos valores numéricos de cada fila se interpretan como nivel y caudal instantáneos,
+    de acuerdo con el encabezado del BHVGM. Los máximos del boletín se conservan como referencia
+    estadística y nunca como umbral de inundación.
+    """
+    flat=ascii_text(text)
+    targets=[
+        ('El Tigre','Usumacinta','Las Cruces, Petén',['El Tigre Usumacinta Las Cruces']),
+        ('El Porvenir','La Pasión','Las Cruces, Petén',['El Porvenir La Pasion Las Cruces']),
+        ('San Agustín Chixoy','Chixoy','Chisec, Alta Verapaz',['San Agustin Chixoy Chixoy Chisec']),
+        ('Puente Chocox','Chixoy','Canillá, Quiché',['Puente Chocox Chixoy Canilla']),
+        ('Machaquilá','Machaquilá','Poptún, Petén',['Machaquila Machaquila Poptun'])
+    ]
+    all_names=[a for _,_,_,aliases in targets for a in aliases]
+    out=[]
+    for station,river,location,aliases in targets:
+        start=None; alias_used=None
+        for alias in aliases:
+            m=re.search(re.escape(alias),flat,re.I)
+            if m: start=m.start(); alias_used=alias; break
+        if start is None: continue
+        ends=[]
+        for other in all_names:
+            if other==alias_used: continue
+            m=re.search(re.escape(other),flat[start+len(alias_used):],re.I)
+            if m: ends.append(start+len(alias_used)+m.start())
+        end=min(ends) if ends else min(len(flat),start+360)
+        seg=flat[start:end]
+        nums=[float(x) for x in re.findall(r'(?<!\w)-?\d+(?:\.\d+)?',seg)]
+        # La fila del BHVGM contiene seis valores principales antes de la marca de tendencia.
+        if len(nums)<6: continue
+        vals=nums[:6]
+        out.append({
+            'estacion':station,'rio':river,'ubicacion':location,
+            'nivel_referencia_min_m':vals[0],
+            'nivel_referencia_max_m':vals[1],
+            'caudal_referencia_min_m3s':vals[2],
+            'caudal_referencia_max_m3s':vals[3],
+            'nivel_instantaneo_m':vals[4],
+            'caudal_instantaneo_m3s':vals[5],
+            'calidad':'extraido_del_BHVGM',
+            'nota_referencia':'Los valores máximos del boletín son referencia estadística; no constituyen por sí mismos umbral de inundación.'
+        })
+    return out
+
 def parse_insivumeh():
     raw,meta=fetch_text(INSI_DAILY); p=LinkParser(); p.feed(raw)
     candidates=[]
@@ -159,11 +210,12 @@ def parse_insivumeh():
     if not candidates:
         candidates=[(urljoin(INSI_DAILY,h),t) for h,t in p.links if '.pdf' in urljoin(INSI_DAILY,h).lower()]
     pdf_url=candidates[-1][0] if candidates else None
-    result={'fuente':'INSIVUMEH','producto':'Boletín diario hidrología aplicada - Vertiente Golfo de México','url_pagina':INSI_DAILY,'url_pdf':pdf_url,'http':meta,'estaciones_objetivo':['Chixoy/Salinas','La Pasión/El Porvenir','Usumacinta/El Tigre','Machaquilá'],'fragmentos_relevantes':[],'pdf_bytes':None,'completo':False}
+    result={'fuente':'INSIVUMEH','producto':'Boletín diario hidrología aplicada - Vertiente Golfo de México','url_pagina':INSI_DAILY,'url_pdf':pdf_url,'http':meta,'estaciones_objetivo':['Chixoy/Salinas','La Pasión/El Porvenir','Usumacinta/El Tigre','Machaquilá'],'estaciones_estructuradas':[],'fragmentos_relevantes':[],'pdf_bytes':None,'completo':False}
     if pdf_url:
         try:
             txt,n=extract_pdf_text(pdf_url); result['pdf_bytes']=n
             result['fragmentos_relevantes']=find_context(txt,['Chixoy','Salinas','La Pasión','La Pasion','El Porvenir','El Tigre','Usumacinta','Machaquilá','Machaquila'],3)
+            result['estaciones_estructuradas']=parse_insivumeh_stations(txt)
             result['completo']=bool(result['fragmentos_relevantes'])
         except Exception as e: result['error_pdf']=str(e)
     return result
