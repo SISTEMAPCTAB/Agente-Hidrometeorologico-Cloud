@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-09-06T22:57:18.861227+00:00",
+  "generated_utc": "2026-09-06T23:04:16.396695+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
@@ -161,7 +161,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sun, 06 Sep 2026 22:57:19 GMT"
+      "last_modified": "Sun, 06 Sep 2026 23:04:17 GMT"
     }
   },
   "smn360": {
@@ -261,7 +261,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sun, 06 Sep 2026 22:57:38 GMT"
+      "last_modified": "Sun, 06 Sep 2026 23:04:17 GMT"
     }
   },
   "insivumeh": {
@@ -285,6 +285,19 @@
         "caudal_referencia_max_m3s": 2856.43,
         "nivel_instantaneo_m": 5.62,
         "caudal_instantaneo_m3s": 952.09,
+        "calidad": "extraido_del_BHVGM",
+        "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+      },
+      {
+        "estacion": "El Porvenir",
+        "rio": "La Pasión",
+        "ubicacion": "Las Cruces, Petén",
+        "nivel_referencia_min_m": 1.03,
+        "nivel_referencia_max_m": 3.0,
+        "caudal_referencia_min_m3s": 93.04,
+        "caudal_referencia_max_m3s": 399.28,
+        "nivel_instantaneo_m": 2.12,
+        "caudal_instantaneo_m3s": 227.96,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       }
@@ -605,7 +618,7 @@
   "insivumeh_el_tigre_antecedente": null,
   "insivumeh_el_tigre_regla": "Antecedente informativo: no es observación del corte actual, no se hereda y no gobierna tendencia ni semáforo.",
   "insivumeh_contexto_diagnostico": {
-    "actualizado_utc": "2026-09-06T22:57:26.596713+00:00",
+    "actualizado_utc": "2026-09-06T23:04:23.544114+00:00",
     "errores": [],
     "lluvia": {
       "pagina": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
