@@ -71,6 +71,17 @@
     if(stationIdx<0)return [];
     const byStation=new Map([...table.querySelectorAll('tbody tr')].map(tr=>[norm(tr.cells[stationIdx]?.textContent),tr]));
     const entries=catalog.rows.filter(x=>norm(x.fuente)===norm(source)&&SYSTEM_ORDER.includes(x.sistema));
+    if(norm(source)==='conagua'){
+      const direct=[
+        {fuente:'CONAGUA',estacion:'Salto de Agua',sistema:'tulija'},
+        {fuente:'CONAGUA',estacion:'Macuspana',sistema:'tulija'},
+        {fuente:'CONAGUA',estacion:'Boca del Cerro',sistema:'usumacinta'},
+        {fuente:'CONAGUA',estacion:'San Pedro',sistema:'usumacinta'}
+      ];
+      for(const e of direct){
+        if(!entries.some(x=>x.sistema===e.sistema&&norm(x.estacion)===norm(e.estacion)))entries.push(e);
+      }
+    }
     const out=[];
     for(const system of SYSTEM_ORDER){
       const wanted=entries.filter(x=>x.sistema===system);
