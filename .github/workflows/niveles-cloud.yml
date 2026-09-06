@@ -20,8 +20,9 @@ on:
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
   schedule:
-    - cron: '3,18 16,18,20,22 * * *'
-    - cron: '3,18 0 * * *'
+    - cron: '30 15,16,20 * * *'
+    - cron: '0 22 * * *'
+    - cron: '30 0 * * *'
 
 permissions:
   contents: write
