@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - 'src/carbonio_to_repo.py'
+      - 'src/presas_history.py'
       - 'requirements.txt'
       - '.github/workflows/carbonio-cloud.yml'
   schedule:
@@ -60,11 +61,12 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
-      - name: Publicar datos de lectura en el repositorio privado
+      - name: Publicar datos de lectura e histórico semanal de presas
         shell: bash
         run: |
           mkdir -p data
           cp -R out/data/. data/
+          python src/presas_history.py
           git config user.name "Agente Hidrometeorologico Cloud"
           git config user.email "actions@users.noreply.github.com"
           git add data
