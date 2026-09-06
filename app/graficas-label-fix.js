@@ -15,10 +15,7 @@
     if(!ys.length)return;
     const base=Math.max(24,Math.min(...ys));
     labels
-      .sort((a,b)=>{
-        const ay=Number(a.getAttribute('y'))||0,b y=0;
-        return ay-(Number(b.getAttribute('y'))||0);
-      })
+      .sort((a,b)=>(Number(a.getAttribute('y'))||0)-(Number(b.getAttribute('y'))||0))
       .forEach((t,i)=>moveReferenceLabel(t,base+i*22));
   }
   function fixAll(root=document){
