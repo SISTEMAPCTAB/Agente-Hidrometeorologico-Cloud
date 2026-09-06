@@ -18,8 +18,10 @@
   function reorderNav(){
     const nav=document.getElementById('nav');if(!nav)return;
     const resumen=nav.querySelector('button[data-section="resumen"]');
+    const pronostico=nav.querySelector('button[data-section="pronostico"]');
     const weather=nav.querySelector('button[data-section="weather"]');
-    if(resumen&&weather&&resumen.nextElementSibling!==weather){nav.insertBefore(weather,resumen.nextElementSibling)}
+    if(resumen&&pronostico&&resumen.nextElementSibling!==pronostico){nav.insertBefore(pronostico,resumen.nextElementSibling)}
+    if(pronostico&&weather&&pronostico.nextElementSibling!==weather){nav.insertBefore(weather,pronostico.nextElementSibling)}
   }
 
   function cloneFilteredTable(table,source){
@@ -74,15 +76,12 @@
     const entries=catalog.rows.filter(x=>norm(x.fuente)===norm(source)&&SYSTEM_ORDER.includes(x.sistema));
 
     if(norm(source)==='weatherlink'){
-      // Estaciones WeatherLink que se están consultando y que pertenecen o aportan señal
-      // operativa a los cuatro sistemas. Sólo se muestran cuando el corte actual está OK.
       const direct=[
         {fuente:'WEATHERLINK',estacion:'OSTUACÁN PCIVILCHIAPAS',sistema:'presas'},
         {fuente:'WEATHERLINK',estacion:'JUÁREZ PCIVILCHIAPAS',sistema:'presas'},
         {fuente:'WEATHERLINK',estacion:'Impulsora',sistema:'presas'},
         {fuente:'WEATHERLINK',estacion:'PASO LA MINA',sistema:'presas'},
         {fuente:'WEATHERLINK',estacion:'Modesta_1',sistema:'presas'},
-
         {fuente:'WEATHERLINK',estacion:'AMATÁN PCIVILCHIAPAS',sistema:'serranos'},
         {fuente:'WEATHERLINK',estacion:'PICHUCALCO PCIVILCHIAPAS',sistema:'serranos'},
         {fuente:'WEATHERLINK',estacion:'IXHUATAN PCIVILCHIAPAS',sistema:'serranos'},
@@ -94,17 +93,13 @@
         {fuente:'WEATHERLINK',estacion:'ASUR Villahermosa',sistema:'serranos'},
         {fuente:'WEATHERLINK',estacion:'Centro',sistema:'serranos'},
         {fuente:'WEATHERLINK',estacion:'SAN CAYETANO CONSOLA',sistema:'serranos'},
-
         {fuente:'WEATHERLINK',estacion:'SALTO DE AGUA PCIVILCHIAPAS',sistema:'tulija'},
         {fuente:'WEATHERLINK',estacion:'PALENQUE PCIVILCHIAPAS',sistema:'tulija'},
         {fuente:'WEATHERLINK',estacion:'Sinai',sistema:'tulija'},
-
         {fuente:'WEATHERLINK',estacion:'IGeofisica-M2',sistema:'usumacinta'},
         {fuente:'WEATHERLINK',estacion:'Yaxhá - INSIVUMEH PETEN',sistema:'usumacinta'}
       ];
-      for(const e of direct){
-        if(!entries.some(x=>x.sistema===e.sistema&&norm(x.estacion)===norm(e.estacion)))entries.push(e);
-      }
+      for(const e of direct){if(!entries.some(x=>x.sistema===e.sistema&&norm(x.estacion)===norm(e.estacion)))entries.push(e)}
     }
 
     if(norm(source)==='conagua'){
@@ -125,9 +120,7 @@
         {fuente:'CONAGUA',estacion:'Finca Chayabé',sistema:'usumacinta'},
         {fuente:'CONAGUA',estacion:'Lacantún',sistema:'usumacinta'}
       ];
-      for(const e of direct){
-        if(!entries.some(x=>x.sistema===e.sistema&&norm(x.estacion)===norm(e.estacion)))entries.push(e);
-      }
+      for(const e of direct){if(!entries.some(x=>x.sistema===e.sistema&&norm(x.estacion)===norm(e.estacion)))entries.push(e)}
     }
 
     const out=[];
