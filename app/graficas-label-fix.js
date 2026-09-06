@@ -1,36 +1,43 @@
 (() => {
+  function moveReferenceLabel(t,newY){
+    t.setAttribute('y',String(newY));
+    const line=t.previousElementSibling;
+    if(line?.tagName?.toLowerCase()==='line'){
+      const lineY=newY+5;
+      line.setAttribute('y1',String(lineY));
+      line.setAttribute('y2',String(lineY));
+    }
+  }
   function fixSvg(svg){
     const labels=[...svg.querySelectorAll('text')].filter(t=>/fuera de escala/i.test(t.textContent||''));
     if(labels.length<2)return;
-    const groups=[];
-    for(const t of labels){
-      const y=Number(t.getAttribute('y'));
-      if(!Number.isFinite(y))continue;
-      let g=groups.find(x=>Math.abs(x.y-y)<1);
-      if(!g){g={y,items:[]};groups.push(g)}
-      g.items.push(t);
-    }
-    for(const g of groups){
-      if(g.items.length<2)continue;
-      g.items.forEach((t,i)=>{
-        const newY=g.y+i*16;
-        t.setAttribute('y',String(newY));
-        const line=t.previousElementSibling;
-        if(line?.tagName?.toLowerCase()==='line'){
-          const lineY=newY+5;
-          line.setAttribute('y1',String(lineY));
-          line.setAttribute('y2',String(lineY));
-        }
-      });
-    }
+    const ys=labels.map(t=>Number(t.getAttribute('y'))).filter(Number.isFinite);
+    if(!ys.length)return;
+    const base=Math.max(24,Math.min(...ys));
+    labels
+      .sort((a,b)=>{
+        const ay=Number(a.getAttribute('y'))||0,b y=0;
+        return ay-(Number(b.getAttribute('y'))||0);
+      })
+      .forEach((t,i)=>moveReferenceLabel(t,base+i*22));
   }
   function fixAll(root=document){
     root.querySelectorAll?.('.hydro48-card svg').forEach(fixSvg);
   }
+  let scheduled=false;
+  function schedule(root=document){
+    if(scheduled)return;
+    scheduled=true;
+    requestAnimationFrame(()=>{
+      scheduled=false;
+      fixAll(root);
+    });
+  }
   document.addEventListener('DOMContentLoaded',()=>{
-    fixAll();
-    setTimeout(fixAll,1000);
+    schedule();
+    setTimeout(()=>schedule(),500);
+    setTimeout(()=>schedule(),1500);
     const target=document.getElementById('content')||document.body;
-    new MutationObserver(()=>fixAll(target)).observe(target,{childList:true,subtree:true});
+    new MutationObserver(()=>schedule(target)).observe(target,{childList:true,subtree:true,attributes:true,attributeFilter:['y']});
   });
 })();
