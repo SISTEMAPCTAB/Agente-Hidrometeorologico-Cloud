@@ -10,7 +10,7 @@
   let history=[];
   let loading=null;
   const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[m]));
   const num=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v));
   function current(){return document.querySelector('#nav button.active')?.dataset.section||'resumen'}
   async function load(){
@@ -86,7 +86,7 @@
     const stale=staleHours>12?` · último dato ${fmt(latest._t)}`:'';
     return `<div class="hydro48-card"><div class="hydro48-head"><div><strong>${esc(latest.estacion)}</strong><span>${esc(latest.rio||'')}</span></div><button type="button" class="copy-btn copy-graph" aria-label="Copiar gráfica de ${esc(latest.estacion)}">Copiar</button></div><div class="hydro48-scroll"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Evolución de nivel de ${esc(latest.estacion)} en las últimas 96 horas">${grid}<line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="#777"/><line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#777"/>${ref}<polyline fill="none" stroke="#1f77b4" stroke-width="3" points="${pts}"/>${dots}${labels}</svg></div><div class="hydro48-foot"><b>${Number(latest.nivel).toFixed(2)} m</b> · Δ96 h ${delta>=0?'+':''}${delta.toFixed(2)} m${stale}</div></div>`;
   }
-  function injectStyles(){if(document.getElementById('hydro48Style'))return;const s=document.createElement('style');s.id='hydro48Style';s.textContent='.hydro48-panel{border-top:4px solid #b9955b}.hydro48-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}.hydro48-card{border:1px solid #e2ded8;border-radius:14px;padding:10px;background:#fff;min-width:0}.hydro48-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:4px}.hydro48-head>div{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex:1}.hydro48-head strong{color:#6f112d}.hydro48-head span,.hydro48-foot{font-size:11px;color:#666}.hydro48-scroll{width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}.hydro48-card svg{display:block;max-width:none;height:auto;background:#fff}.hydro48-foot{padding:4px 2px 0}.hydro48-foot b{color:#2d2d2d}.copy-btn{border:1px solid #c9c1b7;background:#fff;border-radius:8px;padding:5px 9px;font:inherit;font-size:11px;cursor:pointer;color:#555;white-space:nowrap}.copy-btn:active{transform:translateY(1px)}.copy-table-bar{display:flex;justify-content:flex-end;margin:0 0 6px}.hydro-figure img{display:none!important}.hydro-figure{display:none!important}@media(max-width:760px){.hydro48-grid{grid-template-columns:1fr}}';document.head.appendChild(s)}
+  function injectStyles(){if(document.getElementById('hydro48Style'))return;const s=document.createElement('style');s.id='hydro48Style';s.textContent='.hydro48-panel{border-top:4px solid #b9955b}.hydro48-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}.hydro48-card{border:1px solid #e2ded8;border-radius:14px;padding:10px;background:#fff;min-width:0}.hydro48-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:4px;flex-wrap:wrap}.hydro48-head>div{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex:1}.hydro48-head strong{color:#6f112d}.hydro48-head span,.hydro48-foot{font-size:11px;color:#666}.hydro48-scroll,.graph-zoom-scroll{width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}.hydro48-card svg{display:block;max-width:none;background:#fff}.hydro48-foot{padding:4px 2px 0}.hydro48-foot b{color:#2d2d2d}.copy-btn,.zoom-btn{border:1px solid #c9c1b7;background:#fff;border-radius:8px;padding:5px 9px;font:inherit;font-size:11px;cursor:pointer;color:#555;white-space:nowrap}.copy-btn:active,.zoom-btn:active{transform:translateY(1px)}.copy-table-bar{display:flex;justify-content:flex-end;margin:0 0 6px}.graph-zoom-bar{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin:4px 0 6px}.zoom-label{min-width:44px;text-align:center;font-size:11px;color:#666;font-variant-numeric:tabular-nums}.hydro-figure img{display:none!important}.hydro-figure{display:none!important}@media(max-width:760px){.hydro48-grid{grid-template-columns:1fr}.graph-zoom-bar{justify-content:flex-start;overflow-x:auto}}';document.head.appendChild(s)}
   function tableText(table){return [...table.rows].map(row=>[...row.cells].map(cell=>cell.innerText.trim()).join('\t')).join('\n')}
   async function copyTable(btn){
     const wrap=btn.closest('.table-wrap'),table=wrap?.querySelector('table');if(!table)return;
@@ -102,18 +102,18 @@
   function svgCanvas(svg,title='',sub=''){
     return new Promise((resolve,reject)=>{
       const xml=new XMLSerializer().serializeToString(svg),blob=new Blob([xml],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob),img=new Image();
-      img.onload=()=>{const scale=Math.max(1,window.devicePixelRatio||1),sw=svg.width.baseVal.value||svg.viewBox.baseVal.width,sh=svg.height.baseVal.value||svg.viewBox.baseVal.height,head=title||sub?52:0,canvas=document.createElement('canvas');canvas.width=sw*scale;canvas.height=(sh+head)*scale;const ctx=canvas.getContext('2d');ctx.scale(scale,scale);ctx.fillStyle='#fff';ctx.fillRect(0,0,sw,sh+head);if(head){ctx.fillStyle='#6f112d';ctx.font='700 18px sans-serif';ctx.fillText(title,18,23);ctx.fillStyle='#666';ctx.font='12px sans-serif';ctx.fillText(sub,18,42)}ctx.drawImage(img,0,head,sw,sh);URL.revokeObjectURL(url);resolve(canvas)};
+      img.onload=()=>{const scale=Math.max(1,window.devicePixelRatio||1),sw=svg.viewBox.baseVal.width||svg.width.baseVal.value,sh=svg.viewBox.baseVal.height||svg.height.baseVal.value,head=title||sub?52:0,canvas=document.createElement('canvas');canvas.width=sw*scale;canvas.height=(sh+head)*scale;const ctx=canvas.getContext('2d');ctx.scale(scale,scale);ctx.fillStyle='#fff';ctx.fillRect(0,0,sw,sh+head);if(head){ctx.fillStyle='#6f112d';ctx.font='700 18px sans-serif';ctx.fillText(title,18,23);ctx.fillStyle='#666';ctx.font='12px sans-serif';ctx.fillText(sub,18,42)}ctx.drawImage(img,0,head,sw,sh);URL.revokeObjectURL(url);resolve(canvas)};
       img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('svg'))};img.src=url;
     });
   }
   async function copyGraph(btn){
     const card=btn.closest('.hydro48-card'),svg=card?.querySelector('svg');if(!svg)return;
-    const title=card.querySelector('.hydro48-head strong')?.textContent?.trim()||'Gráfica hidrométrica';
+    const title=card.querySelector('.hydro48-head strong')?.textContent?.trim()||'Gráfica';
     const sub=card.querySelector('.hydro48-head span')?.textContent?.trim()||'';
     try{
       const canvas=await svgCanvas(svg,title,sub),blob=await new Promise(r=>canvas.toBlob(r,'image/png'));
       if(blob&&navigator.clipboard?.write&&window.ClipboardItem){await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);flash(btn,'Copiado');return}
-      const a=document.createElement('a');a.href=canvas.toDataURL('image/png');a.download=`grafica-${norm(title).replace(/\s+/g,'-')}-96h.png`;document.body.appendChild(a);a.click();a.remove();flash(btn,'PNG');
+      const a=document.createElement('a');a.href=canvas.toDataURL('image/png');a.download=`grafica-${norm(title).replace(/\s+/g,'-')}.png`;document.body.appendChild(a);a.click();a.remove();flash(btn,'PNG');
     }catch{flash(btn,'No disponible')}
   }
   function flash(btn,text){const old=btn.textContent;btn.textContent=text;setTimeout(()=>btn.textContent=old,1400)}
@@ -123,10 +123,53 @@
   function addGraphCopyButtons(root=document){
     root.querySelectorAll('.hydro48-card').forEach(card=>{if(!card.querySelector('svg')||card.querySelector('.copy-graph'))return;const head=card.querySelector('.hydro48-head');if(!head)return;const b=document.createElement('button');b.type='button';b.className='copy-btn copy-graph';b.textContent='Copiar';b.setAttribute('aria-label','Copiar gráfica');head.appendChild(b)});
   }
-  function enhance(root=document){addTableCopyButtons(root);addGraphCopyButtons(root)}
+  function graphMetrics(svg){
+    const vb=svg.viewBox?.baseVal;
+    const w=Number(svg.getAttribute('width'))||(vb&&vb.width)||760;
+    const h=Number(svg.getAttribute('height'))||(vb&&vb.height)||330;
+    return {w,h};
+  }
+  function ensureGraphScroll(card){
+    const svg=card.querySelector('svg');if(!svg)return null;
+    let wrap=svg.parentElement;
+    if(!wrap?.classList.contains('hydro48-scroll')&&!wrap?.classList.contains('graph-zoom-scroll')){
+      const n=document.createElement('div');n.className='graph-zoom-scroll';svg.parentNode.insertBefore(n,svg);n.appendChild(svg);wrap=n;
+    }
+    if(!svg.dataset.zoomBaseWidth){const m=graphMetrics(svg);svg.dataset.zoomBaseWidth=String(m.w);svg.dataset.zoomBaseHeight=String(m.h);svg.dataset.zoom='1';svg.style.width=`${m.w}px`;svg.style.height=`${m.h}px`;}
+    return {svg,wrap};
+  }
+  function applyZoom(card,z,fit=false){
+    const g=ensureGraphScroll(card);if(!g)return;
+    const baseW=Number(g.svg.dataset.zoomBaseWidth)||760,baseH=Number(g.svg.dataset.zoomBaseHeight)||330;
+    let zoom=z;
+    if(fit){const available=Math.max(280,g.wrap.clientWidth||card.clientWidth||baseW);zoom=Math.min(1,available/baseW);}
+    zoom=Math.max(.45,Math.min(2.5,zoom));
+    g.svg.dataset.zoom=String(zoom);
+    g.svg.style.width=`${Math.round(baseW*zoom)}px`;
+    g.svg.style.height=`${baseH}px`;
+    const label=card.querySelector('.zoom-label');if(label)label.textContent=fit&&zoom<.995?'Ajustado':`${Math.round(zoom*100)}%`;
+  }
+  function addGraphZoomControls(root=document){
+    root.querySelectorAll('.hydro48-card').forEach(card=>{
+      if(!card.querySelector('svg'))return;ensureGraphScroll(card);
+      if(card.querySelector('.graph-zoom-bar'))return;
+      const bar=document.createElement('div');bar.className='graph-zoom-bar';bar.innerHTML='<button type="button" class="zoom-btn zoom-out" aria-label="Alejar gráfica">−</button><span class="zoom-label">100%</span><button type="button" class="zoom-btn zoom-in" aria-label="Acercar gráfica">+</button><button type="button" class="zoom-btn zoom-fit">Ajustar</button>';
+      const head=card.querySelector('.hydro48-head');head?.insertAdjacentElement('afterend',bar);
+    });
+  }
+  function enhance(root=document){addTableCopyButtons(root);addGraphCopyButtons(root);addGraphZoomControls(root)}
   function bindCopy(){
     if(document.body.dataset.hydroCopyBound)return;document.body.dataset.hydroCopyBound='1';
-    document.addEventListener('click',e=>{const tb=e.target.closest('.copy-table');if(tb){copyTable(tb);return}const gb=e.target.closest('.copy-graph');if(gb)copyGraph(gb)});
+    document.addEventListener('click',e=>{
+      const tb=e.target.closest('.copy-table');if(tb){copyTable(tb);return}
+      const gb=e.target.closest('.copy-graph');if(gb){copyGraph(gb);return}
+      const card=e.target.closest('.hydro48-card');if(!card)return;
+      const svg=card.querySelector('svg');if(!svg)return;
+      const currentZoom=Number(svg.dataset.zoom)||1;
+      if(e.target.closest('.zoom-in')){applyZoom(card,currentZoom+.25);return}
+      if(e.target.closest('.zoom-out')){applyZoom(card,currentZoom-.25);return}
+      if(e.target.closest('.zoom-fit')){applyZoom(card,1,true);return}
+    });
     new MutationObserver(()=>enhance()).observe(document.getElementById('content')||document.body,{childList:true,subtree:true});
   }
   function removeLegacy48(content){
