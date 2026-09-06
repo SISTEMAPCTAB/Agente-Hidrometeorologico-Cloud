@@ -5,95 +5,153 @@
   const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const n=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v))?Number(v):null;
-  const fmt=(v,d=2)=>n(v)===null?'s/d':Number(v).toFixed(d);
+  const fmt=(v,d=1)=>n(v)===null?'s/d':Number(v).toFixed(d);
   const active=()=>document.querySelector('#nav button.active')?.dataset.section||'resumen';
+
+  const RAIN_STATIONS=[
+    ['El Tigre','INS171302AT','Usumacinta directo'],
+    ['El Porvenir','INS171001AT','La Pasión'],
+    ['Bethel','INS171301AT','Usumacinta/Lacantún-frontera'],
+    ['Machaquilá','INS171201AT','La Pasión–Machaquilá'],
+    ['Mactún','INS170401AT','San Pedro'],
+    ['Chixoy Hidro','INS161301AT','Chixoy/Salinas'],
+    ['Playa Grande Met (Ixcan)','INS142201AT','Chixoy/Salinas–Ixcán'],
+    ['Santa María Cahabón','INS161201CV','Chixoy/Salinas'],
+    ['Panzos PHC Altaverapaz','INS160701CV','Chixoy/Salinas']
+  ];
 
   function table(headers,rows){
     return `<div class="table-wrap"><table><thead><tr>${headers.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c??'s/d'}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   }
 
-  function insivumehLevels(doc){
+  function findPeriodStations(doc,period){
+    const g=doc?.guatemala_acumulados||{};
+    if(period==='epoca_lluviosa')return g?.epoca_lluviosa?.estaciones_relevantes||[];
+    const p=(g?.mapas||[]).find(x=>norm(x.periodo)===norm(period));
+    return p?.estaciones_relevantes||[];
+  }
+
+  function valueFor(list,name,code){
+    const x=(list||[]).find(r=>norm(r.estacion)===norm(name)||norm(r.codigo)===norm(code));
+    return x&&n(x.acumulado_mm)!==null?Number(x.acumulado_mm):null;
+  }
+
+  function altoRainRows(doc,fuente1){
+    const d24=findPeriodStations(doc,'24h');
+    const week=findPeriodStations(doc,'semanal');
+    const month=findPeriodStations(doc,'mensual');
+    const season=findPeriodStations(doc,'epoca_lluviosa');
+    const rows=RAIN_STATIONS.map(([name,code,branch])=>{
+      const v24=valueFor(d24,name,code),vw=valueFor(week,name,code),vm=valueFor(month,name,code),vs=valueFor(season,name,code);
+      const recent=[v24,vw,vm].some(v=>v!==null);
+      return [
+        esc(name),esc(code),esc(branch),
+        's/d','s/d',
+        v24===null?'s/d':`${fmt(v24)} mm`,
+        vw===null?'s/d':`${fmt(vw)} mm`,
+        vm===null?'s/d':`${fmt(vm)} mm`,
+        vs===null?'s/d':`${fmt(vs)} mm`,
+        'INSIVUMEH · Mapas últimas 24 h / resumen de estaciones',
+        recent?'dato puntual estructurado':'sin dato puntual estructurado en productos recientes'
+      ];
+    });
+
+    const clean=String(fuente1||'').replace(/,/g,'');
+    const m=clean.match(/BHG21\s+Lacant[uú]n\s+Ocosingo\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/i);
+    if(m){
+      rows.push(['Lacantún','BHG21','Lacantún · Ocosingo','s/d','s/d',`${Number(m[6]).toFixed(1)} mm`,'s/d','s/d','s/d','OCFS/CONAGUA · Boletín Frontera Sur','precipitación 24 h del boletín']);
+    }
+    return rows;
+  }
+
+  function levelRows(doc){
     const ins=doc?.insivumeh||{};
-    const wanted=['El Porvenir','El Tigre'];
     const evo=new Map((doc?.insivumeh_evolucion_real||[]).map(x=>[norm(x.estacion),x]));
+    const wanted=['El Porvenir','El Tigre'];
     const rows=[];
     for(const name of wanted){
       const x=(ins.estaciones_estructuradas||[]).find(y=>norm(y.estacion)===norm(name));
       if(!x)continue;
       const e=evo.get(norm(name));
+      const nivel=n(x.nivel_instantaneo_m),nivelMax=n(x.nivel_referencia_max_m);
+      const gasto=n(x.caudal_instantaneo_m3s),gastoMax=n(x.caudal_referencia_max_m3s);
+      const dn=nivel!==null&&nivelMax!==null?nivel-nivelMax:null;
+      const dg=gasto!==null&&gastoMax!==null?gasto-gastoMax:null;
       rows.push([
-        esc(x.estacion),esc(x.rio),esc(x.ubicacion),`${fmt(x.nivel_instantaneo_m)} m`,`${fmt(x.caudal_instantaneo_m3s)} m³/s`,
-        e?.delta_nivel_m!==undefined&&e?.delta_nivel_m!==null?`${Number(e.delta_nivel_m).toFixed(2)} m / ${fmt(e.horas_transcurridas,1)} h`:'s/d',
-        esc(e?.tendencia_calculada||'s/d'),esc(`${ins.fecha||'s/d'} ${ins.hora||''}`.trim()),'INSIVUMEH · BHVGM',esc(x.calidad||'extraído del BHVGM')
+        esc(x.estacion),esc(x.rio),esc(x.ubicacion),
+        nivel===null?'s/d':`${nivel.toFixed(2)} m`,
+        nivelMax===null?'s/d':`${nivelMax.toFixed(2)} m`,
+        dn===null?'s/d':`${dn.toFixed(2)} m`,
+        nivel!==null&&nivelMax?`${(nivel/nivelMax*100).toFixed(1)} %`:'s/d',
+        gasto===null?'s/d':`${gasto.toFixed(2)} m³/s`,
+        gastoMax===null?'s/d':`${gastoMax.toFixed(2)} m³/s`,
+        dg===null?'s/d':`${dg.toFixed(2)} m³/s`,
+        gasto!==null&&gastoMax?`${(gasto/gastoMax*100).toFixed(1)} %`:'s/d',
+        esc(e?.tendencia_calculada||'s/d'),
+        esc(`${ins.fecha||'s/d'} ${ins.hora||''}`.trim()),
+        'INSIVUMEH · BHVGM'
       ]);
     }
     return rows;
   }
 
-  function guatemalaRain(doc){
-    const g=doc?.guatemala_acumulados||{};
-    const out=[];
-    const seasonal=g?.epoca_lluviosa?.estaciones_relevantes||[];
-    const target=['El Tigre','El Porvenir','Machaquilá','Mactún','Bethel'];
-    for(const x of seasonal){
-      if(!target.some(t=>norm(t)===norm(x.estacion)))continue;
-      out.push([esc(x.estacion),esc(x.rama_aportante||x.rama||'Alto Usumacinta'),n(x.acumulado_mm)===null?'s/d':`${Number(x.acumulado_mm).toFixed(1)} mm`,esc(x.periodo||g?.epoca_lluviosa?.periodo||'época lluviosa'),'INSIVUMEH · Resumen de estaciones','Consulta automática cada 10 min',esc(x.confianza_influencia||x.confianza||'s/d')]);
-    }
-    const daily=(g?.periodos||[]).find(x=>norm(x.periodo)==='24h');
-    if(daily){
-      out.unshift(['Mapa oficial 24 h','Sector Alto Usumacinta · Guatemala','Mapa oficial','24 h','INSIVUMEH · Mapas últimas 24 horas','Consulta automática cada 10 min',daily.extraccion_areal===false?'mapa disponible; sin valor puntual automático':'disponible']);
-    }
-    return out;
-  }
-
-  function lacantunRow(text){
-    const clean=String(text||'').replace(/,/g,'');
-    const m=clean.match(/BHG21\s+Lacant[uú]n\s+Ocosingo\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/i);
-    if(!m)return [];
-    return [[
-      'Lacantún','Río Lacantún · Ocosingo',`${Number(m[4]).toFixed(2)} m`,`${Number(m[5]).toFixed(2)} m³/s`,`${Number(m[6]).toFixed(1)} mm / 24 h`,
-      'Boletín diario OCFS/CONAGUA','Frontera Sur · Centro Hidrometeorológico Regional Tuxtla Gutiérrez','Se actualiza con cada boletín recibido','dato extraído del bloque Cuenca del Río Usumacinta'
-    ]];
-  }
-
   function styles(){
     if(document.getElementById('altoUsuStyle'))return;
     const s=document.createElement('style');s.id='altoUsuStyle';
-    s.textContent='.alto-usu{margin-top:26px;border-top:2px solid #e2ded8;padding-top:18px}.alto-usu h3{color:#6f112d;margin:0 0 6px}.alto-usu h4{margin:18px 0 8px;color:#333}.alto-usu .source-note{font-size:12px;color:#666;line-height:1.45;margin:6px 0 12px}';document.head.appendChild(s);
+    s.textContent='.alto-usu{margin:16px 0 22px}.alto-usu h3{color:#6f112d;margin:0 0 6px}.alto-usu .source-note{font-size:12px;color:#666;line-height:1.45;margin:6px 0 12px}.usu-upper-levels{margin-bottom:18px}.usu-upper-levels h2{color:#6f112d}';
+    document.head.appendChild(s);
   }
 
-  async function render(){
+  async function loadData(){
+    const [dr,tr]=await Promise.all([
+      fetch(`${DATA_URL}?v=${Date.now()}`,{cache:'no-store'}),
+      fetch(`${FUENTE1_URL}?v=${Date.now()}`,{cache:'no-store'})
+    ]);
+    return {doc:dr.ok?await dr.json():{},txt:tr.ok?await tr.text():''};
+  }
+
+  async function renderWeather(){
     if(active()!=='weather')return;
-    const content=document.getElementById('content');if(!content||content.querySelector('#altoUsumacinta'))return;
+    const content=document.getElementById('content');if(!content||content.querySelector('#altoUsumacintaRain'))return;
     const con=[...content.querySelectorAll('section.panel.wide')].find(s=>/CONAGUA · lluvia/i.test(s.querySelector('h2')?.textContent||''));
     if(!con)return;
     try{
-      const [dr,tr]=await Promise.all([
-        fetch(`${DATA_URL}?v=${Date.now()}`,{cache:'no-store'}),
-        fetch(`${FUENTE1_URL}?v=${Date.now()}`,{cache:'no-store'})
-      ]);
-      const doc=dr.ok?await dr.json():{};const txt=tr.ok?await tr.text():'';
-      const levels=insivumehLevels(doc),rain=guatemalaRain(doc),lac=lacantunRow(txt);
+      const {doc,txt}=await loadData();
+      const rows=altoRainRows(doc,txt);
       styles();
-      const sec=document.createElement('section');sec.id='altoUsumacinta';sec.className='panel wide alto-usu';
-      sec.innerHTML=`<h3>Alto Usumacinta · Guatemala y Chiapas</h3>
-        <p class="source-note">Seguimiento de aportes aguas arriba hacia Tabasco. Se muestran únicamente datos obtenidos de las fuentes operativas ya integradas al agente; un dato ausente se conserva como s/d y no se sustituye por cero.</p>
-        <h4>Guatemala · lluvia registrada / acumulados INSIVUMEH</h4>
-        ${table(['Estación / producto','Rama aportante','Lluvia','Periodo','Fuente','Frecuencia de extracción','Calidad / confianza'],rain.length?rain:[['s/d','Alto Usumacinta','s/d','s/d','INSIVUMEH','Cada 10 min','sin dato puntual disponible']])}
-        <p class="source-note">Fuente de lluvia: INSIVUMEH, producto “Mapas de las últimas 24 horas” y resumen de estaciones. El agente consulta la fuente cada 10 minutos; cuando el mapa diario no ofrece valor puntual estructurado, se identifica expresamente y no se infiere una lluvia de estación.</p>
-        <h4>Guatemala · niveles y caudales</h4>
-        ${table(['Estación','Río','Ubicación','Nivel','Caudal','Δ nivel','Tendencia','Corte fuente','Fuente','Calidad'],levels.length?levels:[['s/d','La Pasión / Usumacinta','s/d','s/d','s/d','s/d','s/d','s/d','INSIVUMEH · BHVGM','sin dato']])}
-        <p class="source-note">INSIVUMEH BHVGM se consulta cada 10 minutos. El histórico observado muestra boletines a las 08:00, 14:00 y 20:00 h; la tabla conserva la hora publicada por la fuente.</p>
-        <h4>Chiapas · Río Lacantún</h4>
-        ${table(['Estación','Río / zona','Nivel','Caudal','Lluvia','Producto','Fuente','Actualización','Calidad'],lac.length?lac:[['Lacantún','Ocosingo','s/d','s/d','s/d','Boletín OCFS/CONAGUA','Frontera Sur','Con cada boletín recibido','sin dato en corte actual']])}`;
-      con.insertAdjacentElement('afterend',sec);
+      const sec=document.createElement('section');sec.id='altoUsumacintaRain';sec.className='panel wide alto-usu';
+      sec.innerHTML=`<h2>Alto Usumacinta · precipitación observada</h2>
+        <p class="source-note">Sólo precipitación de estaciones/productos que aportan al Alto Usumacinta. No se presentan aquí niveles ni caudales. Los acumulados de época lluviosa se identifican en su propia columna y no se muestran como lluvia reciente.</p>
+        ${table(['Estación','Código','Rama aportante','1 h','6 h','24 h','Semanal','Mensual','Acum. época lluviosa','Fuente','Calidad / disponibilidad'],rows)}
+        <p class="source-note">INSIVUMEH publica el mapa diario de 24 h y productos semanal/mensual. El agente los consulta cada 10 minutos. Cuando el producto es sólo mapa y no ofrece un valor puntual estructurado para la estación, se conserva s/d; no se estima a partir del color del mapa. Lacantún usa únicamente la precipitación de 24 h publicada por OCFS/CONAGUA.</p>`;
+
+      const conGroups=con.querySelector('.weather-source-groups');
+      const usuBlock=conGroups?[...conGroups.querySelectorAll('.subcuenca-weather-block')].find(b=>/^usumacinta$/i.test((b.querySelector('h3')?.textContent||'').trim())):null;
+      if(usuBlock)conGroups.insertBefore(sec,usuBlock);else con.insertAdjacentElement('afterend',sec);
     }catch(e){/* no altera el resto de la página si una fuente falla */}
   }
+
+  async function renderUsumacintaLevels(){
+    if(active()!=='usumacinta')return;
+    const content=document.getElementById('content');if(!content||content.querySelector('#upperUsumacintaLevels'))return;
+    try{
+      const {doc}=await loadData();const rows=levelRows(doc);if(!rows.length)return;
+      styles();
+      const sec=document.createElement('section');sec.id='upperUsumacintaLevels';sec.className='panel wide usu-upper-levels';
+      sec.innerHTML=`<h2>Alto Usumacinta · niveles y gastos de referencia</h2>
+        <p class="source-note">Comparación operativa de La Pasión (El Porvenir) y Usumacinta (El Tigre) con los máximos de referencia publicados en el BHVGM de INSIVUMEH. Los máximos son referencias estadísticas del boletín y no se interpretan como umbrales de inundación.</p>
+        ${table(['Estación','Río','Ubicación','Nivel actual','Nivel máx. ref.','Dif. nivel','% nivel ref.','Gasto actual','Gasto máx. ref.','Dif. gasto','% gasto ref.','Tendencia','Corte fuente','Fuente'],rows)}`;
+      content.insertBefore(sec,content.firstElementChild||null);
+    }catch(e){/* no altera el resto de la página si una fuente falla */}
+  }
+
+  function render(){renderWeather();renderUsumacintaLevels()}
+  function reset(){document.getElementById('altoUsumacintaRain')?.remove();document.getElementById('upperUsumacintaLevels')?.remove();setTimeout(render,700)}
 
   document.addEventListener('DOMContentLoaded',()=>{
     setTimeout(render,1200);
     document.getElementById('nav')?.addEventListener('click',()=>setTimeout(render,800));
-    document.getElementById('refreshBtn')?.addEventListener('click',()=>setTimeout(()=>{document.getElementById('altoUsumacinta')?.remove();render()},900));
-    const c=document.getElementById('content')||document.body;new MutationObserver(()=>{if(active()==='weather')render()}).observe(c,{childList:true,subtree:true});
+    document.getElementById('refreshBtn')?.addEventListener('click',reset);
+    const c=document.getElementById('content')||document.body;new MutationObserver(render).observe(c,{childList:true,subtree:true});
   });
 })();
