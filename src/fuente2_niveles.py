@@ -58,7 +58,8 @@ def numeric_tokens(line):
 def find_line(text, label):
     target = norm(label).strip()
     for raw in text.splitlines():
-        if norm(raw).strip().startswith(target):
+        candidate = re.sub(r"^[\s*•-]+", "", norm(raw)).strip()
+        if candidate.startswith(target):
             return raw
     return None
 
@@ -129,7 +130,6 @@ def main():
     values, diagnostics = extract_values(text)
     history = load_history()
 
-    # No retroceder el corte por archivos históricos o resúmenes viejos.
     existing_times = [parse_dt(r.get("fecha_hora")) for r in history]
     latest = max((t for t in existing_times if t), default=None)
     if latest and cut < latest:
