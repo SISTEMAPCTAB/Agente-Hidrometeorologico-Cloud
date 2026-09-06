@@ -99,32 +99,38 @@
       flash(btn,'Copiado');
     }catch{flash(btn,'No disponible')}
   }
-  function svgCanvas(svg){
+  function svgCanvas(svg,title='',sub=''){
     return new Promise((resolve,reject)=>{
       const xml=new XMLSerializer().serializeToString(svg),blob=new Blob([xml],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob),img=new Image();
-      img.onload=()=>{const scale=Math.max(1,window.devicePixelRatio||1),canvas=document.createElement('canvas');canvas.width=svg.width.baseVal.value*scale;canvas.height=svg.height.baseVal.value*scale;const ctx=canvas.getContext('2d');ctx.scale(scale,scale);ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width/scale,canvas.height/scale);ctx.drawImage(img,0,0);URL.revokeObjectURL(url);resolve(canvas)};
+      img.onload=()=>{const scale=Math.max(1,window.devicePixelRatio||1),sw=svg.width.baseVal.value||svg.viewBox.baseVal.width,sh=svg.height.baseVal.value||svg.viewBox.baseVal.height,head=title||sub?52:0,canvas=document.createElement('canvas');canvas.width=sw*scale;canvas.height=(sh+head)*scale;const ctx=canvas.getContext('2d');ctx.scale(scale,scale);ctx.fillStyle='#fff';ctx.fillRect(0,0,sw,sh+head);if(head){ctx.fillStyle='#6f112d';ctx.font='700 18px sans-serif';ctx.fillText(title,18,23);ctx.fillStyle='#666';ctx.font='12px sans-serif';ctx.fillText(sub,18,42)}ctx.drawImage(img,0,head,sw,sh);URL.revokeObjectURL(url);resolve(canvas)};
       img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('svg'))};img.src=url;
     });
   }
   async function copyGraph(btn){
     const card=btn.closest('.hydro48-card'),svg=card?.querySelector('svg');if(!svg)return;
+    const title=card.querySelector('.hydro48-head strong')?.textContent?.trim()||'Gráfica hidrométrica';
+    const sub=card.querySelector('.hydro48-head span')?.textContent?.trim()||'';
     try{
-      const canvas=await svgCanvas(svg),blob=await new Promise(r=>canvas.toBlob(r,'image/png'));
+      const canvas=await svgCanvas(svg,title,sub),blob=await new Promise(r=>canvas.toBlob(r,'image/png'));
       if(blob&&navigator.clipboard?.write&&window.ClipboardItem){await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);flash(btn,'Copiado');return}
-      const a=document.createElement('a');a.href=canvas.toDataURL('image/png');a.download=`grafica-${norm(card.querySelector('strong')?.textContent||'nivel').replace(/\s+/g,'-')}-96h.png`;document.body.appendChild(a);a.click();a.remove();flash(btn,'PNG');
+      const a=document.createElement('a');a.href=canvas.toDataURL('image/png');a.download=`grafica-${norm(title).replace(/\s+/g,'-')}-96h.png`;document.body.appendChild(a);a.click();a.remove();flash(btn,'PNG');
     }catch{flash(btn,'No disponible')}
   }
   function flash(btn,text){const old=btn.textContent;btn.textContent=text;setTimeout(()=>btn.textContent=old,1400)}
   function addTableCopyButtons(root=document){
     root.querySelectorAll('.table-wrap').forEach(w=>{if(w.querySelector(':scope > .copy-table-bar'))return;const bar=document.createElement('div');bar.className='copy-table-bar';bar.innerHTML='<button type="button" class="copy-btn copy-table">Copiar</button>';w.prepend(bar)});
   }
+  function addGraphCopyButtons(root=document){
+    root.querySelectorAll('.hydro48-card').forEach(card=>{if(!card.querySelector('svg')||card.querySelector('.copy-graph'))return;const head=card.querySelector('.hydro48-head');if(!head)return;const b=document.createElement('button');b.type='button';b.className='copy-btn copy-graph';b.textContent='Copiar';b.setAttribute('aria-label','Copiar gráfica');head.appendChild(b)});
+  }
+  function enhance(root=document){addTableCopyButtons(root);addGraphCopyButtons(root)}
   function bindCopy(){
     if(document.body.dataset.hydroCopyBound)return;document.body.dataset.hydroCopyBound='1';
     document.addEventListener('click',e=>{const tb=e.target.closest('.copy-table');if(tb){copyTable(tb);return}const gb=e.target.closest('.copy-graph');if(gb)copyGraph(gb)});
-    new MutationObserver(()=>addTableCopyButtons()).observe(document.getElementById('content')||document.body,{childList:true,subtree:true});
+    new MutationObserver(()=>enhance()).observe(document.getElementById('content')||document.body,{childList:true,subtree:true});
   }
   async function render(){
-    await load();injectStyles();bindCopy();addTableCopyButtons();
+    await load();injectStyles();bindCopy();enhance();
     const id=current(),content=document.getElementById('content');if(!content||!history.length)return;
     content.querySelector('#hydro48Panel')?.remove();
     const ids=id==='resumen'?['presas','serranos','tulija','usumacinta']:[id];
@@ -132,7 +138,7 @@
     const names=[];ids.forEach(x=>stationNames(x).forEach(n=>{if(!names.some(a=>norm(a)===norm(n)))names.push(n)}));
     const cards=names.map(svgFor).filter(Boolean);if(!cards.length)return;
     const panel=document.createElement('section');panel.id='hydro48Panel';panel.className='panel wide hydro48-panel';panel.innerHTML=`<h2>Niveles de ríos · últimas 96 h</h2><p class="muted">Se conserva la última serie válida hasta que exista una observación nueva.</p><div class="hydro48-grid">${cards.join('')}</div>`;
-    const grid=content.querySelector('.grid')||content;grid.appendChild(panel);addTableCopyButtons(content);
+    const grid=content.querySelector('.grid')||content;grid.appendChild(panel);enhance(content);
   }
-  document.addEventListener('DOMContentLoaded',()=>{injectStyles();bindCopy();addTableCopyButtons();setTimeout(render,800);document.getElementById('nav')?.addEventListener('click',()=>setTimeout(render,500));document.getElementById('refreshBtn')?.addEventListener('click',()=>setTimeout(()=>{history=[];render()},900));window.addEventListener('hydro:soft-refresh',()=>setTimeout(render,250));});
+  document.addEventListener('DOMContentLoaded',()=>{injectStyles();bindCopy();enhance();setTimeout(render,800);document.getElementById('nav')?.addEventListener('click',()=>setTimeout(render,500));document.getElementById('refreshBtn')?.addEventListener('click',()=>setTimeout(()=>{history=[];render()},900));window.addEventListener('hydro:soft-refresh',()=>setTimeout(render,250));});
 })();
