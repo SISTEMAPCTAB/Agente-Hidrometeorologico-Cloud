@@ -129,9 +129,16 @@
     document.addEventListener('click',e=>{const tb=e.target.closest('.copy-table');if(tb){copyTable(tb);return}const gb=e.target.closest('.copy-graph');if(gb)copyGraph(gb)});
     new MutationObserver(()=>enhance()).observe(document.getElementById('content')||document.body,{childList:true,subtree:true});
   }
+  function removeLegacy48(content){
+    content.querySelectorAll('section.panel.wide').forEach(section=>{
+      const title=section.querySelector(':scope > h2')?.textContent?.trim()||'';
+      if(title.startsWith('Gráficas hidrométricas · 48 h'))section.remove();
+    });
+  }
   async function render(){
     await load();injectStyles();bindCopy();enhance();
     const id=current(),content=document.getElementById('content');if(!content||!history.length)return;
+    removeLegacy48(content);
     content.querySelector('#hydro48Panel')?.remove();
     const ids=id==='resumen'?['presas','serranos','tulija','usumacinta']:[id];
     if(!ids.some(x=>MAP[x]))return;
