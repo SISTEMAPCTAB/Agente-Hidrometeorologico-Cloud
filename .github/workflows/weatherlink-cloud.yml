@@ -16,7 +16,7 @@ on:
       - '.gitattributes'
       - '.github/workflows/weatherlink-cloud.yml'
   schedule:
-    - cron: '8,23,38,53 * * * *'
+    - cron: '*/5 * * * *'
 
 permissions:
   contents: write
