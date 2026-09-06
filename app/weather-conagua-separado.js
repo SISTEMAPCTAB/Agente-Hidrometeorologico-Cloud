@@ -68,17 +68,50 @@
   function groupedTables(table,source,catalog){
     const headers=[...table.querySelectorAll('thead th')].map(th=>norm(th.textContent));
     const stationIdx=headers.findIndex(h=>h==='estacion');
+    const stateIdx=headers.findIndex(h=>h==='estado');
     if(stationIdx<0)return [];
     const byStation=new Map([...table.querySelectorAll('tbody tr')].map(tr=>[norm(tr.cells[stationIdx]?.textContent),tr]));
     const entries=catalog.rows.filter(x=>norm(x.fuente)===norm(source)&&SYSTEM_ORDER.includes(x.sistema));
+
+    if(norm(source)==='weatherlink'){
+      // Estaciones WeatherLink que se están consultando y que pertenecen o aportan señal
+      // operativa a los cuatro sistemas. Sólo se muestran cuando el corte actual está OK.
+      const direct=[
+        {fuente:'WEATHERLINK',estacion:'OSTUACÁN PCIVILCHIAPAS',sistema:'presas'},
+        {fuente:'WEATHERLINK',estacion:'JUÁREZ PCIVILCHIAPAS',sistema:'presas'},
+        {fuente:'WEATHERLINK',estacion:'Impulsora',sistema:'presas'},
+        {fuente:'WEATHERLINK',estacion:'PASO LA MINA',sistema:'presas'},
+        {fuente:'WEATHERLINK',estacion:'Modesta_1',sistema:'presas'},
+
+        {fuente:'WEATHERLINK',estacion:'AMATÁN PCIVILCHIAPAS',sistema:'serranos'},
+        {fuente:'WEATHERLINK',estacion:'PICHUCALCO PCIVILCHIAPAS',sistema:'serranos'},
+        {fuente:'WEATHERLINK',estacion:'IXHUATAN PCIVILCHIAPAS',sistema:'serranos'},
+        {fuente:'WEATHERLINK',estacion:'CHAPULTENANGO PCIVILCHIAPAS',sistema:'serranos'},
+        {fuente:'WEATHERLINK',estacion:'ACALA PCIVILCHIAPAS',sistema:'serranos'},
+        {fuente:'WEATHERLINK',estacion:'BERRIOZÁBAL PCIVILCHIAPAS',sistema:'serranos'},
+        {fuente:'WEATHERLINK',estacion:'MAYA BERRIOZABAL PCIVILCHIAPAS',sistema:'serranos'},
+        {fuente:'WEATHERLINK',estacion:'Cipat Chiapas',sistema:'serranos'},
+        {fuente:'WEATHERLINK',estacion:'ASUR Villahermosa',sistema:'serranos'},
+        {fuente:'WEATHERLINK',estacion:'Centro',sistema:'serranos'},
+        {fuente:'WEATHERLINK',estacion:'SAN CAYETANO CONSOLA',sistema:'serranos'},
+
+        {fuente:'WEATHERLINK',estacion:'SALTO DE AGUA PCIVILCHIAPAS',sistema:'tulija'},
+        {fuente:'WEATHERLINK',estacion:'PALENQUE PCIVILCHIAPAS',sistema:'tulija'},
+        {fuente:'WEATHERLINK',estacion:'Sinai',sistema:'tulija'},
+
+        {fuente:'WEATHERLINK',estacion:'IGeofisica-M2',sistema:'usumacinta'},
+        {fuente:'WEATHERLINK',estacion:'Yaxhá - INSIVUMEH PETEN',sistema:'usumacinta'}
+      ];
+      for(const e of direct){
+        if(!entries.some(x=>x.sistema===e.sistema&&norm(x.estacion)===norm(e.estacion)))entries.push(e);
+      }
+    }
+
     if(norm(source)==='conagua'){
-      // Agrupación tomada del boletín OCFS/CONAGUA por cuenca/subcuenca.
-      // Se incluyen alias tal como pueden aparecer en los reportes de lluvia horarios.
       const direct=[
         {fuente:'CONAGUA',estacion:'El Refugio',sistema:'tulija'},
         {fuente:'CONAGUA',estacion:'Salto de Agua',sistema:'tulija'},
         {fuente:'CONAGUA',estacion:'Macuspana',sistema:'tulija'},
-
         {fuente:'CONAGUA',estacion:'Yaxchilán',sistema:'usumacinta'},
         {fuente:'CONAGUA',estacion:'Boca del Cerro',sistema:'usumacinta'},
         {fuente:'CONAGUA',estacion:'San Pedro',sistema:'usumacinta'},
@@ -96,6 +129,7 @@
         if(!entries.some(x=>x.sistema===e.sistema&&norm(x.estacion)===norm(e.estacion)))entries.push(e);
       }
     }
+
     const out=[];
     for(const system of SYSTEM_ORDER){
       const wanted=entries.filter(x=>x.sistema===system);
@@ -103,7 +137,9 @@
       const seen=new Set();
       for(const e of wanted){
         const key=norm(e.estacion),tr=byStation.get(key);
-        if(tr&&!seen.has(key)){rows.push(tr.cloneNode(true));seen.add(key)}
+        if(!tr||seen.has(key))continue;
+        if(norm(source)==='weatherlink'&&stateIdx>=0&&norm(tr.cells[stateIdx]?.textContent)!=='ok')continue;
+        rows.push(tr.cloneNode(true));seen.add(key);
       }
       if(!rows.length)continue;
       const t=table.cloneNode(true);
@@ -146,7 +182,7 @@
     ensureStyles();
     const grid=panel.parentElement;
     const wl=document.createElement('section');wl.className='panel wide';
-    wl.innerHTML='<h2>WeatherLink · lluvia y temperatura</h2><p class="muted">Estaciones vinculadas a las subcuencas que se verifican operativamente. Se conservan las mismas columnas y las ventanas inmaduras se muestran como s/d.</p><div class="weather-source-groups"></div>';
+    wl.innerHTML='<h2>WeatherLink · lluvia y temperatura</h2><p class="muted">Estaciones activas vinculadas a las subcuencas que se verifican operativamente. Se conservan las mismas columnas y las ventanas inmaduras se muestran como s/d.</p><div class="weather-source-groups"></div>';
     appendGrouped(wl.querySelector('.weather-source-groups'),wlGroups);
 
     const con=document.createElement('section');con.className='panel wide';
