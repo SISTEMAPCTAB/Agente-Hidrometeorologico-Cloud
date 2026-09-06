@@ -1,0 +1,19 @@
+(() => {
+  const BASE='..';
+  const DATA=`${BASE}/data/weatherlink/latest.json`;
+  const STATE=`${BASE}/data/weatherlink/Estado_WeatherLink_Cloud.json`;
+  const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const f2c=f=>(Number(f)-32)*5/9;
+  let latest=null,state=null;
+  function tabasco(s){const x=norm(`${s?.ubicacion||''} ${s?.nombre||''}`);return x.includes('tabasco')||x.includes('tab.')||x.includes('villahermosa')||x.includes('dos bocas')||x.includes('paraiso')||x.includes('centro');}
+  function valid(s){const age=Number(s?.age_seconds),q=norm(s?.quality);return tabasco(s)&&Number.isFinite(Number(s?.temperature_f))&&!q.includes('rezagado')&&!q.includes('heredado')&&(!Number.isFinite(age)||age<=7200);}
+  function best(){return (latest?.stations||[]).filter(valid).map(s=>({...s,temp_c:f2c(s.temperature_f)})).sort((a,b)=>b.temp_c-a.temp_c)[0]||null;}
+  function fmtDate(v){if(!v||v==='s/d')return 's/d';const d=new Date(v);if(Number.isNaN(d.getTime()))return String(v);const day=d.getDate(),mon=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'][d.getMonth()],yr=d.getFullYear(),hh=String(d.getHours()).padStart(2,'0'),mm=String(d.getMinutes()).padStart(2,'0');return `${day} ${mon} ${yr} · ${hh}:${mm} h`;}
+  function ageText(v){if(!v)return '';const d=new Date(v);if(Number.isNaN(d.getTime()))return '';const m=Math.max(0,Math.round((Date.now()-d.getTime())/60000));return m<2?'actualizado hace 1 min':m<60?`actualizado hace ${m} min`:`actualizado hace ${Math.floor(m/60)} h ${m%60} min`;}
+  function patchStatus(){const strip=document.getElementById('statusStrip');if(!strip)return;for(const c of strip.querySelectorAll('.status-card')){const s=c.querySelector('span'),b=c.querySelector('b');if(norm(s?.textContent)==='weatherlink'&&b){const cut=state?.run_local||latest?.run_local||state?.cut||state?.generated_at;b.innerHTML=`${esc(fmtDate(cut))}<small style="display:block;font-weight:500;margin-top:4px">${esc(ageText(cut))}</small>`;}}}
+  function patchThermal(){if(document.getElementById('pageTitle')?.textContent?.trim()!=='Resumen operativo')return;const t=best();if(!t)return;const cards=[...document.querySelectorAll('#content article,.op-alert')];const card=cards.find(x=>/mayor señal térmica|mayor temperatura/i.test(x.textContent||''));if(!card)return;const title=card.querySelector('span')||card.querySelector('h3');const val=card.querySelector('strong');const detail=card.querySelector('small')||card.querySelector('p');if(title)title.textContent='Mayor temperatura actual registrada · Tabasco';if(val)val.textContent=`${t.temp_c.toFixed(1)} °C`;if(detail)detail.textContent=`${t.nombre} · lectura ${t.last_updated_at||fmtDate(t.observed_utc)} · humedad ${Number.isFinite(Number(t.humidity_pct))?Number(t.humidity_pct).toFixed(0)+'%':'s/d'}`;card.classList.remove('op-danger','op-warn');if(t.temp_c>=39.4)card.classList.add('op-danger');else if(t.temp_c>=32.2)card.classList.add('op-warn');}
+  function apply(){patchStatus();patchThermal();}
+  async function refresh(){try{const stamp=Date.now();const [a,b]=await Promise.all([fetch(`${DATA}?v=${stamp}`,{cache:'no-store'}),fetch(`${STATE}?v=${stamp}`,{cache:'no-store'})]);if(a.ok)latest=await a.json();if(b.ok)state=await b.json();apply();}catch(e){console.warn('Hotfix WeatherLink v68',e)}}
+  document.addEventListener('DOMContentLoaded',()=>{refresh();const root=document.body;new MutationObserver(()=>requestAnimationFrame(apply)).observe(root,{childList:true,subtree:true,characterData:true});setInterval(refresh,60000);window.addEventListener('focus',refresh);window.addEventListener('online',refresh);});
+})();
