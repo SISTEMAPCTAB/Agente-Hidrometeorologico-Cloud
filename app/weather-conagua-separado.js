@@ -72,11 +72,25 @@
     const byStation=new Map([...table.querySelectorAll('tbody tr')].map(tr=>[norm(tr.cells[stationIdx]?.textContent),tr]));
     const entries=catalog.rows.filter(x=>norm(x.fuente)===norm(source)&&SYSTEM_ORDER.includes(x.sistema));
     if(norm(source)==='conagua'){
+      // Agrupación tomada del boletín OCFS/CONAGUA por cuenca/subcuenca.
+      // Se incluyen alias tal como pueden aparecer en los reportes de lluvia horarios.
       const direct=[
+        {fuente:'CONAGUA',estacion:'El Refugio',sistema:'tulija'},
         {fuente:'CONAGUA',estacion:'Salto de Agua',sistema:'tulija'},
         {fuente:'CONAGUA',estacion:'Macuspana',sistema:'tulija'},
+
+        {fuente:'CONAGUA',estacion:'Yaxchilán',sistema:'usumacinta'},
         {fuente:'CONAGUA',estacion:'Boca del Cerro',sistema:'usumacinta'},
-        {fuente:'CONAGUA',estacion:'San Pedro',sistema:'usumacinta'}
+        {fuente:'CONAGUA',estacion:'San Pedro',sistema:'usumacinta'},
+        {fuente:'CONAGUA',estacion:'Emiliano Zapata (Chable)',sistema:'usumacinta'},
+        {fuente:'CONAGUA',estacion:'Jonuta (Ciudad)',sistema:'usumacinta'},
+        {fuente:'CONAGUA',estacion:'Jonuta 2 (Puente)',sistema:'usumacinta'},
+        {fuente:'CONAGUA',estacion:'Tres Brazos',sistema:'usumacinta'},
+        {fuente:'CONAGUA',estacion:'C. del Usumacinta',sistema:'usumacinta'},
+        {fuente:'CONAGUA',estacion:'Pant. de Centla',sistema:'usumacinta'},
+        {fuente:'CONAGUA',estacion:'Guacamayas',sistema:'usumacinta'},
+        {fuente:'CONAGUA',estacion:'Finca Chayabé',sistema:'usumacinta'},
+        {fuente:'CONAGUA',estacion:'Lacantún',sistema:'usumacinta'}
       ];
       for(const e of direct){
         if(!entries.some(x=>x.sistema===e.sistema&&norm(x.estacion)===norm(e.estacion)))entries.push(e);
