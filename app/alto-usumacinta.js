@@ -127,7 +127,12 @@
 
       const conGroups=con.querySelector('.weather-source-groups');
       const usuBlock=conGroups?[...conGroups.querySelectorAll('.subcuenca-weather-block')].find(b=>/^usumacinta$/i.test((b.querySelector('h3')?.textContent||'').trim())):null;
-      if(usuBlock)conGroups.insertBefore(sec,usuBlock);else con.insertAdjacentElement('afterend',sec);
+      if(conGroups){
+        if(usuBlock)conGroups.insertBefore(sec,usuBlock);else conGroups.appendChild(sec);
+        if(usuBlock)conGroups.appendChild(usuBlock);
+      }else{
+        con.insertAdjacentElement('afterend',sec);
+      }
     }catch(e){/* no altera el resto de la página si una fuente falla */}
   }
 
