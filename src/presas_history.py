@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 SRC=Path('data/latest/FUENTE2.txt')
-OUT=Path('data/presas/historico_7d.json')
+OUT=Path('data/presas/historico_mensual.json')
 OUT.parent.mkdir(parents=True,exist_ok=True)
 NAMO={'Angostura':533.0,'Malpaso':182.5}
 
@@ -37,7 +37,7 @@ def git_versions():
     if SRC.exists():texts.append(SRC.read_text(encoding='utf-8',errors='ignore'))
     try:
         shas=subprocess.check_output(['git','log','--format=%H','--','data/latest/FUENTE2.txt'],text=True).splitlines()
-        for sha in shas[:30]:
+        for sha in shas[:120]:
             try:texts.append(subprocess.check_output(['git','show',f'{sha}:data/latest/FUENTE2.txt'],text=True,stderr=subprocess.DEVNULL))
             except:pass
     except:pass
@@ -49,7 +49,9 @@ for txt in git_versions():
 allrows=sorted(rows.values(),key=lambda r:r['fecha_hora'])
 if allrows:
     last=max(datetime.fromisoformat(r['fecha_hora']) for r in allrows)
-    cutoff=last-timedelta(days=7)
-    allrows=[r for r in allrows if datetime.fromisoformat(r['fecha_hora'])>=cutoff]
+    current_start=last.replace(day=1,hour=0,minute=0,second=0,microsecond=0)
+    prev_end=current_start-timedelta(seconds=1)
+    prev_start=prev_end.replace(day=1,hour=0,minute=0,second=0,microsecond=0)
+    allrows=[r for r in allrows if datetime.fromisoformat(r['fecha_hora'])>=prev_start]
 OUT.write_text(json.dumps(allrows,ensure_ascii=False,indent=2),encoding='utf-8')
-print(f'Historico presas: {len(allrows)} registros')
+print(f'Historico mensual presas: {len(allrows)} registros')
