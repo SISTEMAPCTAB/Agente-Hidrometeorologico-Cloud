@@ -24,15 +24,22 @@
       }
     });
   }
+  function goTop(){
+    window.scrollTo(0,0);
+    document.documentElement.scrollTop=0;
+    document.body.scrollTop=0;
+  }
   function openSection(id){
     const btn=document.querySelector(`#nav button[data-section="${id}"]`);
     if(!btn)return;
+    goTop();
     btn.click();
-    window.setTimeout(()=>{
-      window.scrollTo({top:0,behavior:'smooth'});
+    goTop();
+    [40,120,350,700].forEach(ms=>window.setTimeout(()=>{
+      goTop();
       const content=document.getElementById('content');
-      if(content){content.classList.add('detail-arrival');window.setTimeout(()=>content.classList.remove('detail-arrival'),900);}
-    },60);
+      if(content&&ms===120){content.classList.add('detail-arrival');window.setTimeout(()=>content.classList.remove('detail-arrival'),700);}
+    },ms));
   }
   function activate(card,e){
     if(!card)return;
