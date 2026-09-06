@@ -10,7 +10,7 @@
   let history=[];
   let loading=null;
   const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[m]));
+  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const num=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v));
   function current(){return document.querySelector('#nav button.active')?.dataset.section||'resumen'}
   async function load(){
