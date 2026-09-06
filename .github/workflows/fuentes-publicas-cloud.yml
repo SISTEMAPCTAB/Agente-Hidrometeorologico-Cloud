@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - 'src/fuentes_publicas_cloud.py'
+      - 'src/insivumeh_pasion_fix.py'
       - 'src/insivumeh_historico.py'
       - 'src/insivumeh_contexto.py'
       - 'requirements.txt'
@@ -45,6 +46,9 @@ jobs:
 
       - name: Consultar SMN e INSIVUMEH
         run: python src/fuentes_publicas_cloud.py
+
+      - name: Corregir extracción La Pasión / El Porvenir
+        run: python src/insivumeh_pasion_fix.py
 
       - name: Actualizar histórico BHVGM y evolución real
         run: python src/insivumeh_historico.py
