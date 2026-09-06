@@ -1,4 +1,4 @@
-const CACHE='hmr-app-v78';
+const CACHE='hmr-app-v79';
 const ASSETS=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./app-icon-512.png','./apple-touch-icon.png'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil((async()=>{const c=await caches.open(CACHE);await Promise.allSettled(ASSETS.map(async a=>{try{const r=await fetch(a,{cache:'reload'});if(r.ok)await c.put(a,r.clone())}catch(_){}}))})())});
 self.addEventListener('activate',e=>e.waitUntil((async()=>{await Promise.all((await caches.keys()).filter(k=>k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim()})()));
