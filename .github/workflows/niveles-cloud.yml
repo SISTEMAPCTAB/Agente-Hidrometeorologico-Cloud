@@ -8,6 +8,7 @@ on:
     paths:
       - 'src/niveles_cloud.py'
       - 'src/niveles_horas_cloud.py'
+      - 'src/fuente2_niveles.py'
       - 'src/lluvia_conagua_cloud.py'
       - 'src/procesar_niveles.js'
       - 'src/procesar_niveles_horas.js'
@@ -76,6 +77,9 @@ jobs:
           NIVELES_BASE: data/niveles
         run: python src/niveles_horas_cloud.py
 
+      - name: Incorporar corte FUENTE2 de las 08:00 a niveles vigentes
+        run: python src/fuente2_niveles.py
+
       - name: Extraer lluvia horaria CONAGUA del reporte más reciente
         env:
           CARBONIO_BASE: https://correo.tabasco.gob.mx
@@ -107,7 +111,8 @@ jobs:
                   data/niveles/Estado_Niveles_Cloud.json \
                   data/niveles/Lluvia_CONAGUA \
                   data/niveles/Graficas \
-                  data/niveles/Reportes
+                  data/niveles/Reportes \
+                  data/niveles/Evidencia_Texto
           if git diff --cached --quiet; then
             echo "Sin cambios de niveles/lluvia para publicar."
           else
