@@ -1,19 +1,14 @@
-self.addEventListener('install', event => {
-  self.skipWaiting();
-});
-
-self.addEventListener('activate', event => {
-  event.waitUntil((async () => {
-    const keys = await caches.keys();
-    await Promise.all(keys.map(key => caches.delete(key)));
-    await self.registration.unregister();
-    const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-    for (const client of clients) {
-      try { await client.navigate(client.url); } catch (_) {}
-    }
-  })());
-});
-
-self.addEventListener('fetch', () => {
-  // Desactivación definitiva del service worker anterior: no interceptar solicitudes.
+const CACHE='hmr-app-v74';
+const ASSETS=['./','./index.html','./styles.css','./semaforo-rios.css','./temperature.css','./prioridades-operativas.css','./semaforo-sistemas.css','./navegacion-sistemas.css','./detalle-sistemas.css','./graficas-priorizadas.css','./graficas-destacadas-resumen.css','./usumacinta-cuenca-alta.css','./presas-niveles.css','./analisis-11h.css','./conagua-shape.js','./app.js','./semaforo-rios.js','./semaforo-cuencas.js','./rain-colors.js','./fuentes-live.js','./temperature-panel.js','./fuentes-creditos.js','./trazabilidad.js','./motor-atencion-operativa.js','./resumen-alertas.js','./prioridades-operativas.js','./semaforo-sistemas.js','./navegacion-sistemas.js','./detalle-sistemas.js','./graficas-priorizadas.js','./graficas-estables.js','./graficas-garantizadas-v71.js','./graficas-destacadas-resumen.js','./usumacinta-cuenca-alta.js','./usumacinta-historico.js','./usumacinta-depuracion.js','./presas-niveles.js','./situacion-operativa.js','./live.js','./analisis-11h.js','./manifest.webmanifest','./logo-ipcet.svg','./app-icon-512.png','./apple-touch-icon.png'];
+self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil((async()=>{const c=await caches.open(CACHE);await Promise.allSettled(ASSETS.map(async a=>{try{const r=await fetch(a,{cache:'no-store'});if(r.ok)await c.put(a,r)}catch(_){}}))})())});
+self.addEventListener('activate',e=>e.waitUntil(Promise.all([self.clients.claim(),caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))])));
+self.addEventListener('fetch',e=>{
+  const url=new URL(e.request.url);
+  if(e.request.mode==='navigate'){
+    e.respondWith(fetch(e.request,{cache:'no-store'}).then(async r=>{if(r.ok){const c=await caches.open(CACHE);c.put('./index.html',r.clone())}return r}).catch(()=>caches.match('./index.html').then(r=>r||caches.match('./'))));
+    return;
+  }
+  const live=url.pathname.includes('/data/')||url.pathname.includes('/config/')||url.pathname.includes('/Graficas/')||['/index.html','/app.js','/styles.css','/temperature-panel.js','/resumen-alertas.js','/prioridades-operativas.js','/situacion-operativa.js','/graficas-priorizadas.js','/graficas-estables.js','/graficas-garantizadas-v71.js','/graficas-destacadas-resumen.js','/semaforo-sistemas.js','/semaforo-cuencas.js','/navegacion-sistemas.js','/detalle-sistemas.js','/detalle-sistemas.css','/usumacinta-depuracion.js','/usumacinta-cuenca-alta.js','/presas-niveles.js','/live.js','/app-icon-512.png','/apple-touch-icon.png','/manifest.webmanifest'].some(p=>url.pathname.endsWith(p));
+  if(live){e.respondWith(fetch(e.request,{cache:'no-store'}).then(resp=>{if(resp.ok){const copy=resp.clone();caches.open(CACHE).then(c=>c.put(e.request,copy))}return resp}).catch(()=>caches.match(e.request)));return}
+  e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(resp=>{if(resp.ok){const copy=resp.clone();caches.open(CACHE).then(c=>c.put(e.request,copy))}return resp})));
 });
