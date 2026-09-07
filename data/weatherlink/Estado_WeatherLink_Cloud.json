@@ -1,17 +1,17 @@
 {
   "agent": "WeatherLink Cloud",
-  "run_utc": "2026-09-07T17:30:22.060382+00:00",
-  "run_local": "2026-09-07T11:30:22.060382-06:00",
+  "run_utc": "2026-09-07T20:46:28.045265+00:00",
+  "run_local": "2026-09-07T14:46:28.045265-06:00",
   "stations_expected": 32,
   "stations_ok": 32,
   "stations_error": 0,
-  "coverage_hours_since_seed": 71.48,
+  "coverage_hours_since_seed": 74.75,
   "window_maturity": {
     "1h": true,
     "6h": true,
     "24h": true,
     "48h": true,
-    "72h": false,
+    "72h": true,
     "96h": false,
     "120h": false
   },
