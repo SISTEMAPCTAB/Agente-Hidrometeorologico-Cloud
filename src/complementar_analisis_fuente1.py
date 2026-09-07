@@ -32,8 +32,18 @@ def lacantun_block(f1):
             '### Frontera Sur · Lacantún y cuencas altas\n'
             'El boletín de Frontera Sur fue consultado, pero no se identificó una fila numérica estructurada de Lacantún para este corte; se mantiene s/d y no se estima desde mapas.\n\n'
         )
-    n = nums(line)
-    # Formato observado FUENTE1: BHG21 Lacantún Ocosingo 142 138.33 274.45 138.33 274.45 0.0 34.0 22.5
+
+    # Algunas páginas PDF extraídas colocan dos estaciones en la misma línea. Tomar únicamente
+    # el segmento a partir de BHG21 Lacantún para no capturar valores de la estación precedente.
+    m = re.search(r'\bBHG21\s+Lacant[uú]n\b(.*)$', line, re.I)
+    segment = m.group(0) if m else line
+    # Eliminar el identificador BHG21 para que el "21" no se interprete como dato numérico.
+    segment = re.sub(r'^\s*BHG21\s+', '', segment, flags=re.I)
+    n = nums(segment)
+
+    # Formato observado FUENTE1:
+    # Lacantún Ocosingo 142 138.33 274.45 138.33 274.45 0.0 34.0 22.5
+    # NAMO, día anterior nivel/gasto, actual nivel/gasto, precipitación, Tmax, Tmin.
     nivel = n[3] if len(n) >= 8 else None
     gasto = n[4] if len(n) >= 8 else None
     lluvia = n[5] if len(n) >= 8 else None
@@ -67,11 +77,9 @@ def main():
     f1 = FUENTE1.read_text(encoding='utf-8-sig') if FUENTE1.exists() else ''
     f2 = FUENTE2.read_text(encoding='utf-8-sig') if FUENTE2.exists() else ''
 
-    # Evitar duplicados en reejecuciones.
     text = re.sub(r'\n## Control de fuentes y hora real de actualización\n.*?(?=\n## |\Z)', '\n', text, flags=re.S)
     text = re.sub(r'\n### Frontera Sur · Lacantún y cuencas altas\n.*?(?=\n## |\n### |\Z)', '\n', text, flags=re.S)
 
-    # Insertar Lacantún dentro del apartado Usumacinta, antes del apartado 3.
     marker = '\n## 3. Ríos Serranos y Bajo Grijalva'
     block = lacantun_block(f1)
     if marker in text:
@@ -79,7 +87,6 @@ def main():
     else:
         text = text.rstrip() + '\n\n' + block
 
-    # Control de fuentes antes de Fuentes y calidad si existe; de lo contrario al final.
     source_marker = '\n## Fuentes y calidad'
     fb = freshness_block(f1, f2)
     if source_marker in text:
