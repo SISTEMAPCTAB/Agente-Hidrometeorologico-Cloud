@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from weatherlink_cloud import fetch_station, parse_float, r1, iso_to_dt
+from weatherlink_cloud import fetch_station, parse_float, r1, iso_to_dt, json_default
 
 MX_TZ=ZoneInfo('America/Mexico_City')
 CONFIG=Path('config/weatherlink_stations_extra.json')
@@ -18,7 +18,7 @@ def load(path,default):
 
 def save(path,obj):
     path.parent.mkdir(parents=True,exist_ok=True)
-    path.write_text(json.dumps(obj,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    path.write_text(json.dumps(obj,ensure_ascii=False,indent=2,default=json_default)+'\n',encoding='utf-8')
 
 def window_sum(events,now,hours):
     cut=now-timedelta(hours=hours)
