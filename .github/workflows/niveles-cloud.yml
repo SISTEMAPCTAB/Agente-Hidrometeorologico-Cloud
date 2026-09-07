@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - 'src/niveles_cloud.py'
+      - 'src/niveles_cloud_robusto.py'
       - 'src/niveles_horas_cloud.py'
       - 'src/fuente2_niveles.py'
       - 'src/lluvia_conagua_cloud.py'
@@ -71,7 +72,7 @@ jobs:
           CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
           CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
           NIVELES_BASE: data/niveles
-        run: python src/niveles_cloud.py
+        run: python src/niveles_cloud_robusto.py
 
       - name: Completar todas las horas publicadas del boletín hidrométrico
         env:
