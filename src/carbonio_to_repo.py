@@ -145,16 +145,14 @@ def message_local_time(summary: dict):
         return None
 
 
-def scan_account(user: str, password: str, desired=None):
+def scan_account(label: str, user: str, password: str, desired=None):
     token = authenticate(user, password)
-    LOG.info("Autenticación Carbonio correcta para una cuenta configurada.")
+    LOG.info("Autenticación Carbonio correcta para %s.", label)
     messages = search_messages(token, 150)
-    LOG.info("Mensajes revisados en cuenta: %d", len(messages))
+    LOG.info("Mensajes revisados en %s: %d", label, len(messages))
     found = {}
     desired = set(desired or ("FUENTE1", "FUENTE2"))
     for summary in messages:
-        if desired.issubset(found.keys()):
-            break
         mid = str(summary.get("id", ""))
         subject = str(summary.get("su", ""))
         if not mid:
@@ -164,17 +162,35 @@ def scan_account(user: str, password: str, desired=None):
             if att["content_type"] != "application/pdf" and not att["filename"].lower().endswith(".pdf"):
                 continue
             source = classify(subject, att["filename"])
-            if source in desired and source not in found:
-                found[source] = {
-                    "message_id": mid,
-                    "subject": subject,
-                    "message_time": message_local_time(summary),
-                    "user": user,
-                    "token": token,
-                    **att,
-                }
-                LOG.info("%s localizado: %s | %s", source, subject, att["filename"])
+            if source not in desired:
+                continue
+            candidate = {
+                "account_label": label,
+                "message_id": mid,
+                "subject": subject,
+                "message_time": message_local_time(summary),
+                "user": user,
+                "token": token,
+                **att,
+            }
+            current = found.get(source)
+            cur_time = current.get("message_time") if current else None
+            new_time = candidate.get("message_time")
+            if current is None or (new_time and (cur_time is None or new_time > cur_time)):
+                found[source] = candidate
+                LOG.info("%s localizado en %s: %s | %s", source, label, subject, att["filename"])
     return found, len(messages)
+
+
+def choose_newer(a, b):
+    if not a:
+        return b
+    if not b:
+        return a
+    ta, tb = a.get("message_time"), b.get("message_time")
+    if ta and tb:
+        return b if tb > ta else a
+    return b if tb else a
 
 
 def download_pdf(user: str, token: str, message_id: str, part: str) -> bytes:
@@ -216,20 +232,33 @@ def main():
     now_local = now_utc.astimezone(MX_TZ)
     OUT.mkdir(parents=True, exist_ok=True)
 
-    selected, scanned_primary = scan_account(PRIMARY_USER, PRIMARY_PASSWORD)
-    scanned_secondary = 0
+    account_scans = []
+    selected = {}
 
-    if "FUENTE1" not in selected and FUENTE1_USER and FUENTE1_PASSWORD:
-        second, scanned_secondary = scan_account(FUENTE1_USER, FUENTE1_PASSWORD, desired=("FUENTE1",))
-        selected.update(second)
+    accounts = [("principal", PRIMARY_USER, PRIMARY_PASSWORD)]
+    if FUENTE1_USER and FUENTE1_PASSWORD:
+        accounts.append(("fuente1", FUENTE1_USER, FUENTE1_PASSWORD))
+
+    for label, user, password in accounts:
+        try:
+            found, scanned = scan_account(label, user, password)
+            account_scans.append({"label": label, "ok": True, "messages_scanned": scanned})
+            for source, item in found.items():
+                selected[source] = choose_newer(selected.get(source), item)
+        except Exception as exc:
+            account_scans.append({"label": label, "ok": False, "messages_scanned": 0, "error": f"{type(exc).__name__}: {exc}"})
+            LOG.warning("Cuenta %s no disponible: %s", label, exc)
 
     status = {
         "agent": "Agente-Hidrometeorologico-Cloud",
         "run_utc": now_utc.isoformat(),
         "run_local": now_local.isoformat(),
-        "messages_scanned_primary": scanned_primary,
-        "messages_scanned_fuente1_account": scanned_secondary,
+        "accounts": account_scans,
         "fuente1_secondary_account_configured": bool(FUENTE1_USER and FUENTE1_PASSWORD),
+        "collection_policy": {
+            "FUENTE1": "boletín diario: conservar el más reciente disponible del día, sin duplicar entre cuentas",
+            "FUENTE2": "boletín diario de 08:00: conservar el más reciente disponible del día, sin duplicar entre cuentas",
+        },
         "sources": {},
         "complete": False,
     }
@@ -237,10 +266,7 @@ def main():
     for source in ("FUENTE1", "FUENTE2"):
         item = selected.get(source)
         if not item:
-            reason = "not_found"
-            if source == "FUENTE1" and not (FUENTE1_USER and FUENTE1_PASSWORD):
-                reason = "secondary_account_not_configured_or_not_found_in_primary"
-            status["sources"][source] = {"status": reason}
+            status["sources"][source] = {"status": "not_found"}
             continue
 
         pdf = download_pdf(item["user"], item["token"], item["message_id"], item["part"])
@@ -248,7 +274,7 @@ def main():
         msg_time = item["message_time"] or now_local
         bulletin_date = msg_time.strftime("%Y-%m-%d")
         header = (
-            f"FUENTE: {source}\nASUNTO: {item['subject']}\nARCHIVO ORIGINAL: {item['filename']}\n"
+            f"FUENTE: {source}\nCUENTA: {item['account_label']}\nASUNTO: {item['subject']}\nARCHIVO ORIGINAL: {item['filename']}\n"
             f"ID MENSAJE: {item['message_id']}\nFECHA/HORA MENSAJE: {msg_time.isoformat()}\n"
             f"FECHA/HORA RECOLECCIÓN: {now_local.isoformat()}\n\n"
         )
@@ -258,6 +284,7 @@ def main():
         write_bytes(OUT / "artifacts" / f"{source}.pdf", pdf)
         status["sources"][source] = {
             "status": "ok",
+            "account": item["account_label"],
             "subject": item["subject"],
             "message_id": item["message_id"],
             "original_filename": item["filename"],
