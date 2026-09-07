@@ -4,7 +4,9 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-import niveles_cloud as base_agent
+import niveles_cloud_robusto as robust
+
+base_agent = robust.base
 
 RAIN_PROCESSOR = Path("src/extraer_lluvia_conagua.js")
 
