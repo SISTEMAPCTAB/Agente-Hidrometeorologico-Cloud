@@ -1,30 +1,46 @@
 {
   "agent": "Agente-Hidrometeorologico-Cloud",
-  "run_utc": "2026-09-06T18:37:54.576245+00:00",
-  "run_local": "2026-09-06T12:37:54.576245-06:00",
-  "messages_scanned_primary": 150,
-  "messages_scanned_fuente1_account": 150,
+  "run_utc": "2026-09-07T17:43:29.601900+00:00",
+  "run_local": "2026-09-07T11:43:29.601900-06:00",
+  "accounts": [
+    {
+      "label": "principal",
+      "ok": true,
+      "messages_scanned": 150
+    },
+    {
+      "label": "fuente1",
+      "ok": true,
+      "messages_scanned": 150
+    }
+  ],
   "fuente1_secondary_account_configured": true,
+  "collection_policy": {
+    "FUENTE1": "boletín diario: conservar el más reciente disponible del día, sin duplicar entre cuentas",
+    "FUENTE2": "boletín diario de 08:00: conservar el más reciente disponible del día, sin duplicar entre cuentas"
+  },
   "sources": {
     "FUENTE1": {
       "status": "ok",
-      "subject": "Boletín Hidrométrico, Climatológico y de Presas 06-09-2026",
-      "message_id": "6577",
-      "original_filename": "Boletin 06-09-2026.pdf",
-      "message_time": "2026-09-06T10:03:30-06:00",
-      "bulletin_date": "2026-09-06",
-      "bytes": 891079,
-      "text_chars": 11029
+      "account": "fuente1",
+      "subject": "Boletín Hidrométrico, Climatológico y de Presas 07-09-2026",
+      "message_id": "6580",
+      "original_filename": "Boletin 07-09-2026.pdf",
+      "message_time": "2026-09-07T10:11:04-06:00",
+      "bulletin_date": "2026-09-07",
+      "bytes": 630745,
+      "text_chars": 10923
     },
     "FUENTE2": {
       "status": "ok",
-      "subject": "​Se envía Boletín de Hidrometría y Climatología de 8 am",
-      "message_id": "14951",
-      "original_filename": "Boletin del 06 de Septiembre  del 2026.pdf",
-      "message_time": "2026-09-06T08:16:55-06:00",
-      "bulletin_date": "2026-09-06",
-      "bytes": 128156,
-      "text_chars": 2824
+      "account": "principal",
+      "subject": "SE ENVIA BOLETIN DE HIDROEMTRIA Y CLIMATOLOGIA DE 8:00 AM",
+      "message_id": "14980",
+      "original_filename": "Boletin del 07 de Septiembre  del 2026.pdf",
+      "message_time": "2026-09-07T08:35:22-06:00",
+      "bulletin_date": "2026-09-07",
+      "bytes": 305512,
+      "text_chars": 2672
     }
   },
   "complete": true
