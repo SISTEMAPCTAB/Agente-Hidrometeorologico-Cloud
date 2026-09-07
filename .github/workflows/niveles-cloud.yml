@@ -20,8 +20,10 @@ on:
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
   schedule:
-    - cron: '30 13,14,15,16,20 * * *'
-    - cron: '0 22 * * *'
+    # Tabasco = UTC-6. Ejecutar cada hora de 06:30 a 18:30 hora local.
+    # 06:30–17:30 local = 12:30–23:30 UTC.
+    - cron: '30 12-23 * * *'
+    # 18:30 local = 00:30 UTC del día siguiente.
     - cron: '30 0 * * *'
 
 permissions:
