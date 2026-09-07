@@ -7,10 +7,12 @@ on:
       - main
     paths:
       - 'src/weatherlink_cloud.py'
+      - 'src/weatherlink_extra_cloud.py'
       - 'src/weatherlink_resolve_shared.py'
       - 'src/temperature_summary.py'
       - 'src/generar_word_weatherlink.py'
       - 'config/weatherlink_stations.json'
+      - 'config/weatherlink_stations_extra.json'
       - 'data/weatherlink/seed.csv'
       - 'data/weatherlink/seed_daily.json'
       - 'requirements.txt'
@@ -51,6 +53,9 @@ jobs:
       - name: Ejecutar WeatherLink Cloud
         run: python src/weatherlink_cloud.py
 
+      - name: Ejecutar WeatherLink adicional
+        run: python src/weatherlink_extra_cloud.py
+
       - name: Actualizar resumen térmico diario
         run: python src/temperature_summary.py
 
@@ -78,6 +83,8 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/weatherlink/state.json \
                   data/weatherlink/latest.json \
+                  data/weatherlink/extra_state.json \
+                  data/weatherlink/extra_latest.json \
                   data/weatherlink/shared_resolved.json \
                   data/weatherlink/Tabla_WeatherLink_Cloud.csv \
                   data/weatherlink/Estado_WeatherLink_Cloud.json \
