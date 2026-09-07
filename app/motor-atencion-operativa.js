@@ -1,36 +1,36 @@
 (() => {
-  const LEVELS={priority:'Atención prioritaria',reinforced:'Vigilancia reforzada',routine:'Seguimiento ordinario'};
+  const LEVELS={disaster:'Atención del Desastre',emergency:'Atención de la Emergencia',priority:'Atención prioritaria',reinforced:'Vigilancia reforzada',routine:'Seguimiento ordinario'};
   const num=v=>v===null||v===undefined||v===''?null:(Number.isFinite(Number(v))?Number(v):null);
   function evaluate(input={}){
-    const rain=num(input.rainMm), forecast=num(input.forecastMax), rise=num(input.riseValue), namo=num(input.minNamo);
-    const asc=Number(input.currentAsc||0), up12=Number(input.persistentUp12||0), observed=Number(input.observedLevels||0);
-    const coherence=input.coherenceKind||'neutral';
+    const rain24=num(input.rain24??input.rainMm), rain48=num(input.rain48), forecast48=num(input.forecast48??input.forecastMax);
+    const rise=num(input.riseValue), namo=num(input.minNamo);
+    const asc=Number(input.currentAsc||0), up12=Number(input.persistentUp12||0);
     const reasons=[];
-    if(rain!==null&&rain>=150)reasons.push(`lluvia observada torrencial/extraordinaria: ${rain.toFixed(1)} mm/24 h`);
-    if(rain!==null&&rain>=75&&coherence==='reflected')reasons.push('lluvia intensa con respuesta ascendente observada');
-    if(asc>=2&&forecast!==null&&forecast>=75)reasons.push(`${asc} estaciones en ascenso y pronóstico SMN ≥75 mm`);
-    if(up12>=2&&((rain!==null&&rain>=75)||(forecast!==null&&forecast>=75)))reasons.push(`ascenso persistente 12 h en ${up12} estaciones combinado con lluvia/pronóstico intenso`);
+    const maxRain=Math.max(...[rain24,rain48].filter(v=>v!==null),-Infinity);
     let key='routine';
-    if(reasons.length)key='priority';
-    if(key==='routine'){
-      if(rain!==null&&rain>=50)reasons.push(`lluvia observada ≥50 mm/24 h: ${rain.toFixed(1)} mm`);
-      if(forecast!==null&&forecast>=75)reasons.push(`pronóstico SMN relevante: máximo ${forecast.toFixed(0)} mm`);
-      if(asc>0)reasons.push(`${asc} estación(es) en ascenso en el último corte`);
-      if(up12>=2)reasons.push(`persistencia de ascenso en ${up12} estaciones durante 12 h`);
-      if(rain!==null&&rain>=25&&(coherence==='pending'||coherence==='unknown'))reasons.push('lluvia ≥25 mm/24 h con respuesta aún no reflejada/no determinable');
-      if(rain===null&&observed===0&&forecast===null)reasons.push('información insuficiente');
-      if(reasons.length)key='reinforced';
+
+    // Criterio rector: intensidad y persistencia de lluvia en la cuenca aportante.
+    if(maxRain>=250){key='disaster';reasons.push(`lluvia extraordinaria: ${maxRain.toFixed(1)} mm`);}
+    else if(maxRain>=150){key='emergency';reasons.push(`lluvia torrencial: ${maxRain.toFixed(1)} mm`);}
+    else {
+      // 75–150 mm: reforzada cuando la señal corresponde a una ventana de hasta 48 h;
+      // prioritaria cuando existe persistencia/confirmación de 48 h o más, apoyada por respuesta hidrométrica.
+      const band48=rain48!==null&&rain48>=75&&rain48<150;
+      const band24=rain24!==null&&rain24>=75&&rain24<150;
+      const persistent48=band48&&(band24||up12>=2||asc>=2||(rise!==null&&rise>=0.20));
+      if(persistent48){key='priority';reasons.push('lluvia de 75–150 mm con persistencia/confirmación de 48 h y respuesta hidrométrica');}
+      else if(band48||(forecast48!==null&&forecast48>=75&&forecast48<150)){
+        key='reinforced';
+        reasons.push(band48?'lluvia acumulada de 75–150 mm en ventana de 48 h':'pronóstico de 75–150 mm dentro de las próximas 48 h');
+      }
     }
-    if(!reasons.length)reasons.push('sin señales de escalamiento con datos válidos');
-    let score={priority:1000,reinforced:500,routine:0}[key];
-    if(rain!==null){if(rain>=250)score+=220;else if(rain>=150)score+=180;else if(rain>=75)score+=120;else if(rain>=50)score+=70;else if(rain>=25)score+=35;}
-    if(rise!==null){if(rise>=0.50)score+=180;else if(rise>=0.20)score+=120;else if(rise>0)score+=60;}
-    score+=Math.min(120,Math.max(0,asc)*30);
-    if(up12>=2)score+=100;if(up12>=3)score+=50;
-    if(namo!==null){const d=Math.abs(namo);if(d<=0.50)score+=180;else if(d<=1.00)score+=120;else if(d<=2.00)score+=60;}
-    if(forecast!==null){if(forecast>=150)score+=160;else if(forecast>=75)score+=100;else if(forecast>=50)score+=50;}
-    if(coherence==='reflected')score+=80;
-    return {key,level:LEVELS[key],reasons,score,version:'1.0'};
+    if(!reasons.length)reasons.push('lluvia menor de 75 mm en 48 h y sin criterio superior confirmado');
+
+    // Variables complementarias sólo aumentan la atención dentro del criterio de lluvia; no escalan por sí solas.
+    if(asc>0)reasons.push(`${asc} estación(es) hidrométrica(s) en ascenso`);
+    if(up12>=2)reasons.push(`ascenso persistente 12 h en ${up12} estaciones`);
+    if(namo!==null&&Math.abs(namo)<=1)reasons.push(`nivel a ${Math.abs(namo).toFixed(2)} m del NAMO`);
+    return {key,level:LEVELS[key],reasons,version:'2.0'};
   }
-  window.OperationalAttentionEngine={evaluate,LEVELS,version:'1.0'};
+  window.OperationalAttentionEngine={evaluate,LEVELS,version:'2.0'};
 })();
