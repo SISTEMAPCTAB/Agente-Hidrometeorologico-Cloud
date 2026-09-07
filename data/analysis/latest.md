@@ -29,7 +29,7 @@ El boletín del Organismo de Cuenca Frontera Sur se usa como complemento de la c
 
 | Estación | Nivel actual | Gasto | Lluvia 24 h | Temp. máx. | Temp. mín. | Fuente |
 |---|---:|---:|---:|---:|---:|---|
-| Lacantún (BHG21, Ocosingo) | 15.80 m | 5.00 m³/s | 0.0 mm | 35.5 °C | 25.0 °C | Frontera Sur / FUENTE1 |
+| Lacantún (BHG21, Ocosingo) | 138.33 m | 274.45 m³/s | 0.0 mm | 34.0 °C | 22.5 °C | Frontera Sur / FUENTE1 |
 
 
 ## 3. Ríos Serranos y Bajo Grijalva
