@@ -7,7 +7,18 @@ on:
       - main
     paths:
       - 'data/analysis/latest.md'
+      - 'data/niveles/Ultimo_Corte/ultimo_resumen.json'
+      - 'data/niveles/Resumen_12h/resumen_12h.json'
+      - 'data/niveles/Lluvia_CONAGUA/**'
+      - 'data/latest/FUENTE1.txt'
+      - 'data/latest/FUENTE2.txt'
+      - 'data/fuentes_publicas/latest.json'
+      - 'data/fuentes_publicas/insivumeh_historico.json'
+      - 'data/weatherlink/latest.json'
+      - 'data/weatherlink/Estado_WeatherLink_Cloud.json'
+      - 'data/presas/historico_mensual.json'
       - 'src/generar_analisis_diario.py'
+      - 'src/complementar_analisis_fuente1.py'
       - 'src/generar_word_analisis.py'
       - 'requirements.txt'
       - '.github/workflows/analysis-word.yml'
@@ -43,12 +54,22 @@ jobs:
       - name: Generar análisis diario 11 h desde datos cloud
         run: python src/generar_analisis_diario.py
 
+      - name: Integrar Frontera Sur y control de fuentes
+        run: python src/complementar_analisis_fuente1.py
+
       - name: Verificar latest.md
         shell: bash
         run: |
           test -s data/analysis/latest.md
           head -n 1 data/analysis/latest.md | grep -Eq '^CORTE: [0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}$'
           test $(wc -c < data/analysis/latest.md) -gt 1000
+          grep -q '## 2. Cuenca del Usumacinta' data/analysis/latest.md
+          grep -q 'Frontera Sur · Lacantún y cuencas altas' data/analysis/latest.md
+          grep -q '## 3. Ríos Serranos y Bajo Grijalva' data/analysis/latest.md
+          grep -q '## 4. Sistema de presas del Grijalva y corrientes asociadas' data/analysis/latest.md
+          grep -q '## 5. Samaria, Carrizal y Mezcalapa' data/analysis/latest.md
+          grep -q '## 7. Escenario por horizonte' data/analysis/latest.md
+          grep -q '## Control de fuentes y hora real de actualización' data/analysis/latest.md
 
       - name: Generar y verificar Word del análisis
         run: python src/generar_word_analisis.py
