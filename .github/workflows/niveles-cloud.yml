@@ -16,6 +16,8 @@ on:
       - 'src/niveles_postprocess.py'
       - 'src/resumen_12h_niveles.py'
       - 'src/generar_word_niveles.py'
+      - 'data/latest/FUENTE1.txt'
+      - 'data/latest/FUENTE2.txt'
       - 'requirements.txt'
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
@@ -137,4 +139,5 @@ jobs:
             git push origin main
           fi
 
-# Refresco manual sin alterar la programación operativa.
+# El corte vigente también se refresca cuando llegan FUENTE1/FUENTE2,
+# sin modificar la aplicación ni su estructura visual.
