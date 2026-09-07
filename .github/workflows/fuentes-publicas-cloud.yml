@@ -11,6 +11,7 @@ on:
       - 'src/insivumeh_pasion_fix.py'
       - 'src/insivumeh_historico.py'
       - 'src/insivumeh_contexto.py'
+      - 'src/insivumeh_automaticas.py'
       - 'requirements.txt'
       - '.github/workflows/fuentes-publicas-cloud.yml'
   schedule:
@@ -59,6 +60,9 @@ jobs:
 
       - name: Robustecer lluvia y saturación INSIVUMEH
         run: python src/insivumeh_contexto.py
+
+      - name: Consultar automáticas INSIVUMEH de forma aislada
+        run: python src/insivumeh_automaticas.py
 
       - name: Publicar sólo cuando haya cambios
         shell: bash
