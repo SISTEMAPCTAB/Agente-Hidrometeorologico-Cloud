@@ -43,12 +43,18 @@ def norm(value: str) -> str:
 
 
 def is_levels_subject(subject: str) -> bool:
+    """Reconoce reportes de niveles de cualquier hora del día.
+
+    CONAGUA/OCFS usa variantes como:
+    - SE ENVÍA REPORTE DE NIVELES DE LAS 06:00 HORAS
+    - REPORTE DE NIVELES DE LAS 12:00 HORAS
+    - INFORME DE NIVELES ...
+    No se restringe a las 18:00.
+    """
     s = norm(subject)
-    return (
-        "informe de niveles" in s
-        or "niveles del" in s
-        or "niveles de las 18" in s
-    )
+    if "informe de niveles" in s or "niveles del" in s:
+        return True
+    return bool(re.search(r"(?:reporte\s+de\s+)?niveles\s+de\s+las\s+\d{1,2}(?::\d{2})?", s))
 
 
 def soap_post(payload: dict) -> dict:
