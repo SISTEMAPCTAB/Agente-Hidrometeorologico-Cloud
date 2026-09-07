@@ -27,7 +27,7 @@
     const doc=await load();const stations=Array.isArray(doc?.stations)?doc.stations:[];if(!stations.length)return;
 
     const presas=stations.filter(x=>x.grupo==='presas');
-    const alto=stations.filter(x=>x.grupo==='alto_usumacinta');
+    const alto=[];
 
     const presasBlock=blockByTitle(groups,'Presas–Mezcalapa–Samaria y Carrizal');
     if(presasBlock){
@@ -51,7 +51,7 @@
     for(const x of alto){if(altoBody&&!altoBody.querySelector(`[data-extra-weather="${x.uuid}"]`))altoBody.insertAdjacentHTML('beforeend',row(x))}
   }
 
-  function reset(){document.querySelectorAll('[data-extra-weather]').forEach(x=>x.remove());const b=[...document.querySelectorAll('.subcuenca-weather-block')].find(x=>norm(x.querySelector('h3')?.textContent)==='alto usumacinta');b?.remove();setTimeout(render,900)}
+  function reset(){document.querySelectorAll('[data-extra-weather]').forEach(x=>x.remove());setTimeout(render,900)}
 
   document.addEventListener('DOMContentLoaded',()=>{
     setTimeout(render,1600);
