@@ -10,6 +10,7 @@ on:
       - 'src/niveles_horas_cloud.py'
       - 'src/fuente2_niveles.py'
       - 'src/lluvia_conagua_cloud.py'
+      - 'src/extraer_clima_boletines.py'
       - 'src/procesar_niveles.js'
       - 'src/procesar_niveles_horas.js'
       - 'src/extraer_lluvia_conagua.js'
@@ -85,6 +86,9 @@ jobs:
       - name: Incorporar corte FUENTE2 de las 08:00 a niveles vigentes
         run: python src/fuente2_niveles.py
 
+      - name: Extraer lluvia y temperatura de boletines CONAGUA Tabasco y Frontera Sur
+        run: python src/extraer_clima_boletines.py
+
       - name: Extraer lluvia horaria CONAGUA del reporte más reciente
         env:
           CARBONIO_BASE: https://correo.tabasco.gob.mx
@@ -104,7 +108,7 @@ jobs:
       - name: Generar y verificar Word de niveles
         run: python src/generar_word_niveles.py
 
-      - name: Publicar niveles, lluvia CONAGUA, gráficas y Word
+      - name: Publicar niveles, lluvia, clima CONAGUA, gráficas y Word
         shell: bash
         run: |
           git config user.name "Agente Hidrometeorologico Cloud"
@@ -115,14 +119,13 @@ jobs:
                   data/niveles/Estado \
                   data/niveles/Estado_Niveles_Cloud.json \
                   data/niveles/Lluvia_CONAGUA \
+                  data/niveles/Clima_CONAGUA \
                   data/niveles/Graficas \
                   data/niveles/Reportes \
                   data/niveles/Evidencia_Texto
           if git diff --cached --quiet; then
-            echo "Sin cambios de niveles/lluvia para publicar."
+            echo "Sin cambios de niveles/lluvia/clima para publicar."
           else
-            # Guardar sólo los productos generados; actualizar primero main para evitar
-            # conflictos con cambios de la app realizados mientras corre el agente.
             git stash push --include-untracked -m "productos-niveles-cloud"
             git pull --rebase origin main
             git stash pop
@@ -132,10 +135,11 @@ jobs:
                     data/niveles/Estado \
                     data/niveles/Estado_Niveles_Cloud.json \
                     data/niveles/Lluvia_CONAGUA \
+                    data/niveles/Clima_CONAGUA \
                     data/niveles/Graficas \
                     data/niveles/Reportes \
                     data/niveles/Evidencia_Texto
-            git commit -m "Actualiza niveles y lluvia CONAGUA [skip ci]"
+            git commit -m "Actualiza niveles lluvia clima CONAGUA y graficas [skip ci]"
             git push origin main
           fi
 
