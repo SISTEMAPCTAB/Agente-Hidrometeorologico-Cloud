@@ -119,8 +119,21 @@ jobs:
           if git diff --cached --quiet; then
             echo "Sin cambios de niveles/lluvia para publicar."
           else
-            git commit -m "Actualiza niveles y lluvia CONAGUA [skip ci]"
+            # Guardar sólo los productos generados; actualizar primero main para evitar
+            # conflictos con cambios de la app realizados mientras corre el agente.
+            git stash push --include-untracked -m "productos-niveles-cloud"
             git pull --rebase origin main
+            git stash pop
+            git add data/niveles/Historico \
+                    data/niveles/Resumen_12h \
+                    data/niveles/Ultimo_Corte \
+                    data/niveles/Estado \
+                    data/niveles/Estado_Niveles_Cloud.json \
+                    data/niveles/Lluvia_CONAGUA \
+                    data/niveles/Graficas \
+                    data/niveles/Reportes \
+                    data/niveles/Evidencia_Texto
+            git commit -m "Actualiza niveles y lluvia CONAGUA [skip ci]"
             git push origin main
           fi
 
