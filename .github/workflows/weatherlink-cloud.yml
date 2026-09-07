@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - 'src/weatherlink_cloud.py'
+      - 'src/weatherlink_resolve_shared.py'
       - 'src/temperature_summary.py'
       - 'src/generar_word_weatherlink.py'
       - 'config/weatherlink_stations.json'
@@ -44,6 +45,9 @@ jobs:
       - name: Instalar dependencias
         run: pip install -r requirements.txt
 
+      - name: Resolver enlaces compartidos WeatherLink
+        run: python src/weatherlink_resolve_shared.py
+
       - name: Ejecutar WeatherLink Cloud
         run: python src/weatherlink_cloud.py
 
@@ -74,6 +78,7 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/weatherlink/state.json \
                   data/weatherlink/latest.json \
+                  data/weatherlink/shared_resolved.json \
                   data/weatherlink/Tabla_WeatherLink_Cloud.csv \
                   data/weatherlink/Estado_WeatherLink_Cloud.json \
                   data/weatherlink/temperature_state.json \
