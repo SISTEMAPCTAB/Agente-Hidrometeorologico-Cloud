@@ -3,7 +3,9 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-import niveles_cloud as nc
+import niveles_cloud_robusto as robust
+
+nc = robust.base
 
 PROCESSOR = Path('src/procesar_niveles_horas.js')
 
