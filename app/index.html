@@ -36,10 +36,5 @@
 <script src="alto-usumacinta.js?v=79-4" defer></script>
 <script src="weatherlink-extra.js?v=79-2" defer></script>
 <script src="smn96-completo.js?v=79-1" defer></script>
-<script>
-if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
-}
-</script>
 </body>
 </html>
