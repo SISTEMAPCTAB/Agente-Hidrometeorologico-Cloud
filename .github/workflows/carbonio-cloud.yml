@@ -11,6 +11,9 @@ on:
       - 'requirements.txt'
       - '.github/workflows/carbonio-cloud.yml'
   schedule:
+    # Boletines diarios: tres intentos alrededor de la hora habitual de llegada.
+    # Aunque haya reintentos, el recolector conserva un solo boletín más reciente por fuente y día.
+    # Tabasco = UTC-6: 09:30, 10:15 y 10:45 hora local.
     - cron: '30 15 * * *'
     - cron: '15 16 * * *'
     - cron: '45 16 * * *'
@@ -79,3 +82,4 @@ jobs:
           fi
 
 # Cuenta secundaria dedicada a FUENTE1 habilitada por Secrets.
+# La App no se modifica en este workflow; sólo se actualizan datos recolectados.
