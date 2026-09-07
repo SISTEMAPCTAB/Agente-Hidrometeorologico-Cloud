@@ -8,14 +8,22 @@
       line.setAttribute('y2',String(lineY));
     }
   }
+  function referenceValue(t){
+    const m=String(t.textContent||'').match(/\b(?:NAME|NAMO)\s+(-?\d+(?:\.\d+)?)/i);
+    return m?Number(m[1]):null;
+  }
   function fixSvg(svg){
-    const labels=[...svg.querySelectorAll('text')].filter(t=>/fuera de escala/i.test(t.textContent||''));
+    const labels=[...svg.querySelectorAll('text')].filter(t=>/\b(?:NAME|NAMO)\b.*fuera de escala/i.test(t.textContent||''));
     if(labels.length<2)return;
     const ys=labels.map(t=>Number(t.getAttribute('y'))).filter(Number.isFinite);
     if(!ys.length)return;
     const base=Math.max(24,Math.min(...ys));
     labels
-      .sort((a,b)=>(Number(a.getAttribute('y'))||0)-(Number(b.getAttribute('y'))||0))
+      .sort((a,b)=>{
+        const av=referenceValue(a),bv=referenceValue(b);
+        if(Number.isFinite(av)&&Number.isFinite(bv)&&av!==bv)return bv-av;
+        return (Number(a.getAttribute('y'))||0)-(Number(b.getAttribute('y'))||0);
+      })
       .forEach((t,i)=>moveReferenceLabel(t,base+i*22));
   }
   function fixAll(root=document){
