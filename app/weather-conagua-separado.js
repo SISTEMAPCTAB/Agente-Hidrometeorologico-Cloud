@@ -1,6 +1,7 @@
 (() => {
   const BASE='..';
   const latestConaguaUrl=`${BASE}/data/niveles/Lluvia_CONAGUA/ultimo_corte.json`;
+  const climateUrl=`${BASE}/data/niveles/Clima_CONAGUA/ultimo_corte.json`;
   const catalogUrl=`${BASE}/data/catalogos/estaciones_influencia_hidrologica.json`;
   const SYSTEM_ORDER=['presas','serranos','tulija','usumacinta'];
   const SYSTEM_FALLBACK={
@@ -11,7 +12,10 @@
   };
 
   const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
-  const fmt=v=>v===null||v===undefined||v===''||!Number.isFinite(Number(v))?'s/d':`${Number(v).toFixed(1)} mm`;
+  const finite=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v));
+  const fmt=v=>finite(v)?`${Number(v).toFixed(1)} mm`:'s/d';
+  const fmtC=v=>finite(v)?`${Number(v).toFixed(1)} °C`:'s/d';
+  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[m]));
 
   function active(){return document.querySelector('#nav button.active')?.dataset.section||'resumen'}
 
@@ -35,14 +39,18 @@
     return clone;
   }
 
-  async function conaguaMap(){
+  async function conaguaRows(){
     try{
-      const r=await fetch(`${latestConaguaUrl}?v=${Date.now()}`,{cache:'no-store'});if(!r.ok)return new Map();
-      const rows=await r.json();
-      return new Map((Array.isArray(rows)?rows:[]).map(x=>[norm(x.estacion),x]));
-    }catch{return new Map()}
+      const r=await fetch(`${latestConaguaUrl}?v=${Date.now()}`,{cache:'no-store'});if(!r.ok)return [];
+      const rows=await r.json(); return Array.isArray(rows)?rows:[];
+    }catch{return []}
   }
-
+  async function climateRows(){
+    try{
+      const r=await fetch(`${climateUrl}?v=${Date.now()}`,{cache:'no-store'});if(!r.ok)return {conagua_tabasco:[],frontera_sur:[]};
+      const j=await r.json();return {conagua_tabasco:Array.isArray(j.conagua_tabasco)?j.conagua_tabasco:[],frontera_sur:Array.isArray(j.frontera_sur)?j.frontera_sur:[]};
+    }catch{return {conagua_tabasco:[],frontera_sur:[]}}
+  }
   async function hydrologicCatalog(){
     try{
       const r=await fetch(`${catalogUrl}?v=${Date.now()}`,{cache:'no-store'});if(!r.ok)return {systems:SYSTEM_FALLBACK,rows:[]};
@@ -60,9 +68,7 @@
       const st=norm(tr.cells[stationIdx]?.textContent);const r=map.get(st);if(!r)return;
       const q=[];
       q.push(r.estado_24h==='observado'?'observado':'sin dato 24 h');
-      if(r.estado_hoy==='observado'&&Number.isFinite(Number(r.lluvia_hoy_desde_08_mm))){
-        q.push(`HOY ${fmt(r.lluvia_hoy_desde_08_mm)} desde 08:00`);
-      }
+      if(r.estado_hoy==='observado'&&finite(r.lluvia_hoy_desde_08_mm))q.push(`HOY ${fmt(r.lluvia_hoy_desde_08_mm)} desde 08:00`);
       tr.cells[qualityIdx].textContent=q.join(' · ');
     });
   }
@@ -74,69 +80,24 @@
     if(stationIdx<0)return [];
     const byStation=new Map([...table.querySelectorAll('tbody tr')].map(tr=>[norm(tr.cells[stationIdx]?.textContent),tr]));
     const entries=catalog.rows.filter(x=>norm(x.fuente)===norm(source)&&SYSTEM_ORDER.includes(x.sistema));
-
     if(norm(source)==='weatherlink'){
       const direct=[
-        {fuente:'WEATHERLINK',estacion:'OSTUACÁN PCIVILCHIAPAS',sistema:'presas'},
-        {fuente:'WEATHERLINK',estacion:'JUÁREZ PCIVILCHIAPAS',sistema:'presas'},
-        {fuente:'WEATHERLINK',estacion:'Impulsora',sistema:'presas'},
-        {fuente:'WEATHERLINK',estacion:'PASO LA MINA',sistema:'presas'},
-        {fuente:'WEATHERLINK',estacion:'Modesta_1',sistema:'presas'},
-        {fuente:'WEATHERLINK',estacion:'AMATÁN PCIVILCHIAPAS',sistema:'serranos'},
-        {fuente:'WEATHERLINK',estacion:'PICHUCALCO PCIVILCHIAPAS',sistema:'serranos'},
-        {fuente:'WEATHERLINK',estacion:'IXHUATAN PCIVILCHIAPAS',sistema:'serranos'},
-        {fuente:'WEATHERLINK',estacion:'CHAPULTENANGO PCIVILCHIAPAS',sistema:'serranos'},
-        {fuente:'WEATHERLINK',estacion:'ACALA PCIVILCHIAPAS',sistema:'serranos'},
-        {fuente:'WEATHERLINK',estacion:'BERRIOZÁBAL PCIVILCHIAPAS',sistema:'serranos'},
-        {fuente:'WEATHERLINK',estacion:'MAYA BERRIOZABAL PCIVILCHIAPAS',sistema:'serranos'},
-        {fuente:'WEATHERLINK',estacion:'Cipat Chiapas',sistema:'serranos'},
-        {fuente:'WEATHERLINK',estacion:'ASUR Villahermosa',sistema:'serranos'},
-        {fuente:'WEATHERLINK',estacion:'Centro',sistema:'serranos'},
-        {fuente:'WEATHERLINK',estacion:'SAN CAYETANO CONSOLA',sistema:'serranos'},
-        {fuente:'WEATHERLINK',estacion:'SALTO DE AGUA PCIVILCHIAPAS',sistema:'tulija'},
-        {fuente:'WEATHERLINK',estacion:'PALENQUE PCIVILCHIAPAS',sistema:'tulija'},
-        {fuente:'WEATHERLINK',estacion:'Sinai',sistema:'tulija'},
-        {fuente:'WEATHERLINK',estacion:'IGeofisica-M2',sistema:'usumacinta'},
-        {fuente:'WEATHERLINK',estacion:'Yaxhá - INSIVUMEH PETEN',sistema:'usumacinta'}
-      ];
+        ['OSTUACÁN PCIVILCHIAPAS','presas'],['JUÁREZ PCIVILCHIAPAS','presas'],['Impulsora','presas'],['PASO LA MINA','presas'],['Modesta_1','presas'],
+        ['AMATÁN PCIVILCHIAPAS','serranos'],['PICHUCALCO PCIVILCHIAPAS','serranos'],['IXHUATAN PCIVILCHIAPAS','serranos'],['CHAPULTENANGO PCIVILCHIAPAS','serranos'],['ACALA PCIVILCHIAPAS','serranos'],['BERRIOZÁBAL PCIVILCHIAPAS','serranos'],['MAYA BERRIOZABAL PCIVILCHIAPAS','serranos'],['Cipat Chiapas','serranos'],['ASUR Villahermosa','serranos'],['Centro','serranos'],['SAN CAYETANO CONSOLA','serranos'],
+        ['SALTO DE AGUA PCIVILCHIAPAS','tulija'],['PALENQUE PCIVILCHIAPAS','tulija'],['Sinai','tulija'],['IGeofisica-M2','usumacinta'],['Yaxhá - INSIVUMEH PETEN','usumacinta']
+      ].map(([estacion,sistema])=>({fuente:'WEATHERLINK',estacion,sistema}));
       for(const e of direct){if(!entries.some(x=>x.sistema===e.sistema&&norm(x.estacion)===norm(e.estacion)))entries.push(e)}
     }
-
-    if(norm(source)==='conagua'){
-      const direct=[
-        {fuente:'CONAGUA',estacion:'El Refugio',sistema:'tulija'},
-        {fuente:'CONAGUA',estacion:'Salto de Agua',sistema:'tulija'},
-        {fuente:'CONAGUA',estacion:'Macuspana',sistema:'tulija'},
-        {fuente:'CONAGUA',estacion:'Yaxchilán',sistema:'usumacinta'},
-        {fuente:'CONAGUA',estacion:'Boca del Cerro',sistema:'usumacinta'},
-        {fuente:'CONAGUA',estacion:'San Pedro',sistema:'usumacinta'},
-        {fuente:'CONAGUA',estacion:'Emiliano Zapata (Chable)',sistema:'usumacinta'},
-        {fuente:'CONAGUA',estacion:'Jonuta (Ciudad)',sistema:'usumacinta'},
-        {fuente:'CONAGUA',estacion:'Jonuta 2 (Puente)',sistema:'usumacinta'},
-        {fuente:'CONAGUA',estacion:'Tres Brazos',sistema:'usumacinta'},
-        {fuente:'CONAGUA',estacion:'C. del Usumacinta',sistema:'usumacinta'},
-        {fuente:'CONAGUA',estacion:'Pant. de Centla',sistema:'usumacinta'},
-        {fuente:'CONAGUA',estacion:'Guacamayas',sistema:'usumacinta'},
-        {fuente:'CONAGUA',estacion:'Finca Chayabé',sistema:'usumacinta'},
-        {fuente:'CONAGUA',estacion:'Lacantún',sistema:'usumacinta'}
-      ];
-      for(const e of direct){if(!entries.some(x=>x.sistema===e.sistema&&norm(x.estacion)===norm(e.estacion)))entries.push(e)}
-    }
-
     const out=[];
     for(const system of SYSTEM_ORDER){
-      const wanted=entries.filter(x=>x.sistema===system);
-      const rows=[];
-      const seen=new Set();
+      const wanted=entries.filter(x=>x.sistema===system),rows=[],seen=new Set();
       for(const e of wanted){
-        const key=norm(e.estacion),tr=byStation.get(key);
-        if(!tr||seen.has(key))continue;
+        const key=norm(e.estacion),tr=byStation.get(key);if(!tr||seen.has(key))continue;
         if(norm(source)==='weatherlink'&&stateIdx>=0&&norm(tr.cells[stateIdx]?.textContent)!=='ok')continue;
         rows.push(tr.cloneNode(true));seen.add(key);
       }
       if(!rows.length)continue;
-      const t=table.cloneNode(true);
-      const body=t.querySelector('tbody');body.innerHTML='';rows.forEach(r=>body.appendChild(r));
+      const t=table.cloneNode(true),body=t.querySelector('tbody');body.innerHTML='';rows.forEach(r=>body.appendChild(r));
       out.push({system,title:catalog.systems[system]||SYSTEM_FALLBACK[system]||system,table:t});
     }
     return out;
@@ -147,52 +108,55 @@
     groups.forEach(g=>{
       const block=document.createElement('div');block.className='subcuenca-weather-block';
       const h=document.createElement('h3');h.textContent=g.title;block.appendChild(h);
-      const wrap=document.createElement('div');wrap.className='table-wrap';wrap.appendChild(g.table);block.appendChild(wrap);
-      container.appendChild(block);
+      const wrap=document.createElement('div');wrap.className='table-wrap';wrap.appendChild(g.table);block.appendChild(wrap);container.appendChild(block);
     });
+  }
+
+  function allConaguaTable(rows){
+    const sorted=[...rows].sort((a,b)=>String(a.estacion||'').localeCompare(String(b.estacion||''),'es'));
+    if(!sorted.length)return '<p class="muted">Sin corte horario CONAGUA disponible.</p>';
+    return `<div class="table-wrap"><table><thead><tr><th>Estación</th><th>24 h anteriores</th><th>HOY desde 08:00</th><th>Hora de corte</th><th>Estado</th></tr></thead><tbody>${sorted.map(r=>`<tr><td><b>${esc(r.estacion||'s/d')}</b></td><td>${fmt(r.lluvia_24h_precedentes_mm)}</td><td>${fmt(r.lluvia_hoy_desde_08_mm)}</td><td>${esc(String(r.fecha_hora||'s/d').replace('T',' ').replace('-06:00',''))}</td><td>${r.estado_24h==='observado'?'observado':'s/d'}</td></tr>`).join('')}</tbody></table></div>`;
+  }
+
+  function climateTable(rows){
+    if(!rows.length)return '<p class="muted">Sin filas con lluvia y temperatura numéricas estructuradas en este boletín.</p>';
+    return `<div class="table-wrap"><table><thead><tr><th>Estación</th><th>Fuente</th><th>Lluvia 24 h</th><th>Temp. máx.</th><th>Temp. mín.</th><th>Mensaje</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.codigo?`${r.codigo} · ${r.estacion}`:r.estacion)}</b></td><td>${esc(r.fuente||'s/d')}</td><td>${fmt(r.lluvia_24h_mm)}</td><td>${fmtC(r.temp_max_c)}</td><td>${fmtC(r.temp_min_c)}</td><td>${esc(String(r.fecha_hora_mensaje||'s/d').replace('T',' '))}</td></tr>`).join('')}</tbody></table></div>`;
   }
 
   function ensureStyles(){
     if(document.getElementById('weatherSubcuencaStyle'))return;
     const s=document.createElement('style');s.id='weatherSubcuencaStyle';
-    s.textContent='.subcuenca-weather-block{margin:16px 0 22px}.subcuenca-weather-block:first-child{margin-top:8px}.subcuenca-weather-block h3{margin:0 0 8px;color:#6f112d;font-size:1rem}.subcuenca-weather-block .table-wrap{margin-top:0}';
-    document.head.appendChild(s);
+    s.textContent='.subcuenca-weather-block{margin:16px 0 22px}.subcuenca-weather-block:first-child{margin-top:8px}.subcuenca-weather-block h3{margin:0 0 8px;color:#6f112d;font-size:1rem}.subcuenca-weather-block .table-wrap{margin-top:0}.conagua-all{margin-top:20px}.conagua-all h3{color:#6f112d;margin:0 0 8px}';document.head.appendChild(s);
   }
 
   async function splitWeather(){
-    reorderNav();
-    if(active()!=='weather')return;
+    reorderNav();if(active()!=='weather')return;
     const content=document.getElementById('content');if(!content||content.dataset.weatherSplit==='1')return;
     const panel=[...content.querySelectorAll('section.panel.wide')].find(s=>/weatherlink\s*\/\s*conagua/i.test(s.querySelector('h2')?.textContent||''));
     const table=panel?.querySelector('table');if(!panel||!table)return;
-    const [map,catalog]=await Promise.all([conaguaMap(),hydrologicCatalog()]);
-    const wlTable=cloneFilteredTable(table,'WeatherLink');
-    const conTable=cloneFilteredTable(table,'CONAGUA');
-    enrichConagua(conTable,map);
-    const wlGroups=groupedTables(wlTable,'WEATHERLINK',catalog);
-    const conGroups=groupedTables(conTable,'CONAGUA',catalog);
+    const [conRows,climate,catalog]=await Promise.all([conaguaRows(),climateRows(),hydrologicCatalog()]);
+    const map=new Map(conRows.map(x=>[norm(x.estacion),x]));
+    const wlTable=cloneFilteredTable(table,'WeatherLink');const conTable=cloneFilteredTable(table,'CONAGUA');enrichConagua(conTable,map);
+    const wlGroups=groupedTables(wlTable,'WEATHERLINK',catalog);const conGroups=groupedTables(conTable,'CONAGUA',catalog);
 
-    ensureStyles();
-    const grid=panel.parentElement;
+    ensureStyles();const grid=panel.parentElement;
     const wl=document.createElement('section');wl.className='panel wide';
     wl.innerHTML='<h2>WeatherLink · lluvia y temperatura</h2><p class="muted">Estaciones activas vinculadas a las subcuencas que se verifican operativamente. Se conservan las mismas columnas y las ventanas inmaduras se muestran como s/d.</p><div class="weather-source-groups"></div>';
     appendGrouped(wl.querySelector('.weather-source-groups'),wlGroups);
 
     const con=document.createElement('section');con.className='panel wide';
-    con.innerHTML='<h2>CONAGUA · lluvia reportada en informes de niveles</h2><p class="muted">Estaciones vinculadas a las mismas subcuencas de seguimiento. “24 h anteriores” conserva el acumulado oficial; cuando el formato trae “HOY”, se conserva el acumulado desde las 08:00 h, sin convertir blancos en cero.</p><div class="weather-source-groups"></div>';
+    con.innerHTML='<h2>CONAGUA · lluvia y temperatura</h2><p class="muted">Se muestran todas las estaciones extraídas del corte horario y, debajo, las filas con lluvia y temperatura numéricas publicadas en los boletines CONAGUA Tabasco y Organismo de Cuenca Frontera Sur. Los blancos permanecen como s/d; no se estiman valores.</p><div class="weather-source-groups"></div><div class="conagua-all"><h3>Todas las estaciones del corte horario CONAGUA</h3>'+allConaguaTable(conRows)+'</div><div class="conagua-all"><h3>Boletín CONAGUA Tabasco · 08:00</h3>'+climateTable(climate.conagua_tabasco)+'</div><div class="conagua-all"><h3>Organismo de Cuenca Frontera Sur</h3>'+climateTable(climate.frontera_sur)+'</div>';
     appendGrouped(con.querySelector('.weather-source-groups'),conGroups);
 
     grid.insertBefore(wl,panel);grid.insertBefore(con,panel);panel.remove();content.dataset.weatherSplit='1';
   }
 
   function resetAndRun(){const c=document.getElementById('content');if(c)delete c.dataset.weatherSplit;setTimeout(splitWeather,450)}
-
   document.addEventListener('DOMContentLoaded',()=>{
     reorderNav();setTimeout(splitWeather,900);
     document.getElementById('nav')?.addEventListener('click',()=>setTimeout(()=>{reorderNav();splitWeather()},550));
     document.getElementById('refreshBtn')?.addEventListener('click',resetAndRun);
     const nav=document.getElementById('nav');if(nav)new MutationObserver(reorderNav).observe(nav,{childList:true});
-    const content=document.getElementById('content')||document.body;
-    new MutationObserver(()=>{if(active()==='weather')splitWeather()}).observe(content,{childList:true,subtree:true});
+    const content=document.getElementById('content')||document.body;new MutationObserver(()=>{if(active()==='weather')splitWeather()}).observe(content,{childList:true,subtree:true});
   });
 })();
