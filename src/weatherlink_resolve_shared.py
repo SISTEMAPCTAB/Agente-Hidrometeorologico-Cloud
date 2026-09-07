@@ -41,14 +41,16 @@ def resolve(url):
         for text in (r.url,r.text):
             for u in UUID_RE.findall(text or ''):
                 if u not in candidates:candidates.append(u)
-        out['candidate_count']=len(candidates)
+        probes=[]
         for u in candidates:
             p=probe_uuid(u)
-            if p:
-                out.update(p);out['resolved']=True;break
-        if not out['resolved']:
-            m=re.search(r'"sStation"\s*:\s*"([^"]+)"',r.text or '')
-            if m:out['nombre_detectado']=m.group(1)
+            if p:probes.append(p)
+        out['candidate_count']=len(candidates)
+        out['probes']=probes
+        preferred=[p for p in probes if str(p.get('nombre') or '').strip().lower()!='davis instruments']
+        pick=(preferred or probes)
+        if pick:
+            out.update(pick[-1]);out['resolved']=True
     except Exception as e:
         out['error']=f'{type(e).__name__}: {e}'
     return out
