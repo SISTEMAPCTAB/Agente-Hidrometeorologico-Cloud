@@ -2,10 +2,33 @@
   "fuente": "INSIVUMEH",
   "producto": "Estaciones meteorologicas automaticas y acumulados oficiales",
   "url": "https://www.insivumeh.gob.gt/img/estaciones_automaticas_met/",
-  "consultado_utc": "2026-09-08T01:10:42.533449+00:00",
+  "consultado_utc": "2026-09-08T03:40:18.057436+00:00",
   "independiente_weatherlink": true,
-  "estado": "fuente_consultada_sin_dato_estructurado_extraible",
-  "estaciones": [],
+  "estado": "ok",
+  "estaciones": [
+    {
+      "estacion": "Santa María Cahabón",
+      "codigo": "INS161201CV",
+      "precipitacion_24h_mm": null,
+      "temperatura_min_c": null,
+      "temperatura_media_c": null,
+      "temperatura_max_c": null,
+      "humedad_relativa_pct": 92.0,
+      "estado_dato": "observado_preliminar",
+      "url_tablero": "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS161201CV.html"
+    },
+    {
+      "estacion": "Panzos PHC Altaverapaz",
+      "codigo": "INS160701CV",
+      "precipitacion_24h_mm": null,
+      "temperatura_min_c": null,
+      "temperatura_media_c": null,
+      "temperatura_max_c": null,
+      "humedad_relativa_pct": 85.0,
+      "estado_dato": "observado_preliminar",
+      "url_tablero": "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS160701CV.html"
+    }
+  ],
   "acumulados_epoca_lluviosa": [
     {
       "estacion": "Chixoy Hidro",
@@ -545,9 +568,20 @@
   ],
   "nota": "Datos oficiales/preliminares según producto. No se sustituyen s/d por cero y no se estiman valores desde colores del mapa.",
   "http_status": 200,
-  "bytes": 1695790,
+  "bytes": 1712608,
   "corte_fuente": null,
-  "total_estaciones_extraidas": 0,
+  "estado_mapa_automatico": "fuente_consultada_sin_dato_estructurado_extraible",
+  "tableros_alto_usumacinta_consultados": 9,
+  "tableros_alto_usumacinta_con_dato": 2,
+  "errores_tableros_alto_usumacinta": {
+    "INS171302AT": "404 Client Error: Not Found for url: https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS171302AT.html",
+    "INS171001AT": "404 Client Error: Not Found for url: https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS171001AT.html",
+    "INS171301AT": "404 Client Error: Not Found for url: https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS171301AT.html",
+    "INS171201AT": "404 Client Error: Not Found for url: https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS171201AT.html",
+    "INS170401AT": "404 Client Error: Not Found for url: https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS170401AT.html",
+    "INS161301AT": "404 Client Error: Not Found for url: https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS161301AT.html"
+  },
+  "total_estaciones_extraidas": 2,
   "periodo_epoca_lluviosa": null,
   "url_epoca_lluviosa": "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Departamentos.html",
   "estado_epoca_lluviosa": "ok"
