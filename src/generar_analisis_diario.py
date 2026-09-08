@@ -1,4 +1,5 @@
 import json
+import re
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -94,15 +95,45 @@ def insivumeh_station(last, name):
 
 
 def presa_rows_from_fuente2():
+    """Extrae sólo campos cuya posición está identificada en la tabla de FUENTE2.
+
+    No reproduce la línea cruda del PDF ni asigna campos ambiguos. Si una fila no
+    conserva la estructura mínima esperada, se omite en vez de inventar valores.
+    """
     if not FUENTE2.exists():
         return []
     text = FUENTE2.read_text(encoding='utf-8-sig')
-    names = ['Angostura', 'Chicoasen', 'Malpaso', 'Peñitas']
+    names = [
+        ('Angostura', 'Angostura'),
+        ('Chicoasen', 'Chicoasén'),
+        ('Malpaso', 'Malpaso'),
+        ('Peñitas', 'Peñitas'),
+    ]
     out = []
-    for name in names:
-        line = next((ln for ln in text.splitlines() if ln.strip().lower().startswith(name.lower())), None)
-        if line:
-            out.append((name, line.strip()))
+    for source_name, display_name in names:
+        line = next((ln for ln in text.splitlines() if ln.strip().lower().startswith(source_name.lower())), None)
+        if not line:
+            continue
+        tokens = re.findall(r'-?\d+(?:,\d{3})*(?:\.\d+)?', line)
+        values = []
+        for token in tokens:
+            try:
+                values.append(float(token.replace(',', '')))
+            except Exception:
+                pass
+        # Estructura mínima comprobada en FUENTE2:
+        # [cap.total, cap.cons., elev.anterior, almac.anterior, elev.actual,
+        #  %llenado, ..., extracción, precipitación, dif.nivel24h, ...]
+        if len(values) < 9:
+            continue
+        out.append({
+            'presa': display_name,
+            'elevacion_actual_msnm': values[4],
+            'pct_llenado_namo': values[5],
+            'extraccion_prom_24h_m3s': values[-4],
+            'precipitacion_diaria_mm': values[-3],
+            'dif_nivel_24h_m': values[-2],
+        })
     return out
 
 
@@ -186,9 +217,17 @@ def main():
 
     presa_rows = presa_rows_from_fuente2()
     if presa_rows:
-        lines += ['', '| Presa | Dato disponible en FUENTE2 |', '|---|---|']
-        for name, raw in presa_rows:
-            lines.append(f'| {name} | {raw} |')
+        lines += [
+            '',
+            '| Presa | Elevación actual (msnm) | Llenado al NAMO (%) | Extracción prom. 24 h (m³/s) | Precip. diaria (mm) | Dif. nivel 24 h (m) |',
+            '|---|---:|---:|---:|---:|---:|',
+        ]
+        for r in presa_rows:
+            lines.append(
+                f"| {r['presa']} | {fmt(r['elevacion_actual_msnm'],2)} | {fmt(r['pct_llenado_namo'],2)} | "
+                f"{fmt(r['extraccion_prom_24h_m3s'],2)} | {fmt(r['precipitacion_diaria_mm'],1)} | "
+                f"{signed(r['dif_nivel_24h_m'],2)} |"
+            )
     lines += [
         '',
         '## 5. Samaria, Carrizal y Mezcalapa',
