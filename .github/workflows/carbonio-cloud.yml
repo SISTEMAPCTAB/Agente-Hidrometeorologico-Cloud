@@ -22,7 +22,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: agente-hidrometeorologico-repo-writer
+  group: carbonio-cloud
   cancel-in-progress: false
 
 jobs:
