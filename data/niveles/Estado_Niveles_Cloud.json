@@ -1,15 +1,15 @@
 {
   "agent": "Niveles Hidrométricos Cloud",
-  "run_utc": "2026-09-07T18:47:42.987416+00:00",
+  "run_utc": "2026-09-08T00:37:30.085010+00:00",
   "complete": true,
   "selected_account": "principal",
   "lookback_days": 7,
   "candidate_count": 37,
-  "processed_now": 0,
-  "processed_total": 96,
+  "processed_now": 3,
+  "processed_total": 99,
   "stations_in_latest_summary": 15,
-  "latest_subject": "SE ENVÍA EL INFORME DE NIVELES DE LAS 12:00 HR",
-  "latest_message_utc": "2026-09-07T18:17:41+00:00",
+  "latest_subject": "Se envia Informe de Niveles de 18 hrs",
+  "latest_message_utc": "2026-09-08T00:00:59+00:00",
   "errors": [],
   "accounts": [
     {
@@ -20,9 +20,9 @@
     },
     {
       "label": "fuente1",
-      "ok": false,
+      "ok": true,
       "candidate_count": 0,
-      "reason": "HTTPError: 422 Client Error: Unprocessable Entity for url: https://correo.tabasco.gob.mx/service/soap"
+      "reason": null
     }
   ],
   "rule_missing_data": "Si una fila horaria está incompleta o falta un valor, se conserva el último valor observado válido por estación y se marca como heredado; ausencia nunca equivale a cero."
