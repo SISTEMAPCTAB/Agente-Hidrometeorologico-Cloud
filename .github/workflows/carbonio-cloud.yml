@@ -76,7 +76,9 @@ jobs:
           if git diff --cached --quiet; then
             echo "Sin cambios de datos para publicar."
           else
-            git commit -m "Actualiza boletines Carbonio cloud [skip ci]"
+            # No usar [skip ci]: el push de FUENTE1/FUENTE2 debe activar los workflows
+            # que procesan esos datos, especialmente Niveles Hidrométricos Cloud.
+            git commit -m "Actualiza boletines Carbonio cloud"
             git pull --rebase origin main
             git push origin main
           fi
