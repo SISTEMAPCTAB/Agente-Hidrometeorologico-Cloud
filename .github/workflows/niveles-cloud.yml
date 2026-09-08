@@ -24,11 +24,12 @@ on:
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
   schedule:
-    # Tabasco = UTC-6. Ejecutar cada hora de 06:30 a 18:30 hora local.
-    # 06:30–17:30 local = 12:30–23:30 UTC.
-    - cron: '30 12-23 * * *'
-    # 18:30 local = 00:30 UTC del día siguiente.
-    - cron: '30 0 * * *'
+    # Tabasco = UTC-6. Se conserva la frecuencia horaria de 06:30–18:30,
+    # desplazando el disparo técnico 7 minutos para reducir retrasos de GitHub Actions.
+    # Ventana operativa equivalente: 06:37–17:37 local = 12:37–23:37 UTC.
+    - cron: '37 12-23 * * *'
+    # Último intento diario: 18:37 local = 00:37 UTC del día siguiente.
+    - cron: '37 0 * * *'
 
 permissions:
   contents: write
