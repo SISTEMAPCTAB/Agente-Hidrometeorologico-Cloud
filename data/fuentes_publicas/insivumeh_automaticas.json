@@ -1,14 +1,554 @@
 {
   "fuente": "INSIVUMEH",
-  "producto": "Estaciones meteorologicas automaticas",
+  "producto": "Estaciones meteorologicas automaticas y acumulados oficiales",
   "url": "https://www.insivumeh.gob.gt/img/estaciones_automaticas_met/",
-  "consultado_utc": "2026-09-08T00:26:55.135605+00:00",
+  "consultado_utc": "2026-09-08T01:10:42.533449+00:00",
   "independiente_weatherlink": true,
   "estado": "fuente_consultada_sin_dato_estructurado_extraible",
   "estaciones": [],
-  "nota": "Datos preliminares oficiales. No se sustituyen s/d por cero y no se estiman valores desde colores del mapa.",
+  "acumulados_epoca_lluviosa": [
+    {
+      "estacion": "Chixoy Hidro",
+      "codigo": "INS161301AT",
+      "acumulado_epoca_lluviosa_mm": 680.1
+    },
+    {
+      "estacion": "ð¦ 55 con lluvia ð¥ 74 sin lluvia ð 129 con datos CobÃ¡n",
+      "codigo": "INS160101CV",
+      "acumulado_epoca_lluviosa_mm": 643.1
+    },
+    {
+      "estacion": "ð¦ 59 con lluvia ð¥ 69 sin lluvia ð 128 con datos Panzos PHC Altaverapaz",
+      "codigo": "INS160701CV",
+      "acumulado_epoca_lluviosa_mm": 1295.8
+    },
+    {
+      "estacion": "ð¦ 75 con lluvia ð¥ 54 sin lluvia ð 129 con datos Santa MarÃ­a CahabÃ³n",
+      "codigo": "INS161201CV",
+      "acumulado_epoca_lluviosa_mm": 1565.2
+    },
+    {
+      "estacion": "ð¦ 75 con lluvia ð¥ 49 sin lluvia ð 124 con datos TelemÃ¡n",
+      "codigo": "INS160701AT",
+      "acumulado_epoca_lluviosa_mm": 1140.1
+    },
+    {
+      "estacion": "ChilascÃ³",
+      "codigo": "INS150101AT",
+      "acumulado_epoca_lluviosa_mm": 543.3
+    },
+    {
+      "estacion": "ð¦ 51 con lluvia ð¥ 59 sin lluvia ð 110 con datos Cubulco",
+      "codigo": "INS150401CV",
+      "acumulado_epoca_lluviosa_mm": 302.0
+    },
+    {
+      "estacion": "ð¦ 38 con lluvia ð¥ 90 sin lluvia ð 128 con datos San JerÃ³nimo R.H.",
+      "codigo": "INS150701CV",
+      "acumulado_epoca_lluviosa_mm": 317.7
+    },
+    {
+      "estacion": "ð¦ 29 con lluvia ð¥ 95 sin lluvia ð 124 con datos Chimaltenango Alameda Icta",
+      "codigo": "INS040101CV",
+      "acumulado_epoca_lluviosa_mm": 231.0
+    },
+    {
+      "estacion": "ð¦ 31 con lluvia ð¥ 98 sin lluvia ð 129 con datos El Platanar",
+      "codigo": "ICC041101AT",
+      "acumulado_epoca_lluviosa_mm": 306.2
+    },
+    {
+      "estacion": "ð¦ 36 con lluvia ð¥ 93 sin lluvia ð 129 con datos Fuego",
+      "codigo": "INS041201AT",
+      "acumulado_epoca_lluviosa_mm": 726.3
+    },
+    {
+      "estacion": "ð¦ 28 con lluvia ð¥ 27 sin lluvia ð 55 con datos San MartÃ­n Jilotepeque",
+      "codigo": "INS040301CV",
+      "acumulado_epoca_lluviosa_mm": 287.2
+    },
+    {
+      "estacion": "ð¦ 27 con lluvia ð¥ 102 sin lluvia ð 129 con datos Santa Cruz BalanyÃ¡",
+      "codigo": "INS041001CV",
+      "acumulado_epoca_lluviosa_mm": 267.5
+    },
+    {
+      "estacion": "ð¦ 35 con lluvia ð¥ 94 sin lluvia ð 129 con datos Santa Margarita",
+      "codigo": "INS040801AT",
+      "acumulado_epoca_lluviosa_mm": 1041.4
+    },
+    {
+      "estacion": "ð¦ 48 con lluvia ð¥ 81 sin lluvia ð 129 con datos Yepocapa",
+      "codigo": "ICC041201AT",
+      "acumulado_epoca_lluviosa_mm": 336.6
+    },
+    {
+      "estacion": "ð¦ 24 con lluvia ð¥ 36 sin lluvia ð 60 con datos Chiquimula CamotÃ¡n",
+      "codigo": "INS200501CV",
+      "acumulado_epoca_lluviosa_mm": 288.9
+    },
+    {
+      "estacion": "ð¦ 29 con lluvia ð¥ 99 sin lluvia ð 128 con datos Esquipulas",
+      "codigo": "INS200701CV",
+      "acumulado_epoca_lluviosa_mm": 708.0
+    },
+    {
+      "estacion": "ð¦ 45 con lluvia ð¥ 84 sin lluvia ð 129 con datos El Progreso Los Albores",
+      "codigo": "INS020301CV",
+      "acumulado_epoca_lluviosa_mm": 442.9
+    },
+    {
+      "estacion": "ð¦ 40 con lluvia ð¥ 89 sin lluvia ð 129 con datos San AgustÃ­n AcasaguastlÃ¡n",
+      "codigo": "INS020302CV",
+      "acumulado_epoca_lluviosa_mm": 240.3
+    },
+    {
+      "estacion": "ð¦ 20 con lluvia ð¥ 108 sin lluvia ð 128 con datos Escuintla Amazonas",
+      "codigo": "ICC050501AT",
+      "acumulado_epoca_lluviosa_mm": 401.4
+    },
+    {
+      "estacion": "ð¦ 37 con lluvia ð¥ 92 sin lluvia ð 129 con datos Bonanza",
+      "codigo": "ICC050701AT",
+      "acumulado_epoca_lluviosa_mm": 406.0
+    },
+    {
+      "estacion": "ð¦ 31 con lluvia ð¥ 97 sin lluvia ð 128 con datos Bouganvilia",
+      "codigo": "ICC050301AT",
+      "acumulado_epoca_lluviosa_mm": 473.2
+    },
+    {
+      "estacion": "ð¦ 36 con lluvia ð¥ 93 sin lluvia ð 129 con datos CengicaÃ±a",
+      "codigo": "ICC050202AT",
+      "acumulado_epoca_lluviosa_mm": 1592.2
+    },
+    {
+      "estacion": "ð¦ 67 con lluvia ð¥ 62 sin lluvia ð 129 con datos Cenizas",
+      "codigo": "INS050102AT",
+      "acumulado_epoca_lluviosa_mm": 702.8
+    },
+    {
+      "estacion": "ð¦ 34 con lluvia ð¥ 85 sin lluvia ð 119 con datos ConcepciÃ³n",
+      "codigo": "ICC050101AT",
+      "acumulado_epoca_lluviosa_mm": 875.2
+    },
+    {
+      "estacion": "ð¦ 42 con lluvia ð¥ 87 sin lluvia ð 129 con datos ConcepciÃ³n",
+      "codigo": "INS050101AT",
+      "acumulado_epoca_lluviosa_mm": 1035.8
+    },
+    {
+      "estacion": "ð¦ 49 con lluvia ð¥ 80 sin lluvia ð 129 con datos Costa Brava",
+      "codigo": "ICC050302AT",
+      "acumulado_epoca_lluviosa_mm": 695.6
+    },
+    {
+      "estacion": "ð¦ 52 con lluvia ð¥ 77 sin lluvia ð 129 con datos El BÃ¡lsamo",
+      "codigo": "ICC050203AT",
+      "acumulado_epoca_lluviosa_mm": 850.6
+    },
+    {
+      "estacion": "ð¦ 38 con lluvia ð¥ 91 sin lluvia ð 129 con datos Irlanda",
+      "codigo": "ICC050601AT",
+      "acumulado_epoca_lluviosa_mm": 524.6
+    },
+    {
+      "estacion": "ð¦ 31 con lluvia ð¥ 97 sin lluvia ð 128 con datos La Giralda",
+      "codigo": "ICC050901AT",
+      "acumulado_epoca_lluviosa_mm": 216.6
+    },
+    {
+      "estacion": "ð¦ 16 con lluvia ð¥ 113 sin lluvia ð 129 con datos Pacaya",
+      "codigo": "INS051201AT",
+      "acumulado_epoca_lluviosa_mm": 739.8
+    },
+    {
+      "estacion": "ð¦ 40 con lluvia ð¥ 68 sin lluvia ð 108 con datos PetÃ©n Oficina",
+      "codigo": "ICC050602AT",
+      "acumulado_epoca_lluviosa_mm": 263.6
+    },
+    {
+      "estacion": "ð¦ 25 con lluvia ð¥ 104 sin lluvia ð 129 con datos Puyumate",
+      "codigo": "ICC051301AT",
+      "acumulado_epoca_lluviosa_mm": 748.6
+    },
+    {
+      "estacion": "ð¦ 37 con lluvia ð¥ 69 sin lluvia ð 106 con datos Sabana Grande",
+      "codigo": "INS050101CV",
+      "acumulado_epoca_lluviosa_mm": 1247.9
+    },
+    {
+      "estacion": "ð¦ 54 con lluvia ð¥ 74 sin lluvia ð 128 con datos Sn. Antonio El Valle",
+      "codigo": "ICC051401AT",
+      "acumulado_epoca_lluviosa_mm": 300.4
+    },
+    {
+      "estacion": "ð¦ 23 con lluvia ð¥ 58 sin lluvia ð 81 con datos Tehuantepec",
+      "codigo": "ICC050201AT",
+      "acumulado_epoca_lluviosa_mm": 400.2
+    },
+    {
+      "estacion": "ð¦ 28 con lluvia ð¥ 76 sin lluvia ð 104 con datos Trinidad",
+      "codigo": "ICC050502AT",
+      "acumulado_epoca_lluviosa_mm": 231.8
+    },
+    {
+      "estacion": "ð¦ 25 con lluvia ð¥ 99 sin lluvia ð 124 con datos Guatemala INSIVUMEH",
+      "codigo": "INS010101CV",
+      "acumulado_epoca_lluviosa_mm": 302.2
+    },
+    {
+      "estacion": "ð¦ 35 con lluvia ð¥ 94 sin lluvia ð 129 con datos La Aurora",
+      "codigo": "INS010102CV",
+      "acumulado_epoca_lluviosa_mm": 290.4
+    },
+    {
+      "estacion": "ð¦ 32 con lluvia ð¥ 95 sin lluvia ð 127 con datos Lo de Coy",
+      "codigo": "INS010801AT",
+      "acumulado_epoca_lluviosa_mm": 164.9
+    },
+    {
+      "estacion": "ð¦ 29 con lluvia ð¥ 96 sin lluvia ð 125 con datos San JosÃ© Pinula",
+      "codigo": "INS010301AT",
+      "acumulado_epoca_lluviosa_mm": 663.9
+    },
+    {
+      "estacion": "ð¦ 39 con lluvia ð¥ 90 sin lluvia ð 129 con datos San Pedro Ayampuc",
+      "codigo": "INS010701AT",
+      "acumulado_epoca_lluviosa_mm": 526.4
+    },
+    {
+      "estacion": "Huehuetenango",
+      "codigo": "INS130101CV",
+      "acumulado_epoca_lluviosa_mm": 314.6
+    },
+    {
+      "estacion": "ð¦ 29 con lluvia ð¥ 99 sin lluvia ð 128 con datos San Pedro Necta",
+      "codigo": "INS130601CV",
+      "acumulado_epoca_lluviosa_mm": 551.4
+    },
+    {
+      "estacion": "ð¦ 53 con lluvia ð¥ 76 sin lluvia ð 129 con datos Todos Santos",
+      "codigo": "INS131501CV",
+      "acumulado_epoca_lluviosa_mm": 549.6
+    },
+    {
+      "estacion": "Las Vegas PHC",
+      "codigo": "INS180201CV",
+      "acumulado_epoca_lluviosa_mm": 996.1
+    },
+    {
+      "estacion": "ð¦ 59 con lluvia ð¥ 70 sin lluvia ð 129 con datos Mariscos",
+      "codigo": "INS180501AT",
+      "acumulado_epoca_lluviosa_mm": 868.2
+    },
+    {
+      "estacion": "ð¦ 69 con lluvia ð¥ 59 sin lluvia ð 128 con datos Morales Met",
+      "codigo": "INS180401AT",
+      "acumulado_epoca_lluviosa_mm": 801.6
+    },
+    {
+      "estacion": "ð¦ 49 con lluvia ð¥ 79 sin lluvia ð 128 con datos Puerto Barrios PHC",
+      "codigo": "INS180101CV",
+      "acumulado_epoca_lluviosa_mm": 1767.0
+    },
+    {
+      "estacion": "ð¦ 92 con lluvia ð¥ 36 sin lluvia ð 128 con datos Jalapa Potrero Carrillo",
+      "codigo": "INS210101CV",
+      "acumulado_epoca_lluviosa_mm": 282.3
+    },
+    {
+      "estacion": "ð¦ 35 con lluvia ð¥ 91 sin lluvia ð 126 con datos Jutiapa AsunciÃ³n Mita R.H.",
+      "codigo": "INS220501CV",
+      "acumulado_epoca_lluviosa_mm": 752.3
+    },
+    {
+      "estacion": "ð¦ 47 con lluvia ð¥ 82 sin lluvia ð 129 con datos Montufar",
+      "codigo": "INS221401CV",
+      "acumulado_epoca_lluviosa_mm": 768.3
+    },
+    {
+      "estacion": "ð¦ 41 con lluvia ð¥ 86 sin lluvia ð 127 con datos Quezada",
+      "codigo": "INS221701CV",
+      "acumulado_epoca_lluviosa_mm": 528.8
+    },
+    {
+      "estacion": "ð¦ 41 con lluvia ð¥ 88 sin lluvia ð 129 con datos Trinidad Magdalena",
+      "codigo": "ICC221501AT",
+      "acumulado_epoca_lluviosa_mm": 590.2
+    },
+    {
+      "estacion": "ð¦ 45 con lluvia ð¥ 84 sin lluvia ð 129 con datos PetÃ©n Flores Aeropuerto",
+      "codigo": "INS170101CV",
+      "acumulado_epoca_lluviosa_mm": 426.8
+    },
+    {
+      "estacion": "ð¦ 61 con lluvia ð¥ 68 sin lluvia ð 129 con datos PoptÃºn",
+      "codigo": "INS171201CV",
+      "acumulado_epoca_lluviosa_mm": 414.9
+    },
+    {
+      "estacion": "ð¦ 41 con lluvia ð¥ 88 sin lluvia ð 129 con datos PetÃ©n Bethel",
+      "codigo": "INS171301AT",
+      "acumulado_epoca_lluviosa_mm": 727.3
+    },
+    {
+      "estacion": "ð¦ 64 con lluvia ð¥ 62 sin lluvia ð 126 con datos ChachaclÃºn",
+      "codigo": "INS170201AT",
+      "acumulado_epoca_lluviosa_mm": 381.5
+    },
+    {
+      "estacion": "ð¦ 47 con lluvia ð¥ 82 sin lluvia ð 129 con datos El Pato",
+      "codigo": "INS170901AT",
+      "acumulado_epoca_lluviosa_mm": 878.4
+    },
+    {
+      "estacion": "ð¦ 51 con lluvia ð¥ 77 sin lluvia ð 128 con datos El Porvenir",
+      "codigo": "INS171001AT",
+      "acumulado_epoca_lluviosa_mm": 858.9
+    },
+    {
+      "estacion": "ð¦ 56 con lluvia ð¥ 73 sin lluvia ð 129 con datos El Tigre",
+      "codigo": "INS171302AT",
+      "acumulado_epoca_lluviosa_mm": 752.5
+    },
+    {
+      "estacion": "ð¦ 62 con lluvia ð¥ 61 sin lluvia ð 123 con datos MachaquilÃ¡",
+      "codigo": "INS171201AT",
+      "acumulado_epoca_lluviosa_mm": 464.4
+    },
+    {
+      "estacion": "ð¦ 46 con lluvia ð¥ 82 sin lluvia ð 128 con datos MactÃºn",
+      "codigo": "INS170401AT",
+      "acumulado_epoca_lluviosa_mm": 961.1
+    },
+    {
+      "estacion": "ð¦ 51 con lluvia ð¥ 78 sin lluvia ð 129 con datos Melchor",
+      "codigo": "INS171101AT",
+      "acumulado_epoca_lluviosa_mm": 439.4
+    },
+    {
+      "estacion": "ð¦ 34 con lluvia ð¥ 94 sin lluvia ð 128 con datos Santa Elena",
+      "codigo": "INS170101AT",
+      "acumulado_epoca_lluviosa_mm": 460.1
+    },
+    {
+      "estacion": "ð¦ 48 con lluvia ð¥ 81 sin lluvia ð 129 con datos Quetzaltenango Labor Ovalle",
+      "codigo": "INS090301CV",
+      "acumulado_epoca_lluviosa_mm": 281.9
+    },
+    {
+      "estacion": "ð¦ 29 con lluvia ð¥ 100 sin lluvia ð 129 con datos Los Altos",
+      "codigo": "INS090101CV",
+      "acumulado_epoca_lluviosa_mm": 211.9
+    },
+    {
+      "estacion": "ð¦ 29 con lluvia ð¥ 100 sin lluvia ð 129 con datos PachutÃ©",
+      "codigo": "INS090401AT",
+      "acumulado_epoca_lluviosa_mm": 287.6
+    },
+    {
+      "estacion": "ð¦ 41 con lluvia ð¥ 84 sin lluvia ð 125 con datos Santiaguito",
+      "codigo": "INS091901AT",
+      "acumulado_epoca_lluviosa_mm": 1140.6
+    },
+    {
+      "estacion": "ð¦ 39 con lluvia ð¥ 16 sin lluvia ð 55 con datos QuichÃ© Chinique",
+      "codigo": "INS140301CV",
+      "acumulado_epoca_lluviosa_mm": 585.5
+    },
+    {
+      "estacion": "ð¦ 40 con lluvia ð¥ 85 sin lluvia ð 125 con datos Chixoy PCH",
+      "codigo": "INS141901CV",
+      "acumulado_epoca_lluviosa_mm": 502.1
+    },
+    {
+      "estacion": "ð¦ 43 con lluvia ð¥ 80 sin lluvia ð 123 con datos Nebaj",
+      "codigo": "INS141301CV",
+      "acumulado_epoca_lluviosa_mm": 610.4
+    },
+    {
+      "estacion": "ð¦ 61 con lluvia ð¥ 67 sin lluvia ð 128 con datos Playa Grande Met (Ixcan)",
+      "codigo": "INS142201AT",
+      "acumulado_epoca_lluviosa_mm": 841.5
+    },
+    {
+      "estacion": "ð¦ 44 con lluvia ð¥ 74 sin lluvia ð 118 con datos Sacapulas",
+      "codigo": "INS141601CV",
+      "acumulado_epoca_lluviosa_mm": 212.5
+    },
+    {
+      "estacion": "ð¦ 25 con lluvia ð¥ 104 sin lluvia ð 129 con datos Santa Cruz QuichÃ©",
+      "codigo": "INS140101AT",
+      "acumulado_epoca_lluviosa_mm": 267.5
+    },
+    {
+      "estacion": "ð¦ 31 con lluvia ð¥ 98 sin lluvia ð 129 con datos Retalhuleu Champerico Fegua",
+      "codigo": "INS110701CV",
+      "acumulado_epoca_lluviosa_mm": 516.4
+    },
+    {
+      "estacion": "ð¦ 30 con lluvia ð¥ 99 sin lluvia ð 129 con datos Chiquirines",
+      "codigo": "ICC110101AT",
+      "acumulado_epoca_lluviosa_mm": 160.8
+    },
+    {
+      "estacion": "ð¦ 26 con lluvia ð¥ 103 sin lluvia ð 129 con datos Providencia",
+      "codigo": "ICC110701AT",
+      "acumulado_epoca_lluviosa_mm": 394.0
+    },
+    {
+      "estacion": "ð¦ 38 con lluvia ð¥ 91 sin lluvia ð 129 con datos Retalhuleu Aeropuerto",
+      "codigo": "INS110101CV",
+      "acumulado_epoca_lluviosa_mm": 1060.8
+    },
+    {
+      "estacion": "ð¦ 58 con lluvia ð¥ 71 sin lluvia ð 129 con datos TululÃ¡",
+      "codigo": "ICC110601AT",
+      "acumulado_epoca_lluviosa_mm": 823.6
+    },
+    {
+      "estacion": "ð¦ 46 con lluvia ð¥ 83 sin lluvia ð 129 con datos Xoluta",
+      "codigo": "ICC110102AT",
+      "acumulado_epoca_lluviosa_mm": 465.4
+    },
+    {
+      "estacion": "ð¦ 41 con lluvia ð¥ 88 sin lluvia ð 129 con datos SacatepÃ©quez Agua",
+      "codigo": "INS031101AT",
+      "acumulado_epoca_lluviosa_mm": 36.1
+    },
+    {
+      "estacion": "ð¦ 3 con lluvia ð¥ 7 sin lluvia ð 10 con datos Antigua Guatemala",
+      "codigo": "INS030101AT",
+      "acumulado_epoca_lluviosa_mm": 163.7
+    },
+    {
+      "estacion": "ð¦ 23 con lluvia ð¥ 104 sin lluvia ð 127 con datos Suiza Contenta",
+      "codigo": "INS030801CV",
+      "acumulado_epoca_lluviosa_mm": 155.4
+    },
+    {
+      "estacion": "ð¦ 23 con lluvia ð¥ 106 sin lluvia ð 129 con datos San Marcos Alamo",
+      "codigo": "ICC121701AT",
+      "acumulado_epoca_lluviosa_mm": 374.4
+    },
+    {
+      "estacion": "ð¦ 27 con lluvia ð¥ 102 sin lluvia ð 129 con datos Catarina",
+      "codigo": "INS121601CV",
+      "acumulado_epoca_lluviosa_mm": 1600.1
+    },
+    {
+      "estacion": "ð¦ 76 con lluvia ð¥ 53 sin lluvia ð 129 con datos IxchiguÃ¡n",
+      "codigo": "INS122301AT",
+      "acumulado_epoca_lluviosa_mm": 135.0
+    },
+    {
+      "estacion": "ð¦ 37 con lluvia ð¥ 52 sin lluvia ð 89 con datos La Reforma",
+      "codigo": "INS122101AT",
+      "acumulado_epoca_lluviosa_mm": 2968.2
+    },
+    {
+      "estacion": "ð¦ 78 con lluvia ð¥ 51 sin lluvia ð 129 con datos San Marcos PHC",
+      "codigo": "INS120101CV",
+      "acumulado_epoca_lluviosa_mm": 512.7
+    },
+    {
+      "estacion": "ð¦ 43 con lluvia ð¥ 86 sin lluvia ð 129 con datos TecÃºn UmÃ¡n Fegua Ayutla",
+      "codigo": "INS121701CV",
+      "acumulado_epoca_lluviosa_mm": 388.0
+    },
+    {
+      "estacion": "ð¦ 37 con lluvia ð¥ 91 sin lluvia ð 128 con datos Santa Rosa La Candelaria",
+      "codigo": "ICC060901AT",
+      "acumulado_epoca_lluviosa_mm": 651.6
+    },
+    {
+      "estacion": "ð¦ 36 con lluvia ð¥ 93 sin lluvia ð 129 con datos La MÃ¡quina",
+      "codigo": "ICC060801AT",
+      "acumulado_epoca_lluviosa_mm": 399.4
+    },
+    {
+      "estacion": "ð¦ 42 con lluvia ð¥ 87 sin lluvia ð 129 con datos Los Esclavos",
+      "codigo": "INS060101CV",
+      "acumulado_epoca_lluviosa_mm": 535.7
+    },
+    {
+      "estacion": "ð¦ 46 con lluvia ð¥ 82 sin lluvia ð 128 con datos San Rafael",
+      "codigo": "ICC060902AT",
+      "acumulado_epoca_lluviosa_mm": 592.4
+    },
+    {
+      "estacion": "ð¦ 31 con lluvia ð¥ 98 sin lluvia ð 129 con datos SololÃ¡ El CapitÃ¡n",
+      "codigo": "INS071301CV",
+      "acumulado_epoca_lluviosa_mm": 214.0
+    },
+    {
+      "estacion": "ð¦ 32 con lluvia ð¥ 97 sin lluvia ð 129 con datos El TablÃ³n",
+      "codigo": "INS070101CV",
+      "acumulado_epoca_lluviosa_mm": 328.6
+    },
+    {
+      "estacion": "ð¦ 39 con lluvia ð¥ 89 sin lluvia ð 128 con datos Santiago AtitlÃ¡n",
+      "codigo": "INS071901CV",
+      "acumulado_epoca_lluviosa_mm": 313.1
+    },
+    {
+      "estacion": "ð¦ 35 con lluvia ð¥ 94 sin lluvia ð 129 con datos SuchitepÃ©quez Cocales",
+      "codigo": "ICC101401AT",
+      "acumulado_epoca_lluviosa_mm": 1041.8
+    },
+    {
+      "estacion": "ð¦ 64 con lluvia ð¥ 65 sin lluvia ð 129 con datos La MÃ¡quina",
+      "codigo": "INS102101AT",
+      "acumulado_epoca_lluviosa_mm": 630.6
+    },
+    {
+      "estacion": "ð¦ 44 con lluvia ð¥ 84 sin lluvia ð 128 con datos Lorena",
+      "codigo": "ICC101001AT",
+      "acumulado_epoca_lluviosa_mm": 700.3
+    },
+    {
+      "estacion": "ð¦ 52 con lluvia ð¥ 64 sin lluvia ð 116 con datos Mazatenango",
+      "codigo": "INS100101CV",
+      "acumulado_epoca_lluviosa_mm": 1306.4
+    },
+    {
+      "estacion": "ð¦ 69 con lluvia ð¥ 60 sin lluvia ð 129 con datos Naranjales",
+      "codigo": "ICC100601AT",
+      "acumulado_epoca_lluviosa_mm": 657.2
+    },
+    {
+      "estacion": "ð¦ 40 con lluvia ð¥ 76 sin lluvia ð 116 con datos San NicolÃ¡s",
+      "codigo": "ICC100701AT",
+      "acumulado_epoca_lluviosa_mm": 460.0
+    },
+    {
+      "estacion": "ð¦ 35 con lluvia ð¥ 94 sin lluvia ð 129 con datos TotonicapÃ¡n TotonicapÃ¡n",
+      "codigo": "INS080101AT",
+      "acumulado_epoca_lluviosa_mm": 329.2
+    },
+    {
+      "estacion": "ð¦ 28 con lluvia ð¥ 98 sin lluvia ð 126 con datos Zacapa La Fragua",
+      "codigo": "INS190201CV",
+      "acumulado_epoca_lluviosa_mm": 144.3
+    },
+    {
+      "estacion": "ð¦ 23 con lluvia ð¥ 106 sin lluvia ð 129 con datos La UniÃ³n",
+      "codigo": "INS190901CV",
+      "acumulado_epoca_lluviosa_mm": 537.9
+    },
+    {
+      "estacion": "ð¦ 61 con lluvia ð¥ 68 sin lluvia ð 129 con datos Pasabien",
+      "codigo": "INS190301CV",
+      "acumulado_epoca_lluviosa_mm": 156.5
+    }
+  ],
+  "nota": "Datos oficiales/preliminares según producto. No se sustituyen s/d por cero y no se estiman valores desde colores del mapa.",
   "http_status": 200,
-  "bytes": 1713311,
+  "bytes": 1695790,
   "corte_fuente": null,
-  "total_estaciones_extraidas": 0
+  "total_estaciones_extraidas": 0,
+  "periodo_epoca_lluviosa": null,
+  "url_epoca_lluviosa": "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Departamentos.html",
+  "estado_epoca_lluviosa": "ok"
 }
