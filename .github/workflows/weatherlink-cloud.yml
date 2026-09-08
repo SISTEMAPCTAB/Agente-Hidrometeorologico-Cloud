@@ -25,7 +25,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: agente-hidrometeorologico-repo-writer
+  group: weatherlink-cloud
   cancel-in-progress: false
 
 jobs:
