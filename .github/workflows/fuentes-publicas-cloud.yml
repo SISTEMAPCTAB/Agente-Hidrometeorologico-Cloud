@@ -15,13 +15,15 @@ on:
       - 'requirements.txt'
       - '.github/workflows/fuentes-publicas-cloud.yml'
   schedule:
-    - cron: '*/10 * * * *'
+    # Mantiene frecuencia de 10 minutos, fuera del inicio exacto de cada hora
+    # para reducir retrasos de GitHub Actions y separar escrituras de otros procesos.
+    - cron: '8,18,28,38,48,58 * * * *'
 
 permissions:
   contents: write
 
 concurrency:
-  group: agente-hidrometeorologico-repo-writer
+  group: fuentes-publicas-cloud
   cancel-in-progress: false
 
 jobs:
