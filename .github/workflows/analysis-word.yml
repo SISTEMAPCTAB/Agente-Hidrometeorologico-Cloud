@@ -29,7 +29,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: agente-hidrometeorologico-repo-writer
+  group: analisis-hidrometeorologico-11h
   cancel-in-progress: false
 
 jobs:
@@ -83,7 +83,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Sin cambios del análisis/Word."
           else
-            git commit -m "Actualiza análisis 11 h y Word persistente [skip ci]"
+            git commit -m "Actualiza análisis 11 h y Word persistente"
             git pull --rebase origin main
             git push origin main
           fi
