@@ -9,6 +9,7 @@ import requests
 
 OUT = Path("data/fuentes_publicas/insivumeh_automaticas.json")
 URL = "https://www.insivumeh.gob.gt/img/estaciones_automaticas_met/"
+SEASON_URL = "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Departamentos.html"
 UA = {"User-Agent": "Mozilla/5.0 Agente-Hidrometeorologico-Cloud/1.0"}
 
 
@@ -30,18 +31,39 @@ def number(pattern: str, text: str):
         return None
 
 
+def season_rows(html: str):
+    """Extrae sólo acumulados explícitos del resumen oficial de época lluviosa."""
+    text = clean_html(html)
+    period = re.search(r"[ÉE]poca\s+lluviosa\s*:\s*(\d{2}/\d{2}/\d{4})\s+al\s+(\d{2}/\d{2}/\d{4})", text, re.I)
+    rows = []
+    # Los códigos INS/ICC son identificadores inequívocos y preceden al acumulado.
+    pat = re.compile(r"([^|]{2,100}?)\s+((?:INS|ICC)\d{6}[A-Z]{2})\s+[^0-9]{0,30}(\d+(?:\.\d+)?)\s*mm\s+acumulados", re.I)
+    for m in pat.finditer(text):
+        name = re.sub(r"\s+", " ", m.group(1)).strip(" |-:")
+        # El bloque anterior puede contener encabezado de departamento; conservar
+        # únicamente la última frase razonable antes del código.
+        name = re.split(r"(?:Alta Verapaz|Baja Verapaz|Pet[eé]n|Quich[eé]|Huehuetenango|Izabal)\s+", name, flags=re.I)[-1].strip()
+        rows.append({"estacion": name, "codigo": m.group(2).upper(), "acumulado_epoca_lluviosa_mm": float(m.group(3))})
+    # Deduplicar por código sin fabricar valores.
+    unique = {}
+    for row in rows:
+        unique[row["codigo"]] = row
+    return list(unique.values()), ({"inicio": period.group(1), "fin": period.group(2)} if period else None)
+
+
 def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc).isoformat()
     result = {
         "fuente": "INSIVUMEH",
-        "producto": "Estaciones meteorologicas automaticas",
+        "producto": "Estaciones meteorologicas automaticas y acumulados oficiales",
         "url": URL,
         "consultado_utc": now,
         "independiente_weatherlink": True,
         "estado": "sin_validar",
         "estaciones": [],
-        "nota": "Datos preliminares oficiales. No se sustituyen s/d por cero y no se estiman valores desde colores del mapa."
+        "acumulados_epoca_lluviosa": [],
+        "nota": "Datos oficiales/preliminares según producto. No se sustituyen s/d por cero y no se estiman valores desde colores del mapa."
     }
     try:
         r = requests.get(URL, headers=UA, timeout=35)
@@ -52,9 +74,6 @@ def main():
         h = re.search(r"INFORMACI[ÓO]N\s+PRELIMINAR.*?[–-]\s*(\d{1,2}/[A-Za-z]{3}/\d{4}\s+\d{1,2}:\d{2})", clean_html(raw), re.I)
         result["corte_fuente"] = h.group(1) if h else None
 
-        # El mapa es generado dinámicamente (Folium/Leaflet). Los textos de los
-        # popups quedan embebidos en el HTML. Se extraen bloques, pero sólo se
-        # publican variables que aparecen explícitamente con unidad/etiqueta.
         candidates = re.findall(r"(?:html_|popup_|tooltip_)[A-Za-z0-9_]+\s*=\s*\$\(`(.*?)`\)", raw, re.S)
         if not candidates:
             candidates = re.findall(r"<div[^>]*>(.*?)</div>", raw, re.S | re.I)
@@ -62,36 +81,23 @@ def main():
         seen = set()
         for block in candidates:
             text = clean_html(block)
-            if len(text) < 8:
-                continue
-            if not re.search(r"lluv|precip|temperat|humedad|estaci[oó]n", text, re.I):
+            if len(text) < 8 or not re.search(r"lluv|precip|temperat|humedad|estaci[oó]n", text, re.I):
                 continue
             nm = re.search(r"(?:Estaci[oó]n|Nombre)\s*[:|-]\s*([^|]{2,80})", text, re.I)
             if not nm:
-                # Folium suele iniciar el popup con el nombre en negritas.
                 nm2 = re.search(r"<b[^>]*>([^<]{2,80})</b>", block, re.I)
                 name = clean_html(nm2.group(1)) if nm2 else None
             else:
                 name = nm.group(1).strip()
-            if not name:
+            if not name or name.casefold() in seen:
                 continue
-            key = name.casefold()
-            if key in seen:
-                continue
-            seen.add(key)
+            seen.add(name.casefold())
             lluvia_1h = number(r"(?:lluvia|precipitaci[oó]n)[^0-9-]{0,40}(-?\d+(?:\.\d+)?)\s*mm", text)
             temp = number(r"temperatura[^0-9-]{0,30}(-?\d+(?:\.\d+)?)\s*°?\s*C", text)
             hum = number(r"humedad[^0-9-]{0,30}(-?\d+(?:\.\d+)?)\s*%", text)
             if lluvia_1h is None and temp is None and hum is None:
                 continue
-            result["estaciones"].append({
-                "estacion": name,
-                "precipitacion_ultima_hora_mm": lluvia_1h,
-                "temperatura_c": temp,
-                "humedad_relativa_pct": hum,
-                "estado_dato": "observado_preliminar",
-                "texto_fuente": text[:500]
-            })
+            result["estaciones"].append({"estacion": name, "precipitacion_ultima_hora_mm": lluvia_1h, "temperatura_c": temp, "humedad_relativa_pct": hum, "estado_dato": "observado_preliminar", "texto_fuente": text[:500]})
 
         result["total_estaciones_extraidas"] = len(result["estaciones"])
         result["estado"] = "ok" if result["estaciones"] else "fuente_consultada_sin_dato_estructurado_extraible"
@@ -99,8 +105,21 @@ def main():
         result["estado"] = "error_consulta"
         result["error"] = str(e)
 
+    # Fuente separada: si falla, no afecta ni borra la consulta automática.
+    try:
+        s = requests.get(SEASON_URL, headers=UA, timeout=35)
+        s.raise_for_status()
+        rows, period = season_rows(s.text)
+        result["acumulados_epoca_lluviosa"] = rows
+        result["periodo_epoca_lluviosa"] = period
+        result["url_epoca_lluviosa"] = SEASON_URL
+        result["estado_epoca_lluviosa"] = "ok" if rows else "sin_dato_estructurado_extraible"
+    except Exception as e:
+        result["estado_epoca_lluviosa"] = "error_consulta"
+        result["error_epoca_lluviosa"] = str(e)
+
     OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(json.dumps({"estado": result["estado"], "estaciones": len(result["estaciones"]), "corte": result.get("corte_fuente")}, ensure_ascii=False))
+    print(json.dumps({"estado": result["estado"], "estaciones": len(result["estaciones"]), "acumulados_epoca_lluviosa": len(result["acumulados_epoca_lluviosa"]), "corte": result.get("corte_fuente")}, ensure_ascii=False))
 
 
 if __name__ == "__main__":
