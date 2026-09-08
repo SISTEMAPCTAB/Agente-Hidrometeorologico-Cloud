@@ -1,10 +1,10 @@
-CORTE: 2026-09-07 19:48
+CORTE: 2026-09-07 19:59
 # ANÁLISIS INTEGRAL HIDROMETEOROLÓGICO
 Grijalva–Usumacinta • Ríos Serranos • Sistema de Presas • Samaria–Carrizal y corrientes asociadas
 Actualización: 07 de septiembre de 2026
 
 ## SÍNTESIS GENERAL
-Al corte de las 19:48 h, la lectura debe mantenerse integrada y no por cuencas aisladas. La señal hidrométrica más reciente tiene como referencia principal el corte vigente de niveles y la lluvia observada/prevista sobre Guatemala, Chiapas y Tabasco. El mayor cambio de 24 h entre estaciones observadas es Gaviotas +0.22 m/24 h. La prioridad operativa es confirmar cualquier cambio de escenario con coincidencia de lluvia, saturación, niveles, caudales y operación de presas; el pronóstico por sí solo no constituye una creciente confirmada.
+Al corte de las 19:59 h, la lectura debe mantenerse integrada y no por cuencas aisladas. La señal hidrométrica más reciente tiene como referencia principal el corte vigente de niveles y la lluvia observada/prevista sobre Guatemala, Chiapas y Tabasco. El mayor cambio de 24 h entre estaciones observadas es Gaviotas +0.22 m/24 h. La prioridad operativa es confirmar cualquier cambio de escenario con coincidencia de lluvia, saturación, niveles, caudales y operación de presas; el pronóstico por sí solo no constituye una creciente confirmada.
 
 ## 1. Situación meteorológica regional y bajas presiones en vigilancia
 Las bajas presiones, vaguadas, ondas tropicales y otros sistemas deben valorarse por ubicación, trayectoria, organización y capacidad de modificar el transporte de humedad hacia el sureste de México. Su sola presencia no implica amenaza hidrológica para Tabasco.
@@ -16,21 +16,14 @@ Las bajas presiones, vaguadas, ondas tropicales y otros sistemas deben valorarse
 | Sureste/Golfo | Mayor interés cuando coinciden con alto contenido de humedad y persistencia. | Confirmar con lluvia, saturación, niveles y caudales. |
 
 ## 2. Cuenca del Usumacinta
-Boca del Cerro registra 12.55 m, con variación de 24 h +0.05 m. En la cuenca alta de Guatemala, El Tigre reporta 5.74 m y 1004.3 m³/s; El Porvenir/La Pasión 2.01 m y 210.7 m³/s. La secuencia de vigilancia se mantiene Guatemala → Boca del Cerro/Tenosique → Balancán → Emiliano Zapata → Jonuta → Centla.
+Boca del Cerro registra 12.55 m, con variación de 24 h +0.05 m. En la cuenca alta de Guatemala, El Tigre reporta 5.74 m y 1004.3 m³/s; El Porvenir/La Pasión 2.01 m y 210.7 m³/s. La secuencia de vigilancia se mantiene Guatemala → Lacantún → Boca del Cerro/Tenosique → Balancán → Emiliano Zapata → Jonuta → Centla.
 Pronóstico SMN para Usumacinta: 0-24 h: 5 a 25 mm; 24-48 h: 25 a 50 mm; 48-72 h: 25 a 50 mm; 72-96 h: 5 a 25 mm.
 
 | Indicador | Dato | Interpretación |
 |---|---|---|
 | El Tigre | 5.74 m; 1004.3 m³/s | Señal de cuenca alta; valorar tendencia, no dato aislado. |
+| Lacantún (BHG21, Ocosingo) | 138.33 m; 274.45 m³/s; lluvia 24 h 0.0 mm | Aporte de cuenca alta antes de Boca del Cerro; valorar su tendencia junto con Guatemala y la respuesta posterior en Tenosique. |
 | Boca del Cerro | 12.55 m; Δ24 h +0.05 m | Punto clave de confirmación para Tabasco. |
-
-### Frontera Sur · Lacantún y cuencas altas
-El boletín del Organismo de Cuenca Frontera Sur se usa como complemento de la cuenca alta; sus datos no sustituyen el corte local de CONAGUA Tabasco.
-
-| Estación | Nivel actual | Gasto | Lluvia 24 h | Temp. máx. | Temp. mín. | Fuente |
-|---|---:|---:|---:|---:|---:|---|
-| Lacantún (BHG21, Ocosingo) | 138.33 m | 274.45 m³/s | 0.0 mm | 34.0 °C | 22.5 °C | Frontera Sur / FUENTE1 |
-
 
 ## 3. Ríos Serranos y Bajo Grijalva
 Los Ríos Serranos tienen respuesta más rápida que el Usumacinta. Oxolotán 34.02 m, Tapijulapa 15.79 m, Teapa 33.69 m y Puyacatengo 25.02 m. Deben vigilarse primero lluvia horaria y estaciones aguas arriba antes de esperar una respuesta en el Grijalva de Villahermosa.
@@ -81,7 +74,7 @@ Samaria registra 11.74 m y González/Carrizal 3.37 m. El gasto de Peñitas no de
 Las bajas presiones y perturbaciones identificadas deben mantenerse en vigilancia meteorológica, pero no son por sí solas motivo para elevar la alerta hidrológica. El escalamiento debe apoyarse en modificación del pronóstico de lluvia, persistencia de acumulados, aumento de saturación y respuesta observada en niveles y caudales.
 
 ## 9. Conclusión general
-El diagnóstico integrado del corte de las 19:48 h se mantiene condicionado por la evolución conjunta de Guatemala–Usumacinta–Boca del Cerro, Ríos Serranos–Pichucalco–Grijalva bajo, la cascada de presas y Peñitas/cuenca libre–Mezcalapa–Samaria–Carrizal. Ningún componente debe interpretarse de manera aislada. La señal operativa debe escalar únicamente cuando coincidan magnitud, persistencia y respuesta observada.
+El diagnóstico integrado del corte de las 19:59 h se mantiene condicionado por la evolución conjunta de Guatemala–Usumacinta–Boca del Cerro, Ríos Serranos–Pichucalco–Grijalva bajo, la cascada de presas y Peñitas/cuenca libre–Mezcalapa–Samaria–Carrizal. Ningún componente debe interpretarse de manera aislada. La señal operativa debe escalar únicamente cuando coincidan magnitud, persistencia y respuesta observada.
 
 ## 10. Recomendaciones de monitoreo
 - Actualizar cada 6–12 horas lluvia observada y pronosticada en Guatemala, Chiapas y Tabasco cuando exista señal relevante.
