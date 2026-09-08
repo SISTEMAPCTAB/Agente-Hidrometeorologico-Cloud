@@ -7,8 +7,18 @@ que la autenticación haya fallado.
 """
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 import requests
-import src.niveles_cloud as base
+
+# Al ejecutarse como `python src/niveles_cloud_robusto.py`, Python añade
+# `src/` (no la raíz del repositorio) a sys.path. Importamos el módulo hermano
+# directamente para que funcione igual en GitHub Actions y en ejecución local.
+SRC_DIR = Path(__file__).resolve().parent
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+import niveles_cloud as base
 
 
 def collect_candidates_robusto(token: str):
