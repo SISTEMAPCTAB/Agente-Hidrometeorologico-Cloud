@@ -3,9 +3,11 @@
     t.setAttribute('y',String(newY));
     const line=t.previousElementSibling;
     if(line?.tagName?.toLowerCase()==='line'){
-      const lineY=newY+5;
-      line.setAttribute('y1',String(lineY));
-      line.setAttribute('y2',String(lineY));
+      // Una referencia fuera de la escala observada no debe dibujarse como
+      // línea horizontal dentro del área de datos: visualmente podría parecer
+      // que el río alcanzó NAMO/NAME. Se conserva únicamente su etiqueta real.
+      line.setAttribute('visibility','hidden');
+      line.setAttribute('aria-hidden','true');
     }
   }
   function referenceValue(t){
@@ -14,7 +16,7 @@
   }
   function fixSvg(svg){
     const labels=[...svg.querySelectorAll('text')].filter(t=>/\b(?:NAME|NAMO)\b.*fuera de escala/i.test(t.textContent||''));
-    if(labels.length<2)return;
+    if(!labels.length)return;
     const ys=labels.map(t=>Number(t.getAttribute('y'))).filter(Number.isFinite);
     if(!ys.length)return;
     const base=Math.max(24,Math.min(...ys));
