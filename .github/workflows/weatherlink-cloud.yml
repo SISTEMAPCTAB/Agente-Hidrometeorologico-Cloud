@@ -19,7 +19,9 @@ on:
       - '.gitattributes'
       - '.github/workflows/weatherlink-cloud.yml'
   schedule:
-    - cron: '*/30 * * * *'
+    # Cada 30 minutos, desplazado de :00/:30 para reducir retrasos de GitHub Actions
+    # en ventanas de alta demanda sin modificar la frecuencia operativa.
+    - cron: '14,44 * * * *'
 
 permissions:
   contents: write
