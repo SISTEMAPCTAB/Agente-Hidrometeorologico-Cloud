@@ -69,7 +69,6 @@ function detectBlocks(items){
     }
   }
   blocks.sort((a,b)=>a.stationX-b.stationX);
-  // Eliminar duplicados geométricos.
   return blocks.filter((b,i,a)=>i===0||Math.abs(b.stationX-a[i-1].stationX)>20);
 }
 
@@ -80,7 +79,10 @@ function cleanStationName(parts){
 }
 function isSectionLabel(name){
   const n=norm(name);
-  return !name || /^RIO\b/.test(n) || /^SUBCUENCA\b/.test(n) || /^PRECIPITACION\b/.test(n) || /^ESTACION\b/.test(n) || /^AYER\b/.test(n) || /^HOY\b/.test(n);
+  return !name ||
+    /^RIO\b/.test(n) || /^SUBCUENCA\b/.test(n) || /^PRECIPITACION\b/.test(n) ||
+    /^ESTACION\b/.test(n) || /^AYER\b/.test(n) || /^HOY\b/.test(n) ||
+    /^DATOS DE ESCALAS\b/.test(n) || /^DATOS DE PRECIPITACION\b/.test(n);
 }
 
 function extractRain(items,date,hour){
@@ -102,8 +104,6 @@ function extractRain(items,date,hour){
       if(isSectionLabel(name)) continue;
       const aItem=nearest(inside.filter(i=>isNumeric(i.str)),b.aX,10);
       const hoyItem=nearest(inside.filter(i=>isNumeric(i.str)),b.hoyX,10);
-      // Una fila de estación puede legítimamente tener ambos valores en blanco.
-      // Para evitar capturar texto de otras tablas, exigimos nombre con longitud mínima y ubicación en el bloque de precipitación.
       if(name.length<2) continue;
       out.push({
         fecha_hora:`${date}T${String(hour??8).padStart(2,'0')}:00:00-06:00`,
@@ -136,6 +136,7 @@ function extractRain(items,date,hour){
   fs.writeFileSync(path.join(dir,'ultimo_corte.json'),JSON.stringify(latestRows,null,2));
 
   const histFile=path.join(dir,'historico.json'); let hist=[]; try{hist=JSON.parse(fs.readFileSync(histFile,'utf8'))}catch{}
+  hist=hist.filter(r=>!isSectionLabel(r?.estacion));
   const key=r=>`${r.fecha_hora}|${norm(r.estacion)}`;
   const map=new Map(hist.map(r=>[key(r),r])); for(const r of latestRows)map.set(key(r),r);
   hist=[...map.values()].sort((a,b)=>new Date(a.fecha_hora)-new Date(b.fecha_hora)||String(a.estacion).localeCompare(String(b.estacion)));
