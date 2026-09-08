@@ -33,8 +33,11 @@ on:
 permissions:
   contents: write
 
+# Grupo exclusivo: evita que WeatherLink, fuentes públicas, Carbonio o el análisis
+# sustituyan/cancelen una ejecución pendiente de niveles. El propio paso de publicación
+# ya hace pull --rebase antes del push para convivir con otros escritores del repositorio.
 concurrency:
-  group: agente-hidrometeorologico-repo-writer
+  group: niveles-hidrometricos-cloud
   cancel-in-progress: false
 
 jobs:
