@@ -11,6 +11,7 @@ OUT = Path("data/fuentes_publicas/insivumeh_automaticas.json")
 URL = "https://www.insivumeh.gob.gt/img/estaciones_automaticas_met/"
 DASHBOARD_BASE = "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard"
 SEASON_URL = "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Departamentos.html"
+CHRONO_URL = "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Cronologico_Grupo.html"
 UA = {"User-Agent": "Mozilla/5.0 Agente-Hidrometeorologico-Cloud/1.0"}
 
 ALTO_USUMACINTA = {
@@ -27,7 +28,6 @@ ALTO_USUMACINTA = {
 
 
 def response_text_utf8(r: requests.Response) -> str:
-    """INSIVUMEH sirve varias páginas UTF-8 sin charset fiable; evitar mojibake."""
     try:
         return r.content.decode("utf-8")
     except UnicodeDecodeError:
@@ -36,7 +36,6 @@ def response_text_utf8(r: requests.Response) -> str:
 
 def clean_html(s: str) -> str:
     s = s.replace("\\u00b0", "°").replace("\\u00f3", "ó").replace("\\u00ed", "í")
-    re.sub(r"<br\s*/?>", " | ", s, flags=re.I)
     s = re.sub(r"<br\s*/?>", " | ", s, flags=re.I)
     s = re.sub(r"<[^>]+>", " ", s)
     s = s.replace("&nbsp;", " ").replace("&deg;", "°")
@@ -69,6 +68,21 @@ def season_rows(html: str):
     return list(unique.values()), ({"inicio": period.group(1), "fin": period.group(2)} if period else None)
 
 
+def monthly_rows_from_chrono(html: str):
+    """Extrae solo el acumulado explícito mostrado por INSIVUMEH en Progreso Diario.
+    No deriva 24 h ni convierte faltantes en cero.
+    """
+    text = clean_html(html)
+    rows = []
+    for name, code in ALTO_USUMACINTA.items():
+        m = re.search(re.escape(name) + r"\s+(?:🌧️\s*)?(\d+(?:\.\d+)?)\s*mm\s+acumulados", text, re.I)
+        if not m and name == "Playa Grande Met (Ixcan)":
+            m = re.search(r"Playa\s+Grande\s+Met\s*\(Ixc[aá]n\)\s+(?:🌧️\s*)?(\d+(?:\.\d+)?)\s*mm\s+acumulados", text, re.I)
+        if m:
+            rows.append({"estacion": name, "codigo": code, "acumulado_mensual_mm": float(m.group(1)), "estado_dato": "observado_preliminar", "url_producto": CHRONO_URL})
+    return rows
+
+
 def dashboard_row(name: str, code: str):
     url = f"{DASHBOARD_BASE}/{code}.html"
     r = requests.get(url, headers=UA, timeout=25)
@@ -87,7 +101,7 @@ def dashboard_row(name: str, code: str):
 def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc).isoformat()
-    result = {"fuente": "INSIVUMEH", "producto": "Estaciones meteorologicas automaticas y acumulados oficiales", "url": URL, "consultado_utc": now, "independiente_weatherlink": True, "estado": "sin_validar", "estaciones": [], "acumulados_epoca_lluviosa": [], "nota": "Datos oficiales/preliminares según producto. No se sustituyen s/d por cero y no se estiman valores desde colores del mapa."}
+    result = {"fuente": "INSIVUMEH", "producto": "Estaciones meteorologicas automaticas y acumulados oficiales", "url": URL, "consultado_utc": now, "independiente_weatherlink": True, "estado": "sin_validar", "estaciones": [], "acumulados_mes_actual": [], "acumulados_epoca_lluviosa": [], "nota": "Datos oficiales/preliminares según producto. No se sustituyen s/d por cero y no se estiman valores desde colores del mapa."}
     try:
         r = requests.get(URL, headers=UA, timeout=35)
         r.raise_for_status()
@@ -145,8 +159,20 @@ def main():
     result["tableros_alto_usumacinta_con_dato"] = dashboard_ok
     if dashboard_errors:
         result["errores_tableros_alto_usumacinta"] = dashboard_errors
+
+    try:
+        c = requests.get(CHRONO_URL, headers=UA, timeout=35)
+        c.raise_for_status()
+        monthly = monthly_rows_from_chrono(response_text_utf8(c))
+        result["acumulados_mes_actual"] = monthly
+        result["url_progreso_diario"] = CHRONO_URL
+        result["estado_mes_actual"] = "ok" if monthly else "sin_dato_estructurado_extraible"
+    except Exception as e:
+        result["estado_mes_actual"] = "error_consulta"
+        result["error_mes_actual"] = str(e)
+
     result["total_estaciones_extraidas"] = len(result["estaciones"])
-    result["estado"] = "ok" if result["estaciones"] else "fuente_consultada_sin_dato_estructurado_extraible"
+    result["estado"] = "ok" if (result["estaciones"] or result["acumulados_mes_actual"]) else "fuente_consultada_sin_dato_estructurado_extraible"
 
     try:
         s = requests.get(SEASON_URL, headers=UA, timeout=35)
@@ -161,7 +187,7 @@ def main():
         result["error_epoca_lluviosa"] = str(e)
 
     OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(json.dumps({"estado": result["estado"], "estaciones": len(result["estaciones"]), "tableros_alto_con_dato": dashboard_ok, "acumulados_epoca_lluviosa": len(result["acumulados_epoca_lluviosa"]), "corte": result.get("corte_fuente")}, ensure_ascii=False))
+    print(json.dumps({"estado": result["estado"], "estaciones": len(result["estaciones"]), "tableros_alto_con_dato": dashboard_ok, "acumulados_mes_actual": len(result["acumulados_mes_actual"]), "acumulados_epoca_lluviosa": len(result["acumulados_epoca_lluviosa"]), "corte": result.get("corte_fuente")}, ensure_ascii=False))
 
 
 if __name__ == "__main__":
