@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-09-08T19:29:28.192474+00:00",
+  "generated_utc": "2026-09-08T22:00:12.176000+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
@@ -161,7 +161,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Tue, 08 Sep 2026 19:29:50 GMT"
+      "last_modified": "Tue, 08 Sep 2026 22:00:12 GMT"
     },
     "resumen": "La onda tropical núm. 37 , así como el ingreso de humedad del océano Pacífico y del mar Caribe, ocasionarán lluvias puntuales intensas en la cuenca de La Angostura, lluvias puntuales muy fuertes en las cuencas de Bajo Grijalva y Chicoasén, lluvias puntuales fuertes en las cuencas de Malpaso, Juan Sabines y Usumacinta, así como intervalos de chubascos en la cuenca de Peñitas. Además, prevalecerá un ambiente caluroso a muy caluroso sobre la región.",
     "detalle_ventanas": {
@@ -469,7 +469,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Tue, 08 Sep 2026 19:29:29 GMT"
+      "last_modified": "Tue, 08 Sep 2026 22:00:34 GMT"
     }
   },
   "insivumeh": {
@@ -491,8 +491,8 @@
         "nivel_referencia_max_m": 10.0,
         "caudal_referencia_min_m3s": 486.87,
         "caudal_referencia_max_m3s": 2856.43,
-        "nivel_instantaneo_m": 5.54,
-        "caudal_instantaneo_m3s": 917.3,
+        "nivel_instantaneo_m": 5.5,
+        "caudal_instantaneo_m3s": 899.91,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       },
@@ -504,56 +504,65 @@
         "nivel_referencia_max_m": 3.0,
         "caudal_referencia_min_m3s": 93.04,
         "caudal_referencia_max_m3s": 399.28,
-        "nivel_instantaneo_m": 1.92,
-        "caudal_instantaneo_m3s": 197.29,
+        "nivel_instantaneo_m": 1.91,
+        "caudal_instantaneo_m3s": 195.83,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       }
     ],
     "fragmentos_relevantes": [
-      "Caudal | Instant´ aneo (m3/s) Disminuir Mantenerse Incrementar Observaciones No. BHE | Chachacl´ un Lago Pet´ en Itz´ a San Jos´ e, Pet´ en 1.0 2.5 3.4 X Lago Crecido 1336-2025 | El Porvenir La Pasi´ on Las Cruces, Pet´ en 1.03 3.0 93.04 399.28 1.92 197.29 X | El Tigre Usumacinta Las Cruces, Pet´ en 4.55 10.0 486.87 2856.43 5.54 917.3 X | La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.11 7.24 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.69 0.05 X R ´ ıo Bajo",
-      "Instant´ aneo (m3/s) Disminuir Mantenerse Incrementar Observaciones No. BHE | Chachacl´ un Lago Pet´ en Itz´ a San Jos´ e, Pet´ en 1.0 2.5 3.4 X Lago Crecido 1336-2025 | El Porvenir La Pasi´ on Las Cruces, Pet´ en 1.03 3.0 93.04 399.28 1.92 197.29 X | El Tigre Usumacinta Las Cruces, Pet´ en 4.55 10.0 486.87 2856.43 5.54 917.3 X | La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.11 7.24 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.69 0.05 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X",
-      "La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.11 7.24 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.69 0.05 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 -0.1 179.51 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.57 8.12 X | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.43 181.97 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.6 52.64 X",
-      "Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.69 0.05 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 -0.1 179.51 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.57 8.12 X | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.43 181.97 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.6 52.64 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.16 13.14 X",
-      "Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 -0.1 179.51 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.57 8.12 X | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.43 181.97 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.6 52.64 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.16 13.14 X | Xemal Selegua Colotenango, Huehuetenango 0.25 1.25 3.91 48.8 -0.38 0.16 X R ´ ıo Bajo"
+      "Caudal | Instant´ aneo (m3/s) Disminuir Mantenerse Incrementar Observaciones No. BHE | Chachacl´ un Lago Pet´ en Itz´ a San Jos´ e, Pet´ en 1.0 2.5 3.4 X Lago Crecido 1336-2025 | El Porvenir La Pasi´ on Las Cruces, Pet´ en 1.03 3.0 93.04 399.28 1.91 195.83 X | El Tigre Usumacinta Las Cruces, Pet´ en 4.55 10.0 486.87 2856.43 5.5 899.91 X | La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.11 7.24 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.71 0.07 X R ´ ıo Bajo",
+      "Instant´ aneo (m3/s) Disminuir Mantenerse Incrementar Observaciones No. BHE | Chachacl´ un Lago Pet´ en Itz´ a San Jos´ e, Pet´ en 1.0 2.5 3.4 X Lago Crecido 1336-2025 | El Porvenir La Pasi´ on Las Cruces, Pet´ en 1.03 3.0 93.04 399.28 1.91 195.83 X | El Tigre Usumacinta Las Cruces, Pet´ en 4.55 10.0 486.87 2856.43 5.5 899.91 X | La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.11 7.24 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.71 0.07 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X",
+      "La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.11 7.24 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.71 0.07 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 -0.1 179.51 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.58 8.35 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.5 45.22 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.16 13.14 X",
+      "Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.71 0.07 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 -0.1 179.51 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.58 8.35 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.5 45.22 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.16 13.14 X | Xemal Selegua Colotenango, Huehuetenango 0.25 1.25 3.91 48.8 -0.36 0.18 X R ´ ıo Bajo"
     ],
     "completo": true,
-    "pdf_bytes": 306041,
+    "pdf_bytes": 305880,
     "boletin": null,
     "fecha": "08/09/2026",
-    "hora": "08:00",
+    "hora": "14:00",
     "hora_fuente": "encabezado_BHVGM"
   },
   "insivumeh_evolucion_real": [
     {
+      "estacion": "El Tigre",
+      "rio": "Usumacinta",
+      "desde": "08/09/2026 08:00",
+      "hasta": "08/09/2026 14:00",
+      "horas_transcurridas": 6.0,
+      "delta_nivel_m": -0.04,
+      "delta_caudal_m3s": -17.39,
+      "tendencia_calculada": "disminuyendo"
+    },
+    {
       "estacion": "El Porvenir",
       "rio": "La Pasión",
-      "desde": "07/09/2026 20:00",
-      "hasta": "08/09/2026 08:00",
-      "horas_transcurridas": 12.0,
-      "delta_nivel_m": -0.07,
-      "delta_caudal_m3s": -10.41,
-      "tendencia_calculada": "disminuyendo"
+      "desde": "08/09/2026 08:00",
+      "hasta": "08/09/2026 14:00",
+      "horas_transcurridas": 6.0,
+      "delta_nivel_m": -0.01,
+      "delta_caudal_m3s": -1.46,
+      "tendencia_calculada": "estable"
     },
     {
       "estacion": "Playa Grande",
       "rio": "Chixoy",
-      "desde": "07/09/2026 20:00",
-      "hasta": "08/09/2026 08:00",
-      "horas_transcurridas": 12.0,
-      "delta_nivel_m": 0.15,
-      "delta_caudal_m3s": 24.2,
-      "tendencia_calculada": "incrementando"
+      "desde": "08/09/2026 08:00",
+      "hasta": "08/09/2026 14:00",
+      "horas_transcurridas": 6.0,
+      "delta_nivel_m": 0.0,
+      "delta_caudal_m3s": 0.0,
+      "tendencia_calculada": "estable"
     },
     {
       "estacion": "Puente Chocox",
       "rio": "Chixoy",
-      "desde": "07/09/2026 20:00",
-      "hasta": "08/09/2026 08:00",
-      "horas_transcurridas": 12.0,
-      "delta_nivel_m": -0.02,
-      "delta_caudal_m3s": -0.45,
-      "tendencia_calculada": "disminuyendo"
+      "desde": "08/09/2026 08:00",
+      "hasta": "08/09/2026 14:00",
+      "horas_transcurridas": 6.0,
+      "delta_nivel_m": 0.01,
+      "delta_caudal_m3s": 0.23,
+      "tendencia_calculada": "estable"
     }
   ],
   "guatemala_acumulados": {
@@ -755,11 +764,11 @@
     "insivumeh_saturacion": "https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/",
     "insivumeh_acumulados": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/"
   },
-  "senal_usumacinta_alta": "Sin tendencia comparable aguas arriba",
+  "senal_usumacinta_alta": "Señal aguas arriba disminuyendo",
   "insivumeh_bhvgm_actual": {
-    "boletin": "751",
+    "boletin": "752",
     "fecha": "08/09/2026",
-    "hora": "08:00",
+    "hora": "14:00",
     "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
     "estaciones": [
       {
@@ -769,8 +778,8 @@
         "nivel_referencia_max_m": 10.0,
         "caudal_referencia_min_m3s": 486.87,
         "caudal_referencia_max_m3s": 2856.43,
-        "nivel_instantaneo_m": 5.54,
-        "caudal_instantaneo_m3s": 917.3,
+        "nivel_instantaneo_m": 5.5,
+        "caudal_instantaneo_m3s": 899.91,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       },
@@ -781,8 +790,8 @@
         "nivel_referencia_max_m": 3.0,
         "caudal_referencia_min_m3s": 93.04,
         "caudal_referencia_max_m3s": 399.28,
-        "nivel_instantaneo_m": 1.92,
-        "caudal_instantaneo_m3s": 197.29,
+        "nivel_instantaneo_m": 1.91,
+        "caudal_instantaneo_m3s": 195.83,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       },
@@ -805,8 +814,8 @@
         "nivel_referencia_max_m": 2.33,
         "caudal_referencia_min_m3s": 7.9,
         "caudal_referencia_max_m3s": 110.1,
-        "nivel_instantaneo_m": 0.57,
-        "caudal_instantaneo_m3s": 8.12,
+        "nivel_instantaneo_m": 0.58,
+        "caudal_instantaneo_m3s": 8.35,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       }
@@ -816,7 +825,7 @@
   "insivumeh_el_tigre_antecedente": null,
   "insivumeh_el_tigre_regla": "Antecedente informativo: no es observación del corte actual, no se hereda y no gobierna tendencia ni semáforo.",
   "insivumeh_contexto_diagnostico": {
-    "actualizado_utc": "2026-09-08T19:29:35.261723+00:00",
+    "actualizado_utc": "2026-09-08T22:00:19.160564+00:00",
     "errores": [],
     "lluvia": {
       "pagina": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
