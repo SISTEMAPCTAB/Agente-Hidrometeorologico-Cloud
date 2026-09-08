@@ -13,8 +13,6 @@ DASHBOARD_BASE = "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard"
 SEASON_URL = "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Departamentos.html"
 UA = {"User-Agent": "Mozilla/5.0 Agente-Hidrometeorologico-Cloud/1.0"}
 
-# Estaciones que ya usa el bloque Alto Usumacinta. Los códigos son los mismos
-# identificadores oficiales que utiliza INSIVUMEH en sus tableros individuales.
 ALTO_USUMACINTA = {
     "El Tigre": "INS171302AT",
     "El Porvenir": "INS171001AT",
@@ -28,8 +26,17 @@ ALTO_USUMACINTA = {
 }
 
 
+def response_text_utf8(r: requests.Response) -> str:
+    """INSIVUMEH sirve varias páginas UTF-8 sin charset fiable; evitar mojibake."""
+    try:
+        return r.content.decode("utf-8")
+    except UnicodeDecodeError:
+        return r.text
+
+
 def clean_html(s: str) -> str:
     s = s.replace("\\u00b0", "°").replace("\\u00f3", "ó").replace("\\u00ed", "í")
+    re.sub(r"<br\s*/?>", " | ", s, flags=re.I)
     s = re.sub(r"<br\s*/?>", " | ", s, flags=re.I)
     s = re.sub(r"<[^>]+>", " ", s)
     s = s.replace("&nbsp;", " ").replace("&deg;", "°")
@@ -48,7 +55,6 @@ def number(pattern: str, text: str):
 
 
 def season_rows(html: str):
-    """Extrae sólo acumulados explícitos del resumen oficial de época lluviosa."""
     text = clean_html(html)
     period = re.search(r"[ÉE]poca\s+lluviosa\s*:\s*(\d{2}/\d{2}/\d{4})\s+al\s+(\d{2}/\d{2}/\d{4})", text, re.I)
     rows = []
@@ -64,11 +70,10 @@ def season_rows(html: str):
 
 
 def dashboard_row(name: str, code: str):
-    """Lee el tablero oficial individual; no estima ni convierte faltantes a cero."""
     url = f"{DASHBOARD_BASE}/{code}.html"
     r = requests.get(url, headers=UA, timeout=25)
     r.raise_for_status()
-    text = clean_html(r.text)
+    text = clean_html(response_text_utf8(r))
     rain24 = number(r"Precipitaci[oó]n\s*24\s*hrs?\s*(-?\d+(?:\.\d+)?)\s*mm", text)
     tmin = number(r"Temperatura\s*M[ií]nima\s*(-?\d+(?:\.\d+)?)\s*°?\s*C", text)
     tmean = number(r"Temperatura\s*Media\s*(-?\d+(?:\.\d+)?)\s*°?\s*C", text)
@@ -76,40 +81,17 @@ def dashboard_row(name: str, code: str):
     hum = number(r"Humedad\s*Relativa\s*(-?\d+(?:\.\d+)?)\s*%", text)
     if rain24 is None and tmin is None and tmean is None and tmax is None and hum is None:
         return None
-    return {
-        "estacion": name,
-        "codigo": code,
-        "precipitacion_24h_mm": rain24,
-        "temperatura_min_c": tmin,
-        "temperatura_media_c": tmean,
-        "temperatura_max_c": tmax,
-        "humedad_relativa_pct": hum,
-        "estado_dato": "observado_preliminar",
-        "url_tablero": url,
-    }
+    return {"estacion": name, "codigo": code, "precipitacion_24h_mm": rain24, "temperatura_min_c": tmin, "temperatura_media_c": tmean, "temperatura_max_c": tmax, "humedad_relativa_pct": hum, "estado_dato": "observado_preliminar", "url_tablero": url}
 
 
 def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc).isoformat()
-    result = {
-        "fuente": "INSIVUMEH",
-        "producto": "Estaciones meteorologicas automaticas y acumulados oficiales",
-        "url": URL,
-        "consultado_utc": now,
-        "independiente_weatherlink": True,
-        "estado": "sin_validar",
-        "estaciones": [],
-        "acumulados_epoca_lluviosa": [],
-        "nota": "Datos oficiales/preliminares según producto. No se sustituyen s/d por cero y no se estiman valores desde colores del mapa."
-    }
-
-    # Conserva la consulta existente del mapa automático. Si no expone valores
-    # estructurados, no afecta la segunda vía por tableros individuales.
+    result = {"fuente": "INSIVUMEH", "producto": "Estaciones meteorologicas automaticas y acumulados oficiales", "url": URL, "consultado_utc": now, "independiente_weatherlink": True, "estado": "sin_validar", "estaciones": [], "acumulados_epoca_lluviosa": [], "nota": "Datos oficiales/preliminares según producto. No se sustituyen s/d por cero y no se estiman valores desde colores del mapa."}
     try:
         r = requests.get(URL, headers=UA, timeout=35)
         r.raise_for_status()
-        raw = r.text
+        raw = response_text_utf8(r)
         result["http_status"] = r.status_code
         result["bytes"] = len(r.content)
         h = re.search(r"INFORMACI[ÓO]N\s+PRELIMINAR.*?[–-]\s*(\d{1,2}/[A-Za-z]{3}/\d{4}\s+\d{1,2}:\d{2})", clean_html(raw), re.I)
@@ -142,8 +124,6 @@ def main():
         result["estado_mapa_automatico"] = "error_consulta"
         result["error_mapa_automatico"] = str(e)
 
-    # Vía oficial adicional y aislada: tableros individuales INSIVUMEH. Permite
-    # obtener precipitación 24 h aun cuando el mapa automático no exponga su dato 1 h.
     dashboard_ok = 0
     dashboard_errors = {}
     by_code = {str(x.get("codigo", "")).upper(): x for x in result["estaciones"] if x.get("codigo")}
@@ -171,7 +151,7 @@ def main():
     try:
         s = requests.get(SEASON_URL, headers=UA, timeout=35)
         s.raise_for_status()
-        rows, period = season_rows(s.text)
+        rows, period = season_rows(response_text_utf8(s))
         result["acumulados_epoca_lluviosa"] = rows
         result["periodo_epoca_lluviosa"] = period
         result["url_epoca_lluviosa"] = SEASON_URL
