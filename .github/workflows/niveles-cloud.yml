@@ -145,35 +145,31 @@ jobs:
           fi
 
           git stash push --include-untracked -m "productos-niveles-cloud"
+          git pull --rebase origin main
+          git stash pop
+          git add data/niveles/Historico \
+                  data/niveles/Resumen_12h \
+                  data/niveles/Ultimo_Corte \
+                  data/niveles/Estado \
+                  data/niveles/Estado_Niveles_Cloud.json \
+                  data/niveles/Lluvia_CONAGUA \
+                  data/niveles/Clima_CONAGUA \
+                  data/niveles/Graficas \
+                  data/niveles/Reportes \
+                  data/niveles/Evidencia_Texto
+          if git diff --cached --quiet; then
+            echo "Los cambios ya quedaron incorporados por otra ejecución."
+            exit 0
+          fi
+
+          git commit -m "Actualiza niveles lluvia clima CONAGUA y graficas [skip ci]"
           for intento in 1 2 3; do
-            echo "Intento de sincronización/publicación niveles ${intento}/3"
-            if git pull --rebase origin main; then
-              if git stash list | grep -q 'productos-niveles-cloud'; then git stash pop; fi
-              git add data/niveles/Historico \
-                      data/niveles/Resumen_12h \
-                      data/niveles/Ultimo_Corte \
-                      data/niveles/Estado \
-                      data/niveles/Estado_Niveles_Cloud.json \
-                      data/niveles/Lluvia_CONAGUA \
-                      data/niveles/Clima_CONAGUA \
-                      data/niveles/Graficas \
-                      data/niveles/Reportes \
-                      data/niveles/Evidencia_Texto
-              if git diff --cached --quiet; then
-                echo "Los cambios ya quedaron incorporados por otra ejecución."
-                exit 0
-              fi
-              git commit -m "Actualiza niveles lluvia clima CONAGUA y graficas [skip ci]"
-              if git push origin main; then
-                echo "Niveles publicados."
-                exit 0
-              fi
+            echo "Intento de publicación niveles ${intento}/3"
+            if git pull --rebase origin main && git push origin main; then
+              echo "Niveles publicados."
+              exit 0
             fi
             git rebase --abort 2>/dev/null || true
-            if ! git stash list | grep -q 'productos-niveles-cloud'; then
-              git reset --soft HEAD~1 2>/dev/null || true
-              git stash push --include-untracked -m "productos-niveles-cloud" 2>/dev/null || true
-            fi
             sleep $((intento * 10))
           done
           echo "No fue posible publicar niveles después de 3 intentos."
