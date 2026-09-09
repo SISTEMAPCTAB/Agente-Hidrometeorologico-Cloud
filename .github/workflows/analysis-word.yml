@@ -14,7 +14,9 @@ on:
       - 'data/latest/FUENTE2.txt'
       - 'data/fuentes_publicas/latest.json'
       - 'data/fuentes_publicas/insivumeh_historico.json'
+      - 'data/fuentes_publicas/insivumeh_automaticas.json'
       - 'data/weatherlink/latest.json'
+      - 'data/weatherlink/extra_latest.json'
       - 'data/weatherlink/Estado_WeatherLink_Cloud.json'
       - 'data/presas/historico_mensual.json'
       - 'src/generar_analisis_diario.py'
@@ -23,7 +25,10 @@ on:
       - 'requirements.txt'
       - '.github/workflows/analysis-word.yml'
   schedule:
+    # Tabasco = UTC-6. Ejecución principal 11:05 y dos respaldos automáticos.
     - cron: '5 17 * * *'
+    - cron: '20 17 * * *'
+    - cron: '35 17 * * *'
 
 permissions:
   contents: write
@@ -35,7 +40,7 @@ concurrency:
 jobs:
   generar-word-analisis:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
@@ -52,10 +57,26 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Generar análisis diario 11 h desde datos cloud
-        run: python src/generar_analisis_diario.py
+        shell: bash
+        run: |
+          set -e
+          for intento in 1 2 3; do
+            if python src/generar_analisis_diario.py; then exit 0; fi
+            echo "Reintento generar análisis ${intento}/3"
+            sleep $((intento * 10))
+          done
+          exit 1
 
       - name: Integrar Frontera Sur y control de fuentes
-        run: python src/complementar_analisis_fuente1.py
+        shell: bash
+        run: |
+          set -e
+          for intento in 1 2 3; do
+            if python src/complementar_analisis_fuente1.py; then exit 0; fi
+            echo "Reintento complementar análisis ${intento}/3"
+            sleep $((intento * 10))
+          done
+          exit 1
 
       - name: Verificar latest.md
         shell: bash
@@ -72,18 +93,37 @@ jobs:
           grep -q '## Control de fuentes y hora real de actualización' data/analysis/latest.md
 
       - name: Generar y verificar Word del análisis
-        run: python src/generar_word_analisis.py
+        shell: bash
+        run: |
+          set -e
+          for intento in 1 2 3; do
+            if python src/generar_word_analisis.py; then exit 0; fi
+            echo "Reintento generar Word ${intento}/3"
+            sleep $((intento * 10))
+          done
+          exit 1
 
       - name: Publicar análisis y Word persistente
         shell: bash
         run: |
+          set -e
           git config user.name "Agente Hidrometeorologico Cloud"
           git config user.email "actions@users.noreply.github.com"
           git add data/analysis/latest.md data/analysis/Reportes
           if git diff --cached --quiet; then
             echo "Sin cambios del análisis/Word."
-          else
-            git commit -m "Actualiza análisis 11 h y Word persistente"
-            git pull --rebase origin main
-            git push origin main
+            exit 0
           fi
+
+          git commit -m "Actualiza análisis 11 h y Word persistente [skip ci]"
+          for intento in 1 2 3; do
+            echo "Intento de publicación ${intento}/3"
+            if git pull --rebase origin main && git push origin main; then
+              echo "Análisis y Word publicados."
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((intento * 10))
+          done
+          echo "No fue posible publicar el análisis después de 3 intentos."
+          exit 1
