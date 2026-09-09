@@ -3,8 +3,9 @@ name: WeatherLink Watchdog - recuperación automática
 on:
   workflow_dispatch:
   schedule:
-    # Verificación 15 minutos después de cada ventana esperada del flujo principal.
-    - cron: '29,59 * * * *'
+    # El flujo principal corre en :14/:29/:44/:59. El watchdog se desplaza
+    # 8 minutos para no competir por el mismo grupo de concurrencia.
+    - cron: '7,22,37,52 * * * *'
 
 permissions:
   contents: write
@@ -43,13 +44,19 @@ jobs:
               s = json.loads(p.read_text(encoding='utf-8'))
               run_utc = s.get('run_utc')
               complete = s.get('complete') is True
+              expected = s.get('stations_expected')
+              ok = s.get('stations_ok')
+              errors = s.get('errors') or []
               if run_utc:
                   last = datetime.fromisoformat(run_utc.replace('Z', '+00:00'))
                   if last.tzinfo is None:
                       last = last.replace(tzinfo=timezone.utc)
                   age_minutes = (datetime.now(timezone.utc) - last.astimezone(timezone.utc)).total_seconds() / 60.0
-                  recover = (not complete) or age_minutes > 40
-                  reason = f"complete={complete}; antigüedad={age_minutes:.1f} min"
+                  healthy = complete and expected == ok and not errors
+                  # Con un flujo principal cada 15 min, >35 min implica al menos
+                  # dos ventanas consecutivas sin publicar un estado válido.
+                  recover = (not healthy) or age_minutes > 35
+                  reason = f"complete={complete}; estaciones={ok}/{expected}; errores={len(errors)}; antigüedad={age_minutes:.1f} min"
           except Exception as exc:
               reason = f"error leyendo estado: {exc}"
 
