@@ -24,19 +24,18 @@ on:
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
   schedule:
-    # Tabasco = UTC-6. Se conserva la frecuencia horaria de 06:30–18:30,
-    # desplazando el disparo técnico 7 minutos para reducir retrasos de GitHub Actions.
-    # Ventana operativa equivalente: 06:37–17:37 local = 12:37–23:37 UTC.
-    - cron: '37 12-23 * * *'
-    # Último intento diario: 18:37 local = 00:37 UTC del día siguiente.
-    - cron: '37 0 * * *'
+    # Tabasco = UTC-6. Se consulta cada 15 minutos durante la ventana operativa
+    # 06:00–18:59 local para que un correo nuevo no espere hasta una hora.
+    # 12:00–23:59 UTC = 06:00–17:59 local.
+    - cron: '*/15 12-23 * * *'
+    # 00:00–00:59 UTC = 18:00–18:59 local.
+    - cron: '*/15 0 * * *'
 
 permissions:
   contents: write
 
-# Grupo exclusivo: evita que WeatherLink, fuentes públicas, Carbonio o el análisis
-# sustituyan/cancelen una ejecución pendiente de niveles. El propio paso de publicación
-# ya hace pull --rebase antes del push para convivir con otros escritores del repositorio.
+# Un solo escritor de niveles a la vez. No se cancelan ejecuciones activas:
+# la siguiente queda en cola y el paso de publicación hace pull --rebase.
 concurrency:
   group: niveles-hidrometricos-cloud
   cancel-in-progress: false
@@ -147,7 +146,3 @@ jobs:
             git commit -m "Actualiza niveles lluvia clima CONAGUA y graficas [skip ci]"
             git push origin main
           fi
-
-# El corte vigente también se refresca cuando llegan FUENTE1/FUENTE2,
-# sin modificar la aplicación ni su estructura visual.
-# Re-disparo operativo 2026-09-08 para procesar FUENTE2 ya recolectado.
