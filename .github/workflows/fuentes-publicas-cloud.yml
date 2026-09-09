@@ -15,8 +15,7 @@ on:
       - 'requirements.txt'
       - '.github/workflows/fuentes-publicas-cloud.yml'
   schedule:
-    # Mantiene frecuencia de 10 minutos, fuera del inicio exacto de cada hora
-    # para reducir retrasos de GitHub Actions y separar escrituras de otros procesos.
+    # Cada 10 minutos, desplazado del inicio exacto de hora para reducir colas.
     - cron: '8,18,28,38,48,58 * * * *'
 
 permissions:
@@ -29,7 +28,7 @@ concurrency:
 jobs:
   recolectar-fuentes-publicas:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 18
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
@@ -48,11 +47,27 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq poppler-utils
 
-      - name: Consultar SMN e INSIVUMEH
-        run: python src/fuentes_publicas_cloud.py
+      - name: Consultar SMN e INSIVUMEH con reintentos
+        shell: bash
+        run: |
+          set -e
+          for intento in 1 2 3; do
+            if python src/fuentes_publicas_cloud.py; then exit 0; fi
+            echo "Reintento fuentes públicas ${intento}/3"
+            sleep $((intento * 12))
+          done
+          exit 1
 
       - name: Completar pronóstico SMN 96 h
-        run: python src/smn96_detalle.py
+        shell: bash
+        run: |
+          set -e
+          for intento in 1 2 3; do
+            if python src/smn96_detalle.py; then exit 0; fi
+            echo "Reintento SMN96 ${intento}/3"
+            sleep $((intento * 10))
+          done
+          exit 1
 
       - name: Corregir extracción La Pasión / El Porvenir
         run: python src/insivumeh_pasion_fix.py
@@ -64,18 +79,51 @@ jobs:
         run: python src/insivumeh_contexto.py
 
       - name: Consultar automáticas INSIVUMEH de forma aislada
-        run: python src/insivumeh_automaticas.py
+        shell: bash
+        run: |
+          set -e
+          for intento in 1 2 3; do
+            if python src/insivumeh_automaticas.py; then exit 0; fi
+            echo "Reintento automáticas INSIVUMEH ${intento}/3"
+            sleep $((intento * 10))
+          done
+          exit 1
+
+      - name: Verificar productos mínimos
+        shell: bash
+        run: |
+          test -s data/fuentes_publicas/latest.json
+          test -s data/fuentes_publicas/insivumeh_automaticas.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path('data/fuentes_publicas/insivumeh_automaticas.json').read_text(encoding='utf-8'))
+          assert a.get('estado') in ('ok','parcial'), 'Estado INSIVUMEH automáticas inválido'
+          assert isinstance(a.get('estaciones'), list), 'Falta arreglo estaciones INSIVUMEH'
+          print('Fuentes públicas verificadas; estaciones automáticas:', len(a.get('estaciones', [])))
+          PY
 
       - name: Publicar sólo cuando haya cambios
         shell: bash
         run: |
+          set -e
           git config user.name "Agente Hidrometeorologico Cloud"
           git config user.email "actions@users.noreply.github.com"
           git add data/fuentes_publicas
           if git diff --cached --quiet; then
             echo "Sin cambios en fuentes públicas."
-          else
-            git commit -m "Actualiza fuentes públicas SMN/INSIVUMEH [skip ci]"
-            git pull --rebase origin main
-            git push origin main
+            exit 0
           fi
+
+          git commit -m "Actualiza fuentes públicas SMN/INSIVUMEH [skip ci]"
+          for intento in 1 2 3; do
+            echo "Intento de publicación fuentes públicas ${intento}/3"
+            if git pull --rebase origin main && git push origin main; then
+              echo "Fuentes públicas publicadas."
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((intento * 10))
+          done
+          echo "No fue posible publicar fuentes públicas después de 3 intentos."
+          exit 1
