@@ -1,17 +1,19 @@
 {
   "agent": "Agente-Hidrometeorologico-Cloud",
-  "run_utc": "2026-09-09T19:32:27.085513+00:00",
-  "run_local": "2026-09-09T13:32:27.085513-06:00",
+  "run_utc": "2026-09-09T19:45:17.590520+00:00",
+  "run_local": "2026-09-09T13:45:17.590520-06:00",
   "accounts": [
     {
       "label": "principal",
-      "ok": true,
-      "messages_scanned": 150
+      "ok": false,
+      "messages_scanned": 0,
+      "error": "ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7fcfad91a5a0>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=45)'))"
     },
     {
       "label": "fuente1",
-      "ok": true,
-      "messages_scanned": 150
+      "ok": false,
+      "messages_scanned": 0,
+      "error": "ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7fcfad919b50>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=45)'))"
     }
   ],
   "fuente1_secondary_account_configured": true,
@@ -21,27 +23,11 @@
   },
   "sources": {
     "FUENTE1": {
-      "status": "ok",
-      "account": "fuente1",
-      "subject": "Boletín Hidrométrico, Climatológico y de Presas 09-09-2026",
-      "message_id": "6622",
-      "original_filename": "Boletin 09-09-2026.pdf",
-      "message_time": "2026-09-09T10:24:27-06:00",
-      "bulletin_date": "2026-09-09",
-      "bytes": 893043,
-      "text_chars": 11053
+      "status": "not_found"
     },
     "FUENTE2": {
-      "status": "ok",
-      "account": "principal",
-      "subject": "SE ENVIA BOLETIN DE HIDROEMTRIA Y CLIMATOLOGIA DE 8:00 AM",
-      "message_id": "15061",
-      "original_filename": "Boletin del 09 de Septiembre  del 2026.pdf",
-      "message_time": "2026-09-09T08:41:13-06:00",
-      "bulletin_date": "2026-09-09",
-      "bytes": 300042,
-      "text_chars": 2536
+      "status": "not_found"
     }
   },
-  "complete": true
+  "complete": false
 }
