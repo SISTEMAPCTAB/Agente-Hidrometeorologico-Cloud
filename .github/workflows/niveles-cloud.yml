@@ -24,18 +24,14 @@ on:
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
   schedule:
-    # Tabasco = UTC-6. Se consulta cada 15 minutos durante la ventana operativa
-    # 06:00–18:59 local para que un correo nuevo no espere hasta una hora.
-    # 12:00–23:59 UTC = 06:00–17:59 local.
+    # Tabasco = UTC-6. Consulta cada 15 minutos de 06:00 a 20:59 local.
+    # La ampliación vespertina captura reportes que lleguen después de la ventana habitual.
     - cron: '*/15 12-23 * * *'
-    # 00:00–00:59 UTC = 18:00–18:59 local.
-    - cron: '*/15 0 * * *'
+    - cron: '*/15 0-2 * * *'
 
 permissions:
   contents: write
 
-# Un solo escritor de niveles a la vez. No se cancelan ejecuciones activas:
-# la siguiente queda en cola y el paso de publicación hace pull --rebase.
 concurrency:
   group: niveles-hidrometricos-cloud
   cancel-in-progress: false
@@ -43,7 +39,7 @@ concurrency:
 jobs:
   recolectar-niveles:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 22
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
@@ -112,9 +108,25 @@ jobs:
       - name: Generar y verificar Word de niveles
         run: python src/generar_word_niveles.py
 
+      - name: Verificar productos críticos antes de publicar
+        shell: bash
+        run: |
+          test -s data/niveles/Ultimo_Corte/ultimo_resumen.json
+          test -s data/niveles/Historico/niveles_historicos.json
+          test -s data/niveles/Estado_Niveles_Cloud.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path('data/niveles/Estado_Niveles_Cloud.json').read_text(encoding='utf-8'))
+          assert s.get('stations_in_latest_summary',0) > 0, 'Resumen de niveles vacío'
+          assert isinstance(s.get('errors',[]), list), 'Estado de errores inválido'
+          print('Niveles verificados:', s.get('stations_in_latest_summary'), 'estaciones; corte:', s.get('latest_subject'))
+          PY
+
       - name: Publicar niveles, lluvia, clima CONAGUA, gráficas y Word
         shell: bash
         run: |
+          set -e
           git config user.name "Agente Hidrometeorologico Cloud"
           git config user.email "actions@users.noreply.github.com"
           git add data/niveles/Historico \
@@ -129,20 +141,40 @@ jobs:
                   data/niveles/Evidencia_Texto
           if git diff --cached --quiet; then
             echo "Sin cambios de niveles/lluvia/clima para publicar."
-          else
-            git stash push --include-untracked -m "productos-niveles-cloud"
-            git pull --rebase origin main
-            git stash pop
-            git add data/niveles/Historico \
-                    data/niveles/Resumen_12h \
-                    data/niveles/Ultimo_Corte \
-                    data/niveles/Estado \
-                    data/niveles/Estado_Niveles_Cloud.json \
-                    data/niveles/Lluvia_CONAGUA \
-                    data/niveles/Clima_CONAGUA \
-                    data/niveles/Graficas \
-                    data/niveles/Reportes \
-                    data/niveles/Evidencia_Texto
-            git commit -m "Actualiza niveles lluvia clima CONAGUA y graficas [skip ci]"
-            git push origin main
+            exit 0
           fi
+
+          git stash push --include-untracked -m "productos-niveles-cloud"
+          for intento in 1 2 3; do
+            echo "Intento de sincronización/publicación niveles ${intento}/3"
+            if git pull --rebase origin main; then
+              if git stash list | grep -q 'productos-niveles-cloud'; then git stash pop; fi
+              git add data/niveles/Historico \
+                      data/niveles/Resumen_12h \
+                      data/niveles/Ultimo_Corte \
+                      data/niveles/Estado \
+                      data/niveles/Estado_Niveles_Cloud.json \
+                      data/niveles/Lluvia_CONAGUA \
+                      data/niveles/Clima_CONAGUA \
+                      data/niveles/Graficas \
+                      data/niveles/Reportes \
+                      data/niveles/Evidencia_Texto
+              if git diff --cached --quiet; then
+                echo "Los cambios ya quedaron incorporados por otra ejecución."
+                exit 0
+              fi
+              git commit -m "Actualiza niveles lluvia clima CONAGUA y graficas [skip ci]"
+              if git push origin main; then
+                echo "Niveles publicados."
+                exit 0
+              fi
+            fi
+            git rebase --abort 2>/dev/null || true
+            if ! git stash list | grep -q 'productos-niveles-cloud'; then
+              git reset --soft HEAD~1 2>/dev/null || true
+              git stash push --include-untracked -m "productos-niveles-cloud" 2>/dev/null || true
+            fi
+            sleep $((intento * 10))
+          done
+          echo "No fue posible publicar niveles después de 3 intentos."
+          exit 1
