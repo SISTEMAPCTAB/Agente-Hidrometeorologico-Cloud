@@ -12,6 +12,11 @@ on:
       - 'src/insivumeh_historico.py'
       - 'src/insivumeh_contexto.py'
       - 'src/insivumeh_automaticas.py'
+      - 'src/weatherlink_cloud.py'
+      - 'src/weatherlink_extra_cloud.py'
+      - 'src/weatherlink_resolve_shared.py'
+      - 'src/temperature_summary.py'
+      - 'src/generar_word_weatherlink.py'
       - 'requirements.txt'
       - '.github/workflows/fuentes-publicas-cloud.yml'
   schedule:
@@ -28,7 +33,7 @@ concurrency:
 jobs:
   recolectar-fuentes-publicas:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 22
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
@@ -103,27 +108,109 @@ jobs:
           print('Fuentes públicas verificadas; estaciones automáticas:', len(a.get('estaciones', [])))
           PY
 
-      - name: Publicar sólo cuando haya cambios
+      - name: Verificar si WeatherLink necesita recuperación cruzada
+        id: weatherlink_fallback
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          p = Path('data/weatherlink/Estado_WeatherLink_Cloud.json')
+          recover = True
+          reason = 'estado WeatherLink inexistente o inválido'
+          try:
+              s = json.loads(p.read_text(encoding='utf-8'))
+              run_utc = s.get('run_utc')
+              complete = s.get('complete') is True
+              expected = s.get('stations_expected')
+              ok = s.get('stations_ok')
+              errors = s.get('errors') or []
+              if run_utc:
+                  last = datetime.fromisoformat(run_utc.replace('Z', '+00:00'))
+                  if last.tzinfo is None:
+                      last = last.replace(tzinfo=timezone.utc)
+                  age = (datetime.now(timezone.utc) - last.astimezone(timezone.utc)).total_seconds() / 60.0
+                  healthy = complete and expected == ok and not errors
+                  recover = (not healthy) or age > 30
+                  reason = f'complete={complete}; estaciones={ok}/{expected}; errores={len(errors)}; antigüedad={age:.1f} min'
+          except Exception as exc:
+              reason = f'error leyendo estado WeatherLink: {exc}'
+
+          print('WeatherLink recuperación cruzada:', reason)
+          print('Recuperar:', recover)
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
+              fh.write(f"recover={'true' if recover else 'false'}\n")
+          PY
+
+      - name: Recuperar WeatherLink desde Fuentes Públicas
+        if: steps.weatherlink_fallback.outputs.recover == 'true'
+        shell: bash
+        run: |
+          set -e
+          python src/weatherlink_resolve_shared.py
+          python src/weatherlink_cloud.py
+          python src/weatherlink_extra_cloud.py
+          python src/temperature_summary.py
+          python src/generar_word_weatherlink.py
+
+      - name: Verificar recuperación cruzada WeatherLink
+        if: steps.weatherlink_fallback.outputs.recover == 'true'
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          estado = json.loads(Path('data/weatherlink/Estado_WeatherLink_Cloud.json').read_text(encoding='utf-8'))
+          assert estado.get('complete') is True, 'WeatherLink no quedó completo en recuperación cruzada'
+          assert estado.get('stations_ok') == estado.get('stations_expected'), 'Faltan estaciones WeatherLink en recuperación cruzada'
+          assert not (estado.get('errors') or []), 'WeatherLink reportó errores en recuperación cruzada'
+          d = datetime.fromisoformat(estado['run_utc'].replace('Z', '+00:00'))
+          if d.tzinfo is None:
+              d = d.replace(tzinfo=timezone.utc)
+          age = (datetime.now(timezone.utc) - d.astimezone(timezone.utc)).total_seconds() / 60.0
+          assert age < 20, f'WeatherLink recuperado pero antiguo: {age:.1f} min'
+          print(f"WeatherLink recuperado y verificado: {estado.get('stations_ok')}/{estado.get('stations_expected')}; {age:.1f} min")
+          PY
+
+      - name: Publicar cambios y recuperación cruzada
         shell: bash
         run: |
           set -e
           git config user.name "Agente Hidrometeorologico Cloud"
           git config user.email "actions@users.noreply.github.com"
           git add data/fuentes_publicas
+          if [ "${{ steps.weatherlink_fallback.outputs.recover }}" = "true" ]; then
+            git add data/weatherlink/state.json \
+                    data/weatherlink/latest.json \
+                    data/weatherlink/extra_state.json \
+                    data/weatherlink/extra_latest.json \
+                    data/weatherlink/shared_resolved.json \
+                    data/weatherlink/Tabla_WeatherLink_Cloud.csv \
+                    data/weatherlink/Estado_WeatherLink_Cloud.json \
+                    data/weatherlink/temperature_state.json \
+                    data/weatherlink/temperature_summary.json \
+                    data/weatherlink/Reportes
+          fi
+
           if git diff --cached --quiet; then
-            echo "Sin cambios en fuentes públicas."
+            echo "Sin cambios para publicar."
             exit 0
           fi
 
-          git commit -m "Actualiza fuentes públicas SMN/INSIVUMEH [skip ci]"
+          git commit -m "Actualiza fuentes públicas y respaldo WeatherLink [skip ci]"
           for intento in 1 2 3; do
-            echo "Intento de publicación fuentes públicas ${intento}/3"
+            echo "Intento de publicación ${intento}/3"
             if git pull --rebase origin main && git push origin main; then
-              echo "Fuentes públicas publicadas."
+              echo "Fuentes públicas y respaldo WeatherLink publicados."
               exit 0
             fi
             git rebase --abort 2>/dev/null || true
             sleep $((intento * 10))
           done
-          echo "No fue posible publicar fuentes públicas después de 3 intentos."
+          echo "No fue posible publicar después de 3 intentos."
           exit 1
