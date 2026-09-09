@@ -18,6 +18,7 @@ on:
       - 'requirements.txt'
       - '.gitattributes'
       - '.github/workflows/weatherlink-cloud.yml'
+      - '.github/workflows/weatherlink-watchdog.yml'
   schedule:
     # Cada 15 minutos, desplazado de :00/:15/:30/:45 para reducir retrasos
     # de GitHub Actions y disminuir el rezago frente al mapa público WeatherLink.
@@ -60,6 +61,28 @@ jobs:
 
       - name: Actualizar resumen térmico diario
         run: python src/temperature_summary.py
+
+      - name: Verificar recolección WeatherLink antes de generar productos
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          p=Path('data/weatherlink/Estado_WeatherLink_Cloud.json')
+          s=json.loads(p.read_text(encoding='utf-8'))
+          assert s.get('complete') is True, 'WeatherLink no quedó completo'
+          assert s.get('stations_ok') == s.get('stations_expected'), 'No se recolectaron todas las estaciones esperadas'
+          assert not (s.get('errors') or []), 'WeatherLink reportó errores'
+          run=s.get('run_utc')
+          assert run, 'Falta hora de ejecución WeatherLink'
+          d=datetime.fromisoformat(run.replace('Z','+00:00'))
+          if d.tzinfo is None: d=d.replace(tzinfo=timezone.utc)
+          age=(datetime.now(timezone.utc)-d.astimezone(timezone.utc)).total_seconds()/60
+          assert age < 20, f'El estado generado ya es antiguo: {age:.1f} min'
+          print(f"WeatherLink verificado: {s.get('stations_ok')}/{s.get('stations_expected')}; antigüedad {age:.1f} min")
+          PY
 
       - name: Generar y verificar Word WeatherLink
         run: python src/generar_word_weatherlink.py
