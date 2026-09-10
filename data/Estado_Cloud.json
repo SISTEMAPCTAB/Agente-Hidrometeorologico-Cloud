@@ -1,19 +1,17 @@
 {
   "agent": "Agente-Hidrometeorologico-Cloud",
-  "run_utc": "2026-09-09T19:45:17.590520+00:00",
-  "run_local": "2026-09-09T13:45:17.590520-06:00",
+  "run_utc": "2026-09-10T17:46:30.591209+00:00",
+  "run_local": "2026-09-10T11:46:30.591209-06:00",
   "accounts": [
     {
       "label": "principal",
-      "ok": false,
-      "messages_scanned": 0,
-      "error": "ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7fcfad91a5a0>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=45)'))"
+      "ok": true,
+      "messages_scanned": 150
     },
     {
       "label": "fuente1",
-      "ok": false,
-      "messages_scanned": 0,
-      "error": "ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7fcfad919b50>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=45)'))"
+      "ok": true,
+      "messages_scanned": 150
     }
   ],
   "fuente1_secondary_account_configured": true,
@@ -23,11 +21,27 @@
   },
   "sources": {
     "FUENTE1": {
-      "status": "not_found"
+      "status": "ok",
+      "account": "fuente1",
+      "subject": "Boletín Hidrométrico, Climatológico y de Presas 10-09-2026",
+      "message_id": "6660",
+      "original_filename": "Boletin 10-09-2026.pdf",
+      "message_time": "2026-09-10T10:36:44-06:00",
+      "bulletin_date": "2026-09-10",
+      "bytes": 890971,
+      "text_chars": 11026
     },
     "FUENTE2": {
-      "status": "not_found"
+      "status": "ok",
+      "account": "principal",
+      "subject": "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 8:00 AM",
+      "message_id": "15100",
+      "original_filename": "Boletin del 10 de Septiembre  del 2026.pdf",
+      "message_time": "2026-09-10T08:34:08-06:00",
+      "bulletin_date": "2026-09-10",
+      "bytes": 308351,
+      "text_chars": 2843
     }
   },
-  "complete": false
+  "complete": true
 }
