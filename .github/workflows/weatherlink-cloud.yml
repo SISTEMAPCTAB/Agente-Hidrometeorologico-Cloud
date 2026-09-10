@@ -15,16 +15,13 @@ on:
       - 'config/weatherlink_stations_extra.json'
       - 'data/weatherlink/seed.csv'
       - 'data/weatherlink/seed_daily.json'
-      - 'data/fuentes_publicas/**'
-      - 'data/niveles/**'
-      - 'data/carbonio/**'
       - 'requirements.txt'
       - '.gitattributes'
       - '.github/workflows/weatherlink-cloud.yml'
       - '.github/workflows/weatherlink-watchdog.yml'
   schedule:
     # Cada 15 minutos, desplazado de :00/:15/:30/:45 para reducir retrasos
-    # de GitHub Actions y disminuir el rezago frente al mapa público WeatherLink.
+    # de GitHub Actions y disminuir el rezago frente al portal WeatherLink.
     - cron: '14,29,44,59 * * * *'
 
 permissions:
