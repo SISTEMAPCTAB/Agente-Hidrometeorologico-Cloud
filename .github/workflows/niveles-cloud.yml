@@ -26,6 +26,7 @@ on:
   schedule:
     # Tabasco = UTC-6. Consulta cada 15 minutos de 06:00 a 20:59 local.
     # La ampliación vespertina captura reportes que lleguen después de la ventana habitual.
+    # Un watchdog independiente verifica la frescura y recupera el proceso si este cron se retrasa.
     - cron: '*/15 12-23 * * *'
     - cron: '*/15 0-2 * * *'
 
