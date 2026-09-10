@@ -1,6 +1,6 @@
 {
   "date_local": "2026-09-10",
-  "updated_local": "2026-09-10T03:56:22.543816-06:00",
+  "updated_local": "2026-09-10T06:33:03.200695-06:00",
   "units": {
     "temperature": "°C",
     "heat_index": "°C"
@@ -52,8 +52,8 @@
       "motivo": "edad_mayor_2h"
     },
     {
-      "estacion": "PALENQUE PCIVILCHIAPAS",
-      "motivo": "sin_temperatura"
+      "estacion": "Modesta_1",
+      "motivo": "edad_mayor_2h"
     },
     {
       "estacion": "REFORMA PCIVILCHIAPAS",
@@ -87,7 +87,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Otra ubicación",
       "ubicacion": "Ciudad del Carmen, Camp., Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:56 AM",
+      "last_valid_time": "Sep 10, 2026/ 6:32 AM",
       "nivel_riesgo_max": "Precaución"
     },
     {
@@ -99,7 +99,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Otra ubicación",
       "ubicacion": "Alvarado, Ver., Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:55 AM",
+      "last_valid_time": "Sep 10, 2026/ 6:32 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -111,7 +111,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Acala, Chiapas, Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:56 AM",
+      "last_valid_time": "Sep 10, 2026/ 6:32 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -123,19 +123,19 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Villahermosa, Tab., Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:55 AM",
+      "last_valid_time": "Sep 10, 2026/ 6:32 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
       "estacion": "ASUR Villahermosa",
       "max_temp_c": 24.4,
-      "max_temp_time": "Sep 10, 2026/ 3:55 AM",
+      "max_temp_time": "Sep 10, 2026/ 6:32 AM",
       "max_heat_index_c": 24.4,
-      "max_heat_index_time": "Sep 10, 2026/ 3:55 AM",
+      "max_heat_index_time": "Sep 10, 2026/ 6:32 AM",
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Dos Montes, Tab., Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:55 AM",
+      "last_valid_time": "Sep 10, 2026/ 6:32 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -159,7 +159,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Ingenio Presidente Benito Juárez, Tab., Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:00 AM",
+      "last_valid_time": "Sep 10, 2026/ 6:00 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -171,7 +171,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Los Ídolos, Tab., Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:56 AM",
+      "last_valid_time": "Sep 10, 2026/ 6:32 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -183,19 +183,31 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Pichucalco, Chiapas, Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:56 AM",
+      "last_valid_time": "Sep 10, 2026/ 6:32 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
       "estacion": "Sinai",
       "max_temp_c": 23.3,
-      "max_temp_time": "Sep 10, 2026/ 3:45 AM",
+      "max_temp_time": "Sep 10, 2026/ 6:30 AM",
       "max_heat_index_c": 23.3,
-      "max_heat_index_time": "Sep 10, 2026/ 3:45 AM",
+      "max_heat_index_time": "Sep 10, 2026/ 6:30 AM",
       "max_heat_basis": "Temperatura del aire",
       "territory": "Otra ubicación",
       "ubicacion": "Palenque, Chis., Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:45 AM",
+      "last_valid_time": "Sep 10, 2026/ 6:30 AM",
+      "nivel_riesgo_max": "Normal"
+    },
+    {
+      "estacion": "PALENQUE PCIVILCHIAPAS",
+      "max_temp_c": 23.3,
+      "max_temp_time": "Sep 10, 2026/ 6:32 AM",
+      "max_heat_index_c": 23.3,
+      "max_heat_index_time": "Sep 10, 2026/ 6:32 AM",
+      "max_heat_basis": "Temperatura del aire",
+      "territory": "Chiapas",
+      "ubicacion": "Palenque, Chiapas, Mexico",
+      "last_valid_time": "Sep 10, 2026/ 6:32 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -207,7 +219,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Juárez, Chiapas, Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:56 AM",
+      "last_valid_time": "Sep 10, 2026/ 6:32 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -219,7 +231,19 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ostuacán, Chiapas, Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:56 AM",
+      "last_valid_time": "Sep 10, 2026/ 6:32 AM",
+      "nivel_riesgo_max": "Normal"
+    },
+    {
+      "estacion": "BERRIOZÁBAL PCIVILCHIAPAS",
+      "max_temp_c": 20.6,
+      "max_temp_time": "Sep 10, 2026/ 6:32 AM",
+      "max_heat_index_c": 20.6,
+      "max_heat_index_time": "Sep 10, 2026/ 6:32 AM",
+      "max_heat_basis": "Temperatura del aire",
+      "territory": "Chiapas",
+      "ubicacion": "Berriozábal, Chiapas, Mexico",
+      "last_valid_time": "Sep 10, 2026/ 6:32 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -231,19 +255,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Chapultenango, Chiapas, Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:56 AM",
-      "nivel_riesgo_max": "Normal"
-    },
-    {
-      "estacion": "BERRIOZÁBAL PCIVILCHIAPAS",
-      "max_temp_c": 20.0,
-      "max_temp_time": "Sep 10, 2026/ 3:18 AM",
-      "max_heat_index_c": 20.0,
-      "max_heat_index_time": "Sep 10, 2026/ 3:18 AM",
-      "max_heat_basis": "Temperatura del aire",
-      "territory": "Chiapas",
-      "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:56 AM",
+      "last_valid_time": "Sep 10, 2026/ 6:32 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -255,7 +267,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ocozocoautla, Chiapas, Mexico",
-      "last_valid_time": "Sep 10, 2026/ 3:56 AM",
+      "last_valid_time": "Sep 10, 2026/ 6:32 AM",
       "nivel_riesgo_max": "Normal"
     }
   ],
@@ -270,7 +282,7 @@
     },
     {
       "territorio": "Chiapas",
-      "estaciones": 7,
+      "estaciones": 8,
       "max_temp_c": 25.0,
       "max_heat_index_c": 25.0,
       "estacion_mas_caliente": "ACALA PCIVILCHIAPAS",
