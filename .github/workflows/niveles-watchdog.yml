@@ -1,0 +1,155 @@
+name: Watchdog Niveles Hidrométricos Cloud
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Respaldo independiente del recolector principal. Tabasco UTC-6.
+    # Corre a los minutos 07 y 37 durante la ventana operativa y sólo actúa si el estado está atrasado.
+    - cron: '7,37 12-23 * * *'
+    - cron: '7,37 0-2 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: niveles-hidrometricos-cloud
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determinar si el agente principal está atrasado
+        id: stale
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+          p=Path('data/niveles/Estado_Niveles_Cloud.json')
+          stale=True
+          age_min=None
+          if p.exists():
+              try:
+                  d=json.loads(p.read_text(encoding='utf-8'))
+                  s=d.get('run_utc')
+                  if s:
+                      dt=datetime.fromisoformat(s.replace('Z','+00:00'))
+                      age_min=(datetime.now(timezone.utc)-dt.astimezone(timezone.utc)).total_seconds()/60
+                      stale=age_min>25
+              except Exception as e:
+                  print('Estado no legible:',e)
+          print('Edad del último estado (min):', age_min)
+          print('STALE=',stale)
+          with open(__import__('os').environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as f:
+              f.write(f"stale={'true' if stale else 'false'}\n")
+          PY
+
+      - name: Estado reciente; no intervenir
+        if: steps.stale.outputs.stale != 'true'
+        run: echo "El agente principal está reciente. Watchdog sin intervención."
+
+      - name: Configurar Python
+        if: steps.stale.outputs.stale == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Configurar Node
+        if: steps.stale.outputs.stale == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Instalar dependencias
+        if: steps.stale.outputs.stale == 'true'
+        run: |
+          pip install -r requirements.txt
+          npm install --no-audit --no-fund
+
+      - name: Recuperar niveles desde Carbonio
+        if: steps.stale.outputs.stale == 'true'
+        env:
+          CARBONIO_BASE: https://correo.tabasco.gob.mx
+          CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
+          CARBONIO_PASSWORD: ${{ secrets.CARBONIO_PASSWORD }}
+          CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
+          CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
+          NIVELES_BASE: data/niveles
+        run: |
+          python src/niveles_cloud_robusto.py
+          python src/niveles_horas_cloud.py
+
+      - name: Completar productos derivados
+        if: steps.stale.outputs.stale == 'true'
+        env:
+          CARBONIO_BASE: https://correo.tabasco.gob.mx
+          CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
+          CARBONIO_PASSWORD: ${{ secrets.CARBONIO_PASSWORD }}
+          CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
+          CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
+          NIVELES_BASE: data/niveles
+        run: |
+          python src/fuente2_niveles.py
+          python src/extraer_clima_boletines.py
+          python src/lluvia_conagua_cloud.py
+          python src/niveles_postprocess.py
+          python src/resumen_12h_niveles.py
+          python src/generar_word_niveles.py
+
+      - name: Verificar productos críticos
+        if: steps.stale.outputs.stale == 'true'
+        shell: bash
+        run: |
+          test -s data/niveles/Ultimo_Corte/ultimo_resumen.json
+          test -s data/niveles/Historico/niveles_historicos.json
+          test -s data/niveles/Estado_Niveles_Cloud.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path('data/niveles/Estado_Niveles_Cloud.json').read_text(encoding='utf-8'))
+          assert s.get('stations_in_latest_summary',0) > 0, 'Resumen de niveles vacío'
+          assert isinstance(s.get('errors',[]), list), 'Estado de errores inválido'
+          assert not s.get('errors'), f"Errores del agente: {s.get('errors')}"
+          print('Watchdog validó:',s.get('stations_in_latest_summary'),'estaciones; corte:',s.get('latest_subject'))
+          PY
+
+      - name: Publicar recuperación
+        if: steps.stale.outputs.stale == 'true'
+        shell: bash
+        run: |
+          set -e
+          git config user.name "Agente Hidrometeorologico Watchdog"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/niveles
+          if git diff --cached --quiet; then
+            echo "Sin cambios que publicar."
+            exit 0
+          fi
+          git stash push --include-untracked -m "watchdog-niveles"
+          git pull --rebase origin main
+          git stash pop
+          git add data/niveles
+          if git diff --cached --quiet; then
+            echo "Los cambios ya fueron incorporados por otra ejecución."
+            exit 0
+          fi
+          git commit -m "Watchdog recupera niveles hidrométricos [skip ci]"
+          for intento in 1 2 3; do
+            if git pull --rebase origin main && git push origin main; then
+              echo "Recuperación publicada."
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((intento * 10))
+          done
+          echo "Watchdog no pudo publicar después de 3 intentos."
+          exit 1
