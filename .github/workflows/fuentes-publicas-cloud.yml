@@ -12,6 +12,7 @@ on:
       - 'src/insivumeh_historico.py'
       - 'src/insivumeh_contexto.py'
       - 'src/insivumeh_automaticas.py'
+      - 'src/insivumeh_alto_hidro_extra.py'
       - 'src/weatherlink_cloud.py'
       - 'src/weatherlink_extra_cloud.py'
       - 'src/weatherlink_resolve_shared.py'
@@ -94,18 +95,33 @@ jobs:
           done
           exit 1
 
+      - name: Completar estaciones hidrométricas Alto Usumacinta
+        shell: bash
+        run: |
+          set -e
+          for intento in 1 2 3; do
+            if python src/insivumeh_alto_hidro_extra.py; then exit 0; fi
+            echo "Reintento Alto Usumacinta hidrométrico ${intento}/3"
+            sleep $((intento * 10))
+          done
+          exit 1
+
       - name: Verificar productos mínimos
         shell: bash
         run: |
           test -s data/fuentes_publicas/latest.json
           test -s data/fuentes_publicas/insivumeh_automaticas.json
+          test -s data/fuentes_publicas/insivumeh_alto_hidro.json
           python - <<'PY'
           import json
           from pathlib import Path
           a=json.loads(Path('data/fuentes_publicas/insivumeh_automaticas.json').read_text(encoding='utf-8'))
+          h=json.loads(Path('data/fuentes_publicas/insivumeh_alto_hidro.json').read_text(encoding='utf-8'))
           assert a.get('estado') in ('ok','parcial'), 'Estado INSIVUMEH automáticas inválido'
           assert isinstance(a.get('estaciones'), list), 'Falta arreglo estaciones INSIVUMEH'
-          print('Fuentes públicas verificadas; estaciones automáticas:', len(a.get('estaciones', [])))
+          assert isinstance(h.get('estaciones'), list), 'Falta arreglo Alto Usumacinta hidrométrico'
+          assert len(h.get('estaciones', [])) >= 5, 'Catálogo Alto Usumacinta incompleto'
+          print('Fuentes públicas verificadas; automáticas:', len(a.get('estaciones', [])), 'hidrométricas Alto Usumacinta:', len(h.get('estaciones', [])))
           PY
 
       - name: Verificar si WeatherLink necesita recuperación cruzada
