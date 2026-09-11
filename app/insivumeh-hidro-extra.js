@@ -7,7 +7,7 @@
   const fmt=(v,d=2)=>n(v)===null?'s/d':Number(v).toFixed(d);
   const active=()=>document.querySelector('#nav button.active')?.dataset.section||'resumen';
   const wanted=['el tigre','el porvenir','machaquila','san pedro mactun','san agustin chixoy','playa grande','san luis ixcan'];
-  let busy=false, lastSignature='';
+  let busy=false,lastSignature='';
 
   async function data(){
     try{
@@ -23,16 +23,7 @@
       const st=norm(x.estado_dato);
       const badge=st==='observado'?'observado':st==='heredado'?'último dato válido':'sin dato oficial en corte';
       const obs=x.ultima_observacion_fuente?` · ${esc(x.ultima_observacion_fuente)}`:'';
-      return `<tr>
-        <td><b>${esc(x.estacion)}</b></td>
-        <td>${esc(x.rio||'s/d')}</td>
-        <td>${esc(x.ubicacion||'s/d')}</td>
-        <td>${n(x.nivel_instantaneo_m)===null?'s/d':fmt(x.nivel_instantaneo_m)+' m'}</td>
-        <td>${n(x.caudal_instantaneo_m3s)===null?'s/d':fmt(x.caudal_instantaneo_m3s)+' m³/s'}</td>
-        <td>${n(x.nivel_referencia_max_m)===null?'s/d':fmt(x.nivel_referencia_max_m)+' m'}</td>
-        <td>${n(x.caudal_referencia_max_m3s)===null?'s/d':fmt(x.caudal_referencia_max_m3s)+' m³/s'}</td>
-        <td>${esc(badge)}${obs}</td>
-      </tr>`;
+      return `<tr><td><b>${esc(x.estacion)}</b></td><td>${esc(x.rio||'s/d')}</td><td>${esc(x.ubicacion||'s/d')}</td><td>${n(x.nivel_instantaneo_m)===null?'s/d':fmt(x.nivel_instantaneo_m)+' m'}</td><td>${n(x.caudal_instantaneo_m3s)===null?'s/d':fmt(x.caudal_instantaneo_m3s)+' m³/s'}</td><td>${n(x.nivel_referencia_max_m)===null?'s/d':fmt(x.nivel_referencia_max_m)+' m'}</td><td>${n(x.caudal_referencia_max_m3s)===null?'s/d':fmt(x.caudal_referencia_max_m3s)+' m³/s'}</td><td>${esc(badge)}${obs}</td></tr>`;
     }).join('');
     return `<div class="table-wrap"><table><thead><tr><th>Estación</th><th>Río</th><th>Ubicación</th><th>Nivel actual</th><th>Gasto actual</th><th>Nivel máx. ref.</th><th>Gasto máx. ref.</th><th>Estado del dato</th></tr></thead><tbody>${body}</tbody></table></div>`;
   }
@@ -47,19 +38,18 @@
     const d=await data();if(!d)return;
     const sig=signature(d);
     let sec=document.getElementById(SECTION_ID);
-    if(sec && !force && sig===lastSignature)return;
+    if(sec&&!force&&sig===lastSignature)return;
     if(!sec){
       sec=document.createElement('section');
       sec.id=SECTION_ID;
       sec.className='panel wide usu-upper-levels';
-      const anchor=document.getElementById('upperUsumacintaLevels')||content.firstElementChild;
-      if(anchor?.parentNode===content) content.insertBefore(sec,anchor.nextSibling);
+      const panels=[...content.querySelectorAll(':scope > section.panel, :scope > .panel')];
+      const anchor=panels.find(p=>norm(p.querySelector('h2')?.textContent)==='usumacinta · niveles')||document.getElementById('upperUsumacintaLevels')||content.firstElementChild;
+      if(anchor?.parentNode===content)content.insertBefore(sec,anchor.nextSibling);
       else content.insertBefore(sec,content.firstElementChild||null);
     }
-    const html=`<h2>Alto Usumacinta · niveles y gastos INSIVUMEH</h2>
-      <p class="source-note">BHVGM de INSIVUMEH. Si una estación no trae valor nuevo, se conserva el último dato válido y se marca como heredado; ausencia nunca equivale a cero. Corte fuente: ${esc(`${d.fecha||'s/d'} ${d.hora||''}`.trim())}.</p>
-      ${makeTable(d)}`;
-    if(sec.innerHTML!==html) sec.innerHTML=html;
+    const html=`<h2>Alto Usumacinta · niveles y gastos INSIVUMEH</h2><p class="source-note">BHVGM de INSIVUMEH. Si una estación no trae valor nuevo, se conserva el último dato válido y se marca como heredado; ausencia nunca equivale a cero. Corte fuente: ${esc(`${d.fecha||'s/d'} ${d.hora||''}`.trim())}.</p>${makeTable(d)}`;
+    if(sec.innerHTML!==html)sec.innerHTML=html;
     lastSignature=sig;
   }
 
@@ -72,8 +62,8 @@
       if(source!=='insivumeh')continue;
       if(hydros.has(name)){
         const anyRain=[2,3,4,5,6,7,8,9,10].some(i=>td[i]&&norm(td[i].textContent)!=='s/d');
-        if(!anyRain) td[12].textContent='estación hidrométrica; sin precipitación puntual publicada en esta fuente · ver niveles INSIVUMEH';
-      }else if(name==='bethel' && [2,3,4,5,6,7,8,9,10].every(i=>td[i]&&norm(td[i].textContent)==='s/d')){
+        if(!anyRain)td[12].textContent='estación hidrométrica; sin precipitación puntual publicada en esta fuente · ver niveles INSIVUMEH';
+      }else if(name==='bethel'&&[2,3,4,5,6,7,8,9,10].every(i=>td[i]&&norm(td[i].textContent)==='s/d')){
         td[12].textContent='sin valor pluviométrico puntual estructurado en la publicación vigente';
       }
     }
@@ -83,28 +73,12 @@
     if(busy)return;busy=true;
     try{await renderHydro(force);clarifyRainRows();}finally{busy=false;}
   }
-
-  function schedule(delay=500,force=false){setTimeout(()=>run(force),delay);}
+  function schedule(force=false){setTimeout(()=>run(force),900);setTimeout(()=>run(false),1800)}
 
   document.addEventListener('DOMContentLoaded',()=>{
-    schedule(1800,true);
-    document.getElementById('refreshBtn')?.addEventListener('click',()=>schedule(900,true));
-    document.getElementById('nav')?.addEventListener('click',()=>schedule(900,true));
-    document.addEventListener('visibilitychange',()=>{if(!document.hidden)schedule(250,false);});
-    const target=document.getElementById('content')||document.body;
-    let debounce=null;
-    new MutationObserver(muts=>{
-      if(active()!=='usumacinta')return;
-      const external=muts.some(m=>{
-        const t=m.target;
-        return !(t instanceof Node && (t===document.getElementById(SECTION_ID) || document.getElementById(SECTION_ID)?.contains(t)));
-      });
-      if(!external)return;
-      clearTimeout(debounce);
-      debounce=setTimeout(()=>{
-        if(!document.getElementById(SECTION_ID)) run(true);
-        else clarifyRainRows();
-      },500);
-    }).observe(target,{childList:true,subtree:true});
+    schedule(true);
+    document.getElementById('refreshBtn')?.addEventListener('click',()=>schedule(true));
+    document.getElementById('nav')?.addEventListener('click',()=>schedule(true));
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(()=>run(false),300)});
   });
 })();
