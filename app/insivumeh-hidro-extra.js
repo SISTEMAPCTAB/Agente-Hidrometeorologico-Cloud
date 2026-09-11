@@ -32,22 +32,40 @@
     return JSON.stringify({fecha:d?.fecha,hora:d?.hora,estaciones:(d?.estaciones||[]).map(x=>[x.estacion,x.nivel_instantaneo_m,x.caudal_instantaneo_m3s,x.estado_dato,x.ultima_observacion_fuente])});
   }
 
+  function rainAnchor(content){
+    const panels=[...content.querySelectorAll(':scope > section.panel, :scope > .panel')];
+    return panels.find(p=>/lluvia\s+observada/i.test(p.querySelector('h2,h3')?.textContent||''))||null;
+  }
+
+  function placeAfterRain(content,sec){
+    const rain=rainAnchor(content);
+    if(rain?.parentNode===content){
+      if(rain.nextElementSibling!==sec)content.insertBefore(sec,rain.nextSibling);
+      return true;
+    }
+    return false;
+  }
+
   async function renderHydro(force=false){
     if(active()!=='usumacinta')return;
     const content=document.getElementById('content');if(!content)return;
     const d=await data();if(!d)return;
     const sig=signature(d);
     let sec=document.getElementById(SECTION_ID);
-    if(sec&&!force&&sig===lastSignature)return;
     if(!sec){
       sec=document.createElement('section');
       sec.id=SECTION_ID;
       sec.className='panel wide usu-upper-levels';
-      const panels=[...content.querySelectorAll(':scope > section.panel, :scope > .panel')];
-      const anchor=panels.find(p=>norm(p.querySelector('h2')?.textContent)==='usumacinta · niveles')||document.getElementById('upperUsumacintaLevels')||content.firstElementChild;
-      if(anchor?.parentNode===content)content.insertBefore(sec,anchor.nextSibling);
-      else content.insertBefore(sec,content.firstElementChild||null);
+      if(!placeAfterRain(content,sec)){
+        const panels=[...content.querySelectorAll(':scope > section.panel, :scope > .panel')];
+        const anchor=panels.find(p=>norm(p.querySelector('h2')?.textContent)==='usumacinta · niveles')||content.firstElementChild;
+        if(anchor?.parentNode===content)content.insertBefore(sec,anchor);
+        else content.insertBefore(sec,content.firstElementChild||null);
+      }
+    }else{
+      placeAfterRain(content,sec);
     }
+    if(!force&&sig===lastSignature)return;
     const html=`<h2>Alto Usumacinta · niveles y gastos INSIVUMEH</h2><p class="source-note">BHVGM de INSIVUMEH. Si una estación no trae valor nuevo, se conserva el último dato válido y se marca como heredado; ausencia nunca equivale a cero. Corte fuente: ${esc(`${d.fecha||'s/d'} ${d.hora||''}`.trim())}.</p>${makeTable(d)}`;
     if(sec.innerHTML!==html)sec.innerHTML=html;
     lastSignature=sig;
