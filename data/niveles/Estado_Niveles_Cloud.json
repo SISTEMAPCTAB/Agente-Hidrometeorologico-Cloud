@@ -1,16 +1,22 @@
 {
   "agent": "Niveles Hidrométricos Cloud",
-  "run_utc": "2026-09-10T21:41:48.931992+00:00",
-  "complete": true,
+  "run_utc": "2026-09-11T01:24:20.795521+00:00",
+  "complete": false,
   "selected_account": "principal",
   "lookback_days": 7,
   "candidate_count": 37,
-  "processed_now": 0,
-  "processed_total": 112,
+  "processed_now": 2,
+  "processed_total": 114,
   "stations_in_latest_summary": 15,
-  "latest_subject": "SE ENVÍA EL INFORME DE NIVELES DE LAS 14:00 HR",
-  "latest_message_utc": "2026-09-10T20:09:02+00:00",
-  "errors": [],
+  "latest_subject": "Se envia Informe de Niveles de 18 hrs",
+  "latest_message_utc": "2026-09-11T00:03:22+00:00",
+  "errors": [
+    {
+      "message_id": "15118",
+      "subject": "Se envia Informe de Niveles de 16 hrs",
+      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
+    }
+  ],
   "accounts": [
     {
       "label": "principal",
