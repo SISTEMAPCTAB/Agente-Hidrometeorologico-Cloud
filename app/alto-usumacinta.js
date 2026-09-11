@@ -107,37 +107,6 @@
     return rows;
   }
 
-  function levelRows(doc){
-    const ins=doc?.insivumeh||{};
-    const evo=new Map((doc?.insivumeh_evolucion_real||[]).map(x=>[norm(x.estacion),x]));
-    const wanted=['El Porvenir','El Tigre'];
-    const rows=[];
-    for(const name of wanted){
-      const x=(ins.estaciones_estructuradas||[]).find(y=>norm(y.estacion)===norm(name));
-      if(!x)continue;
-      const e=evo.get(norm(name));
-      const nivel=n(x.nivel_instantaneo_m),nivelMax=n(x.nivel_referencia_max_m);
-      const gasto=n(x.caudal_instantaneo_m3s),gastoMax=n(x.caudal_referencia_max_m3s);
-      const dn=nivel!==null&&nivelMax!==null?nivel-nivelMax:null;
-      const dg=gasto!==null&&gastoMax!==null?gasto-gastoMax:null;
-      rows.push([
-        esc(x.estacion),esc(x.rio),esc(x.ubicacion),
-        nivel===null?'s/d':`${nivel.toFixed(2)} m`,
-        nivelMax===null?'s/d':`${nivelMax.toFixed(2)} m`,
-        dn===null?'s/d':`${dn.toFixed(2)} m`,
-        nivel!==null&&nivelMax?`${(nivel/nivelMax*100).toFixed(1)} %`:'s/d',
-        gasto===null?'s/d':`${gasto.toFixed(2)} m³/s`,
-        gastoMax===null?'s/d':`${gastoMax.toFixed(2)} m³/s`,
-        dg===null?'s/d':`${dg.toFixed(2)} m³/s`,
-        gasto!==null&&gastoMax?`${(gasto/gastoMax*100).toFixed(1)} %`:'s/d',
-        esc(e?.tendencia_calculada||'s/d'),
-        esc(`${ins.fecha||'s/d'} ${ins.hora||''}`.trim()),
-        'INSIVUMEH · BHVGM'
-      ]);
-    }
-    return rows;
-  }
-
   function styles(){
     if(document.getElementById('altoUsuStyle'))return;
     const s=document.createElement('style');s.id='altoUsuStyle';
@@ -178,21 +147,9 @@
     }catch(e){/* no altera el resto de la página si una fuente falla */}
   }
 
-  async function renderUsumacintaLevels(){
-    if(active()!=='usumacinta')return;
-    const content=document.getElementById('content');if(!content||content.querySelector('#upperUsumacintaLevels'))return;
-    try{
-      const {doc}=await loadData();const rows=levelRows(doc);if(!rows.length)return;
-      styles();
-      const sec=document.createElement('section');sec.id='upperUsumacintaLevels';sec.className='panel wide usu-upper-levels';
-      sec.innerHTML=`<h2>Alto Usumacinta · niveles y gastos de referencia</h2>
-        <p class="source-note">Comparación operativa de La Pasión (El Porvenir) y Usumacinta (El Tigre) con los máximos de referencia publicados en el BHVGM de INSIVUMEH. Los máximos son referencias estadísticas del boletín y no se interpretan como umbrales de inundación.</p>
-        ${table(['Estación','Río','Ubicación','Nivel actual','Nivel máx. ref.','Dif. nivel','% nivel ref.','Gasto actual','Gasto máx. ref.','Dif. gasto','% gasto ref.','Tendencia','Corte fuente','Fuente'],rows)}`;
-      content.insertBefore(sec,content.firstElementChild||null);
-    }catch(e){/* no altera el resto de la página si una fuente falla */}
-  }
-
-  function render(){renderWeather();renderUsumacintaLevels()}
+  // Los niveles y gastos de Alto Usumacinta se muestran exclusivamente en
+  // insivumeh-hidro-extra.js para evitar duplicar El Porvenir y El Tigre.
+  function render(){renderWeather()}
   function reset(){document.querySelector('[data-unified-alto="1"]')?.remove();document.getElementById('altoUsumacintaRain')?.remove();document.getElementById('upperUsumacintaLevels')?.remove();setTimeout(render,700)}
 
   document.addEventListener('DOMContentLoaded',()=>{
