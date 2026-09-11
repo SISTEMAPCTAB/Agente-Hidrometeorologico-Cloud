@@ -3,7 +3,7 @@
 Refuerza la recolección sin modificar el procesador de datos:
 - consulta Inbox y, cuando Carbonio lo permite, todo el buzón;
 - deduplica mensajes entre consultas;
-- reintenta fallos transitorios de red/HTTP;
+- reintenta autenticación, búsquedas, lectura de mensajes y descarga de PDF;
 - conserva los candidatos ya encontrados si Carbonio devuelve 422 en
   ``in:anywhere`` o en una página posterior.
 
@@ -16,19 +16,56 @@ from __future__ import annotations
 import sys
 import time
 from pathlib import Path
+from urllib.parse import quote
 
 import requests
 
-# Al ejecutarse como `python src/niveles_cloud_robusto.py`, Python añade
-# `src/` (no la raíz del repositorio) a sys.path. Importamos el módulo hermano
-# directamente para que funcione igual en GitHub Actions y en ejecución local.
 SRC_DIR = Path(__file__).resolve().parent
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 import niveles_cloud as base
 
-
 TRANSIENT_HTTP = {408, 425, 429, 500, 502, 503, 504}
+MAX_ATTEMPTS = 4
+CONNECT_TIMEOUT = 12
+READ_TIMEOUT = 45
+
+
+def _sleep(attempt: int) -> None:
+    time.sleep(min(3 * attempt, 9))
+
+
+def soap_post_robusto(payload: dict, attempts: int = MAX_ATTEMPTS) -> dict:
+    """SOAP Carbonio con reintentos también en autenticación y GetMsg."""
+    last_exc = None
+    for attempt in range(1, attempts + 1):
+        try:
+            r = requests.post(
+                base.SOAP_URL,
+                json=payload,
+                timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
+                headers={"Connection": "close"},
+            )
+            r.raise_for_status()
+            data = r.json()
+            if "Fault" in __import__("json").dumps(data):
+                raise RuntimeError(f"Carbonio devolvió Fault: {__import__('json').dumps(data)[:1000]}")
+            return data
+        except requests.HTTPError as exc:
+            last_exc = exc
+            code = exc.response.status_code if exc.response is not None else None
+            if code == 422 or code not in TRANSIENT_HTTP or attempt >= attempts:
+                raise
+        except (requests.Timeout, requests.ConnectionError) as exc:
+            last_exc = exc
+            if attempt >= attempts:
+                raise
+        if attempt < attempts:
+            print(f"Carbonio no respondió; reintento {attempt + 1}/{attempts}...")
+            _sleep(attempt)
+    if last_exc:
+        raise last_exc
+    raise RuntimeError("Carbonio no respondió.")
 
 
 def search_page_retry(token: str, query: str, limit: int, offset: int, attempts: int = 3):
@@ -40,8 +77,6 @@ def search_page_retry(token: str, query: str, limit: int, offset: int, attempts:
         except requests.HTTPError as exc:
             last_exc = exc
             code = exc.response.status_code if exc.response is not None else None
-            # 422 es una limitación conocida de algunas cuentas/consultas;
-            # se deja al llamador decidir si debe ignorarse.
             if code == 422:
                 raise
             if code not in TRANSIENT_HTTP or attempt >= attempts:
@@ -50,19 +85,48 @@ def search_page_retry(token: str, query: str, limit: int, offset: int, attempts:
             last_exc = exc
             if attempt >= attempts:
                 raise
-        time.sleep(2 ** (attempt - 1))
+        _sleep(attempt)
     if last_exc:
         raise last_exc
     return []
 
 
+def download_pdf_robusto(token: str, user: str, message_id: str, part: str, attempts: int = MAX_ATTEMPTS) -> bytes:
+    url = (
+        f"{base.CARBONIO_BASE}/service/home/{quote(user, safe='')}/"
+        f"?id={quote(str(message_id), safe='')}"
+        f"&part={quote(str(part), safe='')}"
+        f"&auth=qp&zauthtoken={quote(token, safe='')}"
+    )
+    last_exc = None
+    for attempt in range(1, attempts + 1):
+        try:
+            r = requests.get(url, timeout=(CONNECT_TIMEOUT, 60), headers={"Connection": "close"})
+            r.raise_for_status()
+            content = r.content
+            if len(content) < 1000 or not content.startswith(b"%PDF"):
+                raise RuntimeError(f"Adjunto {message_id}/{part} no parece PDF válido ({len(content)} bytes).")
+            return content
+        except requests.HTTPError as exc:
+            last_exc = exc
+            code = exc.response.status_code if exc.response is not None else None
+            if code not in TRANSIENT_HTTP or attempt >= attempts:
+                raise
+        except (requests.Timeout, requests.ConnectionError) as exc:
+            last_exc = exc
+            if attempt >= attempts:
+                raise
+        if attempt < attempts:
+            print(f"Descarga de PDF sin respuesta; reintento {attempt + 1}/{attempts}...")
+            _sleep(attempt)
+    if last_exc:
+        raise last_exc
+    raise RuntimeError("No fue posible descargar el PDF desde Carbonio.")
+
+
 def collect_candidates_robusto(token: str):
     seen = set()
     out = []
-
-    # Importante: no detenerse sólo porque Inbox ya contiene reportes viejos.
-    # También se intenta `in:anywhere`, pues un reporte nuevo puede haber sido
-    # movido/archivado automáticamente y de otro modo quedaría invisible.
     for query in ("in:inbox", "in:anywhere"):
         try:
             for page in range(5):
@@ -70,15 +134,11 @@ def collect_candidates_robusto(token: str):
                     batch = search_page_retry(token, query, 100, page * 100)
                 except requests.HTTPError as exc:
                     code = exc.response.status_code if exc.response is not None else None
-                    # Algunas cuentas rechazan `in:anywhere` o páginas altas.
-                    # Conservamos todo lo recuperado por las rutas válidas.
                     if code == 422 and (query == "in:anywhere" or page > 0):
                         break
                     raise
-
                 if not batch:
                     break
-
                 page_has_recent = False
                 for item in batch:
                     mid = str(item.get("id", ""))
@@ -90,9 +150,6 @@ def collect_candidates_robusto(token: str):
                         page_has_recent = True
                         if base.is_levels_subject(subject):
                             out.append(item)
-
-                # sortBy=dateDesc: al llegar a una página sin mensajes dentro
-                # de la ventana ya no vale la pena seguir paginando.
                 if len(batch) < 100 or not page_has_recent:
                     break
         except requests.HTTPError as exc:
@@ -100,12 +157,9 @@ def collect_candidates_robusto(token: str):
             if query == "in:anywhere" and code == 422:
                 continue
             raise
-
     return out
 
 
-# Ampliamos prudentemente el reconocimiento de asuntos. Se conserva la lógica
-# original y sólo se aceptan variantes claramente hidrométricas.
 _original_is_levels_subject = base.is_levels_subject
 
 
@@ -115,12 +169,15 @@ def is_levels_subject_robusto(subject: str) -> bool:
     s = base.norm(subject)
     if "nivel" not in s:
         return False
-    hydrometric_terms = ("hidrometr", "reporte", "informe", "boletin")
-    return any(term in s for term in hydrometric_terms)
+    return any(term in s for term in ("hidrometr", "reporte", "informe", "boletin"))
 
 
+# Parche controlado: todas las llamadas del agente base pasan por las rutas
+# robustas, incluidos AuthRequest, SearchRequest, GetMsgRequest y descarga PDF.
+base.soap_post = soap_post_robusto
 base.collect_candidates = collect_candidates_robusto
 base.is_levels_subject = is_levels_subject_robusto
+base.download_pdf = download_pdf_robusto
 
 if __name__ == "__main__":
     base.main()
