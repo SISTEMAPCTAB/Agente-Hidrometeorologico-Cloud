@@ -10,10 +10,7 @@
   let busy=false,lastSignature='';
 
   async function data(){
-    try{
-      const r=await fetch(`${URL}?v=${Date.now()}`,{cache:'no-store'});
-      return r.ok?await r.json():null;
-    }catch{return null;}
+    try{const r=await fetch(`${URL}?v=${Date.now()}`,{cache:'no-store'});return r.ok?await r.json():null;}catch{return null;}
   }
 
   function makeTable(d){
@@ -28,9 +25,7 @@
     return `<div class="table-wrap"><table><thead><tr><th>Estación</th><th>Río</th><th>Ubicación</th><th>Nivel actual</th><th>Gasto actual</th><th>Nivel máx. ref.</th><th>Gasto máx. ref.</th><th>Estado del dato</th></tr></thead><tbody>${body}</tbody></table></div>`;
   }
 
-  function signature(d){
-    return JSON.stringify({fecha:d?.fecha,hora:d?.hora,estaciones:(d?.estaciones||[]).map(x=>[x.estacion,x.nivel_instantaneo_m,x.caudal_instantaneo_m3s,x.estado_dato,x.ultima_observacion_fuente])});
-  }
+  function signature(d){return JSON.stringify({fecha:d?.fecha,hora:d?.hora,estaciones:(d?.estaciones||[]).map(x=>[x.estacion,x.nivel_instantaneo_m,x.caudal_instantaneo_m3s,x.estado_dato,x.ultima_observacion_fuente])});}
 
   function rainAnchor(content){
     const panels=[...content.querySelectorAll(':scope > section.panel, :scope > .panel')];
@@ -39,11 +34,12 @@
 
   function placeAfterRain(content,sec){
     const rain=rainAnchor(content);
-    if(rain?.parentNode===content){
-      if(rain.nextElementSibling!==sec)content.insertBefore(sec,rain.nextSibling);
-      return true;
-    }
-    return false;
+    if(!rain||rain.parentNode!==content)return false;
+    /* insertBefore(node, null) equivale a appendChild y evita la ambigüedad de
+       insertBefore(sec, rain.nextSibling) al reubicar un nodo ya existente. */
+    const target=rain.nextElementSibling;
+    if(target!==sec)content.insertBefore(sec,target);
+    return true;
   }
 
   async function renderHydro(force=false){
@@ -53,17 +49,12 @@
     const sig=signature(d);
     let sec=document.getElementById(SECTION_ID);
     if(!sec){
-      sec=document.createElement('section');
-      sec.id=SECTION_ID;
-      sec.className='panel wide usu-upper-levels';
-      if(!placeAfterRain(content,sec)){
-        const panels=[...content.querySelectorAll(':scope > section.panel, :scope > .panel')];
-        const anchor=panels.find(p=>norm(p.querySelector('h2')?.textContent)==='usumacinta · niveles')||content.firstElementChild;
-        if(anchor?.parentNode===content)content.insertBefore(sec,anchor);
-        else content.insertBefore(sec,content.firstElementChild||null);
-      }
-    }else{
-      placeAfterRain(content,sec);
+      sec=document.createElement('section');sec.id=SECTION_ID;sec.className='panel wide usu-upper-levels';
+    }
+    if(!placeAfterRain(content,sec)){
+      const panels=[...content.querySelectorAll(':scope > section.panel, :scope > .panel')];
+      const anchor=panels.find(p=>norm(p.querySelector('h2')?.textContent)==='usumacinta · niveles')||content.firstElementChild;
+      if(anchor?.parentNode===content)content.insertBefore(sec,anchor);else content.insertBefore(sec,content.firstElementChild||null);
     }
     if(!force&&sig===lastSignature)return;
     const html=`<h2>Alto Usumacinta · niveles y gastos INSIVUMEH</h2><p class="source-note">BHVGM de INSIVUMEH. Si una estación no trae valor nuevo, se conserva el último dato válido y se marca como heredado; ausencia nunca equivale a cero. Corte fuente: ${esc(`${d.fecha||'s/d'} ${d.hora||''}`.trim())}.</p>${makeTable(d)}`;
@@ -76,27 +67,20 @@
     const hydros=new Set(['el tigre','el porvenir','machaquila','mactun','san pedro mactun']);
     for(const tr of block.querySelectorAll('tbody tr')){
       const td=tr.querySelectorAll('td');if(td.length<13)continue;
-      const name=norm(td[0].textContent),source=norm(td[1].textContent);
-      if(source!=='insivumeh')continue;
+      const name=norm(td[0].textContent),source=norm(td[1].textContent);if(source!=='insivumeh')continue;
       if(hydros.has(name)){
         const anyRain=[2,3,4,5,6,7,8,9,10].some(i=>td[i]&&norm(td[i].textContent)!=='s/d');
         if(!anyRain)td[12].textContent='estación hidrométrica; sin precipitación puntual publicada en esta fuente · ver niveles INSIVUMEH';
-      }else if(name==='bethel'&&[2,3,4,5,6,7,8,9,10].every(i=>td[i]&&norm(td[i].textContent)==='s/d')){
-        td[12].textContent='sin valor pluviométrico puntual estructurado en la publicación vigente';
-      }
+      }else if(name==='bethel'&&[2,3,4,5,6,7,8,9,10].every(i=>td[i]&&norm(td[i].textContent)==='s/d'))td[12].textContent='sin valor pluviométrico puntual estructurado en la publicación vigente';
     }
   }
 
-  async function run(force=false){
-    if(busy)return;busy=true;
-    try{await renderHydro(force);clarifyRainRows();}finally{busy=false;}
-  }
-  function schedule(force=false){setTimeout(()=>run(force),900);setTimeout(()=>run(false),1800)}
-
+  async function run(force=false){if(busy)return;busy=true;try{await renderHydro(force);clarifyRainRows();}finally{busy=false;}}
+  function schedule(force=false){setTimeout(()=>run(force),900);setTimeout(()=>run(false),1800);}
   document.addEventListener('DOMContentLoaded',()=>{
     schedule(true);
     document.getElementById('refreshBtn')?.addEventListener('click',()=>schedule(true));
     document.getElementById('nav')?.addEventListener('click',()=>schedule(true));
-    document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(()=>run(false),300)});
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(()=>run(false),300);});
   });
 })();
