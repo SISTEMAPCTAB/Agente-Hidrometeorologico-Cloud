@@ -20,8 +20,8 @@ on:
       - '.github/workflows/weatherlink-cloud.yml'
       - '.github/workflows/weatherlink-watchdog.yml'
   schedule:
-    # Cada 15 minutos, desplazado de :00/:15/:30/:45 para reducir retrasos
-    # de GitHub Actions y disminuir el rezago frente al portal WeatherLink.
+    # Cada 15 minutos, desplazado de :00/:15/:30/:45 para reducir retrasos.
+    # Esta edición reactiva además el disparo por push del propio workflow.
     - cron: '14,29,44,59 * * * *'
 
 permissions:
