@@ -1,10 +1,10 @@
-CORTE: 2026-09-11 13:58
+CORTE: 2026-09-12 13:13
 # ANÁLISIS INTEGRAL HIDROMETEOROLÓGICO
 Grijalva–Usumacinta • Ríos Serranos • Sistema de Presas • Samaria–Carrizal y corrientes asociadas
-Actualización: 11 de septiembre de 2026
+Actualización: 12 de septiembre de 2026
 
 ## SÍNTESIS GENERAL
-Al corte de las 13:58 h, la lectura debe mantenerse integrada y no por cuencas aisladas. La señal hidrométrica más reciente tiene como referencia principal el corte vigente de niveles y la lluvia observada/prevista sobre Guatemala, Chiapas y Tabasco. El mayor cambio de 24 h entre estaciones observadas es San Joaquín +0.15 m/24 h. La prioridad operativa es confirmar cualquier cambio de escenario con coincidencia de lluvia, saturación, niveles, caudales y operación de presas; el pronóstico por sí solo no constituye una creciente confirmada.
+Al corte de las 13:13 h, la lectura debe mantenerse integrada y no por cuencas aisladas. La señal hidrométrica más reciente tiene como referencia principal el corte vigente de niveles y la lluvia observada/prevista sobre Guatemala, Chiapas y Tabasco. El mayor cambio de 24 h entre estaciones observadas es Boca del Cerro +0.26 m/24 h. La prioridad operativa es confirmar cualquier cambio de escenario con coincidencia de lluvia, saturación, niveles, caudales y operación de presas; el pronóstico por sí solo no constituye una creciente confirmada.
 
 ## 1. Situación meteorológica regional y bajas presiones en vigilancia
 Las bajas presiones, vaguadas, ondas tropicales y otros sistemas deben valorarse por ubicación, trayectoria, organización y capacidad de modificar el transporte de humedad hacia el sureste de México. Su sola presencia no implica amenaza hidrológica para Tabasco.
@@ -16,44 +16,44 @@ Las bajas presiones, vaguadas, ondas tropicales y otros sistemas deben valorarse
 | Sureste/Golfo | Mayor interés cuando coinciden con alto contenido de humedad y persistencia. | Confirmar con lluvia, saturación, niveles y caudales. |
 
 ## 2. Cuenca del Usumacinta
-Boca del Cerro registra 12.20 m, con variación de 24 h -0.12 m. En la cuenca alta de Guatemala, El Tigre reporta 5.68 m y 978.2 m³/s; El Porvenir/La Pasión 1.78 m y 177.5 m³/s. La secuencia de vigilancia se mantiene Guatemala → Lacantún → Boca del Cerro/Tenosique → Balancán → Emiliano Zapata → Jonuta → Centla.
-Pronóstico SMN para Usumacinta: 0-24 h: 5 a 25 mm; 24-48 h: 50 a 75 mm; 48-72 h: 50 a 75 mm; 72-96 h: 25 a 50 mm.
+Boca del Cerro registra 12.46 m, con variación de 24 h +0.26 m. En la cuenca alta de Guatemala, El Tigre reporta 5.60 m y 943.4 m³/s; El Porvenir/La Pasión 1.71 m y 168.1 m³/s. La secuencia de vigilancia se mantiene Guatemala → Lacantún → Boca del Cerro/Tenosique → Balancán → Emiliano Zapata → Jonuta → Centla.
+Pronóstico SMN para Usumacinta: 0-24 h: 50 a 75 mm; 24-48 h: 25 a 50 mm; 48-72 h: 5 a 25 mm; 72-96 h: 5 a 25 mm.
 
 | Indicador | Dato | Interpretación |
 |---|---|---|
-| El Tigre | 5.68 m; 978.2 m³/s | Señal de cuenca alta; valorar tendencia, no dato aislado. |
+| El Tigre | 5.60 m; 943.4 m³/s | Señal de cuenca alta; valorar tendencia, no dato aislado. |
 | Lacantún (BHG21, Ocosingo) | 138.33 m; 274.45 m³/s; lluvia 24 h 0.0 mm | Aporte de cuenca alta antes de Boca del Cerro; valorar su tendencia junto con Guatemala y la respuesta posterior en Tenosique. |
-| Boca del Cerro | 12.20 m; Δ24 h -0.12 m | Punto clave de confirmación para Tabasco. |
+| Boca del Cerro | 12.46 m; Δ24 h +0.26 m | Punto clave de confirmación para Tabasco. |
 
 ## 3. Ríos Serranos y Bajo Grijalva
-Los Ríos Serranos tienen respuesta más rápida que el Usumacinta. Oxolotán 33.91 m, Tapijulapa 15.82 m, Teapa 33.76 m y Puyacatengo 25.01 m. Deben vigilarse primero lluvia horaria y estaciones aguas arriba antes de esperar una respuesta en el Grijalva de Villahermosa.
-Pronóstico SMN Bajo Grijalva–Ríos de la Sierra: 0-24 h: 5 a 25 mm; 24-48 h: 5 a 25 mm; 48-72 h: 5 a 25 mm; 72-96 h: 25 a 50 mm.
+Los Ríos Serranos tienen respuesta más rápida que el Usumacinta. Oxolotán 33.89 m, Tapijulapa 15.79 m, Teapa 33.79 m y Puyacatengo 24.97 m. Deben vigilarse primero lluvia horaria y estaciones aguas arriba antes de esperar una respuesta en el Grijalva de Villahermosa.
+Pronóstico SMN Bajo Grijalva–Ríos de la Sierra: 0-24 h: 5 a 25 mm; 24-48 h: 25 a 50 mm; 48-72 h: 5 a 25 mm; 72-96 h: 5 a 25 mm.
 
 | Subcuenca/corriente | Respuesta esperada | Implicación |
 |---|---|---|
 | Oxolotán–Amatán–Tacotalpa | Rápida ante lluvia intensa de montaña | Vigilar crecidas súbitas y propagación hacia Tacotalpa/Jalapa. |
 | Puyacatengo–Teapa | Rápida a muy rápida | Atención a lluvia horaria y ascensos locales. |
 | Pichucalco | Aporte directo relevante al Grijalva bajo | Puede incrementar el gasto antes/entorno de Villahermosa. |
-| Tulijá–Puxcatán | Salto de Agua 2.17 m; Macuspana 1.10 m | Vigilar lluvia futura y respuesta hacia el sistema Grijalva aguas abajo. |
+| Tulijá–Puxcatán | Salto de Agua 2.16 m; Macuspana 1.10 m | Vigilar lluvia futura y respuesta hacia el sistema Grijalva aguas abajo. |
 
 ## 4. Sistema de presas del Grijalva y corrientes asociadas
 El análisis debe mantener la cascada La Angostura–Chicoasén–Malpaso–Peñitas como un sistema regulado. La lluvia en la cuenca alta no equivale a una descarga inmediata hacia Tabasco. Peñitas es el punto de mayor interés operativo porque su extracción ingresa al Mezcalapa y se combina aguas abajo con aportes de cuenca libre, especialmente Platanar.
 
 | Presa | Elevación actual (msnm) | Llenado al NAMO (%) | Extracción prom. 24 h (m³/s) | Precip. diaria (mm) | Dif. nivel 24 h (m) |
 |---|---:|---:|---:|---:|---:|
-| Angostura | 517.03 | 48.54 | 189.83 | 0.0 | -0.04 |
-| Chicoasén | 391.26 | 97.91 | 179.59 | 0.0 | +0.24 |
-| Malpaso | 163.19 | 57.60 | 330.47 | 1.9 | -0.02 |
-| Peñitas | 86.03 | 84.48 | 378.33 | 25.2 | -0.07 |
+| Angostura | 516.88 | 48.11 | 389.36 | 0.0 | -0.09 |
+| Chicoasén | 391.20 | 97.50 | 365.05 | 0.0 | -0.07 |
+| Malpaso | 163.24 | 57.70 | 302.08 | 0.0 | +0.03 |
+| Peñitas | 85.91 | 83.72 | 330.00 | 0.0 | -0.04 |
 
 ## 5. Samaria, Carrizal y Mezcalapa
-Samaria registra 11.72 m y González/Carrizal 3.33 m. El gasto de Peñitas no debe equipararse automáticamente con el gasto que llega a cada brazo: deben incorporarse Platanar y otras aportaciones de cuenca libre y considerar la distribución hidráulica posterior. Como referencia operativa se conserva aproximadamente 70 % hacia Samaria y 30 % hacia Carrizal, sujeta a condiciones hidráulicas y a la operación de El Macayo.
+Samaria registra 11.76 m y González/Carrizal 3.34 m. El gasto de Peñitas no debe equipararse automáticamente con el gasto que llega a cada brazo: deben incorporarse Platanar y otras aportaciones de cuenca libre y considerar la distribución hidráulica posterior. Como referencia operativa se conserva aproximadamente 70 % hacia Samaria y 30 % hacia Carrizal, sujeta a condiciones hidráulicas y a la operación de El Macayo.
 
 | Sistema | Condición actual | Riesgo a vigilar |
 |---|---|---|
 | Mezcalapa | Sin interpretar la extracción de Peñitas como gasto final. | Aumento conjunto Peñitas + cuenca libre. |
-| Samaria | 11.72 m | Incremento sostenido hacia Nacajuca–Jalpa–Cunduacán. |
-| Carrizal | González 3.33 m | Mayor ingreso, operación de Macayo y posible remanso con Grijalva. |
+| Samaria | 11.76 m | Incremento sostenido hacia Nacajuca–Jalpa–Cunduacán. |
+| Carrizal | González 3.34 m | Mayor ingreso, operación de Macayo y posible remanso con Grijalva. |
 
 ## 6. Integración hidrológica: qué podría cambiar el escenario
 - Lluvia persistente durante varios días sobre la cuenca alta/media del Usumacinta con ascenso posterior en Boca del Cerro.
@@ -74,7 +74,7 @@ Samaria registra 11.72 m y González/Carrizal 3.33 m. El gasto de Peñitas no de
 Las bajas presiones y perturbaciones identificadas deben mantenerse en vigilancia meteorológica, pero no son por sí solas motivo para elevar la alerta hidrológica. El escalamiento debe apoyarse en modificación del pronóstico de lluvia, persistencia de acumulados, aumento de saturación y respuesta observada en niveles y caudales.
 
 ## 9. Conclusión general
-El diagnóstico integrado del corte de las 13:58 h se mantiene condicionado por la evolución conjunta de Guatemala–Usumacinta–Boca del Cerro, Ríos Serranos–Pichucalco–Grijalva bajo, la cascada de presas y Peñitas/cuenca libre–Mezcalapa–Samaria–Carrizal. Ningún componente debe interpretarse de manera aislada. La señal operativa debe escalar únicamente cuando coincidan magnitud, persistencia y respuesta observada.
+El diagnóstico integrado del corte de las 13:13 h se mantiene condicionado por la evolución conjunta de Guatemala–Usumacinta–Boca del Cerro, Ríos Serranos–Pichucalco–Grijalva bajo, la cascada de presas y Peñitas/cuenca libre–Mezcalapa–Samaria–Carrizal. Ningún componente debe interpretarse de manera aislada. La señal operativa debe escalar únicamente cuando coincidan magnitud, persistencia y respuesta observada.
 
 ## 10. Recomendaciones de monitoreo
 - Actualizar cada 6–12 horas lluvia observada y pronosticada en Guatemala, Chiapas y Tabasco cuando exista señal relevante.
@@ -85,22 +85,22 @@ El diagnóstico integrado del corte de las 13:58 h se mantiene condicionado por 
 - Mantener las bajas presiones en vigilancia meteorológica y escalar sólo si su evolución modifica la amenaza de lluvia regional.
 
 ## Lluvia observada complementaria
-- WeatherLink: CHAPULTENANGO PCIVILCHIAPAS 54.7 mm/24 h
-- WeatherLink: Yaxhá - INSIVUMEH PETEN 10.9 mm/24 h
-- WeatherLink: PICHUCALCO PCIVILCHIAPAS 10.3 mm/24 h
-- WeatherLink: ASUR Villahermosa 8.6 mm/24 h
-- WeatherLink: JUÁREZ PCIVILCHIAPAS 7.1 mm/24 h
-- CONAGUA: CHAPULTENANGO 48.9 mm/24 h
-- CONAGUA: PUENTE TONALÁ 26.8 mm/24 h
-- CONAGUA: PEÑITAS 25.2 mm/24 h
-- CONAGUA: TEAPA 18.0 mm/24 h
-- CONAGUA: TAPIJULAPA 16.5 mm/24 h
+- WeatherLink: Impulsora 5.1 mm/24 h
+- WeatherLink: PICHUCALCO PCIVILCHIAPAS 3.1 mm/24 h
+- WeatherLink: AMATÁN PCIVILCHIAPAS 0.5 mm/24 h
+- WeatherLink: Yaxhá - INSIVUMEH PETEN 0.0 mm/24 h
+- WeatherLink: Urrutia 0.0 mm/24 h
+- CONAGUA: CHAPULTENANGO 45.5 mm/24 h
+- CONAGUA: BOCA DEL CERRO 42.0 mm/24 h
+- CONAGUA: SAN PEDRO NICHTACULUM 23.2 mm/24 h
+- CONAGUA: SAN JOAQUÍN 23.1 mm/24 h
+- CONAGUA: EMILIANO ZAPATA (CHABLE) 22.0 mm/24 h
 
 ## Control de fuentes y hora real de actualización
 | Producto | Fecha/hora del mensaje | Fecha/hora de recolección | Uso operativo |
 |---|---|---|---|
-| CONAGUA Tabasco / FUENTE2 | 2026-09-10T08:34:08-06:00 | 2026-09-11T13:40:14.491713-06:00 | Corte local de niveles, gasto, lluvia y temperatura. |
-| Frontera Sur / FUENTE1 | 2026-09-11T13:01:30-06:00 | 2026-09-11T13:40:14.491713-06:00 | Presas, Alto/Medio Grijalva y complemento Alto Usumacinta/Lacantún. |
+| CONAGUA Tabasco / FUENTE2 | 2026-09-12T08:50:02-06:00 | 2026-09-12T12:50:15.155978-06:00 | Corte local de niveles, gasto, lluvia y temperatura. |
+| Frontera Sur / FUENTE1 | 2026-09-12T10:31:39-06:00 | 2026-09-12T12:50:15.155978-06:00 | Presas, Alto/Medio Grijalva y complemento Alto Usumacinta/Lacantún. |
 
 Regla de calidad: un vacío no equivale a cero; no se inventan valores. Cuando una variable no se publica en el corte más reciente, se conserva s/d o el último dato válido únicamente cuando el producto operativo lo admite y queda identificado como heredado.
 
