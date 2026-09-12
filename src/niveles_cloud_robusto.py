@@ -13,6 +13,7 @@ observado por estación cuando una fila viene incompleta.
 """
 from __future__ import annotations
 
+import re
 import sys
 import time
 from pathlib import Path
@@ -161,6 +162,7 @@ def collect_candidates_robusto(token: str):
 
 
 _original_is_levels_subject = base.is_levels_subject
+_original_run_processor = base.run_processor
 
 
 def is_levels_subject_robusto(subject: str) -> bool:
@@ -172,12 +174,22 @@ def is_levels_subject_robusto(subject: str) -> bool:
     return any(term in s for term in ("hidrometr", "reporte", "informe", "boletin"))
 
 
+def normalize_subject_hour(subject: str) -> str:
+    """Acepta asuntos reales con horas 10.00/12.00 además de 10:00/12:00."""
+    return re.sub(r'(?i)(\b\d{1,2})[.](00\b)', r'\1:\2', str(subject or ''))
+
+
+def run_processor_robusto(pdf_path: Path, subject: str, message_key: str):
+    return _original_run_processor(pdf_path, normalize_subject_hour(subject), message_key)
+
+
 # Parche controlado: todas las llamadas del agente base pasan por las rutas
 # robustas, incluidos AuthRequest, SearchRequest, GetMsgRequest y descarga PDF.
 base.soap_post = soap_post_robusto
 base.collect_candidates = collect_candidates_robusto
 base.is_levels_subject = is_levels_subject_robusto
 base.download_pdf = download_pdf_robusto
+base.run_processor = run_processor_robusto
 
 if __name__ == "__main__":
     base.main()
