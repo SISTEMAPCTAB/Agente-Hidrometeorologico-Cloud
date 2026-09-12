@@ -10,7 +10,13 @@ nc = robust.base
 PROCESSOR = Path('src/procesar_niveles_horas.js')
 
 
+def normalize_subject_hour(subject: str) -> str:
+    """Normaliza variantes reales del asunto: 12.00, 12:00 y 12 00."""
+    return re.sub(r'(?i)(\b\d{1,2})[.](00\b)', r'\1:\2', str(subject or ''))
+
+
 def run_processor(pdf_path: Path, subject: str, message_key: str):
+    subject = normalize_subject_hour(subject)
     cmd = [
         'node', str(PROCESSOR),
         '--pdf', str(pdf_path),
