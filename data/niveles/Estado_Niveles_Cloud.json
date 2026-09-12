@@ -1,39 +1,17 @@
 {
   "agent": "Niveles Hidrométricos Cloud",
-  "run_utc": "2026-09-12T21:09:40.007051+00:00",
-  "complete": false,
+  "run_utc": "2026-09-12T22:30:56.826553+00:00",
+  "complete": true,
   "selected_account": "principal",
   "lookback_days": 7,
   "candidate_count": 36,
-  "processed_now": 0,
-  "processed_total": 120,
+  "processed_now": 4,
+  "processed_total": 124,
   "stations_in_latest_summary": 15,
-  "latest_subject": "SE ENVÍA INFORMACIÓN DE NIVELES DE LAS 14.00 HORAS",
-  "latest_message_utc": "2026-09-12T20:06:40+00:00",
-  "errors": [
-    {
-      "message_id": "15180",
-      "subject": "SE ENVÍA INFORMACIÓN DE NIVELES DE LAS 10.00 HORAS",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo identificar la hora del corte desde el asunto.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:224:25"
-    },
-    {
-      "message_id": "15184",
-      "subject": "SE ENVÍA INFORMACIÓN DE NIVELES DE LAS 12.00 HORAS",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo identificar la hora del corte desde el asunto.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:224:25"
-    },
-    {
-      "message_id": "15187",
-      "subject": "SE ENVÍA INFORMACIÓN DE NIVELES DE LAS 14.00 HORAS",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo identificar la hora del corte desde el asunto.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:224:25"
-    }
-  ],
-  "skipped_nonfatal": [
-    {
-      "message_id": "15118",
-      "subject": "Se envia Informe de Niveles de 16 hrs",
-      "reason": "PDF con geometría no compatible; omitido sin bloquear reportes posteriores."
-    }
-  ],
+  "latest_subject": "SE ENVÍA INFORMACIÓN DE NIVELES DE LAS 16.00 HORAS",
+  "latest_message_utc": "2026-09-12T22:19:12+00:00",
+  "errors": [],
+  "skipped_nonfatal": [],
   "accounts": [
     {
       "label": "principal",
