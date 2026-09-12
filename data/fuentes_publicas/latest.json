@@ -1,11 +1,11 @@
 {
-  "generated_utc": "2026-09-12T13:45:45.544136+00:00",
+  "generated_utc": "2026-09-12T16:32:50.917862+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
     "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h",
-    "aviso": "254",
-    "fecha": "11 de Septiembre del 2026.",
+    "aviso": "255",
+    "fecha": "12 de Septiembre del 2026.",
     "emision": "10:00h",
     "ventanas": {
       "0-24": {
@@ -15,9 +15,9 @@
           "max_mm": 25.0
         },
         "Malpaso": {
-          "texto": "25 a 50",
-          "min_mm": 25.0,
-          "max_mm": 50.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Chicoasén": {
           "texto": "5 a 25",
@@ -25,9 +25,9 @@
           "max_mm": 25.0
         },
         "La Angostura": {
-          "texto": "25 a 50",
-          "min_mm": 25.0,
-          "max_mm": 50.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Bajo Grijalva-Ríos de la Sierra": {
           "texto": "5 a 25",
@@ -35,9 +35,9 @@
           "max_mm": 25.0
         },
         "Usumacinta": {
-          "texto": "5 a 25",
-          "min_mm": 5.0,
-          "max_mm": 25.0
+          "texto": "50 a 75",
+          "min_mm": 50.0,
+          "max_mm": 75.0
         },
         "Presa Juan Sabines": {
           "texto": "5 a 25",
@@ -47,39 +47,39 @@
       },
       "24-48": {
         "Peñitas": {
-          "texto": "0.1 a 5",
-          "min_mm": 0.1,
-          "max_mm": 5.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Malpaso": {
-          "texto": "0.1 a 5",
-          "min_mm": 0.1,
-          "max_mm": 5.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         },
         "Chicoasén": {
-          "texto": "0.1 a 5",
-          "min_mm": 0.1,
-          "max_mm": 5.0
+          "texto": "75 a 150",
+          "min_mm": 75.0,
+          "max_mm": 150.0
         },
         "La Angostura": {
-          "texto": "5 a 25",
-          "min_mm": 5.0,
-          "max_mm": 25.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         },
         "Bajo Grijalva-Ríos de la Sierra": {
-          "texto": "5 a 25",
-          "min_mm": 5.0,
-          "max_mm": 25.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         },
         "Usumacinta": {
-          "texto": "50 a 75",
-          "min_mm": 50.0,
-          "max_mm": 75.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         },
         "Presa Juan Sabines": {
-          "texto": "0.1 a 5",
-          "min_mm": 0.1,
-          "max_mm": 5.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         }
       },
       "48-72": {
@@ -89,19 +89,19 @@
           "max_mm": 25.0
         },
         "Malpaso": {
-          "texto": "25 a 50",
-          "min_mm": 25.0,
-          "max_mm": 50.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Chicoasén": {
-          "texto": "25 a 50",
-          "min_mm": 25.0,
-          "max_mm": 50.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "La Angostura": {
-          "texto": "25 a 50",
-          "min_mm": 25.0,
-          "max_mm": 50.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Bajo Grijalva-Ríos de la Sierra": {
           "texto": "5 a 25",
@@ -109,21 +109,21 @@
           "max_mm": 25.0
         },
         "Usumacinta": {
-          "texto": "50 a 75",
-          "min_mm": 50.0,
-          "max_mm": 75.0
-        },
-        "Presa Juan Sabines": {
           "texto": "5 a 25",
           "min_mm": 5.0,
           "max_mm": 25.0
+        },
+        "Presa Juan Sabines": {
+          "texto": "0.1 a 5",
+          "min_mm": 0.1,
+          "max_mm": 5.0
         }
       },
       "72-96": {
         "Peñitas": {
-          "texto": "0.1 a 5",
-          "min_mm": 0.1,
-          "max_mm": 5.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Malpaso": {
           "texto": "0.1 a 5",
@@ -141,14 +141,14 @@
           "max_mm": 5.0
         },
         "Bajo Grijalva-Ríos de la Sierra": {
-          "texto": "25 a 50",
-          "min_mm": 25.0,
-          "max_mm": 50.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Usumacinta": {
-          "texto": "25 a 50",
-          "min_mm": 25.0,
-          "max_mm": 50.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Presa Juan Sabines": {
           "texto": "0.1 a 5",
@@ -161,55 +161,55 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sat, 12 Sep 2026 13:46:12 GMT"
+      "last_modified": "Sat, 12 Sep 2026 16:32:51 GMT"
     },
-    "resumen": "La presencia de un canal de baja presión sobre el sureste mexicano, aunado a una circulación ciclónica y vaguada en niveles altos de la atmósfera , ocasionarán lluvias puntuales fuertes en las cuencas de Malpaso y La Angostura; además de intervalos de chubascos en las cuencas de Peñitas, Chicoasén, Bajo Grijalva, Usumacinta y Juan Sabines. A su vez, el ambiente caluroso a muy caluroso prevalecerá dentro de los próximos días sobre la región.",
+    "resumen": "La presencia de un canal de baja presión, inestabilidad atmosférica y onda tropical núm. 39 sobre el sureste mexicano, ocasionarán lluvias puntuales muy fuertes en la cuenca de Usumacinta; además de intervalos de chubascos en las cuencas de Malpaso, La Angostura, Peñitas, Chicoasén, Bajo Grijalva y Juan Sabines. A su vez, el ambiente será de caluroso a muy caluroso sobre la región durante el periodo de pronóstico.",
     "detalle_ventanas": {
       "0-24": {
         "Peñitas": {
-          "precipitacion_mm": "0.1 a 5",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "34 a 36",
           "temperatura_min_c": "23 a 25",
           "viento_sostenido_kmh": "N 10 a 20",
           "rachas_kmh": "35"
         },
         "Malpaso": {
-          "precipitacion_mm": "0.1 a 5",
+          "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "31 a 33",
           "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "N 15 a 25",
           "rachas_kmh": "40"
         },
         "Chicoasén": {
-          "precipitacion_mm": "0.1 a 5",
+          "precipitacion_mm": "75 a 150",
           "temperatura_max_c": "33 a 35",
           "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "NO 15 a 25",
           "rachas_kmh": "40"
         },
         "La Angostura": {
-          "precipitacion_mm": "5 a 25",
+          "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "34 a 36",
           "temperatura_min_c": "23 a 25",
           "viento_sostenido_kmh": "Variable 20 a 30",
-          "rachas_kmh": "50"
+          "rachas_kmh": "55"
         },
         "Bajo Grijalva-Ríos de la Sierra": {
-          "precipitacion_mm": "5 a 25",
+          "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "37 a 39",
           "temperatura_min_c": "24 a 26",
           "viento_sostenido_kmh": "NE 25 a 35",
           "rachas_kmh": "55"
         },
         "Usumacinta": {
-          "precipitacion_mm": "50 a 75",
+          "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "32 a 34",
           "temperatura_min_c": "22 a 24",
-          "viento_sostenido_kmh": "E 10 a 20",
-          "rachas_kmh": "35"
+          "viento_sostenido_kmh": "E 15 a 25",
+          "rachas_kmh": "10"
         },
         "Presa Juan Sabines": {
-          "precipitacion_mm": "0.1 a 5",
+          "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "30 a 32",
           "temperatura_min_c": "19 a 21",
           "viento_sostenido_kmh": "SO 10 a 20",
@@ -221,25 +221,25 @@
           "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "35 a 37",
           "temperatura_min_c": "24 a 26",
-          "viento_sostenido_kmh": "NO 10 a 20",
-          "rachas_kmh": "35"
-        },
-        "Malpaso": {
-          "precipitacion_mm": "25 a 50",
-          "temperatura_max_c": "32 a 34",
-          "temperatura_min_c": "23 a 25",
-          "viento_sostenido_kmh": "NO 15 a 25",
+          "viento_sostenido_kmh": "N 15 a 25",
           "rachas_kmh": "40"
         },
+        "Malpaso": {
+          "precipitacion_mm": "5 a 25",
+          "temperatura_max_c": "32 a 34",
+          "temperatura_min_c": "23 a 25",
+          "viento_sostenido_kmh": "N 20 a 30",
+          "rachas_kmh": "45"
+        },
         "Chicoasén": {
-          "precipitacion_mm": "25 a 50",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "34 a 36",
           "temperatura_min_c": "23 a 25",
-          "viento_sostenido_kmh": "NO 15 a 25",
+          "viento_sostenido_kmh": "Variable 15 a 25",
           "rachas_kmh": "40"
         },
         "La Angostura": {
-          "precipitacion_mm": "25 a 50",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "35 a 37",
           "temperatura_min_c": "24 a 26",
           "viento_sostenido_kmh": "Variable 25 a 35",
@@ -253,74 +253,23 @@
           "rachas_kmh": "55"
         },
         "Usumacinta": {
-          "precipitacion_mm": "50 a 75",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "33 a 35",
           "temperatura_min_c": "23 a 25",
           "viento_sostenido_kmh": "E 15 a 25",
           "rachas_kmh": "40"
         },
         "Presa Juan Sabines": {
-          "precipitacion_mm": "5 a 25",
+          "precipitacion_mm": "0.1 a 5",
           "temperatura_max_c": "30 a 32",
           "temperatura_min_c": "20 a 22",
-          "viento_sostenido_kmh": "SO 10 a 20",
-          "rachas_kmh": "35"
+          "viento_sostenido_kmh": "SO 15 a 25",
+          "rachas_kmh": "40"
         }
       },
       "48-72": {
         "Peñitas": {
-          "precipitacion_mm": "0.1 a 5",
-          "temperatura_max_c": "34 a 36",
-          "temperatura_min_c": "23 a 25",
-          "viento_sostenido_kmh": "N 15 a 25",
-          "rachas_kmh": "40"
-        },
-        "Malpaso": {
-          "precipitacion_mm": "0.1 a 5",
-          "temperatura_max_c": "31 a 33",
-          "temperatura_min_c": "22 a 24",
-          "viento_sostenido_kmh": "N 20 a 30",
-          "rachas_kmh": "45"
-        },
-        "Chicoasén": {
-          "precipitacion_mm": "0.1 a 5",
-          "temperatura_max_c": "33 a 35",
-          "temperatura_min_c": "22 a 24",
-          "viento_sostenido_kmh": "Variable 15 a 25",
-          "rachas_kmh": "40"
-        },
-        "La Angostura": {
-          "precipitacion_mm": "0.1 a 5",
-          "temperatura_max_c": "34 a 36",
-          "temperatura_min_c": "23 a 25",
-          "viento_sostenido_kmh": "Variable 25 a 35",
-          "rachas_kmh": "55"
-        },
-        "Bajo Grijalva-Ríos de la Sierra": {
-          "precipitacion_mm": "25 a 50",
-          "temperatura_max_c": "36 a 38",
-          "temperatura_min_c": "24 a 26",
-          "viento_sostenido_kmh": "NE 25 a 35",
-          "rachas_kmh": "55"
-        },
-        "Usumacinta": {
-          "precipitacion_mm": "25 a 50",
-          "temperatura_max_c": "32 a 34",
-          "temperatura_min_c": "22 a 24",
-          "viento_sostenido_kmh": "E 15 a 25",
-          "rachas_kmh": "40"
-        },
-        "Presa Juan Sabines": {
-          "precipitacion_mm": "0.1 a 5",
-          "temperatura_max_c": "30 a 32",
-          "temperatura_min_c": "19 a 21",
-          "viento_sostenido_kmh": "SO 10 a 20",
-          "rachas_kmh": "35"
-        }
-      },
-      "72-96": {
-        "Peñitas": {
-          "precipitacion_mm": "0.1 a 5",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "34 a 36",
           "temperatura_min_c": "23 a 25",
           "viento_sostenido_kmh": "N 15 a 25",
@@ -348,14 +297,14 @@
           "rachas_kmh": "55"
         },
         "Bajo Grijalva-Ríos de la Sierra": {
-          "precipitacion_mm": "25 a 50",
-          "temperatura_max_c": "37 a 39",
+          "precipitacion_mm": "5 a 25",
+          "temperatura_max_c": "36 a 38",
           "temperatura_min_c": "24 a 26",
           "viento_sostenido_kmh": "NE 25 a 35",
           "rachas_kmh": "55"
         },
         "Usumacinta": {
-          "precipitacion_mm": "25 a 50",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "32 a 34",
           "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "E 10 a 20",
@@ -365,8 +314,59 @@
           "precipitacion_mm": "0.1 a 5",
           "temperatura_max_c": "30 a 32",
           "temperatura_min_c": "19 a 21",
-          "viento_sostenido_kmh": "Variable 10 a 20",
+          "viento_sostenido_kmh": "SO 10 a 20",
           "rachas_kmh": "35"
+        }
+      },
+      "72-96": {
+        "Peñitas": {
+          "precipitacion_mm": "5 a 25",
+          "temperatura_max_c": "34 a 36",
+          "temperatura_min_c": "23 a 25",
+          "viento_sostenido_kmh": "N 15 a 25",
+          "rachas_kmh": "40"
+        },
+        "Malpaso": {
+          "precipitacion_mm": "0.1 a 5",
+          "temperatura_max_c": "31 a 33",
+          "temperatura_min_c": "22 a 24",
+          "viento_sostenido_kmh": "NO 20 a 30",
+          "rachas_kmh": "45"
+        },
+        "Chicoasén": {
+          "precipitacion_mm": "0.1 a 5",
+          "temperatura_max_c": "33 a 35",
+          "temperatura_min_c": "22 a 24",
+          "viento_sostenido_kmh": "NO 15 a 25",
+          "rachas_kmh": "50"
+        },
+        "La Angostura": {
+          "precipitacion_mm": "0.1 a 5",
+          "temperatura_max_c": "34 a 36",
+          "temperatura_min_c": "23 a 25",
+          "viento_sostenido_kmh": "NE 25 a 35",
+          "rachas_kmh": "60"
+        },
+        "Bajo Grijalva-Ríos de la Sierra": {
+          "precipitacion_mm": "5 a 25",
+          "temperatura_max_c": "37 a 39",
+          "temperatura_min_c": "24 a 26",
+          "viento_sostenido_kmh": "NE 25 a 35",
+          "rachas_kmh": "55"
+        },
+        "Usumacinta": {
+          "precipitacion_mm": "5 a 25",
+          "temperatura_max_c": "32 a 34",
+          "temperatura_min_c": "22 a 24",
+          "viento_sostenido_kmh": "E 10 a 20",
+          "rachas_kmh": "35"
+        },
+        "Presa Juan Sabines": {
+          "precipitacion_mm": "0.1 a 5",
+          "temperatura_max_c": "30 a 32",
+          "temperatura_min_c": "19 a 21",
+          "viento_sostenido_kmh": "N 10 a 20",
+          "rachas_kmh": "30"
         }
       }
     },
@@ -376,39 +376,39 @@
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 360 h",
     "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-360h",
-    "aviso": "254",
-    "fecha": "11 de Septiembre del 2026.",
+    "aviso": "255",
+    "fecha": "12 de Septiembre del 2026.",
     "emision": "10:00h",
     "periodos": [
       {
         "ventana": "96-168 h",
-        "validez": "del 14 al 17 de septiembre de 2026",
-        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 75 a 150 mm en las cuencas de Peñitas, Malpaso y Bajo Grijalva; lluvias con acumulados de 50 a 75 mm en la cuenca de Usumacinta; así como lluvias con acumulados de 5 a 25 mm en las cuencas de Chicoasén, La Angostura y Juan Sabines.",
+        "validez": "del 15 al 18 de septiembre de 2026",
+        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 150 a 250 mm en las cuencas de Bajo Grijalva, Peñitas y Malpaso; lluvias con acumulados de 75 a 150 mm en la cuenca de Usumacinta; lluvias con acumulados de 25 a 50 mm en la cuenca de Chicoasén; así como lluvias con acumulados de 5 a 25 mm en las cuencas de La Angostura y Juan Sabines.",
         "rangos_por_cuenca": {
           "Peñitas": {
-            "texto": "75 a 150",
-            "min_mm": 75.0,
-            "max_mm": 150.0
+            "texto": "150 a 250",
+            "min_mm": 150.0,
+            "max_mm": 250.0
           },
           "Malpaso": {
-            "texto": "75 a 150",
-            "min_mm": 75.0,
-            "max_mm": 150.0
+            "texto": "150 a 250",
+            "min_mm": 150.0,
+            "max_mm": 250.0
           },
           "Bajo Grijalva-Ríos de la Sierra": {
+            "texto": "150 a 250",
+            "min_mm": 150.0,
+            "max_mm": 250.0
+          },
+          "Usumacinta": {
             "texto": "75 a 150",
             "min_mm": 75.0,
             "max_mm": 150.0
           },
-          "Usumacinta": {
-            "texto": "50 a 75",
-            "min_mm": 50.0,
-            "max_mm": 75.0
-          },
           "Chicoasén": {
-            "texto": "5 a 25",
-            "min_mm": 5.0,
-            "max_mm": 25.0
+            "texto": "25 a 50",
+            "min_mm": 25.0,
+            "max_mm": 50.0
           },
           "La Angostura": {
             "texto": "5 a 25",
@@ -424,43 +424,43 @@
       },
       {
         "ventana": "168-360 h",
-        "validez": "del 17 al 25 de septiembre 2026",
-        "descripcion": "Durante el periodo de pronóstico, se prevén lluvias con acumulados de 250 a 300 mm en las cuencas de Bajo Grijalva, Peñitas y Malpaso; lluvias con acumulados de 150 a 250 mm en la cuenca de Usumacinta; lluvias con acumulados de 50 a 75 mm en la cuenca de La Angostura; además de lluvias con acumulados de 25 a 50 mm en las cuencas de Chicoasén y Juan Sabines.",
+        "validez": "del 18 al 26 de septiembre 2026",
+        "descripcion": "Durante el periodo de pronóstico, se prevén lluvias con acumulados de 250 a 300 mm en la cuenca de Usumacinta; lluvias con acumulados de 150 a 250 mm en las cuencas de Bajo Grijalva, Peñitas, Malpaso y La Angostura; lluvias con acumulados de 50 a 75 mm en la cuenca de Juan Sabines; además de lluvias con acumulados de 5 a 25 mm en la cuenca de Chicoasén.",
         "rangos_por_cuenca": {
-          "Peñitas": {
+          "Usumacinta": {
             "texto": "250 a 300",
             "min_mm": 250.0,
             "max_mm": 300.0
+          },
+          "Peñitas": {
+            "texto": "150 a 250",
+            "min_mm": 150.0,
+            "max_mm": 250.0
           },
           "Malpaso": {
-            "texto": "250 a 300",
-            "min_mm": 250.0,
-            "max_mm": 300.0
-          },
-          "Bajo Grijalva-Ríos de la Sierra": {
-            "texto": "250 a 300",
-            "min_mm": 250.0,
-            "max_mm": 300.0
-          },
-          "Usumacinta": {
             "texto": "150 a 250",
             "min_mm": 150.0,
             "max_mm": 250.0
           },
           "La Angostura": {
+            "texto": "150 a 250",
+            "min_mm": 150.0,
+            "max_mm": 250.0
+          },
+          "Bajo Grijalva-Ríos de la Sierra": {
+            "texto": "150 a 250",
+            "min_mm": 150.0,
+            "max_mm": 250.0
+          },
+          "Presa Juan Sabines": {
             "texto": "50 a 75",
             "min_mm": 50.0,
             "max_mm": 75.0
           },
           "Chicoasén": {
-            "texto": "25 a 50",
-            "min_mm": 25.0,
-            "max_mm": 50.0
-          },
-          "Presa Juan Sabines": {
-            "texto": "25 a 50",
-            "min_mm": 25.0,
-            "max_mm": 50.0
+            "texto": "5 a 25",
+            "min_mm": 5.0,
+            "max_mm": 25.0
           }
         }
       }
@@ -469,7 +469,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sat, 12 Sep 2026 13:45:46 GMT"
+      "last_modified": "Sat, 12 Sep 2026 16:29:04 GMT"
     }
   },
   "insivumeh": {
@@ -491,8 +491,8 @@
         "nivel_referencia_max_m": 10.0,
         "caudal_referencia_min_m3s": 486.87,
         "caudal_referencia_max_m3s": 2856.43,
-        "nivel_instantaneo_m": 5.71,
-        "caudal_instantaneo_m3s": 991.22,
+        "nivel_instantaneo_m": 5.6,
+        "caudal_instantaneo_m3s": 943.39,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       },
@@ -504,65 +504,65 @@
         "nivel_referencia_max_m": 3.0,
         "caudal_referencia_min_m3s": 93.04,
         "caudal_referencia_max_m3s": 399.28,
-        "nivel_instantaneo_m": 1.78,
-        "caudal_instantaneo_m3s": 177.49,
+        "nivel_instantaneo_m": 1.71,
+        "caudal_instantaneo_m3s": 168.09,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       }
     ],
     "fragmentos_relevantes": [
-      "Caudal | Instant´ aneo (m3/s) Disminuir Mantenerse Incrementar Observaciones No. BHE | Chachacl´ un Lago Pet´ en Itz´ a San Jos´ e, Pet´ en 1.0 2.5 3.39 X Lago Crecido 1336-2025 | El Porvenir La Pasi´ on Las Cruces, Pet´ en 1.03 3.0 93.04 399.28 1.78 177.49 X | El Tigre Usumacinta Las Cruces, Pet´ en 4.55 10.0 486.87 2856.43 5.71 991.22 X | La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.13 7.95 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.72 0.08 X R ´ ıo Bajo",
-      "Instant´ aneo (m3/s) Disminuir Mantenerse Incrementar Observaciones No. BHE | Chachacl´ un Lago Pet´ en Itz´ a San Jos´ e, Pet´ en 1.0 2.5 3.39 X Lago Crecido 1336-2025 | El Porvenir La Pasi´ on Las Cruces, Pet´ en 1.03 3.0 93.04 399.28 1.78 177.49 X | El Tigre Usumacinta Las Cruces, Pet´ en 4.55 10.0 486.87 2856.43 5.71 991.22 X | La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.13 7.95 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.72 0.08 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.08 2.98 X",
-      "La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.13 7.95 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.72 0.08 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.08 2.98 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 -0.2 163.1 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.57 8.12 X | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.34 161.47 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.35 35.64 X",
-      "Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.72 0.08 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.08 2.98 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 -0.2 163.1 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.57 8.12 X | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.34 161.47 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.35 35.64 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.18 13.69 X",
-      "Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.08 2.98 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 -0.2 163.1 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.57 8.12 X | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.34 161.47 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.35 35.64 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.18 13.69 X | Xemal Selegua Colotenango, Huehuetenango 0.25 1.25 3.91 48.8 -0.38 0.16 X R ´ ıo Bajo"
+      "Caudal | Instant´ aneo (m3/s) Disminuir Mantenerse Incrementar Observaciones No. BHE | Chachacl´ un Lago Pet´ en Itz´ a San Jos´ e, Pet´ en 1.0 2.5 3.4 X Lago Crecido 1336-2025 | El Porvenir La Pasi´ on Las Cruces, Pet´ en 1.03 3.0 93.04 399.28 1.71 168.09 X | El Tigre Usumacinta Las Cruces, Pet´ en 4.55 10.0 486.87 2856.43 5.6 943.39 X | La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.13 7.95 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.69 0.05 X R ´ ıo Bajo",
+      "Instant´ aneo (m3/s) Disminuir Mantenerse Incrementar Observaciones No. BHE | Chachacl´ un Lago Pet´ en Itz´ a San Jos´ e, Pet´ en 1.0 2.5 3.4 X Lago Crecido 1336-2025 | El Porvenir La Pasi´ on Las Cruces, Pet´ en 1.03 3.0 93.04 399.28 1.71 168.09 X | El Tigre Usumacinta Las Cruces, Pet´ en 4.55 10.0 486.87 2856.43 5.6 943.39 X | La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.13 7.95 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.69 0.05 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X",
+      "La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.13 7.95 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.69 0.05 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 -0.15 171.16 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.55 7.69 X R ´ ıo Bajo | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.37 168.06 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.4 38.64 X",
+      "Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.69 0.05 X R ´ ıo Bajo | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 -0.15 171.16 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.55 7.69 X R ´ ıo Bajo | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.37 168.06 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.4 38.64 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.17 13.42 X",
+      "Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.07 2.84 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 -0.15 171.16 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.55 7.69 X R ´ ıo Bajo | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.37 168.06 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.4 38.64 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.17 13.42 X | Xemal Selegua Colotenango, Huehuetenango 0.25 1.25 3.91 48.8 -0.41 0.13 X R ´ ıo Bajo"
     ],
     "completo": true,
-    "pdf_bytes": 306030,
+    "pdf_bytes": 305803,
     "boletin": null,
-    "fecha": "11/09/2026",
-    "hora": "14:00",
+    "fecha": "12/09/2026",
+    "hora": "08:00",
     "hora_fuente": "encabezado_BHVGM"
   },
   "insivumeh_evolucion_real": [
     {
       "estacion": "El Tigre",
       "rio": "Usumacinta",
-      "desde": "11/09/2026 08:00",
-      "hasta": "11/09/2026 14:00",
-      "horas_transcurridas": 6.0,
-      "delta_nivel_m": 0.03,
-      "delta_caudal_m3s": 13.05,
-      "tendencia_calculada": "incrementando"
+      "desde": "11/09/2026 14:00",
+      "hasta": "12/09/2026 08:00",
+      "horas_transcurridas": 18.0,
+      "delta_nivel_m": -0.11,
+      "delta_caudal_m3s": -47.83,
+      "tendencia_calculada": "disminuyendo"
     },
     {
       "estacion": "El Porvenir",
       "rio": "La Pasión",
-      "desde": "11/09/2026 08:00",
-      "hasta": "11/09/2026 14:00",
-      "horas_transcurridas": 6.0,
-      "delta_nivel_m": 0.0,
-      "delta_caudal_m3s": 0.0,
-      "tendencia_calculada": "estable"
+      "desde": "11/09/2026 14:00",
+      "hasta": "12/09/2026 08:00",
+      "horas_transcurridas": 18.0,
+      "delta_nivel_m": -0.07,
+      "delta_caudal_m3s": -9.4,
+      "tendencia_calculada": "disminuyendo"
     },
     {
       "estacion": "Playa Grande",
       "rio": "Chixoy",
-      "desde": "11/09/2026 08:00",
-      "hasta": "11/09/2026 14:00",
-      "horas_transcurridas": 6.0,
-      "delta_nivel_m": -0.1,
-      "delta_caudal_m3s": -16.41,
-      "tendencia_calculada": "disminuyendo"
+      "desde": "11/09/2026 14:00",
+      "hasta": "12/09/2026 08:00",
+      "horas_transcurridas": 18.0,
+      "delta_nivel_m": 0.05,
+      "delta_caudal_m3s": 8.06,
+      "tendencia_calculada": "incrementando"
     },
     {
       "estacion": "Puente Chocox",
       "rio": "Chixoy",
-      "desde": "11/09/2026 08:00",
-      "hasta": "11/09/2026 14:00",
-      "horas_transcurridas": 6.0,
-      "delta_nivel_m": 0.01,
-      "delta_caudal_m3s": 0.22,
+      "desde": "11/09/2026 14:00",
+      "hasta": "12/09/2026 08:00",
+      "horas_transcurridas": 18.0,
+      "delta_nivel_m": -0.02,
+      "delta_caudal_m3s": -0.43,
       "tendencia_calculada": "estable"
     }
   ],
@@ -765,11 +765,11 @@
     "insivumeh_saturacion": "https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/",
     "insivumeh_acumulados": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/"
   },
-  "senal_usumacinta_alta": "Señal aguas arriba en aumento",
+  "senal_usumacinta_alta": "Señal aguas arriba disminuyendo",
   "insivumeh_bhvgm_actual": {
-    "boletin": "761",
-    "fecha": "11/09/2026",
-    "hora": "14:00",
+    "boletin": "763",
+    "fecha": "12/09/2026",
+    "hora": "08:00",
     "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
     "estaciones": [
       {
@@ -779,8 +779,8 @@
         "nivel_referencia_max_m": 10.0,
         "caudal_referencia_min_m3s": 486.87,
         "caudal_referencia_max_m3s": 2856.43,
-        "nivel_instantaneo_m": 5.71,
-        "caudal_instantaneo_m3s": 991.22,
+        "nivel_instantaneo_m": 5.6,
+        "caudal_instantaneo_m3s": 943.39,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       },
@@ -791,8 +791,8 @@
         "nivel_referencia_max_m": 3.0,
         "caudal_referencia_min_m3s": 93.04,
         "caudal_referencia_max_m3s": 399.28,
-        "nivel_instantaneo_m": 1.78,
-        "caudal_instantaneo_m3s": 177.49,
+        "nivel_instantaneo_m": 1.71,
+        "caudal_instantaneo_m3s": 168.09,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       },
@@ -803,8 +803,8 @@
         "nivel_referencia_max_m": 1.9,
         "caudal_referencia_min_m3s": 178.87,
         "caudal_referencia_max_m3s": 633.81,
-        "nivel_instantaneo_m": -0.2,
-        "caudal_instantaneo_m3s": 163.1,
+        "nivel_instantaneo_m": -0.15,
+        "caudal_instantaneo_m3s": 171.16,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       },
@@ -815,8 +815,8 @@
         "nivel_referencia_max_m": 2.33,
         "caudal_referencia_min_m3s": 7.9,
         "caudal_referencia_max_m3s": 110.1,
-        "nivel_instantaneo_m": 0.57,
-        "caudal_instantaneo_m3s": 8.12,
+        "nivel_instantaneo_m": 0.55,
+        "caudal_instantaneo_m3s": 7.69,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       }
@@ -826,7 +826,7 @@
   "insivumeh_el_tigre_antecedente": null,
   "insivumeh_el_tigre_regla": "Antecedente informativo: no es observación del corte actual, no se hereda y no gobierna tendencia ni semáforo.",
   "insivumeh_contexto_diagnostico": {
-    "actualizado_utc": "2026-09-12T13:45:53.118410+00:00",
+    "actualizado_utc": "2026-09-12T16:32:59.061527+00:00",
     "errores": [],
     "lluvia": {
       "pagina": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
