@@ -267,6 +267,21 @@ def run_processor(pdf_path: Path, subject: str, message_key: str):
         raise RuntimeError(proc.stderr.strip() or f"procesar_niveles.js terminó con código {proc.returncode}")
 
 
+def is_nonfatal_format_error(exc: Exception) -> bool:
+    """Errores de formato de un PDF aislado que no deben bloquear cortes posteriores.
+
+    Se limita a fallas conocidas del extractor cuando un boletín intermedio
+    cambia su geometría. El reporte queda auditado como omitido, nunca se
+    fabrican datos y el agente continúa con mensajes posteriores válidos.
+    """
+    text = str(exc)
+    known = (
+        "No se pudo establecer la geometría de las 15 columnas hidrométricas",
+        "No se pudo establecer la geometria de las 15 columnas hidrometricas",
+    )
+    return any(marker in text for marker in known)
+
+
 def write_status(status):
     BASE.mkdir(parents=True, exist_ok=True)
     STATUS_FILE.write_text(json.dumps(status, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -332,6 +347,7 @@ def main():
             "latest_subject": None,
             "latest_message_utc": None,
             "errors": [],
+            "skipped_nonfatal": [],
             "accounts": [
                 {k: v for k, v in r.items() if k not in {"token", "user", "candidates"}}
                 | {"candidate_count": len(r.get("candidates", []))}
@@ -353,6 +369,7 @@ def main():
     processed = load_processed()
     processed_now = 0
     errors = []
+    skipped_nonfatal = []
     latest_subject = None
     latest_message_time = None
 
@@ -388,6 +405,17 @@ def main():
                 processed.add(message_key)
                 processed_now += 1
             except Exception as exc:
+                if is_nonfatal_format_error(exc):
+                    processed.add(message_key)
+                    skipped_nonfatal.append(
+                        {
+                            "message_id": mid,
+                            "subject": subject,
+                            "reason": "PDF con geometría no compatible; omitido sin bloquear reportes posteriores.",
+                        }
+                    )
+                    print(f"Reporte {mid} omitido por formato no compatible; se continúa con cortes posteriores.")
+                    continue
                 errors.append(
                     {
                         "message_id": mid,
@@ -412,6 +440,7 @@ def main():
         "latest_subject": latest_subject,
         "latest_message_utc": latest_message_time,
         "errors": errors,
+        "skipped_nonfatal": skipped_nonfatal,
         "accounts": [
             {
                 "label": r.get("label"),
