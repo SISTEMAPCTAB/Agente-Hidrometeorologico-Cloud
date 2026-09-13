@@ -1,15 +1,19 @@
 {
   "date_local": "2026-09-13",
-  "updated_local": "2026-09-13T00:01:40.740910-06:00",
+  "updated_local": "2026-09-13T04:27:33.356141-06:00",
   "units": {
     "temperature": "°C",
     "heat_index": "°C"
   },
-  "current_valid_stations": 20,
+  "current_valid_stations": 17,
   "current_excluded_stations": [
     {
       "estacion": "ACALA PCIVILCHIAPAS",
       "motivo": "edad_mayor_2h"
+    },
+    {
+      "estacion": "AMATÁN PCIVILCHIAPAS",
+      "motivo": "sin_temperatura"
     },
     {
       "estacion": "ATA",
@@ -44,15 +48,23 @@
       "motivo": "edad_mayor_2h"
     },
     {
+      "estacion": "PALENQUE PCIVILCHIAPAS",
+      "motivo": "sin_temperatura"
+    },
+    {
       "estacion": "REFORMA PCIVILCHIAPAS",
       "motivo": "edad_mayor_2h"
+    },
+    {
+      "estacion": "SALTO DE AGUA PCIVILCHIAPAS",
+      "motivo": "sin_temperatura"
     },
     {
       "estacion": "SEMAR Capitanía de Pto. Dos Bocas",
       "motivo": "edad_mayor_2h"
     },
     {
-      "estacion": "Urrutia",
+      "estacion": "Yaxhá - INSIVUMEH PETEN",
       "motivo": "edad_mayor_2h"
     }
   ],
@@ -67,20 +79,20 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Otra ubicación",
       "ubicacion": "Alvarado, Ver., Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:01 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:26 AM",
       "nivel_riesgo_max": "Peligro"
     },
     {
       "estacion": "SEMAR E.I.O. Cd. del Carmen.",
-      "max_temp_c": 27.8,
-      "max_temp_time": "Sep 13, 2026/ 12:01 AM",
-      "max_heat_index_c": 32.1,
-      "max_heat_index_time": "Sep 13, 2026/ 12:01 AM",
+      "max_temp_c": 28.9,
+      "max_temp_time": "Sep 13, 2026/ 4:27 AM",
+      "max_heat_index_c": 35.1,
+      "max_heat_index_time": "Sep 13, 2026/ 4:27 AM",
       "max_heat_basis": "Índice de calor",
       "territory": "Otra ubicación",
       "ubicacion": "Ciudad del Carmen, Camp., Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:01 AM",
-      "nivel_riesgo_max": "Precaución"
+      "last_valid_time": "Sep 13, 2026/ 4:27 AM",
+      "nivel_riesgo_max": "Precaución extrema"
     },
     {
       "estacion": "PASO LA MINA",
@@ -91,7 +103,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Tabasco",
       "ubicacion": "Ingenio Presidente Benito Juárez, Tab., Mexico",
-      "last_valid_time": "Sep 12, 2026/ 11:00 PM",
+      "last_valid_time": "Sep 13, 2026/ 4:00 AM",
       "nivel_riesgo_max": "Precaución"
     },
     {
@@ -103,7 +115,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Chiapas",
       "ubicacion": "Ostuacán, Chiapas, Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:01 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:27 AM",
       "nivel_riesgo_max": "Precaución"
     },
     {
@@ -127,7 +139,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Tabasco",
       "ubicacion": "Villahermosa, Tab., Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:00 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:26 AM",
       "nivel_riesgo_max": "Precaución"
     },
     {
@@ -139,7 +151,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Tabasco",
       "ubicacion": "Los Ídolos, Tab., Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:01 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:27 AM",
       "nivel_riesgo_max": "Precaución"
     },
     {
@@ -151,7 +163,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Juárez, Chiapas, Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:01 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:27 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -163,7 +175,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Benito Juárez Garcia Poblado C-21, Tab., Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:00 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:00 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -175,7 +187,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Pichucalco, Chiapas, Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:01 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:27 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -199,7 +211,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Dos Montes, Tab., Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:00 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:26 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -235,7 +247,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Chapultenango, Chiapas, Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:01 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:27 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -247,7 +259,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ocozocoautla, Chiapas, Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:01 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:27 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -259,7 +271,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ixhuatán, Chiapas, Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:01 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:27 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -271,19 +283,31 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:01 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:27 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
       "estacion": "Sinai",
       "max_temp_c": 23.3,
-      "max_temp_time": "Sep 13, 2026/ 12:00 AM",
+      "max_temp_time": "Sep 13, 2026/ 4:15 AM",
       "max_heat_index_c": 23.3,
-      "max_heat_index_time": "Sep 13, 2026/ 12:00 AM",
+      "max_heat_index_time": "Sep 13, 2026/ 4:15 AM",
       "max_heat_basis": "Temperatura del aire",
       "territory": "Otra ubicación",
       "ubicacion": "Palenque, Chis., Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:00 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:15 AM",
+      "nivel_riesgo_max": "Normal"
+    },
+    {
+      "estacion": "Urrutia",
+      "max_temp_c": 23.3,
+      "max_temp_time": "Sep 13, 2026/ 4:26 AM",
+      "max_heat_index_c": 23.3,
+      "max_heat_index_time": "Sep 13, 2026/ 4:26 AM",
+      "max_heat_basis": "Temperatura del aire",
+      "territory": "Guatemala/Petén",
+      "ubicacion": "Petén, Guatemala",
+      "last_valid_time": "Sep 13, 2026/ 4:26 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -295,7 +319,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Sep 13, 2026/ 12:01 AM",
+      "last_valid_time": "Sep 13, 2026/ 4:27 AM",
       "nivel_riesgo_max": "Normal"
     }
   ],
@@ -326,7 +350,7 @@
     },
     {
       "territorio": "Guatemala/Petén",
-      "estaciones": 1,
+      "estaciones": 2,
       "max_temp_c": 26.7,
       "max_heat_index_c": 30.4,
       "estacion_mas_caliente": "Yaxhá - INSIVUMEH PETEN",
