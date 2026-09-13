@@ -18,10 +18,11 @@
     const idx=[];
     headers.forEach((th,i)=>{
       const h=norm(th.textContent);
-      // El reporte horario CONAGUA no publica ventanas de 1 h / 6 h ni
-      // temperatura/humedad para estas filas. Se eliminan sólo de CONAGUA;
-      // WeatherLink conserva todas sus columnas porque sí dispone de ellas.
-      if(h==='1 h'||h==='6 h'||h==='temperatura'||h==='humedad')idx.push(i);
+      // En estas tablas la fuente ya está identificada por el propio apartado
+      // CONAGUA. Además, el reporte horario no publica 1 h / 6 h ni
+      // temperatura/humedad para estas filas. Se eliminan sólo aquí;
+      // WeatherLink conserva sus columnas completas.
+      if(h==='fuente'||h==='1 h'||h==='6 h'||h==='temperatura'||h==='humedad')idx.push(i);
     });
     if(!idx.length)return;
     idx.sort((a,b)=>b-a).forEach(i=>{
