@@ -1,48 +1,48 @@
 {
-  "generated_utc": "2026-09-13T14:39:30.793726+00:00",
+  "generated_utc": "2026-09-13T17:43:07.412363+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
     "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h",
-    "aviso": "255",
-    "fecha": "12 de Septiembre del 2026.",
+    "aviso": "256",
+    "fecha": "13 de Septiembre del 2026.",
     "emision": "10:00h",
     "ventanas": {
       "0-24": {
         "Peñitas": {
-          "texto": "5 a 25",
-          "min_mm": 5.0,
-          "max_mm": 25.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         },
         "Malpaso": {
-          "texto": "5 a 25",
-          "min_mm": 5.0,
-          "max_mm": 25.0
+          "texto": "75 a 150",
+          "min_mm": 75.0,
+          "max_mm": 150.0
         },
         "Chicoasén": {
-          "texto": "5 a 25",
-          "min_mm": 5.0,
-          "max_mm": 25.0
+          "texto": "75 a 150",
+          "min_mm": 75.0,
+          "max_mm": 150.0
         },
         "La Angostura": {
-          "texto": "5 a 25",
-          "min_mm": 5.0,
-          "max_mm": 25.0
+          "texto": "75 a 150",
+          "min_mm": 75.0,
+          "max_mm": 150.0
         },
         "Bajo Grijalva-Ríos de la Sierra": {
-          "texto": "5 a 25",
-          "min_mm": 5.0,
-          "max_mm": 25.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         },
         "Usumacinta": {
-          "texto": "50 a 75",
-          "min_mm": 50.0,
-          "max_mm": 75.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         },
         "Presa Juan Sabines": {
-          "texto": "5 a 25",
-          "min_mm": 5.0,
-          "max_mm": 25.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         }
       },
       "24-48": {
@@ -57,9 +57,9 @@
           "max_mm": 50.0
         },
         "Chicoasén": {
-          "texto": "75 a 150",
-          "min_mm": 75.0,
-          "max_mm": 150.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "La Angostura": {
           "texto": "25 a 50",
@@ -67,19 +67,19 @@
           "max_mm": 50.0
         },
         "Bajo Grijalva-Ríos de la Sierra": {
-          "texto": "25 a 50",
-          "min_mm": 25.0,
-          "max_mm": 50.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Usumacinta": {
-          "texto": "25 a 50",
-          "min_mm": 25.0,
-          "max_mm": 50.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Presa Juan Sabines": {
-          "texto": "25 a 50",
-          "min_mm": 25.0,
-          "max_mm": 50.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         }
       },
       "48-72": {
@@ -121,34 +121,34 @@
       },
       "72-96": {
         "Peñitas": {
-          "texto": "5 a 25",
-          "min_mm": 5.0,
-          "max_mm": 25.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         },
         "Malpaso": {
-          "texto": "0.1 a 5",
-          "min_mm": 0.1,
-          "max_mm": 5.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Chicoasén": {
-          "texto": "0.1 a 5",
-          "min_mm": 0.1,
-          "max_mm": 5.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "La Angostura": {
-          "texto": "0.1 a 5",
-          "min_mm": 0.1,
-          "max_mm": 5.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Bajo Grijalva-Ríos de la Sierra": {
-          "texto": "5 a 25",
-          "min_mm": 5.0,
-          "max_mm": 25.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         },
         "Usumacinta": {
-          "texto": "5 a 25",
-          "min_mm": 5.0,
-          "max_mm": 25.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         },
         "Presa Juan Sabines": {
           "texto": "0.1 a 5",
@@ -161,55 +161,55 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sun, 13 Sep 2026 14:39:31 GMT"
+      "last_modified": "Sun, 13 Sep 2026 17:43:07 GMT"
     },
-    "resumen": "La presencia de un canal de baja presión, inestabilidad atmosférica y onda tropical núm. 39 sobre el sureste mexicano, ocasionarán lluvias puntuales muy fuertes en la cuenca de Usumacinta; además de intervalos de chubascos en las cuencas de Malpaso, La Angostura, Peñitas, Chicoasén, Bajo Grijalva y Juan Sabines. A su vez, el ambiente será de caluroso a muy caluroso sobre la región durante el periodo de pronóstico.",
+    "resumen": "Para este día, un canal de baja presión, vaguada en niveles altos y el paso de la onda tropical núm. 39 sobre el sureste mexicano, ocasionarán lluvias puntuales intensas en las cuencas de Malpaso, Chicoasén y La Angostura; además de lluvias puntuales fuertes en las cuencas de Usumacinta, Peñitas, Bajo Grijalva y Juan Sabines. Durante el periodo de pronóstico prevalecerá el ambiente caluroso a muy caluroso sobre la región.",
     "detalle_ventanas": {
       "0-24": {
         "Peñitas": {
           "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "34 a 36",
           "temperatura_min_c": "23 a 25",
-          "viento_sostenido_kmh": "N 10 a 20",
-          "rachas_kmh": "35"
+          "viento_sostenido_kmh": "N 15 a 25",
+          "rachas_kmh": "40"
         },
         "Malpaso": {
           "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "31 a 33",
           "temperatura_min_c": "22 a 24",
-          "viento_sostenido_kmh": "N 15 a 25",
-          "rachas_kmh": "40"
+          "viento_sostenido_kmh": "N 20 a 30",
+          "rachas_kmh": "45"
         },
         "Chicoasén": {
-          "precipitacion_mm": "75 a 150",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "33 a 35",
           "temperatura_min_c": "22 a 24",
-          "viento_sostenido_kmh": "NO 15 a 25",
+          "viento_sostenido_kmh": "Variable 15 a 25",
           "rachas_kmh": "40"
         },
         "La Angostura": {
           "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "34 a 36",
           "temperatura_min_c": "23 a 25",
-          "viento_sostenido_kmh": "Variable 20 a 30",
+          "viento_sostenido_kmh": "Variable 25 a 35",
           "rachas_kmh": "55"
         },
         "Bajo Grijalva-Ríos de la Sierra": {
-          "precipitacion_mm": "25 a 50",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "37 a 39",
           "temperatura_min_c": "24 a 26",
           "viento_sostenido_kmh": "NE 25 a 35",
           "rachas_kmh": "55"
         },
         "Usumacinta": {
-          "precipitacion_mm": "25 a 50",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "32 a 34",
           "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "E 15 a 25",
-          "rachas_kmh": "10"
+          "rachas_kmh": "40"
         },
         "Presa Juan Sabines": {
-          "precipitacion_mm": "25 a 50",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "30 a 32",
           "temperatura_min_c": "19 a 21",
           "viento_sostenido_kmh": "SO 10 a 20",
@@ -228,14 +228,14 @@
           "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "32 a 34",
           "temperatura_min_c": "23 a 25",
-          "viento_sostenido_kmh": "N 20 a 30",
+          "viento_sostenido_kmh": "NO 20 a 30",
           "rachas_kmh": "45"
         },
         "Chicoasén": {
           "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "34 a 36",
           "temperatura_min_c": "23 a 25",
-          "viento_sostenido_kmh": "Variable 15 a 25",
+          "viento_sostenido_kmh": "NO 15 a 25",
           "rachas_kmh": "40"
         },
         "La Angostura": {
@@ -256,106 +256,55 @@
           "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "33 a 35",
           "temperatura_min_c": "23 a 25",
-          "viento_sostenido_kmh": "E 15 a 25",
-          "rachas_kmh": "40"
-        },
-        "Presa Juan Sabines": {
-          "precipitacion_mm": "0.1 a 5",
-          "temperatura_max_c": "30 a 32",
-          "temperatura_min_c": "20 a 22",
-          "viento_sostenido_kmh": "SO 15 a 25",
-          "rachas_kmh": "40"
-        }
-      },
-      "48-72": {
-        "Peñitas": {
-          "precipitacion_mm": "5 a 25",
-          "temperatura_max_c": "34 a 36",
-          "temperatura_min_c": "23 a 25",
-          "viento_sostenido_kmh": "N 15 a 25",
-          "rachas_kmh": "40"
-        },
-        "Malpaso": {
-          "precipitacion_mm": "0.1 a 5",
-          "temperatura_max_c": "31 a 33",
-          "temperatura_min_c": "22 a 24",
-          "viento_sostenido_kmh": "NO 20 a 30",
-          "rachas_kmh": "45"
-        },
-        "Chicoasén": {
-          "precipitacion_mm": "0.1 a 5",
-          "temperatura_max_c": "33 a 35",
-          "temperatura_min_c": "22 a 24",
-          "viento_sostenido_kmh": "NO 15 a 25",
-          "rachas_kmh": "40"
-        },
-        "La Angostura": {
-          "precipitacion_mm": "0.1 a 5",
-          "temperatura_max_c": "34 a 36",
-          "temperatura_min_c": "23 a 25",
-          "viento_sostenido_kmh": "Variable 25 a 35",
-          "rachas_kmh": "55"
-        },
-        "Bajo Grijalva-Ríos de la Sierra": {
-          "precipitacion_mm": "5 a 25",
-          "temperatura_max_c": "36 a 38",
-          "temperatura_min_c": "24 a 26",
-          "viento_sostenido_kmh": "NE 25 a 35",
-          "rachas_kmh": "55"
-        },
-        "Usumacinta": {
-          "precipitacion_mm": "5 a 25",
-          "temperatura_max_c": "32 a 34",
-          "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "E 10 a 20",
           "rachas_kmh": "35"
         },
         "Presa Juan Sabines": {
           "precipitacion_mm": "0.1 a 5",
           "temperatura_max_c": "30 a 32",
-          "temperatura_min_c": "19 a 21",
+          "temperatura_min_c": "20 a 22",
           "viento_sostenido_kmh": "SO 10 a 20",
           "rachas_kmh": "35"
         }
       },
-      "72-96": {
+      "48-72": {
         "Peñitas": {
-          "precipitacion_mm": "5 a 25",
+          "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "34 a 36",
           "temperatura_min_c": "23 a 25",
           "viento_sostenido_kmh": "N 15 a 25",
-          "rachas_kmh": "40"
+          "rachas_kmh": "45"
         },
         "Malpaso": {
-          "precipitacion_mm": "0.1 a 5",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "31 a 33",
           "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "NO 20 a 30",
           "rachas_kmh": "45"
         },
         "Chicoasén": {
-          "precipitacion_mm": "0.1 a 5",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "33 a 35",
           "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "NO 15 a 25",
           "rachas_kmh": "50"
         },
         "La Angostura": {
-          "precipitacion_mm": "0.1 a 5",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "34 a 36",
           "temperatura_min_c": "23 a 25",
           "viento_sostenido_kmh": "NE 25 a 35",
           "rachas_kmh": "60"
         },
         "Bajo Grijalva-Ríos de la Sierra": {
-          "precipitacion_mm": "5 a 25",
-          "temperatura_max_c": "37 a 39",
+          "precipitacion_mm": "25 a 50",
+          "temperatura_max_c": "36 a 38",
           "temperatura_min_c": "24 a 26",
           "viento_sostenido_kmh": "NE 25 a 35",
           "rachas_kmh": "55"
         },
         "Usumacinta": {
-          "precipitacion_mm": "5 a 25",
+          "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "32 a 34",
           "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "E 10 a 20",
@@ -368,6 +317,57 @@
           "viento_sostenido_kmh": "N 10 a 20",
           "rachas_kmh": "30"
         }
+      },
+      "72-96": {
+        "Peñitas": {
+          "precipitacion_mm": "25 a 50",
+          "temperatura_max_c": "34 a 36",
+          "temperatura_min_c": "23 a 25",
+          "viento_sostenido_kmh": "NO 15 a 25",
+          "rachas_kmh": "50"
+        },
+        "Malpaso": {
+          "precipitacion_mm": "5 a 25",
+          "temperatura_max_c": "31 a 33",
+          "temperatura_min_c": "22 a 24",
+          "viento_sostenido_kmh": "N 25 a 35",
+          "rachas_kmh": "60"
+        },
+        "Chicoasén": {
+          "precipitacion_mm": "5 a 25",
+          "temperatura_max_c": "33 a 35",
+          "temperatura_min_c": "22 a 24",
+          "viento_sostenido_kmh": "NO 15 a 25",
+          "rachas_kmh": "55"
+        },
+        "La Angostura": {
+          "precipitacion_mm": "5 a 25",
+          "temperatura_max_c": "34 a 36",
+          "temperatura_min_c": "23 a 25",
+          "viento_sostenido_kmh": "N 25 a 35",
+          "rachas_kmh": "65"
+        },
+        "Bajo Grijalva-Ríos de la Sierra": {
+          "precipitacion_mm": "25 a 50",
+          "temperatura_max_c": "37 a 39",
+          "temperatura_min_c": "24 a 26",
+          "viento_sostenido_kmh": "N 25 a 35",
+          "rachas_kmh": "50"
+        },
+        "Usumacinta": {
+          "precipitacion_mm": "25 a 50",
+          "temperatura_max_c": "32 a 34",
+          "temperatura_min_c": "22 a 24",
+          "viento_sostenido_kmh": "NE 15 a 25",
+          "rachas_kmh": "45"
+        },
+        "Presa Juan Sabines": {
+          "precipitacion_mm": "0.1 a 5",
+          "temperatura_max_c": "30 a 32",
+          "temperatura_min_c": "19 a 21",
+          "viento_sostenido_kmh": "NO 10 a 20",
+          "rachas_kmh": "30"
+        }
       }
     },
     "detalle_completo": true
@@ -376,21 +376,16 @@
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 360 h",
     "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-360h",
-    "aviso": "255",
-    "fecha": "12 de Septiembre del 2026.",
+    "aviso": "256",
+    "fecha": "13 de Septiembre del 2026.",
     "emision": "10:00h",
     "periodos": [
       {
         "ventana": "96-168 h",
-        "validez": "del 15 al 18 de septiembre de 2026",
-        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 150 a 250 mm en las cuencas de Bajo Grijalva, Peñitas y Malpaso; lluvias con acumulados de 75 a 150 mm en la cuenca de Usumacinta; lluvias con acumulados de 25 a 50 mm en la cuenca de Chicoasén; así como lluvias con acumulados de 5 a 25 mm en las cuencas de La Angostura y Juan Sabines.",
+        "validez": "del 16 al 19 de septiembre de 2026",
+        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 150 a 250 mm en las cuencas de Bajo Grijalva y Peñitas; lluvias con acumulados de 75 a 150 mm en las cuencas de Usumacinta, Malpaso y La Angostura; lluvias con acumulados de 50 a 75 mm en la cuenca de Juan Sabines; así como lluvias con acumulados de 5 a 25 mm en la cuenca de Chicoasén.",
         "rangos_por_cuenca": {
           "Peñitas": {
-            "texto": "150 a 250",
-            "min_mm": 150.0,
-            "max_mm": 250.0
-          },
-          "Malpaso": {
             "texto": "150 a 250",
             "min_mm": 150.0,
             "max_mm": 250.0
@@ -400,22 +395,27 @@
             "min_mm": 150.0,
             "max_mm": 250.0
           },
+          "Malpaso": {
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
+          },
+          "La Angostura": {
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
+          },
           "Usumacinta": {
             "texto": "75 a 150",
             "min_mm": 75.0,
             "max_mm": 150.0
           },
-          "Chicoasén": {
-            "texto": "25 a 50",
-            "min_mm": 25.0,
-            "max_mm": 50.0
-          },
-          "La Angostura": {
-            "texto": "5 a 25",
-            "min_mm": 5.0,
-            "max_mm": 25.0
-          },
           "Presa Juan Sabines": {
+            "texto": "50 a 75",
+            "min_mm": 50.0,
+            "max_mm": 75.0
+          },
+          "Chicoasén": {
             "texto": "5 a 25",
             "min_mm": 5.0,
             "max_mm": 25.0
@@ -424,9 +424,14 @@
       },
       {
         "ventana": "168-360 h",
-        "validez": "del 18 al 26 de septiembre 2026",
-        "descripcion": "Durante el periodo de pronóstico, se prevén lluvias con acumulados de 250 a 300 mm en la cuenca de Usumacinta; lluvias con acumulados de 150 a 250 mm en las cuencas de Bajo Grijalva, Peñitas, Malpaso y La Angostura; lluvias con acumulados de 50 a 75 mm en la cuenca de Juan Sabines; además de lluvias con acumulados de 5 a 25 mm en la cuenca de Chicoasén.",
+        "validez": "del 19 al 27 de septiembre 2026",
+        "descripcion": "Durante el periodo de pronóstico, se prevén lluvias con acumulados de 250 a 300 mm en las cuencas de Bajo Grijalva y Usumacinta; lluvias con acumulados de 150 a 250 mm en las cuencas de Peñitas y Malpaso; lluvias con acumulados de 75 a 150 mm en las cuencas de La Angostura y Juan Sabines; además de lluvias con acumulados de 50 a 75 mm en la cuenca de Chicoasén.",
         "rangos_por_cuenca": {
+          "Bajo Grijalva-Ríos de la Sierra": {
+            "texto": "250 a 300",
+            "min_mm": 250.0,
+            "max_mm": 300.0
+          },
           "Usumacinta": {
             "texto": "250 a 300",
             "min_mm": 250.0,
@@ -443,24 +448,19 @@
             "max_mm": 250.0
           },
           "La Angostura": {
-            "texto": "150 a 250",
-            "min_mm": 150.0,
-            "max_mm": 250.0
-          },
-          "Bajo Grijalva-Ríos de la Sierra": {
-            "texto": "150 a 250",
-            "min_mm": 150.0,
-            "max_mm": 250.0
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
           },
           "Presa Juan Sabines": {
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
+          },
+          "Chicoasén": {
             "texto": "50 a 75",
             "min_mm": 50.0,
             "max_mm": 75.0
-          },
-          "Chicoasén": {
-            "texto": "5 a 25",
-            "min_mm": 5.0,
-            "max_mm": 25.0
           }
         }
       }
@@ -469,7 +469,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sun, 13 Sep 2026 14:39:31 GMT"
+      "last_modified": "Sun, 13 Sep 2026 17:43:08 GMT"
     }
   },
   "insivumeh": {
@@ -826,7 +826,7 @@
   "insivumeh_el_tigre_antecedente": null,
   "insivumeh_el_tigre_regla": "Antecedente informativo: no es observación del corte actual, no se hereda y no gobierna tendencia ni semáforo.",
   "insivumeh_contexto_diagnostico": {
-    "actualizado_utc": "2026-09-13T14:39:38.537162+00:00",
+    "actualizado_utc": "2026-09-13T17:43:15.466732+00:00",
     "errores": [],
     "lluvia": {
       "pagina": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
