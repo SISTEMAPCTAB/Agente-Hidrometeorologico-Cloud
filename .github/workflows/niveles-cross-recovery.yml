@@ -1,0 +1,161 @@
+name: Recuperación Independiente Niveles
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/niveles-cross-recovery.yml'
+  schedule:
+    # Respaldo totalmente independiente. Sólo actúa si el agente de niveles
+    # lleva más de 35 minutos sin una revisión válida.
+    - cron: '3,13,23,33,43,53 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: niveles-cross-recovery
+  cancel-in-progress: true
+
+jobs:
+  recuperar-si-atrasado:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Evaluar frescura del agente de niveles
+        id: stale
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          p = Path('data/niveles/Estado_Niveles_Cloud.json')
+          recover = True
+          age_min = None
+          reason = 'estado inexistente o inválido'
+          try:
+              s = json.loads(p.read_text(encoding='utf-8'))
+              run_utc = s.get('run_utc')
+              complete = s.get('complete') is True
+              errors = s.get('errors') or []
+              stations = int(s.get('stations_in_latest_summary') or 0)
+              if run_utc:
+                  d = datetime.fromisoformat(run_utc.replace('Z', '+00:00'))
+                  if d.tzinfo is None:
+                      d = d.replace(tzinfo=timezone.utc)
+                  age_min = (datetime.now(timezone.utc) - d.astimezone(timezone.utc)).total_seconds()/60.0
+                  healthy = complete and not errors and stations > 0
+                  recover = (not healthy) or age_min > 35
+                  reason = f'complete={complete}; estaciones={stations}; errores={len(errors)}; antigüedad={age_min:.1f} min'
+          except Exception as exc:
+              reason = f'no se pudo leer estado: {exc}'
+
+          print('Estado niveles:', reason)
+          print('Recuperar:', recover)
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
+              fh.write(f"recover={'true' if recover else 'false'}\n")
+          PY
+
+      - name: Estado reciente; no intervenir
+        if: steps.stale.outputs.recover != 'true'
+        run: echo "El agente de niveles está reciente. Respaldo sin intervención."
+
+      - name: Configurar Python
+        if: steps.stale.outputs.recover == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Instalar dependencias
+        if: steps.stale.outputs.recover == 'true'
+        run: pip install -r requirements.txt
+
+      - name: Recuperar correo y productos de niveles
+        if: steps.stale.outputs.recover == 'true'
+        env:
+          CARBONIO_BASE: https://correo.tabasco.gob.mx
+          CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
+          CARBONIO_PASSWORD: ${{ secrets.CARBONIO_PASSWORD }}
+          CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
+          CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
+          NIVELES_BASE: data/niveles
+        shell: bash
+        run: |
+          set -e
+          python src/niveles_cloud_robusto.py
+          python src/niveles_horas_cloud.py
+          python src/fuente2_niveles.py
+          python src/extraer_clima_boletines.py
+          python src/lluvia_conagua_cloud.py
+          python src/niveles_postprocess.py
+          python src/resumen_12h_niveles.py
+          python src/generar_word_niveles.py
+
+      - name: Verificar recuperación
+        if: steps.stale.outputs.recover == 'true'
+        shell: bash
+        run: |
+          set -e
+          test -s data/niveles/Ultimo_Corte/ultimo_resumen.json
+          test -s data/niveles/Historico/niveles_historicos.json
+          test -s data/niveles/Estado_Niveles_Cloud.json
+          python3 - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          s=json.loads(Path('data/niveles/Estado_Niveles_Cloud.json').read_text(encoding='utf-8'))
+          assert s.get('complete') is True, 'La recuperación de niveles no terminó completa'
+          assert int(s.get('stations_in_latest_summary') or 0) > 0, 'Resumen de niveles vacío'
+          assert not (s.get('errors') or []), f"Errores del agente: {s.get('errors')}"
+          d=datetime.fromisoformat(str(s['run_utc']).replace('Z','+00:00'))
+          if d.tzinfo is None:
+              d=d.replace(tzinfo=timezone.utc)
+          age=(datetime.now(timezone.utc)-d.astimezone(timezone.utc)).total_seconds()/60.0
+          assert age < 20, f'El agente terminó pero su estado quedó antiguo: {age:.1f} min'
+          print(f"Recuperación validada: {s.get('stations_in_latest_summary')} estaciones; edad {age:.1f} min; corte {s.get('latest_subject')}")
+          PY
+
+      - name: Publicar recuperación de niveles
+        if: steps.stale.outputs.recover == 'true'
+        shell: bash
+        run: |
+          set -e
+          git config user.name "Agente Hidrometeorologico Respaldo"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/niveles
+          if git diff --cached --quiet; then
+            echo "La recuperación no produjo cambios nuevos."
+            exit 0
+          fi
+          git stash push --include-untracked -m "niveles-cross-recovery"
+          git pull --rebase origin main
+          git stash pop
+          git add data/niveles
+          if git diff --cached --quiet; then
+            echo "Los cambios ya fueron publicados por otra ejecución."
+            exit 0
+          fi
+          git commit -m "Recuperación independiente actualiza niveles [skip ci]"
+          for intento in 1 2 3 4; do
+            echo "Intento de publicación ${intento}/4"
+            if git pull --rebase origin main && git push origin main; then
+              echo "Recuperación de niveles publicada."
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((intento * 10))
+          done
+          echo "No fue posible publicar la recuperación de niveles."
+          exit 1
