@@ -125,6 +125,35 @@ function extractRain(items,date,hour){
   return {blocks,rows:[...seen.values()],diagnostic:null};
 }
 
+function previousDate(iso){
+  const m=String(iso||'').match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(!m)return null;
+  const d=new Date(Date.UTC(Number(m[1]),Number(m[2])-1,Number(m[3])-1));
+  return d.toISOString().slice(0,10);
+}
+function hourOf(iso){
+  const m=String(iso||'').match(/T(\d{2}):/); return m?Number(m[1]):null;
+}
+function previous24Block(hist,row){
+  const day=previousDate(row.fecha_hora); if(!day)return null;
+  const wantedHour=hourOf(row.fecha_hora);
+  const candidates=hist.filter(x=>
+    norm(x?.estacion)===norm(row.estacion) &&
+    String(x?.fecha_hora||'').slice(0,10)===day &&
+    norm(x?.estado_24h)==='OBSERVADO' &&
+    Number.isFinite(Number(x?.lluvia_24h_precedentes_mm))
+  );
+  if(!candidates.length)return null;
+  candidates.sort((a,b)=>{
+    const ah=hourOf(a.fecha_hora), bh=hourOf(b.fecha_hora);
+    const ad=(wantedHour==null||ah==null)?99:Math.abs(ah-wantedHour);
+    const bd=(wantedHour==null||bh==null)?99:Math.abs(bh-wantedHour);
+    if(ad!==bd)return ad-bd;
+    return new Date(b.fecha_hora)-new Date(a.fecha_hora);
+  });
+  return candidates[0];
+}
+
 (async()=>{
   const items=await pageItems(pdfPath,2);
   const allText=items.map(i=>i.str).join(' ');
@@ -133,21 +162,34 @@ function extractRain(items,date,hour){
   const result=extractRain(items,date,hour);
   const dir=path.join(base,'Lluvia_CONAGUA'); fs.mkdirSync(dir,{recursive:true});
   const latestRows=result.rows;
-  fs.writeFileSync(path.join(dir,'ultimo_corte.json'),JSON.stringify(latestRows,null,2));
 
   const histFile=path.join(dir,'historico.json'); let hist=[]; try{hist=JSON.parse(fs.readFileSync(histFile,'utf8'))}catch{}
   hist=hist.filter(r=>!isSectionLabel(r?.estacion));
+
+  // La columna "48 h anteriores" representa el bloque de 24 h inmediatamente
+  // anterior al bloque vigente de 24 h. Se recupera del mismo dato oficial
+  // publicado para la estación el día previo; nunca se suma, interpola ni inventa.
+  for(const r of latestRows){
+    const prev=previous24Block(hist,r);
+    r.lluvia_48h_precedentes_mm=prev?Number(prev.lluvia_24h_precedentes_mm):null;
+    r.estado_48h=prev?'observado':'sin_dato';
+    r.fecha_referencia_48h=prev?.fecha_hora||null;
+  }
+
+  fs.writeFileSync(path.join(dir,'ultimo_corte.json'),JSON.stringify(latestRows,null,2));
+
   const key=r=>`${r.fecha_hora}|${norm(r.estacion)}`;
   const map=new Map(hist.map(r=>[key(r),r])); for(const r of latestRows)map.set(key(r),r);
   hist=[...map.values()].sort((a,b)=>new Date(a.fecha_hora)-new Date(b.fecha_hora)||String(a.estacion).localeCompare(String(b.estacion)));
   fs.writeFileSync(histFile,JSON.stringify(hist,null,2));
 
-  const hdr=['fecha_hora','estacion','lluvia_24h_precedentes_mm','estado_24h','lluvia_hoy_desde_08_mm','estado_hoy','fuente'];
+  const hdr=['fecha_hora','estacion','lluvia_24h_precedentes_mm','estado_24h','lluvia_48h_precedentes_mm','estado_48h','fecha_referencia_48h','lluvia_hoy_desde_08_mm','estado_hoy','fuente'];
   fs.writeFileSync(path.join(dir,'ultimo_corte.csv'),hdr.join(',')+'\n'+latestRows.map(r=>hdr.map(h=>esc(r[h])).join(',')).join('\n'));
 
   const explicitZeros24=latestRows.filter(r=>r.lluvia_24h_precedentes_mm===0).length;
   const explicitZerosHoy=latestRows.filter(r=>r.lluvia_hoy_desde_08_mm===0).length;
   const blanks24=latestRows.filter(r=>r.lluvia_24h_precedentes_mm==null).length;
+  const blanks48=latestRows.filter(r=>r.lluvia_48h_precedentes_mm==null).length;
   const blanksHoy=latestRows.filter(r=>r.lluvia_hoy_desde_08_mm==null).length;
   const state={
     complete:latestRows.length>0,
@@ -159,13 +201,14 @@ function extractRain(items,date,hour){
     modo:latestRows.length?'precipitacion_conagua_validada_por_estructura':'sin_datos_precipitacion',
     significado_campos:{
       lluvia_24h_precedentes_mm:'PRECIPITACIÓN REGISTRADA A LAS 8:00 HR, ACUMULADAS EN 24:00 HR PRECEDENTES (A)',
+      lluvia_48h_precedentes_mm:'BLOQUE OFICIAL DE 24 H DEL DÍA PREVIO, MOSTRADO COMO 48 H ANTERIORES; se recupera del histórico de la misma estación y no se suma.',
       lluvia_hoy_desde_08_mm:'PRECIPITACIÓN ACUMULADA A PARTIR DE LAS 8:00 HR DEL DÍA ACTUAL (HOY)'
     },
     regla_blancos:'Celda en blanco = sin_dato; nunca se convierte a 0 mm. Solo se conserva 0 cuando CONAGUA publica explícitamente cero.',
-    conteo:{blancos_24h:blanks24,blancos_hoy:blanksHoy,ceros_explicitos_24h:explicitZeros24,ceros_explicitos_hoy:explicitZerosHoy},
+    conteo:{blancos_24h:blanks24,blancos_48h:blanks48,blancos_hoy:blanksHoy,ceros_explicitos_24h:explicitZeros24,ceros_explicitos_hoy:explicitZerosHoy},
     diagnostic:result.diagnostic
   };
   fs.writeFileSync(path.join(dir,'Estado_Lluvia_CONAGUA.json'),JSON.stringify(state,null,2));
-  console.log(`Lluvia CONAGUA pág.2: ${latestRows.length} estaciones; blancos HOY=${blanksHoy}; ceros HOY=${explicitZerosHoy}.`);
+  console.log(`Lluvia CONAGUA pág.2: ${latestRows.length} estaciones; blancos 48h=${blanks48}; blancos HOY=${blanksHoy}; ceros HOY=${explicitZerosHoy}.`);
   if(!latestRows.length) process.exit(3);
 })().catch(e=>{console.error(e.stack||String(e));process.exit(1)});
