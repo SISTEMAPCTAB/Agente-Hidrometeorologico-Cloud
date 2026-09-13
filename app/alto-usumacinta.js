@@ -1,6 +1,7 @@
 (() => {
   const BASE='..';
   const DATA_URL=`${BASE}/data/fuentes_publicas/latest.json`;
+  const AUTO_URL=`${BASE}/data/fuentes_publicas/insivumeh_automaticas.json`;
   const FUENTE1_URL=`${BASE}/data/latest/FUENTE1.txt`;
   const WEATHER_EXTRA_URL=`${BASE}/data/weatherlink/extra_latest.json`;
   const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
@@ -10,6 +11,8 @@
   const active=()=>document.querySelector('#nav button.active')?.dataset.section||'resumen';
   const human=v=>{if(!v)return's/d';const d=new Date(v);return Number.isNaN(d.getTime())?String(v):d.toLocaleString('es-MX',{timeZone:'America/Mexico_City',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:false})};
 
+  // Se conserva el catálogo completo para que una estación reaparezca
+  // automáticamente si INSIVUMEH vuelve a publicar un valor verificable.
   const RAIN_STATIONS=[
     ['El Tigre','INS171302AT','Usumacinta directo'],
     ['El Porvenir','INS171001AT','La Pasión'],
@@ -36,6 +39,15 @@
   function valueFor(list,name,code){
     const x=(list||[]).find(r=>norm(r.estacion)===norm(name)||norm(r.codigo)===norm(code));
     return x&&n(x.acumulado_mm)!==null?Number(x.acumulado_mm):null;
+  }
+
+  function autoStation(auto,name,code){
+    return (auto?.estaciones||[]).find(r=>norm(r.codigo)===norm(code)||norm(r.estacion)===norm(name))||null;
+  }
+
+  function autoAccum(auto,key,name,code,field){
+    const x=(auto?.[key]||[]).find(r=>norm(r.codigo)===norm(code)||norm(r.estacion)===norm(name));
+    return x&&n(x?.[field])!==null?Number(x[field]):null;
   }
 
   function safeMonthValue(extra,x){
@@ -74,16 +86,33 @@
     });
   }
 
-  function publicRows(doc,fuente1){
+  function publicRows(doc,fuente1,auto){
     const d24=findPeriodStations(doc,'24h');
     const week=findPeriodStations(doc,'semanal');
     const month=findPeriodStations(doc,'mensual');
     const season=findPeriodStations(doc,'epoca_lluviosa');
-    const generated=human(doc?.generated_utc);
-    const rows=RAIN_STATIONS.map(([name,code])=>{
-      const v24=valueFor(d24,name,code),vw=valueFor(week,name,code),vm=valueFor(month,name,code),vs=valueFor(season,name,code);
-      const recent=[v24,vw,vm].some(v=>v!==null);
-      return [
+    const generated=human(auto?.consultado_utc||doc?.generated_utc);
+    const rows=[];
+
+    for(const [name,code] of RAIN_STATIONS){
+      const ast=autoStation(auto,name,code);
+      const v24Map=valueFor(d24,name,code);
+      const v24Auto=ast&&n(ast.precipitacion_24h_mm)!==null?Number(ast.precipitacion_24h_mm):null;
+      const v24=v24Map!==null?v24Map:v24Auto;
+      const vw=valueFor(week,name,code);
+      const vm=valueFor(month,name,code);
+      const vsMap=valueFor(season,name,code);
+      const vsAuto=autoAccum(auto,'acumulados_epoca_lluviosa',name,code,'acumulado_epoca_lluviosa_mm');
+      const vs=vsMap!==null?vsMap:vsAuto;
+
+      // Regla visual: una estación INSIVUMEH sin ningún valor verificable no
+      // ocupa espacio en el cuadro operativo. No se elimina del catálogo.
+      // Si vuelve a publicar 24 h, semanal, mensual o época lluviosa,
+      // reaparece automáticamente en el siguiente corte.
+      const hasAny=[v24,vw,vm,vs].some(v=>v!==null);
+      if(!hasAny)continue;
+
+      rows.push([
         `<b>${esc(name)}</b>`,
         'INSIVUMEH',
         's/d','s/d','s/d',
@@ -93,9 +122,9 @@
         vm===null?'s/d':`${fmt(vm)} mm`,
         vs===null?'s/d':`${fmt(vs)} mm`,
         generated==='s/d'?'s/d':`${esc(generated)} (consulta)`,
-        recent?'dato puntual estructurado':'sin dato puntual estructurado reciente'
-      ];
-    });
+        'dato puntual estructurado disponible'
+      ]);
+    }
 
     const clean=String(fuente1||'').replace(/,/g,'');
     const m=clean.match(/BHG21\s+Lacant[uú]n\s+Ocosingo\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/i);
@@ -115,12 +144,13 @@
   }
 
   async function loadData(){
-    const [dr,tr,wr]=await Promise.all([
+    const [dr,ar,tr,wr]=await Promise.all([
       fetch(`${DATA_URL}?v=${Date.now()}`,{cache:'no-store'}),
+      fetch(`${AUTO_URL}?v=${Date.now()}`,{cache:'no-store'}),
       fetch(`${FUENTE1_URL}?v=${Date.now()}`,{cache:'no-store'}),
       fetch(`${WEATHER_EXTRA_URL}?v=${Date.now()}`,{cache:'no-store'})
     ]);
-    return {doc:dr.ok?await dr.json():{},txt:tr.ok?await tr.text():'',extra:wr.ok?await wr.json():{}};
+    return {doc:dr.ok?await dr.json():{},auto:ar.ok?await ar.json():{},txt:tr.ok?await tr.text():'',extra:wr.ok?await wr.json():{}};
   }
 
   async function renderWeather(){
@@ -130,8 +160,8 @@
     const groups=wl?.querySelector('.weather-source-groups');if(!groups)return;
     if(groups.querySelector('[data-unified-alto="1"]'))return;
     try{
-      const {doc,txt,extra}=await loadData();
-      const rows=[...weatherRows(extra),...publicRows(doc,txt)];
+      const {doc,auto,txt,extra}=await loadData();
+      const rows=[...weatherRows(extra),...publicRows(doc,txt,auto)];
       if(!rows.length)return;
       styles();
       const old=[...groups.querySelectorAll('.subcuenca-weather-block')].find(b=>norm(b.querySelector('h3')?.textContent)==='alto usumacinta');
@@ -139,9 +169,9 @@
       document.getElementById('altoUsumacintaRain')?.remove();
       const block=document.createElement('div');block.className='subcuenca-weather-block alto-usu';block.dataset.unifiedAlto='1';
       block.innerHTML=`<h3>Alto Usumacinta · precipitación observada</h3>
-        <p class="source-note">Vista única, sin duplicidades. WeatherLink aporta el acumulado diario observado (“Hoy”) y, cuando existe cobertura histórica suficiente, acumulados móviles de 1/6/24/48/72 h. INSIVUMEH y OCFS/CONAGUA sólo ocupan las columnas para las que publican un valor puntual verificable. s/d significa sin dato; nunca se convierte una ausencia en 0.0 mm.</p>
+        <p class="source-note">Vista única, sin duplicidades. WeatherLink aporta el acumulado diario observado (“Hoy”) y, cuando existe cobertura histórica suficiente, acumulados móviles de 1/6/24/48/72 h. INSIVUMEH y OCFS/CONAGUA sólo ocupan las columnas para las que publican un valor puntual verificable. Las estaciones INSIVUMEH sin ningún dato verificable se mantienen fuera de la vista operativa y reaparecen automáticamente cuando vuelven a publicar. s/d significa sin dato; nunca se convierte una ausencia en 0.0 mm.</p>
         ${table(['Estación','Fuente','Hoy','1 h','6 h','24 h','48 h','72 h','Semanal','Mensual','Acum. época lluviosa','Última actualización','Estado del dato'],rows)}
-        <p class="source-note">El valor “Hoy” de WeatherLink es el acumulado diario reportado por la estación y no equivale a una ventana móvil de 24 h. Los acumulados móviles aparecen sólo después de reunir cobertura real suficiente. Los acumulados de época lluviosa de INSIVUMEH se mantienen separados de la lluvia reciente. Cuando INSIVUMEH publica únicamente un mapa sin valor puntual estructurado, se conserva s/d y no se estima por color.</p>`;
+        <p class="source-note">El valor “Hoy” de WeatherLink es el acumulado diario reportado por la estación y no equivale a una ventana móvil de 24 h. Los acumulados móviles aparecen sólo después de reunir cobertura real suficiente. Los acumulados de época lluviosa de INSIVUMEH se mantienen separados de la lluvia reciente. Cuando INSIVUMEH publica únicamente un mapa sin valor puntual estructurado, no se estima por color.</p>`;
       const usu=[...groups.querySelectorAll('.subcuenca-weather-block')].find(b=>norm(b.querySelector('h3')?.textContent)==='usumacinta');
       if(usu)groups.insertBefore(block,usu);else groups.appendChild(block);
     }catch(e){/* no altera el resto de la página si una fuente falla */}
