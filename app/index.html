@@ -12,7 +12,6 @@
 <link rel="icon" href="app-icon-512.png?v=79" type="image/png"/>
 <link rel="apple-touch-icon" sizes="180x180" href="/Agente-Hidrometeorologico-Cloud/app/apple-touch-icon.png?v=79"/>
 <style>
-/* Primer render inmediato: evita pantalla blanca mientras llega la hoja completa. */
 html,body{margin:0;min-height:100%;background:#f4f2ee;color:#262626;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}*{box-sizing:border-box}.app-shell{min-height:100vh}.main{min-height:100vh}.topbar{min-height:116px;padding:22px 28px;display:flex;align-items:center;gap:18px;background:#fff;border-bottom:1px solid #ddd}.icon-btn{width:64px;height:64px;border:1px solid #ddd;border-radius:18px;background:#fff;font-size:30px;flex:0 0 auto}.topbar-brand{min-width:0;flex:1}.directorate{font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#7a1230}.topbar h1{margin:3px 0 0;font-size:32px;line-height:1.05}.topbar p{margin:4px 0 0;color:#707070}.top-actions{display:flex;align-items:center;flex:0 0 auto}.content,.status-strip{padding:18px 28px}.panel{background:#fff;border:1px solid #e2ded8;border-radius:18px;padding:18px}.sidebar{display:none}@media(min-width:900px){.app-shell{display:grid;grid-template-columns:270px 1fr}.sidebar{display:block;background:#fff;border-right:1px solid #ddd}.icon-btn{display:none}}@media(max-width:760px){.topbar{padding:18px 16px;min-height:110px;gap:10px;align-items:center}.icon-btn{width:56px;height:56px;font-size:28px}.topbar h1{font-size:29px}.directorate{font-size:12px;line-height:1.2}.topbar p{font-size:15px}.content,.status-strip{padding:16px}.top-actions{display:flex!important;flex:0 0 auto}.top-actions .btn{display:inline-flex!important;align-items:center;justify-content:center;visibility:visible!important;opacity:1!important;min-height:42px;padding:9px 12px;white-space:nowrap;font-size:15px}}
 .hydro48-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}.hydro48-card{border:1px solid #e2ded8;border-radius:14px;padding:10px;background:#fff}.hydro48-head{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.hydro48-head strong{color:#6f112d}.hydro48-head span,.hydro48-foot{font-size:11px;color:#666}.hydro48-card svg{display:block;width:100%;height:auto}.analysis-body{line-height:1.55}.analysis-body h2,.analysis-body h3{color:#6f112d}.analysis-table-wrap{width:100%;overflow-x:auto;margin:12px 0 18px}.analysis-table{width:100%;border-collapse:collapse;min-width:620px}.analysis-table th,.analysis-table td{border:1px solid #ddd7d1;padding:9px 10px;text-align:left;vertical-align:top}.analysis-table th{background:#f3eff0;color:#6f112d;font-weight:700}.analysis-table tbody tr:nth-child(even){background:#faf9f7}.panel ul{margin:8px 0 0;padding-left:22px}.panel li{margin:6px 0}.brand-institutional{padding:8px 6px}.topbar-brand{padding-left:2px}@media(max-width:760px){.hydro48-grid{grid-template-columns:1fr}.table-wrap table{min-width:760px}.analysis-table{min-width:620px}}
 </style>
@@ -21,14 +20,8 @@ html,body{margin:0;min-height:100%;background:#f4f2ee;color:#262626;font-family:
 </head>
 <body>
 <div class="app-shell">
-<aside class="sidebar" id="sidebar">
-<div class="brand brand-institutional"><div class="brand-copy"><strong>Monitoreo Hidrometeorológico</strong><span>Dirección Operativa y de Apoyo a la Población</span><small>Instituto de Protección Civil del Estado de Tabasco</small></div></div>
-<nav id="nav" class="nav"></nav><div class="sidebar-foot"><span id="cloudState">GitHub Cloud</span></div></aside>
-<main class="main">
-<header class="topbar"><button id="menuBtn" class="icon-btn" aria-label="Abrir menú">☰</button><div class="topbar-brand"><div><div class="directorate">Dirección Operativa y de Apoyo a la Población</div><h1 id="pageTitle">Resumen operativo</h1><p id="pageSubtitle">Consulta rápida · último corte válido</p></div></div><div class="top-actions"><button id="refreshBtn" class="btn">Actualizar</button></div></header>
-<section class="status-strip" id="statusStrip"></section>
-<section id="content" class="content"><div class="panel"><p>Cargando información operativa…</p></div></section>
-</main>
+<aside class="sidebar" id="sidebar"><div class="brand brand-institutional"><div class="brand-copy"><strong>Monitoreo Hidrometeorológico</strong><span>Dirección Operativa y de Apoyo a la Población</span><small>Instituto de Protección Civil del Estado de Tabasco</small></div></div><nav id="nav" class="nav"></nav><div class="sidebar-foot"><span id="cloudState">GitHub Cloud</span></div></aside>
+<main class="main"><header class="topbar"><button id="menuBtn" class="icon-btn" aria-label="Abrir menú">☰</button><div class="topbar-brand"><div><div class="directorate">Dirección Operativa y de Apoyo a la Población</div><h1 id="pageTitle">Resumen operativo</h1><p id="pageSubtitle">Consulta rápida · último corte válido</p></div></div><div class="top-actions"><button id="refreshBtn" class="btn">Actualizar</button></div></header><section class="status-strip" id="statusStrip"></section><section id="content" class="content"><div class="panel"><p>Cargando información operativa…</p></div></section></main>
 </div>
 <script src="app.js?v=79" defer></script>
 <script src="niveles-status-guard.js?v=80-1" defer></script>
@@ -40,7 +33,7 @@ html,body{margin:0;min-height:100%;background:#f4f2ee;color:#262626;font-family:
 <script src="resumen-sin-graficas.js?v=79-1" defer></script>
 <script src="weather-conagua-separado.js?v=79-3" defer></script>
 <script src="conagua-row-guard.js?v=79-1" defer></script>
-<script src="conagua-48h-fill.js?v=1" defer></script>
+<script src="conagua-48h-fill.js?v=2" defer></script>
 <script src="alto-usumacinta.js?v=84-2" defer></script>
 <script src="insivumeh-alto-fill.js?v=80-2" defer></script>
 <script src="insivumeh-hidro-extra.js?v=82-1" defer></script>
