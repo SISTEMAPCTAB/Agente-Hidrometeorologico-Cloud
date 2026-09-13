@@ -37,6 +37,16 @@ def clean_text(raw:str)->str:
     raw=re.sub(r'(?s)<[^>]+>',' ',raw)
     return '\n'.join(re.sub(r'[ \t]+',' ',x).strip() for x in html.unescape(raw).replace('\xa0',' ').splitlines() if x.strip())
 
+def norm_range(v):
+    if v is None: return None
+    s=re.sub(r'\s+',' ',str(v)).strip()
+    s=s.replace('–','a').replace('-','a')
+    m=re.search(r'(\d+(?:\.\d+)?)\s*(?:a)\s*(\d+(?:\.\d+)?)',s,re.I)
+    if m:
+        return f'{m.group(1)} a {m.group(2)}'
+    m=re.search(r'(\d+(?:\.\d+)?)',s)
+    return m.group(1) if m else s
+
 def main():
     if not OUT.exists():
         raise SystemExit('No existe data/fuentes_publicas/latest.json')
@@ -73,9 +83,43 @@ def main():
         for b in BASINS:
             detail[w][b]={k:v.get(b) for k,v in metrics.items()}
 
+    # La extracción básica de fuentes_publicas_cloud.py ya separa correctamente
+    # las cuatro ventanas de precipitación. La tabla detallada del SMN puede
+    # desplazar visualmente una fila/periodo en su HTML; por eso la precipitación
+    # mostrada en detalle se ancla SIEMPRE a smn96.ventanas del mismo periodo.
+    # Así 0-24, 24-48, 48-72 y 72-96 no pueden quedar corridos entre sí.
+    source_windows=smn.get('ventanas') or {}
+    corrections=[]
+    for w in WINDOWS:
+        detail.setdefault(w,{})
+        for b in BASINS:
+            detail[w].setdefault(b,{})
+            authoritative=((source_windows.get(w) or {}).get(b) or {}).get('texto')
+            parsed=detail[w][b].get('precipitacion_mm')
+            if authoritative:
+                authoritative=norm_range(authoritative)
+                if norm_range(parsed)!=authoritative:
+                    corrections.append({'ventana':w,'cuenca':b,'extraido_detalle':parsed,'validado':authoritative})
+                detail[w][b]['precipitacion_mm']=authoritative
+                detail[w][b]['precipitacion_fuente']='smn96.ventanas_validada'
+
+    # Validación dura: ninguna de las 28 celdas de precipitación puede diferir
+    # entre el resumen estructurado y el detalle que consume la interfaz.
+    mismatches=[]
+    for w in WINDOWS:
+        for b in BASINS:
+            expected=norm_range((((source_windows.get(w) or {}).get(b) or {}).get('texto')))
+            shown=norm_range(((detail.get(w) or {}).get(b) or {}).get('precipitacion_mm'))
+            if not expected or expected!=shown:
+                mismatches.append({'ventana':w,'cuenca':b,'esperado':expected,'detalle':shown})
+    if mismatches:
+        raise RuntimeError(f'Inconsistencia SMN96 de precipitación: {mismatches}')
+
     smn['url']=URL
     if resumen: smn['resumen']=resumen
     smn['detalle_ventanas']=detail
+    smn['precipitacion_validada_96h']=True
+    smn['precipitacion_correcciones']=corrections
     smn['detalle_completo']=all(
         w in detail and all(
             all(detail[w].get(b,{}).get(k) for k in ['precipitacion_mm','temperatura_max_c','temperatura_min_c','viento_sostenido_kmh','rachas_kmh'])
