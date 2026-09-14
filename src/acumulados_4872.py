@@ -12,8 +12,24 @@ OUT = Path("data/fuentes_publicas/acumulados_4872.json")
 FUENTE1 = Path("data/latest/FUENTE1.txt")
 ARCHIVE = Path("data/archive")
 MX_TZ = ZoneInfo("America/Mexico_City")
+GT_TZ = ZoneInfo("America/Guatemala")
 AUTO_PATH = "data/fuentes_publicas/insivumeh_automaticas.json"
 MAX_DELTA_MIN = 120
+
+MONTHS = {
+    "ene": 1, "jan": 1,
+    "feb": 2,
+    "mar": 3,
+    "abr": 4, "apr": 4,
+    "may": 5,
+    "jun": 6,
+    "jul": 7,
+    "ago": 8, "aug": 8,
+    "sep": 9, "sept": 9,
+    "oct": 10,
+    "nov": 11,
+    "dic": 12, "dec": 12,
+}
 
 
 def num(v):
@@ -33,6 +49,32 @@ def parse_dt(value):
         d = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
         if d.tzinfo is None:
             d = d.replace(tzinfo=timezone.utc)
+        return d.astimezone(timezone.utc)
+    except Exception:
+        return None
+
+
+def parse_source_cut(value):
+    """Convierte el corte publicado por INSIVUMEH a UTC.
+
+    Se acepta el formato observado DD/Mon/YYYY HH:MM con abreviaturas
+    españolas o inglesas. Si no existe un corte explícito, no se usa la hora
+    de consulta como sustituto, para evitar acumular un dato estancado.
+    """
+    if not value:
+        return None
+    m = re.search(r"(\d{1,2})/([A-Za-zÁÉÍÓÚáéíóú]{3,5})/(\d{4})\s+(\d{1,2}):(\d{2})", str(value))
+    if not m:
+        return None
+    mon = m.group(2).lower()
+    mon = (mon.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u"))
+    month = MONTHS.get(mon)
+    if month is None:
+        month = MONTHS.get(mon[:3])
+    if month is None:
+        return None
+    try:
+        d = datetime(int(m.group(3)), month, int(m.group(1)), int(m.group(4)), int(m.group(5)), tzinfo=GT_TZ)
         return d.astimezone(timezone.utc)
     except Exception:
         return None
@@ -67,6 +109,7 @@ def git_history_docs(days=4):
     except Exception:
         return []
     docs = []
+    seen_cuts = set()
     for sha in [x.strip() for x in proc.stdout.splitlines() if x.strip()]:
         try:
             raw = subprocess.run(
@@ -76,9 +119,14 @@ def git_history_docs(days=4):
                 check=True,
             ).stdout
             doc = json.loads(raw)
-            dt = parse_dt(doc.get("consultado_utc"))
-            if dt:
-                docs.append((dt, stations_from_doc(doc)))
+            source_dt = parse_source_cut(doc.get("corte_fuente"))
+            if not source_dt:
+                continue
+            cut_key = source_dt.isoformat()
+            if cut_key in seen_cuts:
+                continue
+            seen_cuts.add(cut_key)
+            docs.append((source_dt, stations_from_doc(doc), doc.get("corte_fuente")))
         except Exception:
             continue
     docs.sort(key=lambda x: x[0])
@@ -88,11 +136,11 @@ def git_history_docs(days=4):
 def closest_snapshot(history, target):
     best = None
     best_delta = None
-    for dt, stations in history:
+    for dt, stations, label in history:
         delta = abs((dt - target).total_seconds())
         if best_delta is None or delta < best_delta:
             best_delta = delta
-            best = (dt, stations)
+            best = (dt, stations, label)
     if best is None or best_delta is None or best_delta > MAX_DELTA_MIN * 60:
         return None
     return best
@@ -150,16 +198,19 @@ def main():
         raise RuntimeError(f"No existe {AUTO}")
 
     current_doc = json.loads(AUTO.read_text(encoding="utf-8"))
-    current_dt = parse_dt(current_doc.get("consultado_utc")) or datetime.now(timezone.utc)
+    consulted_dt = parse_dt(current_doc.get("consultado_utc")) or datetime.now(timezone.utc)
+    source_dt = parse_source_cut(current_doc.get("corte_fuente"))
     current = stations_from_doc(current_doc)
     history = git_history_docs(4)
-    snap24 = closest_snapshot(history, current_dt - timedelta(hours=24))
-    snap48 = closest_snapshot(history, current_dt - timedelta(hours=48))
+    snap24 = closest_snapshot(history, source_dt - timedelta(hours=24)) if source_dt else None
+    snap48 = closest_snapshot(history, source_dt - timedelta(hours=48)) if source_dt else None
 
     result = {
         "generated_utc": datetime.now(timezone.utc).isoformat(),
-        "regla": "48 h = ventana 24 h actual + ventana 24 h observada ~24 h antes; 72 h agrega la ventana observada ~48 h antes. Si falta una ventana real, se conserva s/d.",
+        "regla": "48 h y 72 h sólo se forman con ventanas de 24 h asociadas a cortes fuente distintos de INSIVUMEH, separados aproximadamente 24 h. La hora de consulta del agente nunca sustituye al corte fuente. Si falta una ventana verificable, se conserva s/d.",
         "tolerancia_historica_min": MAX_DELTA_MIN,
+        "insivumeh_corte_fuente_actual": current_doc.get("corte_fuente"),
+        "insivumeh_corte_fuente_valido": source_dt is not None,
         "insivumeh": [],
         "lacantun": {},
     }
@@ -169,12 +220,17 @@ def main():
         v1 = snap24[1].get(key, {}).get("precipitacion_24h_mm") if snap24 else None
         v2 = snap48[1].get(key, {}).get("precipitacion_24h_mm") if snap48 else None
         out = dict(row)
-        out["precipitacion_48h_mm"] = round(v0 + v1, 1) if v1 is not None else None
-        out["precipitacion_72h_mm"] = round(v0 + v1 + v2, 1) if v1 is not None and v2 is not None else None
+        out["precipitacion_48h_mm"] = round(v0 + v1, 1) if source_dt and v1 is not None else None
+        out["precipitacion_72h_mm"] = round(v0 + v1 + v2, 1) if source_dt and v1 is not None and v2 is not None else None
         out["componentes"] = {
-            "actual": {"consultado_utc": current_dt.isoformat(), "mm": v0},
-            "menos_24h": {"consultado_utc": snap24[0].isoformat(), "mm": v1} if snap24 and v1 is not None else None,
-            "menos_48h": {"consultado_utc": snap48[0].isoformat(), "mm": v2} if snap48 and v2 is not None else None,
+            "actual": {
+                "corte_fuente": current_doc.get("corte_fuente"),
+                "corte_utc": source_dt.isoformat() if source_dt else None,
+                "consultado_utc": consulted_dt.isoformat(),
+                "mm": v0,
+            },
+            "menos_24h": {"corte_fuente": snap24[2], "corte_utc": snap24[0].isoformat(), "mm": v1} if snap24 and v1 is not None else None,
+            "menos_48h": {"corte_fuente": snap48[2], "corte_utc": snap48[0].isoformat(), "mm": v2} if snap48 and v2 is not None else None,
         }
         result["insivumeh"].append(out)
 
@@ -193,7 +249,7 @@ def main():
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"insivumeh": len(result["insivumeh"]), "lacantun_48h": lac48, "lacantun_72h": lac72}, ensure_ascii=False))
+    print(json.dumps({"insivumeh": len(result["insivumeh"]), "corte_fuente_valido": source_dt is not None, "lacantun_48h": lac48, "lacantun_72h": lac72}, ensure_ascii=False))
 
 
 if __name__ == "__main__":
