@@ -82,7 +82,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
 
       - name: Instalar dependencias Python y Node
         if: steps.stale.outputs.recover == 'true'
