@@ -77,9 +77,18 @@ jobs:
           python-version: '3.12'
           cache: 'pip'
 
-      - name: Instalar dependencias
+      - name: Configurar Node
         if: steps.stale.outputs.recover == 'true'
-        run: pip install -r requirements.txt
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Instalar dependencias Python y Node
+        if: steps.stale.outputs.recover == 'true'
+        run: |
+          pip install -r requirements.txt
+          npm install --no-audit --no-fund
 
       - name: Recuperar correo y productos de niveles
         if: steps.stale.outputs.recover == 'true'
