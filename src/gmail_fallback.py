@@ -7,6 +7,7 @@ Si los secretos no existen, sale sin modificar datos.
 from __future__ import annotations
 
 import email
+import hashlib
 import imaplib
 import json
 import os
@@ -30,6 +31,7 @@ LOOKBACK_DAYS = int(os.getenv("GMAIL_BACKUP_LOOKBACK_DAYS", "3"))
 BASE = Path(os.getenv("NIVELES_BASE", "data/niveles"))
 STATE_DIR = BASE / "Estado"
 PROCESSED_FILE = STATE_DIR / "mensajes_gmail_procesados.txt"
+HASH_FILE = STATE_DIR / "pdf_gmail_procesados_sha256.txt"
 STATUS_FILE = BASE / "Estado_Gmail_Backup.json"
 
 
@@ -79,6 +81,21 @@ def save_processed(values):
     PROCESSED_FILE.write_text("\n".join(sorted(values)) + ("\n" if values else ""), encoding="utf-8")
 
 
+def load_hashes():
+    if not HASH_FILE.exists():
+        return set()
+    return {x.strip() for x in HASH_FILE.read_text(encoding="utf-8").splitlines() if x.strip()}
+
+
+def save_hashes(values):
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    HASH_FILE.write_text("\n".join(sorted(values)) + ("\n" if values else ""), encoding="utf-8")
+
+
+def pdf_hash(payload: bytes) -> str:
+    return hashlib.sha256(payload).hexdigest()
+
+
 def current_latest_level_time():
     path = BASE / "Estado_Niveles_Cloud.json"
     if not path.exists():
@@ -113,11 +130,25 @@ def existing_source_time(source: str):
         return None
 
 
+def existing_source_body(source: str) -> str:
+    path = Path("data/latest") / f"{source}.txt"
+    if not path.exists():
+        return ""
+    try:
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        parts = text.split("\n\n", 1)
+        return (parts[1] if len(parts) == 2 else text).strip()
+    except Exception:
+        return ""
+
+
 def write_source(source: str, subject: str, filename: str, uid: str, dt: datetime, pdf: bytes):
     old = existing_source_time(source)
     if old and old >= dt:
         return False
     text = carbonio.extract_text(pdf)
+    if existing_source_body(source) == text.strip():
+        return False
     header = (
         f"FUENTE: {source}\nCUENTA: gmail-respaldo\nASUNTO: {subject}\n"
         f"ARCHIVO ORIGINAL: {filename}\nID MENSAJE: gmail-{uid}\n"
@@ -146,6 +177,7 @@ def main():
         "messages_scanned": 0,
         "levels_processed_now": 0,
         "levels_skipped_not_newer": 0,
+        "pdfs_skipped_duplicate_content": 0,
         "sources_updated": [],
         "errors": [],
     }
@@ -156,6 +188,7 @@ def main():
 
     cutoff = now - timedelta(days=LOOKBACK_DAYS)
     processed = load_processed()
+    hashes = load_hashes()
     messages = []
     mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
     try:
@@ -197,11 +230,23 @@ def main():
             uid, subject, dt = item["uid"], item["subject"], item["dt"]
             key = f"gmail-{uid}"
             for idx, (filename, payload) in enumerate(item["parts"], start=1):
+                digest = pdf_hash(payload)
+                if digest in hashes:
+                    status["pdfs_skipped_duplicate_content"] += 1
+                    continue
+
                 source = carbonio.classify(subject, filename)
                 if source:
                     current = latest_sources.get(source)
                     if current is None or dt > current["dt"]:
-                        latest_sources[source] = {"uid": uid, "dt": dt, "subject": subject, "filename": filename, "payload": payload}
+                        latest_sources[source] = {
+                            "uid": uid,
+                            "dt": dt,
+                            "subject": subject,
+                            "filename": filename,
+                            "payload": payload,
+                            "digest": digest,
+                        }
 
                 if not niveles.is_levels_subject(subject):
                     continue
@@ -218,6 +263,7 @@ def main():
                     niveles.run_processor(path, subject, key)
                     niveles_horas.run_processor(path, subject, key)
                     processed.add(processed_key)
+                    hashes.add(digest)
                     status["levels_processed_now"] += 1
                 except Exception as exc:
                     status["errors"].append({"uid": uid, "subject": subject, "error": f"{type(exc).__name__}: {exc}"})
@@ -226,10 +272,12 @@ def main():
         try:
             if write_source(source, item["subject"], item["filename"], item["uid"], item["dt"], item["payload"]):
                 status["sources_updated"].append(source)
+                hashes.add(item["digest"])
         except Exception as exc:
             status["errors"].append({"source": source, "error": f"{type(exc).__name__}: {exc}"})
 
     save_processed(processed)
+    save_hashes(hashes)
     STATUS_FILE.write_text(json.dumps(status, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(status, ensure_ascii=False, indent=2))
 
