@@ -43,9 +43,8 @@ def decode(value: str | None) -> str:
 
 
 def message_time(msg) -> datetime:
-    raw = msg.get("Date")
     try:
-        dt = parsedate_to_datetime(raw)
+        dt = parsedate_to_datetime(msg.get("Date"))
         if dt.tzinfo is None:
             dt = dt.replace(tzinfo=timezone.utc)
         return dt.astimezone(MX_TZ)
@@ -80,6 +79,23 @@ def save_processed(values):
     PROCESSED_FILE.write_text("\n".join(sorted(values)) + ("\n" if values else ""), encoding="utf-8")
 
 
+def current_latest_level_time():
+    path = BASE / "Estado_Niveles_Cloud.json"
+    if not path.exists():
+        return None
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        value = raw.get("latest_message_utc")
+        if not value:
+            return None
+        dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt.astimezone(MX_TZ)
+    except Exception:
+        return None
+
+
 def existing_source_time(source: str):
     path = Path("data/latest") / f"{source}.txt"
     if not path.exists():
@@ -99,7 +115,7 @@ def existing_source_time(source: str):
 
 def write_source(source: str, subject: str, filename: str, uid: str, dt: datetime, pdf: bytes):
     old = existing_source_time(source)
-    if old and old > dt:
+    if old and old >= dt:
         return False
     text = carbonio.extract_text(pdf)
     header = (
@@ -118,29 +134,23 @@ def write_source(source: str, subject: str, filename: str, uid: str, dt: datetim
     return True
 
 
-def run_cmd(args):
-    proc = subprocess.run(args, capture_output=True, text=True)
-    if proc.stdout.strip():
-        print(proc.stdout.strip())
-    if proc.returncode != 0:
-        raise RuntimeError(proc.stderr.strip() or f"Falló: {' '.join(args)}")
-
-
 def main():
     now = datetime.now(timezone.utc).astimezone(MX_TZ)
+    current_level_time = current_latest_level_time()
     status = {
         "agent": "Gmail Backup Cloud",
         "run_local": now.isoformat(),
         "configured": bool(GMAIL_USER and GMAIL_PASSWORD),
         "gmail_user": GMAIL_USER if GMAIL_USER else None,
+        "current_level_time_before_run": current_level_time.isoformat() if current_level_time else None,
         "messages_scanned": 0,
         "levels_processed_now": 0,
+        "levels_skipped_not_newer": 0,
         "sources_updated": [],
         "errors": [],
     }
     BASE.mkdir(parents=True, exist_ok=True)
     if not GMAIL_USER or not GMAIL_PASSWORD:
-        STATUS_FILE.write_text(json.dumps(status, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print("Gmail respaldo no configurado; no se modifica ningún dato.")
         return
 
@@ -155,18 +165,12 @@ def main():
         typ, data = mail.uid("search", None, f'(SINCE "{since}")')
         if typ != "OK":
             raise RuntimeError("Gmail IMAP no devolvió resultados de búsqueda.")
-        uids = (data[0] or b"").split()
-        # Los más recientes bastan; evita recorrer buzones grandes.
-        for raw_uid in uids[-250:]:
+        for raw_uid in (data[0] or b"").split()[-250:]:
             uid = raw_uid.decode("ascii", errors="ignore")
             typ, msg_data = mail.uid("fetch", raw_uid, "(RFC822)")
             if typ != "OK" or not msg_data:
                 continue
-            raw = None
-            for item in msg_data:
-                if isinstance(item, tuple) and len(item) > 1:
-                    raw = item[1]
-                    break
+            raw = next((x[1] for x in msg_data if isinstance(x, tuple) and len(x) > 1), None)
             if not raw:
                 continue
             msg = email.message_from_bytes(raw)
@@ -175,9 +179,8 @@ def main():
                 continue
             subject = decode(msg.get("Subject"))
             parts = pdf_parts(msg)
-            if not parts:
-                continue
-            messages.append({"uid": uid, "dt": dt, "subject": subject, "parts": parts})
+            if parts:
+                messages.append({"uid": uid, "dt": dt, "subject": subject, "parts": parts})
     finally:
         try:
             mail.logout()
@@ -186,14 +189,12 @@ def main():
 
     status["messages_scanned"] = len(messages)
     messages.sort(key=lambda x: x["dt"])
-
     latest_sources = {}
+
     with tempfile.TemporaryDirectory(prefix="gmail_backup_") as tmp:
         tmpdir = Path(tmp)
         for item in messages:
-            uid = item["uid"]
-            subject = item["subject"]
-            dt = item["dt"]
+            uid, subject, dt = item["uid"], item["subject"], item["dt"]
             key = f"gmail-{uid}"
             for idx, (filename, payload) in enumerate(item["parts"], start=1):
                 source = carbonio.classify(subject, filename)
@@ -203,6 +204,9 @@ def main():
                         latest_sources[source] = {"uid": uid, "dt": dt, "subject": subject, "filename": filename, "payload": payload}
 
                 if not niveles.is_levels_subject(subject):
+                    continue
+                if current_level_time and dt <= current_level_time:
+                    status["levels_skipped_not_newer"] += 1
                     continue
                 processed_key = f"{key}-{idx}"
                 if processed_key in processed:
