@@ -1,0 +1,119 @@
+name: Gmail Backup Cloud
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/gmail_fallback.py'
+      - '.github/workflows/gmail-backup-cloud.yml'
+  schedule:
+    # Tabasco = UTC-6. Respaldo independiente cada 15 min de 06:00 a 20:59 local.
+    # Se separa de niveles-cloud y de su watchdog.
+    - cron: '7,22,37,52 12-23 * * *'
+    - cron: '7,22,37,52 0-2 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gmail-backup-cloud
+  cancel-in-progress: false
+
+jobs:
+  respaldo-gmail:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verificar configuración Gmail
+        id: gmail
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_BACKUP_USER }}
+          GMAIL_PASSWORD: ${{ secrets.GMAIL_BACKUP_APP_PASSWORD }}
+        shell: bash
+        run: |
+          if [ -n "$GMAIL_USER" ] && [ -n "$GMAIL_PASSWORD" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+            echo "Respaldo Gmail configurado en GitHub Secrets."
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Respaldo Gmail aún no configurado; no se modifica ningún dato."
+          fi
+
+      - name: Configurar Python
+        if: steps.gmail.outputs.enabled == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Configurar Node
+        if: steps.gmail.outputs.enabled == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Instalar dependencias Python
+        if: steps.gmail.outputs.enabled == 'true'
+        run: pip install -r requirements.txt
+
+      - name: Instalar dependencias Node
+        if: steps.gmail.outputs.enabled == 'true'
+        run: npm install --no-audit --no-fund
+
+      - name: Consultar Gmail y procesar sólo información más nueva
+        if: steps.gmail.outputs.enabled == 'true'
+        env:
+          GMAIL_BACKUP_USER: ${{ secrets.GMAIL_BACKUP_USER }}
+          GMAIL_BACKUP_APP_PASSWORD: ${{ secrets.GMAIL_BACKUP_APP_PASSWORD }}
+          GMAIL_BACKUP_LOOKBACK_DAYS: '3'
+          NIVELES_BASE: data/niveles
+        run: python src/gmail_fallback.py
+
+      - name: Incorporar FUENTE2 y regenerar productos derivados
+        if: steps.gmail.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          set -e
+          python src/fuente2_niveles.py
+          python src/extraer_clima_boletines.py
+          python src/niveles_postprocess.py
+          python src/resumen_12h_niveles.py
+          python src/generar_word_niveles.py
+
+      - name: Publicar únicamente cambios producidos por el respaldo Gmail
+        if: steps.gmail.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          set -e
+          git config user.name "Agente Hidrometeorologico Gmail Backup"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/latest data/archive \
+                  data/niveles/Historico \
+                  data/niveles/Resumen_12h \
+                  data/niveles/Ultimo_Corte \
+                  data/niveles/Estado \
+                  data/niveles/Estado_Gmail_Backup.json \
+                  data/niveles/Clima_CONAGUA \
+                  data/niveles/Graficas \
+                  data/niveles/Reportes
+          if git diff --cached --quiet; then
+            echo "Gmail no aportó información más nueva; sin cambios para publicar."
+            exit 0
+          fi
+          git commit -m "Actualiza respaldo Gmail cloud [skip ci]"
+          for intento in 1 2 3; do
+            if git pull --rebase origin main && git push origin main; then
+              echo "Respaldo Gmail publicado."
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((intento * 10))
+          done
+          exit 1
