@@ -3,16 +3,17 @@ name: Watchdog Niveles Hidrométricos Cloud
 on:
   workflow_dispatch:
   schedule:
-    # Respaldo independiente del recolector principal. Tabasco UTC-6.
-    # Corre a los minutos 07 y 37 durante la ventana operativa y sólo actúa si el estado está atrasado.
-    - cron: '7,37 12-23 * * *'
-    - cron: '7,37 0-2 * * *'
+    # Respaldo realmente independiente del recolector principal. Tabasco UTC-6.
+    # Revisa cada 15 minutos, desplazado 8 minutos respecto del recolector principal,
+    # y sólo ejecuta la recuperación pesada si el último estado tiene más de 25 min.
+    - cron: '11,26,41,56 12-23 * * *'
+    - cron: '11,26,41,56 0-2 * * *'
 
 permissions:
   contents: write
 
 concurrency:
-  group: niveles-hidrometricos-cloud
+  group: niveles-hidrometricos-watchdog
   cancel-in-progress: false
 
 jobs:
