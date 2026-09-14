@@ -6,13 +6,17 @@
 
   let cache=null;
   let loading=false;
-  let timer=null;
 
-  async function load(){
+  async function load(force=false){
+    if(loading)return cache;
+    loading=true;
     try{
+      if(cache&&!force)return cache;
       const r=await fetch(`${URL}?v=${Date.now()}`,{cache:'no-store'});
-      return r.ok?await r.json():null;
-    }catch(e){return null;}
+      if(r.ok)cache=await r.json();
+    }catch(e){/* respaldo visual: no altera el resto de la app */}
+    finally{loading=false;}
+    return cache;
   }
 
   function findTable(){
@@ -26,9 +30,8 @@
 
   function apply(doc){
     const t=findTable();
-    if(!t||!doc)return false;
+    if(!t||!doc)return;
     const byName=new Map((doc.insivumeh||[]).map(x=>[norm(x.estacion),x]));
-    let changed=0;
     for(const tr of [...t.querySelectorAll('tbody tr')]){
       const td=[...tr.querySelectorAll('td')];
       if(td.length<8)continue;
@@ -36,51 +39,19 @@
       let row=byName.get(name);
       if(name==='lacantun')row=doc.lacantun||null;
       if(!row)continue;
-      const v48=fmt(row.precipitacion_48h_mm);
-      const v72=fmt(row.precipitacion_72h_mm);
-      if(td[6].textContent.trim()!==v48){td[6].textContent=v48;changed++;}
-      if(td[7].textContent.trim()!==v72){td[7].textContent=v72;changed++;}
-      tr.dataset.accum4872='1';
+      td[6].textContent=fmt(row.precipitacion_48h_mm);
+      td[7].textContent=fmt(row.precipitacion_72h_mm);
     }
-    t.dataset.accum4872='1';
-    return changed>0;
   }
 
-  async function ensure(forceReload=false){
-    if(loading)return;
-    loading=true;
-    try{
-      if(forceReload||!cache)cache=await load()||cache;
-      if(cache){
-        apply(cache);
-        setTimeout(()=>apply(cache),250);
-        setTimeout(()=>apply(cache),800);
-        setTimeout(()=>apply(cache),1600);
-      }
-    }finally{loading=false;}
+  async function refresh(force=false){
+    const doc=await load(force);
+    if(!doc)return;
+    // Reintentos finitos para esperar el render de Alto Usumacinta.
+    [0,500,1200,2200].forEach(ms=>setTimeout(()=>apply(doc),ms));
   }
 
-  function schedule(forceReload=false){
-    clearTimeout(timer);
-    timer=setTimeout(()=>ensure(forceReload),120);
-  }
-
-  document.addEventListener('DOMContentLoaded',()=>{
-    setTimeout(()=>ensure(true),1200);
-  });
-
-  document.getElementById('nav')?.addEventListener('click',()=>setTimeout(()=>ensure(false),900));
-  document.getElementById('refreshBtn')?.addEventListener('click',()=>setTimeout(()=>ensure(true),900));
-
-  const root=document.getElementById('content')||document.body;
-  new MutationObserver(()=>{
-    const t=findTable();
-    if(t){
-      if(cache)apply(cache);
-      else schedule(false);
-    }
-  }).observe(root,{childList:true,subtree:true,characterData:true});
-
-  // Red de seguridad contra renders tardíos de otros módulos.
-  setInterval(()=>{if(cache&&findTable())apply(cache);},2000);
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>refresh(true),1400));
+  document.getElementById('nav')?.addEventListener('click',()=>setTimeout(()=>refresh(false),900));
+  document.getElementById('refreshBtn')?.addEventListener('click',()=>setTimeout(()=>refresh(true),900));
 })();
