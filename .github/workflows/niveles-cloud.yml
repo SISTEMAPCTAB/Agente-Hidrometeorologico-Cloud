@@ -25,11 +25,12 @@ on:
       - '.github/workflows/niveles-cloud.yml'
   schedule:
     # Tabasco = UTC-6. Consulta cada 15 minutos de 06:00 a 20:59 local.
-    # Dos expresiones cubren 12:00-23:59 y 00:00-02:59 UTC.
+    # Se desplaza 3 minutos de los cuartos de hora para reducir retrasos del cron
+    # y se mantiene separado del watchdog independiente (minutos 11,26,41,56).
     # Este archivo también se incluye en paths para que cualquier ajuste operativo
     # reactive inmediatamente el recolector mediante push, sin depender del cron.
-    - cron: '*/15 12-23 * * *'
-    - cron: '*/15 0-2 * * *'
+    - cron: '3,18,33,48 12-23 * * *'
+    - cron: '3,18,33,48 0-2 * * *'
 
 permissions:
   contents: write
