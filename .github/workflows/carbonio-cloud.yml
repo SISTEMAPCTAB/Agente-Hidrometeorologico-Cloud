@@ -22,8 +22,9 @@ on:
 permissions:
   contents: write
 
+# Cola compartida: Carbonio, niveles y respaldos no publican datos simultáneamente.
 concurrency:
-  group: carbonio-cloud
+  group: datos-hidrometeorologicos-writer
   cancel-in-progress: false
 
 jobs:
