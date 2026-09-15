@@ -1,3 +1,4 @@
+# Versión estable restaurada del apartado WeatherLink/CONAGUA.
 import json
 import re
 from pathlib import Path
