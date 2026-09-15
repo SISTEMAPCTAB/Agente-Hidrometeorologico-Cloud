@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "errores": [],
+  "advertencias": [],
+  "estadisticas": {
+    "niveles_filas": 15,
+    "niveles_cortes": [
+      "2026-09-15T14:00:00-06:00"
+    ],
+    "niveles_heredados": 1,
+    "lluvia_filas": 52,
+    "clima_conagua_filas": 12,
+    "clima_frontera_sur_filas": 59
+  },
+  "regla": "La publicación se bloquea sólo ante inconsistencias estructurales demostrables: estaciones críticas ausentes, rangos físicamente imposibles, estados observado/heredado incoherentes, acumulados 48 h incompatibles, temperaturas inválidas o mezcla de columnas/códigos. Cambios hidrometeorológicos reales no se rechazan sólo por ser inusuales."
+}
