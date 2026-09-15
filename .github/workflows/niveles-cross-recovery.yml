@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - '.github/workflows/niveles-cross-recovery.yml'
+      - 'src/auditar_productos_operativos.py'
   schedule:
     # Respaldo totalmente independiente. Sólo actúa si el agente de niveles
     # lleva más de 35 minutos sin una revisión válida.
@@ -15,7 +16,6 @@ on:
 permissions:
   contents: write
 
-# Cola compartida: ningún recolector que escriba datos operativos publica a la vez.
 concurrency:
   group: datos-hidrometeorologicos-writer
   cancel-in-progress: false
@@ -110,6 +110,7 @@ jobs:
           python src/niveles_postprocess.py
           python src/resumen_12h_niveles.py
           python src/generar_word_niveles.py
+          python src/auditar_productos_operativos.py
 
       - name: Verificar recuperación
         if: steps.stale.outputs.recover == 'true'
@@ -119,15 +120,18 @@ jobs:
           test -s data/niveles/Ultimo_Corte/ultimo_resumen.json
           test -s data/niveles/Historico/niveles_historicos.json
           test -s data/niveles/Estado_Niveles_Cloud.json
+          test -s data/niveles/Auditoria/ultimo_resultado.json
           python3 - <<'PY'
           import json
           from datetime import datetime, timezone
           from pathlib import Path
 
           s=json.loads(Path('data/niveles/Estado_Niveles_Cloud.json').read_text(encoding='utf-8'))
+          a=json.loads(Path('data/niveles/Auditoria/ultimo_resultado.json').read_text(encoding='utf-8'))
           assert s.get('complete') is True, 'La recuperación de niveles no terminó completa'
           assert int(s.get('stations_in_latest_summary') or 0) > 0, 'Resumen de niveles vacío'
           assert not (s.get('errors') or []), f"Errores del agente: {s.get('errors')}"
+          assert a.get('ok') is True, f"Auditoría bloqueó recuperación: {a.get('errores')}"
           d=datetime.fromisoformat(str(s['run_utc']).replace('Z','+00:00'))
           if d.tzinfo is None:
               d=d.replace(tzinfo=timezone.utc)
