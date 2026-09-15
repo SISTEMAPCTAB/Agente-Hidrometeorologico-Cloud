@@ -1,30 +1,31 @@
 {
   "agent": "Niveles Hidrométricos Cloud",
-  "run_utc": "2026-09-15T06:47:35.218898+00:00",
+  "run_utc": "2026-09-15T12:16:32.405196+00:00",
   "complete": true,
-  "selected_account": "principal",
+  "selected_account": null,
   "lookback_days": 7,
-  "candidate_count": 36,
+  "candidate_count": 0,
   "processed_now": 0,
   "processed_total": 135,
   "stations_in_latest_summary": 15,
-  "latest_subject": "Informe de Niveles de las 18 hr",
-  "latest_message_utc": "2026-09-14T23:59:47+00:00",
+  "latest_subject": null,
+  "latest_message_utc": null,
   "errors": [],
   "skipped_nonfatal": [],
   "accounts": [
     {
       "label": "principal",
-      "ok": true,
-      "candidate_count": 36,
-      "reason": null
+      "ok": false,
+      "reason": "ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7fbecebf93a0>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=12)'))",
+      "candidate_count": 0
     },
     {
       "label": "fuente1",
-      "ok": true,
-      "candidate_count": 0,
-      "reason": null
+      "ok": false,
+      "reason": "ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7fbecebf9ac0>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=12)'))",
+      "candidate_count": 0
     }
   ],
+  "note": "No llegó un reporte nuevo de niveles en esta ejecución; se conserva el último corte válido y el postproceso actualiza comparaciones/gráficas sin inventar datos.",
   "rule_missing_data": "Si una fila horaria está incompleta o falta un valor, se conserva el último valor observado válido por estación y se marca como heredado; ausencia nunca equivale a cero."
 }
