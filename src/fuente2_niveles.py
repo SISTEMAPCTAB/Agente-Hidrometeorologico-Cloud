@@ -28,7 +28,7 @@ STATIONS = [
     {"rio": "Río Tulijá", "estacion": "Salto de Agua", "namo": 10.99, "name": 14.72, "label": "Salto de Agua", "idx": 6},
     {"rio": "Río Puxcatán", "estacion": "Macuspana", "namo": 9.85, "name": 12.78, "label": "Macuspana", "idx": 6},
     {"rio": "Río San Pedro", "estacion": "San Pedro", "namo": 9.01, "name": 9.77, "label": "San Pedro", "idx": 5},
-    {"rio": "Río Usumacinta", "estacion": "Boca del Cerro", "namo": 19.21, "name": 21.57, "label": "Boca del Cerro", "idx": 6},
+    {"rio": "Río Usumacinta", "estacion": "Boca del Cerro", "namo": 19.21, "name": 21.57, "label": "Boca del Cerro", "idx": 4},
 ]
 
 
