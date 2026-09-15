@@ -46,6 +46,31 @@ jobs:
             echo "Respaldo Gmail aún no configurado; no se modifica ningún dato."
           fi
 
+      # Prueba sólo autenticación. Si Gmail no responde o rechaza la contraseña,
+      # el job termina aquí antes de tocar cualquier archivo operativo.
+      - name: Probar acceso IMAP Gmail sin modificar datos
+        if: steps.gmail.outputs.enabled == 'true'
+        env:
+          GMAIL_BACKUP_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_BACKUP_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          import imaplib, os
+          user=os.environ['GMAIL_BACKUP_USER'].strip()
+          password=os.environ['GMAIL_BACKUP_APP_PASSWORD'].replace(' ', '').strip()
+          m=imaplib.IMAP4_SSL('imap.gmail.com', 993, timeout=30)
+          try:
+              m.login(user, password)
+              typ, _ = m.select('INBOX', readonly=True)
+              if typ != 'OK':
+                  raise RuntimeError('Gmail no permitió abrir INBOX')
+              print('Autenticación IMAP Gmail correcta; INBOX disponible.')
+          finally:
+              try: m.logout()
+              except Exception: pass
+          PY
+
       - name: Configurar Python
         if: steps.gmail.outputs.enabled == 'true'
         uses: actions/setup-python@v5
@@ -76,8 +101,29 @@ jobs:
           NIVELES_BASE: data/niveles
         run: python src/gmail_fallback.py
 
-      - name: Incorporar FUENTE2 y regenerar productos derivados
+      # Detecta aporte real antes de ejecutar regeneradores. El archivo de estado
+      # Gmail no cuenta como dato nuevo y por sí solo nunca activa reprocesamiento.
+      - name: Detectar si Gmail aportó información operativa nueva
+        id: aporte
         if: steps.gmail.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          set -e
+          if git diff --quiet -- \
+              data/latest \
+              data/archive \
+              data/niveles/Historico \
+              data/niveles/Estado/mensajes_gmail_procesados.txt \
+              data/niveles/Estado/pdf_gmail_procesados_sha256.txt; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Gmail no aportó un corte operativo nuevo. No se regeneran productos."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Gmail aportó información nueva verificada; se regeneran derivados."
+          fi
+
+      - name: Incorporar FUENTE2 y regenerar productos derivados
+        if: steps.gmail.outputs.enabled == 'true' && steps.aporte.outputs.changed == 'true'
         shell: bash
         run: |
           set -e
