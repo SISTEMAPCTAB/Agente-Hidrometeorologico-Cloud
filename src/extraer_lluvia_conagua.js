@@ -166,13 +166,17 @@ function previous24Block(hist,row){
   const histFile=path.join(dir,'historico.json'); let hist=[]; try{hist=JSON.parse(fs.readFileSync(histFile,'utf8'))}catch{}
   hist=hist.filter(r=>!isSectionLabel(r?.estacion));
 
-  // La columna "48 h anteriores" representa el bloque de 24 h inmediatamente
-  // anterior al bloque vigente de 24 h. Se recupera del mismo dato oficial
-  // publicado para la estación el día previo; nunca se suma, interpola ni inventa.
+  // Acumulado móvil de 48 h = bloque oficial de 24 h vigente + bloque oficial
+  // de 24 h del día previo para la misma estación. Sólo se calcula cuando
+  // ambos bloques son observados; un faltante nunca se convierte a cero.
   for(const r of latestRows){
     const prev=previous24Block(hist,r);
-    r.lluvia_48h_precedentes_mm=prev?Number(prev.lluvia_24h_precedentes_mm):null;
-    r.estado_48h=prev?'observado':'sin_dato';
+    const currentOk=norm(r.estado_24h)==='OBSERVADO' && Number.isFinite(Number(r.lluvia_24h_precedentes_mm));
+    const prevOk=prev && Number.isFinite(Number(prev.lluvia_24h_precedentes_mm));
+    r.lluvia_48h_precedentes_mm=(currentOk&&prevOk)
+      ? Number(r.lluvia_24h_precedentes_mm)+Number(prev.lluvia_24h_precedentes_mm)
+      : null;
+    r.estado_48h=(currentOk&&prevOk)?'observado':'sin_dato';
     r.fecha_referencia_48h=prev?.fecha_hora||null;
   }
 
@@ -200,8 +204,8 @@ function previous24Block(hist,row){
     estaciones_detectadas:latestRows.length,
     modo:latestRows.length?'precipitacion_conagua_validada_por_estructura':'sin_datos_precipitacion',
     significado_campos:{
-      lluvia_24h_precedentes_mm:'PRECIPITACIÓN REGISTRADA A LAS 8:00 HR, ACUMULADAS EN 24:00 HR PRECEDENTES (A)',
-      lluvia_48h_precedentes_mm:'BLOQUE OFICIAL DE 24 H DEL DÍA PREVIO, MOSTRADO COMO 48 H ANTERIORES; se recupera del histórico de la misma estación y no se suma.',
+      lluvia_24h_precedentes_mm:'PRECIPITACIÓN REGISTRADA A LAS 8:00 HR, ACUMULADA EN LAS 24:00 HR PRECEDENTES (A)',
+      lluvia_48h_precedentes_mm:'ACUMULADO MÓVIL DE 48 H: suma del bloque oficial de 24 h vigente y el bloque oficial de 24 h del día previo para la misma estación; sólo con ambos bloques observados.',
       lluvia_hoy_desde_08_mm:'PRECIPITACIÓN ACUMULADA A PARTIR DE LAS 8:00 HR DEL DÍA ACTUAL (HOY)'
     },
     regla_blancos:'Celda en blanco = sin_dato; nunca se convierte a 0 mm. Solo se conserva 0 cuando CONAGUA publica explícitamente cero.',
