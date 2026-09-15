@@ -8,17 +8,16 @@ on:
     paths:
       - 'src/gmail_fallback.py'
       - 'src/fuente2_niveles.py'
+      - 'src/auditar_productos_operativos.py'
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
     # Tabasco = UTC-6. Respaldo independiente cada 15 min de 06:00 a 20:59 local.
-    # Se separa de niveles-cloud y de su watchdog.
     - cron: '7,22,37,52 12-23 * * *'
     - cron: '7,22,37,52 0-2 * * *'
 
 permissions:
   contents: write
 
-# Cola compartida: ningún recolector que escriba datos operativos publica a la vez.
 concurrency:
   group: datos-hidrometeorologicos-writer
   cancel-in-progress: false
@@ -142,6 +141,10 @@ jobs:
           python src/resumen_12h_niveles.py
           python src/generar_word_niveles.py
 
+      - name: Auditar valores antes de publicar respaldo
+        if: steps.gmail.outputs.enabled == 'true'
+        run: python src/auditar_productos_operativos.py
+
       - name: Publicar únicamente cambios producidos por el respaldo Gmail
         if: steps.gmail.outputs.enabled == 'true'
         shell: bash
@@ -156,6 +159,7 @@ jobs:
                   data/niveles/Estado \
                   data/niveles/Estado_Gmail_Backup.json \
                   data/niveles/Clima_CONAGUA \
+                  data/niveles/Auditoria \
                   data/niveles/Graficas \
                   data/niveles/Reportes
           if git diff --cached --quiet; then
