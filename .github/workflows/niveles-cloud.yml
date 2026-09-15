@@ -12,6 +12,7 @@ on:
       - 'src/fuente2_niveles.py'
       - 'src/lluvia_conagua_cloud.py'
       - 'src/extraer_clima_boletines.py'
+      - 'src/auditar_productos_operativos.py'
       - 'src/procesar_niveles.js'
       - 'src/procesar_niveles_horas.js'
       - 'src/extraer_lluvia_conagua.js'
@@ -25,17 +26,12 @@ on:
       - '.github/workflows/niveles-cloud.yml'
   schedule:
     # Tabasco = UTC-6. Consulta cada 15 minutos de 06:00 a 20:59 local.
-    # Se desplaza 3 minutos de los cuartos de hora para reducir retrasos del cron
-    # y se mantiene separado del watchdog independiente (minutos 11,26,41,56).
-    # Este archivo también se incluye en paths para que cualquier ajuste operativo
-    # reactive inmediatamente el recolector mediante push, sin depender del cron.
     - cron: '3,18,33,48 12-23 * * *'
     - cron: '3,18,33,48 0-2 * * *'
 
 permissions:
   contents: write
 
-# Cola compartida: ningún recolector que escriba datos operativos publica a la vez.
 concurrency:
   group: datos-hidrometeorologicos-writer
   cancel-in-progress: false
@@ -112,19 +108,26 @@ jobs:
       - name: Generar y verificar Word de niveles
         run: python src/generar_word_niveles.py
 
+      - name: Auditar valores antes de publicar
+        run: python src/auditar_productos_operativos.py
+
       - name: Verificar productos críticos antes de publicar
         shell: bash
         run: |
           test -s data/niveles/Ultimo_Corte/ultimo_resumen.json
           test -s data/niveles/Historico/niveles_historicos.json
           test -s data/niveles/Estado_Niveles_Cloud.json
+          test -s data/niveles/Auditoria/ultimo_resultado.json
           python - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('data/niveles/Estado_Niveles_Cloud.json').read_text(encoding='utf-8'))
+          a=json.loads(Path('data/niveles/Auditoria/ultimo_resultado.json').read_text(encoding='utf-8'))
           assert s.get('stations_in_latest_summary',0) > 0, 'Resumen de niveles vacío'
           assert isinstance(s.get('errors',[]), list), 'Estado de errores inválido'
+          assert a.get('ok') is True, f"Auditoría bloqueó publicación: {a.get('errores')}"
           print('Niveles verificados:', s.get('stations_in_latest_summary'), 'estaciones; corte:', s.get('latest_subject'))
+          print('Auditoría automática: OK')
           PY
 
       - name: Publicar niveles, lluvia, clima CONAGUA, gráficas y Word
@@ -142,14 +145,12 @@ jobs:
             data/niveles/Estado_Niveles_Cloud.json
             data/niveles/Lluvia_CONAGUA
             data/niveles/Clima_CONAGUA
+            data/niveles/Auditoria
             data/niveles/Graficas
             data/niveles/Reportes
             data/niveles/Evidencia_Texto
           )
 
-          # Guardar exclusivamente los productos generados. Después se parte del
-          # HEAD remoto más reciente para evitar conflictos de stash/rebase con
-          # otros recolectores que hayan publicado mientras este job procesaba.
           tar -cf /tmp/productos-niveles.tar "${PRODUCTOS[@]}"
 
           for intento in 1 2 3; do
