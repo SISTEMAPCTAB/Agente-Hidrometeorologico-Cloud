@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - 'src/gmail_fallback.py'
+      - 'src/fuente2_niveles.py'
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
     # Tabasco = UTC-6. Respaldo independiente cada 15 min de 06:00 a 20:59 local.
@@ -46,8 +47,6 @@ jobs:
             echo "Respaldo Gmail aún no configurado; no se modifica ningún dato."
           fi
 
-      # Prueba sólo autenticación. Si Gmail no responde o rechaza la contraseña,
-      # el job termina aquí antes de tocar cualquier archivo operativo.
       - name: Probar acceso IMAP Gmail sin modificar datos
         if: steps.gmail.outputs.enabled == 'true'
         env:
@@ -99,14 +98,19 @@ jobs:
           GMAIL_BACKUP_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           GMAIL_BACKUP_LOOKBACK_DAYS: '3'
           NIVELES_BASE: data/niveles
-          # Sólo satisfacen la carga del módulo compartido carbonio_to_repo.
-          # El respaldo Gmail no autentica ni consulta Carbonio.
           CARBONIO_USER: gmail-backup-unused
           CARBONIO_PASSWORD: gmail-backup-unused
         run: python src/gmail_fallback.py
 
-      # Detecta aporte real antes de ejecutar regeneradores. El archivo de estado
-      # Gmail no cuenta como dato nuevo y por sí solo nunca activa reprocesamiento.
+      - name: Revalidar FUENTE2 vigente sin crear duplicados
+        if: steps.gmail.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          set -e
+          if [ -f data/latest/FUENTE2.txt ]; then
+            python src/fuente2_niveles.py
+          fi
+
       - name: Detectar si Gmail aportó información operativa nueva
         id: aporte
         if: steps.gmail.outputs.enabled == 'true'
