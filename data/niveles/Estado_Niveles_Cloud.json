@@ -1,6 +1,6 @@
 {
   "agent": "Niveles Hidrométricos Cloud",
-  "run_utc": "2026-09-15T16:01:57.608274+00:00",
+  "run_utc": "2026-09-15T16:34:16.698587+00:00",
   "complete": true,
   "selected_account": null,
   "lookback_days": 7,
@@ -16,13 +16,13 @@
     {
       "label": "principal",
       "ok": false,
-      "reason": "ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7fcf5c3614f0>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=12)'))",
+      "reason": "ConnectionError: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by NameResolutionError(\"HTTPSConnection(host='correo.tabasco.gob.mx', port=443): Failed to resolve 'correo.tabasco.gob.mx' ([Errno -3] Temporary failure in name resolution)\"))",
       "candidate_count": 0
     },
     {
       "label": "fuente1",
       "ok": false,
-      "reason": "ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7fcf5c360f50>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=12)'))",
+      "reason": "ConnectionError: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by NameResolutionError(\"HTTPSConnection(host='correo.tabasco.gob.mx', port=443): Failed to resolve 'correo.tabasco.gob.mx' ([Errno -3] Temporary failure in name resolution)\"))",
       "candidate_count": 0
     }
   ],
