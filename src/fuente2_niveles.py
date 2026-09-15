@@ -13,21 +13,23 @@ HIST_JSON = BASE / "Historico" / "niveles_historicos.json"
 HIST_CSV = BASE / "Historico" / "niveles_historicos.csv"
 MX = ZoneInfo("America/Mexico_City")
 
+# idx = posición de la columna ESCALA ACTUAL dentro de los tokens numéricos
+# extraídos de la fila del boletín. No corresponde a "Día anterior".
 STATIONS = [
-    {"rio": "Río Samaria", "estacion": "Samaria", "namo": 14.90, "name": 18.50, "label": "Samaria", "idx": 6},
-    {"rio": "Río Carrizal", "estacion": "González", "namo": 8.77, "name": 10.20, "label": "González", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "Oxolotán", "namo": 39.53, "name": 47.37, "label": "Oxolotán", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "Tapijulapa", "namo": 24.63, "name": 28.15, "label": "Tapijulapa", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "Teapa", "namo": 37.71, "name": 39.56, "label": "Teapa", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "Puyacatengo", "namo": 29.65, "name": 31.35, "label": "Puyacatengo", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "San Joaquín", "namo": 23.12, "name": 26.66, "label": "San Joaquín", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "Pueblo Nuevo", "namo": 7.49, "name": 8.40, "label": "Pueblo Nuevo", "idx": 6},
-    {"rio": "Río Grijalva", "estacion": "Gaviotas", "namo": 7.00, "name": 7.85, "label": "Gaviotas", "idx": 4},
-    {"rio": "Río Grijalva", "estacion": "El Muelle", "namo": None, "name": 7.23, "label": "Muelle", "idx": 3},
-    {"rio": "Río Grijalva", "estacion": "Porvenir", "namo": 4.74, "name": 6.67, "label": "Porvenir", "idx": 5},
-    {"rio": "Río Tulijá", "estacion": "Salto de Agua", "namo": 10.99, "name": 14.72, "label": "Salto de Agua", "idx": 6},
-    {"rio": "Río Puxcatán", "estacion": "Macuspana", "namo": 9.85, "name": 12.78, "label": "Macuspana", "idx": 6},
-    {"rio": "Río San Pedro", "estacion": "San Pedro", "namo": 9.01, "name": 9.77, "label": "San Pedro", "idx": 5},
+    {"rio": "Río Samaria", "estacion": "Samaria", "namo": 14.90, "name": 18.50, "label": "Samaria", "idx": 4},
+    {"rio": "Río Carrizal", "estacion": "González", "namo": 8.77, "name": 10.20, "label": "González", "idx": 4},
+    {"rio": "Ríos de la Sierra", "estacion": "Oxolotán", "namo": 39.53, "name": 47.37, "label": "Oxolotán", "idx": 4},
+    {"rio": "Ríos de la Sierra", "estacion": "Tapijulapa", "namo": 24.63, "name": 28.15, "label": "Tapijulapa", "idx": 4},
+    {"rio": "Ríos de la Sierra", "estacion": "Teapa", "namo": 37.71, "name": 39.56, "label": "Teapa", "idx": 4},
+    {"rio": "Ríos de la Sierra", "estacion": "Puyacatengo", "namo": 29.65, "name": 31.35, "label": "Puyacatengo", "idx": 4},
+    {"rio": "Ríos de la Sierra", "estacion": "San Joaquín", "namo": 23.12, "name": 26.66, "label": "San Joaquín", "idx": 4},
+    {"rio": "Ríos de la Sierra", "estacion": "Pueblo Nuevo", "namo": 7.49, "name": 8.40, "label": "Pueblo Nuevo", "idx": 4},
+    {"rio": "Río Grijalva", "estacion": "Gaviotas", "namo": 7.00, "name": 7.85, "label": "Gaviotas", "idx": 3},
+    {"rio": "Río Grijalva", "estacion": "El Muelle", "namo": None, "name": 7.23, "label": "Muelle", "idx": 2},
+    {"rio": "Río Grijalva", "estacion": "Porvenir", "namo": 4.74, "name": 6.67, "label": "Porvenir", "idx": 3},
+    {"rio": "Río Tulijá", "estacion": "Salto de Agua", "namo": 10.99, "name": 14.72, "label": "Salto de Agua", "idx": 4},
+    {"rio": "Río Puxcatán", "estacion": "Macuspana", "namo": 9.85, "name": 12.78, "label": "Macuspana", "idx": 4},
+    {"rio": "Río San Pedro", "estacion": "San Pedro", "namo": 9.01, "name": 9.77, "label": "San Pedro", "idx": 4},
     {"rio": "Río Usumacinta", "estacion": "Boca del Cerro", "namo": 19.21, "name": 21.57, "label": "Boca del Cerro", "idx": 4},
 ]
 
@@ -64,17 +66,57 @@ def find_line(text, label):
     return None
 
 
+def validate_layout(st, nums):
+    """Impide publicar una columna desplazada como nivel hidrométrico."""
+    errors = []
+    idx = st["idx"]
+    if len(nums) <= idx:
+        errors.append(f"faltan columnas: {len(nums)} tokens, requiere índice {idx}")
+        return errors
+
+    # En el formato PTC-ST-007 el primer valor numérico de estas filas es NAME.
+    if st.get("name") is not None and (not nums or abs(nums[0] - st["name"]) > 0.05):
+        errors.append(f"NAME fuera de posición: esperado {st['name']}, recibido {nums[0] if nums else None}")
+
+    # Cuando existe NAMO, aparece como tercer token numérico. Esto detecta cambios
+    # de formato antes de que temperatura/gasto/día anterior puedan pasar por nivel.
+    if st.get("namo") is not None:
+        if len(nums) <= 2 or abs(nums[2] - st["namo"]) > 0.05:
+            errors.append(f"NAMO fuera de posición: esperado {st['namo']}, recibido {nums[2] if len(nums) > 2 else None}")
+    return errors
+
+
 def extract_values(text):
     values = {}
     diagnostics = {}
     for st in STATIONS:
         line = find_line(text, st["label"])
         nums = numeric_tokens(line or "")
-        value = nums[st["idx"]] if len(nums) > st["idx"] else None
-        if value is not None and (not math.isfinite(value) or value < -5 or value > 60):
-            value = None
+        errors = [] if line else ["fila no encontrada"]
+        if line:
+            errors.extend(validate_layout(st, nums))
+
+        value = None
+        if not errors and len(nums) > st["idx"]:
+            candidate = nums[st["idx"]]
+            if not math.isfinite(candidate) or candidate < -5 or candidate > 60:
+                errors.append(f"nivel fuera de rango general: {candidate}")
+            # Barrera adicional contra temperaturas/gastos capturados como escala.
+            # Se deja margen amplio sobre NAME para no bloquear una avenida extrema real.
+            elif st.get("name") is not None and candidate > st["name"] + 10:
+                errors.append(f"nivel incompatible con NAME: {candidate} > {st['name']} + 10")
+            else:
+                value = candidate
+
         values[st["estacion"]] = value
-        diagnostics[st["estacion"]] = {"line": line, "numeric_count": len(nums), "value": value}
+        diagnostics[st["estacion"]] = {
+            "line": line,
+            "numeric_count": len(nums),
+            "tokens": nums,
+            "idx_actual": st["idx"],
+            "value": value,
+            "validation_errors": errors,
+        }
     return values, diagnostics
 
 
@@ -136,17 +178,19 @@ def main():
         print(f"FUENTE2 {stamp} es anterior al histórico vigente {latest.isoformat()}; no se retrocede el corte.")
         return
 
-    added = observed_added = inherited_added = corrected = 0
+    added = observed_added = inherited_added = corrected = rejected = 0
     for st in STATIONS:
         key = f"{stamp}|{st['estacion']}|FUENTE2-{message_id}"
         existing = next((r for r in history if r.get("_key") == key), None)
         observed = values.get(st["estacion"])
+        diag = diagnostics.get(st["estacion"], {})
+        if observed is None and diag.get("validation_errors"):
+            rejected += 1
 
-        # Corrección controlada: Boca del Cerro debe tomar la escala Actual (idx 4).
-        # Si el mismo corte ya fue guardado con la columna equivocada, se revalida
-        # contra FUENTE2 sin crear un duplicado ni alterar otras estaciones.
+        # Revalida cualquier estación del mismo corte sin duplicar registros.
+        # Esto permite corregir una regla de extracción sin borrar el histórico.
         if existing:
-            if st["estacion"] == "Boca del Cerro" and observed is not None:
+            if observed is not None:
                 try:
                     old = float(existing.get("nivel"))
                 except Exception:
@@ -163,6 +207,8 @@ def main():
             level, state, last_real_time = observed, "observado", stamp
             observed_added += 1
         elif prev:
+            # Si la estructura no supera validación, nunca publica el candidato dudoso.
+            # Conserva el último valor observado válido y queda identificado como heredado.
             level, state, last_real_time = prev.get("nivel"), "heredado", prev.get("fecha_hora")
             inherited_added += 1
         else:
@@ -179,10 +225,24 @@ def main():
     evidence = BASE / "Evidencia_Texto"
     evidence.mkdir(parents=True, exist_ok=True)
     (evidence / f"FUENTE2_{cut.strftime('%Y-%m-%d_%H%M')}_{message_id}_diagnostico.json").write_text(
-        json.dumps({"cut": stamp, "subject": subject, "message_id": message_id, "diagnostics": diagnostics}, ensure_ascii=False, indent=2) + "\n",
+        json.dumps({
+            "cut": stamp,
+            "subject": subject,
+            "message_id": message_id,
+            "diagnostics": diagnostics,
+            "validation_rejected": rejected,
+        }, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    print(json.dumps({"source":"FUENTE2","cut":stamp,"added":added,"observed":observed_added,"inherited":inherited_added,"corrected":corrected}, ensure_ascii=False))
+    print(json.dumps({
+        "source":"FUENTE2",
+        "cut":stamp,
+        "added":added,
+        "observed":observed_added,
+        "inherited":inherited_added,
+        "corrected":corrected,
+        "validation_rejected":rejected,
+    }, ensure_ascii=False))
 
 
 if __name__ == "__main__":
