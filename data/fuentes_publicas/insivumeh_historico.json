@@ -1651,61 +1651,92 @@
           "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
         }
       ]
+    },
+    {
+      "clave": "15/09/2026|14:00|773",
+      "boletin": "773",
+      "fecha": "15/09/2026",
+      "hora": "14:00",
+      "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
+      "estaciones": [
+        {
+          "estacion": "El Porvenir",
+          "rio": "La Pasión",
+          "nivel_referencia_min_m": 1.03,
+          "nivel_referencia_max_m": 3.0,
+          "caudal_referencia_min_m3s": 93.04,
+          "caudal_referencia_max_m3s": 399.28,
+          "nivel_instantaneo_m": 1.49,
+          "caudal_instantaneo_m3s": 140.66,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+        },
+        {
+          "estacion": "Puente Chocox",
+          "rio": "Chixoy",
+          "nivel_referencia_min_m": 0.56,
+          "nivel_referencia_max_m": 2.33,
+          "caudal_referencia_min_m3s": 7.9,
+          "caudal_referencia_max_m3s": 110.1,
+          "nivel_instantaneo_m": 0.57,
+          "caudal_instantaneo_m3s": 8.12,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+        }
+      ]
     }
   ],
-  "actualizado_utc": "2026-09-15T19:15:16.565234+00:00",
+  "actualizado_utc": "2026-09-15T22:18:03.418263+00:00",
   "ultima_evolucion_real": [
-    {
-      "estacion": "El Tigre",
-      "rio": "Usumacinta",
-      "desde": "14/09/2026 20:00",
-      "hasta": "15/09/2026 08:00",
-      "horas_transcurridas": 12.0,
-      "delta_nivel_m": -0.01,
-      "delta_caudal_m3s": -4.35,
-      "tendencia_calculada": "estable"
-    },
     {
       "estacion": "El Porvenir",
       "rio": "La Pasión",
-      "desde": "14/09/2026 20:00",
-      "hasta": "15/09/2026 08:00",
-      "horas_transcurridas": 12.0,
-      "delta_nivel_m": -0.03,
-      "delta_caudal_m3s": -3.56,
-      "tendencia_calculada": "disminuyendo"
-    },
-    {
-      "estacion": "Playa Grande",
-      "rio": "Chixoy",
-      "desde": "14/09/2026 20:00",
-      "hasta": "15/09/2026 08:00",
-      "horas_transcurridas": 12.0,
-      "delta_nivel_m": 0.15,
-      "delta_caudal_m3s": 27.75,
-      "tendencia_calculada": "incrementando"
+      "desde": "15/09/2026 08:00",
+      "hasta": "15/09/2026 14:00",
+      "horas_transcurridas": 6.0,
+      "delta_nivel_m": 0.0,
+      "delta_caudal_m3s": 0.0,
+      "tendencia_calculada": "estable"
     },
     {
       "estacion": "Puente Chocox",
       "rio": "Chixoy",
-      "desde": "14/09/2026 20:00",
-      "hasta": "15/09/2026 08:00",
-      "horas_transcurridas": 12.0,
-      "delta_nivel_m": 0.0,
-      "delta_caudal_m3s": 0.0,
+      "desde": "15/09/2026 08:00",
+      "hasta": "15/09/2026 14:00",
+      "horas_transcurridas": 6.0,
+      "delta_nivel_m": 0.01,
+      "delta_caudal_m3s": 0.22,
       "tendencia_calculada": "estable"
     }
   ],
   "ultimo_pdf_bhvgm": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
-  "senal_usumacinta_alta": "Señal aguas arriba estable",
+  "senal_usumacinta_alta": "Sin tendencia comparable aguas arriba",
   "el_tigre_estado": {
-    "publicado_en_corte_actual": true,
+    "publicado_en_corte_actual": false,
     "corte_actual": {
+      "boletin": "773",
+      "fecha": "15/09/2026",
+      "hora": "14:00"
+    },
+    "ultimo_publicado_anterior": {
       "boletin": "772",
       "fecha": "15/09/2026",
-      "hora": "08:00"
+      "hora": "08:00",
+      "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
+      "estacion": {
+        "estacion": "El Tigre",
+        "rio": "Usumacinta",
+        "nivel_referencia_min_m": 4.55,
+        "nivel_referencia_max_m": 10.0,
+        "caudal_referencia_min_m3s": 486.87,
+        "caudal_referencia_max_m3s": 2856.43,
+        "nivel_instantaneo_m": 5.15,
+        "caudal_instantaneo_m3s": 747.74,
+        "calidad": "extraido_del_BHVGM",
+        "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+      }
     },
-    "ultimo_publicado_anterior": null,
     "regla": "Un dato anterior se conserva solo como antecedente; nunca sustituye ni gobierna el corte actual."
-  }
+  },
+  "diagnostico_el_tigre": "El Tigre no fue publicado en BHVGM 773; se conserva el último publicado solo como antecedente y no como dato actual."
 }
