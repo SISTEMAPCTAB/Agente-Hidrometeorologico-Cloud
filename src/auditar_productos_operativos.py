@@ -1,6 +1,5 @@
 import json
 import math
-import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -11,7 +10,6 @@ OUT = OUT_DIR / 'ultimo_resultado.json'
 
 LEVELS = BASE / 'Ultimo_Corte' / 'ultimo_resumen.json'
 RAIN = BASE / 'Lluvia_CONAGUA' / 'ultimo_corte.json'
-CLIMATE = BASE / 'Clima_CONAGUA' / 'ultimo_corte.json'
 
 EXPECTED_STATIONS = {
     'Samaria': (-2, 25),
@@ -30,8 +28,6 @@ EXPECTED_STATIONS = {
     'San Pedro': (-2, 15),
     'Boca del Cerro': (-2, 25),
 }
-
-CODE_RE = re.compile(r'\b(?:BHG\d+|AFT\d+|AF\d+|OB\d+|PIAE|ACNA\d+|ACFE\d+|APC\d+|ATUX\d+|CLIM-?\d+)\b', re.I)
 
 
 def load(path):
@@ -152,52 +148,6 @@ def audit_rain(errors, warnings, stats):
                 errors.append(f'Lluvia/{name}: 48 h observado sin fecha_referencia_48h.')
 
 
-def audit_climate(errors, warnings, stats):
-    data = load(CLIMATE)
-    if not isinstance(data, dict):
-        errors.append('Clima CONAGUA/Frontera Sur: ultimo_corte.json no es un objeto.')
-        return
-
-    local = data.get('conagua_tabasco') or []
-    fs = data.get('frontera_sur') or []
-    stats['clima_conagua_filas'] = len(local)
-    stats['clima_frontera_sur_filas'] = len(fs)
-    if len(local) < 10:
-        errors.append(f'Clima CONAGUA Tabasco: sólo {len(local)} estaciones válidas; extracción posiblemente incompleta.')
-    if len(fs) < 20:
-        errors.append(f'Clima Frontera Sur: sólo {len(fs)} estaciones válidas; extracción posiblemente incompleta.')
-
-    def check_row(r, prefix, has_code=False):
-        name = str(r.get('estacion') or '?')
-        rain = r.get('lluvia_24h_mm')
-        tmax = r.get('temp_max_c')
-        tmin = r.get('temp_min_c')
-        if not num(rain) or not 0 <= float(rain) <= 500:
-            errors.append(f'{prefix}/{name}: lluvia_24h_mm inválida: {rain!r}.')
-        if not num(tmax) or not 10 <= float(tmax) <= 55:
-            errors.append(f'{prefix}/{name}: temperatura máxima inválida: {tmax!r}.')
-        if not num(tmin) or not -5 <= float(tmin) <= 40:
-            errors.append(f'{prefix}/{name}: temperatura mínima inválida: {tmin!r}.')
-        if num(tmax) and num(tmin) and float(tmax) < float(tmin):
-            errors.append(f'{prefix}/{name}: Tmax {tmax} < Tmin {tmin}.')
-        if has_code:
-            code = str(r.get('codigo') or '')
-            if not code:
-                errors.append(f'{prefix}/{name}: falta código de estación.')
-            # Un nombre que todavía contiene otro código indica que el PDF de doble columna
-            # no fue separado correctamente (ej. "Aquespala ... BHG18 ...").
-            other_codes = [m.group(0).upper() for m in CODE_RE.finditer(name) if m.group(0).upper() != code.upper()]
-            if other_codes:
-                errors.append(f'{prefix}/{code}: nombre contaminado por otro código de columna: {", ".join(other_codes)}.')
-
-    for r in local:
-        if isinstance(r, dict):
-            check_row(r, 'Clima CONAGUA')
-    for r in fs:
-        if isinstance(r, dict):
-            check_row(r, 'Clima Frontera Sur', True)
-
-
 def main():
     errors = []
     warnings = []
@@ -205,7 +155,6 @@ def main():
     try:
         audit_levels(errors, warnings, stats)
         audit_rain(errors, warnings, stats)
-        audit_climate(errors, warnings, stats)
     except Exception as exc:
         errors.append(f'Fallo de auditoría: {type(exc).__name__}: {exc}')
 
@@ -215,10 +164,8 @@ def main():
         'advertencias': warnings,
         'estadisticas': stats,
         'regla': (
-            'La publicación se bloquea sólo ante inconsistencias estructurales demostrables: '
-            'estaciones críticas ausentes, rangos físicamente imposibles, estados observado/heredado incoherentes, '
-            'acumulados 48 h incompatibles, temperaturas inválidas o mezcla de columnas/códigos. '
-            'Cambios hidrometeorológicos reales no se rechazan sólo por ser inusuales.'
+            'La auditoría automática se limita a niveles y acumulados CONAGUA autorizados. '
+            'El apartado WeatherLink/CONAGUA conserva su funcionamiento previo y no se altera ni se bloquea desde esta auditoría.'
         ),
     }
     OUT_DIR.mkdir(parents=True, exist_ok=True)
