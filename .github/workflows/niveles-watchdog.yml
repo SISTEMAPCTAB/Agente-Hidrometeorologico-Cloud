@@ -12,8 +12,9 @@ on:
 permissions:
   contents: write
 
+# Cola compartida: ningún recolector que escriba datos operativos publica a la vez.
 concurrency:
-  group: niveles-hidrometricos-watchdog
+  group: datos-hidrometeorologicos-writer
   cancel-in-progress: false
 
 jobs:
