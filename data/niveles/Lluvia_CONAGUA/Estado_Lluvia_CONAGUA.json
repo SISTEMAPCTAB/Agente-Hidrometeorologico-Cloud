@@ -1,14 +1,14 @@
 {
   "complete": true,
-  "fecha_reporte": "2026-09-14",
-  "hora_objetivo": 18,
+  "fecha_reporte": "2026-09-15",
+  "hora_objetivo": 12,
   "pagina_fuente": 2,
   "bloques_precipitacion_detectados": 2,
   "estaciones_detectadas": 52,
   "modo": "precipitacion_conagua_validada_por_estructura",
   "significado_campos": {
-    "lluvia_24h_precedentes_mm": "PRECIPITACIÓN REGISTRADA A LAS 8:00 HR, ACUMULADAS EN 24:00 HR PRECEDENTES (A)",
-    "lluvia_48h_precedentes_mm": "BLOQUE OFICIAL DE 24 H DEL DÍA PREVIO, MOSTRADO COMO 48 H ANTERIORES; se recupera del histórico de la misma estación y no se suma.",
+    "lluvia_24h_precedentes_mm": "PRECIPITACIÓN REGISTRADA A LAS 8:00 HR, ACUMULADA EN LAS 24:00 HR PRECEDENTES (A)",
+    "lluvia_48h_precedentes_mm": "ACUMULADO MÓVIL DE 48 H: suma del bloque oficial de 24 h vigente y el bloque oficial de 24 h del día previo para la misma estación; sólo con ambos bloques observados.",
     "lluvia_hoy_desde_08_mm": "PRECIPITACIÓN ACUMULADA A PARTIR DE LAS 8:00 HR DEL DÍA ACTUAL (HOY)"
   },
   "regla_blancos": "Celda en blanco = sin_dato; nunca se convierte a 0 mm. Solo se conserva 0 cuando CONAGUA publica explícitamente cero.",
@@ -16,12 +16,8 @@
     "blancos_24h": 5,
     "blancos_48h": 5,
     "blancos_hoy": 5,
-    "ceros_explicitos_24h": 36,
+    "ceros_explicitos_24h": 44,
     "ceros_explicitos_hoy": 47
   },
-  "diagnostic": null,
-  "run_utc": "2026-09-15T16:38:01.778425+00:00",
-  "status": "fuente_temporalmente_no_disponible",
-  "warning": "No se pudo consultar un reporte reciente de CONAGUA en esta ejecución. principal: ConnectionError: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by NameResolutionError(\"HTTPSConnection(host='correo.tabasco.gob.mx', port=443): Failed to resolve 'correo.tabasco.gob.mx' ([Errno -3] Temporary failure in name resolution)\")); fuente1: ConnectionError: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by NameResolutionError(\"HTTPSConnection(host='correo.tabasco.gob.mx', port=443): Failed to resolve 'correo.tabasco.gob.mx' ([Errno -3] Temporary failure in name resolution)\"))",
-  "regla": "Se conserva el último dato válido; ausencia de fuente nunca equivale a cero."
+  "diagnostic": null
 }

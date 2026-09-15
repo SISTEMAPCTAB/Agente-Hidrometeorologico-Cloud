@@ -1,31 +1,30 @@
 {
   "agent": "Niveles Hidrométricos Cloud",
-  "run_utc": "2026-09-15T16:34:16.698587+00:00",
+  "run_utc": "2026-09-15T19:48:25.001659+00:00",
   "complete": true,
-  "selected_account": null,
+  "selected_account": "principal",
   "lookback_days": 7,
-  "candidate_count": 0,
-  "processed_now": 0,
-  "processed_total": 135,
+  "candidate_count": 36,
+  "processed_now": 2,
+  "processed_total": 137,
   "stations_in_latest_summary": 15,
-  "latest_subject": null,
-  "latest_message_utc": null,
+  "latest_subject": "INFORME DE NIVELES DE RIOS Y PRESAS DE 12 HRS",
+  "latest_message_utc": "2026-09-15T18:51:36+00:00",
   "errors": [],
   "skipped_nonfatal": [],
   "accounts": [
     {
       "label": "principal",
-      "ok": false,
-      "reason": "ConnectionError: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by NameResolutionError(\"HTTPSConnection(host='correo.tabasco.gob.mx', port=443): Failed to resolve 'correo.tabasco.gob.mx' ([Errno -3] Temporary failure in name resolution)\"))",
-      "candidate_count": 0
+      "ok": true,
+      "candidate_count": 36,
+      "reason": null
     },
     {
       "label": "fuente1",
-      "ok": false,
-      "reason": "ConnectionError: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by NameResolutionError(\"HTTPSConnection(host='correo.tabasco.gob.mx', port=443): Failed to resolve 'correo.tabasco.gob.mx' ([Errno -3] Temporary failure in name resolution)\"))",
-      "candidate_count": 0
+      "ok": true,
+      "candidate_count": 0,
+      "reason": null
     }
   ],
-  "note": "No llegó un reporte nuevo de niveles en esta ejecución; se conserva el último corte válido y el postproceso actualiza comparaciones/gráficas sin inventar datos.",
   "rule_missing_data": "Si una fila horaria está incompleta o falta un valor, se conserva el último valor observado válido por estación y se marca como heredado; ausencia nunca equivale a cero."
 }
