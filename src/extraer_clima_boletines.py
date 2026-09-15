@@ -8,8 +8,6 @@ OUT_DIR = Path('data/niveles/Clima_CONAGUA')
 OUT = OUT_DIR / 'ultimo_corte.json'
 STATE = OUT_DIR / 'Estado_Clima_CONAGUA.json'
 
-CODE_PATTERN = r'(?:BHG\d+|AFT\d+|AF\d+|OB\d+|PIAE|ACNA\d+|ACFE\d+|APC\d+|ATUX\d+|CLIM-?\d+)'
-
 
 def header(text, key):
     m = re.search(rf'^{re.escape(key)}:\s*(.+)$', text, re.M | re.I)
@@ -17,16 +15,7 @@ def header(text, key):
 
 
 def nums(text):
-    # No capturar dígitos incrustados en códigos de estación (p. ej. ACNA17,
-    # BHG3, AFT10). En las tablas de FUENTE1 dos columnas pueden quedar
-    # concatenadas en una misma línea durante la extracción del PDF.
-    return [
-        float(x.replace(',', ''))
-        for x in re.findall(
-            r'(?<![A-Za-z0-9])[-+]?\d+(?:,\d{3})*(?:\.\d+)?(?![A-Za-z0-9])',
-            text,
-        )
-    ]
+    return [float(x.replace(',', '')) for x in re.findall(r'(?<![A-Za-z])[-+]?\d+(?:,\d{3})*(?:\.\d+)?', text)]
 
 
 def plausible_temp(tmax, tmin):
@@ -78,57 +67,39 @@ def parse_fuente2(text):
     return rows
 
 
-def parse_fuente1_segment(segment, msg, rec):
-    """Interpreta exactamente una estación extraída de una fila de FUENTE1."""
-    m = re.match(rf'^({CODE_PATTERN})\s+(.+)$', segment.strip(), re.I)
-    if not m:
-        return None
-    code, rest = m.group(1), m.group(2)
-    n = nums(rest)
-    if len(n) < 3:
-        return None
-    cand_rain, cand_tmax, cand_tmin = n[-3], n[-2], n[-1]
-    if not (0 <= cand_rain <= 500 and plausible_temp(cand_tmax, cand_tmin)):
-        return None
-    first_num = re.search(r'(?<![A-Za-z0-9])[-+]?\d', rest)
-    label = rest[:first_num.start()].strip() if first_num else rest.strip()
-    label = re.sub(r'\s+', ' ', label).strip(' -')
-    if not label:
-        label = code
-    return {
-        'codigo': code,
-        'estacion': label,
-        'lluvia_24h_mm': cand_rain,
-        'temp_max_c': cand_tmax,
-        'temp_min_c': cand_tmin,
-        'fecha_hora_mensaje': msg,
-        'fecha_hora_recoleccion': rec,
-        'fuente': 'OCFS Frontera Sur / FUENTE1',
-        'estado_dato': 'observado'
-    }
-
-
 def parse_fuente1(text):
     rows = []
     msg = header(text, 'FECHA/HORA MENSAJE')
     rec = header(text, 'FECHA/HORA RECOLECCIÓN')
-    code_find = re.compile(rf'(?<![A-Za-z0-9]){CODE_PATTERN}(?![A-Za-z0-9])', re.I)
-
+    code_rx = re.compile(r'^(BHG\d+|AFT\d+|AF\d+|OB\d+|PIAE|ACNA\d+|ACFE\d+|APC\d+|ATUX\d+|CLIM-?\d+)\s+(.+)$', re.I)
     for raw in text.splitlines():
         line = raw.strip()
-        matches = list(code_find.finditer(line))
-        if not matches:
+        m = code_rx.match(line)
+        if not m:
             continue
-        # Los PDF de Frontera Sur suelen tener dos columnas. La extracción de
-        # texto puede concatenarlas en una sola línea; se corta la línea en cada
-        # código para impedir que valores de la estación derecha se asignen a la izquierda.
-        for i, match in enumerate(matches):
-            end = matches[i + 1].start() if i + 1 < len(matches) else len(line)
-            segment = line[match.start():end].strip()
-            row = parse_fuente1_segment(segment, msg, rec)
-            if row:
-                rows.append(row)
-
+        code, rest = m.group(1), m.group(2)
+        n = nums(rest)
+        if len(n) < 3:
+            continue
+        cand_rain, cand_tmax, cand_tmin = n[-3], n[-2], n[-1]
+        if not (0 <= cand_rain <= 500 and plausible_temp(cand_tmax, cand_tmin)):
+            continue
+        first_num = re.search(r'(?<![A-Za-z])[-+]?\d', rest)
+        label = rest[:first_num.start()].strip() if first_num else rest.strip()
+        label = re.sub(r'\s+', ' ', label).strip(' -')
+        if not label:
+            label = code
+        rows.append({
+            'codigo': code,
+            'estacion': label,
+            'lluvia_24h_mm': cand_rain,
+            'temp_max_c': cand_tmax,
+            'temp_min_c': cand_tmin,
+            'fecha_hora_mensaje': msg,
+            'fecha_hora_recoleccion': rec,
+            'fuente': 'OCFS Frontera Sur / FUENTE1',
+            'estado_dato': 'observado'
+        })
     # Deduplicar por código conservando la última fila válida del boletín.
     d = {}
     for r in rows:
@@ -148,7 +119,7 @@ def main():
         'complete': bool(r1 or r2),
         'conagua_tabasco_estaciones_con_clima': len(r2),
         'frontera_sur_estaciones_con_clima': len(r1),
-        'regla': 'Sólo se publican lluvia y temperaturas cuando la fila contiene valores numéricos estructurados y físicamente plausibles. En FUENTE1 cada código de estación se procesa por separado aunque el PDF concatene dos columnas. Ausencia = s/d; nunca se inventa ni se convierte a cero.'
+        'regla': 'Sólo se publican lluvia y temperaturas cuando la fila contiene valores numéricos estructurados y físicamente plausibles. Ausencia = s/d; nunca se inventa ni se convierte a cero.'
     }
     STATE.write_text(json.dumps(state, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(state, ensure_ascii=False))
