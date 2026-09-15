@@ -15,7 +15,17 @@ def header(text, key):
 
 
 def nums(text):
-    return [float(x.replace(',', '')) for x in re.findall(r'(?<![A-Za-z])[-+]?\d+(?:,\d{3})*(?:\.\d+)?', text)]
+    # No capturar dígitos incrustados en códigos de estación (p. ej. ACNA17,
+    # BHG3, AFT10). En las tablas de FUENTE1 dos columnas pueden quedar
+    # concatenadas en una misma línea durante la extracción del PDF; tomar el
+    # sufijo numérico de un código como si fuera lluvia desplazaba lluvia/Tmax/Tmin.
+    return [
+        float(x.replace(',', ''))
+        for x in re.findall(
+            r'(?<![A-Za-z0-9])[-+]?\d+(?:,\d{3})*(?:\.\d+)?(?![A-Za-z0-9])',
+            text,
+        )
+    ]
 
 
 def plausible_temp(tmax, tmin):
@@ -84,7 +94,7 @@ def parse_fuente1(text):
         cand_rain, cand_tmax, cand_tmin = n[-3], n[-2], n[-1]
         if not (0 <= cand_rain <= 500 and plausible_temp(cand_tmax, cand_tmin)):
             continue
-        first_num = re.search(r'(?<![A-Za-z])[-+]?\d', rest)
+        first_num = re.search(r'(?<![A-Za-z0-9])[-+]?\d', rest)
         label = rest[:first_num.start()].strip() if first_num else rest.strip()
         label = re.sub(r'\s+', ' ', label).strip(' -')
         if not label:
