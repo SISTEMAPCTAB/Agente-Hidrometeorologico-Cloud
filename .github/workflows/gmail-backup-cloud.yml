@@ -99,6 +99,10 @@ jobs:
           GMAIL_BACKUP_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           GMAIL_BACKUP_LOOKBACK_DAYS: '3'
           NIVELES_BASE: data/niveles
+          # Sólo satisfacen la carga del módulo compartido carbonio_to_repo.
+          # El respaldo Gmail no autentica ni consulta Carbonio.
+          CARBONIO_USER: gmail-backup-unused
+          CARBONIO_PASSWORD: gmail-backup-unused
         run: python src/gmail_fallback.py
 
       # Detecta aporte real antes de ejecutar regeneradores. El archivo de estado
