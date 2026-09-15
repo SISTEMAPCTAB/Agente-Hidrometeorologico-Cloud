@@ -130,51 +130,49 @@ jobs:
       - name: Publicar niveles, lluvia, clima CONAGUA, gráficas y Word
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
           git config user.name "Agente Hidrometeorologico Cloud"
           git config user.email "actions@users.noreply.github.com"
-          git add data/niveles/Historico \
-                  data/niveles/Resumen_12h \
-                  data/niveles/Ultimo_Corte \
-                  data/niveles/Estado \
-                  data/niveles/Estado_Niveles_Cloud.json \
-                  data/niveles/Lluvia_CONAGUA \
-                  data/niveles/Clima_CONAGUA \
-                  data/niveles/Graficas \
-                  data/niveles/Reportes \
-                  data/niveles/Evidencia_Texto
-          if git diff --cached --quiet; then
-            echo "Sin cambios de niveles/lluvia/clima para publicar."
-            exit 0
-          fi
 
-          git stash push --include-untracked -m "productos-niveles-cloud"
-          git pull --rebase origin main
-          git stash pop
-          git add data/niveles/Historico \
-                  data/niveles/Resumen_12h \
-                  data/niveles/Ultimo_Corte \
-                  data/niveles/Estado \
-                  data/niveles/Estado_Niveles_Cloud.json \
-                  data/niveles/Lluvia_CONAGUA \
-                  data/niveles/Clima_CONAGUA \
-                  data/niveles/Graficas \
-                  data/niveles/Reportes \
-                  data/niveles/Evidencia_Texto
-          if git diff --cached --quiet; then
-            echo "Los cambios ya quedaron incorporados por otra ejecución."
-            exit 0
-          fi
+          PRODUCTOS=(
+            data/niveles/Historico
+            data/niveles/Resumen_12h
+            data/niveles/Ultimo_Corte
+            data/niveles/Estado
+            data/niveles/Estado_Niveles_Cloud.json
+            data/niveles/Lluvia_CONAGUA
+            data/niveles/Clima_CONAGUA
+            data/niveles/Graficas
+            data/niveles/Reportes
+            data/niveles/Evidencia_Texto
+          )
 
-          git commit -m "Actualiza niveles lluvia clima CONAGUA y graficas [skip ci]"
+          # Guardar exclusivamente los productos generados. Después se parte del
+          # HEAD remoto más reciente para evitar conflictos de stash/rebase con
+          # otros recolectores que hayan publicado mientras este job procesaba.
+          tar -cf /tmp/productos-niveles.tar "${PRODUCTOS[@]}"
+
           for intento in 1 2 3; do
             echo "Intento de publicación niveles ${intento}/3"
-            if git pull --rebase origin main && git push origin main; then
-              echo "Niveles publicados."
+            git fetch origin main
+            git reset --hard origin/main
+            tar -xf /tmp/productos-niveles.tar
+            git add "${PRODUCTOS[@]}"
+
+            if git diff --cached --quiet; then
+              echo "Sin cambios de niveles/lluvia/clima para publicar."
               exit 0
             fi
-            git rebase --abort 2>/dev/null || true
-            sleep $((intento * 10))
+
+            git commit -m "Actualiza niveles lluvia clima CONAGUA y graficas [skip ci]"
+            if git push origin HEAD:main; then
+              echo "Niveles publicados sin conflictos."
+              exit 0
+            fi
+
+            echo "El remoto cambió durante la publicación; se reconstruirá el commit sobre el HEAD vigente."
+            sleep $((intento * 8))
           done
+
           echo "No fue posible publicar niveles después de 3 intentos."
           exit 1
