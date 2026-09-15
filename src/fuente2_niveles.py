@@ -136,12 +136,28 @@ def main():
         print(f"FUENTE2 {stamp} es anterior al histórico vigente {latest.isoformat()}; no se retrocede el corte.")
         return
 
-    added = observed_added = inherited_added = 0
+    added = observed_added = inherited_added = corrected = 0
     for st in STATIONS:
         key = f"{stamp}|{st['estacion']}|FUENTE2-{message_id}"
-        if any(r.get("_key") == key for r in history):
-            continue
+        existing = next((r for r in history if r.get("_key") == key), None)
         observed = values.get(st["estacion"])
+
+        # Corrección controlada: Boca del Cerro debe tomar la escala Actual (idx 4).
+        # Si el mismo corte ya fue guardado con la columna equivocada, se revalida
+        # contra FUENTE2 sin crear un duplicado ni alterar otras estaciones.
+        if existing:
+            if st["estacion"] == "Boca del Cerro" and observed is not None:
+                try:
+                    old = float(existing.get("nivel"))
+                except Exception:
+                    old = None
+                if old is None or abs(old - observed) > 1e-9:
+                    existing["nivel"] = observed
+                    existing["estado_dato"] = "observado"
+                    existing["ultima_actualizacion_real"] = stamp
+                    corrected += 1
+            continue
+
         prev = last_real(history, st["estacion"], cut)
         if observed is not None:
             level, state, last_real_time = observed, "observado", stamp
@@ -166,7 +182,7 @@ def main():
         json.dumps({"cut": stamp, "subject": subject, "message_id": message_id, "diagnostics": diagnostics}, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    print(json.dumps({"source":"FUENTE2","cut":stamp,"added":added,"observed":observed_added,"inherited":inherited_added}, ensure_ascii=False))
+    print(json.dumps({"source":"FUENTE2","cut":stamp,"added":added,"observed":observed_added,"inherited":inherited_added,"corrected":corrected}, ensure_ascii=False))
 
 
 if __name__ == "__main__":
