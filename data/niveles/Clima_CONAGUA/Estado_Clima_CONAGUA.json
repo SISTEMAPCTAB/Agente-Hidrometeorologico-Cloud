@@ -1,6 +1,6 @@
 {
   "complete": true,
   "conagua_tabasco_estaciones_con_clima": 12,
-  "frontera_sur_estaciones_con_clima": 44,
-  "regla": "Sólo se publican lluvia y temperaturas cuando la fila contiene valores numéricos estructurados y físicamente plausibles. Ausencia = s/d; nunca se inventa ni se convierte a cero."
+  "frontera_sur_estaciones_con_clima": 59,
+  "regla": "Sólo se publican lluvia y temperaturas cuando la fila contiene valores numéricos estructurados y físicamente plausibles. En FUENTE1 cada código de estación se procesa por separado aunque el PDF concatene dos columnas. Ausencia = s/d; nunca se inventa ni se convierte a cero."
 }
