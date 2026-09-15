@@ -103,6 +103,28 @@
     return out;
   }
 
+  function conaguaHourlyGroups(rows,catalog){
+    const byStation=new Map(rows.map(r=>[norm(r.estacion),r]));
+    const entries=catalog.rows.filter(x=>norm(x.fuente)==='conagua'&&SYSTEM_ORDER.includes(x.sistema));
+    const out=[];
+    for(const system of SYSTEM_ORDER){
+      const body=[];const seen=new Set();
+      for(const e of entries.filter(x=>x.sistema===system)){
+        const key=norm(e.estacion),r=byStation.get(key);if(!r||seen.has(key))continue;
+        seen.add(key);
+        const stateHoy=r.estado_hoy==='observado'?'observado':'s/d';
+        const state24=r.estado_24h==='observado'?'observado':'s/d';
+        const state48=r.estado_48h==='observado'?'observado':'s/d';
+        const cut=String(r.fecha_hora||'s/d').replace('T',' ').replace('-06:00','');
+        body.push(`<tr><td><b>${esc(r.estacion||e.estacion)}</b></td><td>${esc(e.subcuenca||'s/d')}</td><td><b>${fmt(r.lluvia_hoy_desde_08_mm)}</b><br><small>${stateHoy}</small></td><td>${fmt(r.lluvia_24h_precedentes_mm)}<br><small>${state24}</small></td><td>${fmt(r.lluvia_48h_precedentes_mm)}<br><small>${state48}</small></td><td>${esc(cut)}</td></tr>`);
+      }
+      if(!body.length)continue;
+      const html=`<div class="table-wrap"><table><thead><tr><th>Estación</th><th>Subcuenca</th><th>HOY desde 08:00</th><th>24 h anteriores</th><th>48 h</th><th>Hora de corte</th></tr></thead><tbody>${body.join('')}</tbody></table></div>`;
+      out.push({system,title:catalog.systems[system]||SYSTEM_FALLBACK[system]||system,html});
+    }
+    return out;
+  }
+
   function appendGrouped(container,groups){
     if(!groups.length){container.innerHTML='<p class="muted">Sin estaciones vinculadas a las subcuencas verificadas en este corte.</p>';return}
     groups.forEach(g=>{
@@ -112,10 +134,20 @@
     });
   }
 
+  function appendHourlyGrouped(container,groups){
+    if(!groups.length){container.innerHTML='<p class="muted">Sin estaciones horarias CONAGUA vinculadas a las subcuencas verificadas en este corte.</p>';return}
+    groups.forEach(g=>{
+      const block=document.createElement('div');block.className='subcuenca-weather-block conagua-hourly-priority';
+      const h=document.createElement('h3');h.textContent=g.title;block.appendChild(h);
+      const body=document.createElement('div');body.innerHTML=g.html;while(body.firstChild)block.appendChild(body.firstChild);
+      container.appendChild(block);
+    });
+  }
+
   function allConaguaTable(rows){
     const sorted=[...rows].sort((a,b)=>String(a.estacion||'').localeCompare(String(b.estacion||''),'es'));
     if(!sorted.length)return '<p class="muted">Sin corte horario CONAGUA disponible.</p>';
-    return `<div class="table-wrap"><table><thead><tr><th>Estación</th><th>24 h anteriores</th><th>HOY desde 08:00</th><th>Hora de corte</th><th>Estado</th></tr></thead><tbody>${sorted.map(r=>`<tr><td><b>${esc(r.estacion||'s/d')}</b></td><td>${fmt(r.lluvia_24h_precedentes_mm)}</td><td>${fmt(r.lluvia_hoy_desde_08_mm)}</td><td>${esc(String(r.fecha_hora||'s/d').replace('T',' ').replace('-06:00',''))}</td><td>${r.estado_24h==='observado'?'observado':'s/d'}</td></tr>`).join('')}</tbody></table></div>`;
+    return `<div class="table-wrap"><table><thead><tr><th>Estación</th><th>HOY desde 08:00</th><th>24 h anteriores</th><th>48 h</th><th>Hora de corte</th><th>Estado</th></tr></thead><tbody>${sorted.map(r=>`<tr><td><b>${esc(r.estacion||'s/d')}</b></td><td><b>${fmt(r.lluvia_hoy_desde_08_mm)}</b></td><td>${fmt(r.lluvia_24h_precedentes_mm)}</td><td>${fmt(r.lluvia_48h_precedentes_mm)}</td><td>${esc(String(r.fecha_hora||'s/d').replace('T',' ').replace('-06:00',''))}</td><td>${r.estado_hoy==='observado'?'horario vigente':(r.estado_24h==='observado'?'referencia 24 h':'s/d')}</td></tr>`).join('')}</tbody></table></div>`;
   }
 
   function climateTable(rows){
@@ -126,7 +158,7 @@
   function ensureStyles(){
     if(document.getElementById('weatherSubcuencaStyle'))return;
     const s=document.createElement('style');s.id='weatherSubcuencaStyle';
-    s.textContent='.subcuenca-weather-block{margin:16px 0 22px}.subcuenca-weather-block:first-child{margin-top:8px}.subcuenca-weather-block h3{margin:0 0 8px;color:#6f112d;font-size:1rem}.subcuenca-weather-block .table-wrap{margin-top:0}.conagua-all{margin-top:20px}.conagua-all h3{color:#6f112d;margin:0 0 8px}';document.head.appendChild(s);
+    s.textContent='.subcuenca-weather-block{margin:16px 0 22px}.subcuenca-weather-block:first-child{margin-top:8px}.subcuenca-weather-block h3{margin:0 0 8px;color:#6f112d;font-size:1rem}.subcuenca-weather-block .table-wrap{margin-top:0}.conagua-all{margin-top:20px}.conagua-all h3{color:#6f112d;margin:0 0 8px}.conagua-priority-note{border-left:4px solid #6f112d;padding:10px 12px;background:#faf6f7;margin:8px 0 16px}.conagua-hourly-priority th:nth-child(3),.conagua-hourly-priority td:nth-child(3){background:#faf6f7}';document.head.appendChild(s);
   }
 
   async function splitWeather(){
@@ -137,7 +169,7 @@
     const [conRows,climate,catalog]=await Promise.all([conaguaRows(),climateRows(),hydrologicCatalog()]);
     const map=new Map(conRows.map(x=>[norm(x.estacion),x]));
     const wlTable=cloneFilteredTable(table,'WeatherLink');const conTable=cloneFilteredTable(table,'CONAGUA');enrichConagua(conTable,map);
-    const wlGroups=groupedTables(wlTable,'WEATHERLINK',catalog);const conGroups=groupedTables(conTable,'CONAGUA',catalog);
+    const wlGroups=groupedTables(wlTable,'WEATHERLINK',catalog);const conGroups=groupedTables(conTable,'CONAGUA',catalog);const hourlyGroups=conaguaHourlyGroups(conRows,catalog);
 
     ensureStyles();const grid=panel.parentElement;
     const wl=document.createElement('section');wl.className='panel wide';
@@ -145,7 +177,8 @@
     appendGrouped(wl.querySelector('.weather-source-groups'),wlGroups);
 
     const con=document.createElement('section');con.className='panel wide';
-    con.innerHTML='<h2>CONAGUA · lluvia y temperatura</h2><p class="muted">Se muestran todas las estaciones extraídas del corte horario y, debajo, las filas con lluvia y temperatura numéricas publicadas en los boletines CONAGUA Tabasco y Organismo de Cuenca Frontera Sur. Los blancos permanecen como s/d; no se estiman valores.</p><div class="weather-source-groups"></div><div class="conagua-all"><h3>Todas las estaciones del corte horario CONAGUA</h3>'+allConaguaTable(conRows)+'</div><div class="conagua-all"><h3>Boletín CONAGUA Tabasco · 08:00</h3>'+climateTable(climate.conagua_tabasco)+'</div><div class="conagua-all"><h3>Organismo de Cuenca Frontera Sur</h3>'+climateTable(climate.frontera_sur)+'</div>';
+    con.innerHTML='<h2>CONAGUA · lluvia horaria por subcuencas</h2><div class="conagua-priority-note"><b>Prioridad operativa:</b> primero se presenta el corte horario vigente y el acumulado <b>HOY desde 08:00</b> por subcuenca. Los acumulados de 24 h y 48 h quedan como antecedentes comparativos; el boletín diario de 24 h no sustituye el seguimiento horario.</div><div class="conagua-hourly-groups"></div><div class="conagua-all"><h3>Referencia diaria por subcuencas</h3><p class="muted">Datos diarios conservados como contexto antecedente.</p><div class="weather-source-groups"></div></div><div class="conagua-all"><h3>Todas las estaciones del corte horario CONAGUA</h3>'+allConaguaTable(conRows)+'</div><div class="conagua-all"><h3>Boletín CONAGUA Tabasco · referencia diaria</h3>'+climateTable(climate.conagua_tabasco)+'</div><div class="conagua-all"><h3>Organismo de Cuenca Frontera Sur · referencia diaria</h3>'+climateTable(climate.frontera_sur)+'</div>';
+    appendHourlyGrouped(con.querySelector('.conagua-hourly-groups'),hourlyGroups);
     appendGrouped(con.querySelector('.weather-source-groups'),conGroups);
 
     grid.insertBefore(wl,panel);grid.insertBefore(con,panel);panel.remove();content.dataset.weatherSplit='1';
