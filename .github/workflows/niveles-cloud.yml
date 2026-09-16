@@ -25,9 +25,10 @@ on:
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
   schedule:
-    # Tabasco = UTC-6. Consulta cada 15 minutos de 06:00 a 20:59 local.
+    # Tabasco = UTC-6. Consulta cada 15 minutos sólo de 06:00 a 19:59 local.
+    # Entre 20:00 y 06:00 no se esperan boletines y el agente queda en pausa.
     - cron: '3,18,33,48 12-23 * * *'
-    - cron: '3,18,33,48 0-2 * * *'
+    - cron: '3,18,33,48 0-1 * * *'
 
 permissions:
   contents: write
