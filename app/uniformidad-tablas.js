@@ -34,6 +34,27 @@
     });
   }
 
+  // En tablas de niveles la columna Estado repetía Ascenso/Descenso/Estable.
+  // Se conserva Tendencia y sólo se integra ahí la advertencia "dato anterior"
+  // para no perder la calidad temporal del dato.
+  function removeDuplicateLevelState(table){
+    const headers=[...table.querySelectorAll('thead th')].map(th=>norm(th.textContent));
+    const trendIdx=headers.indexOf('tendencia');
+    const stateIdx=headers.indexOf('estado');
+    const isLevelTable=headers.includes('nivel')&&(headers.includes('δ24 h')||headers.includes('Δ24 h')||headers.includes('dist. namo'));
+    if(!isLevelTable||trendIdx<0||stateIdx<0)return;
+
+    [...table.querySelectorAll('tbody tr')].forEach(tr=>{
+      const state=norm(tr.cells[stateIdx]?.textContent);
+      if(state==='dato anterior'){
+        const current=String(tr.cells[trendIdx]?.textContent||'s/d').trim();
+        if(!/dato anterior/i.test(current))tr.cells[trendIdx].textContent=`${current} · dato anterior`;
+      }
+      tr.cells[stateIdx]?.remove();
+    });
+    table.querySelector('thead tr')?.cells[stateIdx]?.remove();
+  }
+
   function addTodayToSystemRain(table){
     const section=document.querySelector('#nav button.active')?.dataset.section||'';
     if(!['presas','serranos','tulija','usumacinta'].includes(section))return;
@@ -85,6 +106,7 @@
     await load();
     document.querySelectorAll('#content table').forEach(table=>{
       standardize48(table);
+      removeDuplicateLevelState(table);
       addTodayToSystemRain(table);
     });
     addInsivumehTrend();
