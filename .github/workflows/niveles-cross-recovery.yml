@@ -9,9 +9,10 @@ on:
       - '.github/workflows/niveles-cross-recovery.yml'
       - 'src/auditar_productos_operativos.py'
   schedule:
-    # Respaldo totalmente independiente. Sólo actúa si el agente de niveles
-    # lleva más de 35 minutos sin una revisión válida.
-    - cron: '3,13,23,33,43,53 * * * *'
+    # Tabasco = UTC-6. Respaldo independiente sólo durante la ventana operativa
+    # 06:00-19:59 local. Entre 20:00 y 06:00 no se esperan boletines.
+    - cron: '3,13,23,33,43,53 12-23 * * *'
+    - cron: '3,13,23,33,43,53 0-1 * * *'
 
 permissions:
   contents: write
