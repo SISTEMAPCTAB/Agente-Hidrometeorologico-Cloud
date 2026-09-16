@@ -3,9 +3,10 @@ name: Watchdog Niveles Hidrométricos Cloud
 on:
   workflow_dispatch:
   schedule:
-    # Respaldo realmente independiente del recolector principal. Tabasco UTC-6.
+    # Respaldo independiente del recolector principal. Tabasco UTC-6.
+    # Opera sólo de 06:00 a 19:59; entre 20:00 y 06:00 queda en pausa programada.
     - cron: '11,26,41,56 12-23 * * *'
-    - cron: '11,26,41,56 0-2 * * *'
+    - cron: '11,26,41,56 0-1 * * *'
 
 permissions:
   contents: write
