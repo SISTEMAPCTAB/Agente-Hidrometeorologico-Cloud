@@ -34,9 +34,6 @@
     });
   }
 
-  // En tablas de niveles la columna Estado repetía Ascenso/Descenso/Estable.
-  // Se conserva Tendencia y sólo se integra ahí la advertencia "dato anterior"
-  // para no perder la calidad temporal del dato.
   function removeDuplicateLevelState(table){
     const headers=[...table.querySelectorAll('thead th')].map(th=>norm(th.textContent));
     const trendIdx=headers.indexOf('tendencia');
@@ -55,29 +52,36 @@
     table.querySelector('thead tr')?.cells[stateIdx]?.remove();
   }
 
-  function addTodayToSystemRain(table){
+  function addTodayToConaguaRain(table){
     const section=document.querySelector('#nav button.active')?.dataset.section||'';
-    if(!['presas','serranos','tulija','usumacinta'].includes(section))return;
+    if(!['presas','serranos','tulija','usumacinta','weather'].includes(section))return;
+
     const headers=[...table.querySelectorAll('thead th')].map(th=>norm(th.textContent));
-    const sourceIdx=headers.indexOf('fuente');
+    const stationIdx=headers.indexOf('estacion');
     const h24Idx=headers.indexOf('24 h anteriores');
-    if(sourceIdx<0||h24Idx<0||headers.some(h=>h.includes('hoy desde 08:00')))return;
+    if(stationIdx<0||h24Idx<0||headers.some(h=>h.includes('hoy desde 08:00')))return;
+
     const rows=[...table.querySelectorAll('tbody tr')];
-    if(!rows.some(tr=>norm(tr.cells[sourceIdx]?.textContent)==='conagua'))return;
+    const conaguaRows=rows.filter(tr=>rainMap?.has(norm(tr.cells[stationIdx]?.textContent)));
+    if(!conaguaRows.length)return;
+
+    if(section==='weather'){
+      const insideReference=!!table.closest('.conagua-all .weather-source-groups');
+      if(!insideReference)return;
+    }
 
     const th=document.createElement('th');th.textContent='HOY desde 08:00';
     const headRow=table.querySelector('thead tr');
-    headRow.insertBefore(th,headRow.cells[sourceIdx+1]||null);
+    headRow.insertBefore(th,headRow.cells[stationIdx+1]||null);
 
     rows.forEach(tr=>{
-      const source=norm(tr.cells[sourceIdx]?.textContent);
-      const station=norm(tr.cells[0]?.textContent);
+      const station=norm(tr.cells[stationIdx]?.textContent);
       const r=rainMap?.get(station);
       const td=document.createElement('td');
-      td.innerHTML=source==='conagua'&&r&&r.estado_hoy==='observado'?`<b>${mm(r.lluvia_hoy_desde_08_mm)}</b>`:'s/d';
-      tr.insertBefore(td,tr.cells[sourceIdx+1]||null);
+      td.innerHTML=r&&r.estado_hoy==='observado'?`<b>${mm(r.lluvia_hoy_desde_08_mm)}</b>`:'s/d';
+      tr.insertBefore(td,tr.cells[stationIdx+1]||null);
 
-      if(source==='conagua'&&r){
+      if(r){
         const hs=[...table.querySelectorAll('thead th')].map(x=>norm(x.textContent));
         const idx48=hs.indexOf('48 h anteriores');
         if(idx48>=0&&r.estado_48h==='observado'&&finite(r.lluvia_48h_precedentes_mm))tr.cells[idx48].textContent=mm(r.lluvia_48h_precedentes_mm);
@@ -107,7 +111,7 @@
     document.querySelectorAll('#content table').forEach(table=>{
       standardize48(table);
       removeDuplicateLevelState(table);
-      addTodayToSystemRain(table);
+      addTodayToConaguaRain(table);
     });
     addInsivumehTrend();
   }
