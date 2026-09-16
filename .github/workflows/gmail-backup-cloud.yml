@@ -18,8 +18,10 @@ on:
 permissions:
   contents: write
 
+# Gmail mantiene su propia cola para no perder ejecuciones por la alta frecuencia
+# de niveles/watchdog/recuperación. La publicación conserva pull --rebase y reintentos.
 concurrency:
-  group: datos-hidrometeorologicos-writer
+  group: gmail-backup-cloud
   cancel-in-progress: false
 
 jobs:
