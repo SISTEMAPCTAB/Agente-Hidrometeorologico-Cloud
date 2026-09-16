@@ -1,21 +1,13 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-09-16T10:46:10.059799-06:00",
+  "run_local": "2026-09-16T13:46:08.637774-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
-  "current_level_time_before_run": "2026-09-15T18:06:13-06:00",
-  "messages_scanned": 24,
+  "current_level_time_before_run": "2026-09-16T12:11:49-06:00",
+  "messages_scanned": 25,
   "levels_processed_now": 0,
-  "levels_skipped_not_newer": 0,
+  "levels_skipped_not_newer": 2,
   "pdfs_skipped_duplicate_content": 15,
-  "sources_updated": [
-    "FUENTE2"
-  ],
-  "errors": [
-    {
-      "uid": "64550",
-      "subject": "Se envía informe de niveles de las 10:00 horas.",
-      "error": "RuntimeError: ERROR V3: Error: No se pudo establecer la geometría de las 15 columnas hidrométricas.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:228:21"
-    }
-  ]
+  "sources_updated": [],
+  "errors": []
 }
