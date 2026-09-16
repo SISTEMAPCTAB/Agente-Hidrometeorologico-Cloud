@@ -11,9 +11,10 @@ on:
       - 'src/auditar_productos_operativos.py'
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
-    # Tabasco = UTC-6. Respaldo independiente cada 15 min de 06:00 a 20:59 local.
+    # Tabasco = UTC-6. Respaldo cada 15 min sólo de 06:00 a 19:59 local.
+    # Entre 20:00 y 06:00 no se esperan boletines y el agente queda en pausa.
     - cron: '7,22,37,52 12-23 * * *'
-    - cron: '7,22,37,52 0-2 * * *'
+    - cron: '7,22,37,52 0-1 * * *'
 
 permissions:
   contents: write
