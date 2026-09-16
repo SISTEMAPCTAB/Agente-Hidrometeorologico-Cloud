@@ -1,0 +1,107 @@
+name: SMN Cloud Fast - 96 y 360 h
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/smn_cloud_fast.py'
+      - 'src/smn96_detalle.py'
+      - '.github/workflows/smn-cloud-fast.yml'
+  schedule:
+    # Revisión ligera cada 10 minutos, independiente del recolector general.
+    - cron: '3,13,23,33,43,53 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: smn-cloud-fast
+  cancel-in-progress: true
+
+jobs:
+  actualizar-smn:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependencias mínimas
+        run: pip install requests pypdf
+
+      - name: Consultar SMN sin caché
+        shell: bash
+        run: |
+          set -e
+          for intento in 1 2 3; do
+            if python src/smn_cloud_fast.py; then
+              exit 0
+            fi
+            echo "Reintento SMN rápido ${intento}/3"
+            sleep $((intento * 8))
+          done
+          exit 1
+
+      - name: Completar tabla 96 h usando la misma fuente sin caché
+        shell: bash
+        run: |
+          python - <<'PY'
+          import sys, time
+          sys.path.insert(0, 'src')
+          import smn96_detalle as m
+          sep = '&' if '?' in m.URL else '?'
+          m.URL = f"{m.URL}{sep}_ipcet={int(time.time())}"
+          m.UA.update({
+              'Cache-Control': 'no-cache, no-store, max-age=0',
+              'Pragma': 'no-cache',
+          })
+          m.main()
+          PY
+
+      - name: Validar corte publicado
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = json.loads(Path('data/fuentes_publicas/latest.json').read_text(encoding='utf-8'))
+          for key in ('smn96','smn360'):
+              d = p.get(key) or {}
+              assert d.get('aviso'), f'{key}: falta aviso'
+              assert d.get('fecha'), f'{key}: falta fecha'
+              assert d.get('emision'), f'{key}: falta emisión'
+          d96 = p['smn96']
+          assert d96.get('detalle_completo') is True, 'SMN96 sin detalle completo'
+          print('SMN96:', d96.get('aviso'), d96.get('fecha'), d96.get('emision'))
+          print('SMN360:', p['smn360'].get('aviso'), p['smn360'].get('fecha'), p['smn360'].get('emision'))
+          PY
+
+      - name: Publicar actualización
+        shell: bash
+        run: |
+          set -e
+          git config user.name "Agente Hidrometeorologico Cloud"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/fuentes_publicas/latest.json data/fuentes_publicas/Estado_SMN_Cloud.json
+          if git diff --cached --quiet; then
+            echo "SMN sin cambios."
+            exit 0
+          fi
+          git commit -m "Actualiza SMN 96 y 360 h [skip ci]"
+          for intento in 1 2 3; do
+            if git pull --rebase origin main && git push origin main; then
+              echo "SMN publicado."
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((intento * 5))
+          done
+          exit 1
