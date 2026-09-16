@@ -89,6 +89,35 @@
     });
   }
 
+  // Sólo iguala la PRESENTACIÓN de HOY / 24 h / 48 h en las tablas
+  // de referencia diaria CONAGUA con la tabla horaria superior.
+  // No cambia datos, orden, estaciones ni otros campos.
+  function formatReferenceRainFields(table){
+    if(!table.closest('.conagua-all .weather-source-groups'))return;
+    const headers=[...table.querySelectorAll('thead th')].map(th=>norm(th.textContent));
+    if(headers.includes('subcuenca'))return;
+    const stationIdx=headers.indexOf('estacion');
+    const todayIdx=headers.findIndex(h=>h.includes('hoy desde 08:00'));
+    const h24Idx=headers.indexOf('24 h anteriores');
+    const h48Idx=headers.indexOf('48 h anteriores');
+    if(stationIdx<0||todayIdx<0||h24Idx<0||h48Idx<0)return;
+
+    [...table.querySelectorAll('tbody tr')].forEach(tr=>{
+      const r=rainMap?.get(norm(tr.cells[stationIdx]?.textContent));
+      if(!r)return;
+      const fields=[
+        [todayIdx,r.lluvia_hoy_desde_08_mm,r.estado_hoy],
+        [h24Idx,r.lluvia_24h_precedentes_mm,r.estado_24h],
+        [h48Idx,r.lluvia_48h_precedentes_mm,r.estado_48h]
+      ];
+      fields.forEach(([idx,val,state])=>{
+        const cell=tr.cells[idx];if(!cell)return;
+        const observed=state==='observado'&&finite(val);
+        cell.innerHTML=observed?`<b>${mm(val)}</b><br><small>observado</small>`:'<b>s/d</b><br><small>s/d</small>';
+      });
+    });
+  }
+
   function addInsivumehTrend(){
     const table=document.querySelector('#insivumehHydroExtra table');
     if(!table)return;
@@ -112,6 +141,7 @@
       standardize48(table);
       removeDuplicateLevelState(table);
       addTodayToConaguaRain(table);
+      formatReferenceRainFields(table);
     });
     addInsivumehTrend();
   }
