@@ -1,0 +1,101 @@
+(() => {
+  const RAIN_URL='../data/niveles/Lluvia_CONAGUA/ultimo_corte.json';
+  const INS_HIST_URL='../data/fuentes_publicas/insivumeh_historico.json';
+  const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+  const finite=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v));
+  const mm=v=>finite(v)?`${Number(v).toFixed(1)} mm`:'s/d';
+  let rainMap=null,trendMap=null,loading=null;
+
+  async function load(){
+    if(rainMap&&trendMap)return;
+    if(loading)return loading;
+    loading=Promise.all([
+      fetch(`${RAIN_URL}?v=${Date.now()}`,{cache:'no-store'}).then(r=>r.ok?r.json():[]).catch(()=>[]),
+      fetch(`${INS_HIST_URL}?v=${Date.now()}`,{cache:'no-store'}).then(r=>r.ok?r.json():{}).catch(()=>({}))
+    ]).then(([rain,hist])=>{
+      rainMap=new Map((Array.isArray(rain)?rain:[]).map(x=>[norm(x.estacion),x]));
+      trendMap=new Map((Array.isArray(hist?.ultima_evolucion_real)?hist.ultima_evolucion_real:[]).map(x=>[norm(x.estacion),x]));
+    }).finally(()=>{loading=null});
+    return loading;
+  }
+
+  function trendLabel(v){
+    const t=norm(v);
+    if(t==='incrementando')return 'Ascenso';
+    if(t==='disminuyendo')return 'Descenso';
+    if(t==='estable')return 'Estable';
+    return 's/d';
+  }
+
+  function standardize48(table){
+    [...table.querySelectorAll('thead th')].forEach(th=>{
+      const h=norm(th.textContent);
+      if(h==='48 h'||h==='48h')th.textContent='48 h anteriores';
+    });
+  }
+
+  function addTodayToSystemRain(table){
+    const section=document.querySelector('#nav button.active')?.dataset.section||'';
+    if(!['presas','serranos','tulija','usumacinta'].includes(section))return;
+    const headers=[...table.querySelectorAll('thead th')].map(th=>norm(th.textContent));
+    const sourceIdx=headers.indexOf('fuente');
+    const h24Idx=headers.indexOf('24 h anteriores');
+    if(sourceIdx<0||h24Idx<0||headers.some(h=>h.includes('hoy desde 08:00')))return;
+    const rows=[...table.querySelectorAll('tbody tr')];
+    if(!rows.some(tr=>norm(tr.cells[sourceIdx]?.textContent)==='conagua'))return;
+
+    const th=document.createElement('th');th.textContent='HOY desde 08:00';
+    const headRow=table.querySelector('thead tr');
+    headRow.insertBefore(th,headRow.cells[sourceIdx+1]||null);
+
+    rows.forEach(tr=>{
+      const source=norm(tr.cells[sourceIdx]?.textContent);
+      const station=norm(tr.cells[0]?.textContent);
+      const r=rainMap?.get(station);
+      const td=document.createElement('td');
+      td.innerHTML=source==='conagua'&&r&&r.estado_hoy==='observado'?`<b>${mm(r.lluvia_hoy_desde_08_mm)}</b>`:'s/d';
+      tr.insertBefore(td,tr.cells[sourceIdx+1]||null);
+
+      if(source==='conagua'&&r){
+        const hs=[...table.querySelectorAll('thead th')].map(x=>norm(x.textContent));
+        const idx48=hs.indexOf('48 h anteriores');
+        if(idx48>=0&&r.estado_48h==='observado'&&finite(r.lluvia_48h_precedentes_mm))tr.cells[idx48].textContent=mm(r.lluvia_48h_precedentes_mm);
+      }
+    });
+  }
+
+  function addInsivumehTrend(){
+    const table=document.querySelector('#insivumehHydroExtra table');
+    if(!table)return;
+    const headers=[...table.querySelectorAll('thead th')].map(th=>norm(th.textContent));
+    if(headers.includes('tendencia'))return;
+    const levelIdx=headers.indexOf('nivel actual');
+    if(levelIdx<0)return;
+    const th=document.createElement('th');th.textContent='Tendencia';
+    const head=table.querySelector('thead tr');head.insertBefore(th,head.cells[levelIdx+1]||null);
+    [...table.querySelectorAll('tbody tr')].forEach(tr=>{
+      const station=norm(tr.cells[0]?.textContent);
+      const ev=trendMap?.get(station);
+      const td=document.createElement('td');td.textContent=trendLabel(ev?.tendencia_calculada);
+      tr.insertBefore(td,tr.cells[levelIdx+1]||null);
+    });
+  }
+
+  async function apply(){
+    await load();
+    document.querySelectorAll('#content table').forEach(table=>{
+      standardize48(table);
+      addTodayToSystemRain(table);
+    });
+    addInsivumehTrend();
+  }
+
+  function schedule(){setTimeout(apply,120);setTimeout(apply,700);setTimeout(apply,1600)}
+  document.addEventListener('DOMContentLoaded',()=>{
+    schedule();
+    document.getElementById('nav')?.addEventListener('click',schedule);
+    document.getElementById('refreshBtn')?.addEventListener('click',()=>{rainMap=null;trendMap=null;schedule()});
+    const content=document.getElementById('content')||document.body;
+    new MutationObserver(()=>setTimeout(apply,80)).observe(content,{childList:true,subtree:true});
+  });
+})();
