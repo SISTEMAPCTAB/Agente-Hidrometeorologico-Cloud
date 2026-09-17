@@ -1957,38 +1957,105 @@
           "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
         }
       ]
+    },
+    {
+      "clave": "17/09/2026|14:00|779",
+      "boletin": "779",
+      "fecha": "17/09/2026",
+      "hora": "14:00",
+      "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
+      "estaciones": [
+        {
+          "estacion": "El Tigre",
+          "rio": "Usumacinta",
+          "nivel_referencia_min_m": 4.55,
+          "nivel_referencia_max_m": 10.0,
+          "caudal_referencia_min_m3s": 486.87,
+          "caudal_referencia_max_m3s": 2856.43,
+          "nivel_instantaneo_m": 5.26,
+          "caudal_instantaneo_m3s": 795.57,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+        },
+        {
+          "estacion": "El Porvenir",
+          "rio": "La Pasión",
+          "nivel_referencia_min_m": 1.03,
+          "nivel_referencia_max_m": 3.0,
+          "caudal_referencia_min_m3s": 93.04,
+          "caudal_referencia_max_m3s": 399.28,
+          "nivel_instantaneo_m": 1.68,
+          "caudal_instantaneo_m3s": 164.16,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+        },
+        {
+          "estacion": "Playa Grande",
+          "rio": "Chixoy",
+          "nivel_referencia_min_m": -0.22,
+          "nivel_referencia_max_m": 1.9,
+          "caudal_referencia_min_m3s": 178.87,
+          "caudal_referencia_max_m3s": 633.81,
+          "nivel_instantaneo_m": -0.2,
+          "caudal_instantaneo_m3s": 163.1,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+        },
+        {
+          "estacion": "Puente Chocox",
+          "rio": "Chixoy",
+          "nivel_referencia_min_m": 0.56,
+          "nivel_referencia_max_m": 2.33,
+          "caudal_referencia_min_m3s": 7.9,
+          "caudal_referencia_max_m3s": 110.1,
+          "nivel_instantaneo_m": 0.58,
+          "caudal_instantaneo_m3s": 8.35,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+        }
+      ]
     }
   ],
-  "actualizado_utc": "2026-09-17T17:40:07.326162+00:00",
+  "actualizado_utc": "2026-09-17T20:35:01.032543+00:00",
   "ultima_evolucion_real": [
     {
       "estacion": "El Tigre",
       "rio": "Usumacinta",
-      "desde": "16/09/2026 20:00",
-      "hasta": "17/09/2026 08:00",
-      "horas_transcurridas": 12.0,
-      "delta_nivel_m": -0.06,
-      "delta_caudal_m3s": -26.09,
+      "desde": "17/09/2026 08:00",
+      "hasta": "17/09/2026 14:00",
+      "horas_transcurridas": 6.0,
+      "delta_nivel_m": -0.02,
+      "delta_caudal_m3s": -8.69,
       "tendencia_calculada": "disminuyendo"
     },
     {
       "estacion": "El Porvenir",
       "rio": "La Pasión",
-      "desde": "16/09/2026 20:00",
-      "hasta": "17/09/2026 08:00",
-      "horas_transcurridas": 12.0,
+      "desde": "17/09/2026 08:00",
+      "hasta": "17/09/2026 14:00",
+      "horas_transcurridas": 6.0,
       "delta_nivel_m": 0.06,
-      "delta_caudal_m3s": 7.44,
+      "delta_caudal_m3s": 7.67,
       "tendencia_calculada": "incrementando"
+    },
+    {
+      "estacion": "Playa Grande",
+      "rio": "Chixoy",
+      "desde": "17/09/2026 08:00",
+      "hasta": "17/09/2026 14:00",
+      "horas_transcurridas": 6.0,
+      "delta_nivel_m": -0.05,
+      "delta_caudal_m3s": -8.06,
+      "tendencia_calculada": "disminuyendo"
     },
     {
       "estacion": "Puente Chocox",
       "rio": "Chixoy",
-      "desde": "16/09/2026 20:00",
-      "hasta": "17/09/2026 08:00",
-      "horas_transcurridas": 12.0,
-      "delta_nivel_m": -0.01,
-      "delta_caudal_m3s": -0.22,
+      "desde": "17/09/2026 08:00",
+      "hasta": "17/09/2026 14:00",
+      "horas_transcurridas": 6.0,
+      "delta_nivel_m": 0.02,
+      "delta_caudal_m3s": 0.45,
       "tendencia_calculada": "estable"
     }
   ],
@@ -1997,9 +2064,9 @@
   "el_tigre_estado": {
     "publicado_en_corte_actual": true,
     "corte_actual": {
-      "boletin": "778",
+      "boletin": "779",
       "fecha": "17/09/2026",
-      "hora": "08:00"
+      "hora": "14:00"
     },
     "ultimo_publicado_anterior": null,
     "regla": "Un dato anterior se conserva solo como antecedente; nunca sustituye ni gobierna el corte actual."
