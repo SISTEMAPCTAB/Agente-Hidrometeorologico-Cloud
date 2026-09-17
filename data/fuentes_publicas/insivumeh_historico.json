@@ -1855,59 +1855,94 @@
           "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
         }
       ]
+    },
+    {
+      "clave": "16/09/2026|20:00|777",
+      "boletin": "777",
+      "fecha": "16/09/2026",
+      "hora": "20:00",
+      "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
+      "estaciones": [
+        {
+          "estacion": "El Tigre",
+          "rio": "Usumacinta",
+          "nivel_referencia_min_m": 4.55,
+          "nivel_referencia_max_m": 10.0,
+          "caudal_referencia_min_m3s": 486.87,
+          "caudal_referencia_max_m3s": 2856.43,
+          "nivel_instantaneo_m": 5.34,
+          "caudal_instantaneo_m3s": 830.35,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+        },
+        {
+          "estacion": "El Porvenir",
+          "rio": "La Pasión",
+          "nivel_referencia_min_m": 1.03,
+          "nivel_referencia_max_m": 3.0,
+          "caudal_referencia_min_m3s": 93.04,
+          "caudal_referencia_max_m3s": 399.28,
+          "nivel_instantaneo_m": 1.56,
+          "caudal_instantaneo_m3s": 149.05,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+        },
+        {
+          "estacion": "Puente Chocox",
+          "rio": "Chixoy",
+          "nivel_referencia_min_m": 0.56,
+          "nivel_referencia_max_m": 2.33,
+          "caudal_referencia_min_m3s": 7.9,
+          "caudal_referencia_max_m3s": 110.1,
+          "nivel_instantaneo_m": 0.57,
+          "caudal_instantaneo_m3s": 8.12,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+        }
+      ]
     }
   ],
-  "actualizado_utc": "2026-09-16T21:41:54.328624+00:00",
+  "actualizado_utc": "2026-09-17T02:33:47.354843+00:00",
   "ultima_evolucion_real": [
     {
       "estacion": "El Tigre",
       "rio": "Usumacinta",
-      "desde": "16/09/2026 08:00",
-      "hasta": "16/09/2026 14:00",
+      "desde": "16/09/2026 14:00",
+      "hasta": "16/09/2026 20:00",
       "horas_transcurridas": 6.0,
-      "delta_nivel_m": 0.05,
-      "delta_caudal_m3s": 21.74,
-      "tendencia_calculada": "incrementando"
+      "delta_nivel_m": -0.01,
+      "delta_caudal_m3s": -4.35,
+      "tendencia_calculada": "estable"
     },
     {
       "estacion": "El Porvenir",
       "rio": "La Pasión",
-      "desde": "16/09/2026 08:00",
-      "hasta": "16/09/2026 14:00",
+      "desde": "16/09/2026 14:00",
+      "hasta": "16/09/2026 20:00",
       "horas_transcurridas": 6.0,
-      "delta_nivel_m": 0.01,
-      "delta_caudal_m3s": 1.18,
-      "tendencia_calculada": "estable"
-    },
-    {
-      "estacion": "Playa Grande",
-      "rio": "Chixoy",
-      "desde": "16/09/2026 08:00",
-      "hasta": "16/09/2026 14:00",
-      "horas_transcurridas": 6.0,
-      "delta_nivel_m": -0.05,
-      "delta_caudal_m3s": -8.06,
-      "tendencia_calculada": "disminuyendo"
+      "delta_nivel_m": 0.05,
+      "delta_caudal_m3s": 6.03,
+      "tendencia_calculada": "incrementando"
     },
     {
       "estacion": "Puente Chocox",
       "rio": "Chixoy",
-      "desde": "16/09/2026 08:00",
-      "hasta": "16/09/2026 14:00",
+      "desde": "16/09/2026 14:00",
+      "hasta": "16/09/2026 20:00",
       "horas_transcurridas": 6.0,
-      "delta_nivel_m": 0.01,
-      "delta_caudal_m3s": 0.22,
+      "delta_nivel_m": 0.0,
+      "delta_caudal_m3s": 0.0,
       "tendencia_calculada": "estable"
     }
   ],
   "ultimo_pdf_bhvgm": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
-  "senal_usumacinta_alta": "Señal aguas arriba en aumento",
+  "senal_usumacinta_alta": "Señal aguas arriba estable",
   "el_tigre_estado": {
     "publicado_en_corte_actual": true,
     "corte_actual": {
-      "boletin": "776",
+      "boletin": "777",
       "fecha": "16/09/2026",
-      "hora": "14:00"
+      "hora": "20:00"
     },
     "ultimo_publicado_anterior": null,
     "regla": "Un dato anterior se conserva solo como antecedente; nunca sustituye ni gobierna el corte actual."
