@@ -1,8 +1,8 @@
 {
-  "generated_utc": "2026-09-17T16:54:55.604157+00:00",
+  "generated_utc": "2026-09-17T20:17:24.945690+00:00",
   "regla": "48 h y 72 h sólo se forman con ventanas de 24 h asociadas a cortes fuente distintos de INSIVUMEH, separados aproximadamente 24 h. La hora de consulta del agente nunca sustituye al corte fuente. Si falta una ventana verificable, se conserva s/d.",
   "tolerancia_historica_min": 120,
-  "insivumeh_corte_fuente_actual": "17/Sep/2026 07:10",
+  "insivumeh_corte_fuente_actual": "17/Sep/2026 11:40",
   "insivumeh_corte_fuente_valido": true,
   "insivumeh": [
     {
@@ -13,19 +13,19 @@
       "precipitacion_72h_mm": 37.5,
       "componentes": {
         "actual": {
-          "corte_fuente": "17/Sep/2026 07:10",
-          "corte_utc": "2026-09-17T13:10:00+00:00",
-          "consultado_utc": "2026-09-17T13:12:07.932919+00:00",
+          "corte_fuente": "17/Sep/2026 11:40",
+          "corte_utc": "2026-09-17T17:40:00+00:00",
+          "consultado_utc": "2026-09-17T17:40:45.112546+00:00",
           "mm": 12.5
         },
         "menos_24h": {
-          "corte_fuente": "16/Sep/2026 08:50",
-          "corte_utc": "2026-09-16T14:50:00+00:00",
+          "corte_fuente": "16/Sep/2026 12:31",
+          "corte_utc": "2026-09-16T18:31:00+00:00",
           "mm": 12.5
         },
         "menos_48h": {
-          "corte_fuente": "15/Sep/2026 05:45",
-          "corte_utc": "2026-09-15T11:45:00+00:00",
+          "corte_fuente": "15/Sep/2026 13:15",
+          "corte_utc": "2026-09-15T19:15:00+00:00",
           "mm": 12.5
         }
       }
@@ -38,19 +38,19 @@
       "precipitacion_72h_mm": 0.0,
       "componentes": {
         "actual": {
-          "corte_fuente": "17/Sep/2026 07:10",
-          "corte_utc": "2026-09-17T13:10:00+00:00",
-          "consultado_utc": "2026-09-17T13:12:07.932919+00:00",
+          "corte_fuente": "17/Sep/2026 11:40",
+          "corte_utc": "2026-09-17T17:40:00+00:00",
+          "consultado_utc": "2026-09-17T17:40:45.112546+00:00",
           "mm": 0.0
         },
         "menos_24h": {
-          "corte_fuente": "16/Sep/2026 08:50",
-          "corte_utc": "2026-09-16T14:50:00+00:00",
+          "corte_fuente": "16/Sep/2026 12:31",
+          "corte_utc": "2026-09-16T18:31:00+00:00",
           "mm": 0.0
         },
         "menos_48h": {
-          "corte_fuente": "15/Sep/2026 05:45",
-          "corte_utc": "2026-09-15T11:45:00+00:00",
+          "corte_fuente": "15/Sep/2026 13:15",
+          "corte_utc": "2026-09-15T19:15:00+00:00",
           "mm": 0.0
         }
       }
@@ -63,19 +63,19 @@
       "precipitacion_72h_mm": 10.8,
       "componentes": {
         "actual": {
-          "corte_fuente": "17/Sep/2026 07:10",
-          "corte_utc": "2026-09-17T13:10:00+00:00",
-          "consultado_utc": "2026-09-17T13:12:07.932919+00:00",
+          "corte_fuente": "17/Sep/2026 11:40",
+          "corte_utc": "2026-09-17T17:40:00+00:00",
+          "consultado_utc": "2026-09-17T17:40:45.112546+00:00",
           "mm": 3.6
         },
         "menos_24h": {
-          "corte_fuente": "16/Sep/2026 08:50",
-          "corte_utc": "2026-09-16T14:50:00+00:00",
+          "corte_fuente": "16/Sep/2026 12:31",
+          "corte_utc": "2026-09-16T18:31:00+00:00",
           "mm": 3.6
         },
         "menos_48h": {
-          "corte_fuente": "15/Sep/2026 05:45",
-          "corte_utc": "2026-09-15T11:45:00+00:00",
+          "corte_fuente": "15/Sep/2026 13:15",
+          "corte_utc": "2026-09-15T19:15:00+00:00",
           "mm": 3.6
         }
       }
