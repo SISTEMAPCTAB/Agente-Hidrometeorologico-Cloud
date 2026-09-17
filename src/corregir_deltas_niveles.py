@@ -66,12 +66,10 @@ def reference_level(rows, target):
 
     if len(nearby) == 2:
         a, b = nearby[0][2], nearby[1][2]
-        # Si dos referencias cercanas se contradicen fuertemente, no se inventa una diferencia.
         if abs(a - b) > max(0.30, 0.25 * max(abs(a), abs(b), 1.0)):
             return None
         return float(a)
 
-    # Una sola lectura se acepta únicamente si está prácticamente en la hora objetivo.
     if closest[0] <= 3600:
         return float(closest[2])
     return None
@@ -94,6 +92,18 @@ def main():
     history = json.loads(HIST.read_text(encoding="utf-8"))
     summary = json.loads(SUMMARY.read_text(encoding="utf-8"))
     changes = []
+
+    mac_before = next((r for r in summary if r.get("estacion") == "Macuspana"), None)
+    if mac_before:
+        mt = parse_dt(mac_before.get("fecha_hora"))
+        mobs = observed_station(history, "Macuspana")
+        if mt:
+            target = mt - timedelta(hours=24)
+            diag = [
+                {"fecha_hora": t.isoformat(), "nivel": v, "dist_h": round((t-target).total_seconds()/3600, 2)}
+                for t, v in mobs if abs((t-target).total_seconds()) <= 36*3600
+            ]
+            print("DIAGNOSTICO_MACUSPANA_24H=" + json.dumps(diag, ensure_ascii=False))
 
     for row in summary:
         station = row.get("estacion")
