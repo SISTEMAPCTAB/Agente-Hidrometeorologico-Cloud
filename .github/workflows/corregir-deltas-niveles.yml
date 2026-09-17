@@ -1,0 +1,79 @@
+name: Validar deltas hidrométricos
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/corregir_deltas_niveles.py'
+      - '.github/workflows/corregir-deltas-niveles.yml'
+  workflow_run:
+    workflows:
+      - 'Niveles Hidrométricos Cloud'
+      - 'Gmail Backup Cloud'
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+concurrency:
+  group: datos-hidrometeorologicos-writer
+  cancel-in-progress: false
+
+jobs:
+  corregir:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recalcular deltas 24, 48 y 72 h con referencias válidas
+        run: python src/corregir_deltas_niveles.py
+
+      - name: Verificar que Macuspana no use el nivel actual como delta 24 h
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rows=json.loads(Path('data/niveles/Ultimo_Corte/ultimo_resumen.json').read_text(encoding='utf-8'))
+          r=next((x for x in rows if x.get('estacion')=='Macuspana'),None)
+          if r:
+              n=r.get('ultimo_nivel'); d=r.get('delta_24h')
+              if isinstance(n,(int,float)) and isinstance(d,(int,float)) and abs(float(n)-float(d)) < 1e-9 and abs(float(n)) > 0.25:
+                  raise SystemExit(f'Delta 24 h inválido en Macuspana: nivel={n}, delta={d}')
+              print('Macuspana validada:', 'nivel', n, 'delta24', d)
+          PY
+
+      - name: Publicar sólo correcciones de deltas
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Agente Hidrometeorologico Delta Guard"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/niveles/Ultimo_Corte/ultimo_resumen.json data/niveles/Ultimo_Corte/ultimo_resumen.csv
+          if git diff --cached --quiet; then
+            echo "Deltas ya válidos; sin cambios para publicar."
+            exit 0
+          fi
+          git commit -m "Corrige deltas hidrometricos 24 48 72 h [skip ci]"
+          for intento in 1 2 3; do
+            if git pull --rebase origin main && git push origin main; then
+              echo "Deltas corregidos y publicados."
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((intento * 8))
+          done
+          exit 1
