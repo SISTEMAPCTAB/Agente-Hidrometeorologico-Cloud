@@ -1,27 +1,31 @@
 {
-  "generated_utc": "2026-09-17T04:13:58.314654+00:00",
+  "generated_utc": "2026-09-17T16:54:55.604157+00:00",
   "regla": "48 h y 72 h sólo se forman con ventanas de 24 h asociadas a cortes fuente distintos de INSIVUMEH, separados aproximadamente 24 h. La hora de consulta del agente nunca sustituye al corte fuente. Si falta una ventana verificable, se conserva s/d.",
   "tolerancia_historica_min": 120,
-  "insivumeh_corte_fuente_actual": "16/Sep/2026 20:30",
+  "insivumeh_corte_fuente_actual": "17/Sep/2026 07:10",
   "insivumeh_corte_fuente_valido": true,
   "insivumeh": [
     {
       "codigo": "INS142201AT",
       "estacion": "Playa Grande Met (Ixcan)",
       "precipitacion_24h_mm": 12.5,
-      "precipitacion_48h_mm": null,
-      "precipitacion_72h_mm": null,
+      "precipitacion_48h_mm": 25.0,
+      "precipitacion_72h_mm": 37.5,
       "componentes": {
         "actual": {
-          "corte_fuente": "16/Sep/2026 20:30",
-          "corte_utc": "2026-09-17T02:30:00+00:00",
-          "consultado_utc": "2026-09-17T02:34:25.259382+00:00",
+          "corte_fuente": "17/Sep/2026 07:10",
+          "corte_utc": "2026-09-17T13:10:00+00:00",
+          "consultado_utc": "2026-09-17T13:12:07.932919+00:00",
           "mm": 12.5
         },
-        "menos_24h": null,
+        "menos_24h": {
+          "corte_fuente": "16/Sep/2026 08:50",
+          "corte_utc": "2026-09-16T14:50:00+00:00",
+          "mm": 12.5
+        },
         "menos_48h": {
-          "corte_fuente": "14/Sep/2026 19:05",
-          "corte_utc": "2026-09-15T01:05:00+00:00",
+          "corte_fuente": "15/Sep/2026 05:45",
+          "corte_utc": "2026-09-15T11:45:00+00:00",
           "mm": 12.5
         }
       }
@@ -30,19 +34,23 @@
       "codigo": "INS161201CV",
       "estacion": "Santa María Cahabón",
       "precipitacion_24h_mm": 0.0,
-      "precipitacion_48h_mm": null,
-      "precipitacion_72h_mm": null,
+      "precipitacion_48h_mm": 0.0,
+      "precipitacion_72h_mm": 0.0,
       "componentes": {
         "actual": {
-          "corte_fuente": "16/Sep/2026 20:30",
-          "corte_utc": "2026-09-17T02:30:00+00:00",
-          "consultado_utc": "2026-09-17T02:34:25.259382+00:00",
+          "corte_fuente": "17/Sep/2026 07:10",
+          "corte_utc": "2026-09-17T13:10:00+00:00",
+          "consultado_utc": "2026-09-17T13:12:07.932919+00:00",
           "mm": 0.0
         },
-        "menos_24h": null,
+        "menos_24h": {
+          "corte_fuente": "16/Sep/2026 08:50",
+          "corte_utc": "2026-09-16T14:50:00+00:00",
+          "mm": 0.0
+        },
         "menos_48h": {
-          "corte_fuente": "14/Sep/2026 19:05",
-          "corte_utc": "2026-09-15T01:05:00+00:00",
+          "corte_fuente": "15/Sep/2026 05:45",
+          "corte_utc": "2026-09-15T11:45:00+00:00",
           "mm": 0.0
         }
       }
@@ -51,19 +59,23 @@
       "codigo": "INS160701CV",
       "estacion": "Panzos PHC Altaverapaz",
       "precipitacion_24h_mm": 3.6,
-      "precipitacion_48h_mm": null,
-      "precipitacion_72h_mm": null,
+      "precipitacion_48h_mm": 7.2,
+      "precipitacion_72h_mm": 10.8,
       "componentes": {
         "actual": {
-          "corte_fuente": "16/Sep/2026 20:30",
-          "corte_utc": "2026-09-17T02:30:00+00:00",
-          "consultado_utc": "2026-09-17T02:34:25.259382+00:00",
+          "corte_fuente": "17/Sep/2026 07:10",
+          "corte_utc": "2026-09-17T13:10:00+00:00",
+          "consultado_utc": "2026-09-17T13:12:07.932919+00:00",
           "mm": 3.6
         },
-        "menos_24h": null,
+        "menos_24h": {
+          "corte_fuente": "16/Sep/2026 08:50",
+          "corte_utc": "2026-09-16T14:50:00+00:00",
+          "mm": 3.6
+        },
         "menos_48h": {
-          "corte_fuente": "14/Sep/2026 19:05",
-          "corte_utc": "2026-09-15T01:05:00+00:00",
+          "corte_fuente": "15/Sep/2026 05:45",
+          "corte_utc": "2026-09-15T11:45:00+00:00",
           "mm": 3.6
         }
       }
@@ -71,8 +83,8 @@
   ],
   "lacantun": {
     "precipitacion_24h_mm": 0.0,
-    "precipitacion_48h_mm": 1.6,
-    "precipitacion_72h_mm": 9.1,
+    "precipitacion_48h_mm": 0.0,
+    "precipitacion_72h_mm": 1.6,
     "dias_disponibles": [
       "2026-09-04",
       "2026-09-06",
@@ -85,30 +97,31 @@
       "2026-09-13",
       "2026-09-14",
       "2026-09-15",
-      "2026-09-16"
+      "2026-09-16",
+      "2026-09-17"
     ],
     "componentes_48h": [
       {
-        "fecha": "2026-09-16",
+        "fecha": "2026-09-17",
         "precipitacion_24h_mm": 0.0
       },
       {
-        "fecha": "2026-09-15",
-        "precipitacion_24h_mm": 1.6
+        "fecha": "2026-09-16",
+        "precipitacion_24h_mm": 0.0
       }
     ],
     "componentes_72h": [
       {
+        "fecha": "2026-09-17",
+        "precipitacion_24h_mm": 0.0
+      },
+      {
         "fecha": "2026-09-16",
         "precipitacion_24h_mm": 0.0
       },
       {
         "fecha": "2026-09-15",
         "precipitacion_24h_mm": 1.6
-      },
-      {
-        "fecha": "2026-09-14",
-        "precipitacion_24h_mm": 7.5
       }
     ]
   }
