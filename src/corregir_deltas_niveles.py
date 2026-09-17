@@ -43,31 +43,29 @@ def observed_station(history, station):
     return rows
 
 
-def reference_level(rows, target):
-    """Devuelve una referencia temporal válida o None si la referencia es dudosa.
+def zero_reference_anomaly(rows, target):
+    nearby_zero = [(t, v) for t, v in rows if abs((t-target).total_seconds()) <= 4*3600 and abs(v) < 1e-9]
+    if not nearby_zero:
+        return False
+    prev_nonzero = [(t, v) for t, v in rows if t < target and target - t <= timedelta(hours=36) and abs(v) > 0.25]
+    next_nonzero = [(t, v) for t, v in rows if t > target and t - target <= timedelta(hours=36) and abs(v) > 0.25]
+    if not prev_nonzero or not next_nonzero:
+        return False
+    pv = prev_nonzero[-1][1]
+    nv = next_nonzero[0][1]
+    tol = max(0.30, 0.25 * max(abs(pv), abs(nv), 1.0))
+    return abs(pv - nv) <= tol
 
-    Se usan únicamente lecturas observadas cercanas a la hora objetivo. Además se
-    descarta un cero aislado cuando está rodeado por niveles no nulos coherentes,
-    evitando interpretar un dato faltante/parsing erróneo como una caída y posterior
-    subida de más de un metro.
-    """
+
+def reference_level(rows, target):
     nearby = [(abs((t - target).total_seconds()), t, v) for t, v in rows if abs((t - target).total_seconds()) <= 4 * 3600]
     if not nearby:
         return None
     nearby.sort(key=lambda x: x[0])
     closest = nearby[0]
 
-    # Guardia contra ceros espurios: si la referencia cercana es 0 pero antes y después
-    # existen niveles no nulos y prácticamente coherentes, se considera referencia inválida.
-    if abs(closest[2]) < 1e-9:
-        prev_nonzero = [(t, v) for t, v in rows if t < target and target - t <= timedelta(hours=36) and abs(v) > 0.25]
-        next_nonzero = [(t, v) for t, v in rows if t > target and t - target <= timedelta(hours=36) and abs(v) > 0.25]
-        if prev_nonzero and next_nonzero:
-            pv = prev_nonzero[-1][1]
-            nv = next_nonzero[0][1]
-            tol = max(0.30, 0.25 * max(abs(pv), abs(nv), 1.0))
-            if abs(pv - nv) <= tol:
-                return None
+    if abs(closest[2]) < 1e-9 and zero_reference_anomaly(rows, target):
+        return None
 
     if len(nearby) >= 3:
         trio = nearby[:3]
@@ -98,6 +96,12 @@ def recalc_delta(rows, current_time, current_level, hours):
     return round(float(current_level) - ref, 4)
 
 
+def record_change(changes, station, field, old, new):
+    same = (old is None and new is None) or (finite(old) and finite(new) and abs(float(old) - float(new)) < 1e-9) or (old == new)
+    if not same:
+        changes.append({"estacion": station, "campo": field, "antes": old, "despues": new})
+
+
 def main():
     if not HIST.exists() or not SUMMARY.exists():
         raise RuntimeError("Faltan histórico o resumen de niveles.")
@@ -111,13 +115,34 @@ def main():
         current_time = parse_dt(row.get("fecha_hora"))
         current_level = row.get("ultimo_nivel")
         obs = observed_station(history, station)
+
         for hours, field in ((24, "delta_24h"), (48, "delta_48h"), (72, "delta_72h")):
             new = recalc_delta(obs, current_time, current_level, hours)
             old = row.get(field)
-            same = (old is None and new is None) or (finite(old) and finite(new) and abs(float(old) - float(new)) < 1e-9)
-            if not same:
-                changes.append({"estacion": station, "campo": field, "antes": old, "despues": new})
+            record_change(changes, station, field, old, new)
+            row[field] = new
+
+        # Si la base heredada es un cero espurio, no debe generar Δ06 ni una falsa tendencia.
+        base_time = parse_dt(row.get("fecha_hora_base_ciclo"))
+        if base_time and finite(row.get("nivel_base_06")) and abs(float(row.get("nivel_base_06"))) < 1e-9 and zero_reference_anomaly(obs, base_time):
+            for field, new in (
+                ("nivel_base_06", None),
+                ("fecha_hora_base_ciclo", None),
+                ("estado_base_06", "sin_dato"),
+                ("delta_vs_06", None),
+            ):
+                record_change(changes, station, field, row.get(field), new)
                 row[field] = new
+
+        # Si el reporte inmediatamente anterior es un cero espurio, no se publica ascenso derivado de él.
+        if current_time:
+            prior = [(t, v) for t, v in obs if t < current_time]
+            if prior:
+                pt, pv = prior[-1]
+                if abs(pv) < 1e-9 and zero_reference_anomaly(obs, pt):
+                    for field, new in (("delta_reporte", None), ("tendencia", "Sin tendencia suficiente")):
+                        record_change(changes, station, field, row.get(field), new)
+                        row[field] = new
 
     SUMMARY.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
@@ -129,15 +154,7 @@ def main():
             w.writerows(summary)
 
     mac = next((r for r in summary if r.get("estacion") == "Macuspana"), None)
-    print(json.dumps({
-        "cambios": changes,
-        "macuspana": {
-            "nivel": mac.get("ultimo_nivel") if mac else None,
-            "delta_24h": mac.get("delta_24h") if mac else None,
-            "delta_48h": mac.get("delta_48h") if mac else None,
-            "delta_72h": mac.get("delta_72h") if mac else None,
-        }
-    }, ensure_ascii=False, indent=2))
+    print(json.dumps({"cambios": changes, "macuspana": mac}, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
