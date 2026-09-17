@@ -2,6 +2,11 @@ name: Gmail Backup Cloud
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows:
+      - WeatherLink Cloud - 32 estaciones
+    types:
+      - completed
   push:
     branches:
       - main
@@ -11,16 +16,14 @@ on:
       - 'src/auditar_productos_operativos.py'
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
-    # Tabasco = UTC-6. Respaldo cada 15 min sólo de 06:00 a 19:59 local.
-    # Entre 20:00 y 06:00 no se esperan boletines y el agente queda en pausa.
-    - cron: '7,22,37,52 12-23 * * *'
-    - cron: '7,22,37,52 0-1 * * *'
+    # Respaldo horario independiente. El disparo principal ocurre al terminar WeatherLink,
+    # que opera cada 15 minutos las 24 h. Este cron queda como red de seguridad autónoma.
+    - cron: '11 * * * *'
 
 permissions:
   contents: write
 
-# Gmail mantiene su propia cola para no perder ejecuciones por la alta frecuencia
-# de niveles/watchdog/recuperación. La publicación conserva pull --rebase y reintentos.
+# Cola propia: evita que una ejecución Gmail cancele otra y no interfiere con WeatherLink.
 concurrency:
   group: gmail-backup-cloud
   cancel-in-progress: false
@@ -105,6 +108,27 @@ jobs:
           CARBONIO_PASSWORD: gmail-backup-unused
         run: python src/gmail_fallback.py
 
+      - name: Verificar resultado Gmail antes de continuar
+        if: steps.gmail.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('data/niveles/Estado_Gmail_Backup.json')
+          if not p.exists():
+              raise SystemExit('Falta Estado_Gmail_Backup.json después de consultar Gmail')
+          s=json.loads(p.read_text(encoding='utf-8'))
+          if not s.get('configured'):
+              raise SystemExit('El proceso Gmail no quedó configurado')
+          errs=s.get('errors') or []
+          if errs:
+              raise SystemExit(f'Gmail reportó errores: {errs}')
+          print('Gmail verificado:', s.get('messages_scanned'), 'mensajes PDF revisados;',
+                s.get('levels_processed_now'), 'niveles nuevos;',
+                'fuentes actualizadas:', s.get('sources_updated'))
+          PY
+
       - name: Revalidar FUENTE2 vigente sin crear duplicados
         if: steps.gmail.outputs.enabled == 'true'
         shell: bash
@@ -145,11 +169,11 @@ jobs:
           python src/generar_word_niveles.py
 
       - name: Auditar valores antes de publicar respaldo
-        if: steps.gmail.outputs.enabled == 'true'
+        if: steps.gmail.outputs.enabled == 'true' && steps.aporte.outputs.changed == 'true'
         run: python src/auditar_productos_operativos.py
 
       - name: Publicar únicamente cambios producidos por el respaldo Gmail
-        if: steps.gmail.outputs.enabled == 'true'
+        if: steps.gmail.outputs.enabled == 'true' && steps.aporte.outputs.changed == 'true'
         shell: bash
         run: |
           set -e
