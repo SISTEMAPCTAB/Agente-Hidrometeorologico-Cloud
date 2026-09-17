@@ -44,11 +44,12 @@ def observed_station(history, station):
 
 
 def reference_level(rows, target):
-    """Obtiene una referencia cercana al instante objetivo sin convertir un valor aislado anómalo en delta.
+    """Devuelve una referencia temporal válida o None si la referencia es dudosa.
 
-    Se acepta sólo información observada. La lectura más próxima debe estar dentro de ±4 h.
-    Si hay varias lecturas alrededor del objetivo, se usa control robusto con la mediana
-    de las tres más cercanas para descartar un valor aislado incompatible con sus vecinas.
+    Se usan únicamente lecturas observadas cercanas a la hora objetivo. Además se
+    descarta un cero aislado cuando está rodeado por niveles no nulos coherentes,
+    evitando interpretar un dato faltante/parsing erróneo como una caída y posterior
+    subida de más de un metro.
     """
     nearby = [(abs((t - target).total_seconds()), t, v) for t, v in rows if abs((t - target).total_seconds()) <= 4 * 3600]
     if not nearby:
@@ -56,12 +57,24 @@ def reference_level(rows, target):
     nearby.sort(key=lambda x: x[0])
     closest = nearby[0]
 
+    # Guardia contra ceros espurios: si la referencia cercana es 0 pero antes y después
+    # existen niveles no nulos y prácticamente coherentes, se considera referencia inválida.
+    if abs(closest[2]) < 1e-9:
+        prev_nonzero = [(t, v) for t, v in rows if t < target and target - t <= timedelta(hours=36) and abs(v) > 0.25]
+        next_nonzero = [(t, v) for t, v in rows if t > target and t - target <= timedelta(hours=36) and abs(v) > 0.25]
+        if prev_nonzero and next_nonzero:
+            pv = prev_nonzero[-1][1]
+            nv = next_nonzero[0][1]
+            tol = max(0.30, 0.25 * max(abs(pv), abs(nv), 1.0))
+            if abs(pv - nv) <= tol:
+                return None
+
     if len(nearby) >= 3:
         trio = nearby[:3]
         med = float(median([x[2] for x in trio]))
         threshold = max(0.30, 0.25 * max(abs(med), 1.0))
         if abs(closest[2] - med) > threshold:
-            return med
+            return None
         return float(closest[2])
 
     if len(nearby) == 2:
@@ -92,18 +105,6 @@ def main():
     history = json.loads(HIST.read_text(encoding="utf-8"))
     summary = json.loads(SUMMARY.read_text(encoding="utf-8"))
     changes = []
-
-    mac_before = next((r for r in summary if r.get("estacion") == "Macuspana"), None)
-    if mac_before:
-        mt = parse_dt(mac_before.get("fecha_hora"))
-        mobs = observed_station(history, "Macuspana")
-        if mt:
-            target = mt - timedelta(hours=24)
-            diag = [
-                {"fecha_hora": t.isoformat(), "nivel": v, "dist_h": round((t-target).total_seconds()/3600, 2)}
-                for t, v in mobs if abs((t-target).total_seconds()) <= 36*3600
-            ]
-            print("DIAGNOSTICO_MACUSPANA_24H=" + json.dumps(diag, ensure_ascii=False))
 
     for row in summary:
         station = row.get("estacion")
