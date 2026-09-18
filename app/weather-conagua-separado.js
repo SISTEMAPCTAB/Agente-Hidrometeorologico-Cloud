@@ -11,6 +11,12 @@
     usumacinta:'Usumacinta'
   };
 
+  // Control de concurrencia de render. Evita que una respuesta asíncrona vieja
+  // modifique la vista después de pulsar Actualizar o cambiar de apartado.
+  let renderGeneration=0;
+  let splitInFlight=false;
+  let splitTimer=null;
+
   const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
   const finite=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v));
   const fmt=v=>finite(v)?`${Number(v).toFixed(1)} mm`:'s/d';
@@ -164,35 +170,105 @@
     s.textContent='.subcuenca-weather-block{margin:16px 0 22px}.subcuenca-weather-block:first-child{margin-top:8px}.subcuenca-weather-block h3{margin:0 0 8px;color:#6f112d;font-size:1rem}.subcuenca-weather-block .table-wrap{margin-top:0}.conagua-all{margin-top:20px}.conagua-all h3{color:#6f112d;margin:0 0 8px}.conagua-priority-note{border-left:4px solid #6f112d;padding:10px 12px;background:#faf6f7;margin:8px 0 16px}.conagua-hourly-priority th:nth-child(3),.conagua-hourly-priority td:nth-child(3){background:#faf6f7}';document.head.appendChild(s);
   }
 
-  async function splitWeather(){
-    reorderNav();if(active()!=='weather')return;
-    const content=document.getElementById('content');if(!content||content.dataset.weatherSplit==='1')return;
-    const panel=[...content.querySelectorAll('section.panel.wide')].find(s=>/weatherlink\s*\/\s*conagua/i.test(s.querySelector('h2')?.textContent||''));
-    const table=panel?.querySelector('table');if(!panel||!table)return;
-    const [conRows,climate,catalog]=await Promise.all([conaguaRows(),climateRows(),hydrologicCatalog()]);
-    const map=new Map(conRows.map(x=>[norm(x.estacion),x]));
-    const wlTable=cloneFilteredTable(table,'WeatherLink');const conTable=cloneFilteredTable(table,'CONAGUA');enrichConagua(conTable,map);
-    const wlGroups=groupedTables(wlTable,'WEATHERLINK',catalog);const conGroups=groupedTables(conTable,'CONAGUA',catalog);const hourlyGroups=conaguaHourlyGroups(conRows,catalog);
-
-    ensureStyles();const grid=panel.parentElement;
-    const wl=document.createElement('section');wl.className='panel wide';
-    wl.innerHTML='<h2>WeatherLink · lluvia y temperatura</h2><p class="muted">Estaciones activas vinculadas a las subcuencas que se verifican operativamente. Se conservan las mismas columnas y las ventanas inmaduras se muestran como s/d.</p><div class="weather-source-groups"></div>';
-    appendGrouped(wl.querySelector('.weather-source-groups'),wlGroups);
-
-    const con=document.createElement('section');con.className='panel wide';
-    con.innerHTML='<h2>CONAGUA · lluvia horaria por subcuencas</h2><div class="conagua-priority-note"><b>Prioridad operativa:</b> primero se presenta el corte horario vigente y el acumulado <b>HOY desde 08:00</b> por subcuenca. Los acumulados de 24 h y 48 h quedan como antecedentes comparativos; el boletín diario de 24 h no sustituye el seguimiento horario.</div><div class="conagua-hourly-groups"></div><div class="conagua-all"><h3>Referencia diaria por subcuencas</h3><p class="muted">Datos diarios conservados como contexto antecedente.</p><div class="weather-source-groups"></div></div><div class="conagua-all"><h3>Todas las estaciones del corte horario CONAGUA</h3>'+allConaguaTable(conRows)+'</div><div class="conagua-all"><h3>Boletín CONAGUA Tabasco · referencia diaria</h3>'+climateTable(climate.conagua_tabasco)+'</div><div class="conagua-all"><h3>Organismo de Cuenca Frontera Sur · referencia diaria</h3>'+climateTable(climate.frontera_sur)+'</div>';
-    appendHourlyGrouped(con.querySelector('.conagua-hourly-groups'),hourlyGroups);
-    appendGrouped(con.querySelector('.weather-source-groups'),conGroups);
-
-    grid.insertBefore(wl,panel);grid.insertBefore(con,panel);panel.remove();content.dataset.weatherSplit='1';
+  function scheduleSplit(delay=120){
+    clearTimeout(splitTimer);
+    splitTimer=setTimeout(()=>splitWeather(),delay);
   }
 
-  function resetAndRun(){const c=document.getElementById('content');if(c)delete c.dataset.weatherSplit;setTimeout(splitWeather,450)}
+  async function splitWeather(){
+    reorderNav();
+    if(active()!=='weather')return;
+
+    const content=document.getElementById('content');
+    if(!content||content.dataset.weatherSplit==='1'||splitInFlight)return;
+
+    const generation=renderGeneration;
+    const panel=[...content.querySelectorAll('section.panel.wide')].find(s=>/weatherlink\s*\/\s*conagua/i.test(s.querySelector('h2')?.textContent||''));
+    const table=panel?.querySelector('table');
+    if(!panel||!table)return;
+
+    // Guardamos la identidad de la vista base. Si app.js vuelve a renderizarla
+    // durante las consultas, esta ejecución se descarta y no marca la nueva
+    // vista como "ya procesada".
+    const basePanel=panel;
+    splitInFlight=true;
+    try{
+      const [conRows,climate,catalog]=await Promise.all([conaguaRows(),climateRows(),hydrologicCatalog()]);
+
+      if(
+        generation!==renderGeneration ||
+        active()!=='weather' ||
+        document.getElementById('content')!==content ||
+        !basePanel.isConnected ||
+        basePanel.parentElement==null ||
+        content.dataset.weatherSplit==='1'
+      ) return;
+
+      const map=new Map(conRows.map(x=>[norm(x.estacion),x]));
+      const wlTable=cloneFilteredTable(table,'WeatherLink');
+      const conTable=cloneFilteredTable(table,'CONAGUA');
+      enrichConagua(conTable,map);
+      const wlGroups=groupedTables(wlTable,'WEATHERLINK',catalog);
+      const conGroups=groupedTables(conTable,'CONAGUA',catalog);
+      const hourlyGroups=conaguaHourlyGroups(conRows,catalog);
+
+      ensureStyles();
+      const grid=basePanel.parentElement;
+      const wl=document.createElement('section');wl.className='panel wide';
+      wl.innerHTML='<h2>WeatherLink · lluvia y temperatura</h2><p class="muted">Estaciones activas vinculadas a las subcuencas que se verifican operativamente. Se conservan las mismas columnas y las ventanas inmaduras se muestran como s/d.</p><div class="weather-source-groups"></div>';
+      appendGrouped(wl.querySelector('.weather-source-groups'),wlGroups);
+
+      const con=document.createElement('section');con.className='panel wide';
+      con.innerHTML='<h2>CONAGUA · lluvia horaria por subcuencas</h2><div class="conagua-priority-note"><b>Prioridad operativa:</b> primero se presenta el corte horario vigente y el acumulado <b>HOY desde 08:00</b> por subcuenca. Los acumulados de 24 h y 48 h quedan como antecedentes comparativos; el boletín diario de 24 h no sustituye el seguimiento horario.</div><div class="conagua-hourly-groups"></div><div class="conagua-all"><h3>Referencia diaria por subcuencas</h3><p class="muted">Datos diarios conservados como contexto antecedente.</p><div class="weather-source-groups"></div></div><div class="conagua-all"><h3>Todas las estaciones del corte horario CONAGUA</h3>'+allConaguaTable(conRows)+'</div><div class="conagua-all"><h3>Boletín CONAGUA Tabasco · referencia diaria</h3>'+climateTable(climate.conagua_tabasco)+'</div><div class="conagua-all"><h3>Organismo de Cuenca Frontera Sur · referencia diaria</h3>'+climateTable(climate.frontera_sur)+'</div>';
+      appendHourlyGrouped(con.querySelector('.conagua-hourly-groups'),hourlyGroups);
+      appendGrouped(con.querySelector('.weather-source-groups'),conGroups);
+
+      // Última validación justo antes de tocar el DOM.
+      if(generation!==renderGeneration||!basePanel.isConnected||active()!=='weather')return;
+      grid.insertBefore(wl,basePanel);
+      grid.insertBefore(con,basePanel);
+      basePanel.remove();
+      content.dataset.weatherSplit='1';
+      content.dispatchEvent(new CustomEvent('weather-layout-ready',{bubbles:false}));
+    }finally{
+      splitInFlight=false;
+      // Si la vista fue reemplazada mientras esperábamos, el MutationObserver
+      // habrá detectado el nuevo contenido; este intento adicional cubre también
+      // redes lentas sin crear renderizados duplicados.
+      if(active()==='weather'&&document.getElementById('content')?.dataset.weatherSplit!=='1')scheduleSplit(100);
+    }
+  }
+
+  function invalidateAndRun(){
+    renderGeneration++;
+    splitInFlight=false;
+    const content=document.getElementById('content');
+    if(content)delete content.dataset.weatherSplit;
+    scheduleSplit(120);
+  }
+
   document.addEventListener('DOMContentLoaded',()=>{
-    reorderNav();setTimeout(splitWeather,900);
-    document.getElementById('nav')?.addEventListener('click',()=>setTimeout(()=>{reorderNav();splitWeather()},550));
-    document.getElementById('refreshBtn')?.addEventListener('click',resetAndRun);
-    const nav=document.getElementById('nav');if(nav)new MutationObserver(reorderNav).observe(nav,{childList:true});
-    const content=document.getElementById('content')||document.body;new MutationObserver(()=>{if(active()==='weather')splitWeather()}).observe(content,{childList:true,subtree:true});
+    reorderNav();
+    scheduleSplit(250);
+
+    document.getElementById('nav')?.addEventListener('click',()=>{
+      renderGeneration++;
+      splitInFlight=false;
+      setTimeout(()=>{reorderNav();scheduleSplit(80)},40);
+    });
+
+    document.getElementById('refreshBtn')?.addEventListener('click',invalidateAndRun);
+
+    const nav=document.getElementById('nav');
+    if(nav)new MutationObserver(reorderNav).observe(nav,{childList:true});
+
+    const content=document.getElementById('content')||document.body;
+    new MutationObserver(()=>{
+      if(active()!=='weather')return;
+      // No reaccionar a nuestras propias inserciones cuando la vista ya quedó lista.
+      const live=document.getElementById('content');
+      if(live?.dataset.weatherSplit==='1')return;
+      scheduleSplit(80);
+    }).observe(content,{childList:true,subtree:true});
   });
 })();
