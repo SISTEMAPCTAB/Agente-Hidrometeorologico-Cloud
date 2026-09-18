@@ -93,7 +93,10 @@
       const wanted=entries.filter(x=>x.sistema===system),rows=[],seen=new Set();
       for(const e of wanted){
         const key=norm(e.estacion),tr=byStation.get(key);if(!tr||seen.has(key))continue;
-        if(norm(source)==='weatherlink'&&stateIdx>=0&&norm(tr.cells[stateIdx]?.textContent)!=='ok')continue;
+        // No ocultar estaciones WeatherLink rezagadas: sus acumulados recientes
+        // pueden seguir siendo útiles como antecedente preventivo. Se conservan
+        // visibles con su estado/calidad original, pero no deben tratarse como
+        // observación actual en semáforo ni síntesis.
         rows.push(tr.cloneNode(true));seen.add(key);
       }
       if(!rows.length)continue;
