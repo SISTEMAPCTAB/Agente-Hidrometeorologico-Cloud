@@ -175,6 +175,38 @@ def classify_24h(mm):
     return ">=150 mm", "Umbral >=150 mm alcanzado"
 
 
+def mark_legacy_rollovers(events):
+    """Marca cruces de medianoche heredados que no pudieron verificarse.
+
+    Antes de esta corrección los eventos sólo guardaban ts/mm. Si dos eventos
+    consecutivos de lluvia quedan a ambos lados de la medianoche local con una
+    separación corta, el primer evento del nuevo día pudo perder lluvia caída
+    entre la última consulta y las 00:00. Se marca como incierto de forma
+    conservadora para no publicar una ventana móvil de 24 h como exacta.
+    """
+    ordered = sorted(
+        [e for e in events if iso_to_dt(e.get("ts"))],
+        key=lambda e: iso_to_dt(e["ts"]),
+    )
+    prev = None
+    for e in ordered:
+        if "rollover_incierto" not in e:
+            e["rollover_incierto"] = False
+            e.setdefault("metodo", "historico_sin_metodo")
+        if prev is not None:
+            pt = iso_to_dt(prev["ts"])
+            et = iso_to_dt(e["ts"])
+            if pt and et:
+                pl = pt.astimezone(MX_TZ)
+                el = et.astimezone(MX_TZ)
+                gap_h = (et - pt).total_seconds() / 3600.0
+                if pl.date() != el.date() and 0 < gap_h <= 6:
+                    e["rollover_incierto"] = True
+                    e["metodo"] = "rollover_historico_no_verificable"
+        prev = e
+    return ordered
+
+
 def window_sum(events, now_utc, hours):
     cutoff = now_utc - timedelta(hours=hours)
     return r1(sum(float(e["mm"]) for e in events if iso_to_dt(e.get("ts")) and iso_to_dt(e["ts"]) > cutoff))
@@ -288,6 +320,7 @@ def main():
                 st["prev_storm_start"] = current_storm_start
                 st["prev_observed_utc"] = observed.isoformat()
 
+            st["events"] = mark_legacy_rollovers(st.get("events", []))
             prune_cutoff = now_utc - timedelta(hours=240)
             st["events"] = [e for e in st.get("events", []) if iso_to_dt(e.get("ts")) and iso_to_dt(e["ts"]) >= prune_cutoff]
 
