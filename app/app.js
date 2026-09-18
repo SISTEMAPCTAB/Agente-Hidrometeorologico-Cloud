@@ -82,6 +82,21 @@ function reportsPage(){return `<div class="grid"><section class="panel wide"><h2
 function render(){const c=$('#content');if(!c)return;try{const map={resumen:summaryHTML,presas:()=>systemPage('presas'),serranos:()=>systemPage('serranos'),tulija:()=>systemPage('tulija'),usumacinta:()=>systemPage('usumacinta'),weather:weatherPage,pronostico:forecastPage,analisis:analysisPage,reportes:reportsPage};c.innerHTML=(map[state.current]||summaryHTML)()}catch(e){console.error(e);c.innerHTML='<div class="panel wide"><h2>Información temporalmente no disponible</h2><p>La App conserva sus demás apartados. Pulse Actualizar para reintentar.</p></div>'}}
 function buildNav(){const n=$('#nav');n.innerHTML=SECTIONS.map(([id,l])=>`<button type="button" data-section="${id}">${l}</button>`).join('');n.addEventListener('click',e=>{const b=e.target.closest('button[data-section]');if(!b)return;state.current=b.dataset.section;n.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));$('#pageTitle').textContent=SECTIONS.find(x=>x[0]===state.current)?.[1]||'Monitoreo';$('#sidebar').classList.remove('open');render();window.scrollTo(0,0)});n.querySelector('button')?.classList.add('active')}
 function latestLevelCut(){const dates=levels().map(r=>new Date(r.fecha_hora)).filter(d=>!Number.isNaN(d.getTime()));return dates.length?new Date(Math.max(...dates.map(d=>d.getTime()))):null}
-function status(){const lv=latestLevelCut(),w=state.data.weather?.run_local||state.data.weatherState?.run_local;$('#statusStrip').innerHTML=`<div class="status-card"><span>Niveles</span><b>${levelCutDate(lv)}</b></div><div class="status-card"><span>WeatherLink</span><b>${humanDate(w)}</b></div><div class="status-card"><span>Actualización WeatherLink</span><b>Cada 30 min</b></div>`}
+function status(){const lv=latestLevelCut(),w=state.data.weatherState?.run_local||state.data.weather?.run_local;$('#statusStrip').innerHTML=`<div class="status-card"><span>Niveles</span><b>${levelCutDate(lv)}</b></div><div class="status-card"><span>WeatherLink</span><b>${humanDate(w)}</b></div><div class="status-card"><span>Actualización WeatherLink</span><b>Cada 15 min · 24/7</b></div>`}
+async function refreshWeatherOnly(){
+  try{
+    const r=await fetch(SRC.weatherState,{cache:'no-cache'});if(!r.ok)return;
+    const ws=await r.json();
+    const prev=state.data.weatherState?.run_utc||state.data.weather?.run_utc||null;
+    const next=ws?.run_utc||null;
+    state.data.weatherState=ws;
+    if(next&&next!==prev){
+      const rw=await fetch(SRC.weather,{cache:'no-cache'});
+      if(rw.ok)state.data.weather=await rw.json();
+    }
+    status();
+    if(state.current==='weather'||state.current==='resumen'||['presas','serranos','tulija','usumacinta'].includes(state.current))render();
+  }catch(_){/* conserva último corte válido; reintenta en el siguiente ciclo */}
+}
 async function loadAll(){const c=$('#content');if(c)c.innerHTML='<div class="panel"><p>Cargando información operativa…</p></div>';const tasks=[['niveles',SRC.niveles,'json'],['weather',SRC.weather,'json'],['weatherState',SRC.weatherState,'json'],['conagua',SRC.conagua,'json'],['publicas',SRC.publicas,'json'],['analysis',SRC.analysis,'text'],['history',SRC.history,'json'],['fuente2',SRC.fuente2,'text'],['damHistory',SRC.damHistory,'json']];await Promise.all(tasks.map(async([k,u,t])=>{try{state.data[k]=t==='json'?await getJSON(u):await getText(u)}catch{state.data[k]=t==='json'?[]:''}}));state.history=arr(state.data.history);state.damHistory=arr(state.data.damHistory);status();render()}
-document.addEventListener('DOMContentLoaded',()=>{buildNav();$('#menuBtn')?.addEventListener('click',()=>$('#sidebar')?.classList.toggle('open'));$('#refreshBtn')?.addEventListener('click',loadAll);loadAll();if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js?v=79').catch(()=>{})});
+document.addEventListener('DOMContentLoaded',()=>{buildNav();$('#menuBtn')?.addEventListener('click',()=>$('#sidebar')?.classList.toggle('open'));$('#refreshBtn')?.addEventListener('click',loadAll);loadAll();setInterval(refreshWeatherOnly,15*60*1000);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshWeatherOnly()});if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js?v=79').catch(()=>{})});
