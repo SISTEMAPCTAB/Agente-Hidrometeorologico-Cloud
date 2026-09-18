@@ -153,39 +153,95 @@
     return {doc:dr.ok?await dr.json():{},auto:ar.ok?await ar.json():{},txt:tr.ok?await tr.text():'',extra:wr.ok?await wr.json():{}};
   }
 
+  let renderGeneration=0;
+  let renderInFlight=false;
+  let renderTimer=null;
+  let dataCache=null;
+  let dataCacheAt=0;
+
+  async function cachedLoadData(force=false){
+    const now=Date.now();
+    if(!force&&dataCache&&(now-dataCacheAt)<120000)return dataCache;
+    const d=await loadData();
+    dataCache=d;dataCacheAt=now;return d;
+  }
+
+  function scheduleRender(delay=100){
+    clearTimeout(renderTimer);
+    renderTimer=setTimeout(()=>renderWeather(),delay);
+  }
+
   async function renderWeather(){
-    if(active()!=='weather')return;
+    if(active()!=='weather'||renderInFlight)return;
     const content=document.getElementById('content');if(!content)return;
     const wl=[...content.querySelectorAll('section.panel.wide')].find(s=>/WeatherLink · lluvia y temperatura/i.test(s.querySelector('h2')?.textContent||''));
-    const groups=wl?.querySelector('.weather-source-groups');if(!groups)return;
+    const groups=wl?.querySelector('.weather-source-groups');if(!groups||!groups.isConnected)return;
     if(groups.querySelector('[data-unified-alto="1"]'))return;
+
+    const generation=renderGeneration;
+    renderInFlight=true;
     try{
-      const {doc,auto,txt,extra}=await loadData();
+      const {doc,auto,txt,extra}=await cachedLoadData();
+      if(
+        generation!==renderGeneration||
+        active()!=='weather'||
+        document.getElementById('content')!==content||
+        !groups.isConnected
+      )return;
+
       const rows=[...weatherRows(extra),...publicRows(doc,txt,auto)];
       if(!rows.length)return;
       styles();
+
       const old=[...groups.querySelectorAll('.subcuenca-weather-block')].find(b=>norm(b.querySelector('h3')?.textContent)==='alto usumacinta');
       if(old)old.remove();
       document.getElementById('altoUsumacintaRain')?.remove();
+
       const block=document.createElement('div');block.className='subcuenca-weather-block alto-usu';block.dataset.unifiedAlto='1';
       block.innerHTML=`<h3>Alto Usumacinta · precipitación observada</h3>
         <p class="source-note">Vista única, sin duplicidades. WeatherLink aporta el acumulado diario observado (“Hoy”) y, cuando existe cobertura histórica suficiente, acumulados móviles de 1/6/24/48/72 h. INSIVUMEH y OCFS/CONAGUA sólo ocupan las columnas para las que publican un valor puntual verificable. Las estaciones INSIVUMEH sin ningún dato verificable se mantienen fuera de la vista operativa y reaparecen automáticamente cuando vuelven a publicar. s/d significa sin dato; nunca se convierte una ausencia en 0.0 mm.</p>
         ${table(['Estación','Fuente','Hoy','1 h','6 h','24 h','48 h','72 h','Semanal','Mensual','Acum. época lluviosa','Última actualización','Estado del dato'],rows)}
         <p class="source-note">El valor “Hoy” de WeatherLink es el acumulado diario reportado por la estación y no equivale a una ventana móvil de 24 h. Los acumulados móviles aparecen sólo después de reunir cobertura real suficiente. Los acumulados de época lluviosa de INSIVUMEH se mantienen separados de la lluvia reciente. Cuando INSIVUMEH publica únicamente un mapa sin valor puntual estructurado, no se estima por color.</p>`;
+
+      if(generation!==renderGeneration||!groups.isConnected)return;
       const usu=[...groups.querySelectorAll('.subcuenca-weather-block')].find(b=>norm(b.querySelector('h3')?.textContent)==='usumacinta');
       if(usu)groups.insertBefore(block,usu);else groups.appendChild(block);
-    }catch(e){/* no altera el resto de la página si una fuente falla */}
+    }catch(e){/* conserva la vista principal si una fuente falla */}
+    finally{renderInFlight=false}
   }
 
   // Los niveles y gastos de Alto Usumacinta se muestran exclusivamente en
   // insivumeh-hidro-extra.js para evitar duplicar El Porvenir y El Tigre.
-  function render(){renderWeather()}
-  function reset(){document.querySelector('[data-unified-alto="1"]')?.remove();document.getElementById('altoUsumacintaRain')?.remove();document.getElementById('upperUsumacintaLevels')?.remove();setTimeout(render,700)}
+  function reset(){
+    renderGeneration++;
+    renderInFlight=false;
+    dataCache=null;dataCacheAt=0;
+    document.querySelector('[data-unified-alto="1"]')?.remove();
+    document.getElementById('altoUsumacintaRain')?.remove();
+    document.getElementById('upperUsumacintaLevels')?.remove();
+    scheduleRender(180);
+  }
 
   document.addEventListener('DOMContentLoaded',()=>{
-    setTimeout(render,1200);
-    document.getElementById('nav')?.addEventListener('click',()=>setTimeout(render,800));
+    scheduleRender(500);
+
+    document.getElementById('content')?.addEventListener('weather-layout-ready',()=>{
+      scheduleRender(60);
+    });
+
+    document.getElementById('nav')?.addEventListener('click',()=>{
+      renderGeneration++;
+      renderInFlight=false;
+      scheduleRender(250);
+    });
+
     document.getElementById('refreshBtn')?.addEventListener('click',reset);
-    const c=document.getElementById('content')||document.body;new MutationObserver(render).observe(c,{childList:true,subtree:true});
+
+    const root=document.getElementById('content')||document.body;
+    new MutationObserver(()=>{
+      if(active()!=='weather')return;
+      const content=document.getElementById('content');
+      if(content?.dataset.weatherSplit==='1')scheduleRender(120);
+    }).observe(root,{childList:true,subtree:true});
   });
 })();
