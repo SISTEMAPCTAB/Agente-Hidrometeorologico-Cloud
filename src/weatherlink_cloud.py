@@ -108,6 +108,8 @@ def initial_state(stations):
         state["stations"][station["uuid"]] = {
             "nombre": station["nombre"],
             "prev_daily_mm": daily_by_uuid.get(station["uuid"]),
+            "prev_storm_mm": None,
+            "prev_storm_start": None,
             "prev_observed_utc": seed_dt.isoformat(),
             "month_mm": base.get("month_mm"),
             "year_mm": base.get("year_mm"),
@@ -127,12 +129,25 @@ def fetch_station(station):
     r.raise_for_status()
     data = r.json()
     daily_in = parse_float(data.get("dailyRain"))
+    storm_in = parse_float(data.get("stormRain"))
+    month_in = parse_float(data.get("monthlyRain"))
+    year_in = parse_float(data.get("yearlyRain") if data.get("yearlyRain") is not None else data.get("totalRain"))
+    rain_rate_in = parse_float(data.get("rainRate"))
     daily_mm = r1(daily_in * 25.4) if daily_in is not None else None
+    storm_mm = r1(storm_in * 25.4) if storm_in is not None else None
+    monthly_native_mm = r1(month_in * 25.4) if month_in is not None else None
+    yearly_native_mm = r1(year_in * 25.4) if year_in is not None else None
+    rain_rate_mmh = r1(rain_rate_in * 25.4) if rain_rate_in is not None else None
     ts = data.get("lastTimestamp")
     observed = datetime.fromtimestamp(int(ts), tz=timezone.utc) if ts else datetime.now(timezone.utc)
     return {
         "nombre_fuente": data.get("sStation"),
         "daily_mm": daily_mm,
+        "storm_mm": storm_mm,
+        "storm_start": data.get("stormStart") or data.get("stormStartAt") or data.get("stormStartDate"),
+        "monthly_native_mm": monthly_native_mm,
+        "yearly_native_mm": yearly_native_mm,
+        "rain_rate_mmh": rain_rate_mmh,
         "observed_utc": observed,
         "last_updated_at": data.get("lastUpdatedAt"),
         "age_seconds": data.get("ageInSeconds"),
@@ -194,7 +209,7 @@ def main():
     for station in stations:
         uuid = station["uuid"]
         st = state["stations"].setdefault(uuid, {
-            "nombre": station["nombre"], "prev_daily_mm": None, "prev_observed_utc": None,
+            "nombre": station["nombre"], "prev_daily_mm": None, "prev_storm_mm": None, "prev_storm_start": None, "prev_observed_utc": None,
             "month_mm": None, "year_mm": None, "month_key": now_utc.astimezone(MX_TZ).strftime("%Y-%m"),
             "year_key": now_utc.astimezone(MX_TZ).strftime("%Y"), "seed_1h_mm": None,
             "seed_24h_mm": None, "variables": 0, "events": []
@@ -206,23 +221,53 @@ def main():
             observed = obs["observed_utc"]
             observed_local = observed.astimezone(MX_TZ)
             current_daily = obs["daily_mm"]
+            current_storm = obs.get("storm_mm")
+            current_storm_start = obs.get("storm_start")
             prev_daily = parse_float(st.get("prev_daily_mm"))
+            prev_storm = parse_float(st.get("prev_storm_mm"))
+            prev_storm_start = st.get("prev_storm_start")
             prev_obs = iso_to_dt(st.get("prev_observed_utc"))
 
             increment = None
+            increment_method = "sin_dato"
+            rollover_uncertain = False
             if current_daily is not None:
                 if prev_daily is None or prev_obs is None:
                     increment = 0.0
+                    increment_method = "inicio_sin_referencia"
                 else:
                     same_day = prev_obs.astimezone(MX_TZ).date() == observed_local.date()
                     if same_day and current_daily >= prev_daily - 0.05:
                         increment = max(0.0, current_daily - prev_daily)
+                        increment_method = "diferencia_diaria"
                     else:
-                        increment = max(0.0, current_daily)
+                        same_storm = (
+                            current_storm is not None and prev_storm is not None
+                            and current_storm >= prev_storm - 0.05
+                            and (
+                                not current_storm_start or not prev_storm_start
+                                or str(current_storm_start) == str(prev_storm_start)
+                            )
+                        )
+                        if same_storm:
+                            increment = max(0.0, current_storm - prev_storm)
+                            increment_method = "puente_tormenta_rollover"
+                        else:
+                            # El acumulado diario reinició y el endpoint público no ofrece
+                            # un acumulado nativo móvil de 24 h. Conservamos sólo la lluvia
+                            # comprobable del nuevo día y marcamos la ventana como incierta.
+                            increment = max(0.0, current_daily)
+                            increment_method = "rollover_sin_puente"
+                            rollover_uncertain = True
                 increment = r1(increment)
 
                 if increment and increment > 0:
-                    st.setdefault("events", []).append({"ts": observed.isoformat(), "mm": increment})
+                    st.setdefault("events", []).append({
+                        "ts": observed.isoformat(),
+                        "mm": increment,
+                        "metodo": increment_method,
+                        "rollover_incierto": rollover_uncertain,
+                    })
 
                 month_key = observed_local.strftime("%Y-%m")
                 year_key = observed_local.strftime("%Y")
@@ -239,6 +284,8 @@ def main():
                         st["year_mm"] = r1(float(st["year_mm"]) + increment)
 
                 st["prev_daily_mm"] = current_daily
+                st["prev_storm_mm"] = current_storm
+                st["prev_storm_start"] = current_storm_start
                 st["prev_observed_utc"] = observed.isoformat()
 
             prune_cutoff = now_utc - timedelta(hours=240)
@@ -258,9 +305,17 @@ def main():
                 else:
                     acc[h] = None
 
-            range24, next_threshold = classify_24h(acc[24])
+            uncertain_24h = any(
+                e.get("rollover_incierto") is True
+                and iso_to_dt(e.get("ts"))
+                and iso_to_dt(e["ts"]) > now_utc - timedelta(hours=24)
+                for e in st.get("events", [])
+            )
+            range24, next_threshold = classify_24h(acc[24] if not uncertain_24h else None)
             age = obs.get("age_seconds")
             estado = "OK" if age is None or age <= 7200 else "Dato rezagado"
+            if uncertain_24h:
+                quality_parts.append("24h reconstruido con cruce de medianoche no verificable")
             quality = "Cloud" if not quality_parts else "Cloud + " + ", ".join(quality_parts)
 
             rows.append({
@@ -268,7 +323,7 @@ def main():
                 "Ubicacion": station["ubicacion"],
                 "1 h mm": fmt(acc[1]),
                 "6 h mm": fmt(acc[6]),
-                "24 h mm": fmt(acc[24]),
+                "24 h mm": "" if uncertain_24h else fmt(acc[24]),
                 "48 h mm": fmt(acc[48]),
                 "72 h mm": fmt(acc[72]),
                 "96 h mm": fmt(acc[96]),
@@ -284,7 +339,10 @@ def main():
             })
             ok += 1
             item["increment_mm"] = increment
-            item["accumulations_mm"] = {str(k): acc[k] for k in WINDOWS}
+            item["increment_method"] = increment_method
+            item["rollover_uncertain_24h"] = uncertain_24h
+            item["accumulations_mm"] = {str(k): (None if (k == 24 and uncertain_24h) else acc[k]) for k in WINDOWS}
+            item["reconstructed_24h_mm_raw"] = acc[24]
             item["quality"] = quality
         except Exception as exc:
             errors.append({"estacion": station["nombre"], "error": f"{type(exc).__name__}: {exc}"})
@@ -325,7 +383,7 @@ def main():
         "complete": ok == 32,
         "errors": errors,
         "source": "WeatherLink public map endpoint /map/data/station/{uuid}",
-        "note": "1h y 24h se conservan como heredados del corte base hasta completar su ventana cloud; 6h/48h/72h/96h/120h quedan vacíos hasta reunir historia suficiente. Las ventanas 96/120 h permiten identificar persistencia seca observada sin inferirla de datos faltantes.",
+        "note": "Hoy (dailyRain) es acumulado desde medianoche. Las ventanas móviles se reconstruyen con incrementos observados. En cruces de medianoche se usa stormRain como puente cuando el endpoint lo publica; si no existe puente verificable, 24 h se marca s/d en vez de presentar un acumulado incompleto como exacto.",
     }
     write_json(STATUS_JSON, status)
     print(json.dumps(status, ensure_ascii=False, indent=2))
