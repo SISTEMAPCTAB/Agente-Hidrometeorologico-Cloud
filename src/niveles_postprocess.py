@@ -108,29 +108,48 @@ def delta_window(rows, cutoff, hours):
 
 
 def trend_label(rows, cutoff):
+    """Tendencia operativa reciente, evitando que un solo reporte domine la etiqueta.
+
+    Se usa la evolución acumulada de las últimas 6 h (o desde la primera
+    observación disponible dentro de esa ventana) y el último cambio sólo para
+    identificar una reversión reciente. Así, Delta24 y Tendencia pueden ser
+    distintos sin resultar contradictorios: Delta24 es balance de 24 h y
+    Tendencia describe el movimiento reciente.
+    """
     real = [(dt(r.get("fecha_hora")), r) for r in observed(rows)]
-    real = [r for t, r in real if t and t <= cutoff]
+    real = [(t, r) for t, r in real if t and t <= cutoff]
+    real.sort(key=lambda x: x[0])
     if len(real) < 2:
         return "Sin tendencia suficiente", None
-    d = real[-1]["nivel"] - real[-2]["nivel"]
-    eps = 0.01
-    if abs(d) <= eps:
-        return "Estable", d
-    if d > 0:
+
+    recent = [(t, r) for t, r in real if t >= cutoff - timedelta(hours=6)]
+    if len(recent) < 2:
+        recent = real[-2:]
+
+    aggregate = float(recent[-1][1]["nivel"]) - float(recent[0][1]["nivel"])
+    last = float(real[-1][1]["nivel"]) - float(real[-2][1]["nivel"])
+    eps = 0.02
+
+    if aggregate > eps:
+        if last < -eps:
+            return "Ascenso con descenso reciente", last
         if len(real) >= 3:
-            p = real[-2]["nivel"] - real[-3]["nivel"]
-            if p > eps and d > p * 1.5:
-                return "Ascenso acelerado", d
-            if p < -eps:
-                return "Cambio a ascenso", d
-        return "Ascenso", d
-    if len(real) >= 3:
-        p = real[-2]["nivel"] - real[-3]["nivel"]
-        if p < -eps and abs(d) > abs(p) * 1.5:
-            return "Descenso acelerado", d
-        if p > eps:
-            return "Cambio a descenso", d
-    return "Descenso", d
+            prev = float(real[-2][1]["nivel"]) - float(real[-3][1]["nivel"])
+            if last > eps and prev > eps and last > prev * 1.5:
+                return "Ascenso acelerado", last
+        return "Ascenso", last
+
+    if aggregate < -eps:
+        if last > eps:
+            return "Descenso con ascenso reciente", last
+        if len(real) >= 3:
+            prev = float(real[-2][1]["nivel"]) - float(real[-3][1]["nivel"])
+            if last < -eps and prev < -eps and abs(last) > abs(prev) * 1.5:
+                return "Descenso acelerado", last
+        return "Descenso", last
+
+    # Variación reciente total dentro de +/-2 cm: operativamente estable.
+    return "Estable", last
 
 
 def latest_cutoff(history):
