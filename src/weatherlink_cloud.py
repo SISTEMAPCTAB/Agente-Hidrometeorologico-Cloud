@@ -325,30 +325,40 @@ def main():
             st["events"] = [e for e in st.get("events", []) if iso_to_dt(e.get("ts")) and iso_to_dt(e["ts"]) >= prune_cutoff]
 
             acc = {}
+            window_status = {}
             quality_parts = []
             for h in WINDOWS:
                 if coverage_hours >= h:
                     acc[h] = window_sum(st["events"], now_utc, h)
+                    cutoff = now_utc - timedelta(hours=h)
+                    uncertain = any(
+                        e.get("rollover_incierto") is True
+                        and iso_to_dt(e.get("ts"))
+                        and iso_to_dt(e["ts"]) > cutoff
+                        for e in st.get("events", [])
+                    )
+                    window_status[h] = "minimo_observado" if uncertain else "exacto_reconstruido"
                 elif h == 1 and st.get("seed_1h_mm") is not None:
                     acc[h] = r1(st.get("seed_1h_mm"))
+                    window_status[h] = "heredado"
                     quality_parts.append("1h heredado")
                 elif h == 24 and st.get("seed_24h_mm") is not None:
                     acc[h] = r1(st.get("seed_24h_mm"))
+                    window_status[h] = "heredado"
                     quality_parts.append("24h heredado")
                 else:
                     acc[h] = None
+                    window_status[h] = "sin_dato"
 
-            uncertain_24h = any(
-                e.get("rollover_incierto") is True
-                and iso_to_dt(e.get("ts"))
-                and iso_to_dt(e["ts"]) > now_utc - timedelta(hours=24)
-                for e in st.get("events", [])
-            )
-            range24, next_threshold = classify_24h(acc[24] if not uncertain_24h else None)
+            uncertain_windows = [h for h in WINDOWS if window_status.get(h) == "minimo_observado"]
+            range24, next_threshold = classify_24h(acc[24])
             age = obs.get("age_seconds")
             estado = "OK" if age is None or age <= 7200 else "Dato rezagado"
-            if uncertain_24h:
-                quality_parts.append("24h reconstruido con cruce de medianoche no verificable")
+            if uncertain_windows:
+                quality_parts.append(
+                    "ventanas con mínimo observado por cruce de medianoche: "
+                    + "/".join(f"{h}h" for h in uncertain_windows)
+                )
             quality = "Cloud" if not quality_parts else "Cloud + " + ", ".join(quality_parts)
 
             rows.append({
@@ -356,7 +366,7 @@ def main():
                 "Ubicacion": station["ubicacion"],
                 "1 h mm": fmt(acc[1]),
                 "6 h mm": fmt(acc[6]),
-                "24 h mm": "" if uncertain_24h else fmt(acc[24]),
+                "24 h mm": fmt(acc[24]),
                 "48 h mm": fmt(acc[48]),
                 "72 h mm": fmt(acc[72]),
                 "96 h mm": fmt(acc[96]),
@@ -373,8 +383,9 @@ def main():
             ok += 1
             item["increment_mm"] = increment
             item["increment_method"] = increment_method
-            item["rollover_uncertain_24h"] = uncertain_24h
-            item["accumulations_mm"] = {str(k): (None if (k == 24 and uncertain_24h) else acc[k]) for k in WINDOWS}
+            item["rollover_uncertain_24h"] = window_status.get(24) == "minimo_observado"
+            item["accumulations_mm"] = {str(k): acc[k] for k in WINDOWS}
+            item["accumulation_status"] = {str(k): window_status.get(k, "sin_dato") for k in WINDOWS}
             item["reconstructed_24h_mm_raw"] = acc[24]
             item["quality"] = quality
         except Exception as exc:
@@ -416,7 +427,7 @@ def main():
         "complete": ok == 32,
         "errors": errors,
         "source": "WeatherLink public map endpoint /map/data/station/{uuid}",
-        "note": "Hoy (dailyRain) es acumulado desde medianoche. Las ventanas móviles se reconstruyen con incrementos observados. En cruces de medianoche se usa stormRain como puente cuando el endpoint lo publica; si no existe puente verificable, 24 h se marca s/d en vez de presentar un acumulado incompleto como exacto.",
+        "note": "Hoy (dailyRain) es acumulado desde medianoche. Las ventanas móviles se reconstruyen con incrementos observados. Si un cruce de medianoche no puede verificarse, la ventana afectada se conserva como mínimo observado (≥ valor), no como exacta ni como s/d. La incertidumbre se propaga coherentemente a 24/48/72/96/120 h mientras ese tramo permanezca dentro de cada ventana.",
     }
     write_json(STATUS_JSON, status)
     print(json.dumps(status, ensure_ascii=False, indent=2))
