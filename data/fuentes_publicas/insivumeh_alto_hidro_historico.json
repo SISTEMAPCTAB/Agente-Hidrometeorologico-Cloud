@@ -1093,7 +1093,46 @@
           "ultima_observacion_fuente": "18/09/2026 08:00"
         }
       ]
+    },
+    {
+      "clave": "18/09/2026|14:00|None",
+      "fecha": "18/09/2026",
+      "hora": "14:00",
+      "boletin": null,
+      "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
+      "estaciones": [
+        {
+          "estacion": "El Tigre",
+          "rio": "Usumacinta",
+          "ubicacion": "Las Cruces, Petén",
+          "nivel_referencia_min_m": 4.55,
+          "nivel_referencia_max_m": 10.0,
+          "caudal_referencia_min_m3s": 486.87,
+          "caudal_referencia_max_m3s": 2856.43,
+          "nivel_instantaneo_m": 5.26,
+          "caudal_instantaneo_m3s": 795.57,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación.",
+          "estado_dato": "observado",
+          "ultima_observacion_fuente": "18/09/2026 14:00"
+        },
+        {
+          "estacion": "El Porvenir",
+          "rio": "La Pasión",
+          "ubicacion": "Las Cruces, Petén",
+          "nivel_referencia_min_m": 1.03,
+          "nivel_referencia_max_m": 3.0,
+          "caudal_referencia_min_m3s": 93.04,
+          "caudal_referencia_max_m3s": 399.28,
+          "nivel_instantaneo_m": 1.83,
+          "caudal_instantaneo_m3s": 184.4,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación.",
+          "estado_dato": "observado",
+          "ultima_observacion_fuente": "18/09/2026 14:00"
+        }
+      ]
     }
   ],
-  "actualizado_utc": "2026-09-18T18:08:10.509497+00:00"
+  "actualizado_utc": "2026-09-18T20:52:17.791672+00:00"
 }
