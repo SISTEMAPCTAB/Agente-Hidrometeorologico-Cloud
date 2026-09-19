@@ -1,0 +1,124 @@
+name: WeatherLink Rescue - independiente
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/weatherlink-rescue.yml'
+  schedule:
+    # Respaldo independiente del flujo principal. Revisa cada 15 min.
+    - cron: '6,21,36,51 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  # Grupo propio: no queda bloqueado si weatherlink-cloud se atasca.
+  group: weatherlink-rescue-independent
+  cancel-in-progress: true
+
+jobs:
+  rescatar-si-rezagado:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verificar antigüedad del corte WeatherLink
+        id: stale
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          p=Path('data/weatherlink/Estado_WeatherLink_Cloud.json')
+          stale=True
+          age=9999.0
+          healthy=False
+          try:
+              s=json.loads(p.read_text(encoding='utf-8'))
+              run=s.get('run_utc')
+              healthy=(s.get('complete') is True and
+                       s.get('stations_ok') == s.get('stations_expected') and
+                       not (s.get('errors') or []))
+              if run:
+                  d=datetime.fromisoformat(run.replace('Z','+00:00'))
+                  if d.tzinfo is None: d=d.replace(tzinfo=timezone.utc)
+                  age=(datetime.now(timezone.utc)-d.astimezone(timezone.utc)).total_seconds()/60
+                  stale=(not healthy) or age>25
+          except Exception as exc:
+              print('Estado WeatherLink inválido:', exc)
+          print(f'WeatherLink healthy={healthy}; age={age:.1f} min; rescue={stale}')
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as fh:
+              fh.write(f"rescue={'true' if stale else 'false'}\n")
+          PY
+
+      - name: Estado vigente
+        if: steps.stale.outputs.rescue != 'true'
+        run: echo "WeatherLink vigente; respaldo no duplica la recolección."
+
+      - name: Configurar Python
+        if: steps.stale.outputs.rescue == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependencia mínima
+        if: steps.stale.outputs.rescue == 'true'
+        run: pip install requests
+
+      - name: Recuperar WeatherLink
+        if: steps.stale.outputs.rescue == 'true'
+        run: python src/weatherlink_cloud.py
+
+      - name: Verificar recuperación
+        if: steps.stale.outputs.rescue == 'true'
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+          s=json.loads(Path('data/weatherlink/Estado_WeatherLink_Cloud.json').read_text(encoding='utf-8'))
+          assert s.get('complete') is True
+          assert s.get('stations_ok') == s.get('stations_expected')
+          assert not (s.get('errors') or [])
+          d=datetime.fromisoformat(s['run_utc'].replace('Z','+00:00'))
+          if d.tzinfo is None:d=d.replace(tzinfo=timezone.utc)
+          age=(datetime.now(timezone.utc)-d.astimezone(timezone.utc)).total_seconds()/60
+          assert age < 10, f'Corte recuperado antiguo: {age:.1f} min'
+          print('WeatherLink recuperado:',s.get('run_local'),s.get('stations_ok'),'estaciones')
+          PY
+
+      - name: Publicar recuperación
+        if: steps.stale.outputs.rescue == 'true'
+        shell: bash
+        run: |
+          set -e
+          git config user.name "WeatherLink Rescue"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/weatherlink/state.json \
+                  data/weatherlink/latest.json \
+                  data/weatherlink/Tabla_WeatherLink_Cloud.csv \
+                  data/weatherlink/Estado_WeatherLink_Cloud.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios para publicar."
+            exit 0
+          fi
+          git commit -m "Rescate independiente WeatherLink [skip ci]"
+          for intento in 1 2 3; do
+            if git pull --rebase origin main && git push origin main; then
+              echo "Rescate WeatherLink publicado."
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((intento * 8))
+          done
+          exit 1
