@@ -74,8 +74,11 @@
   }
   function weatherRow(r){
     const a=r.accumulations_mm||{},s=r.accumulation_status||{};
-    const q=[r.quality||'Cloud'];
-    if(r.estado&&r.estado!=='OK')q.push(r.estado);
+    const qualityFull=[r.quality||'Cloud'];
+    if(r.estado&&r.estado!=='OK')qualityFull.push(r.estado);
+    const minHours=['1','6','24','48'].filter(h=>s[h]==='minimo_observado');
+    const isStale=/rezagado|heredado/i.test(String(r.estado||'')+' '+String(r.quality||''));
+    const qualityShort=`Cloud${minHours.length?' · ≥ '+minHours.join('/')+' h':''}${isStale?' · Rezagado':''}`;
     return `<tr>
       <td><b>${esc(r.nombre||'s/d')}</b></td>
       <td>WeatherLink</td>
@@ -86,7 +89,7 @@
       <td>${celsius(r.temperature_f)}</td>
       <td>${finite(r.humidity_pct)?Number(r.humidity_pct).toFixed(0)+'%':'s/d'}</td>
       <td>${human(r.observed_utc||r.last_updated_at)}</td>
-      <td>${esc(q.join(' · '))}</td>
+      <td class="weather-quality-cell" title="${esc(qualityFull.join(' · '))}">${esc(qualityShort)}</td>
     </tr>`;
   }
   function weatherTable(rows){
@@ -135,7 +138,7 @@
   function styles(){
     if(document.getElementById('weatherStableStyle'))return;
     const s=document.createElement('style');s.id='weatherStableStyle';
-    s.textContent='.weather-source-groups{display:block}.subcuenca-weather-block{display:block!important;min-height:0!important;height:auto!important;margin:18px 0 26px!important}.subcuenca-weather-block h3{display:block!important;visibility:visible!important;opacity:1!important;color:#6f112d!important;margin:0 0 10px!important;font-size:1.05rem!important}.subcuenca-weather-block .table-wrap{display:block!important;min-height:0!important;height:auto!important;margin:0!important}.weather-stable-panel{overflow:visible!important}.weather-stable-panel .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.conagua-priority-note{border-left:4px solid #6f112d;padding:10px 12px;background:#faf6f7;margin:8px 0 16px}';
+    s.textContent='.weather-source-groups{display:block}.subcuenca-weather-block{display:block!important;min-height:0!important;height:auto!important;margin:18px 0 26px!important}.subcuenca-weather-block h3{display:block!important;visibility:visible!important;opacity:1!important;color:#6f112d!important;margin:0 0 10px!important;font-size:1.05rem!important}.subcuenca-weather-block .table-wrap{display:block!important;min-height:0!important;height:auto!important;margin:0!important}.weather-stable-panel{overflow:visible!important}.weather-stable-panel .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.weather-stable-panel .weather-quality-cell{width:145px;min-width:115px;max-width:175px;white-space:normal!important;overflow-wrap:anywhere;font-size:.86rem;line-height:1.35;vertical-align:top}.conagua-priority-note{border-left:4px solid #6f112d;padding:10px 12px;background:#faf6f7;margin:8px 0 16px}';
     document.head.appendChild(s);
   }
 
