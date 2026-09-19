@@ -1,5 +1,5 @@
 {
-  "version": "1.1",
+  "version": "1.2",
   "criterio": "Vinculación hidrológica operativa. No implica que una medición puntual represente el acumulado medio de toda la subcuenca. Las asociaciones por ubicación nominal que aún requieren coordenada/polígono se marcan como provisional y no gobiernan por sí solas el semáforo.",
   "sistemas": {
     "presas": "Presas–Mezcalapa–Samaria y Carrizal",
@@ -8,40 +8,461 @@
     "usumacinta": "Usumacinta"
   },
   "estaciones": [
-    {"fuente":"CONAGUA","estacion":"PEÑITAS","subcuenca":"Presa Peñitas","sistema":"presas","receptor":"Peñitas → Mezcalapa → bifurcación Samaria/Carrizal","rios_objetivo":["Mezcalapa","Samaria","Carrizal"],"influencia":"aguas arriba","confianza":"alta","gobierna_semaforo":true},
-    {"fuente":"CONAGUA","estacion":"MEZCALAPA","subcuenca":"R. Mezcalapa","sistema":"presas","receptor":"Mezcalapa → bifurcación Samaria/Carrizal","rios_objetivo":["Mezcalapa","Samaria","Carrizal"],"influencia":"directa","confianza":"alta","gobierna_semaforo":true},
-    {"fuente":"CONAGUA","estacion":"PLATANAR","subcuenca":"R. Platanar","sistema":"presas","receptor":"Platanar → Mezcalapa antes de bifurcación","rios_objetivo":["Mezcalapa","Samaria","Carrizal"],"influencia":"afluente aguas arriba","confianza":"alta","gobierna_semaforo":true},
-    {"fuente":"CONAGUA","estacion":"SAMARIA","subcuenca":"R. Samaria","sistema":"presas","receptor":"Samaria","rios_objetivo":["Samaria"],"influencia":"local/directa","confianza":"alta","gobierna_semaforo":true},
-    {"fuente":"CONAGUA","estacion":"MACAYO MARGEN IZQUIERDA","subcuenca":"R. Carrizal","sistema":"presas","receptor":"Carrizal → Grijalva","rios_objetivo":["Carrizal"],"influencia":"control/entorno","confianza":"alta","gobierna_semaforo":false},
-
-    {"fuente":"CONAGUA","estacion":"OXOLOTÁN","subcuenca":"R. Tacotalpa / cabecera Oxolotán","sistema":"serranos","receptor":"Oxolotán → Tacotalpa → La Sierra → Grijalva","rios_objetivo":["Oxolotán","Tacotalpa","La Sierra"],"influencia":"directa/aguas arriba","confianza":"alta","gobierna_semaforo":true},
-    {"fuente":"CONAGUA","estacion":"TAPIJULAPA","subcuenca":"R. Tacotalpa","sistema":"serranos","receptor":"Tacotalpa → La Sierra → Grijalva","rios_objetivo":["Tacotalpa","La Sierra"],"influencia":"directa","confianza":"alta","gobierna_semaforo":true},
-    {"fuente":"WEATHERLINK","estacion":"AMATÁN PCIVILCHIAPAS","subcuenca":"Amatán","sistema":"serranos","receptor":"Amatán → sistema Tacotalpa/La Sierra → Grijalva","rios_objetivo":["Amatán","Tacotalpa","La Sierra"],"influencia":"aguas arriba","confianza":"media","gobierna_semaforo":true,"validacion":"operativa; pendiente refinar por coordenada-polígono"},
-    {"fuente":"CONAGUA","estacion":"TEAPA","subcuenca":"R. De la Sierra","sistema":"serranos","receptor":"Teapa → La Sierra → Grijalva","rios_objetivo":["Teapa","La Sierra"],"influencia":"directa","confianza":"alta","gobierna_semaforo":true},
-    {"fuente":"CONAGUA","estacion":"PUYACATENGO","subcuenca":"R. De la Sierra","sistema":"serranos","receptor":"Puyacatengo → La Sierra → Grijalva","rios_objetivo":["Puyacatengo","La Sierra"],"influencia":"directa","confianza":"alta","gobierna_semaforo":true},
-    {"fuente":"CONAGUA","estacion":"RÍOS DE LA SIERRA","subcuenca":"R. De la Sierra","sistema":"serranos","receptor":"La Sierra → Grijalva","rios_objetivo":["La Sierra"],"influencia":"directa","confianza":"alta","gobierna_semaforo":true},
-    {"fuente":"WEATHERLINK","estacion":"PICHUCALCO PCIVILCHIAPAS","subcuenca":"R. Pichucalco","sistema":"serranos","receptor":"Pichucalco → Grijalva","rios_objetivo":["Pichucalco"],"influencia":"aguas arriba/directa","confianza":"alta","gobierna_semaforo":true},
-    {"fuente":"WEATHERLINK","estacion":"IXHUATAN PCIVILCHIAPAS","subcuenca":"por validar espacialmente","sistema":"serranos","receptor":"zona alta norte de Chiapas hacia sistema Grijalva","rios_objetivo":[],"influencia":"aguas arriba potencial","confianza":"baja","gobierna_semaforo":false,"validacion":"requiere coordenada-polígono"},
-    {"fuente":"WEATHERLINK","estacion":"CHAPULTENANGO PCIVILCHIAPAS","subcuenca":"por validar espacialmente","sistema":"serranos","receptor":"zona alta norte de Chiapas hacia sistema Grijalva","rios_objetivo":[],"influencia":"aguas arriba potencial","confianza":"baja","gobierna_semaforo":false,"validacion":"requiere coordenada-polígono"},
-
-    {"fuente":"WEATHERLINK","estacion":"OSTUACÁN PCIVILCHIAPAS","subcuenca":"Presa Peñitas / entorno inmediato","sistema":"presas","receptor":"Peñitas → Mezcalapa","rios_objetivo":["Mezcalapa","Samaria","Carrizal"],"influencia":"aguas arriba","confianza":"alta","gobierna_semaforo":true},
-    {"fuente":"WEATHERLINK","estacion":"JUÁREZ PCIVILCHIAPAS","subcuenca":"por validar espacialmente","sistema":"presas","receptor":"zona Peñitas/Mezcalapa","rios_objetivo":[],"influencia":"aguas arriba potencial","confianza":"media","gobierna_semaforo":false,"validacion":"requiere coordenada-polígono"},
-
-    {"fuente":"WEATHERLINK","estacion":"SALTO DE AGUA PCIVILCHIAPAS","subcuenca":"R. Tulijá","sistema":"tulija","receptor":"Tulijá → Chilapa → Grijalva","rios_objetivo":["Tulijá","Chilapa"],"influencia":"aguas arriba/directa","confianza":"alta","gobierna_semaforo":true},
-    {"fuente":"WEATHERLINK","estacion":"CHILÓN PCIVILCHIAPAS","subcuenca":"R. Tulijá","sistema":"tulija","receptor":"Tulijá → Chilapa → Grijalva","rios_objetivo":["Tulijá","Chilapa"],"influencia":"aguas arriba","confianza":"media","gobierna_semaforo":true,"validacion":"provisional hasta cruce coordenada-polígono"},
-    {"fuente":"WEATHERLINK","estacion":"PALENQUE PCIVILCHIAPAS","subcuenca":"entorno Tulijá/Chilapa–Usumacinta","sistema":"tulija","receptor":"por validar","rios_objetivo":[],"influencia":"regional","confianza":"baja","gobierna_semaforo":false,"validacion":"requiere coordenada-polígono; no usar para atribución causal"},
-    {"fuente":"WEATHERLINK","estacion":"Sinai","subcuenca":"entorno Tulijá/Chilapa–Usumacinta","sistema":"tulija","receptor":"por validar","rios_objetivo":[],"influencia":"regional","confianza":"baja","gobierna_semaforo":false,"validacion":"requiere coordenada-polígono"},
-
-    {"fuente":"WEATHERLINK","estacion":"ETM Bertollini","subcuenca":"R. Usumacinta","sistema":"usumacinta","receptor":"Usumacinta en Emiliano Zapata → Jonuta → Centla","rios_objetivo":["Usumacinta"],"influencia":"local aguas abajo de Boca del Cerro","confianza":"alta","gobierna_semaforo":false},
-    {"fuente":"WEATHERLINK","estacion":"IGeofisica-M2","subcuenca":"R. Usumacinta","sistema":"usumacinta","receptor":"Usumacinta en Emiliano Zapata → Jonuta → Centla","rios_objetivo":["Usumacinta"],"influencia":"local aguas abajo de Boca del Cerro","confianza":"alta","gobierna_semaforo":false},
-    {"fuente":"WEATHERLINK","estacion":"Urrutia","subcuenca":"por validar, Petén","sistema":"usumacinta","receptor":"alta cuenca Usumacinta según ubicación exacta","rios_objetivo":[],"influencia":"regional aguas arriba","confianza":"baja","gobierna_semaforo":false,"validacion":"no atribuir aporte hasta validar coordenadas y drenaje"},
-    {"fuente":"WEATHERLINK","estacion":"Yaxhá - INSIVUMEH PETEN","subcuenca":"por validar, Petén","sistema":"usumacinta","receptor":"alta cuenca Usumacinta según ubicación exacta","rios_objetivo":[],"influencia":"regional aguas arriba","confianza":"baja","gobierna_semaforo":false,"validacion":"no atribuir aporte hasta validar coordenadas y drenaje"}
+    {
+      "fuente": "CONAGUA",
+      "estacion": "PEÑITAS",
+      "subcuenca": "Presa Peñitas",
+      "sistema": "presas",
+      "receptor": "Peñitas → Mezcalapa → bifurcación Samaria/Carrizal",
+      "rios_objetivo": [
+        "Mezcalapa",
+        "Samaria",
+        "Carrizal"
+      ],
+      "influencia": "aguas arriba",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "MEZCALAPA",
+      "subcuenca": "R. Mezcalapa",
+      "sistema": "presas",
+      "receptor": "Mezcalapa → bifurcación Samaria/Carrizal",
+      "rios_objetivo": [
+        "Mezcalapa",
+        "Samaria",
+        "Carrizal"
+      ],
+      "influencia": "directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "PLATANAR",
+      "subcuenca": "R. Platanar",
+      "sistema": "presas",
+      "receptor": "Platanar → Mezcalapa antes de bifurcación",
+      "rios_objetivo": [
+        "Mezcalapa",
+        "Samaria",
+        "Carrizal"
+      ],
+      "influencia": "afluente aguas arriba",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "SAMARIA",
+      "subcuenca": "R. Samaria",
+      "sistema": "presas",
+      "receptor": "Samaria",
+      "rios_objetivo": [
+        "Samaria"
+      ],
+      "influencia": "local/directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "MACAYO MARGEN IZQUIERDA",
+      "subcuenca": "R. Carrizal",
+      "sistema": "presas",
+      "receptor": "Carrizal → Grijalva",
+      "rios_objetivo": [
+        "Carrizal"
+      ],
+      "influencia": "control/entorno",
+      "confianza": "alta",
+      "gobierna_semaforo": false
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "OXOLOTÁN",
+      "subcuenca": "R. Tacotalpa / cabecera Oxolotán",
+      "sistema": "serranos",
+      "receptor": "Oxolotán → Tacotalpa → La Sierra → Grijalva",
+      "rios_objetivo": [
+        "Oxolotán",
+        "Tacotalpa",
+        "La Sierra"
+      ],
+      "influencia": "directa/aguas arriba",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "TAPIJULAPA",
+      "subcuenca": "R. Tacotalpa",
+      "sistema": "serranos",
+      "receptor": "Tacotalpa → La Sierra → Grijalva",
+      "rios_objetivo": [
+        "Tacotalpa",
+        "La Sierra"
+      ],
+      "influencia": "directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "AMATÁN PCIVILCHIAPAS",
+      "subcuenca": "Amatán",
+      "sistema": "serranos",
+      "receptor": "Amatán → sistema Tacotalpa/La Sierra → Grijalva",
+      "rios_objetivo": [
+        "Amatán",
+        "Tacotalpa",
+        "La Sierra"
+      ],
+      "influencia": "aguas arriba",
+      "confianza": "media",
+      "gobierna_semaforo": true,
+      "validacion": "operativa; pendiente refinar por coordenada-polígono"
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "TEAPA",
+      "subcuenca": "R. De la Sierra",
+      "sistema": "serranos",
+      "receptor": "Teapa → La Sierra → Grijalva",
+      "rios_objetivo": [
+        "Teapa",
+        "La Sierra"
+      ],
+      "influencia": "directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "PUYACATENGO",
+      "subcuenca": "R. De la Sierra",
+      "sistema": "serranos",
+      "receptor": "Puyacatengo → La Sierra → Grijalva",
+      "rios_objetivo": [
+        "Puyacatengo",
+        "La Sierra"
+      ],
+      "influencia": "directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "RÍOS DE LA SIERRA",
+      "subcuenca": "R. De la Sierra",
+      "sistema": "serranos",
+      "receptor": "La Sierra → Grijalva",
+      "rios_objetivo": [
+        "La Sierra"
+      ],
+      "influencia": "directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "PICHUCALCO PCIVILCHIAPAS",
+      "subcuenca": "R. Pichucalco",
+      "sistema": "serranos",
+      "receptor": "Pichucalco → Grijalva",
+      "rios_objetivo": [
+        "Pichucalco"
+      ],
+      "influencia": "aguas arriba/directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "IXHUATAN PCIVILCHIAPAS",
+      "subcuenca": "por validar espacialmente",
+      "sistema": "serranos",
+      "receptor": "zona alta norte de Chiapas hacia sistema Grijalva",
+      "rios_objetivo": [],
+      "influencia": "aguas arriba potencial",
+      "confianza": "baja",
+      "gobierna_semaforo": false,
+      "validacion": "requiere coordenada-polígono"
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "CHAPULTENANGO PCIVILCHIAPAS",
+      "subcuenca": "por validar espacialmente",
+      "sistema": "serranos",
+      "receptor": "zona alta norte de Chiapas hacia sistema Grijalva",
+      "rios_objetivo": [],
+      "influencia": "aguas arriba potencial",
+      "confianza": "baja",
+      "gobierna_semaforo": false,
+      "validacion": "requiere coordenada-polígono"
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "OSTUACÁN PCIVILCHIAPAS",
+      "subcuenca": "Presa Peñitas / entorno inmediato",
+      "sistema": "presas",
+      "receptor": "Peñitas → Mezcalapa",
+      "rios_objetivo": [
+        "Mezcalapa",
+        "Samaria",
+        "Carrizal"
+      ],
+      "influencia": "aguas arriba",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "JUÁREZ PCIVILCHIAPAS",
+      "subcuenca": "por validar espacialmente",
+      "sistema": "presas",
+      "receptor": "zona Peñitas/Mezcalapa",
+      "rios_objetivo": [],
+      "influencia": "aguas arriba potencial",
+      "confianza": "media",
+      "gobierna_semaforo": false,
+      "validacion": "requiere coordenada-polígono"
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "SALTO DE AGUA PCIVILCHIAPAS",
+      "subcuenca": "R. Tulijá",
+      "sistema": "tulija",
+      "receptor": "Tulijá → Chilapa → Grijalva",
+      "rios_objetivo": [
+        "Tulijá",
+        "Chilapa"
+      ],
+      "influencia": "aguas arriba/directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "CHILÓN PCIVILCHIAPAS",
+      "subcuenca": "R. Tulijá",
+      "sistema": "tulija",
+      "receptor": "Tulijá → Chilapa → Grijalva",
+      "rios_objetivo": [
+        "Tulijá",
+        "Chilapa"
+      ],
+      "influencia": "aguas arriba",
+      "confianza": "media",
+      "gobierna_semaforo": true,
+      "validacion": "provisional hasta cruce coordenada-polígono"
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "PALENQUE PCIVILCHIAPAS",
+      "subcuenca": "entorno Tulijá/Chilapa–Usumacinta",
+      "sistema": "tulija",
+      "receptor": "por validar",
+      "rios_objetivo": [],
+      "influencia": "regional",
+      "confianza": "baja",
+      "gobierna_semaforo": false,
+      "validacion": "requiere coordenada-polígono; no usar para atribución causal"
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "Sinai",
+      "subcuenca": "entorno Tulijá/Chilapa–Usumacinta",
+      "sistema": "tulija",
+      "receptor": "por validar",
+      "rios_objetivo": [],
+      "influencia": "regional",
+      "confianza": "baja",
+      "gobierna_semaforo": false,
+      "validacion": "requiere coordenada-polígono"
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "ETM Bertollini",
+      "subcuenca": "R. Usumacinta",
+      "sistema": "usumacinta",
+      "receptor": "Usumacinta en Emiliano Zapata → Jonuta → Centla",
+      "rios_objetivo": [
+        "Usumacinta"
+      ],
+      "influencia": "local aguas abajo de Boca del Cerro",
+      "confianza": "alta",
+      "gobierna_semaforo": false
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "IGeofisica-M2",
+      "subcuenca": "R. Usumacinta",
+      "sistema": "usumacinta",
+      "receptor": "Usumacinta en Emiliano Zapata → Jonuta → Centla",
+      "rios_objetivo": [
+        "Usumacinta"
+      ],
+      "influencia": "local aguas abajo de Boca del Cerro",
+      "confianza": "alta",
+      "gobierna_semaforo": false
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "Urrutia",
+      "subcuenca": "por validar, Petén",
+      "sistema": "usumacinta",
+      "receptor": "alta cuenca Usumacinta según ubicación exacta",
+      "rios_objetivo": [],
+      "influencia": "regional aguas arriba",
+      "confianza": "baja",
+      "gobierna_semaforo": false,
+      "validacion": "no atribuir aporte hasta validar coordenadas y drenaje"
+    },
+    {
+      "fuente": "WEATHERLINK",
+      "estacion": "Yaxhá - INSIVUMEH PETEN",
+      "subcuenca": "por validar, Petén",
+      "sistema": "usumacinta",
+      "receptor": "alta cuenca Usumacinta según ubicación exacta",
+      "rios_objetivo": [],
+      "influencia": "regional aguas arriba",
+      "confianza": "baja",
+      "gobierna_semaforo": false,
+      "validacion": "no atribuir aporte hasta validar coordenadas y drenaje"
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "SAN PEDRO NICHTACULUM",
+      "subcuenca": "R. San Pedro / cuenca Usumacinta",
+      "sistema": "usumacinta",
+      "receptor": "San Pedro → Usumacinta",
+      "rios_objetivo": [
+        "San Pedro",
+        "Usumacinta"
+      ],
+      "influencia": "aguas arriba",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "BOCA DEL CERRO",
+      "subcuenca": "R. Usumacinta",
+      "sistema": "usumacinta",
+      "receptor": "Usumacinta en Tenosique → Balancán → Emiliano Zapata → Jonuta",
+      "rios_objetivo": [
+        "Usumacinta"
+      ],
+      "influencia": "directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "EMILIANO ZAPATA (CHABLE)",
+      "subcuenca": "R. Usumacinta",
+      "sistema": "usumacinta",
+      "receptor": "Usumacinta en Emiliano Zapata",
+      "rios_objetivo": [
+        "Usumacinta"
+      ],
+      "influencia": "local/directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "JONUTA (CIUDAD)",
+      "subcuenca": "R. Usumacinta",
+      "sistema": "usumacinta",
+      "receptor": "Usumacinta en Jonuta",
+      "rios_objetivo": [
+        "Usumacinta"
+      ],
+      "influencia": "local/directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "JONUTA 2 (PUENTE)",
+      "subcuenca": "R. Usumacinta",
+      "sistema": "usumacinta",
+      "receptor": "Usumacinta en Jonuta",
+      "rios_objetivo": [
+        "Usumacinta"
+      ],
+      "influencia": "local/directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    }
   ],
   "fuentes_areales": [
-    {"fuente":"INSIVUMEH","producto":"mapas de lluvia acumulada / saturación","sistema":"usumacinta","subcuencas_objetivo":["Chixoy/Salinas","La Pasión","Usumacinta/El Tigre"],"rios_objetivo":["Usumacinta"],"gobierna_semaforo":true,"regla":"Usar sólo el sector del mapa que cae en la cuenca aportante hacia México; no trasladar la máxima nacional de Guatemala a toda la cuenca."},
-    {"fuente":"SMN","producto":"acumulados/pronóstico especial por cuencas","sistema":"serranos","subcuencas_objetivo":["Bajo Grijalva–Ríos de la Sierra"],"rios_objetivo":["Oxolotán","Amatán","Tacotalpa","Teapa","Puyacatengo","La Sierra","Pichucalco"],"gobierna_semaforo":true,"regla":"Usar como señal areal complementaria; las estaciones vinculadas por subcuenca tienen prioridad para discriminar qué río recibe la lluvia."},
-    {"fuente":"SMN","producto":"pronóstico especial Peñitas/Malpaso","sistema":"presas","subcuencas_objetivo":["Peñitas","Malpaso"],"rios_objetivo":["Mezcalapa","Samaria","Carrizal"],"gobierna_semaforo":true,"regla":"Combinar con extracción de Peñitas y respuesta del Mezcalapa; no usar lluvia sola como pronóstico de nivel."},
-    {"fuente":"SMN","producto":"pronóstico especial Usumacinta","sistema":"usumacinta","subcuencas_objetivo":["Usumacinta"],"rios_objetivo":["Usumacinta"],"gobierna_semaforo":true,"regla":"Complementar, no sustituir, la señal observada de Guatemala/Lacantún."}
+    {
+      "fuente": "INSIVUMEH",
+      "producto": "mapas de lluvia acumulada / saturación",
+      "sistema": "usumacinta",
+      "subcuencas_objetivo": [
+        "Chixoy/Salinas",
+        "La Pasión",
+        "Usumacinta/El Tigre"
+      ],
+      "rios_objetivo": [
+        "Usumacinta"
+      ],
+      "gobierna_semaforo": true,
+      "regla": "Usar sólo el sector del mapa que cae en la cuenca aportante hacia México; no trasladar la máxima nacional de Guatemala a toda la cuenca."
+    },
+    {
+      "fuente": "SMN",
+      "producto": "acumulados/pronóstico especial por cuencas",
+      "sistema": "serranos",
+      "subcuencas_objetivo": [
+        "Bajo Grijalva–Ríos de la Sierra"
+      ],
+      "rios_objetivo": [
+        "Oxolotán",
+        "Amatán",
+        "Tacotalpa",
+        "Teapa",
+        "Puyacatengo",
+        "La Sierra",
+        "Pichucalco"
+      ],
+      "gobierna_semaforo": true,
+      "regla": "Usar como señal areal complementaria; las estaciones vinculadas por subcuenca tienen prioridad para discriminar qué río recibe la lluvia."
+    },
+    {
+      "fuente": "SMN",
+      "producto": "pronóstico especial Peñitas/Malpaso",
+      "sistema": "presas",
+      "subcuencas_objetivo": [
+        "Peñitas",
+        "Malpaso"
+      ],
+      "rios_objetivo": [
+        "Mezcalapa",
+        "Samaria",
+        "Carrizal"
+      ],
+      "gobierna_semaforo": true,
+      "regla": "Combinar con extracción de Peñitas y respuesta del Mezcalapa; no usar lluvia sola como pronóstico de nivel."
+    },
+    {
+      "fuente": "SMN",
+      "producto": "pronóstico especial Usumacinta",
+      "sistema": "usumacinta",
+      "subcuencas_objetivo": [
+        "Usumacinta"
+      ],
+      "rios_objetivo": [
+        "Usumacinta"
+      ],
+      "gobierna_semaforo": true,
+      "regla": "Complementar, no sustituir, la señal observada de Guatemala/Lacantún."
+    }
   ],
   "reglas_app": [
     "El color del río se obtiene de la categoría más alta entre observaciones aguas arriba válidas que gobiernan ese río, manteniendo visible estación, periodo y hora.",
