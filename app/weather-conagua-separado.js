@@ -110,16 +110,20 @@
 
   function conaguaByStation(data){return new Map((Array.isArray(data.conagua)?data.conagua:[]).map(r=>[norm(r.estacion),r]))}
   function conaguaBlocks(data){
-    const by=conaguaByStation(data),lnk=links(data,'conagua');
-    return SYSTEM_ORDER.map(id=>{
+    const by=conaguaByStation(data),lnk=links(data,'conagua'),parts=[];
+    for(const id of SYSTEM_ORDER){
       const rows=[],seen=new Set();
       for(const e of lnk.filter(x=>x.sistema===id)){
         const k=norm(e.estacion),r=by.get(k);if(!r||seen.has(k))continue;seen.add(k);
         rows.push(`<tr><td><b>${esc(r.estacion||e.estacion)}</b></td><td>${esc(e.subcuenca||'s/d')}</td><td><b>${r.estado_hoy==='observado'?mm(r.lluvia_hoy_desde_08_mm):'s/d'}</b></td><td>${r.estado_24h==='observado'?mm(r.lluvia_24h_precedentes_mm):'s/d'}</td><td>${r.estado_48h==='observado'?mm(r.lluvia_48h_precedentes_mm):'s/d'}</td><td>${human(r.fecha_hora)}</td></tr>`);
       }
-      const body=rows.length?rows.join(''):'<tr><td colspan="6">Sin datos estructurados para este sistema.</td></tr>';
-      return `<div class="subcuenca-weather-block conagua-hourly-priority" data-system="${id}"><h3>${esc(systemTitle(data,id))}</h3><div class="table-wrap"><table><thead><tr><th>Estación</th><th>Subcuenca</th><th>HOY desde 08:00</th><th>24 h anteriores</th><th>48 h anteriores</th><th>Hora de corte</th></tr></thead><tbody>${body}</tbody></table></div></div>`;
-    }).join('');
+      // No se dibuja una tabla vacía: si el reporte horario vigente no trae
+      // estaciones estructuradas de ese sistema, se conserva el dato diario
+      // en los apartados de referencia inferiores sin ocupar espacio operativo.
+      if(!rows.length)continue;
+      parts.push(`<div class="subcuenca-weather-block conagua-hourly-priority" data-system="${id}"><h3>${esc(systemTitle(data,id))}</h3><div class="table-wrap"><table><thead><tr><th>Estación</th><th>Subcuenca</th><th>HOY desde 08:00</th><th>24 h anteriores</th><th>48 h anteriores</th><th>Hora de corte</th></tr></thead><tbody>${rows.join('')}</tbody></table></div></div>`);
+    }
+    return parts.join('');
   }
 
   function climateTable(rows){
