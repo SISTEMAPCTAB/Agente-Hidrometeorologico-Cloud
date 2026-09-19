@@ -277,9 +277,22 @@
     if(nav)new MutationObserver(reorderNav).observe(nav,{childList:true});
 
     const content=document.getElementById('content')||document.body;
+
+    // Señal explícita emitida por app.js después de cada render. Es la vía
+    // principal para reconstruir los apartados tras Actualizar o tras el
+    // refresco WeatherLink de 15 minutos.
+    content.addEventListener('app-rendered',e=>{
+      if(e.detail?.section!=='weather')return;
+      renderGeneration++;
+      splitInFlight=false;
+      const live=document.getElementById('content');
+      if(live)delete live.dataset.weatherSplit;
+      scheduleSplit(40);
+    });
+
+    // Respaldo para cambios de DOM producidos por otros módulos.
     new MutationObserver(()=>{
       if(active()!=='weather')return;
-      // No reaccionar a nuestras propias inserciones cuando la vista ya quedó lista.
       const live=document.getElementById('content');
       if(splitReady(live)&&live?.dataset.weatherSplit==='1')return;
       if(live&&!splitReady(live))delete live.dataset.weatherSplit;
