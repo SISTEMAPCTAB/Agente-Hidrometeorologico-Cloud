@@ -34,9 +34,18 @@
         if(h48>=0&&a['48']!==undefined&&a['48']!==null){
           tr.cells[h48].textContent=(s['48']==='minimo_observado'?'≥ ':'')+fmt(a['48']);
         }
+        // La vista WeatherLink / CONAGUA ya dibuja una etiqueta de calidad
+        // abreviada y conserva el detalle en title. No volver a sustituirla
+        // por el texto completo: eso ensancha la tabla en iPhone.
         if(qIdx>=0&&Object.values(s).includes('minimo_observado')){
-          const current=tr.cells[qIdx].textContent||'';
-          if(!/mínimo observado/i.test(current)) tr.cells[qIdx].textContent=current+' · mínimo observado por cruce de medianoche';
+          const cell=tr.cells[qIdx];
+          if(!cell||cell.classList.contains('weather-quality-cell')||
+             table.closest('.weather-stable-panel'))return;
+          const current=cell.textContent||'';
+          if(!/mínimo observado|≥/i.test(current)){
+            cell.textContent=current+' · ≥ mínimo observado';
+            cell.title=(cell.title?cell.title+' · ':'')+'Acumulado mínimo observado por cruce de medianoche no verificable';
+          }
         }
       });
     });
