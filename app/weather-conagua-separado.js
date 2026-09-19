@@ -94,14 +94,18 @@
     return `<div class="table-wrap"><table><thead><tr><th>Estación</th><th>Fuente</th><th>1 h</th><th>6 h</th><th>24 h anteriores</th><th>48 h anteriores</th><th>Temperatura</th><th>Humedad</th><th>Hora</th><th>Calidad</th></tr></thead><tbody>${rows.map(weatherRow).join('')}</tbody></table></div>`;
   }
   function weatherBlocks(data){
-    const map=weatherMap(data),lnk=links(data,'weatherlink');
-    return SYSTEM_ORDER.map(id=>{
+    const map=weatherMap(data),lnk=links(data,'weatherlink'),parts=[];
+    for(const id of SYSTEM_ORDER){
+      if(id==='usumacinta'){
+        parts.push('<div class="subcuenca-weather-block" data-alto-placeholder="1"><h3>Alto Usumacinta</h3><p class="muted">Integrando observaciones de Guatemala, Lacantún y WeatherLink…</p></div>');
+      }
       const rows=[],seen=new Set();
       for(const e of lnk.filter(x=>x.sistema===id)){
         const k=norm(e.estacion),r=map.get(k);if(!r||seen.has(k))continue;seen.add(k);rows.push(r);
       }
-      return `<div class="subcuenca-weather-block" data-system="${id}"><h3>${esc(systemTitle(data,id))}</h3>${weatherTable(rows)}</div>`;
-    }).join('');
+      parts.push(`<div class="subcuenca-weather-block" data-system="${id}"><h3>${esc(systemTitle(data,id))}</h3>${weatherTable(rows)}</div>`);
+    }
+    return parts.join('');
   }
 
   function conaguaByStation(data){return new Map((Array.isArray(data.conagua)?data.conagua:[]).map(r=>[norm(r.estacion),r]))}
