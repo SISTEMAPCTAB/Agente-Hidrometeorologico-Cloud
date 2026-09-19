@@ -25,6 +25,13 @@
 
   function active(){return document.querySelector('#nav button.active')?.dataset.section||'resumen'}
 
+  function splitReady(content=document.getElementById('content')){
+    if(!content)return false;
+    const titles=[...content.querySelectorAll('section.panel.wide > h2')].map(h=>norm(h.textContent));
+    return titles.some(t=>t==='weatherlink · lluvia y temperatura') &&
+           titles.some(t=>t==='conagua · lluvia horaria por subcuencas');
+  }
+
   function reorderNav(){
     const nav=document.getElementById('nav');if(!nav)return;
     const resumen=nav.querySelector('button[data-section="resumen"]');
@@ -180,7 +187,13 @@
     if(active()!=='weather')return;
 
     const content=document.getElementById('content');
-    if(!content||content.dataset.weatherSplit==='1'||splitInFlight)return;
+    if(!content||splitInFlight)return;
+    // app.js puede volver a pintar #content (p. ej. actualización WeatherLink
+    // cada 15 min) sin reemplazar el elemento y, por tanto, conservar el
+    // atributo dataset anterior. Sólo damos la vista por terminada si los
+    // dos paneles separados realmente existen.
+    if(content.dataset.weatherSplit==='1'&&splitReady(content))return;
+    if(!splitReady(content))delete content.dataset.weatherSplit;
 
     const generation=renderGeneration;
     const panel=[...content.querySelectorAll('section.panel.wide')].find(s=>/weatherlink\s*\/\s*conagua/i.test(s.querySelector('h2')?.textContent||''));
@@ -235,7 +248,8 @@
       // Si la vista fue reemplazada mientras esperábamos, el MutationObserver
       // habrá detectado el nuevo contenido; este intento adicional cubre también
       // redes lentas sin crear renderizados duplicados.
-      if(active()==='weather'&&document.getElementById('content')?.dataset.weatherSplit!=='1')scheduleSplit(100);
+      const live=document.getElementById('content');
+      if(active()==='weather'&&(!splitReady(live)||live?.dataset.weatherSplit!=='1'))scheduleSplit(100);
     }
   }
 
@@ -267,7 +281,8 @@
       if(active()!=='weather')return;
       // No reaccionar a nuestras propias inserciones cuando la vista ya quedó lista.
       const live=document.getElementById('content');
-      if(live?.dataset.weatherSplit==='1')return;
+      if(splitReady(live)&&live?.dataset.weatherSplit==='1')return;
+      if(live&&!splitReady(live))delete live.dataset.weatherSplit;
       scheduleSplit(80);
     }).observe(content,{childList:true,subtree:true});
   });
