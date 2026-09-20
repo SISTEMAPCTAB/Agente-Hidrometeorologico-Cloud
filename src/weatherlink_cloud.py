@@ -387,7 +387,19 @@ def main():
                 if coverage_hours >= h:
                     acc[h] = window_sum(st["events"], now_utc, h)
                     cutoff = now_utc - timedelta(hours=h)
-                    uncertain = any(
+                    # Una suma por eventos no es exacta si el límite de la
+                    # ventana cae dentro de un intervalo entre observaciones,
+                    # aunque no haya ocurrido un cambio de día.
+                    boundary_unknown = any(
+                        iso_to_dt(e.get("interval_start_utc"))
+                        and iso_to_dt(e.get("ts"))
+                        and iso_to_dt(e["interval_start_utc"]) < cutoff < iso_to_dt(e["ts"])
+                        for e in st.get("events", [])
+                    )
+                    # Sin observación reciente, tampoco es posible afirmar que
+                    # el acumulado corresponda a las últimas h horas.
+                    stale = (now_utc - observed).total_seconds() > 1800
+                    uncertain = stale or boundary_unknown or any(
                         e.get("rollover_incierto") is True
                         and iso_to_dt(e.get("ts"))
                         and iso_to_dt(e["ts"]) > cutoff
