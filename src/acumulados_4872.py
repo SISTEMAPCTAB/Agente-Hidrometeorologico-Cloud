@@ -171,7 +171,7 @@ def lacantun_daily():
         v = parse_lacantun(raw)
         # Never assign an old email attachment to today's date just because
         # the collector executed today. Use the actual source message date.
-        match = re.search(r"^FECHA/HORA MENSAJE:\\s*(\\d{4}-\\d{2}-\\d{2})T", raw, re.M)
+        match = re.search(r"^FECHA/HORA MENSAJE:\s*(\d{4}-\d{2}-\d{2})T", raw, re.M)
         if v is not None and match:
             rows[match.group(1)] = v
     except Exception:
