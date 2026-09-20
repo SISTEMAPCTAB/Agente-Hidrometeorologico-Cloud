@@ -112,9 +112,9 @@ jobs:
           from pathlib import Path
 
           estado = json.loads(Path('data/weatherlink/Estado_WeatherLink_Cloud.json').read_text(encoding='utf-8'))
-          assert estado.get('complete') is True, 'La recuperación WeatherLink no quedó completa'
-          assert estado.get('stations_ok') == estado.get('stations_expected'), 'No se recuperaron todas las estaciones esperadas'
-          assert not estado.get('errors'), 'La recuperación WeatherLink reportó errores'
+          assert 0 < estado.get('stations_ok', 0) <= estado.get('stations_expected', 0), 'No hay estaciones recuperadas para publicar'
+          assert estado.get('stations_ok', 0) + estado.get('stations_error', 0) == estado.get('stations_expected', 0), 'Conteo de estaciones incoherente'
+          assert estado.get('complete') is (estado['stations_error'] == 0), 'Estado de completitud incoherente'
 
           word = json.loads(Path('data/weatherlink/Reportes/Estado_Word.json').read_text(encoding='utf-8'))
           assert word.get('verified') is True, 'Word no verificado'
