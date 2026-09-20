@@ -86,37 +86,40 @@
   }
   // Mostrar sólo las ventanas con al menos una medición verificable.
   // La lluvia diaria observada se conserva como columna independiente.
-  function verifiedRain(r,h){
-    const value=r.accumulations_mm?.[h];
-    const status=r.accumulation_status?.[h];
-    if(!finite(value)||!['nativo_weatherlink','reconstruido_por_intervalos','exacto_reconstruido'].includes(status))return null;
+  // Estimaciones basadas exclusivamente en incrementos realmente registrados.
+  // No se presentan como acumulados nativos ni como totales exactos.
+  function observedRain(r,h){
     const at=Date.parse(r.observed_utc||'');
     if(!Number.isFinite(at)||Date.now()-at>2*3600*1000||at>Date.now()+5*60*1000)return null;
-    return mm(value);
+    const status=r.accumulation_status?.[h];
+    const exact=r.accumulations_mm?.[h];
+    if(finite(exact)&&['nativo_weatherlink','reconstruido_por_intervalos','exacto_reconstruido'].includes(status))
+      return {text:mm(exact),estimated:status!=='nativo_weatherlink'};
+    const minimum=r.minimum_observed_mm?.[h];
+    if(status==='intervalo_incompleto'&&finite(minimum)&&Number(minimum)>0)
+      return {text:`≥ ${mm(minimum)}`,estimated:true};
+    if(h==='12'&&Array.isArray(r.events_12h))return null;
+    return null;
   }
   function weatherRow(r,hours){
     const qualityFull=[r.quality||'Cloud'];
     if(r.estado&&r.estado!=='OK')qualityFull.push(r.estado);
-    const isStale=/rezagado|heredado/i.test(String(r.estado||'')+' '+String(r.quality||''));
-    const qualityShort=`Cloud${isStale?' · Rezagado':''}`;
     return `<tr>
       <td><b>${esc(r.nombre||'s/d')}</b></td>
       <td>WeatherLink</td>
       <td>${dailyRain(r)}</td>
-      ${hours.map(h=>`<td>${verifiedRain(r,h)||'—'}</td>`).join('')}
+      ${hours.map(h=>`<td>${observedRain(r,h)?.text||'—'}</td>`).join('')}
       <td>${celsius(r.temperature_f)}</td>
       <td>${finite(r.humidity_pct)?Number(r.humidity_pct).toFixed(0)+'%':'s/d'}</td>
       <td>${human(r.observed_utc||r.last_updated_at)}</td>
-      <td class="weather-quality-cell" title="${esc(qualityFull.join(' · '))}">${esc(qualityShort)}</td>
+      <td class="weather-quality-cell" title="${esc(qualityFull.join(' · '))}">Cloud · estimación por lecturas</td>
     </tr>`;
   }
   function weatherTable(rows){
     if(!rows.length)return '<p class="muted">Sin estaciones vinculadas disponibles en este corte.</p>';
-    // Se excluye 1 h por solicitud operativa. No mostrar columnas enteras
-    // de acumulados incompletos ni presentar mínimos como totales.
-    const hours=['6','24','48'].filter(h=>rows.some(r=>verifiedRain(r,h)!==null));
-    const labels={'6':'6 h','24':'24 h anteriores','48':'48 h anteriores'};
-    return `<div class="table-wrap"><table><thead><tr><th>Estación</th><th>Fuente</th><th>Hoy (desde medianoche)</th>${hours.map(h=>`<th>${labels[h]}</th>`).join('')}<th>Temperatura</th><th>Humedad</th><th>Hora</th><th>Calidad</th></tr></thead><tbody>${rows.map(r=>weatherRow(r,hours)).join('')}</tbody></table></div>`;
+    const hours=['12','24','48'];
+    const labels={'12':'12 h','24':'24 h anteriores','48':'48 h anteriores'};
+    return `<p class="muted">Acumulados reconstruidos de lecturas periódicas; ≥ indica mínimo observado, no total exacto. — indica intervalo sin estimación suficiente.</p><div class="table-wrap"><table><thead><tr><th>Estación</th><th>Fuente</th><th>Hoy (desde medianoche)</th>${hours.map(h=>`<th>${labels[h]}</th>`).join('')}<th>Temperatura</th><th>Humedad</th><th>Hora</th><th>Calidad</th></tr></thead><tbody>${rows.map(r=>weatherRow(r,hours)).join('')}</tbody></table></div>`;
   }
 
   function weatherBlocks(data){
