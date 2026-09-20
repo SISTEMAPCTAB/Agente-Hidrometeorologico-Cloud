@@ -69,8 +69,15 @@
   function systemTitle(data,id){return data.catalog?.sistemas?.[id]||SYSTEM_FALLBACK[id]||id}
 
   function rainValue(v,status){
-    if(!finite(v))return's/d';
+    if(!finite(v))return 'Dato no verificable';
     return `${status==='minimo_observado'?'≥ ':''}${mm(v)}`;
+  }
+  // El acumulado diario observado NO equivale a la ventana móvil de 24 h.
+  function dailyRain(r){
+    if(!finite(r.daily_mm))return 's/d';
+    const at=Date.parse(r.observed_utc||'');
+    if(!Number.isFinite(at)||Date.now()-at>2*3600*1000||at>Date.now()+5*60*1000)return 's/d · lectura rezagada';
+    return mm(r.daily_mm);
   }
   function weatherRow(r){
     const a=r.accumulations_mm||{},s=r.accumulation_status||{};
@@ -82,6 +89,7 @@
     return `<tr>
       <td><b>${esc(r.nombre||'s/d')}</b></td>
       <td>WeatherLink</td>
+      <td>${dailyRain(r)}</td>
       <td>${rainValue(a['1'],s['1'])}</td>
       <td>${rainValue(a['6'],s['6'])}</td>
       <td>${rainValue(a['24'],s['24'])}</td>
@@ -94,7 +102,7 @@
   }
   function weatherTable(rows){
     if(!rows.length)return '<p class="muted">Sin estaciones vinculadas disponibles en este corte.</p>';
-    return `<div class="table-wrap"><table><thead><tr><th>Estación</th><th>Fuente</th><th>1 h</th><th>6 h</th><th>24 h anteriores</th><th>48 h anteriores</th><th>Temperatura</th><th>Humedad</th><th>Hora</th><th>Calidad</th></tr></thead><tbody>${rows.map(weatherRow).join('')}</tbody></table></div>`;
+    return `<div class="table-wrap"><table><thead><tr><th>Estación</th><th>Fuente</th><th>Hoy (desde medianoche)</th><th>1 h</th><th>6 h</th><th>24 h anteriores</th><th>48 h anteriores</th><th>Temperatura</th><th>Humedad</th><th>Hora</th><th>Calidad</th></tr></thead><tbody>${rows.map(weatherRow).join('')}</tbody></table></div>`;
   }
   function weatherBlocks(data){
     const map=weatherMap(data),lnk=links(data,'weatherlink'),parts=[];
