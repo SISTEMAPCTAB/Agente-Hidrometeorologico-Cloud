@@ -366,7 +366,11 @@ def main():
             uncertain_windows = [h for h in WINDOWS if window_status.get(h) == "minimo_observado"]
             range24, next_threshold = classify_24h(acc[24])
             age = obs.get("age_seconds")
-            estado = "Dato rezagado" if (item.get("recollection_status") or age is None or age > 7200) else "OK"
+            # La antigüedad se deriva de la marca temporal observada: una edad
+            # ausente o errónea del mapa no convierte datos antiguos en vigentes.
+            actual_age = (now_utc - observed).total_seconds()
+            estado = "Dato rezagado" if (item.get("recollection_status") or actual_age > 7200 or actual_age < -300) else "OK"
+            item["age_seconds"] = max(0, int(actual_age))
             if uncertain_windows:
                 quality_parts.append(
                     "ventanas con mínimo observado por cruce de medianoche: "
