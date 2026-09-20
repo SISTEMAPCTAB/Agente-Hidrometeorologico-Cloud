@@ -423,6 +423,32 @@ def main():
                     acc[h] = None
                     window_status[h] = "sin_dato"
 
+            # Ventana adicional de 12 h, calculada con los mismos eventos
+            # observados y las mismas salvaguardas de cobertura que 24/48 h.
+            h = 12
+            cutoff12 = now_utc - timedelta(hours=h)
+            uncertain12 = (
+                coverage_hours < h
+                or (now_utc - observed).total_seconds() > 1800
+                or any(
+                    iso_to_dt(e.get("interval_start_utc"))
+                    and iso_to_dt(e.get("ts"))
+                    and iso_to_dt(e["interval_start_utc"]) < cutoff12 < iso_to_dt(e["ts"])
+                    for e in st.get("events", [])
+                )
+                or any(
+                    e.get("rollover_incierto") is True
+                    and iso_to_dt(e.get("ts"))
+                    and iso_to_dt(e["ts"]) > cutoff12
+                    for e in st.get("events", [])
+                )
+            )
+            sum12 = window_sum(st["events"], now_utc, h)
+            acc[12] = None if uncertain12 else sum12
+            window_status[12] = "intervalo_incompleto" if uncertain12 else "reconstruido_por_intervalos"
+            if uncertain12:
+                item.setdefault("minimum_observed_mm", {})["12"] = sum12
+
             # Sólo la API oficial puede confirmar el acumulado nativo móvil
             # de 24 horas. Si no hay permiso, conservar reconstrucción etiquetada.
             native24 = fetch_native_24h(station, observed, now_utc) if (now_utc - observed).total_seconds() <= 1800 else None
