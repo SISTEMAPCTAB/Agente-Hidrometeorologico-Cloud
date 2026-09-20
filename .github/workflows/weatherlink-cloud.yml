@@ -54,6 +54,9 @@ jobs:
         run: python src/weatherlink_resolve_shared.py
 
       - name: Ejecutar WeatherLink Cloud
+        env:
+          WEATHERLINK_API_KEY: ${{ secrets.WEATHERLINK_API_KEY }}
+          WEATHERLINK_API_SECRET: ${{ secrets.WEATHERLINK_API_SECRET }}
         run: python src/weatherlink_cloud.py
 
       - name: Ejecutar WeatherLink adicional

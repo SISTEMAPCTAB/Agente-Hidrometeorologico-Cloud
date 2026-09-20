@@ -76,6 +76,9 @@ jobs:
 
       - name: Recuperar WeatherLink
         if: steps.stale.outputs.rescue == 'true'
+        env:
+          WEATHERLINK_API_KEY: ${{ secrets.WEATHERLINK_API_KEY }}
+          WEATHERLINK_API_SECRET: ${{ secrets.WEATHERLINK_API_SECRET }}
         run: python src/weatherlink_cloud.py
 
       - name: Verificar recuperación
