@@ -302,11 +302,25 @@ def main():
                             increment_method = "rollover_sin_puente"
                             rollover_uncertain = True
                 increment = r1(increment)
-
-                if increment and increment > 0:
+                # Si la lluvia ocurrió durante un intervalo sin observaciones,
+                # el acumulado es real pero no puede ubicarse con precisión en
+                # ventanas móviles que atraviesan ese intervalo.
+                if prev_obs is not None and observed > prev_obs:
+                    gap_minutes = (observed - prev_obs).total_seconds() / 60
+                    if gap_minutes > 30 and increment is not None and increment > 0:
+                        rollover_uncertain = True
+                        increment_method += "_intervalo_sin_observaciones"
+                # Un cambio de día sin puente comprobable deja incompleta la
+                # ventana incluso cuando el contador diario actual marca cero.
+                if prev_obs is not None and observed > prev_obs and (
+                    prev_obs.astimezone(MX_TZ).date() != observed_local.date()
+                    and increment_method == "rollover_sin_puente"
+                ):
+                    rollover_uncertain = True
+                if (increment is not None and increment > 0) or rollover_uncertain:
                     st.setdefault("events", []).append({
                         "ts": observed.isoformat(),
-                        "mm": increment,
+                        "mm": increment or 0.0,
                         "metodo": increment_method,
                         "rollover_incierto": rollover_uncertain,
                     })
