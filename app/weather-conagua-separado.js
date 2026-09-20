@@ -172,7 +172,7 @@
     content.innerHTML=`<div class="grid weather-stable-grid" data-weather-complete="1">
       <section class="panel wide weather-stable-panel">
         <h2>WeatherLink · lluvia y temperatura</h2>
-        <p class="muted">Estaciones vinculadas a los sistemas operativos. Los acumulados marcados con ≥ son mínimos observados cuando existe un cruce de medianoche no verificable.</p>
+        <p class="muted">Acumulados móviles reconstruidos de lecturas periódicas, no equivalentes al acumulado nativo de WeatherLink. ≥ señala un mínimo observado cuando falta información en el intervalo.</p>
         <div class="weather-source-groups">${weatherBlocks(data)}</div>
       </section>
       <section class="panel wide weather-stable-panel">
