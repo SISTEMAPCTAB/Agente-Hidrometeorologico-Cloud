@@ -16,9 +16,10 @@ on:
       - 'src/auditar_productos_operativos.py'
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
-    # Respaldo horario independiente. El disparo principal ocurre al terminar WeatherLink,
-    # que opera cada 15 minutos las 24 h. Este cron queda como red de seguridad autónoma.
-    - cron: '11 * * * *'
+    # Respaldo independiente cada 15 minutos durante la ventana de boletines
+    # (06:00 a 19:59, hora de Tabasco). No depende de que termine WeatherLink.
+    - cron: '11,26,41,56 12-23 * * *'
+    - cron: '11,26,41,56 0-1 * * *'
 
 permissions:
   contents: write
