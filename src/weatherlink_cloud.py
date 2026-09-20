@@ -354,6 +354,7 @@ def main():
                         "mm": increment or 0.0,
                         "metodo": increment_method,
                         "rollover_incierto": rollover_uncertain,
+                        "interval_start_utc": prev_obs.isoformat() if prev_obs else None,
                     })
 
                 month_key = observed_local.strftime("%Y-%m")
@@ -392,7 +393,12 @@ def main():
                         and iso_to_dt(e["ts"]) > cutoff
                         for e in st.get("events", [])
                     )
-                    window_status[h] = "minimo_observado" if uncertain else "reconstruido_por_intervalos"
+                    if uncertain:
+                        item.setdefault("minimum_observed_mm", {})[str(h)] = acc[h]
+                        acc[h] = None
+                        window_status[h] = "intervalo_incompleto"
+                    else:
+                        window_status[h] = "reconstruido_por_intervalos"
                 elif h == 1 and st.get("seed_1h_mm") is not None:
                     acc[h] = r1(st.get("seed_1h_mm"))
                     window_status[h] = "heredado"
@@ -413,7 +419,7 @@ def main():
                 acc[24] = native24["mm"]
                 window_status[24] = "nativo_weatherlink"
                 item["native_24h_observed_utc"] = native24["observed_utc"]
-            uncertain_windows = [h for h in WINDOWS if window_status.get(h) == "minimo_observado"]
+            uncertain_windows = [h for h in WINDOWS if window_status.get(h) == "intervalo_incompleto"]
             range24, next_threshold = classify_24h(acc[24])
             age = obs.get("age_seconds")
             # La antigüedad se deriva de la marca temporal observada: una edad
@@ -423,7 +429,7 @@ def main():
             item["age_seconds"] = max(0, int(actual_age))
             if uncertain_windows:
                 quality_parts.append(
-                    "ventanas con mínimo observado por cruce de medianoche: "
+                    "ventanas sin acumulado verificable por intervalos incompletos: "
                     + "/".join(f"{h}h" for h in uncertain_windows)
                 )
             if native24 is None:
@@ -454,7 +460,7 @@ def main():
             ok += 1
             item["increment_mm"] = increment
             item["increment_method"] = increment_method
-            item["rollover_uncertain_24h"] = window_status.get(24) == "minimo_observado"
+            item["rollover_uncertain_24h"] = window_status.get(24) == "intervalo_incompleto"
             item["accumulations_mm"] = {str(k): acc[k] for k in WINDOWS}
             item["accumulation_status"] = {str(k): window_status.get(k, "sin_dato") for k in WINDOWS}
             item["reconstructed_24h_mm_raw"] = item.get("reconstructed_24h_mm_raw", acc[24])
