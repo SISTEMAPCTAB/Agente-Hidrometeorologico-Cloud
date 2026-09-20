@@ -1,5 +1,6 @@
 import csv
 import json
+import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -121,6 +122,41 @@ def initial_state(stations):
             "events": [],
         }
     return state
+
+
+def fetch_native_24h(station, observed, now_utc):
+    """Preferir acumulado móvil nativo de API v2, cuando exista permiso real."""
+    api_key = os.getenv("WEATHERLINK_API_KEY", "").strip()
+    api_secret = os.getenv("WEATHERLINK_API_SECRET", "").strip()
+    if not api_key or not api_secret:
+        return None
+    try:
+        response = requests.get(
+            f"https://api.weatherlink.com/v2/current/{station['uuid']}",
+            params={"api-key": api_key},
+            headers={"X-Api-Secret": api_secret},
+            timeout=15,
+        )
+        response.raise_for_status()
+        candidates = []
+        for sensor in response.json().get("sensors") or []:
+            for record in sensor.get("data") or []:
+                value = parse_float(record.get("rainfall_last_24_hr_mm"))
+                ts = record.get("ts")
+                if value is None or value < 0 or not ts:
+                    continue
+                at = datetime.fromtimestamp(int(ts), tz=timezone.utc)
+                if not (-300 <= (now_utc - at).total_seconds() <= 1800):
+                    continue
+                if abs((at - observed).total_seconds()) > 1800:
+                    continue
+                candidates.append((at, value))
+        if candidates:
+            at, value = max(candidates, key=lambda row: row[0])
+            return {"mm": r1(value), "observed_utc": at.isoformat()}
+    except (requests.RequestException, ValueError, TypeError, OverflowError) as exc:
+        print(f"WeatherLink API v2 sin dato nativo para {station['nombre']}: {type(exc).__name__}")
+    return None
 
 
 def fetch_station(station):
@@ -369,6 +405,14 @@ def main():
                     acc[h] = None
                     window_status[h] = "sin_dato"
 
+            # Sólo la API oficial puede confirmar el acumulado nativo móvil
+            # de 24 horas. Si no hay permiso, conservar reconstrucción etiquetada.
+            native24 = fetch_native_24h(station, observed, now_utc) if (now_utc - observed).total_seconds() <= 1800 else None
+            if native24 is not None:
+                item["reconstructed_24h_mm_raw"] = acc[24]
+                acc[24] = native24["mm"]
+                window_status[24] = "nativo_weatherlink"
+                item["native_24h_observed_utc"] = native24["observed_utc"]
             uncertain_windows = [h for h in WINDOWS if window_status.get(h) == "minimo_observado"]
             range24, next_threshold = classify_24h(acc[24])
             age = obs.get("age_seconds")
@@ -382,7 +426,10 @@ def main():
                     "ventanas con mínimo observado por cruce de medianoche: "
                     + "/".join(f"{h}h" for h in uncertain_windows)
                 )
-            quality_parts.append("lluvia móvil reconstruida de lecturas periódicas; no es acumulado nativo WeatherLink")
+            if native24 is None:
+                quality_parts.append("24 h reconstruidas de lecturas periódicas; no es acumulado nativo WeatherLink")
+            else:
+                quality_parts.append("24 h nativas WeatherLink API v2")
             quality = "Cloud" if not quality_parts else "Cloud + " + ", ".join(quality_parts)
 
             rows.append({
@@ -410,7 +457,7 @@ def main():
             item["rollover_uncertain_24h"] = window_status.get(24) == "minimo_observado"
             item["accumulations_mm"] = {str(k): acc[k] for k in WINDOWS}
             item["accumulation_status"] = {str(k): window_status.get(k, "sin_dato") for k in WINDOWS}
-            item["reconstructed_24h_mm_raw"] = acc[24]
+            item["reconstructed_24h_mm_raw"] = item.get("reconstructed_24h_mm_raw", acc[24])
             item["quality"] = quality
         except Exception as exc:
             errors.append({"estacion": station["nombre"], "error": f"{type(exc).__name__}: {exc}"})
