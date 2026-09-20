@@ -111,7 +111,25 @@
     return parts.join('');
   }
 
-  function conaguaByStation(data){return new Map((Array.isArray(data.conagua)?data.conagua:[]).map(r=>[norm(r.estacion),r]))}
+  function conaguaByStation(data){
+    const map=new Map((Array.isArray(data.conagua)?data.conagua:[]).map(r=>[norm(r.estacion),r]));
+    // El boletín diario puede llegar antes que el horario: tomar el corte
+    // válido más reciente, sin confundir la lluvia diaria con HOY desde 08:00.
+    for(const r of (data.climate?.conagua_tabasco||[])){
+      const key=norm(r.estacion), prior=map.get(key);
+      const fresh=Date.parse(r.fecha_hora_mensaje||''), previous=Date.parse(prior?.fecha_hora||'');
+      if(r.estado_dato!=='observado'||!finite(r.lluvia_24h_mm)||!Number.isFinite(fresh))continue;
+      if(prior&&Number.isFinite(previous)&&fresh<=previous)continue;
+      map.set(key,{
+        estacion:r.estacion,fecha_hora:r.fecha_hora_mensaje,
+        lluvia_hoy_desde_08_mm:null,estado_hoy:'sin_dato',
+        lluvia_24h_precedentes_mm:r.lluvia_24h_mm,estado_24h:'observado',
+        lluvia_48h_precedentes_mm:null,estado_48h:'sin_dato',
+        fuente:'CONAGUA Tabasco · boletín 08:00'
+      });
+    }
+    return map;
+  }
   function conaguaBlocks(data){
     const by=conaguaByStation(data),lnk=links(data,'conagua'),parts=[];
     for(const id of SYSTEM_ORDER){
