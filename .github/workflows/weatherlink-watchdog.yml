@@ -89,6 +89,9 @@ jobs:
 
       - name: Ejecutar recuperación WeatherLink Cloud
         if: steps.freshness.outputs.recover == 'true'
+        env:
+          WEATHERLINK_API_KEY: ${{ secrets.WEATHERLINK_API_KEY }}
+          WEATHERLINK_API_SECRET: ${{ secrets.WEATHERLINK_API_SECRET }}
         run: python src/weatherlink_cloud.py
 
       - name: Ejecutar recuperación WeatherLink adicional
