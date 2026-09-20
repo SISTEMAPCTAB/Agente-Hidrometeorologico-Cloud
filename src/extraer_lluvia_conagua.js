@@ -15,7 +15,7 @@ function esc(v){ return `"${String(v??'').replace(/"/g,'""')}"`; }
 function parseDate(text){
   const t=norm(text);
   const m=t.match(/(?:A|DEL)\s+(\d{1,2})\s+DE\s+(ENERO|FEBRERO|MARZO|ABRIL|MAYO|JUNIO|JULIO|AGOSTO|SEPTIEMBRE|OCTUBRE|NOVIEMBRE|DICIEMBRE)\s+(?:DEL?\s+)?(20\d{2})/);
-  if(!m)return new Date().toISOString().slice(0,10);
+  if(!m)throw new Error('No se identificó la fecha del boletín; se conserva el último corte válido.');
   const mo={ENERO:1,FEBRERO:2,MARZO:3,ABRIL:4,MAYO:5,JUNIO:6,JULIO:7,AGOSTO:8,SEPTIEMBRE:9,OCTUBRE:10,NOVIEMBRE:11,DICIEMBRE:12}[m[2]];
   return `${m[3]}-${String(mo).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`;
 }
@@ -151,7 +151,8 @@ function previous24Block(hist,row){
     if(ad!==bd)return ad-bd;
     return new Date(b.fecha_hora)-new Date(a.fecha_hora);
   });
-  return candidates[0];
+  // Sólo el mismo horario de corte genera dos intervalos consecutivos de 24 h.
+  return candidates.find(x=>hourOf(x.fecha_hora)===wantedHour)||null;
 }
 
 (async()=>{
@@ -159,9 +160,25 @@ function previous24Block(hist,row){
   const allText=items.map(i=>i.str).join(' ');
   const date=parseDate(allText);
   const hour=targetHour(subject);
+  if(hour===null||hour<0||hour>23)throw new Error('No se identificó hora de corte del asunto; se conserva el último corte válido.');
   const result=extractRain(items,date,hour);
   const dir=path.join(base,'Lluvia_CONAGUA'); fs.mkdirSync(dir,{recursive:true});
   const latestRows=result.rows;
+  // Rechazar extracción parcial, incoherente o sin precipitación observada.
+  if(result.blocks.length<2||latestRows.length<20||!latestRows.some(r=>r.estado_24h==='observado')){
+    throw new Error(`Extracción de lluvia incompleta: ${result.blocks.length} bloques, ${latestRows.length} estaciones; no se reemplaza el corte vigente.`);
+  }
+  const oldStateFile=path.join(dir,'Estado_Lluvia_CONAGUA.json');
+  let previousState={}; try{previousState=JSON.parse(fs.readFileSync(oldStateFile,'utf8'))}catch{}
+  if(previousState.fecha_reporte){
+    const previousHour=Number(previousState.hora_objetivo);
+    const previousCut=`${previousState.fecha_reporte}T${String(previousHour).padStart(2,'0')}:00:00-06:00`;
+    const candidateCut=latestRows[0].fecha_hora;
+    if(Number.isInteger(previousHour)&&Date.parse(candidateCut)<Date.parse(previousCut)){
+      console.log(`Boletín anterior ${candidateCut}; se conserva corte más reciente ${previousCut}.`);
+      return;
+    }
+  }
 
   const histFile=path.join(dir,'historico.json'); let hist=[]; try{hist=JSON.parse(fs.readFileSync(histFile,'utf8'))}catch{}
   hist=hist.filter(r=>!isSectionLabel(r?.estacion));
