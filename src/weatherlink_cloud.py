@@ -306,6 +306,12 @@ def main():
                 if prev_obs is not None and observed > prev_obs and (observed-prev_obs).total_seconds()>1800:
                     rollover_uncertain = True
                     increment_method += "_intervalo_sin_observaciones"
+                # La lluvia entre dos observaciones no tiene hora exacta. Una ventana
+                # móvil que comienza dentro del intervalo NO tiene suma exacta.
+                # Registrar el intervalo sin alterar los incrementos ya observados.
+                if prev_obs is not None and observed > prev_obs:
+                    item["observation_interval_start_utc"] = prev_obs.isoformat()
+                    item["observation_interval_end_utc"] = observed.isoformat()
                 if (increment is not None and increment > 0) or rollover_uncertain:
                     st.setdefault("events", []).append({
                         "ts": observed.isoformat(),
@@ -350,7 +356,7 @@ def main():
                         and iso_to_dt(e["ts"]) > cutoff
                         for e in st.get("events", [])
                     )
-                    window_status[h] = "minimo_observado" if uncertain else "exacto_reconstruido"
+                    window_status[h] = "minimo_observado" if uncertain else "reconstruido_por_intervalos"
                 elif h == 1 and st.get("seed_1h_mm") is not None:
                     acc[h] = r1(st.get("seed_1h_mm"))
                     window_status[h] = "heredado"
@@ -376,6 +382,7 @@ def main():
                     "ventanas con mínimo observado por cruce de medianoche: "
                     + "/".join(f"{h}h" for h in uncertain_windows)
                 )
+            quality_parts.append("lluvia móvil reconstruida de lecturas periódicas; no es acumulado nativo WeatherLink")
             quality = "Cloud" if not quality_parts else "Cloud + " + ", ".join(quality_parts)
 
             rows.append({
