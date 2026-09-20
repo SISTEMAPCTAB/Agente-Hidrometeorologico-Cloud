@@ -68,9 +68,14 @@
   }
   function systemTitle(data,id){return data.catalog?.sistemas?.[id]||SYSTEM_FALLBACK[id]||id}
 
-  function rainValue(v,status){
-    if(!finite(v))return 'Dato no verificable';
-    return `${status==='minimo_observado'?'≥ ':''}${mm(v)}`;
+  function rainValue(v,status,minimum){
+    if(finite(v))return `${status==='minimo_observado'?'≥ ':''}${mm(v)}`;
+    // Recuperar los incrementos realmente observados que el recolector
+    // conserva aun cuando no puede verificar el total de la ventana.
+    // Nunca presentar este mínimo como acumulado exacto.
+    if(status==='intervalo_incompleto'&&finite(minimum)&&Number(minimum)>0)
+      return `≥ ${mm(minimum)} · mínimo observado`;
+    return 'Dato no verificable';
   }
   // El acumulado diario observado NO equivale a la ventana móvil de 24 h.
   function dailyRain(r){
@@ -80,7 +85,7 @@
     return mm(r.daily_mm);
   }
   function weatherRow(r){
-    const a=r.accumulations_mm||{},s=r.accumulation_status||{};
+    const a=r.accumulations_mm||{},s=r.accumulation_status||{},minimum=r.minimum_observed_mm||{};
     const qualityFull=[r.quality||'Cloud'];
     if(r.estado&&r.estado!=='OK')qualityFull.push(r.estado);
     const minHours=['1','6','24','48'].filter(h=>s[h]==='minimo_observado');
@@ -90,10 +95,10 @@
       <td><b>${esc(r.nombre||'s/d')}</b></td>
       <td>WeatherLink</td>
       <td>${dailyRain(r)}</td>
-      <td>${rainValue(a['1'],s['1'])}</td>
-      <td>${rainValue(a['6'],s['6'])}</td>
-      <td>${rainValue(a['24'],s['24'])}</td>
-      <td>${rainValue(a['48'],s['48'])}</td>
+      <td>${rainValue(a['1'],s['1'],minimum['1'])}</td>
+      <td>${rainValue(a['6'],s['6'],minimum['6'])}</td>
+      <td>${rainValue(a['24'],s['24'],minimum['24'])}</td>
+      <td>${rainValue(a['48'],s['48'],minimum['48'])}</td>
       <td>${celsius(r.temperature_f)}</td>
       <td>${finite(r.humidity_pct)?Number(r.humidity_pct).toFixed(0)+'%':'s/d'}</td>
       <td>${human(r.observed_utc||r.last_updated_at)}</td>
