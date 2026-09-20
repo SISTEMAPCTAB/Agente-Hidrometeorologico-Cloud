@@ -167,19 +167,24 @@ def lacantun_daily():
         except Exception:
             continue
     try:
-        v = parse_lacantun(FUENTE1.read_text(encoding="utf-8", errors="ignore"))
-        if v is not None:
-            today = datetime.now(timezone.utc).astimezone(MX_TZ).date().isoformat()
-            rows[today] = v
+        raw = FUENTE1.read_text(encoding="utf-8", errors="ignore")
+        v = parse_lacantun(raw)
+        # Never assign an old email attachment to today's date just because
+        # the collector executed today. Use the actual source message date.
+        match = re.search(r"^FECHA/HORA MENSAJE:\\s*(\\d{4}-\\d{2}-\\d{2})T", raw, re.M)
+        if v is not None and match:
+            rows[match.group(1)] = v
     except Exception:
         pass
     return rows
 
 
-def consecutive_sum(values_by_day, days):
+def consecutive_sum(values_by_day, days, reference_day=None):
     if not values_by_day:
         return None, []
-    latest = max(values_by_day)
+    # Require the requested current cut; do not relabel an old valid window
+    # as today's 24/48/72 h merely because its historical dates are consecutive.
+    latest = reference_day or max(values_by_day)
     d0 = datetime.fromisoformat(latest).date()
     used = []
     total = 0.0
@@ -235,13 +240,19 @@ def main():
         result["insivumeh"].append(out)
 
     lac = lacantun_daily()
-    lac24, used24 = consecutive_sum(lac, 1)
-    lac48, used48 = consecutive_sum(lac, 2)
-    lac72, used72 = consecutive_sum(lac, 3)
+    today = datetime.now(timezone.utc).astimezone(MX_TZ).date().isoformat()
+    lac24, used24 = consecutive_sum(lac, 1, reference_day=today)
+    lac48, used48 = consecutive_sum(lac, 2, reference_day=today)
+    lac72, used72 = consecutive_sum(lac, 3, reference_day=today)
     result["lacantun"] = {
         "precipitacion_24h_mm": lac24,
         "precipitacion_48h_mm": lac48,
         "precipitacion_72h_mm": lac72,
+        "fecha_corte_requerida": today,
+        "ultima_fecha_observada": max(lac) if lac else None,
+        "estado_24h": "observado" if lac24 is not None else "sin_dato_del_corte",
+        "estado_48h": "observado" if lac48 is not None else "sin_dato_del_corte",
+        "estado_72h": "observado" if lac72 is not None else "sin_dato_del_corte",
         "dias_disponibles": sorted(lac),
         "componentes_48h": used48,
         "componentes_72h": used72,
