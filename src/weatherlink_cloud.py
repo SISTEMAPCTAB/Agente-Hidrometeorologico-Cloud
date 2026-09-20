@@ -139,7 +139,11 @@ def fetch_station(station):
     yearly_native_mm = r1(year_in * 25.4) if year_in is not None else None
     rain_rate_mmh = r1(rain_rate_in * 25.4) if rain_rate_in is not None else None
     ts = data.get("lastTimestamp")
-    observed = datetime.fromtimestamp(int(ts), tz=timezone.utc) if ts else datetime.now(timezone.utc)
+    if not ts:
+        raise ValueError("WeatherLink no entregó lastTimestamp; no se inventa fecha de observación")
+    observed = datetime.fromtimestamp(int(ts), tz=timezone.utc)
+    if observed > datetime.now(timezone.utc) + timedelta(minutes=5):
+        raise ValueError("Fecha de observación futura: no se incorpora al histórico")
     return {
         "nombre_fuente": data.get("sStation"),
         "daily_mm": daily_mm,
@@ -259,6 +263,11 @@ def main():
             prev_storm = parse_float(st.get("prev_storm_mm"))
             prev_storm_start = st.get("prev_storm_start")
             prev_obs = iso_to_dt(st.get("prev_observed_utc"))
+            # El mapa público puede devolver durante horas una misma lectura antigua.
+            # No se suma ni se retrocede el acumulado cuando no hay observación nueva.
+            if prev_obs is not None and observed <= prev_obs:
+                current_daily = None
+                item["recollection_status"] = "lectura_repetida_o_anterior"
 
             increment = None
             increment_method = "sin_dato"
@@ -292,11 +301,15 @@ def main():
                             increment_method = "rollover_sin_puente"
                             rollover_uncertain = True
                 increment = r1(increment)
-
-                if increment and increment > 0:
+                # Un intervalo sin observaciones no permite localizar la lluvia
+                # con exactitud dentro de las ventanas móviles.
+                if prev_obs is not None and observed > prev_obs and (observed-prev_obs).total_seconds()>1800:
+                    rollover_uncertain = True
+                    increment_method += "_intervalo_sin_observaciones"
+                if (increment is not None and increment > 0) or rollover_uncertain:
                     st.setdefault("events", []).append({
                         "ts": observed.isoformat(),
-                        "mm": increment,
+                        "mm": increment or 0.0,
                         "metodo": increment_method,
                         "rollover_incierto": rollover_uncertain,
                     })
@@ -353,7 +366,7 @@ def main():
             uncertain_windows = [h for h in WINDOWS if window_status.get(h) == "minimo_observado"]
             range24, next_threshold = classify_24h(acc[24])
             age = obs.get("age_seconds")
-            estado = "OK" if age is None or age <= 7200 else "Dato rezagado"
+            estado = "Dato rezagado" if (item.get("recollection_status") or age is None or age > 7200) else "OK"
             if uncertain_windows:
                 quality_parts.append(
                     "ventanas con mínimo observado por cruce de medianoche: "
