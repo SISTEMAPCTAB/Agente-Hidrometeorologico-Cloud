@@ -1,6 +1,5 @@
 import csv
 import json
-import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -124,41 +123,6 @@ def initial_state(stations):
     return state
 
 
-def fetch_native_24h(station, observed, now_utc):
-    """Preferir acumulado móvil nativo de API v2, cuando exista permiso real."""
-    api_key = os.getenv("WEATHERLINK_API_KEY", "").strip()
-    api_secret = os.getenv("WEATHERLINK_API_SECRET", "").strip()
-    if not api_key or not api_secret:
-        return None
-    try:
-        response = requests.get(
-            f"https://api.weatherlink.com/v2/current/{station['uuid']}",
-            params={"api-key": api_key},
-            headers={"X-Api-Secret": api_secret},
-            timeout=15,
-        )
-        response.raise_for_status()
-        candidates = []
-        for sensor in response.json().get("sensors") or []:
-            for record in sensor.get("data") or []:
-                value = parse_float(record.get("rainfall_last_24_hr_mm"))
-                ts = record.get("ts")
-                if value is None or value < 0 or not ts:
-                    continue
-                at = datetime.fromtimestamp(int(ts), tz=timezone.utc)
-                if not (-300 <= (now_utc - at).total_seconds() <= 1800):
-                    continue
-                if abs((at - observed).total_seconds()) > 1800:
-                    continue
-                candidates.append((at, value))
-        if candidates:
-            at, value = max(candidates, key=lambda row: row[0])
-            return {"mm": r1(value), "observed_utc": at.isoformat()}
-    except (requests.RequestException, ValueError, TypeError, OverflowError) as exc:
-        print(f"WeatherLink API v2 sin dato nativo para {station['nombre']}: {type(exc).__name__}")
-    return None
-
-
 def fetch_station(station):
     url = f"{BASE}/map/data/station/{station['uuid']}"
     r = requests.get(url, headers=HEADERS, timeout=35)
@@ -175,11 +139,7 @@ def fetch_station(station):
     yearly_native_mm = r1(year_in * 25.4) if year_in is not None else None
     rain_rate_mmh = r1(rain_rate_in * 25.4) if rain_rate_in is not None else None
     ts = data.get("lastTimestamp")
-    if not ts:
-        raise ValueError("WeatherLink no entregó lastTimestamp; no se inventa fecha de observación")
-    observed = datetime.fromtimestamp(int(ts), tz=timezone.utc)
-    if observed > datetime.now(timezone.utc) + timedelta(minutes=5):
-        raise ValueError("Fecha de observación futura: no se incorpora al histórico")
+    observed = datetime.fromtimestamp(int(ts), tz=timezone.utc) if ts else datetime.now(timezone.utc)
     return {
         "nombre_fuente": data.get("sStation"),
         "daily_mm": daily_mm,
@@ -299,11 +259,6 @@ def main():
             prev_storm = parse_float(st.get("prev_storm_mm"))
             prev_storm_start = st.get("prev_storm_start")
             prev_obs = iso_to_dt(st.get("prev_observed_utc"))
-            # El mapa público puede devolver durante horas una misma lectura antigua.
-            # No se suma ni se retrocede el acumulado cuando no hay observación nueva.
-            if prev_obs is not None and observed <= prev_obs:
-                current_daily = None
-                item["recollection_status"] = "lectura_repetida_o_anterior"
 
             increment = None
             increment_method = "sin_dato"
@@ -337,24 +292,13 @@ def main():
                             increment_method = "rollover_sin_puente"
                             rollover_uncertain = True
                 increment = r1(increment)
-                # Un intervalo sin observaciones no permite localizar la lluvia
-                # con exactitud dentro de las ventanas móviles.
-                if prev_obs is not None and observed > prev_obs and (observed-prev_obs).total_seconds()>1800:
-                    rollover_uncertain = True
-                    increment_method += "_intervalo_sin_observaciones"
-                # La lluvia entre dos observaciones no tiene hora exacta. Una ventana
-                # móvil que comienza dentro del intervalo NO tiene suma exacta.
-                # Registrar el intervalo sin alterar los incrementos ya observados.
-                if prev_obs is not None and observed > prev_obs:
-                    item["observation_interval_start_utc"] = prev_obs.isoformat()
-                    item["observation_interval_end_utc"] = observed.isoformat()
-                if (increment is not None and increment > 0) or rollover_uncertain:
+
+                if increment and increment > 0:
                     st.setdefault("events", []).append({
                         "ts": observed.isoformat(),
-                        "mm": increment or 0.0,
+                        "mm": increment,
                         "metodo": increment_method,
                         "rollover_incierto": rollover_uncertain,
-                        "interval_start_utc": prev_obs.isoformat() if prev_obs else None,
                     })
 
                 month_key = observed_local.strftime("%Y-%m")
@@ -387,30 +331,13 @@ def main():
                 if coverage_hours >= h:
                     acc[h] = window_sum(st["events"], now_utc, h)
                     cutoff = now_utc - timedelta(hours=h)
-                    # Una suma por eventos no es exacta si el límite de la
-                    # ventana cae dentro de un intervalo entre observaciones,
-                    # aunque no haya ocurrido un cambio de día.
-                    boundary_unknown = any(
-                        iso_to_dt(e.get("interval_start_utc"))
-                        and iso_to_dt(e.get("ts"))
-                        and iso_to_dt(e["interval_start_utc"]) < cutoff < iso_to_dt(e["ts"])
-                        for e in st.get("events", [])
-                    )
-                    # Sin observación reciente, tampoco es posible afirmar que
-                    # el acumulado corresponda a las últimas h horas.
-                    stale = (now_utc - observed).total_seconds() > 1800
-                    uncertain = stale or boundary_unknown or any(
+                    uncertain = any(
                         e.get("rollover_incierto") is True
                         and iso_to_dt(e.get("ts"))
                         and iso_to_dt(e["ts"]) > cutoff
                         for e in st.get("events", [])
                     )
-                    if uncertain:
-                        item.setdefault("minimum_observed_mm", {})[str(h)] = acc[h]
-                        acc[h] = None
-                        window_status[h] = "intervalo_incompleto"
-                    else:
-                        window_status[h] = "reconstruido_por_intervalos"
+                    window_status[h] = "minimo_observado" if uncertain else "exacto_reconstruido"
                 elif h == 1 and st.get("seed_1h_mm") is not None:
                     acc[h] = r1(st.get("seed_1h_mm"))
                     window_status[h] = "heredado"
@@ -423,57 +350,15 @@ def main():
                     acc[h] = None
                     window_status[h] = "sin_dato"
 
-            # Ventana adicional de 12 h, calculada con los mismos eventos
-            # observados y las mismas salvaguardas de cobertura que 24/48 h.
-            h = 12
-            cutoff12 = now_utc - timedelta(hours=h)
-            uncertain12 = (
-                coverage_hours < h
-                or (now_utc - observed).total_seconds() > 1800
-                or any(
-                    iso_to_dt(e.get("interval_start_utc"))
-                    and iso_to_dt(e.get("ts"))
-                    and iso_to_dt(e["interval_start_utc"]) < cutoff12 < iso_to_dt(e["ts"])
-                    for e in st.get("events", [])
-                )
-                or any(
-                    e.get("rollover_incierto") is True
-                    and iso_to_dt(e.get("ts"))
-                    and iso_to_dt(e["ts"]) > cutoff12
-                    for e in st.get("events", [])
-                )
-            )
-            sum12 = window_sum(st["events"], now_utc, h)
-            acc[12] = None if uncertain12 else sum12
-            window_status[12] = "intervalo_incompleto" if uncertain12 else "reconstruido_por_intervalos"
-            if uncertain12:
-                item.setdefault("minimum_observed_mm", {})["12"] = sum12
-
-            # Sólo la API oficial puede confirmar el acumulado nativo móvil
-            # de 24 horas. Si no hay permiso, conservar reconstrucción etiquetada.
-            native24 = fetch_native_24h(station, observed, now_utc) if (now_utc - observed).total_seconds() <= 1800 else None
-            if native24 is not None:
-                item["reconstructed_24h_mm_raw"] = acc[24]
-                acc[24] = native24["mm"]
-                window_status[24] = "nativo_weatherlink"
-                item["native_24h_observed_utc"] = native24["observed_utc"]
-            uncertain_windows = [h for h in WINDOWS if window_status.get(h) == "intervalo_incompleto"]
+            uncertain_windows = [h for h in WINDOWS if window_status.get(h) == "minimo_observado"]
             range24, next_threshold = classify_24h(acc[24])
             age = obs.get("age_seconds")
-            # La antigüedad se deriva de la marca temporal observada: una edad
-            # ausente o errónea del mapa no convierte datos antiguos en vigentes.
-            actual_age = (now_utc - observed).total_seconds()
-            estado = "Dato rezagado" if (item.get("recollection_status") or actual_age > 7200 or actual_age < -300) else "OK"
-            item["age_seconds"] = max(0, int(actual_age))
+            estado = "OK" if age is None or age <= 7200 else "Dato rezagado"
             if uncertain_windows:
                 quality_parts.append(
-                    "ventanas sin acumulado verificable por intervalos incompletos: "
+                    "ventanas con mínimo observado por cruce de medianoche: "
                     + "/".join(f"{h}h" for h in uncertain_windows)
                 )
-            if native24 is None:
-                quality_parts.append("24 h reconstruidas de lecturas periódicas; no es acumulado nativo WeatherLink")
-            else:
-                quality_parts.append("24 h nativas WeatherLink API v2")
             quality = "Cloud" if not quality_parts else "Cloud + " + ", ".join(quality_parts)
 
             rows.append({
@@ -498,10 +383,10 @@ def main():
             ok += 1
             item["increment_mm"] = increment
             item["increment_method"] = increment_method
-            item["rollover_uncertain_24h"] = window_status.get(24) == "intervalo_incompleto"
+            item["rollover_uncertain_24h"] = window_status.get(24) == "minimo_observado"
             item["accumulations_mm"] = {str(k): acc[k] for k in WINDOWS}
             item["accumulation_status"] = {str(k): window_status.get(k, "sin_dato") for k in WINDOWS}
-            item["reconstructed_24h_mm_raw"] = item.get("reconstructed_24h_mm_raw", acc[24])
+            item["reconstructed_24h_mm_raw"] = acc[24]
             item["quality"] = quality
         except Exception as exc:
             errors.append({"estacion": station["nombre"], "error": f"{type(exc).__name__}: {exc}"})
