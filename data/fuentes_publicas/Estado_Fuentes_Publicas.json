@@ -1,7 +1,11 @@
 {
-  "generated_utc": "2026-09-20T15:34:23.025805+00:00",
-  "complete": true,
-  "errors": [],
+  "generated_utc": "2026-09-21T20:35:21.139164+00:00",
+  "complete": false,
+  "errors": [
+    "insivumeh: 500 Server Error: Internal Server Error for url: https://insivumeh.gob.gt/boletin-diario-hidrologia-aplicada/",
+    "guatemala_acumulados: 500 Server Error: Internal Server Error for url: https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
+    "guatemala_saturacion: 500 Server Error: Internal Server Error for url: https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/"
+  ],
   "products": {
     "smn96": {
       "available": true,
@@ -12,15 +16,15 @@
       "complete": true
     },
     "insivumeh": {
-      "available": true,
-      "complete": true
+      "available": false,
+      "complete": false
     },
     "guatemala_acumulados": {
-      "available": true,
-      "complete": true
+      "available": false,
+      "complete": false
     },
     "guatemala_saturacion": {
-      "available": true,
+      "available": false,
       "complete": false
     }
   },

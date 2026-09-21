@@ -1,9 +1,9 @@
 {
-  "generated_utc": "2026-09-21T16:57:39.757110+00:00",
+  "generated_utc": "2026-09-21T20:35:21.139164+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
-    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h?_ipcet=1790009860",
+    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h",
     "aviso": "264",
     "fecha": "21 de Septiembre del 2026.",
     "emision": "10:00h",
@@ -161,8 +161,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Mon, 21 Sep 2026 16:57:40 GMT",
-      "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
+      "last_modified": "Mon, 21 Sep 2026 20:35:21 GMT"
     },
     "resumen": "La onda tropical núm. 40 sobre el sureste del país, ocasionarán lluvias puntuales intensas en las cuencas de La Angostura, Bajo Grijalba y Usumacinta, lluvias puntuales fuertes en las cuencas de Peñitas, Mal paso y Chicoasén, y chubascos en la Presa Juan Sabines.",
     "detalle_ventanas": {
@@ -474,63 +473,78 @@
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 360 h",
     "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-360h",
-    "aviso": "264",
-    "fecha": "21 de Septiembre del 2026.",
+    "aviso": "263",
+    "fecha": "20 de Septiembre del 2026.",
     "emision": "10:00h",
     "periodos": [
       {
         "ventana": "96-168 h",
-        "validez": "del 24 al 27 de septiembre de 2026",
-        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 150 a 250 mm en la cuenca de Bajo Grijalva y Usumacinta; lluvias con acumulados de 75 a 150 mm en las cuencas de Peñitas, Malpaso y La Angostura, así como lluvias con acumulados de 75 a 150 mm en la cuenca de Chicoasén y la presa Juan Sabines.",
+        "validez": "del 23 al 26 de septiembre de 2026",
+        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 300 a 400 mm en la cuenca de Bajo Grijalva; lluvias con acumulados de 250 a 300 mm en las cuencas de Usumacinta y Peñitas; lluvias con acumulados de 150 a 250 mm en la cuenca de Malpaso; lluvias con acumulados 50 a 75 mm en la cuenca de La Angostura; así como lluvias con acumulados de 25 a 50 mm en las cuencas de Chicoasén y Juan Sabines.",
         "rangos_por_cuenca": {
           "Bajo Grijalva-Ríos de la Sierra": {
-            "texto": "150 a 250",
-            "min_mm": 150.0,
-            "max_mm": 250.0
-          },
-          "Usumacinta": {
-            "texto": "150 a 250",
-            "min_mm": 150.0,
-            "max_mm": 250.0
+            "texto": "300 a 400",
+            "min_mm": 300.0,
+            "max_mm": 400.0
           },
           "Peñitas": {
-            "texto": "75 a 150",
-            "min_mm": 75.0,
-            "max_mm": 150.0
+            "texto": "250 a 300",
+            "min_mm": 250.0,
+            "max_mm": 300.0
+          },
+          "Usumacinta": {
+            "texto": "250 a 300",
+            "min_mm": 250.0,
+            "max_mm": 300.0
           },
           "Malpaso": {
-            "texto": "75 a 150",
-            "min_mm": 75.0,
-            "max_mm": 150.0
-          },
-          "Chicoasén": {
-            "texto": "75 a 150",
-            "min_mm": 75.0,
-            "max_mm": 150.0
+            "texto": "150 a 250",
+            "min_mm": 150.0,
+            "max_mm": 250.0
           },
           "La Angostura": {
-            "texto": "75 a 150",
-            "min_mm": 75.0,
-            "max_mm": 150.0
+            "texto": "50 a 75",
+            "min_mm": 50.0,
+            "max_mm": 75.0
+          },
+          "Chicoasén": {
+            "texto": "25 a 50",
+            "min_mm": 25.0,
+            "max_mm": 50.0
           },
           "Presa Juan Sabines": {
-            "texto": "75 a 150",
-            "min_mm": 75.0,
-            "max_mm": 150.0
+            "texto": "25 a 50",
+            "min_mm": 25.0,
+            "max_mm": 50.0
           }
         }
       },
       {
         "ventana": "168-360 h",
-        "validez": "del 27 de septiembre al 05 de octubre 2026",
-        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 300 a 400 mm en la cuenca de Bajo Grijalva, Peñitas y Usumacinta; lluvias con acumulados de 250 a 300 mm en la cuenca de Malpaso; lluvias con acumulados de 150 a 250 mm en la cuenca de Chicoasén y La Angostura y lluvias con acumulados de 75 a 150 mm en la presa Juan Sabines.",
+        "validez": "del 26 de septiembre al 04 de octubre 2026",
+        "descripcion": "Durante el periodo de pronóstico, se prevén lluvias con acumulados de 500 a 600 mm en la cuenca de Malpaso; lluvias con acumulados de 400 a 500 mm en las cuencas de Peñitas y Bajo Grijalva; lluvias con acumulados de 300 a 400 mm en las cuencas de Usumacinta, Chicoasén y La Angostura; así como lluvias con acumulados de 75 a 150 mm en la cuenca de Juan Sabines.",
         "rangos_por_cuenca": {
+          "Malpaso": {
+            "texto": "500 a 600",
+            "min_mm": 500.0,
+            "max_mm": 600.0
+          },
           "Peñitas": {
+            "texto": "400 a 500",
+            "min_mm": 400.0,
+            "max_mm": 500.0
+          },
+          "Bajo Grijalva-Ríos de la Sierra": {
+            "texto": "400 a 500",
+            "min_mm": 400.0,
+            "max_mm": 500.0
+          },
+          "Chicoasén": {
             "texto": "300 a 400",
             "min_mm": 300.0,
             "max_mm": 400.0
           },
-          "Bajo Grijalva-Ríos de la Sierra": {
+          "La Angostura": {
             "texto": "300 a 400",
             "min_mm": 300.0,
             "max_mm": 400.0
@@ -540,25 +554,10 @@
             "min_mm": 300.0,
             "max_mm": 400.0
           },
-          "Malpaso": {
-            "texto": "250 a 300",
-            "min_mm": 250.0,
-            "max_mm": 300.0
-          },
-          "Chicoasén": {
-            "texto": "150 a 250",
-            "min_mm": 150.0,
-            "max_mm": 250.0
-          },
-          "La Angostura": {
-            "texto": "150 a 250",
-            "min_mm": 150.0,
-            "max_mm": 250.0
-          },
           "Presa Juan Sabines": {
-            "texto": "150 a 250",
-            "min_mm": 150.0,
-            "max_mm": 250.0
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
           }
         }
       }
@@ -567,298 +566,34 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Mon, 21 Sep 2026 16:57:40 GMT",
-      "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
+      "last_modified": "Mon, 21 Sep 2026 20:35:22 GMT"
     }
   },
-  "insivumeh": {
-    "fuente": "INSIVUMEH",
-    "producto": "BHVGM",
-    "url_pagina": "https://insivumeh.gob.gt/boletin-diario-hidrologia-aplicada/",
-    "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
-    "http": {
-      "status_code": 200,
-      "etag": null,
-      "last_modified": null
-    },
-    "estaciones_estructuradas": [
-      {
-        "estacion": "El Tigre",
-        "rio": "Usumacinta",
-        "ubicacion": "Las Cruces, Petén",
-        "nivel_referencia_min_m": 4.55,
-        "nivel_referencia_max_m": 10.0,
-        "caudal_referencia_min_m3s": 486.87,
-        "caudal_referencia_max_m3s": 2856.43,
-        "nivel_instantaneo_m": 5.76,
-        "caudal_instantaneo_m3s": 1012.96,
-        "calidad": "extraido_del_BHVGM",
-        "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
-      },
-      {
-        "estacion": "El Porvenir",
-        "rio": "La Pasión",
-        "ubicacion": "Las Cruces, Petén",
-        "nivel_referencia_min_m": 1.03,
-        "nivel_referencia_max_m": 3.0,
-        "caudal_referencia_min_m3s": 93.04,
-        "caudal_referencia_max_m3s": 399.28,
-        "nivel_instantaneo_m": 1.9,
-        "caudal_instantaneo_m3s": 194.37,
-        "calidad": "extraido_del_BHVGM",
-        "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
-      }
-    ],
-    "fragmentos_relevantes": [
-      "Caudal | Instant´ aneo (m3/s) Disminuir Mantenerse Incrementar Observaciones No. BHE | Chachacl´ un Lago Pet´ en Itz´ a San Jos´ e, Pet´ en 1.0 2.5 3.43 X Lago Crecido 1336-2025 | El Porvenir La Pasi´ on Las Cruces, Pet´ en 1.03 3.0 93.04 399.28 1.9 194.37 X | El Tigre Usumacinta Las Cruces, Pet´ en 4.55 10.0 486.87 2856.43 5.76 1012.96 X | La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.1 6.89 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.8 0.22 X",
-      "Instant´ aneo (m3/s) Disminuir Mantenerse Incrementar Observaciones No. BHE | Chachacl´ un Lago Pet´ en Itz´ a San Jos´ e, Pet´ en 1.0 2.5 3.43 X Lago Crecido 1336-2025 | El Porvenir La Pasi´ on Las Cruces, Pet´ en 1.03 3.0 93.04 399.28 1.9 194.37 X | El Tigre Usumacinta Las Cruces, Pet´ en 4.55 10.0 486.87 2856.43 5.76 1012.96 X | La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.1 6.89 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.8 0.22 X | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.12 3.56 X",
-      "La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.1 6.89 X R ´ ıo Bajo | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.8 0.22 X | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.12 3.56 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 0.1 215.91 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.61 9.03 X | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.59 234.83 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.6 52.64 X",
-      "Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.8 0.22 X | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.12 3.56 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 0.1 215.91 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.61 9.03 X | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.59 234.83 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.6 52.64 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.18 13.69 X",
-      "Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.12 3.56 X | Playa Grande Chixoy Ixc´ an, Quich´ e -0.22 1.9 178.87 633.81 0.1 215.91 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.61 9.03 X | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.59 234.83 X | San Luis Ixc´ an Xaclbal Ixc´ an, Quich´ e -0.34 0.86 9.75 76.39 0.6 52.64 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.18 13.69 X | Xemal Selegua Colotenango, Huehuetenango 0.25 1.25 3.91 48.8 0.02 1.5 X R ´ ıo Bajo"
-    ],
-    "completo": true,
-    "pdf_bytes": 306032,
-    "boletin": null,
-    "fecha": "20/09/2026",
-    "hora": "08:00",
-    "hora_fuente": "encabezado_BHVGM"
-  },
+  "insivumeh": null,
   "insivumeh_evolucion_real": [
     {
       "estacion": "El Tigre",
       "rio": "Usumacinta",
-      "desde": "19/09/2026 14:00",
-      "hasta": "20/09/2026 08:00",
-      "horas_transcurridas": 18.0,
-      "delta_nivel_m": 0.53,
-      "delta_caudal_m3s": 230.44,
+      "desde": "20/09/2026 08:00",
+      "hasta": "21/09/2026 14:00",
+      "horas_transcurridas": 30.0,
+      "delta_nivel_m": 0.28,
+      "delta_caudal_m3s": 121.74,
       "tendencia_calculada": "incrementando"
-    },
-    {
-      "estacion": "El Porvenir",
-      "rio": "La Pasión",
-      "desde": "19/09/2026 14:00",
-      "hasta": "20/09/2026 08:00",
-      "horas_transcurridas": 18.0,
-      "delta_nivel_m": -0.02,
-      "delta_caudal_m3s": -2.92,
-      "tendencia_calculada": "disminuyendo"
-    },
-    {
-      "estacion": "Playa Grande",
-      "rio": "Chixoy",
-      "desde": "19/09/2026 14:00",
-      "hasta": "20/09/2026 08:00",
-      "horas_transcurridas": 18.0,
-      "delta_nivel_m": 0.0,
-      "delta_caudal_m3s": 0.0,
-      "tendencia_calculada": "estable"
     },
     {
       "estacion": "Puente Chocox",
       "rio": "Chixoy",
-      "desde": "19/09/2026 14:00",
-      "hasta": "20/09/2026 08:00",
-      "horas_transcurridas": 18.0,
-      "delta_nivel_m": 0.05,
-      "delta_caudal_m3s": 1.13,
+      "desde": "20/09/2026 08:00",
+      "hasta": "21/09/2026 14:00",
+      "horas_transcurridas": 30.0,
+      "delta_nivel_m": 0.36,
+      "delta_caudal_m3s": 10.82,
       "tendencia_calculada": "incrementando"
     }
   ],
-  "guatemala_acumulados": {
-    "fuente": "INSIVUMEH",
-    "producto": "Acumulados multitemporales Guatemala",
-    "pagina": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
-    "http": {
-      "status_code": 200,
-      "etag": null,
-      "last_modified": null
-    },
-    "mapas": [
-      {
-        "periodo": "24h",
-        "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_diaria.png",
-        "tipo": "mapa_oficial",
-        "extraccion_areal": false,
-        "estaciones_relevantes": []
-      },
-      {
-        "periodo": "mensual",
-        "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_mensual.png",
-        "tipo": "mapa_oficial",
-        "extraccion_areal": false,
-        "estaciones_relevantes": []
-      },
-      {
-        "periodo": "semanal",
-        "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_sem.png",
-        "tipo": "mapa_oficial",
-        "extraccion_areal": false,
-        "estaciones_relevantes": []
-      }
-    ],
-    "epoca_lluviosa": {
-      "periodo": "epoca_lluviosa",
-      "url": "https://insivumeh.gob.gt/img/MAPAS_24H/Resumen_Departamentos.html",
-      "rango": null,
-      "estaciones_relevantes": [
-        {
-          "estacion": "El Tigre",
-          "codigo": "INS171302AT",
-          "rama_aportante": "Usumacinta directo",
-          "acumulado_mm": 648.3,
-          "periodo": "epoca_lluviosa",
-          "confianza_influencia": "alta",
-          "uso": "contexto_antecedente",
-          "gobierna_semaforo": false
-        },
-        {
-          "estacion": "El Porvenir",
-          "codigo": "INS171001AT",
-          "rama_aportante": "La Pasión",
-          "acumulado_mm": 786.6,
-          "periodo": "epoca_lluviosa",
-          "confianza_influencia": "alta",
-          "uso": "contexto_antecedente",
-          "gobierna_semaforo": false
-        },
-        {
-          "estacion": "Bethel",
-          "codigo": "INS171301AT",
-          "rama_aportante": "Usumacinta/Lacantún-frontera",
-          "acumulado_mm": 635.5,
-          "periodo": "epoca_lluviosa",
-          "confianza_influencia": "media",
-          "uso": "contexto_antecedente",
-          "gobierna_semaforo": false
-        },
-        {
-          "estacion": "Chixoy Hidro",
-          "codigo": "INS161301AT",
-          "rama_aportante": "Chixoy/Salinas",
-          "acumulado_mm": 615.7,
-          "periodo": "epoca_lluviosa",
-          "confianza_influencia": "alta",
-          "uso": "contexto_antecedente",
-          "gobierna_semaforo": false
-        },
-        {
-          "estacion": "Panzos PHC Altaverapaz",
-          "codigo": "INS160701CV",
-          "rama_aportante": "Chixoy/Salinas",
-          "acumulado_mm": 1207.6,
-          "periodo": "epoca_lluviosa",
-          "confianza_influencia": "media",
-          "uso": "contexto_antecedente",
-          "gobierna_semaforo": false
-        }
-      ],
-      "http": {
-        "status_code": 200,
-        "etag": "\"12e13-659f410938624-gzip\"",
-        "last_modified": "Wed, 26 Aug 2026 14:30:45 GMT"
-      },
-      "nota": "Acumulados puntuales por estación y periodo; no son promedio areal, no se suman y no gobiernan semáforo por sí solos."
-    },
-    "estaciones_objetivo": [
-      {
-        "estacion": "El Tigre",
-        "rama": "Usumacinta directo",
-        "codigo": "INS171302AT",
-        "confianza": "alta"
-      },
-      {
-        "estacion": "El Porvenir",
-        "rama": "La Pasión",
-        "codigo": "INS171001AT",
-        "confianza": "alta"
-      },
-      {
-        "estacion": "Bethel",
-        "rama": "Usumacinta/Lacantún-frontera",
-        "codigo": "INS171301AT",
-        "confianza": "media"
-      },
-      {
-        "estacion": "Machaquilá",
-        "rama": "La Pasión–Machaquilá",
-        "codigo": "INS171201AT",
-        "confianza": "alta"
-      },
-      {
-        "estacion": "Mactún",
-        "rama": "San Pedro",
-        "codigo": "INS170401AT",
-        "confianza": "alta"
-      },
-      {
-        "estacion": "Chixoy Hidro",
-        "rama": "Chixoy/Salinas",
-        "codigo": null,
-        "confianza": "alta"
-      },
-      {
-        "estacion": "Cobán",
-        "rama": "Chixoy/Salinas",
-        "codigo": null,
-        "confianza": "media"
-      },
-      {
-        "estacion": "Santa María Cahabón",
-        "rama": "Chixoy/Salinas",
-        "codigo": null,
-        "confianza": "media"
-      },
-      {
-        "estacion": "Panzos PHC Altaverapaz",
-        "rama": "Chixoy/Salinas",
-        "codigo": null,
-        "confianza": "media"
-      }
-    ],
-    "ambito_operativo": "ramas aportantes verificadas de la cuenca alta del Usumacinta; no Petén completo",
-    "regla": "No convertir colores del mapa a mm exactos sin extracción geoespacial validada; no sumar estaciones ni tratarlas como promedio de cuenca.",
-    "completo": true,
-    "descubrimiento_robusto": {
-      "pagina": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
-      "descubrimiento": "anclas+imagenes",
-      "mapas": [
-        {
-          "periodo": "24h",
-          "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_diaria.png",
-          "tipo": "mapa_oficial",
-          "extraccion_areal": false
-        }
-      ],
-      "regla": "Los mapas no se convierten a milímetros exactos ni a promedio de cuenca sin extracción geoespacial validada."
-    }
-  },
-  "guatemala_saturacion": {
-    "fuente": "INSIVUMEH",
-    "producto": "Saturación del suelo",
-    "pagina": "https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/",
-    "http": {
-      "status_code": 200,
-      "etag": null,
-      "last_modified": null
-    },
-    "modelo": "Sacramento / CAFFG",
-    "capas": {
-      "superior": "0-30 cm",
-      "inferior": "30 cm a 1-3 m"
-    },
-    "ambito_operativo": "zonas aportantes verificadas de la cuenca alta del Usumacinta",
-    "ultimo_boletin": null,
-    "completo": false,
-    "descubrimiento_robusto": {
-      "pagina": "https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/",
-      "seleccion": "mayor identificador BESS localizado; no depende del orden HTML",
-      "ultimo_pdf_candidato": null,
-      "etiqueta": null,
-      "candidatos_localizados": 0,
-      "nota": "La existencia del PDF no implica porcentaje específico para la cuenca; sólo se estructura contenido espacial cuando puede verificarse."
-    }
-  },
+  "guatemala_acumulados": null,
+  "guatemala_saturacion": null,
   "links": {
     "insivumeh_tendencia": "https://insivumeh.gob.gt/boletin-de-tendencia-de-niveles-2/",
     "insivumeh_saturacion": "https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/",
@@ -866,9 +601,9 @@
   },
   "senal_usumacinta_alta": "Señal aguas arriba en aumento",
   "insivumeh_bhvgm_actual": {
-    "boletin": "787",
-    "fecha": "20/09/2026",
-    "hora": "08:00",
+    "boletin": "791",
+    "fecha": "21/09/2026",
+    "hora": "14:00",
     "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
     "estaciones": [
       {
@@ -878,32 +613,8 @@
         "nivel_referencia_max_m": 10.0,
         "caudal_referencia_min_m3s": 486.87,
         "caudal_referencia_max_m3s": 2856.43,
-        "nivel_instantaneo_m": 5.76,
-        "caudal_instantaneo_m3s": 1012.96,
-        "calidad": "extraido_del_BHVGM",
-        "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
-      },
-      {
-        "estacion": "El Porvenir",
-        "rio": "La Pasión",
-        "nivel_referencia_min_m": 1.03,
-        "nivel_referencia_max_m": 3.0,
-        "caudal_referencia_min_m3s": 93.04,
-        "caudal_referencia_max_m3s": 399.28,
-        "nivel_instantaneo_m": 1.9,
-        "caudal_instantaneo_m3s": 194.37,
-        "calidad": "extraido_del_BHVGM",
-        "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
-      },
-      {
-        "estacion": "Playa Grande",
-        "rio": "Chixoy",
-        "nivel_referencia_min_m": -0.22,
-        "nivel_referencia_max_m": 1.9,
-        "caudal_referencia_min_m3s": 178.87,
-        "caudal_referencia_max_m3s": 633.81,
-        "nivel_instantaneo_m": 0.1,
-        "caudal_instantaneo_m3s": 215.91,
+        "nivel_instantaneo_m": 6.04,
+        "caudal_instantaneo_m3s": 1134.7,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       },
@@ -914,8 +625,8 @@
         "nivel_referencia_max_m": 2.33,
         "caudal_referencia_min_m3s": 7.9,
         "caudal_referencia_max_m3s": 110.1,
-        "nivel_instantaneo_m": 0.61,
-        "caudal_instantaneo_m3s": 9.03,
+        "nivel_instantaneo_m": 0.97,
+        "caudal_instantaneo_m3s": 19.85,
         "calidad": "extraido_del_BHVGM",
         "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
       }
@@ -925,28 +636,10 @@
   "insivumeh_el_tigre_antecedente": null,
   "insivumeh_el_tigre_regla": "Antecedente informativo: no es observación del corte actual, no se hereda y no gobierna tendencia ni semáforo.",
   "insivumeh_contexto_diagnostico": {
-    "actualizado_utc": "2026-09-20T15:34:30.828555+00:00",
-    "errores": [],
-    "lluvia": {
-      "pagina": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
-      "descubrimiento": "anclas+imagenes",
-      "mapas": [
-        {
-          "periodo": "24h",
-          "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_diaria.png",
-          "tipo": "mapa_oficial",
-          "extraccion_areal": false
-        }
-      ],
-      "regla": "Los mapas no se convierten a milímetros exactos ni a promedio de cuenca sin extracción geoespacial validada."
-    },
-    "saturacion": {
-      "pagina": "https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/",
-      "seleccion": "mayor identificador BESS localizado; no depende del orden HTML",
-      "ultimo_pdf_candidato": null,
-      "etiqueta": null,
-      "candidatos_localizados": 0,
-      "nota": "La existencia del PDF no implica porcentaje específico para la cuenca; sólo se estructura contenido espacial cuando puede verificarse."
-    }
+    "actualizado_utc": "2026-09-21T20:35:25.021176+00:00",
+    "errores": [
+      "lluvia: 500 Server Error: Internal Server Error for url: https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
+      "saturacion: 500 Server Error: Internal Server Error for url: https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/"
+    ]
   }
 }
