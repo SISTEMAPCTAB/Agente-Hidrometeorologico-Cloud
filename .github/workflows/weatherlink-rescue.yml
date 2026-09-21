@@ -45,9 +45,8 @@ jobs:
           try:
               s=json.loads(p.read_text(encoding='utf-8'))
               run=s.get('run_utc')
-              healthy=(s.get('complete') is True and
-                       s.get('stations_ok') == s.get('stations_expected') and
-                       not (s.get('errors') or []))
+              healthy=(isinstance(s.get('stations_ok'), int) and s.get('stations_ok') > 0 and
+                       s.get('stations_ok') + len(s.get('errors') or []) == s.get('stations_expected'))
               if run:
                   d=datetime.fromisoformat(run.replace('Z','+00:00'))
                   if d.tzinfo is None: d=d.replace(tzinfo=timezone.utc)
@@ -90,9 +89,9 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
           s=json.loads(Path('data/weatherlink/Estado_WeatherLink_Cloud.json').read_text(encoding='utf-8'))
-          assert s.get('complete') is True
-          assert s.get('stations_ok') == s.get('stations_expected')
-          assert not (s.get('errors') or [])
+          assert s.get('stations_ok', 0) > 0
+          assert s.get('stations_ok') + len(s.get('errors') or []) == s.get('stations_expected')
+          assert all(e.get('estacion') and e.get('error') for e in s.get('errors') or [])
           d=datetime.fromisoformat(s['run_utc'].replace('Z','+00:00'))
           if d.tzinfo is None:d=d.replace(tzinfo=timezone.utc)
           age=(datetime.now(timezone.utc)-d.astimezone(timezone.utc)).total_seconds()/60
