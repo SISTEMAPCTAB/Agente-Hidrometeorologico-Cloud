@@ -52,7 +52,7 @@ jobs:
                   if last.tzinfo is None:
                       last = last.replace(tzinfo=timezone.utc)
                   age_minutes = (datetime.now(timezone.utc) - last.astimezone(timezone.utc)).total_seconds() / 60.0
-                  healthy = isinstance(ok, int) and ok > 0 and expected == ok + len(errors)
+                  healthy = complete and expected == ok and not errors
                   # Con un flujo principal cada 15 min, >35 min implica al menos
                   # dos ventanas consecutivas sin publicar un estado válido.
                   recover = (not healthy) or age_minutes > 35
@@ -89,9 +89,6 @@ jobs:
 
       - name: Ejecutar recuperación WeatherLink Cloud
         if: steps.freshness.outputs.recover == 'true'
-        env:
-          WEATHERLINK_API_KEY: ${{ secrets.WEATHERLINK_API_KEY }}
-          WEATHERLINK_API_SECRET: ${{ secrets.WEATHERLINK_API_SECRET }}
         run: python src/weatherlink_cloud.py
 
       - name: Ejecutar recuperación WeatherLink adicional
@@ -115,9 +112,9 @@ jobs:
           from pathlib import Path
 
           estado = json.loads(Path('data/weatherlink/Estado_WeatherLink_Cloud.json').read_text(encoding='utf-8'))
-          assert estado.get('stations_ok', 0) > 0, 'Ninguna estación válida'
-          assert estado.get('stations_ok') + len(estado.get('errors') or []) == estado.get('stations_expected'), 'Balance de estaciones inválido'
-          assert all(e.get('estacion') and e.get('error') for e in estado.get('errors') or []), 'Error de estación sin diagnóstico'
+          assert estado.get('complete') is True, 'La recuperación WeatherLink no quedó completa'
+          assert estado.get('stations_ok') == estado.get('stations_expected'), 'No se recuperaron todas las estaciones esperadas'
+          assert not estado.get('errors'), 'La recuperación WeatherLink reportó errores'
 
           word = json.loads(Path('data/weatherlink/Reportes/Estado_Word.json').read_text(encoding='utf-8'))
           assert word.get('verified') is True, 'Word no verificado'
