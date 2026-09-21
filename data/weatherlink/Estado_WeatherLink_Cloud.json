@@ -1,11 +1,11 @@
 {
   "agent": "WeatherLink Cloud",
-  "run_utc": "2026-09-21T14:05:04.263917+00:00",
-  "run_local": "2026-09-21T08:05:04.263917-06:00",
+  "run_utc": "2026-09-21T15:23:13.394352+00:00",
+  "run_local": "2026-09-21T09:23:13.394352-06:00",
   "stations_expected": 32,
-  "stations_ok": 31,
-  "stations_error": 1,
-  "coverage_hours_since_seed": 404.06,
+  "stations_ok": 32,
+  "stations_error": 0,
+  "coverage_hours_since_seed": 405.36,
   "window_maturity": {
     "1h": true,
     "6h": true,
@@ -15,13 +15,8 @@
     "96h": true,
     "120h": true
   },
-  "complete": false,
-  "errors": [
-    {
-      "estacion": "ATA",
-      "error": "ValueError: WeatherLink no entregó lastTimestamp; no se inventa fecha de observación"
-    }
-  ],
+  "complete": true,
+  "errors": [],
   "source": "WeatherLink public map endpoint /map/data/station/{uuid}",
   "note": "Hoy (dailyRain) es acumulado desde medianoche. Las ventanas móviles se reconstruyen con incrementos observados. Si un cruce de medianoche no puede verificarse, la ventana afectada se conserva como mínimo observado (≥ valor), no como exacta ni como s/d. La incertidumbre se propaga coherentemente a 24/48/72/96/120 h mientras ese tramo permanezca dentro de cada ventana."
 }
