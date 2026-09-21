@@ -68,60 +68,34 @@
   }
   function systemTitle(data,id){return data.catalog?.sistemas?.[id]||SYSTEM_FALLBACK[id]||id}
 
-  function rainValue(v,status,minimum){
-    if(finite(v))return `${status==='minimo_observado'?'≥ ':''}${mm(v)}`;
-    // Recuperar los incrementos realmente observados que el recolector
-    // conserva aun cuando no puede verificar el total de la ventana.
-    // Nunca presentar este mínimo como acumulado exacto.
-    if(status==='intervalo_incompleto'&&finite(minimum)&&Number(minimum)>0)
-      return `≥ ${mm(minimum)} · mínimo observado`;
-    return 'Dato no verificable';
+  function rainValue(v,status){
+    if(!finite(v))return's/d';
+    return `${status==='minimo_observado'?'≥ ':''}${mm(v)}`;
   }
-  // El acumulado diario observado NO equivale a la ventana móvil de 24 h.
-  function dailyRain(r){
-    if(!finite(r.daily_mm))return 's/d';
-    const at=Date.parse(r.observed_utc||'');
-    if(!Number.isFinite(at)||Date.now()-at>2*3600*1000||at>Date.now()+5*60*1000)return 's/d · lectura rezagada';
-    return mm(r.daily_mm);
-  }
-  // Mostrar sólo las ventanas con al menos una medición verificable.
-  // La lluvia diaria observada se conserva como columna independiente.
-  // Estimaciones basadas exclusivamente en incrementos realmente registrados.
-  // No se presentan como acumulados nativos ni como totales exactos.
-  function observedRain(r,h){
-    const at=Date.parse(r.observed_utc||'');
-    if(!Number.isFinite(at)||Date.now()-at>2*3600*1000||at>Date.now()+5*60*1000)return null;
-    const status=r.accumulation_status?.[h];
-    const exact=r.accumulations_mm?.[h];
-    if(finite(exact)&&['nativo_weatherlink','reconstruido_por_intervalos','exacto_reconstruido'].includes(status))
-      return {text:mm(exact),estimated:status!=='nativo_weatherlink'};
-    const minimum=r.minimum_observed_mm?.[h];
-    if(status==='intervalo_incompleto'&&finite(minimum)&&Number(minimum)>0)
-      return {text:`≥ ${mm(minimum)}`,estimated:true};
-    if(h==='12'&&Array.isArray(r.events_12h))return null;
-    return null;
-  }
-  function weatherRow(r,hours){
+  function weatherRow(r){
+    const a=r.accumulations_mm||{},s=r.accumulation_status||{};
     const qualityFull=[r.quality||'Cloud'];
     if(r.estado&&r.estado!=='OK')qualityFull.push(r.estado);
+    const minHours=['1','6','24','48'].filter(h=>s[h]==='minimo_observado');
+    const isStale=/rezagado|heredado/i.test(String(r.estado||'')+' '+String(r.quality||''));
+    const qualityShort=`Cloud${minHours.length?' · ≥ '+minHours.join('/')+' h':''}${isStale?' · Rezagado':''}`;
     return `<tr>
       <td><b>${esc(r.nombre||'s/d')}</b></td>
       <td>WeatherLink</td>
-      <td>${dailyRain(r)}</td>
-      ${hours.map(h=>`<td>${observedRain(r,h)?.text||'—'}</td>`).join('')}
+      <td>${rainValue(a['1'],s['1'])}</td>
+      <td>${rainValue(a['6'],s['6'])}</td>
+      <td>${rainValue(a['24'],s['24'])}</td>
+      <td>${rainValue(a['48'],s['48'])}</td>
       <td>${celsius(r.temperature_f)}</td>
       <td>${finite(r.humidity_pct)?Number(r.humidity_pct).toFixed(0)+'%':'s/d'}</td>
       <td>${human(r.observed_utc||r.last_updated_at)}</td>
-      <td class="weather-quality-cell" title="${esc(qualityFull.join(' · '))}">Cloud · estimación por lecturas</td>
+      <td class="weather-quality-cell" title="${esc(qualityFull.join(' · '))}">${esc(qualityShort)}</td>
     </tr>`;
   }
   function weatherTable(rows){
     if(!rows.length)return '<p class="muted">Sin estaciones vinculadas disponibles en este corte.</p>';
-    const hours=['12','24','48'];
-    const labels={'12':'12 h','24':'24 h anteriores','48':'48 h anteriores'};
-    return `<p class="muted">Acumulados reconstruidos de lecturas periódicas; ≥ indica mínimo observado, no total exacto. — indica intervalo sin estimación suficiente.</p><div class="table-wrap"><table><thead><tr><th>Estación</th><th>Fuente</th><th>Hoy (desde medianoche)</th>${hours.map(h=>`<th>${labels[h]}</th>`).join('')}<th>Temperatura</th><th>Humedad</th><th>Hora</th><th>Calidad</th></tr></thead><tbody>${rows.map(r=>weatherRow(r,hours)).join('')}</tbody></table></div>`;
+    return `<div class="table-wrap"><table><thead><tr><th>Estación</th><th>Fuente</th><th>1 h</th><th>6 h</th><th>24 h anteriores</th><th>48 h anteriores</th><th>Temperatura</th><th>Humedad</th><th>Hora</th><th>Calidad</th></tr></thead><tbody>${rows.map(weatherRow).join('')}</tbody></table></div>`;
   }
-
   function weatherBlocks(data){
     const map=weatherMap(data),lnk=links(data,'weatherlink'),parts=[];
     for(const id of SYSTEM_ORDER){
@@ -137,25 +111,7 @@
     return parts.join('');
   }
 
-  function conaguaByStation(data){
-    const map=new Map((Array.isArray(data.conagua)?data.conagua:[]).map(r=>[norm(r.estacion),r]));
-    // El boletín diario puede llegar antes que el horario: tomar el corte
-    // válido más reciente, sin confundir la lluvia diaria con HOY desde 08:00.
-    for(const r of (data.climate?.conagua_tabasco||[])){
-      const key=norm(r.estacion), prior=map.get(key);
-      const fresh=Date.parse(r.fecha_hora_mensaje||''), previous=Date.parse(prior?.fecha_hora||'');
-      if(r.estado_dato!=='observado'||!finite(r.lluvia_24h_mm)||!Number.isFinite(fresh))continue;
-      if(prior&&Number.isFinite(previous)&&fresh<=previous)continue;
-      map.set(key,{
-        estacion:r.estacion,fecha_hora:r.fecha_hora_mensaje,
-        lluvia_hoy_desde_08_mm:null,estado_hoy:'sin_dato',
-        lluvia_24h_precedentes_mm:r.lluvia_24h_mm,estado_24h:'observado',
-        lluvia_48h_precedentes_mm:null,estado_48h:'sin_dato',
-        fuente:'CONAGUA Tabasco · boletín 08:00'
-      });
-    }
-    return map;
-  }
+  function conaguaByStation(data){return new Map((Array.isArray(data.conagua)?data.conagua:[]).map(r=>[norm(r.estacion),r]))}
   function conaguaBlocks(data){
     const by=conaguaByStation(data),lnk=links(data,'conagua'),parts=[];
     for(const id of SYSTEM_ORDER){
@@ -198,7 +154,7 @@
     content.innerHTML=`<div class="grid weather-stable-grid" data-weather-complete="1">
       <section class="panel wide weather-stable-panel">
         <h2>WeatherLink · lluvia y temperatura</h2>
-        <p class="muted">Acumulados móviles reconstruidos de lecturas periódicas, no equivalentes al acumulado nativo de WeatherLink. ≥ señala un mínimo observado cuando falta información en el intervalo.</p>
+        <p class="muted">Estaciones vinculadas a los sistemas operativos. Los acumulados marcados con ≥ son mínimos observados cuando existe un cruce de medianoche no verificable.</p>
         <div class="weather-source-groups">${weatherBlocks(data)}</div>
       </section>
       <section class="panel wide weather-stable-panel">
