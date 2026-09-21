@@ -1,9 +1,9 @@
 {
-  "generated_utc": "2026-09-21T20:35:21.139164+00:00",
+  "generated_utc": "2026-09-21T20:53:35.450571+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
-    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h",
+    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h?_ipcet=1790024016",
     "aviso": "264",
     "fecha": "21 de Septiembre del 2026.",
     "emision": "10:00h",
@@ -161,7 +161,8 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Mon, 21 Sep 2026 20:35:21 GMT"
+      "last_modified": "Mon, 21 Sep 2026 20:53:35 GMT",
+      "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
     },
     "resumen": "La onda tropical núm. 40 sobre el sureste del país, ocasionarán lluvias puntuales intensas en las cuencas de La Angostura, Bajo Grijalba y Usumacinta, lluvias puntuales fuertes en las cuencas de Peñitas, Mal paso y Chicoasén, y chubascos en la Presa Juan Sabines.",
     "detalle_ventanas": {
@@ -473,78 +474,63 @@
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 360 h",
     "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-360h",
-    "aviso": "263",
-    "fecha": "20 de Septiembre del 2026.",
+    "aviso": "264",
+    "fecha": "21 de Septiembre del 2026.",
     "emision": "10:00h",
     "periodos": [
       {
         "ventana": "96-168 h",
-        "validez": "del 23 al 26 de septiembre de 2026",
-        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 300 a 400 mm en la cuenca de Bajo Grijalva; lluvias con acumulados de 250 a 300 mm en las cuencas de Usumacinta y Peñitas; lluvias con acumulados de 150 a 250 mm en la cuenca de Malpaso; lluvias con acumulados 50 a 75 mm en la cuenca de La Angostura; así como lluvias con acumulados de 25 a 50 mm en las cuencas de Chicoasén y Juan Sabines.",
+        "validez": "del 24 al 27 de septiembre de 2026",
+        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 150 a 250 mm en las cuencas de Bajo Grijalva y Usumacinta; lluvias con acumulados de 75 a 150 mm en las cuencas de Peñitas, Malpaso y La Angostura, así como lluvias con acumulados de 50 a 75 mm en las cuencas de Chicoasén y Juan Sabines.",
         "rangos_por_cuenca": {
           "Bajo Grijalva-Ríos de la Sierra": {
-            "texto": "300 a 400",
-            "min_mm": 300.0,
-            "max_mm": 400.0
-          },
-          "Peñitas": {
-            "texto": "250 a 300",
-            "min_mm": 250.0,
-            "max_mm": 300.0
-          },
-          "Usumacinta": {
-            "texto": "250 a 300",
-            "min_mm": 250.0,
-            "max_mm": 300.0
-          },
-          "Malpaso": {
             "texto": "150 a 250",
             "min_mm": 150.0,
             "max_mm": 250.0
           },
-          "La Angostura": {
-            "texto": "50 a 75",
-            "min_mm": 50.0,
-            "max_mm": 75.0
+          "Usumacinta": {
+            "texto": "150 a 250",
+            "min_mm": 150.0,
+            "max_mm": 250.0
+          },
+          "Peñitas": {
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
+          },
+          "Malpaso": {
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
           },
           "Chicoasén": {
-            "texto": "25 a 50",
-            "min_mm": 25.0,
-            "max_mm": 50.0
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
+          },
+          "La Angostura": {
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
           },
           "Presa Juan Sabines": {
-            "texto": "25 a 50",
-            "min_mm": 25.0,
-            "max_mm": 50.0
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
           }
         }
       },
       {
         "ventana": "168-360 h",
-        "validez": "del 26 de septiembre al 04 de octubre 2026",
-        "descripcion": "Durante el periodo de pronóstico, se prevén lluvias con acumulados de 500 a 600 mm en la cuenca de Malpaso; lluvias con acumulados de 400 a 500 mm en las cuencas de Peñitas y Bajo Grijalva; lluvias con acumulados de 300 a 400 mm en las cuencas de Usumacinta, Chicoasén y La Angostura; así como lluvias con acumulados de 75 a 150 mm en la cuenca de Juan Sabines.",
+        "validez": "del 27 de septiembre al 05 de octubre 2026",
+        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 300 a 400 mm en las cuencas de Bajo Grijalva, Peñitas y Usumacinta; lluvias con acumulados de 250 a 300 mm en la cuenca de Malpaso; lluvias con acumulados de 150 a 250 mm en las cuencas de Chicoasén y La Angostura; y lluvias con acumulados de 75 a 150 mm en la cuenca Juan Sabines.",
         "rangos_por_cuenca": {
-          "Malpaso": {
-            "texto": "500 a 600",
-            "min_mm": 500.0,
-            "max_mm": 600.0
-          },
           "Peñitas": {
-            "texto": "400 a 500",
-            "min_mm": 400.0,
-            "max_mm": 500.0
-          },
-          "Bajo Grijalva-Ríos de la Sierra": {
-            "texto": "400 a 500",
-            "min_mm": 400.0,
-            "max_mm": 500.0
-          },
-          "Chicoasén": {
             "texto": "300 a 400",
             "min_mm": 300.0,
             "max_mm": 400.0
           },
-          "La Angostura": {
+          "Bajo Grijalva-Ríos de la Sierra": {
             "texto": "300 a 400",
             "min_mm": 300.0,
             "max_mm": 400.0
@@ -553,6 +539,21 @@
             "texto": "300 a 400",
             "min_mm": 300.0,
             "max_mm": 400.0
+          },
+          "Malpaso": {
+            "texto": "250 a 300",
+            "min_mm": 250.0,
+            "max_mm": 300.0
+          },
+          "Chicoasén": {
+            "texto": "150 a 250",
+            "min_mm": 150.0,
+            "max_mm": 250.0
+          },
+          "La Angostura": {
+            "texto": "150 a 250",
+            "min_mm": 150.0,
+            "max_mm": 250.0
           },
           "Presa Juan Sabines": {
             "texto": "75 a 150",
@@ -566,7 +567,8 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Mon, 21 Sep 2026 20:35:22 GMT"
+      "last_modified": "Mon, 21 Sep 2026 20:53:36 GMT",
+      "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
     }
   },
   "insivumeh": null,
