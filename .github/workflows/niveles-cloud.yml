@@ -27,7 +27,7 @@ on:
   schedule:
     # Tabasco = UTC-6. Consulta cada 15 minutos sólo de 06:00 a 19:59 local.
     # Entre 20:00 y 06:00 no se esperan boletines y el agente queda en pausa.
-    # Revalidado 21-sep-2026: ejecutar el recolector principal al actualizar este flujo.
+    # Revalidado 17-sep-2026 para mantener activo el disparo programado.
     - cron: '3,18,33,48 12-23 * * *'
     - cron: '3,18,33,48 0-1 * * *'
 
