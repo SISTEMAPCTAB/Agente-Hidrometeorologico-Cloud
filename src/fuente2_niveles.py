@@ -19,8 +19,8 @@ MX = ZoneInfo("America/Mexico_City")
 STATIONS = [
     {"rio": "Río Samaria", "estacion": "Samaria", "namo": 14.90, "name": 18.50, "label": "Samaria", "idx": 5},
     {"rio": "Río Carrizal", "estacion": "González", "namo": 8.77, "name": 10.20, "label": "González", "idx": 5},
-    {"rio": "Ríos de la Sierra", "estacion": "Oxolotán", "namo": 39.53, "name": 47.37, "label": "Oxolotán", "idx": 5},
-    {"rio": "Ríos de la Sierra", "estacion": "Tapijulapa", "namo": 24.63, "name": 28.15, "label": "Tapijulapa", "idx": 5},
+    {"rio": "Ríos de la Sierra", "estacion": "Oxolotán", "namo": 39.53, "name": 47.37, "label": "Oxolotán", "idx": 6},
+    {"rio": "Ríos de la Sierra", "estacion": "Tapijulapa", "namo": 24.63, "name": 28.15, "label": "Tapijulapa", "idx": 6},
     {"rio": "Ríos de la Sierra", "estacion": "Teapa", "namo": 37.71, "name": 39.56, "label": "Teapa", "idx": 5},
     {"rio": "Ríos de la Sierra", "estacion": "Puyacatengo", "namo": 29.65, "name": 31.35, "label": "Puyacatengo", "idx": 5},
     {"rio": "Ríos de la Sierra", "estacion": "San Joaquín", "namo": 23.12, "name": 26.66, "label": "San Joaquín", "idx": 5},
@@ -84,6 +84,17 @@ def validate_layout(st, nums):
     if st.get("namo") is not None:
         if len(nums) <= 2 or abs(nums[2] - st["namo"]) > 0.05:
             errors.append(f"NAMO fuera de posición: esperado {st['namo']}, recibido {nums[2] if len(nums) > 2 else None}")
+    # Oxolotán y Tapijulapa incluyen gasto entre escala anterior y actual.
+    # Comprobar el esquema completo antes de publicar una lectura.
+    if st["estacion"] in {"Oxolotán", "Tapijulapa"}:
+        if len(nums) != 12:
+            errors.append(f"se requieren 12 columnas; recibidas {len(nums)}")
+        else:
+            anterior, actual, variacion = nums[4], nums[6], nums[10]
+            if abs(actual - anterior - variacion) > 0.06:
+                errors.append("variación incompatible con las escalas anterior y actual")
+            if abs(actual - st["namo"] - nums[11]) > 0.06:
+                errors.append("distancia NAMO incompatible con escala actual")
     return errors
 
 
