@@ -17,21 +17,21 @@ MX = ZoneInfo("America/Mexico_City")
 # extraídos de la fila del boletín. En el formato vigente, el token anterior
 # corresponde a Día anterior; por eso ACTUAL está una posición después.
 STATIONS = [
-    {"rio": "Río Samaria", "estacion": "Samaria", "namo": 14.90, "name": 18.50, "label": "Samaria", "idx": 6},
-    {"rio": "Río Carrizal", "estacion": "González", "namo": 8.77, "name": 10.20, "label": "González", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "Oxolotán", "namo": 39.53, "name": 47.37, "label": "Oxolotán", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "Tapijulapa", "namo": 24.63, "name": 28.15, "label": "Tapijulapa", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "Teapa", "namo": 37.71, "name": 39.56, "label": "Teapa", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "Puyacatengo", "namo": 29.65, "name": 31.35, "label": "Puyacatengo", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "San Joaquín", "namo": 23.12, "name": 26.66, "label": "San Joaquín", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "Pueblo Nuevo", "namo": 7.49, "name": 8.40, "label": "Pueblo Nuevo", "idx": 6},
+    {"rio": "Río Samaria", "estacion": "Samaria", "namo": 14.90, "name": 18.50, "label": "Samaria", "idx": 5},
+    {"rio": "Río Carrizal", "estacion": "González", "namo": 8.77, "name": 10.20, "label": "González", "idx": 5},
+    {"rio": "Ríos de la Sierra", "estacion": "Oxolotán", "namo": 39.53, "name": 47.37, "label": "Oxolotán", "idx": 5},
+    {"rio": "Ríos de la Sierra", "estacion": "Tapijulapa", "namo": 24.63, "name": 28.15, "label": "Tapijulapa", "idx": 5},
+    {"rio": "Ríos de la Sierra", "estacion": "Teapa", "namo": 37.71, "name": 39.56, "label": "Teapa", "idx": 5},
+    {"rio": "Ríos de la Sierra", "estacion": "Puyacatengo", "namo": 29.65, "name": 31.35, "label": "Puyacatengo", "idx": 5},
+    {"rio": "Ríos de la Sierra", "estacion": "San Joaquín", "namo": 23.12, "name": 26.66, "label": "San Joaquín", "idx": 5},
+    {"rio": "Ríos de la Sierra", "estacion": "Pueblo Nuevo", "namo": 7.49, "name": 8.40, "label": "Pueblo Nuevo", "idx": 5},
     {"rio": "Río Grijalva", "estacion": "Gaviotas", "namo": 7.00, "name": 7.85, "label": "Gaviotas", "idx": 4},
     {"rio": "Río Grijalva", "estacion": "El Muelle", "namo": None, "name": 7.23, "label": "Muelle", "idx": 3},
-    {"rio": "Río Grijalva", "estacion": "Porvenir", "namo": 4.74, "name": 6.67, "label": "Porvenir", "idx": 5},
-    {"rio": "Río Tulijá", "estacion": "Salto de Agua", "namo": 10.99, "name": 14.72, "label": "Salto de Agua", "idx": 6},
-    {"rio": "Río Puxcatán", "estacion": "Macuspana", "namo": 9.85, "name": 12.78, "label": "Macuspana", "idx": 6},
+    {"rio": "Río Grijalva", "estacion": "Porvenir", "namo": 4.74, "name": 6.67, "label": "Porvenir", "idx": 4},
+    {"rio": "Río Tulijá", "estacion": "Salto de Agua", "namo": 10.99, "name": 14.72, "label": "Salto de Agua", "idx": 5},
+    {"rio": "Río Puxcatán", "estacion": "Macuspana", "namo": 9.85, "name": 12.78, "label": "Macuspana", "idx": 5},
     {"rio": "Río San Pedro", "estacion": "San Pedro", "namo": 9.01, "name": 9.77, "label": "San Pedro", "idx": 5},
-    {"rio": "Río Usumacinta", "estacion": "Boca del Cerro", "namo": 19.21, "name": 21.57, "label": "Boca del Cerro", "idx": 6},
+    {"rio": "Río Usumacinta", "estacion": "Boca del Cerro", "namo": 19.21, "name": 21.57, "label": "Boca del Cerro", "idx": 5},
 ]
 
 
@@ -196,9 +196,7 @@ def main():
                     old = float(existing.get("nivel"))
                 except Exception:
                     old = None
-                if (old is None or abs(old - observed) > 1e-9
-                        or existing.get("estado_dato") != "observado"
-                        or existing.get("ultima_actualizacion_real") != stamp):
+                if old is None or abs(old - observed) > 1e-9:
                     existing["nivel"] = observed
                     existing["estado_dato"] = "observado"
                     existing["ultima_actualizacion_real"] = stamp
