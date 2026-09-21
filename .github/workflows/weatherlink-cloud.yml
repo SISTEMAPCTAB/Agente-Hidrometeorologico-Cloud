@@ -54,9 +54,6 @@ jobs:
         run: python src/weatherlink_resolve_shared.py
 
       - name: Ejecutar WeatherLink Cloud
-        env:
-          WEATHERLINK_API_KEY: ${{ secrets.WEATHERLINK_API_KEY }}
-          WEATHERLINK_API_SECRET: ${{ secrets.WEATHERLINK_API_SECRET }}
         run: python src/weatherlink_cloud.py
 
       - name: Ejecutar WeatherLink adicional
@@ -75,17 +72,9 @@ jobs:
 
           p=Path('data/weatherlink/Estado_WeatherLink_Cloud.json')
           s=json.loads(p.read_text(encoding='utf-8'))
-          # Una estación sin timestamp (p. ej. ATA) no debe bloquear
-          # la publicación de las demás: su fila queda como "Error cloud"
-          # y sus acumulados vacíos, nunca como cero ni como lectura vigente.
-          expected=s.get('stations_expected')
-          ok=s.get('stations_ok')
-          errors=s.get('errors') or []
-          assert expected == 32, f'Número de estaciones inesperado: {expected}'
-          assert isinstance(ok, int) and ok > 0, 'No hay estaciones válidas para publicar'
-          assert ok + len(errors) == expected, 'El balance de estaciones no coincide'
-          assert all(e.get('estacion') and e.get('error') for e in errors), 'Error de estación sin diagnóstico'
-          print(f'WeatherLink: {ok}/{expected} estaciones válidas; {len(errors)} sin dato, publicadas como error')
+          assert s.get('complete') is True, 'WeatherLink no quedó completo'
+          assert s.get('stations_ok') == s.get('stations_expected'), 'No se recolectaron todas las estaciones esperadas'
+          assert not (s.get('errors') or []), 'WeatherLink reportó errores'
           run=s.get('run_utc')
           assert run, 'Falta hora de ejecución WeatherLink'
           d=datetime.fromisoformat(run.replace('Z','+00:00'))
