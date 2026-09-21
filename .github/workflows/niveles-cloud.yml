@@ -25,11 +25,11 @@ on:
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
   schedule:
-    # Tabasco = UTC-6. Consulta cada 15 minutos sólo de 06:00 a 19:59 local.
-    # Entre 20:00 y 06:00 no se esperan boletines y el agente queda en pausa.
-    # Revalidado 21-sep-2026: procesar el boletín FUENTE2 de 08:00 recibido por Gmail a las 09:27.
-    - cron: '3,18,33,48 12-23 * * *'
-    - cron: '3,18,33,48 0-1 * * *'
+    # Tabasco UTC-6: recolección cada 90 minutos de 06:03 a 19:33.
+    # Los boletines nuevos en data/latest/FUENTE1.txt o FUENTE2.txt
+    # también disparan este flujo por push, sin esperar al siguiente turno.
+    - cron: '3 12,15,18,21,0 * * *'
+    - cron: '33 13,16,19,22,1 * * *'
 
 permissions:
   contents: write
