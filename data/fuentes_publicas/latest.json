@@ -1,9 +1,9 @@
 {
-  "generated_utc": "2026-09-21T20:53:35.450571+00:00",
+  "generated_utc": "2026-09-21T23:34:17.222066+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
-    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h?_ipcet=1790024016",
+    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h",
     "aviso": "264",
     "fecha": "21 de Septiembre del 2026.",
     "emision": "10:00h",
@@ -161,16 +161,15 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Mon, 21 Sep 2026 20:53:35 GMT",
-      "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
+      "last_modified": "Mon, 21 Sep 2026 23:30:21 GMT"
     },
-    "resumen": "La onda tropical núm. 40 sobre el sureste del país, ocasionarán lluvias puntuales intensas en las cuencas de La Angostura, Bajo Grijalba y Usumacinta, lluvias puntuales fuertes en las cuencas de Peñitas, Mal paso y Chicoasén, y chubascos en la Presa Juan Sabines.",
+    "resumen": "Un canal de baja presión en interacción con el paso de la onda tropical núm. 40 sobre el sureste del país, ocasionarán lluvias puntuales intensas en las cuencas de Bajo Grijalva, Usumacinta y Chicoasén; lluvias puntuales muy fuertes en las cuencas de La Angostura y Juan Sabines; así como lluvias puntuales fuertes en las cuencas de Peñitas y Malpaso. Además, continuará el ambiente caluroso en la región.",
     "detalle_ventanas": {
       "0-24": {
         "Peñitas": {
           "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "32 a 34",
-          "temperatura_min_c": "22 a 24",
+          "temperatura_min_c": "23 a 25",
           "viento_sostenido_kmh": "N 10 a 20",
           "rachas_kmh": "35",
           "precipitacion_fuente": "smn96.ventanas_validada"
@@ -178,48 +177,48 @@
         "Malpaso": {
           "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "30 a 32",
-          "temperatura_min_c": "18 a 20",
-          "viento_sostenido_kmh": "NO 10 a 20",
+          "temperatura_min_c": "21 a 23",
+          "viento_sostenido_kmh": "O y NO 10 a 20",
           "rachas_kmh": "35",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Chicoasén": {
           "precipitacion_mm": "25 a 50",
-          "temperatura_max_c": "31 a 33",
-          "temperatura_min_c": "17 a 19",
+          "temperatura_max_c": "33 a 35",
+          "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "NO 15 a 25",
           "rachas_kmh": "40",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "La Angostura": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "31 a 33",
-          "temperatura_min_c": "17 a 19",
-          "viento_sostenido_kmh": "n 15 a 25",
+          "temperatura_max_c": "33 a 35",
+          "temperatura_min_c": "22 a 24",
+          "viento_sostenido_kmh": "Variable 15 a 25",
           "rachas_kmh": "40",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Bajo Grijalva-Ríos de la Sierra": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "37 a 39",
-          "temperatura_min_c": "21 a 23",
+          "temperatura_max_c": "34 a 36",
+          "temperatura_min_c": "24 a 26",
           "viento_sostenido_kmh": "N 15 a 25",
           "rachas_kmh": "40",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Usumacinta": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "37 a 39",
-          "temperatura_min_c": "18 a 20",
+          "temperatura_max_c": "32 a 34",
+          "temperatura_min_c": "23 a 25",
           "viento_sostenido_kmh": "N y NE 10 a 20",
           "rachas_kmh": "35",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Presa Juan Sabines": {
           "precipitacion_mm": "5 a 25",
-          "temperatura_max_c": "24 a 26",
-          "temperatura_min_c": "16 a 18",
-          "viento_sostenido_kmh": "Variable 10 a 20",
+          "temperatura_max_c": "29 a 31",
+          "temperatura_min_c": "18 a 20",
+          "viento_sostenido_kmh": "SO 10 a 20",
           "rachas_kmh": "35",
           "precipitacion_fuente": "smn96.ventanas_validada"
         }
@@ -227,57 +226,57 @@
       "24-48": {
         "Peñitas": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "27 a 29",
-          "temperatura_min_c": "22 a 24",
+          "temperatura_max_c": "32 a 34",
+          "temperatura_min_c": "23 a 25",
           "viento_sostenido_kmh": "NO 10 a 20",
           "rachas_kmh": "45",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Malpaso": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "27 a 29",
-          "temperatura_min_c": "19 a 21",
-          "viento_sostenido_kmh": "NO 10 a 20",
+          "temperatura_max_c": "30 a 32",
+          "temperatura_min_c": "21 a 23",
+          "viento_sostenido_kmh": "O y NO 10 a 20",
           "rachas_kmh": "40",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Chicoasén": {
           "precipitacion_mm": "25 a 50",
-          "temperatura_max_c": "28 a 30",
-          "temperatura_min_c": "18 a 20",
+          "temperatura_max_c": "33 a 35",
+          "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "NO 15 a 25",
           "rachas_kmh": "45",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "La Angostura": {
           "precipitacion_mm": "50 a 75",
-          "temperatura_max_c": "33 a 35",
-          "temperatura_min_c": "17 a 19",
+          "temperatura_max_c": "34 a 36",
+          "temperatura_min_c": "23 a 25",
           "viento_sostenido_kmh": "N y NO 15 a 25",
           "rachas_kmh": "45",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Bajo Grijalva-Ríos de la Sierra": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "35 a 37",
-          "temperatura_min_c": "23 a 25",
+          "temperatura_max_c": "34 a 36",
+          "temperatura_min_c": "24 a 26",
           "viento_sostenido_kmh": "N 15 a 25",
           "rachas_kmh": "40",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Usumacinta": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "31 a 33",
-          "temperatura_min_c": "21 a 23",
-          "viento_sostenido_kmh": "E 10 a 20",
+          "temperatura_max_c": "32 a 34",
+          "temperatura_min_c": "23 a 25",
+          "viento_sostenido_kmh": "Variable 10 a 20",
           "rachas_kmh": "35",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Presa Juan Sabines": {
           "precipitacion_mm": "50 a 75",
-          "temperatura_max_c": "27 a 29",
-          "temperatura_min_c": "16 a 18",
-          "viento_sostenido_kmh": "Variable 10 a 20",
+          "temperatura_max_c": "29 a 31",
+          "temperatura_min_c": "18 a 20",
+          "viento_sostenido_kmh": "O y SO 10 a 20",
           "rachas_kmh": "35",
           "precipitacion_fuente": "smn96.ventanas_validada"
         }
@@ -285,57 +284,57 @@
       "48-72": {
         "Peñitas": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "27 a 29",
-          "temperatura_min_c": "22 a 24",
+          "temperatura_max_c": "31 a 33",
+          "temperatura_min_c": "23 a 25",
           "viento_sostenido_kmh": "NO 10 a 20",
           "rachas_kmh": "40",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Malpaso": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "26 a 28",
+          "temperatura_max_c": "30 a 32",
           "temperatura_min_c": "21 a 23",
-          "viento_sostenido_kmh": "NO 10 a 20",
-          "rachas_kmh": "40",
+          "viento_sostenido_kmh": "O y NO 15 a 25",
+          "rachas_kmh": "45",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Chicoasén": {
           "precipitacion_mm": "25 a 50",
-          "temperatura_max_c": "30 a 32",
-          "temperatura_min_c": "18 a 20",
-          "viento_sostenido_kmh": "NO 10 a 20",
+          "temperatura_max_c": "32 a 34",
+          "temperatura_min_c": "22 a 24",
+          "viento_sostenido_kmh": "SO 10 a 20",
           "rachas_kmh": "35",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "La Angostura": {
           "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "33 a 35",
-          "temperatura_min_c": "18 a 20",
-          "viento_sostenido_kmh": "N y NO 10 a 20",
+          "temperatura_min_c": "23 a 25",
+          "viento_sostenido_kmh": "SE 10 a 20",
           "rachas_kmh": "40",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Bajo Grijalva-Ríos de la Sierra": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "34 a 36",
-          "temperatura_min_c": "22 a 24",
-          "viento_sostenido_kmh": "N 10 a 20",
+          "temperatura_max_c": "33 a 35",
+          "temperatura_min_c": "24 a 26",
+          "viento_sostenido_kmh": "Variable 10 a 20",
           "rachas_kmh": "35",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Usumacinta": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "33 a 35",
-          "temperatura_min_c": "21 a 23",
-          "viento_sostenido_kmh": "N 10 a 20",
+          "temperatura_max_c": "32 a 34",
+          "temperatura_min_c": "23 a 25",
+          "viento_sostenido_kmh": "Variable 10 a 20",
           "rachas_kmh": "35",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Presa Juan Sabines": {
           "precipitacion_mm": "25 a 50",
-          "temperatura_max_c": "27 a 29",
+          "temperatura_max_c": "29 a 31",
           "temperatura_min_c": "18 a 20",
-          "viento_sostenido_kmh": "NE 10 a 20",
+          "viento_sostenido_kmh": "SO 10 a 20",
           "rachas_kmh": "35",
           "precipitacion_fuente": "smn96.ventanas_validada"
         }
@@ -343,23 +342,23 @@
       "72-96": {
         "Peñitas": {
           "precipitacion_mm": "50 a 75",
-          "temperatura_max_c": "29 a 31",
+          "temperatura_max_c": "31 a 33",
           "temperatura_min_c": "23 a 25",
-          "viento_sostenido_kmh": "N 15 a 30",
-          "rachas_kmh": "50",
+          "viento_sostenido_kmh": "NE 10 a 20",
+          "rachas_kmh": "35",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Malpaso": {
           "precipitacion_mm": "50 a 75",
-          "temperatura_max_c": "30 a 32",
+          "temperatura_max_c": "29 a 31",
           "temperatura_min_c": "21 a 23",
-          "viento_sostenido_kmh": "N 15 a 30",
-          "rachas_kmh": "50",
+          "viento_sostenido_kmh": "NO 15 a 25",
+          "rachas_kmh": "45",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Chicoasén": {
           "precipitacion_mm": "5 a 25",
-          "temperatura_max_c": "30 a 32",
+          "temperatura_max_c": "31 a 33",
           "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "NO 15 a 25",
           "rachas_kmh": "45",
@@ -367,33 +366,33 @@
         },
         "La Angostura": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "33 a 35",
+          "temperatura_max_c": "32 a 34",
           "temperatura_min_c": "22 a 24",
-          "viento_sostenido_kmh": "N 10 a 20",
+          "viento_sostenido_kmh": "Variable 10 a 20",
           "rachas_kmh": "40",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Bajo Grijalva-Ríos de la Sierra": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "34 a 36",
+          "temperatura_max_c": "33 a 35",
           "temperatura_min_c": "23 a 25",
-          "viento_sostenido_kmh": "N 10 a 20",
+          "viento_sostenido_kmh": "Variable 10 a 20",
           "rachas_kmh": "40",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Usumacinta": {
           "precipitacion_mm": "75 a 150",
-          "temperatura_max_c": "33 a 35",
+          "temperatura_max_c": "32 a 34",
           "temperatura_min_c": "22 a 24",
-          "viento_sostenido_kmh": "N 10 a 20",
-          "rachas_kmh": "40",
+          "viento_sostenido_kmh": "Variable 10 a 20",
+          "rachas_kmh": "35",
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Presa Juan Sabines": {
           "precipitacion_mm": "5 a 25",
-          "temperatura_max_c": "27 a 29",
+          "temperatura_max_c": "28 a 30",
           "temperatura_min_c": "18 a 20",
-          "viento_sostenido_kmh": "Variable 10 a 20",
+          "viento_sostenido_kmh": "S 10 a 20",
           "rachas_kmh": "35",
           "precipitacion_fuente": "smn96.ventanas_validada"
         }
@@ -403,18 +402,6 @@
     "precipitacion_correcciones": [
       {
         "ventana": "0-24",
-        "cuenca": "Peñitas",
-        "extraido_detalle": "75 a 150",
-        "validado": "25 a 50"
-      },
-      {
-        "ventana": "0-24",
-        "cuenca": "Malpaso",
-        "extraido_detalle": "75 a 150",
-        "validado": "25 a 50"
-      },
-      {
-        "ventana": "0-24",
         "cuenca": "La Angostura",
         "extraido_detalle": "50 a 75",
         "validado": "75 a 150"
@@ -422,50 +409,62 @@
       {
         "ventana": "0-24",
         "cuenca": "Presa Juan Sabines",
-        "extraido_detalle": "50 a 75",
+        "extraido_detalle": "25 a 50",
         "validado": "5 a 25"
       },
       {
         "ventana": "24-48",
-        "cuenca": "La Angostura",
-        "extraido_detalle": "25 a 50",
-        "validado": "50 a 75"
-      },
-      {
-        "ventana": "24-48",
-        "cuenca": "Presa Juan Sabines",
-        "extraido_detalle": "25 a 50",
-        "validado": "50 a 75"
-      },
-      {
-        "ventana": "48-72",
-        "cuenca": "Peñitas",
+        "cuenca": "Chicoasén",
         "extraido_detalle": "50 a 75",
-        "validado": "75 a 150"
-      },
-      {
-        "ventana": "48-72",
-        "cuenca": "Malpaso",
-        "extraido_detalle": "50 a 75",
-        "validado": "75 a 150"
+        "validado": "25 a 50"
       },
       {
         "ventana": "48-72",
         "cuenca": "Chicoasén",
-        "extraido_detalle": "5 a 25",
+        "extraido_detalle": "50 a 75",
         "validado": "25 a 50"
       },
       {
         "ventana": "48-72",
         "cuenca": "La Angostura",
-        "extraido_detalle": "75 a 150",
+        "extraido_detalle": "50 a 75",
         "validado": "25 a 50"
       },
       {
         "ventana": "48-72",
         "cuenca": "Presa Juan Sabines",
-        "extraido_detalle": "5 a 25",
+        "extraido_detalle": "50 a 75",
         "validado": "25 a 50"
+      },
+      {
+        "ventana": "72-96",
+        "cuenca": "Peñitas",
+        "extraido_detalle": "75 a 150",
+        "validado": "50 a 75"
+      },
+      {
+        "ventana": "72-96",
+        "cuenca": "Malpaso",
+        "extraido_detalle": "75 a 150",
+        "validado": "50 a 75"
+      },
+      {
+        "ventana": "72-96",
+        "cuenca": "Chicoasén",
+        "extraido_detalle": "50 a 75",
+        "validado": "5 a 25"
+      },
+      {
+        "ventana": "72-96",
+        "cuenca": "La Angostura",
+        "extraido_detalle": "50 a 75",
+        "validado": "75 a 150"
+      },
+      {
+        "ventana": "72-96",
+        "cuenca": "Presa Juan Sabines",
+        "extraido_detalle": "50 a 75",
+        "validado": "5 a 25"
       }
     ],
     "detalle_completo": true
@@ -567,11 +566,46 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Mon, 21 Sep 2026 20:53:36 GMT",
-      "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
+      "last_modified": "Mon, 21 Sep 2026 23:34:18 GMT"
     }
   },
-  "insivumeh": null,
+  "insivumeh": {
+    "fuente": "INSIVUMEH",
+    "producto": "BHVGM",
+    "url_pagina": "https://insivumeh.gob.gt/boletin-diario-hidrologia-aplicada/",
+    "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
+    "http": {
+      "status_code": 200,
+      "etag": null,
+      "last_modified": null
+    },
+    "estaciones_estructuradas": [
+      {
+        "estacion": "El Tigre",
+        "rio": "Usumacinta",
+        "ubicacion": "Las Cruces, Petén",
+        "nivel_referencia_min_m": 4.55,
+        "nivel_referencia_max_m": 10.0,
+        "caudal_referencia_min_m3s": 486.87,
+        "caudal_referencia_max_m3s": 2856.43,
+        "nivel_instantaneo_m": 6.04,
+        "caudal_instantaneo_m3s": 1134.7,
+        "calidad": "extraido_del_BHVGM",
+        "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+      }
+    ],
+    "fragmentos_relevantes": [
+      "Caudal | Instant´ aneo (m3/s) Disminuir Mantenerse Incrementar Observaciones No. BHE | Chachacl´ un Lago Pet´ en Itz´ a San Jos´ e, Pet´ en 1.0 2.5 3.44 X Lago Crecido 1336-2025 | El Tigre Usumacinta Las Cruces, Pet´ en 4.55 10.0 486.87 2856.43 6.04 1134.7 X | La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.18 9.83 X | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.92 0.62 X | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.1 3.26 X",
+      "La Laguna Azul Santa Ana Huista, Huehuetenango 0.14 0.83 8.32 43.86 0.18 9.83 X | Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.92 0.62 X | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.1 3.26 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.97 19.85 X | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.36 165.84 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.17 13.42 X | Xemal Selegua Colotenango, Huehuetenango 0.25 1.25 3.91 48.8 -0.19 0.52 X R ´ ıo Bajo",
+      "Machaquil´ a Machaquil´ a Popt´ un, Pet´ en 0.78 2.5 0.18 54.29 0.92 0.62 X | Nent´ on Nent´ on Nent´ on, Huehuetenango 0.03 0.42 2.35 10.84 0.1 3.26 X | Puente Chocox Chixoy Canill´ a, Quich´ e 0.56 2.33 7.9 110.1 0.97 19.85 X | San Agust ´ ın Chixoy Chixoy Chisec, Alta Verapaz 0.13 3.0 121.4 904.28 0.36 165.84 X | San Pedro Mact´ un San Pedro San Andr´ es, Pet´ en 0.83 2.0 6.49 64.24 1.17 13.42 X | Xemal Selegua Colotenango, Huehuetenango 0.25 1.25 3.91 48.8 -0.19 0.52 X R ´ ıo Bajo | Xococ Xococ Rabinal, Baja Verapaz 0.53 1.0 1.21 13.37 0.54 1.35 X"
+    ],
+    "completo": true,
+    "pdf_bytes": 305391,
+    "boletin": null,
+    "fecha": "21/09/2026",
+    "hora": "14:00",
+    "hora_fuente": "encabezado_BHVGM"
+  },
   "insivumeh_evolucion_real": [
     {
       "estacion": "El Tigre",
@@ -594,8 +628,200 @@
       "tendencia_calculada": "incrementando"
     }
   ],
-  "guatemala_acumulados": null,
-  "guatemala_saturacion": null,
+  "guatemala_acumulados": {
+    "fuente": "INSIVUMEH",
+    "producto": "Acumulados multitemporales Guatemala",
+    "pagina": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
+    "http": {
+      "status_code": 200,
+      "etag": null,
+      "last_modified": null
+    },
+    "mapas": [
+      {
+        "periodo": "24h",
+        "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_diaria.png",
+        "tipo": "mapa_oficial",
+        "extraccion_areal": false,
+        "estaciones_relevantes": []
+      },
+      {
+        "periodo": "mensual",
+        "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_mensual.png",
+        "tipo": "mapa_oficial",
+        "extraccion_areal": false,
+        "estaciones_relevantes": []
+      },
+      {
+        "periodo": "semanal",
+        "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_sem.png",
+        "tipo": "mapa_oficial",
+        "extraccion_areal": false,
+        "estaciones_relevantes": []
+      }
+    ],
+    "epoca_lluviosa": {
+      "periodo": "epoca_lluviosa",
+      "url": "https://insivumeh.gob.gt/img/MAPAS_24H/Resumen_Departamentos.html",
+      "rango": null,
+      "estaciones_relevantes": [
+        {
+          "estacion": "El Tigre",
+          "codigo": "INS171302AT",
+          "rama_aportante": "Usumacinta directo",
+          "acumulado_mm": 648.3,
+          "periodo": "epoca_lluviosa",
+          "confianza_influencia": "alta",
+          "uso": "contexto_antecedente",
+          "gobierna_semaforo": false
+        },
+        {
+          "estacion": "El Porvenir",
+          "codigo": "INS171001AT",
+          "rama_aportante": "La Pasión",
+          "acumulado_mm": 786.6,
+          "periodo": "epoca_lluviosa",
+          "confianza_influencia": "alta",
+          "uso": "contexto_antecedente",
+          "gobierna_semaforo": false
+        },
+        {
+          "estacion": "Bethel",
+          "codigo": "INS171301AT",
+          "rama_aportante": "Usumacinta/Lacantún-frontera",
+          "acumulado_mm": 635.5,
+          "periodo": "epoca_lluviosa",
+          "confianza_influencia": "media",
+          "uso": "contexto_antecedente",
+          "gobierna_semaforo": false
+        },
+        {
+          "estacion": "Chixoy Hidro",
+          "codigo": "INS161301AT",
+          "rama_aportante": "Chixoy/Salinas",
+          "acumulado_mm": 615.7,
+          "periodo": "epoca_lluviosa",
+          "confianza_influencia": "alta",
+          "uso": "contexto_antecedente",
+          "gobierna_semaforo": false
+        },
+        {
+          "estacion": "Panzos PHC Altaverapaz",
+          "codigo": "INS160701CV",
+          "rama_aportante": "Chixoy/Salinas",
+          "acumulado_mm": 1207.6,
+          "periodo": "epoca_lluviosa",
+          "confianza_influencia": "media",
+          "uso": "contexto_antecedente",
+          "gobierna_semaforo": false
+        }
+      ],
+      "http": {
+        "status_code": 200,
+        "etag": "\"12e13-659f410938624-gzip\"",
+        "last_modified": "Wed, 26 Aug 2026 14:30:45 GMT"
+      },
+      "nota": "Acumulados puntuales por estación y periodo; no son promedio areal, no se suman y no gobiernan semáforo por sí solos."
+    },
+    "estaciones_objetivo": [
+      {
+        "estacion": "El Tigre",
+        "rama": "Usumacinta directo",
+        "codigo": "INS171302AT",
+        "confianza": "alta"
+      },
+      {
+        "estacion": "El Porvenir",
+        "rama": "La Pasión",
+        "codigo": "INS171001AT",
+        "confianza": "alta"
+      },
+      {
+        "estacion": "Bethel",
+        "rama": "Usumacinta/Lacantún-frontera",
+        "codigo": "INS171301AT",
+        "confianza": "media"
+      },
+      {
+        "estacion": "Machaquilá",
+        "rama": "La Pasión–Machaquilá",
+        "codigo": "INS171201AT",
+        "confianza": "alta"
+      },
+      {
+        "estacion": "Mactún",
+        "rama": "San Pedro",
+        "codigo": "INS170401AT",
+        "confianza": "alta"
+      },
+      {
+        "estacion": "Chixoy Hidro",
+        "rama": "Chixoy/Salinas",
+        "codigo": null,
+        "confianza": "alta"
+      },
+      {
+        "estacion": "Cobán",
+        "rama": "Chixoy/Salinas",
+        "codigo": null,
+        "confianza": "media"
+      },
+      {
+        "estacion": "Santa María Cahabón",
+        "rama": "Chixoy/Salinas",
+        "codigo": null,
+        "confianza": "media"
+      },
+      {
+        "estacion": "Panzos PHC Altaverapaz",
+        "rama": "Chixoy/Salinas",
+        "codigo": null,
+        "confianza": "media"
+      }
+    ],
+    "ambito_operativo": "ramas aportantes verificadas de la cuenca alta del Usumacinta; no Petén completo",
+    "regla": "No convertir colores del mapa a mm exactos sin extracción geoespacial validada; no sumar estaciones ni tratarlas como promedio de cuenca.",
+    "completo": true,
+    "descubrimiento_robusto": {
+      "pagina": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
+      "descubrimiento": "anclas+imagenes",
+      "mapas": [
+        {
+          "periodo": "24h",
+          "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_diaria.png",
+          "tipo": "mapa_oficial",
+          "extraccion_areal": false
+        }
+      ],
+      "regla": "Los mapas no se convierten a milímetros exactos ni a promedio de cuenca sin extracción geoespacial validada."
+    }
+  },
+  "guatemala_saturacion": {
+    "fuente": "INSIVUMEH",
+    "producto": "Saturación del suelo",
+    "pagina": "https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/",
+    "http": {
+      "status_code": 200,
+      "etag": null,
+      "last_modified": null
+    },
+    "modelo": "Sacramento / CAFFG",
+    "capas": {
+      "superior": "0-30 cm",
+      "inferior": "30 cm a 1-3 m"
+    },
+    "ambito_operativo": "zonas aportantes verificadas de la cuenca alta del Usumacinta",
+    "ultimo_boletin": null,
+    "completo": false,
+    "descubrimiento_robusto": {
+      "pagina": "https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/",
+      "seleccion": "mayor identificador BESS localizado; no depende del orden HTML",
+      "ultimo_pdf_candidato": null,
+      "etiqueta": null,
+      "candidatos_localizados": 0,
+      "nota": "La existencia del PDF no implica porcentaje específico para la cuenca; sólo se estructura contenido espacial cuando puede verificarse."
+    }
+  },
   "links": {
     "insivumeh_tendencia": "https://insivumeh.gob.gt/boletin-de-tendencia-de-niveles-2/",
     "insivumeh_saturacion": "https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/",
@@ -638,10 +864,28 @@
   "insivumeh_el_tigre_antecedente": null,
   "insivumeh_el_tigre_regla": "Antecedente informativo: no es observación del corte actual, no se hereda y no gobierna tendencia ni semáforo.",
   "insivumeh_contexto_diagnostico": {
-    "actualizado_utc": "2026-09-21T20:35:25.021176+00:00",
-    "errores": [
-      "lluvia: 500 Server Error: Internal Server Error for url: https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
-      "saturacion: 500 Server Error: Internal Server Error for url: https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/"
-    ]
+    "actualizado_utc": "2026-09-21T23:34:24.607398+00:00",
+    "errores": [],
+    "lluvia": {
+      "pagina": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
+      "descubrimiento": "anclas+imagenes",
+      "mapas": [
+        {
+          "periodo": "24h",
+          "url": "https://insivumeh.gob.gt/img/MAPAS_24H/guatemala_precip_diaria.png",
+          "tipo": "mapa_oficial",
+          "extraccion_areal": false
+        }
+      ],
+      "regla": "Los mapas no se convierten a milímetros exactos ni a promedio de cuenca sin extracción geoespacial validada."
+    },
+    "saturacion": {
+      "pagina": "https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/",
+      "seleccion": "mayor identificador BESS localizado; no depende del orden HTML",
+      "ultimo_pdf_candidato": null,
+      "etiqueta": null,
+      "candidatos_localizados": 0,
+      "nota": "La existencia del PDF no implica porcentaje específico para la cuenca; sólo se estructura contenido espacial cuando puede verificarse."
+    }
   }
 }
