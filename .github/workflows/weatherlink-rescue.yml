@@ -7,6 +7,10 @@ on:
       - main
     paths:
       - '.github/workflows/weatherlink-rescue.yml'
+      # Respaldo por evento independiente del cron de GitHub: cada nuevo
+      # corte hidrométrico verifica si WeatherLink requiere recuperación.
+      - 'data/niveles/Estado_Niveles_Cloud.json'
+      - 'data/niveles/Ultimo_Corte/ultimo_resumen.json'
   schedule:
     # Respaldo independiente del flujo principal. Revisa cada 15 min.
     - cron: '6,21,36,51 * * * *'
