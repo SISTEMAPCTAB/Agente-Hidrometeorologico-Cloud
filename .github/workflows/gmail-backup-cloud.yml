@@ -5,6 +5,8 @@ on:
   workflow_run:
     workflows:
       - WeatherLink Cloud - 32 estaciones
+      - WeatherLink Rescue - independiente
+      - WeatherLink Watchdog - recuperación automática
     types:
       - completed
   push:
@@ -16,9 +18,8 @@ on:
       - 'src/auditar_productos_operativos.py'
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
-    # Respaldo horario independiente. El disparo principal ocurre al terminar WeatherLink,
-    # que opera cada 15 minutos las 24 h. Este cron queda como red de seguridad autónoma.
-    - cron: '11 * * * *'
+    # Consulta independiente cada 10 min, incluso si WeatherLink no se dispara.
+    - cron: '2,12,22,32,42,52 * * * *'
 
 permissions:
   contents: write
