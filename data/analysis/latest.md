@@ -1,10 +1,10 @@
-CORTE: 2026-09-22 14:15
+CORTE: 2026-09-22 14:26
 # ANÁLISIS INTEGRAL HIDROMETEOROLÓGICO
 Grijalva–Usumacinta • Ríos Serranos • Sistema de Presas • Samaria–Carrizal y corrientes asociadas
 Actualización: 22 de septiembre de 2026
 
 ## SÍNTESIS GENERAL
-Al corte de las 14:15 h, la lectura debe mantenerse integrada y no por cuencas aisladas. La señal hidrométrica más reciente tiene como referencia principal el corte vigente de niveles y la lluvia observada/prevista sobre Guatemala, Chiapas y Tabasco. El mayor cambio de 24 h entre estaciones observadas es Boca del Cerro +0.23 m/24 h. La prioridad operativa es confirmar cualquier cambio de escenario con coincidencia de lluvia, saturación, niveles, caudales y operación de presas; el pronóstico por sí solo no constituye una creciente confirmada.
+Al corte de las 14:26 h, la lectura debe mantenerse integrada y no por cuencas aisladas. La señal hidrométrica más reciente tiene como referencia principal el corte vigente de niveles y la lluvia observada/prevista sobre Guatemala, Chiapas y Tabasco. El mayor cambio de 24 h entre estaciones observadas es Boca del Cerro +0.23 m/24 h. La prioridad operativa es confirmar cualquier cambio de escenario con coincidencia de lluvia, saturación, niveles, caudales y operación de presas; el pronóstico por sí solo no constituye una creciente confirmada.
 
 ## 1. Situación meteorológica regional y bajas presiones en vigilancia
 Las bajas presiones, vaguadas, ondas tropicales y otros sistemas deben valorarse por ubicación, trayectoria, organización y capacidad de modificar el transporte de humedad hacia el sureste de México. Su sola presencia no implica amenaza hidrológica para Tabasco.
@@ -74,7 +74,7 @@ Samaria registra 11.74 m y González/Carrizal 3.37 m. El gasto de Peñitas no de
 Las bajas presiones y perturbaciones identificadas deben mantenerse en vigilancia meteorológica, pero no son por sí solas motivo para elevar la alerta hidrológica. El escalamiento debe apoyarse en modificación del pronóstico de lluvia, persistencia de acumulados, aumento de saturación y respuesta observada en niveles y caudales.
 
 ## 9. Conclusión general
-El diagnóstico integrado del corte de las 14:15 h se mantiene condicionado por la evolución conjunta de Guatemala–Usumacinta–Boca del Cerro, Ríos Serranos–Pichucalco–Grijalva bajo, la cascada de presas y Peñitas/cuenca libre–Mezcalapa–Samaria–Carrizal. Ningún componente debe interpretarse de manera aislada. La señal operativa debe escalar únicamente cuando coincidan magnitud, persistencia y respuesta observada.
+El diagnóstico integrado del corte de las 14:26 h se mantiene condicionado por la evolución conjunta de Guatemala–Usumacinta–Boca del Cerro, Ríos Serranos–Pichucalco–Grijalva bajo, la cascada de presas y Peñitas/cuenca libre–Mezcalapa–Samaria–Carrizal. Ningún componente debe interpretarse de manera aislada. La señal operativa debe escalar únicamente cuando coincidan magnitud, persistencia y respuesta observada.
 
 ## 10. Recomendaciones de monitoreo
 - Actualizar cada 6–12 horas lluvia observada y pronosticada en Guatemala, Chiapas y Tabasco cuando exista señal relevante.
