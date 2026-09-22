@@ -21,12 +21,12 @@ permissions:
 concurrency:
   # Grupo propio: no queda bloqueado si weatherlink-cloud se atasca.
   group: weatherlink-rescue-independent
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   rescatar-si-rezagado:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 15
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
@@ -56,7 +56,7 @@ jobs:
                   d=datetime.fromisoformat(run.replace('Z','+00:00'))
                   if d.tzinfo is None: d=d.replace(tzinfo=timezone.utc)
                   age=(datetime.now(timezone.utc)-d.astimezone(timezone.utc)).total_seconds()/60
-                  stale=(not healthy) or age>25
+                  stale=(not healthy) or age>20
           except Exception as exc:
               print('Estado WeatherLink inválido:', exc)
           print(f'WeatherLink healthy={healthy}; age={age:.1f} min; rescue={stale}')
