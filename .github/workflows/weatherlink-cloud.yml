@@ -20,9 +20,9 @@ on:
       - '.github/workflows/weatherlink-cloud.yml'
       - '.github/workflows/weatherlink-watchdog.yml'
   schedule:
-    # Cada 15 minutos, desplazado de :00/:15/:30/:45 para reducir retrasos.
-    # Esta edición reactiva además el disparo por push del propio workflow.
-    - cron: '14,29,44,59 * * * *'
+    # Intentos cada 5 minutos para compensar cron omitidos/retrasados;
+    # el recolector conserva su historial y publica cortes verificados.
+    - cron: '4,9,14,19,24,29,34,39,44,49,54,59 * * * *'
 
 permissions:
   contents: write
