@@ -2,6 +2,12 @@ name: WeatherLink Rescue - independiente
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Gmail Backup Cloud
+      - Niveles Hidrométricos Cloud
+    types:
+      - completed
   push:
     branches:
       - main
@@ -12,7 +18,7 @@ on:
       - 'data/niveles/Estado_Niveles_Cloud.json'
       - 'data/niveles/Ultimo_Corte/ultimo_resumen.json'
   schedule:
-    # Respaldo independiente del flujo principal. Revisa cada 15 min.
+    # Respaldo cada 15 min; también revisa al terminar Gmail o niveles.
     - cron: '6,21,36,51 * * * *'
 
 permissions:
