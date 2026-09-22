@@ -1,12 +1,20 @@
 {
   "date_local": "2026-09-22",
-  "updated_local": "2026-09-22T01:05:09.120704-06:00",
+  "updated_local": "2026-09-22T05:35:57.073985-06:00",
   "units": {
     "temperature": "°C",
     "heat_index": "°C"
   },
-  "current_valid_stations": 21,
+  "current_valid_stations": 18,
   "current_excluded_stations": [
+    {
+      "estacion": "ACALA PCIVILCHIAPAS",
+      "motivo": "sin_temperatura"
+    },
+    {
+      "estacion": "AMATÁN PCIVILCHIAPAS",
+      "motivo": "sin_temperatura"
+    },
     {
       "estacion": "ATA",
       "motivo": "edad_mayor_2h"
@@ -50,6 +58,10 @@
     {
       "estacion": "SEMAR Capitanía de Pto. Dos Bocas",
       "motivo": "edad_mayor_2h"
+    },
+    {
+      "estacion": "Yaxhá - INSIVUMEH PETEN",
+      "motivo": "edad_mayor_2h"
     }
   ],
   "max_current_age_seconds": 7200,
@@ -63,7 +75,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Otra ubicación",
       "ubicacion": "Alvarado, Ver., Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:04 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:35 AM",
       "nivel_riesgo_max": "Precaución extrema"
     },
     {
@@ -75,7 +87,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Otra ubicación",
       "ubicacion": "Ciudad del Carmen, Camp., Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:04 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:35 AM",
       "nivel_riesgo_max": "Precaución extrema"
     },
     {
@@ -87,7 +99,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Tabasco",
       "ubicacion": "Villahermosa, Tab., Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:04 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:35 AM",
       "nivel_riesgo_max": "Precaución"
     },
     {
@@ -99,7 +111,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Ingenio Presidente Benito Juárez, Tab., Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:00 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:00 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -111,7 +123,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Dos Montes, Tab., Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:04 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:35 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -123,7 +135,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Juárez, Chiapas, Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:04 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:35 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -135,7 +147,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ostuacán, Chiapas, Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:05 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:35 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -147,7 +159,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Reforma, Chiapas, Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:05 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:29 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -159,7 +171,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Benito Juárez Garcia Poblado C-21, Tab., Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:00 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:00 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -183,7 +195,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Otra ubicación",
       "ubicacion": "Palenque, Chis., Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:00 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:30 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -195,7 +207,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Guatemala/Petén",
       "ubicacion": "Petén, Guatemala",
-      "last_valid_time": "Sep 22, 2026/ 1:04 AM",
+      "last_valid_time": "Sep 22, 2026/ 4:28 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -207,7 +219,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Pichucalco, Chiapas, Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:04 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:35 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -219,7 +231,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Los Ídolos, Tab., Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:04 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:35 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -267,7 +279,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:05 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:35 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -279,7 +291,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ixhuatán, Chiapas, Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:04 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:35 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -291,7 +303,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Chapultenango, Chiapas, Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:05 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:35 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -303,7 +315,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:04 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:35 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -315,7 +327,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ocozocoautla, Chiapas, Mexico",
-      "last_valid_time": "Sep 22, 2026/ 1:05 AM",
+      "last_valid_time": "Sep 22, 2026/ 5:35 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
