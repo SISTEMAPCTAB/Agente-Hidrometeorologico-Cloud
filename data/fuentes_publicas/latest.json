@@ -1,11 +1,11 @@
 {
-  "generated_utc": "2026-09-22T12:33:37.888385+00:00",
+  "generated_utc": "2026-09-22T14:04:43.063334+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
-    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h",
-    "aviso": "263",
-    "fecha": "20 de Septiembre del 2026.",
+    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h?_ipcet=1790085884",
+    "aviso": "264",
+    "fecha": "21 de Septiembre del 2026.",
     "emision": "10:00h",
     "ventanas": {
       "0-24": {
@@ -20,14 +20,14 @@
           "max_mm": 50.0
         },
         "Chicoasén": {
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
+        },
+        "La Angostura": {
           "texto": "75 a 150",
           "min_mm": 75.0,
           "max_mm": 150.0
-        },
-        "La Angostura": {
-          "texto": "50 a 75",
-          "min_mm": 50.0,
-          "max_mm": 75.0
         },
         "Bajo Grijalva-Ríos de la Sierra": {
           "texto": "75 a 150",
@@ -40,21 +40,21 @@
           "max_mm": 150.0
         },
         "Presa Juan Sabines": {
-          "texto": "50 a 75",
-          "min_mm": 50.0,
-          "max_mm": 75.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         }
       },
       "24-48": {
         "Peñitas": {
-          "texto": "25 a 50",
-          "min_mm": 25.0,
-          "max_mm": 50.0
+          "texto": "75 a 150",
+          "min_mm": 75.0,
+          "max_mm": 150.0
         },
         "Malpaso": {
-          "texto": "25 a 50",
-          "min_mm": 25.0,
-          "max_mm": 50.0
+          "texto": "75 a 150",
+          "min_mm": 75.0,
+          "max_mm": 150.0
         },
         "Chicoasén": {
           "texto": "25 a 50",
@@ -77,9 +77,9 @@
           "max_mm": 150.0
         },
         "Presa Juan Sabines": {
-          "texto": "25 a 50",
-          "min_mm": 25.0,
-          "max_mm": 50.0
+          "texto": "50 a 75",
+          "min_mm": 50.0,
+          "max_mm": 75.0
         }
       },
       "48-72": {
@@ -94,14 +94,14 @@
           "max_mm": 150.0
         },
         "Chicoasén": {
-          "texto": "50 a 75",
-          "min_mm": 50.0,
-          "max_mm": 75.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         },
         "La Angostura": {
-          "texto": "50 a 75",
-          "min_mm": 50.0,
-          "max_mm": 75.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         },
         "Bajo Grijalva-Ríos de la Sierra": {
           "texto": "75 a 150",
@@ -114,31 +114,31 @@
           "max_mm": 150.0
         },
         "Presa Juan Sabines": {
-          "texto": "50 a 75",
-          "min_mm": 50.0,
-          "max_mm": 75.0
+          "texto": "25 a 50",
+          "min_mm": 25.0,
+          "max_mm": 50.0
         }
       },
       "72-96": {
         "Peñitas": {
-          "texto": "75 a 150",
-          "min_mm": 75.0,
-          "max_mm": 150.0
+          "texto": "50 a 75",
+          "min_mm": 50.0,
+          "max_mm": 75.0
         },
         "Malpaso": {
+          "texto": "50 a 75",
+          "min_mm": 50.0,
+          "max_mm": 75.0
+        },
+        "Chicoasén": {
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
+        },
+        "La Angostura": {
           "texto": "75 a 150",
           "min_mm": 75.0,
           "max_mm": 150.0
-        },
-        "Chicoasén": {
-          "texto": "50 a 75",
-          "min_mm": 50.0,
-          "max_mm": 75.0
-        },
-        "La Angostura": {
-          "texto": "50 a 75",
-          "min_mm": 50.0,
-          "max_mm": 75.0
         },
         "Bajo Grijalva-Ríos de la Sierra": {
           "texto": "75 a 150",
@@ -151,9 +151,9 @@
           "max_mm": 150.0
         },
         "Presa Juan Sabines": {
-          "texto": "50 a 75",
-          "min_mm": 50.0,
-          "max_mm": 75.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         }
       }
     },
@@ -161,7 +161,8 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Tue, 22 Sep 2026 12:33:38 GMT"
+      "last_modified": "Tue, 22 Sep 2026 14:04:43 GMT",
+      "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
     },
     "resumen": "La onda tropical núm. 40 sobre el sureste del país, ocasionarán lluvias puntuales intensas en las cuencas de La Angostura, Bajo Grijalba y Usumacinta, lluvias puntuales fuertes en las cuencas de Peñitas, Mal paso y Chicoasén, y chubascos en la Presa Juan Sabines.",
     "detalle_ventanas": {
@@ -183,7 +184,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Chicoasén": {
-          "precipitacion_mm": "75 a 150",
+          "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "31 a 33",
           "temperatura_min_c": "17 a 19",
           "viento_sostenido_kmh": "NO 15 a 25",
@@ -191,7 +192,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "La Angostura": {
-          "precipitacion_mm": "50 a 75",
+          "precipitacion_mm": "75 a 150",
           "temperatura_max_c": "31 a 33",
           "temperatura_min_c": "17 a 19",
           "viento_sostenido_kmh": "n 15 a 25",
@@ -215,7 +216,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Presa Juan Sabines": {
-          "precipitacion_mm": "50 a 75",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "24 a 26",
           "temperatura_min_c": "16 a 18",
           "viento_sostenido_kmh": "Variable 10 a 20",
@@ -225,7 +226,7 @@
       },
       "24-48": {
         "Peñitas": {
-          "precipitacion_mm": "25 a 50",
+          "precipitacion_mm": "75 a 150",
           "temperatura_max_c": "27 a 29",
           "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "NO 10 a 20",
@@ -233,7 +234,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Malpaso": {
-          "precipitacion_mm": "25 a 50",
+          "precipitacion_mm": "75 a 150",
           "temperatura_max_c": "27 a 29",
           "temperatura_min_c": "19 a 21",
           "viento_sostenido_kmh": "NO 10 a 20",
@@ -273,7 +274,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Presa Juan Sabines": {
-          "precipitacion_mm": "25 a 50",
+          "precipitacion_mm": "50 a 75",
           "temperatura_max_c": "27 a 29",
           "temperatura_min_c": "16 a 18",
           "viento_sostenido_kmh": "Variable 10 a 20",
@@ -299,7 +300,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Chicoasén": {
-          "precipitacion_mm": "50 a 75",
+          "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "30 a 32",
           "temperatura_min_c": "18 a 20",
           "viento_sostenido_kmh": "NO 10 a 20",
@@ -307,7 +308,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "La Angostura": {
-          "precipitacion_mm": "50 a 75",
+          "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "33 a 35",
           "temperatura_min_c": "18 a 20",
           "viento_sostenido_kmh": "N y NO 10 a 20",
@@ -331,7 +332,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Presa Juan Sabines": {
-          "precipitacion_mm": "50 a 75",
+          "precipitacion_mm": "25 a 50",
           "temperatura_max_c": "27 a 29",
           "temperatura_min_c": "18 a 20",
           "viento_sostenido_kmh": "NE 10 a 20",
@@ -341,7 +342,7 @@
       },
       "72-96": {
         "Peñitas": {
-          "precipitacion_mm": "75 a 150",
+          "precipitacion_mm": "50 a 75",
           "temperatura_max_c": "29 a 31",
           "temperatura_min_c": "23 a 25",
           "viento_sostenido_kmh": "N 15 a 30",
@@ -349,7 +350,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Malpaso": {
-          "precipitacion_mm": "75 a 150",
+          "precipitacion_mm": "50 a 75",
           "temperatura_max_c": "30 a 32",
           "temperatura_min_c": "21 a 23",
           "viento_sostenido_kmh": "N 15 a 30",
@@ -357,7 +358,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Chicoasén": {
-          "precipitacion_mm": "50 a 75",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "30 a 32",
           "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "NO 15 a 25",
@@ -365,7 +366,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "La Angostura": {
-          "precipitacion_mm": "50 a 75",
+          "precipitacion_mm": "75 a 150",
           "temperatura_max_c": "33 a 35",
           "temperatura_min_c": "22 a 24",
           "viento_sostenido_kmh": "N 10 a 20",
@@ -389,7 +390,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Presa Juan Sabines": {
-          "precipitacion_mm": "50 a 75",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "27 a 29",
           "temperatura_min_c": "18 a 20",
           "viento_sostenido_kmh": "Variable 10 a 20",
@@ -414,21 +415,15 @@
       },
       {
         "ventana": "0-24",
-        "cuenca": "Chicoasén",
-        "extraido_detalle": "25 a 50",
+        "cuenca": "La Angostura",
+        "extraido_detalle": "50 a 75",
         "validado": "75 a 150"
       },
       {
-        "ventana": "24-48",
-        "cuenca": "Peñitas",
-        "extraido_detalle": "75 a 150",
-        "validado": "25 a 50"
-      },
-      {
-        "ventana": "24-48",
-        "cuenca": "Malpaso",
-        "extraido_detalle": "75 a 150",
-        "validado": "25 a 50"
+        "ventana": "0-24",
+        "cuenca": "Presa Juan Sabines",
+        "extraido_detalle": "50 a 75",
+        "validado": "5 a 25"
       },
       {
         "ventana": "24-48",
@@ -437,6 +432,12 @@
         "validado": "50 a 75"
       },
       {
+        "ventana": "24-48",
+        "cuenca": "Presa Juan Sabines",
+        "extraido_detalle": "25 a 50",
+        "validado": "50 a 75"
+      },
+      {
         "ventana": "48-72",
         "cuenca": "Peñitas",
         "extraido_detalle": "50 a 75",
@@ -452,49 +453,19 @@
         "ventana": "48-72",
         "cuenca": "Chicoasén",
         "extraido_detalle": "5 a 25",
-        "validado": "50 a 75"
+        "validado": "25 a 50"
       },
       {
         "ventana": "48-72",
         "cuenca": "La Angostura",
         "extraido_detalle": "75 a 150",
-        "validado": "50 a 75"
+        "validado": "25 a 50"
       },
       {
         "ventana": "48-72",
         "cuenca": "Presa Juan Sabines",
         "extraido_detalle": "5 a 25",
-        "validado": "50 a 75"
-      },
-      {
-        "ventana": "72-96",
-        "cuenca": "Peñitas",
-        "extraido_detalle": "50 a 75",
-        "validado": "75 a 150"
-      },
-      {
-        "ventana": "72-96",
-        "cuenca": "Malpaso",
-        "extraido_detalle": "50 a 75",
-        "validado": "75 a 150"
-      },
-      {
-        "ventana": "72-96",
-        "cuenca": "Chicoasén",
-        "extraido_detalle": "5 a 25",
-        "validado": "50 a 75"
-      },
-      {
-        "ventana": "72-96",
-        "cuenca": "La Angostura",
-        "extraido_detalle": "75 a 150",
-        "validado": "50 a 75"
-      },
-      {
-        "ventana": "72-96",
-        "cuenca": "Presa Juan Sabines",
-        "extraido_detalle": "5 a 25",
-        "validado": "50 a 75"
+        "validado": "25 a 50"
       }
     ],
     "detalle_completo": true
@@ -596,7 +567,8 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Tue, 22 Sep 2026 12:33:38 GMT"
+      "last_modified": "Tue, 22 Sep 2026 14:04:43 GMT",
+      "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
     }
   },
   "insivumeh": {
