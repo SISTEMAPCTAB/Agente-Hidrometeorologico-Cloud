@@ -102,9 +102,20 @@ function extractRain(items,date,hour){
       const stationParts=inside.filter(i=>(i.x+i.w/2)<b.aX-10 && !isNumeric(i.str));
       const name=cleanStationName(stationParts);
       if(isSectionLabel(name)) continue;
-      const aItem=nearest(inside.filter(i=>isNumeric(i.str)),b.aX,10);
-      const hoyItem=nearest(inside.filter(i=>isNumeric(i.str)),b.hoyX,10);
+      // La tabla de aforos comparte página y contiene cifras ajenas a lluvia.
+      // Exigir que cada lectura esté en su propia columna y dentro del bloque
+      // de precipitación; una cifra cercana por posición no es prueba suficiente.
+      const aItem=nearest(inside.filter(i=>isNumeric(i.str)),b.aX,6);
+      const hoyItem=nearest(inside.filter(i=>isNumeric(i.str)),b.hoyX,6);
       if(name.length<2) continue;
+      // Control de integridad: el reporte de presas contiene una estación
+      // PEÑITAS distinta de la estación de precipitación del cuadro inferior.
+      // No atribuir cifras de la tabla de aforos ni de otra tabla a Peñitas.
+      if(norm(name)==='PENITAS' && aItem && toNum(aItem.str)>150){
+        console.warn(`Lectura de Peñitas ${aItem.str} mm fuera de rango de validación; se publica sin_dato hasta cotejo de fuente.`);
+        out.push({fecha_hora:`${date}T${String(hour??8).padStart(2,'0')}:00:00-06:00`,hora_corte:hour,bloque:bi+1,estacion:name,lluvia_24h_precedentes_mm:null,lluvia_hoy_desde_08_mm:hoyItem?toNum(hoyItem.str):null,estado_24h:'sin_dato',estado_hoy:hoyItem?'observado':'sin_dato',fuente:'CONAGUA-reporte-horario',asunto:subject,message_id:messageId,advertencia:'Lectura de Peñitas pendiente de cotejo con el boletín original'});
+        continue;
+      }
       out.push({
         fecha_hora:`${date}T${String(hour??8).padStart(2,'0')}:00:00-06:00`,
         hora_corte:hour,
