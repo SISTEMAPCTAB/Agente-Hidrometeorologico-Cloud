@@ -1,30 +1,31 @@
 {
   "agent": "Niveles Hidrométricos Cloud",
-  "run_utc": "2026-09-22T23:30:11.762361+00:00",
+  "run_utc": "2026-09-23T00:55:17.894531+00:00",
   "complete": true,
-  "selected_account": "principal",
+  "selected_account": null,
   "lookback_days": 7,
-  "candidate_count": 34,
+  "candidate_count": 0,
   "processed_now": 0,
   "processed_total": 173,
   "stations_in_latest_summary": 15,
-  "latest_subject": "Se envia Informe de Niveles de 16 hrs",
-  "latest_message_utc": "2026-09-22T22:10:02+00:00",
+  "latest_subject": null,
+  "latest_message_utc": null,
   "errors": [],
   "skipped_nonfatal": [],
   "accounts": [
     {
       "label": "principal",
-      "ok": true,
-      "candidate_count": 34,
-      "reason": null
+      "ok": false,
+      "reason": "ReadTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Read timed out. (read timeout=12)",
+      "candidate_count": 0
     },
     {
       "label": "fuente1",
-      "ok": true,
-      "candidate_count": 0,
-      "reason": null
+      "ok": false,
+      "reason": "ReadTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Read timed out. (read timeout=12)",
+      "candidate_count": 0
     }
   ],
+  "note": "No llegó un reporte nuevo de niveles en esta ejecución; se conserva el último corte válido y el postproceso actualiza comparaciones/gráficas sin inventar datos.",
   "rule_missing_data": "Si una fila horaria está incompleta o falta un valor, se conserva el último valor observado válido por estación y se marca como heredado; ausencia nunca equivale a cero."
 }
