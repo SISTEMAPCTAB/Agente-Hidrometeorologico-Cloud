@@ -1,10 +1,10 @@
 {
   "fuente": "INSIVUMEH",
   "producto": "BHVGM · estaciones Alto Usumacinta",
-  "consultado_utc": "2026-09-23T11:54:55.301835+00:00",
+  "consultado_utc": "2026-09-23T15:54:49.496338+00:00",
   "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
-  "fecha": "22/09/2026",
-  "hora": "20:00",
+  "fecha": "23/09/2026",
+  "hora": "08:00",
   "boletin": null,
   "estaciones": [
     {
@@ -15,12 +15,12 @@
       "nivel_referencia_max_m": 10.0,
       "caudal_referencia_min_m3s": 486.87,
       "caudal_referencia_max_m3s": 2856.43,
-      "nivel_instantaneo_m": 5.75,
-      "caudal_instantaneo_m3s": 1008.61,
+      "nivel_instantaneo_m": 5.98,
+      "caudal_instantaneo_m3s": 1108.61,
       "calidad": "extraido_del_BHVGM",
       "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación.",
       "estado_dato": "observado",
-      "ultima_observacion_fuente": "22/09/2026 20:00"
+      "ultima_observacion_fuente": "23/09/2026 08:00"
     },
     {
       "estacion": "El Porvenir",
@@ -34,9 +34,8 @@
       "caudal_instantaneo_m3s": 203.19,
       "calidad": "extraido_del_BHVGM",
       "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación.",
-      "estado_dato": "heredado",
-      "ultima_observacion_fuente": "22/09/2026 14:00",
-      "heredado_en_utc": "2026-09-23T11:54:55.301835+00:00"
+      "estado_dato": "observado",
+      "ultima_observacion_fuente": "23/09/2026 08:00"
     },
     {
       "estacion": "Machaquilá",
@@ -74,7 +73,7 @@
       "caudal_instantaneo_m3s": 206.35,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "22/09/2026 20:00"
+      "ultima_observacion_fuente": "23/09/2026 08:00"
     },
     {
       "estacion": "San Luis Ixcán",
@@ -87,8 +86,8 @@
   ],
   "errors": [],
   "nota": "Se prioriza dato estructurado del BHVGM; si falta una lectura, se conserva el último valor válido y se marca heredado. Ausencia nunca equivale a cero.",
-  "observadas": 2,
-  "heredadas": 1,
+  "observadas": 3,
+  "heredadas": 0,
   "sin_dato": 4,
   "estado": "ok"
 }
