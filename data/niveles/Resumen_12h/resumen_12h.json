@@ -1,6 +1,6 @@
 {
-  "generated_from_latest_observation": "2026-09-22T16:00:00-06:00",
-  "window_start": "2026-09-22T04:00:00-06:00",
+  "generated_from_latest_observation": "2026-09-22T18:00:00-06:00",
+  "window_start": "2026-09-22T06:00:00-06:00",
   "window_hours": 12,
   "criterio": "Sólo observaciones hidrométricas reales. Heredados excluidos. Cambio >0.02 m ascendente; <-0.02 m descendente; ±0.02 m estable. La etiqueta mejorando/deteriorándose describe la dirección agregada del nivel, no el riesgo por sí sola.",
   "systems": [
@@ -19,23 +19,23 @@
           "estacion": "González",
           "rio": "Río Carrizal",
           "inicio": "2026-09-22T06:00:00-06:00",
-          "fin": "2026-09-22T16:00:00-06:00",
+          "fin": "2026-09-22T18:00:00-06:00",
           "nivel_inicio_m": 3.43,
-          "nivel_fin_m": 3.33,
-          "delta_m": -0.1,
+          "nivel_fin_m": 3.32,
+          "delta_m": -0.11,
           "tendencia_12h": "descendente",
-          "observaciones": 11
+          "observaciones": 13
         },
         {
           "estacion": "Samaria",
           "rio": "Río Samaria",
           "inicio": "2026-09-22T06:00:00-06:00",
-          "fin": "2026-09-22T16:00:00-06:00",
+          "fin": "2026-09-22T18:00:00-06:00",
           "nivel_inicio_m": 11.64,
-          "nivel_fin_m": 11.98,
-          "delta_m": 0.34,
+          "nivel_fin_m": 12.0,
+          "delta_m": 0.36,
           "tendencia_12h": "ascendente",
-          "observaciones": 11
+          "observaciones": 13
         }
       ]
     },
@@ -54,45 +54,45 @@
           "estacion": "Oxolotán",
           "rio": "Ríos de la Sierra",
           "inicio": "2026-09-22T06:00:00-06:00",
-          "fin": "2026-09-22T16:00:00-06:00",
+          "fin": "2026-09-22T18:00:00-06:00",
           "nivel_inicio_m": 34.03,
           "nivel_fin_m": 34.02,
           "delta_m": -0.01,
           "tendencia_12h": "estable",
-          "observaciones": 6
+          "observaciones": 7
         },
         {
           "estacion": "Pueblo Nuevo",
           "rio": "Ríos de la Sierra",
           "inicio": "2026-09-22T06:00:00-06:00",
-          "fin": "2026-09-22T16:00:00-06:00",
+          "fin": "2026-09-22T18:00:00-06:00",
           "nivel_inicio_m": 2.58,
-          "nivel_fin_m": 2.4,
-          "delta_m": -0.18,
+          "nivel_fin_m": 2.36,
+          "delta_m": -0.22,
           "tendencia_12h": "descendente",
-          "observaciones": 11
+          "observaciones": 13
         },
         {
           "estacion": "Puyacatengo",
           "rio": "Ríos de la Sierra",
           "inicio": "2026-09-22T06:00:00-06:00",
-          "fin": "2026-09-22T16:00:00-06:00",
+          "fin": "2026-09-22T18:00:00-06:00",
           "nivel_inicio_m": 25.04,
-          "nivel_fin_m": 24.87,
-          "delta_m": -0.17,
+          "nivel_fin_m": 24.84,
+          "delta_m": -0.2,
           "tendencia_12h": "descendente",
-          "observaciones": 6
+          "observaciones": 7
         },
         {
           "estacion": "San Joaquín",
           "rio": "Ríos de la Sierra",
           "inicio": "2026-09-22T06:00:00-06:00",
-          "fin": "2026-09-22T16:00:00-06:00",
+          "fin": "2026-09-22T18:00:00-06:00",
           "nivel_inicio_m": 21.48,
-          "nivel_fin_m": 21.4,
-          "delta_m": -0.08,
+          "nivel_fin_m": 21.38,
+          "delta_m": -0.1,
           "tendencia_12h": "descendente",
-          "observaciones": 6
+          "observaciones": 7
         },
         {
           "estacion": "Tapijulapa",
@@ -133,23 +133,23 @@
           "estacion": "Macuspana",
           "rio": "Río Puxcatán",
           "inicio": "2026-09-22T06:00:00-06:00",
-          "fin": "2026-09-22T16:00:00-06:00",
+          "fin": "2026-09-22T18:00:00-06:00",
           "nivel_inicio_m": 2.95,
-          "nivel_fin_m": 2.71,
-          "delta_m": -0.24,
+          "nivel_fin_m": 2.74,
+          "delta_m": -0.21,
           "tendencia_12h": "descendente",
-          "observaciones": 6
+          "observaciones": 7
         },
         {
           "estacion": "Salto de Agua",
           "rio": "Río Tulijá",
           "inicio": "2026-09-22T06:00:00-06:00",
-          "fin": "2026-09-22T16:00:00-06:00",
+          "fin": "2026-09-22T18:00:00-06:00",
           "nivel_inicio_m": 3.2,
-          "nivel_fin_m": 3.33,
-          "delta_m": 0.13,
+          "nivel_fin_m": 3.42,
+          "delta_m": 0.22,
           "tendencia_12h": "ascendente",
-          "observaciones": 6
+          "observaciones": 7
         }
       ]
     },
@@ -179,12 +179,12 @@
           "estacion": "San Pedro",
           "rio": "Río San Pedro",
           "inicio": "2026-09-22T06:00:00-06:00",
-          "fin": "2026-09-22T16:00:00-06:00",
+          "fin": "2026-09-22T18:00:00-06:00",
           "nivel_inicio_m": 8.51,
           "nivel_fin_m": 8.51,
           "delta_m": 0.0,
           "tendencia_12h": "estable",
-          "observaciones": 6
+          "observaciones": 7
         }
       ]
     }
