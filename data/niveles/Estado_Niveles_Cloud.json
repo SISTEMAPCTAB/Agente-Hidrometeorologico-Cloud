@@ -1,6 +1,6 @@
 {
   "agent": "Niveles Hidrométricos Cloud",
-  "run_utc": "2026-09-23T00:55:17.894531+00:00",
+  "run_utc": "2026-09-23T03:28:24.315884+00:00",
   "complete": true,
   "selected_account": null,
   "lookback_days": 7,
@@ -16,13 +16,13 @@
     {
       "label": "principal",
       "ok": false,
-      "reason": "ReadTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Read timed out. (read timeout=12)",
+      "reason": "ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7fa31e25d610>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=12)'))",
       "candidate_count": 0
     },
     {
       "label": "fuente1",
       "ok": false,
-      "reason": "ReadTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Read timed out. (read timeout=12)",
+      "reason": "ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7fa31e25d490>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=12)'))",
       "candidate_count": 0
     }
   ],
