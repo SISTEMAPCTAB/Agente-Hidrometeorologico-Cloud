@@ -5,6 +5,7 @@ const SRC={
  weather:`${BASE}/data/weatherlink/latest.json`,
  weatherState:`${BASE}/data/weatherlink/Estado_WeatherLink_Cloud.json`,
  conagua:`${BASE}/data/niveles/Lluvia_CONAGUA/ultimo_corte.json`,
+ climaConagua:`${BASE}/data/niveles/Clima_CONAGUA/ultimo_corte.json`,
  publicas:`${BASE}/data/fuentes_publicas/latest.json`,
  analysis:`${BASE}/data/analysis/latest.md`,
  fuente2:`${BASE}/data/latest/FUENTE2.txt`,
@@ -39,7 +40,36 @@ function systemRows(id){const c=SYSTEMS[id];return c?levels().filter(r=>c.terms.
 function levelState(r){if(r.estado_dato!=='observado')return'Dato anterior';if(finite(r.delta_24h)&&Number(r.delta_24h)>.20)return'Ascenso relevante';if(/asc/i.test(r.tendencia||''))return'Ascenso';if(/desc/i.test(r.tendencia||''))return'Descenso';return'Estable'}
 function levelTable(rows,summary=false,preserveOrder=false){if(!rows.length)return'<p class="muted">Sin datos válidos.</p>';const rr=preserveOrder?[...rows]:[...rows].sort((a,b)=>(Number(b.delta_24h)||0)-(Number(a.delta_24h)||0));return `<div class="table-wrap"><table><thead><tr>${summary?'<th>Sistema / río</th>':''}<th>Estación</th><th>Nivel</th><th>Δ24 h</th><th>Tendencia</th><th>Dist. NAMO</th><th>Estado</th></tr></thead><tbody>${rr.map(r=>`<tr>${summary?`<td>${esc(r.rio||'s/d')}</td>`:''}<td><b>${esc(r.estacion||'s/d')}</b></td><td>${fmt(r.ultimo_nivel)} m</td><td>${finite(r.delta_24h)?`${Number(r.delta_24h)>=0?'+':''}${fmt(r.delta_24h)} m`:'s/d'}</td><td>${esc(r.tendencia||'s/d')}</td><td>${finite(r.distancia_namo)?`${Math.abs(Number(r.distancia_namo)).toFixed(2)} m ${Number(r.distancia_namo)<0?'abajo':'arriba'}`:'s/d'}</td><td>${esc(levelState(r))}</td></tr>`).join('')}</tbody></table></div>`}
 function validWeather(r){return Number(r.age_seconds)<7200&&!/rezagado|heredado/i.test(r.quality||'')}
-function rainRows(id=null){const out=[],cfg=id?SYSTEMS[id]:null,m=state.data.weatherState?.window_maturity||{};for(const r of conagua()){if(norm(r.estado_24h)!=='observado')continue; if(norm(r.estacion)==='penitas' && (Number(r.lluvia_24h_precedentes_mm)>150 || r.advertencia))continue;const txt=norm(r.estacion);if(cfg&&!cfg.terms.some(t=>txt.includes(t)))continue;out.push({station:r.estacion,source:'CONAGUA',h1:null,h6:null,h24:r.lluvia_24h_precedentes_mm,h48:null,temp:null,hum:null,time:r.fecha_hora,quality:'observado'})}for(const r of weather()){if(!validWeather(r))continue;const txt=norm(`${r.nombre||''} ${r.ubicacion||''}`);if(cfg&&!cfg.terms.some(t=>txt.includes(t)))continue;const a=r.accumulations_mm||{};out.push({station:r.nombre,source:'WeatherLink',h1:a['1'],h6:a['6'],h24:m['24h']===true?a['24']:null,h48:m['48h']===true?a['48']:null,temp:fToC(r.temperature_f),hum:r.humidity_pct,time:r.observed_utc||r.last_updated_at,quality:r.quality||'Cloud',accumulationStatus:r.accumulation_status||{}})}return out.sort((a,b)=>(Number(b.h24)||0)-(Number(a.h24)||0))}
+function rainRows(id=null){
+ const out=[],cfg=id?SYSTEMS[id]:null,m=state.data.weatherState?.window_maturity||{};
+ const boletin=Array.isArray(state.data.climaConagua?.conagua_tabasco)?state.data.climaConagua.conagua_tabasco:[];
+ const latestBoletin=boletin.map(r=>String(r.fecha_hora_mensaje||'').slice(0,10)).sort().at(-1)||'';
+ const boletinStations=new Set();
+ for(const r of boletin){
+  const day=String(r.fecha_hora_mensaje||'').slice(0,10),v=r.lluvia_24h_mm,txt=norm(r.estacion);
+  if(day!==latestBoletin||r.estado_dato!=='observado'||!finite(v)||Number(v)<0)continue;
+  if(cfg&&!cfg.terms.some(t=>txt.includes(t)))continue;
+  boletinStations.add(txt);
+  out.push({station:r.estacion,source:'CONAGUA Tabasco · boletín 06:00',h1:null,h6:null,h24:Number(v),h48:null,temp:null,hum:null,time:r.fecha_hora_mensaje,quality:'observado'});
+ }
+ for(const r of conagua()){
+  if(norm(r.estado_24h)!=='observado'||!finite(r.lluvia_24h_precedentes_mm))continue;
+  if(norm(r.estacion)==='penitas'&&(Number(r.lluvia_24h_precedentes_mm)>150||r.advertencia))continue;
+  const txt=norm(r.estacion);
+  if(cfg&&!cfg.terms.some(t=>txt.includes(t)))continue;
+  // No mezclar el corte anterior con el boletín vigente ni duplicar estaciones.
+  if(latestBoletin&&(String(r.fecha_hora||'').slice(0,10)<latestBoletin||boletinStations.has(txt)))continue;
+  out.push({station:r.estacion,source:'CONAGUA · reporte horario',h1:null,h6:null,h24:r.lluvia_24h_precedentes_mm,h48:null,temp:null,hum:null,time:r.fecha_hora,quality:'observado'});
+ }
+ for(const r of weather()){
+  if(!validWeather(r))continue;
+  const txt=norm(`${r.nombre||''} ${r.ubicacion||''}`);
+  if(cfg&&!cfg.terms.some(t=>txt.includes(t)))continue;
+  const a=r.accumulations_mm||{};
+  out.push({station:r.nombre,source:'WeatherLink',h1:a['1'],h6:a['6'],h24:m['24h']===true?a['24']:null,h48:m['48h']===true?a['48']:null,temp:fToC(r.temperature_f),hum:r.humidity_pct,time:r.observed_utc||r.last_updated_at,quality:r.quality||'Cloud',accumulationStatus:r.accumulation_status||{}});
+ }
+ return out.filter(r=>finite(r.h24)).sort((a,b)=>Number(b.h24)-Number(a.h24));
+}
 function rainQuality(r){if(r.source!=='WeatherLink')return r.quality||'observado';const s=r.accumulationStatus||{},hours=['24','48'].filter(h=>s[h]==='minimo_observado');return 'Cloud'+(hours.length?' · ≥ '+hours.join('/')+' h':'')+(/rezagado|heredado/i.test(r.quality||'')?' · Rezagado':'')}
 function rainTable(id=null,full=false){const rows=rainRows(id);if(!rows.length)return'<p class="muted">Sin lluvia observada válida para este apartado.</p>';return `<div class="table-wrap"><table><thead><tr><th>Estación</th><th>Fuente</th>${full?'<th>1 h</th><th>6 h</th>':''}<th>24 h anteriores</th><th>48 h anteriores</th>${full?'<th>Temperatura</th><th>Humedad</th>':''}<th>Hora</th><th>Calidad</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.station)}</b></td><td>${r.source}</td>${full?`<td>${finite(r.h1)?fmt(r.h1,1)+' mm':'s/d'}</td><td>${finite(r.h6)?fmt(r.h6,1)+' mm':'s/d'}</td>`:''}<td>${finite(r.h24)?(r.accumulationStatus?.['24']==='minimo_observado'?'≥ ':'')+fmt(r.h24,1)+' mm':'s/d'}</td><td>${finite(r.h48)?(r.accumulationStatus?.['48']==='minimo_observado'?'≥ ':'')+fmt(r.h48,1)+' mm':'s/d'}</td>${full?`<td>${finite(r.temp)?fmt(r.temp,1)+' °C':'s/d'}</td><td>${finite(r.hum)?fmt(r.hum,0)+'%':'s/d'}</td>`:''}<td>${humanDate(r.time)}</td><td class="weather-quality-cell" style="max-width:160px;width:150px;min-width:110px;white-space:normal;overflow-wrap:anywhere;font-size:.86rem;line-height:1.35" title="${esc(r.quality)}">${esc(rainQuality(r))}</td></tr>`).join('')}</tbody></table></div>`}
 function tabascoWeather(){return weather().filter(r=>validWeather(r)&&/tab\.|tabasco|villahermosa|paraiso|paraíso|comalcalco|centla|cunduacan|cunduacán|nacajuca|dos bocas|centro/i.test(`${r.ubicacion||''} ${r.nombre||''}`))}
@@ -103,5 +133,5 @@ async function refreshWeatherOnly(){
     }
   }catch(_){/* conserva último corte válido; reintenta en el siguiente ciclo */}
 }
-async function loadAll(){const c=$('#content');if(c)c.innerHTML='<div class="panel"><p>Cargando información operativa…</p></div>';const tasks=[['niveles',SRC.niveles,'json'],['weather',SRC.weather,'json'],['weatherState',SRC.weatherState,'json'],['conagua',SRC.conagua,'json'],['publicas',SRC.publicas,'json'],['analysis',SRC.analysis,'text'],['history',SRC.history,'json'],['fuente2',SRC.fuente2,'text'],['damHistory',SRC.damHistory,'json']];await Promise.all(tasks.map(async([k,u,t])=>{try{state.data[k]=t==='json'?await getJSON(u):await getText(u)}catch{state.data[k]=t==='json'?[]:''}}));state.history=arr(state.data.history);state.damHistory=arr(state.data.damHistory);status();render()}
+async function loadAll(){const c=$('#content');if(c)c.innerHTML='<div class="panel"><p>Cargando información operativa…</p></div>';const tasks=[['niveles',SRC.niveles,'json'],['weather',SRC.weather,'json'],['weatherState',SRC.weatherState,'json'],['conagua',SRC.conagua,'json'],['climaConagua',SRC.climaConagua,'json'],['publicas',SRC.publicas,'json'],['analysis',SRC.analysis,'text'],['history',SRC.history,'json'],['fuente2',SRC.fuente2,'text'],['damHistory',SRC.damHistory,'json']];await Promise.all(tasks.map(async([k,u,t])=>{try{state.data[k]=t==='json'?await getJSON(u):await getText(u)}catch{state.data[k]=t==='json'?[]:''}}));state.history=arr(state.data.history);state.damHistory=arr(state.data.damHistory);status();render()}
 document.addEventListener('DOMContentLoaded',()=>{buildNav();$('#menuBtn')?.addEventListener('click',()=>$('#sidebar')?.classList.toggle('open'));$('#refreshBtn')?.addEventListener('click',loadAll);loadAll();setInterval(refreshWeatherOnly,15*60*1000);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshWeatherOnly()});if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js?v=79').catch(()=>{})});
