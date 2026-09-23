@@ -1,10 +1,10 @@
 {
   "complete": true,
-  "fecha_reporte": "2026-09-22",
-  "hora_objetivo": 18,
+  "fecha_reporte": "2026-09-23",
+  "hora_objetivo": 10,
   "pagina_fuente": 2,
   "bloques_precipitacion_detectados": 2,
-  "estaciones_detectadas": 51,
+  "estaciones_detectadas": 52,
   "modo": "precipitacion_conagua_validada_por_estructura",
   "significado_campos": {
     "lluvia_24h_precedentes_mm": "PRECIPITACIÓN REGISTRADA A LAS 8:00 HR, ACUMULADA EN LAS 24:00 HR PRECEDENTES (A)",
@@ -13,11 +13,11 @@
   },
   "regla_blancos": "Celda en blanco = sin_dato; nunca se convierte a 0 mm. Solo se conserva 0 cuando CONAGUA publica explícitamente cero.",
   "conteo": {
-    "blancos_24h": 6,
-    "blancos_48h": 7,
+    "blancos_24h": 5,
+    "blancos_48h": 6,
     "blancos_hoy": 5,
-    "ceros_explicitos_24h": 36,
-    "ceros_explicitos_hoy": 40
+    "ceros_explicitos_24h": 38,
+    "ceros_explicitos_hoy": 47
   },
   "diagnostic": null
 }
