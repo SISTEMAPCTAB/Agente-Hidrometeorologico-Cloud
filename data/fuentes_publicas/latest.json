@@ -1,9 +1,9 @@
 {
-  "generated_utc": "2026-09-24T11:57:28.116990+00:00",
+  "generated_utc": "2026-09-24T15:29:18.059970+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
-    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h?_ipcet=1790251049",
+    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h",
     "aviso": "266",
     "fecha": "23 de Septiembre del 2026.",
     "emision": "10:00h",
@@ -161,8 +161,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Thu, 24 Sep 2026 11:57:28 GMT",
-      "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
+      "last_modified": "Thu, 24 Sep 2026 15:29:18 GMT"
     },
     "resumen": "Para este día, un canal de baja presión , el paso de la onda tropical (núm. 41) e inestabilidad atmosférica propiciarán lluvias puntuales intensas en las cuencas de Usumacinta y La Angostura; así como lluvias puntuales muy fuertes en las cuencas de Peñitas, Malpaso, Bajo Grijalva, Juan Sabines y Chicoasén. Durante el periodo de pronóstico continuará la probabilidad de lluvia muy fuerte a intensa y el ambiente cálido a caluroso en la región.",
     "detalle_ventanas": {
@@ -456,24 +455,24 @@
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 360 h",
     "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-360h",
-    "aviso": "266",
-    "fecha": "23 de Septiembre del 2026.",
+    "aviso": "265",
+    "fecha": "22 de Septiembre del 2026.",
     "emision": "10:00h",
     "periodos": [
       {
         "ventana": "96-168 h",
-        "validez": "del 26 al 29 de septiembre de 2026",
-        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 150 a 250 mm en las cuencas de Bajo Grijalva, Malpaso, Chicoasén y La Angostura; así como lluvias con acumulados de 75 a 150 mm en las cuencas de Usumacinta, Peñitas y Juan Sabines.",
+        "validez": "del 25 al 28 de septiembre de 2026",
+        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 250 a 300 mm en las cuencas de Malpaso y Peñitas; lluvias con acumulados de 150 a 250 mm en Bajo Grijalva, La Angostura y Usumacinta; así como lluvias con acumulados de 75 a 150 mm en las cuencas de Chicoasén y Juan Sabines.",
         "rangos_por_cuenca": {
-          "Malpaso": {
-            "texto": "150 a 250",
-            "min_mm": 150.0,
-            "max_mm": 250.0
+          "Peñitas": {
+            "texto": "250 a 300",
+            "min_mm": 250.0,
+            "max_mm": 300.0
           },
-          "Chicoasén": {
-            "texto": "150 a 250",
-            "min_mm": 150.0,
-            "max_mm": 250.0
+          "Malpaso": {
+            "texto": "250 a 300",
+            "min_mm": 250.0,
+            "max_mm": 300.0
           },
           "La Angostura": {
             "texto": "150 a 250",
@@ -485,12 +484,12 @@
             "min_mm": 150.0,
             "max_mm": 250.0
           },
-          "Peñitas": {
-            "texto": "75 a 150",
-            "min_mm": 75.0,
-            "max_mm": 150.0
-          },
           "Usumacinta": {
+            "texto": "150 a 250",
+            "min_mm": 150.0,
+            "max_mm": 250.0
+          },
+          "Chicoasén": {
             "texto": "75 a 150",
             "min_mm": 75.0,
             "max_mm": 150.0
@@ -504,10 +503,20 @@
       },
       {
         "ventana": "168-360 h",
-        "validez": "del 29 de septiembre al 07 de octubre 2026",
-        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 300 a 400 mm en la cuenca de Malpaso; lluvias con acumulados de 250 a 300 mm en las cuencas de Bajo Grijalva, Usumacinta y Peñitas; lluvias con acumulados de 150 a 250 mm en la cuenca de La Angostura; así como lluvias con acumulados de 75 a 150 mm en las cuencas Juan Sabines y Chicoasén.",
+        "validez": "del 28 de septiembre al 06 de octubre 2026",
+        "descripcion": "En el periodo de pronóstico, se prevén lluvias con acumulados de 300 a 400 mm en las cuencas de Bajo Grijalva, Malpaso y Usumacinta; lluvias con acumulados de 250 a 300 mm en las cuencas de Peñitas y La Angostura; lluvias con acumulados de 150 a 250 mm en la cuenca de Chicoasén; así como lluvias con acumulados de 75 a 150 mm en la cuenca Juan Sabines.",
         "rangos_por_cuenca": {
           "Malpaso": {
+            "texto": "300 a 400",
+            "min_mm": 300.0,
+            "max_mm": 400.0
+          },
+          "Bajo Grijalva-Ríos de la Sierra": {
+            "texto": "300 a 400",
+            "min_mm": 300.0,
+            "max_mm": 400.0
+          },
+          "Usumacinta": {
             "texto": "300 a 400",
             "min_mm": 300.0,
             "max_mm": 400.0
@@ -517,25 +526,15 @@
             "min_mm": 250.0,
             "max_mm": 300.0
           },
-          "Bajo Grijalva-Ríos de la Sierra": {
-            "texto": "250 a 300",
-            "min_mm": 250.0,
-            "max_mm": 300.0
-          },
-          "Usumacinta": {
-            "texto": "250 a 300",
-            "min_mm": 250.0,
-            "max_mm": 300.0
-          },
           "La Angostura": {
+            "texto": "250 a 300",
+            "min_mm": 250.0,
+            "max_mm": 300.0
+          },
+          "Chicoasén": {
             "texto": "150 a 250",
             "min_mm": 150.0,
             "max_mm": 250.0
-          },
-          "Chicoasén": {
-            "texto": "75 a 150",
-            "min_mm": 75.0,
-            "max_mm": 150.0
           },
           "Presa Juan Sabines": {
             "texto": "75 a 150",
@@ -549,8 +548,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Thu, 24 Sep 2026 11:57:29 GMT",
-      "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
+      "last_modified": "Thu, 24 Sep 2026 15:29:19 GMT"
     }
   },
   "insivumeh": {
@@ -906,7 +904,7 @@
   "insivumeh_el_tigre_antecedente": null,
   "insivumeh_el_tigre_regla": "Antecedente informativo: no es observación del corte actual, no se hereda y no gobierna tendencia ni semáforo.",
   "insivumeh_contexto_diagnostico": {
-    "actualizado_utc": "2026-09-24T10:29:16.824511+00:00",
+    "actualizado_utc": "2026-09-24T15:29:26.329506+00:00",
     "errores": [],
     "lluvia": {
       "pagina": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/",
