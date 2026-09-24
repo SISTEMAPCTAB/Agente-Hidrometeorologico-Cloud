@@ -1,7 +1,7 @@
 {
   "complete": true,
-  "fecha_reporte": "2026-09-23",
-  "hora_objetivo": 18,
+  "fecha_reporte": "2026-09-24",
+  "hora_objetivo": 10,
   "pagina_fuente": 2,
   "bloques_precipitacion_detectados": 2,
   "estaciones_detectadas": 52,
@@ -14,10 +14,10 @@
   "regla_blancos": "Celda en blanco = sin_dato; nunca se convierte a 0 mm. Solo se conserva 0 cuando CONAGUA publica explícitamente cero.",
   "conteo": {
     "blancos_24h": 5,
-    "blancos_48h": 7,
+    "blancos_48h": 5,
     "blancos_hoy": 5,
-    "ceros_explicitos_24h": 38,
-    "ceros_explicitos_hoy": 41
+    "ceros_explicitos_24h": 28,
+    "ceros_explicitos_hoy": 44
   },
   "diagnostic": null
 }
