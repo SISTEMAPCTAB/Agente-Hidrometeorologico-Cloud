@@ -18,8 +18,8 @@ on:
       - 'src/auditar_productos_operativos.py'
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
-    # Consulta independiente cada 10 min, incluso si WeatherLink no se dispara.
-    - cron: '2,12,22,32,42,52 * * * *'
+    # Tabasco UTC-6: consulta horaria de 06:50 a 18:50; pausa nocturna.
+    - cron: '50 12-23,0 * * *'
 
 permissions:
   contents: write
