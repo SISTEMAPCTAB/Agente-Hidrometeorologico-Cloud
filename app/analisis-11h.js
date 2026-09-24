@@ -1,5 +1,6 @@
 (()=>{
   const ANALYSIS_URL='../data/analysis/latest.md';
+  const CHAT_URL='../data/analysis/chat/latest.md';
   const WORD_STATE_URL='../data/analysis/Reportes/Estado_Word.json';
   const WORD_URL='../data/analysis/Reportes/Analisis_Hidrometeorologico_Ultimo.docx';
   const MAX_AGE_HOURS=30;
@@ -52,12 +53,16 @@
     rendering=true;
     content.innerHTML='<div class="grid" data-analysis-view="true"><div class="panel wide analysis-shell"><h2>Análisis hidrometeorológico · 11:00 h</h2><p class="muted">Cargando último análisis vigente…</p></div></div>';
     try{
-      const [md,wordState]=await Promise.all([fetchNoStore(ANALYSIS_URL),fetchNoStore(WORD_STATE_URL,'json').catch(()=>null)]);
+      const [automatic,chat,wordState]=await Promise.all([fetchNoStore(ANALYSIS_URL),fetchNoStore(CHAT_URL).catch(()=>null),fetchNoStore(WORD_STATE_URL,'json').catch(()=>null)]);
+      const chatCut=chat?parseCut(chat):null;
+      const autoCut=parseCut(automatic);
+      const useChat=chatCut&&(!autoCut||chatCut.getTime()>=autoCut.getTime());
+      const md=useChat?chat:automatic;
       const cut=parseCut(md); const stale=!cut||ageHours(cut)>MAX_AGE_HOURS;
       const cutLabel=cut?new Intl.DateTimeFormat('es-MX',{dateStyle:'medium',timeStyle:'short',timeZone:'America/Mexico_City'}).format(cut):'sin corte identificable';
-      const wordOk=wordState?.verified===true;
+      const wordOk=wordState?.verified===true && (!useChat || wordState?.source_path==='data/analysis/chat/latest.md' && wordState?.cut?.startsWith(chatCut.toISOString().slice(0,16)));
       content.innerHTML=`<div class="grid" data-analysis-view="true"><article class="panel wide analysis-shell">
-        <div class="analysis-head"><div><h2>Análisis hidrometeorológico · 11:00 h</h2><p>Último análisis operativo integrado disponible en GitHub Cloud.</p></div><div class="analysis-cut ${stale?'stale':'current'}"><span>${stale?'No vigente':'Vigente'}</span><strong>${esc(cutLabel)}</strong></div></div>
+        <div class="analysis-head"><div><h2>Análisis hidrometeorológico · 11:00 h</h2><p>${useChat?'Informe íntegro publicado desde el chat.':'Último análisis operativo integrado disponible en GitHub Cloud.'}</p></div><div class="analysis-cut ${stale?'stale':'current'}"><span>${stale?'No vigente':'Vigente'}</span><strong>${esc(cutLabel)}</strong></div></div>
         ${stale?'<div class="analysis-warning"><strong>Análisis 11:00 h no disponible para el corte actual.</strong> Se muestra el último análisis localizado sólo como antecedente y no debe interpretarse como situación vigente.</div>':''}
         <div class="analysis-body">${markdown(md)}</div>
         <div class="analysis-actions"><button class="btn" id="analysisRefreshBtn" type="button">Actualizar análisis</button>${wordOk?`<a class="btn secondary" href="${WORD_URL}" download>Word actual (opcional)</a>`:''}</div>
