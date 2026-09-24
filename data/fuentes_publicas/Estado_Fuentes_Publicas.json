@@ -1,7 +1,9 @@
 {
-  "generated_utc": "2026-09-24T19:29:33.435951+00:00",
-  "complete": true,
-  "errors": [],
+  "generated_utc": "2026-09-24T22:43:10.479607+00:00",
+  "complete": false,
+  "errors": [
+    "insivumeh: HTTPSConnectionPool(host='insivumeh.gob.gt', port=443): Max retries exceeded with url: /boletin-diario-hidrologia-aplicada/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='insivumeh.gob.gt', port=443) at 0x7f6539cc4440>, 'Connection to insivumeh.gob.gt timed out. (connect timeout=35)'))"
+  ],
   "products": {
     "smn96": {
       "available": true,
@@ -12,8 +14,8 @@
       "complete": true
     },
     "insivumeh": {
-      "available": true,
-      "complete": true
+      "available": false,
+      "complete": false
     },
     "guatemala_acumulados": {
       "available": true,
