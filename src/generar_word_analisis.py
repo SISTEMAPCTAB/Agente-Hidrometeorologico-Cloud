@@ -1,3 +1,4 @@
+import os
 import hashlib
 import json
 import re
@@ -12,7 +13,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Inches, Pt, RGBColor
 
 BASE = Path("data/analysis")
-SOURCE = BASE / "latest.md"
+SOURCE = Path(os.environ.get("ANALYSIS_SOURCE", str(BASE / "latest.md")))
 PUBLIC = Path("data/fuentes_publicas/latest.json")
 HIST = Path("data/fuentes_publicas/insivumeh_historico.json")
 LEVELS = Path("data/niveles/Ultimo_Corte/ultimo_resumen.json")
@@ -100,7 +101,7 @@ def main():
     if not SOURCE.exists() or SOURCE.stat().st_size<100:
         status={'report':'Análisis hidrometeorológico diario','verified':False,'state':'waiting_for_latest_md'};WORD_STATUS.write_text(json.dumps(status,ensure_ascii=False,indent=2)+'\n',encoding='utf-8');return 0
     text=SOURCE.read_text(encoding='utf-8-sig'); cut=extract_cut(text); archive_name=f"Analisis_Hidrometeorologico_{cut.strftime('%Y-%m-%d')}.docx"
-    if 'Cuenca alta del Usumacinta · señal observada INSIVUMEH' not in text:text=text.rstrip()+insivumeh_block()
+    if SOURCE == BASE / 'latest.md' and 'Cuenca alta del Usumacinta · señal observada INSIVUMEH' not in text:text=text.rstrip()+insivumeh_block()
     doc=Document();sec=doc.sections[0];sec.top_margin=Inches(.55);sec.bottom_margin=Inches(.55);sec.left_margin=Inches(.6);sec.right_margin=Inches(.6);doc.styles['Normal'].font.name='Arial';doc.styles['Normal'].font.size=Pt(9.5)
     p=doc.add_paragraph();p.alignment=WD_ALIGN_PARAGRAPH.CENTER;r=p.add_run('Actualización del análisis operativo hidrometeorológico');r.font.name='Arial';r.font.size=Pt(16);r.font.bold=True;r.font.color.rgb=BLUE
     p2=doc.add_paragraph();p2.alignment=WD_ALIGN_PARAGRAPH.CENTER;r2=p2.add_run('Cuencas Grijalva–Usumacinta');r2.font.name='Arial';r2.font.size=Pt(10);r2.font.bold=True
