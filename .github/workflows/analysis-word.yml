@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - 'data/analysis/latest.md'
+      - 'data/analysis/chat/latest.md'
       - 'data/niveles/Ultimo_Corte/ultimo_resumen.json'
       - 'data/niveles/Resumen_12h/resumen_12h.json'
       - 'data/niveles/Lluvia_CONAGUA/**'
@@ -56,7 +57,27 @@ jobs:
       - name: Instalar dependencias
         run: pip install -r requirements.txt
 
+      - name: Detectar informe íntegro del chat
+        id: chat
+        shell: bash
+        run: |
+          python - <<'PY'
+          import re, os
+          from pathlib import Path
+          from datetime import datetime
+          a=Path('data/analysis/latest.md'); c=Path('data/analysis/chat/latest.md')
+          def cut(p):
+              if not p.exists(): return None
+              m=re.search(r'^CORTE: (\d{4}-\d{2}-\d{2} \d{2}:\d{2})',p.read_text(encoding='utf-8-sig'),re.M)
+              return datetime.strptime(m.group(1),'%Y-%m-%d %H:%M') if m else None
+          cc=cut(c); ac=cut(a)
+          selected=bool(cc and c.stat().st_size>1000 and (not ac or cc>=ac))
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write(f'selected={str(selected).lower()}\n')
+          print('Informe del chat seleccionado:',selected)
+          PY
+
       - name: Generar análisis diario 11 h desde datos cloud
+        if: steps.chat.outputs.selected != 'true'
         shell: bash
         run: |
           set -e
@@ -68,6 +89,7 @@ jobs:
           exit 1
 
       - name: Integrar Frontera Sur y control de fuentes
+        if: steps.chat.outputs.selected != 'true'
         shell: bash
         run: |
           set -e
@@ -79,6 +101,7 @@ jobs:
           exit 1
 
       - name: Verificar latest.md
+        if: steps.chat.outputs.selected != 'true'
         shell: bash
         run: |
           test -s data/analysis/latest.md
@@ -97,6 +120,8 @@ jobs:
           grep -q '## Control de fuentes y hora real de actualización' data/analysis/latest.md
 
       - name: Generar y verificar Word del análisis
+        env:
+          ANALYSIS_SOURCE: ${{ steps.chat.outputs.selected == 'true' && 'data/analysis/chat/latest.md' || 'data/analysis/latest.md' }}
         shell: bash
         run: |
           set -e
