@@ -9,10 +9,10 @@ on:
       - '.github/workflows/niveles-cross-recovery.yml'
       - 'src/auditar_productos_operativos.py'
   schedule:
-    # Tabasco = UTC-6. Respaldo independiente sólo durante la ventana operativa
-    # 06:00-19:59 local. Entre 20:00 y 06:00 no se esperan boletines.
-    - cron: '3,13,23,33,43,53 12-23 * * *'
-    - cron: '3,13,23,33,43,53 0-1 * * *'
+    # Segundo respaldo, separado del principal y del watchdog.
+    # 07:20-19:20 local: sólo interviene si el estado continúa atrasado.
+    # Una revisión por hora evita acumular trabajos en la cola de escritura.
+    - cron: '20 13-23,0-1 * * *'
 
 permissions:
   contents: write
