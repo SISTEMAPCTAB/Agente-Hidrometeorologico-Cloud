@@ -1,0 +1,301 @@
+{
+  "cut": "2026-09-25T06:00:00-06:00",
+  "subject": "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 6:00 AM",
+  "message_id": "gmail-64806",
+  "diagnostics": {
+    "Samaria": {
+      "line": "Samaria 18.50 3,570 14.9 1,185 11.64 11.68 12.0 37.0 23.0 0.04 -3.22",
+      "numeric_count": 11,
+      "tokens": [
+        18.5,
+        3570.0,
+        14.9,
+        1185.0,
+        11.64,
+        11.68,
+        12.0,
+        37.0,
+        23.0,
+        0.04,
+        -3.22
+      ],
+      "idx_actual": 5,
+      "value": 11.68,
+      "validation_errors": []
+    },
+    "González": {
+      "line": "González 10.20 1,191 8.77 739 3.40 3.38 5.5 35.0 24.0 -0.02 -5.39",
+      "numeric_count": 11,
+      "tokens": [
+        10.2,
+        1191.0,
+        8.77,
+        739.0,
+        3.4,
+        3.38,
+        5.5,
+        35.0,
+        24.0,
+        -0.02,
+        -5.39
+      ],
+      "idx_actual": 5,
+      "value": 3.38,
+      "validation_errors": []
+    },
+    "Oxolotán": {
+      "line": "Oxolotán 47.37 3,770 39.53 2,000 34.82 34.51 14.0 34.0 24.0 -0.31 -5.02",
+      "numeric_count": 11,
+      "tokens": [
+        47.37,
+        3770.0,
+        39.53,
+        2000.0,
+        34.82,
+        34.51,
+        14.0,
+        34.0,
+        24.0,
+        -0.31,
+        -5.02
+      ],
+      "idx_actual": 6,
+      "value": null,
+      "validation_errors": [
+        "se requieren 12 columnas; recibidas 11"
+      ]
+    },
+    "Tapijulapa": {
+      "line": "Tapijulapa 28.15 3,386 24.63 2,500 16.32 17.40 104.5 34.0 23.0 1.08 -7.23",
+      "numeric_count": 11,
+      "tokens": [
+        28.15,
+        3386.0,
+        24.63,
+        2500.0,
+        16.32,
+        17.4,
+        104.5,
+        34.0,
+        23.0,
+        1.08,
+        -7.23
+      ],
+      "idx_actual": 6,
+      "value": null,
+      "validation_errors": [
+        "se requieren 12 columnas; recibidas 11"
+      ]
+    },
+    "Teapa": {
+      "line": "Teapa 39.56 734 37.71 518 34.85 34.82 74.7 35.0 24.0 -0.03 -2.89",
+      "numeric_count": 11,
+      "tokens": [
+        39.56,
+        734.0,
+        37.71,
+        518.0,
+        34.85,
+        34.82,
+        74.7,
+        35.0,
+        24.0,
+        -0.03,
+        -2.89
+      ],
+      "idx_actual": 5,
+      "value": 34.82,
+      "validation_errors": []
+    },
+    "Puyacatengo": {
+      "line": "Puyacatengo 31.35 915 29.65 727 25.28 25.40 79.0 34.0 24.0 0.12 -4.25",
+      "numeric_count": 11,
+      "tokens": [
+        31.35,
+        915.0,
+        29.65,
+        727.0,
+        25.28,
+        25.4,
+        79.0,
+        34.0,
+        24.0,
+        0.12,
+        -4.25
+      ],
+      "idx_actual": 5,
+      "value": 25.4,
+      "validation_errors": []
+    },
+    "San Joaquín": {
+      "line": "San Joaquín 26.66 575 23.12 221 22.13 23.05 69.6 34.0 23.0 0.92 -0.07",
+      "numeric_count": 11,
+      "tokens": [
+        26.66,
+        575.0,
+        23.12,
+        221.0,
+        22.13,
+        23.05,
+        69.6,
+        34.0,
+        23.0,
+        0.92,
+        -0.07
+      ],
+      "idx_actual": 5,
+      "value": 23.05,
+      "validation_errors": []
+    },
+    "Pueblo Nuevo": {
+      "line": "Pueblo Nuevo    8.40 1,103 7.49 788 3.28 4.76 4.5 34.5 24.0 1.48 -2.73",
+      "numeric_count": 11,
+      "tokens": [
+        8.4,
+        1103.0,
+        7.49,
+        788.0,
+        3.28,
+        4.76,
+        4.5,
+        34.5,
+        24.0,
+        1.48,
+        -2.73
+      ],
+      "idx_actual": 5,
+      "value": 4.76,
+      "validation_errors": []
+    },
+    "Gaviotas": {
+      "line": "Gaviotas 7.85 1,626 7.00 1.19 1.74 0.55 -5.26",
+      "numeric_count": 7,
+      "tokens": [
+        7.85,
+        1626.0,
+        7.0,
+        1.19,
+        1.74,
+        0.55,
+        -5.26
+      ],
+      "idx_actual": 4,
+      "value": 1.74,
+      "validation_errors": []
+    },
+    "El Muelle": {
+      "line": "* Muelle 7.23 1,571 1.09 1.64 0.55 N/A",
+      "numeric_count": 5,
+      "tokens": [
+        7.23,
+        1571.0,
+        1.09,
+        1.64,
+        0.55
+      ],
+      "idx_actual": 3,
+      "value": 1.64,
+      "validation_errors": []
+    },
+    "Porvenir": {
+      "line": "Porvenir 6.67 1,517 4.74 0.47 1.05 11.5 35.0 24.0 0.58 -3.69",
+      "numeric_count": 10,
+      "tokens": [
+        6.67,
+        1517.0,
+        4.74,
+        0.47,
+        1.05,
+        11.5,
+        35.0,
+        24.0,
+        0.58,
+        -3.69
+      ],
+      "idx_actual": 4,
+      "value": 1.05,
+      "validation_errors": []
+    },
+    "Salto de Agua": {
+      "line": "Salto de Agua 14.72 2,583 10.99 1,500 6.25 8.18 11.7 34.0 25.0 1.93 -2.81",
+      "numeric_count": 11,
+      "tokens": [
+        14.72,
+        2583.0,
+        10.99,
+        1500.0,
+        6.25,
+        8.18,
+        11.7,
+        34.0,
+        25.0,
+        1.93,
+        -2.81
+      ],
+      "idx_actual": 5,
+      "value": 8.18,
+      "validation_errors": []
+    },
+    "Macuspana": {
+      "line": "Macuspana 12.78 1,324 9.85 1,000 4.07 5.77 15.7 36.5 23.5 1.70 -4.08",
+      "numeric_count": 11,
+      "tokens": [
+        12.78,
+        1324.0,
+        9.85,
+        1000.0,
+        4.07,
+        5.77,
+        15.7,
+        36.5,
+        23.5,
+        1.7,
+        -4.08
+      ],
+      "idx_actual": 5,
+      "value": 5.77,
+      "validation_errors": []
+    },
+    "San Pedro": {
+      "line": "San Pedro 9.77 649 9.01 260 8.51 8.53 8.8 35.0 25.5 0.02 -0.48",
+      "numeric_count": 11,
+      "tokens": [
+        9.77,
+        649.0,
+        9.01,
+        260.0,
+        8.51,
+        8.53,
+        8.8,
+        35.0,
+        25.5,
+        0.02,
+        -0.48
+      ],
+      "idx_actual": 5,
+      "value": 8.53,
+      "validation_errors": []
+    },
+    "Boca del Cerro": {
+      "line": "Boca del Cerro 21.57 8,035 19.21 4,979 12.90 13.42 47.0 35.0 23.0 0.52 -5.79",
+      "numeric_count": 11,
+      "tokens": [
+        21.57,
+        8035.0,
+        19.21,
+        4979.0,
+        12.9,
+        13.42,
+        47.0,
+        35.0,
+        23.0,
+        0.52,
+        -5.79
+      ],
+      "idx_actual": 5,
+      "value": 13.42,
+      "validation_errors": []
+    }
+  },
+  "validation_rejected": 2
+}
