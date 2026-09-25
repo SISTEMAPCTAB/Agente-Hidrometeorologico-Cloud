@@ -2,6 +2,7 @@
 'use strict';
 const PRIMARY_URL='../data/niveles/Estado_Niveles_Cloud.json';
 const GMAIL_URL='../data/niveles/Estado_Gmail_Backup.json';
+const LEVELS_URL='../data/niveles/Ultimo_Corte/ultimo_resumen.json';
 const TZ='America/Mexico_City';
 const ACTIVE_MIN=45;
 const ALERT_MIN=180;
@@ -17,19 +18,21 @@ function ensureStyle(){if(document.getElementById('niveles-status-guard-style'))
 async function fetchJSON(url){const r=await fetch(`${url}?v=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json();}
 function primaryInfo(data){if(!data)return{valid:false,time:null,mins:null};const errors=Array.isArray(data.errors)?data.errors.length:0;const accounts=Array.isArray(data.accounts)?data.accounts:[];const accountOk=accounts.length===0||accounts.some(a=>a&&a.ok===true);const time=data.run_utc||null;const mins=ageMinutes(time);return{valid:data.complete===true&&errors===0&&accountOk&&mins!==null,time,mins,errors,accountOk};}
 function gmailInfo(data){if(!data)return{valid:false,time:null,mins:null};const errors=Array.isArray(data.errors)?data.errors.length:0;const time=data.run_local||data.run_utc||null;const mins=ageMinutes(time);return{valid:data.configured===true&&errors===0&&mins!==null,time,mins,errors};}
-function paint(primary,gmail){ensureStyle();const strip=document.getElementById('statusStrip');if(!strip)return false;const card=[...strip.querySelectorAll('.status-card')].find(x=>/niveles/i.test(x.querySelector('span')?.textContent||''));if(!card)return false;let line=card.querySelector('.niveles-agent-state');if(!line){line=document.createElement('span');line.className='niveles-agent-state';card.appendChild(line);}let detail=card.querySelector('.niveles-agent-detail');if(!detail){detail=document.createElement('small');detail.className='niveles-agent-detail';card.appendChild(detail);}
+function latestCut(rows){if(!Array.isArray(rows))return null;const times=rows.map(r=>new Date(r?.fecha_hora).getTime()).filter(Number.isFinite);return times.length?new Date(Math.max(...times)).toISOString():null;}
+function paint(primary,gmail,levelRows){ensureStyle();const strip=document.getElementById('statusStrip');if(!strip)return false;const card=[...strip.querySelectorAll('.status-card')].find(x=>/niveles/i.test(x.querySelector('span')?.textContent||''));if(!card)return false;const cut=latestCut(levelRows);const main=card.querySelector('b');let line=card.querySelector('.niveles-agent-state');if(!line){line=document.createElement('span');line.className='niveles-agent-state';card.appendChild(line);}let detail=card.querySelector('.niveles-agent-detail');if(!detail){detail=document.createElement('small');detail.className='niveles-agent-detail';card.appendChild(detail);}
 const p=primaryInfo(primary),g=gmailInfo(gmail);const candidates=[];if(p.valid)candidates.push({source:'Carbonio',...p});if(g.valid)candidates.push({source:'Gmail',...g});candidates.sort((a,b)=>new Date(b.time)-new Date(a.time));const best=candidates[0]||null;const op=operatingState();
+if(main)main.textContent=best?fmt(best.time):(cut?fmt(cut):'s/d');
 let cls='bad',label='Recolección sin revisión reciente',cloud='GitHub Cloud · revisar niveles';
 if(op.mode==='pause'){
   cls='ok';label='Pausa nocturna programada';cloud='GitHub Cloud · niveles en pausa nocturna';
   line.className=`niveles-agent-state ${cls}`;line.textContent=label;
-  detail.textContent=best?`Última revisión válida: ${fmt(best.time)} · ${best.source}${best.source==='Gmail'?' (respaldo)':''} · reanuda 06:00`:'Recolección pausada · reanuda automáticamente a las 06:00';
+  detail.textContent=best?`Última revisión válida: ${fmt(best.time)} · ${best.source}${best.source==='Gmail'?' (respaldo)':''} · último corte recibido: ${cut?fmt(cut):'s/d'} · reanuda 06:00`:'Recolección pausada · reanuda automáticamente a las 06:00';
   const cloudEl=document.getElementById('cloudState');if(cloudEl)cloudEl.textContent=cloud;return true;
 }
 if(op.mode==='startup'){
   cls='warn';label='Reanudando recolección · ventana operativa';cloud='GitHub Cloud · iniciando niveles';
   line.className=`niveles-agent-state ${cls}`;line.textContent=label;
-  detail.textContent=best?`Última revisión válida: ${fmt(best.time)} · ${best.source}${best.source==='Gmail'?' (respaldo)':''} · margen de arranque hasta 07:05`:'Ventana iniciada a las 06:00 · esperando primera revisión válida';
+  detail.textContent=best?`Última revisión válida: ${fmt(best.time)} · ${best.source}${best.source==='Gmail'?' (respaldo)':''} · último corte recibido: ${cut?fmt(cut):'s/d'} · margen de arranque hasta 07:05`:'Ventana iniciada a las 06:00 · esperando primera revisión válida';
   const cloudEl=document.getElementById('cloudState');if(cloudEl)cloudEl.textContent=cloud;return true;
 }
 const primaryFresh=p.valid&&p.mins<=ACTIVE_MIN;const gmailFresh=g.valid&&g.mins<=ACTIVE_MIN;const gmailTakingOver=g.valid&&(!p.valid||p.mins>ACTIVE_MIN)&&g.mins<=ALERT_MIN;
@@ -39,9 +42,9 @@ else if(best&&best.mins<=ALERT_MIN){cls='ok';label=gmailTakingOver?'Recolección
 else if(best){cls='bad';label='Recolección sin revisión reciente';cloud='GitHub Cloud · revisar niveles';}
 else{cls='bad';label='Recolección sin ruta válida';cloud='GitHub Cloud · revisar niveles';}
 line.className=`niveles-agent-state ${cls}`;line.textContent=label;
-if(best){detail.textContent=`Última revisión válida: ${fmt(best.time)} · hace ${best.mins} min · ${best.source}${best.source==='Gmail'?' (respaldo)':''}`;}else{const parts=[];if(primary?.run_utc)parts.push(`Carbonio ${fmt(primary.run_utc)}`);if(gmail?.run_local)parts.push(`Gmail ${fmt(gmail.run_local)}`);detail.textContent=parts.length?`Sin ruta válida reciente · ${parts.join(' · ')}`:'Estado de recolección no disponible';}
+if(best){detail.textContent=`Última revisión válida: ${fmt(best.time)} · hace ${best.mins} min · ${best.source}${best.source==='Gmail'?' (respaldo)':''} · último corte recibido: ${cut?fmt(cut):'s/d'}`;}else{const parts=[];if(primary?.run_utc)parts.push(`Carbonio ${fmt(primary.run_utc)}`);if(gmail?.run_local)parts.push(`Gmail ${fmt(gmail.run_local)}`);detail.textContent=parts.length?`Sin ruta válida reciente · ${parts.join(' · ')}`:'Estado de recolección no disponible';}
 const cloudEl=document.getElementById('cloudState');if(cloudEl)cloudEl.textContent=cloud;return true;}
-async function refresh(){const [pr,gr]=await Promise.allSettled([fetchJSON(PRIMARY_URL),fetchJSON(GMAIL_URL)]);const primary=pr.status==='fulfilled'?pr.value:null;const gmail=gr.status==='fulfilled'?gr.value:null;if(!paint(primary,gmail))setTimeout(()=>paint(primary,gmail),700);}
+async function refresh(){const [pr,gr,lr]=await Promise.allSettled([fetchJSON(PRIMARY_URL),fetchJSON(GMAIL_URL),fetchJSON(LEVELS_URL)]);const primary=pr.status==='fulfilled'?pr.value:null;const gmail=gr.status==='fulfilled'?gr.value:null;const levelRows=lr.status==='fulfilled'?lr.value:null;if(!paint(primary,gmail,levelRows))setTimeout(()=>paint(primary,gmail,levelRows),700);}
 function start(){refresh().catch(e=>console.warn('Estado combinado de niveles no disponible',e));clearInterval(timer);timer=setInterval(()=>refresh().catch(()=>{}),60000);document.getElementById('refreshBtn')?.addEventListener('click',()=>setTimeout(()=>refresh().catch(()=>{}),900));}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
