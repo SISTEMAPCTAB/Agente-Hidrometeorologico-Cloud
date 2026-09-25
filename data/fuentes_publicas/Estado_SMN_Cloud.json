@@ -1,6 +1,6 @@
 {
   "agent": "SMN Cloud Fast",
-  "run_utc": "2026-09-25T01:32:02.320083+00:00",
+  "run_utc": "2026-09-25T06:32:58.264279+00:00",
   "complete": true,
   "errors": [],
   "before": {
@@ -17,19 +17,19 @@
   },
   "detected": {
     "smn96": {
-      "aviso": "267",
-      "fecha": "24 de Septiembre del 2026.",
+      "aviso": "266",
+      "fecha": "23 de Septiembre del 2026.",
       "emision": "10:00h"
     },
     "smn360": {
-      "aviso": "265",
-      "fecha": "22 de Septiembre del 2026.",
+      "aviso": "267",
+      "fecha": "24 de Septiembre del 2026.",
       "emision": "10:00h"
     }
   },
   "decision": {
-    "smn96": "nuevo_o_igual",
-    "smn360": "rechazado_por_ser_mas_antiguo"
+    "smn96": "rechazado_por_ser_mas_antiguo",
+    "smn360": "nuevo_o_igual"
   },
   "published": {
     "smn96": {
