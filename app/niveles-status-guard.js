@@ -7,7 +7,7 @@ const ACTIVE_MIN=45;
 const ALERT_MIN=180;
 const START_HOUR=6;
 const END_HOUR=20;
-const START_GRACE_MIN=45;
+const START_GRACE_MIN=65;
 let timer=null;
 function fmt(v){if(!v)return's/d';const d=new Date(v);if(Number.isNaN(d.getTime()))return's/d';return d.toLocaleString('es-MX',{timeZone:TZ,day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false});}
 function ageMinutes(v){const t=new Date(v).getTime();return Number.isFinite(t)?Math.max(0,Math.round((Date.now()-t)/60000)):null;}
@@ -29,7 +29,7 @@ if(op.mode==='pause'){
 if(op.mode==='startup'){
   cls='warn';label='Reanudando recolección · ventana operativa';cloud='GitHub Cloud · iniciando niveles';
   line.className=`niveles-agent-state ${cls}`;line.textContent=label;
-  detail.textContent=best?`Última revisión válida: ${fmt(best.time)} · ${best.source}${best.source==='Gmail'?' (respaldo)':''} · margen de arranque hasta 06:45`:'Ventana iniciada a las 06:00 · esperando primera revisión válida';
+  detail.textContent=best?`Última revisión válida: ${fmt(best.time)} · ${best.source}${best.source==='Gmail'?' (respaldo)':''} · margen de arranque hasta 07:05`:'Ventana iniciada a las 06:00 · esperando primera revisión válida';
   const cloudEl=document.getElementById('cloudState');if(cloudEl)cloudEl.textContent=cloud;return true;
 }
 const primaryFresh=p.valid&&p.mins<=ACTIVE_MIN;const gmailFresh=g.valid&&g.mins<=ACTIVE_MIN;const gmailTakingOver=g.valid&&(!p.valid||p.mins>ACTIVE_MIN)&&g.mins<=ALERT_MIN;
