@@ -26,6 +26,8 @@ on:
       - '.github/workflows/niveles-cloud.yml'
   schedule:
     # Tabasco UTC-6: cada hora de 06:50 a 18:50; pausa nocturna.
+    # Este es el recolector primario. Los respaldos se ejecutan después,
+    # escalonados, para no bloquear su turno de :50 en la cola de escritura.
     # Los boletines nuevos en data/latest/FUENTE1.txt o FUENTE2.txt
     # también disparan este flujo por push, sin esperar al siguiente turno.
     - cron: '50 12-23,0 * * *'
