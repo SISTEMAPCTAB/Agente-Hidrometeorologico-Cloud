@@ -2,13 +2,6 @@ name: Gmail Backup Cloud
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows:
-      - WeatherLink Cloud - 32 estaciones
-      - WeatherLink Rescue - independiente
-      - WeatherLink Watchdog - recuperación automática
-    types:
-      - completed
   push:
     branches:
       - main
@@ -19,6 +12,8 @@ on:
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
     # Tabasco UTC-6: consulta horaria de 06:50 a 18:50; pausa nocturna.
+    # No se enlaza a cada ejecución WeatherLink para evitar una cola creciente
+    # de trabajos Gmail que retrase las revisiones posteriores.
     - cron: '50 12-23,0 * * *'
 
 permissions:
@@ -172,6 +167,37 @@ jobs:
       - name: Auditar valores antes de publicar respaldo
         if: steps.gmail.outputs.enabled == 'true' && steps.aporte.outputs.changed == 'true'
         run: python src/auditar_productos_operativos.py
+
+      - name: Publicar hora de revisión Gmail aunque no exista boletín nuevo
+        if: steps.gmail.outputs.enabled == 'true' && steps.aporte.outputs.changed != 'true'
+        shell: bash
+        run: |
+          set -e
+          git config user.name "Agente Hidrometeorologico Gmail Backup"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/niveles/Estado_Gmail_Backup.json
+          if git diff --cached --quiet; then
+            echo "Estado Gmail sin cambios para publicar."
+            exit 0
+          fi
+          for intento in 1 2 3; do
+            git fetch origin main
+            git reset --soft origin/main
+            git add data/niveles/Estado_Gmail_Backup.json
+            if git diff --cached --quiet; then
+              echo "La revisión Gmail ya fue incorporada."
+              exit 0
+            fi
+            git commit -m "Actualiza revisión Gmail de niveles [skip ci]" || true
+            if git push origin HEAD:main; then
+              echo "Hora de revisión Gmail publicada."
+              exit 0
+            fi
+            git reset --mixed origin/main
+            sleep $((intento * 6))
+          done
+          echo "No fue posible publicar la hora de revisión Gmail."
+          exit 1
 
       - name: Publicar únicamente cambios producidos por el respaldo Gmail
         if: steps.gmail.outputs.enabled == 'true' && steps.aporte.outputs.changed == 'true'
