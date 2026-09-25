@@ -1,10 +1,10 @@
 {
   "fuente": "INSIVUMEH",
   "producto": "BHVGM · estaciones Alto Usumacinta",
-  "consultado_utc": "2026-09-24T22:45:15.971987+00:00",
-  "url_pdf": null,
-  "fecha": null,
-  "hora": null,
+  "consultado_utc": "2026-09-25T00:54:04.343883+00:00",
+  "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
+  "fecha": "24/09/2026",
+  "hora": "14:00",
   "boletin": null,
   "estaciones": [
     {
@@ -15,13 +15,12 @@
       "nivel_referencia_max_m": 10.0,
       "caudal_referencia_min_m3s": 486.87,
       "caudal_referencia_max_m3s": 2856.43,
-      "nivel_instantaneo_m": 6.07,
-      "caudal_instantaneo_m3s": 1147.74,
+      "nivel_instantaneo_m": 6.7,
+      "caudal_instantaneo_m3s": 1421.65,
       "calidad": "extraido_del_BHVGM",
       "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación.",
-      "estado_dato": "heredado",
-      "ultima_observacion_fuente": "23/09/2026 14:00",
-      "heredado_en_utc": "2026-09-24T22:45:15.971987+00:00"
+      "estado_dato": "observado",
+      "ultima_observacion_fuente": "24/09/2026 14:00"
     },
     {
       "estacion": "El Porvenir",
@@ -31,13 +30,12 @@
       "nivel_referencia_max_m": 3.0,
       "caudal_referencia_min_m3s": 93.04,
       "caudal_referencia_max_m3s": 399.28,
-      "nivel_instantaneo_m": 1.97,
-      "caudal_instantaneo_m3s": 204.69,
+      "nivel_instantaneo_m": 2.27,
+      "caudal_instantaneo_m3s": 252.88,
       "calidad": "extraido_del_BHVGM",
       "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación.",
-      "estado_dato": "heredado",
-      "ultima_observacion_fuente": "23/09/2026 14:00",
-      "heredado_en_utc": "2026-09-24T22:45:15.971987+00:00"
+      "estado_dato": "observado",
+      "ultima_observacion_fuente": "24/09/2026 14:00"
     },
     {
       "estacion": "Machaquilá",
@@ -76,7 +74,7 @@
       "estado_dato": "heredado",
       "calidad": "extraido_del_BHVGM",
       "ultima_observacion_fuente": "23/09/2026 14:00",
-      "heredado_en_utc": "2026-09-24T22:45:15.971987+00:00"
+      "heredado_en_utc": "2026-09-25T00:54:04.343883+00:00"
     },
     {
       "estacion": "San Luis Ixcán",
@@ -87,12 +85,10 @@
       "estado_dato": "sin_dato"
     }
   ],
-  "errors": [
-    "latest.json no contiene url_pdf BHVGM"
-  ],
+  "errors": [],
   "nota": "Se prioriza dato estructurado del BHVGM; si falta una lectura, se conserva el último valor válido y se marca heredado. Ausencia nunca equivale a cero.",
-  "observadas": 0,
-  "heredadas": 3,
+  "observadas": 2,
+  "heredadas": 1,
   "sin_dato": 4,
-  "estado": "parcial"
+  "estado": "ok"
 }
