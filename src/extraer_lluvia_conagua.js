@@ -93,10 +93,20 @@ function extractRain(items,date,hour){
   for(let bi=0;bi<blocks.length;bi++){
     const b=blocks[bi];
     const nextX=blocks[bi+1]?.stationX ?? Infinity;
-    const left=Math.max(0,b.stationX-35);
+    // El encabezado ESTACIÓN está centrado, pero los nombres de estaciones
+    // están alineados a la izquierda. En la columna derecha (Puxcatán/Tulijá/
+    // Usumacinta) los nombres cortos como MACUSPANA o SALTO DE AGUA quedaban
+    // fuera al usar stationX-35. Tomamos como límite izquierdo el final de la
+    // columna HOY del bloque anterior; los valores numéricos se filtran aparte.
+    const prevHoyX=bi>0?blocks[bi-1].hoyX:null;
+    const left=bi===0?0:Math.max(0,(prevHoyX??(b.stationX-140))+8);
     const right=Number.isFinite(nextX)?(nextX-18):(b.hoyX+45);
+    const tirantes=items.find(i=>norm(i.str).includes('TIRANTES DE AGUA EN OBRAS DE TOMA'));
     for(const row of yRows){
       if(row.y>=b.headerY-3) continue;
+      // La tabla de precipitación de la columna derecha termina antes de
+      // "TIRANTES DE AGUA EN OBRAS DE TOMA"; no leer la tabla inferior.
+      if(tirantes && bi>0 && row.y<=tirantes.y+3) continue;
       const inside=row.items.filter(i=>(i.x+i.w/2)>=left && (i.x+i.w/2)<=right);
       if(!inside.length) continue;
       const stationParts=inside.filter(i=>(i.x+i.w/2)<b.aX-10 && !isNumeric(i.str));
