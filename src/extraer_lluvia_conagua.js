@@ -79,6 +79,9 @@ function cleanStationName(parts){
 }
 function isSectionLabel(name){
   const n=norm(name);
+  // "RÍO DE JANEIRO" es nombre de estación en la tabla del río Tulijá,
+  // no un encabezado de sección.
+  if(n==='RIO DE JANEIRO') return false;
   return !name ||
     /^RIO\b/.test(n) || /^SUBCUENCA\b/.test(n) || /^PRECIPITACION\b/.test(n) ||
     /^ESTACION\b/.test(n) || /^AYER\b/.test(n) || /^HOY\b/.test(n) ||
