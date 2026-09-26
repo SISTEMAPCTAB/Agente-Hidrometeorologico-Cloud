@@ -100,4 +100,4 @@ for item in result.get("reports",{}).get("matutino",[]):
    h.append({"date":stamp,"period":"matutino","current_m":record["current_m"],"source_url":item.get("final_url",item["url"])})
   h.sort(key=lambda x:(x["date"],x["period"]))
   del h[:-120]
-latest_path.write_text(json.dumps(latest,ensure_ascii=False,indent=2)+"\\n",encoding="utf-8")
+latest_path.write_text(json.dumps(latest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
