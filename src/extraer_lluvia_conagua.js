@@ -74,7 +74,19 @@ function detectBlocks(items){
 
 function cleanStationName(parts){
   let s=parts.map(p=>p.str).join(' ').replace(/\s+/g,' ').trim();
+  // En la página 2 algunos textos de infraestructura del bloque izquierdo
+  // pueden quedar en la misma línea visual que la estación de lluvia.
+  // La marca * / ** del boletín precede al nombre real de la estación:
+  // conservar sólo el texto posterior a la última marca evita contaminar
+  // TAPIJULAPA, TEAPA, PUYACATENGO, SAN JOAQUÍN, PUEBLO NUEVO, etc.
+  if(s.includes('*')){
+    const tail=s.split('*').pop().trim();
+    if(tail) s=tail;
+  }
   s=s.replace(/^\*+\s*/,'').trim();
+  const n=norm(s);
+  // Encabezado operativo que también puede quedar unido a texto previo.
+  if(n.includes('RIOS DE LA SIERRA')) return 'RÍOS DE LA SIERRA';
   return s;
 }
 function isSectionLabel(name){
