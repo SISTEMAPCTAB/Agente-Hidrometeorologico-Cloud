@@ -111,13 +111,25 @@
     return parts.join('');
   }
 
-  function conaguaByStation(data){return new Map((Array.isArray(data.conagua)?data.conagua:[]).map(r=>[norm(r.estacion),r]))}
+  function conaguaByStation(data){
+    const list=Array.isArray(data.conagua)?data.conagua:[];
+    const map=new Map(list.map(r=>[norm(r.estacion),r]));
+    return {map,list};
+  }
   function conaguaBlocks(data){
-    const by=conaguaByStation(data),lnk=links(data,'conagua'),parts=[];
+    const src=conaguaByStation(data),by=src.map,lnk=links(data,'conagua'),parts=[];
     for(const id of SYSTEM_ORDER){
       const rows=[],seen=new Set();
       for(const e of lnk.filter(x=>x.sistema===id)){
-        const k=norm(e.estacion),r=by.get(k);if(!r||seen.has(k))continue;seen.add(k);
+        const k=norm(e.estacion);
+        // Compatibilidad con cortes ya publicados donde el PDF unió texto
+        // vecino al nombre de estación. Se acepta únicamente un sufijo exacto
+        // del nombre catalogado; no modifica valores ni otras subcuencas.
+        const r=by.get(k)||src.list.find(x=>{
+          const n=norm(x.estacion);
+          return n===k || n.endsWith(' '+k) || n.endsWith('* '+k);
+        });
+        if(!r||seen.has(k))continue;seen.add(k);
         rows.push(`<tr><td><b>${esc(r.estacion||e.estacion)}</b></td><td>${esc(e.subcuenca||'s/d')}</td><td><b>${r.estado_hoy==='observado'?mm(r.lluvia_hoy_desde_08_mm):'s/d'}</b></td><td>${r.estado_24h==='observado'?mm(r.lluvia_24h_precedentes_mm):'s/d'}</td><td>${r.estado_48h==='observado'?mm(r.lluvia_48h_precedentes_mm):'s/d'}</td><td>${human(r.fecha_hora)}</td></tr>`);
       }
       // No se dibuja una tabla vacía: si el reporte horario vigente no trae
