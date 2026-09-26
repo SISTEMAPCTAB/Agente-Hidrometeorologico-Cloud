@@ -1,6 +1,11 @@
 name: Probar informes Coatzacoalcos Tonala
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/coatzacoalcos_tonala_probe.py'
+      - '.github/workflows/probar-tonala.yml'
   schedule:
     - cron: '30 15,22 * * *'
 permissions:
