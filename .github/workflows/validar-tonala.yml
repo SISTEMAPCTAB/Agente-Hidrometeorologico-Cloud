@@ -1,0 +1,32 @@
+name: Validar modulo Tonala
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'app/coatzacoalcos-tonala.js'
+      - 'app/app.js'
+      - 'app/index.html'
+      - 'src/coatzacoalcos_tonala_probe.py'
+      - '.github/workflows/validar-tonala.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          node --check app/app.js
+          node --check app/coatzacoalcos-tonala.js
+          python -m py_compile src/coatzacoalcos_tonala_probe.py
+          python - <<'PY'
+          import json
+          d=json.load(open('data/coatzacoalcos_tonala/latest.json',encoding='utf-8'))
+          for s in d['reports']['matutino']['stations']:
+            assert abs(s['current_m']-s['namo_m']+s['below_namo_m'])<.035
+          print('OK: sintaxis y consistencia hidrométrica')
+          PY
