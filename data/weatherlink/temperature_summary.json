@@ -1,11 +1,11 @@
 {
   "date_local": "2026-09-26",
-  "updated_local": "2026-09-26T04:32:57.569530-06:00",
+  "updated_local": "2026-09-26T06:22:42.635755-06:00",
   "units": {
     "temperature": "°C",
     "heat_index": "°C"
   },
-  "current_valid_stations": 17,
+  "current_valid_stations": 16,
   "current_excluded_stations": [
     {
       "estacion": "ACALA PCIVILCHIAPAS",
@@ -44,6 +44,10 @@
       "motivo": "sin_temperatura"
     },
     {
+      "estacion": "JUÁREZ PCIVILCHIAPAS",
+      "motivo": "edad_mayor_2h"
+    },
+    {
       "estacion": "La Pampa",
       "motivo": "edad_mayor_2h"
     },
@@ -79,19 +83,19 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Otra ubicación",
       "ubicacion": "Ciudad del Carmen, Camp., Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:32 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:22 AM",
       "nivel_riesgo_max": "Precaución"
     },
     {
       "estacion": "SEMAR Capitanía de Pto. Alvarado, Ver.",
       "max_temp_c": 26.1,
-      "max_temp_time": "Sep 26, 2026/ 1:18 AM",
+      "max_temp_time": "Sep 26, 2026/ 6:21 AM",
       "max_heat_index_c": 26.1,
-      "max_heat_index_time": "Sep 26, 2026/ 1:18 AM",
+      "max_heat_index_time": "Sep 26, 2026/ 6:21 AM",
       "max_heat_basis": "Temperatura del aire",
       "territory": "Otra ubicación",
       "ubicacion": "Alvarado, Ver., Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:32 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:21 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -103,7 +107,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Benito Juárez Garcia Poblado C-21, Tab., Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:00 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:00 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -115,7 +119,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Ingenio Presidente Benito Juárez, Tab., Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:00 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:00 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -127,7 +131,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Dos Montes, Tab., Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:32 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:21 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -139,7 +143,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Villahermosa, Tab., Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:32 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:22 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -151,7 +155,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Guatemala/Petén",
       "ubicacion": "Petén, Guatemala",
-      "last_valid_time": "Sep 26, 2026/ 4:32 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:21 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -163,7 +167,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Otra ubicación",
       "ubicacion": "Palenque, Chis., Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:30 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:15 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -187,7 +191,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ostuacán, Chiapas, Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:32 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:22 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -199,7 +203,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Reforma, Chiapas, Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:32 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:22 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -217,13 +221,13 @@
     {
       "estacion": "PICHUCALCO PCIVILCHIAPAS",
       "max_temp_c": 23.3,
-      "max_temp_time": "Sep 26, 2026/ 4:32 AM",
+      "max_temp_time": "Sep 26, 2026/ 6:22 AM",
       "max_heat_index_c": 23.3,
-      "max_heat_index_time": "Sep 26, 2026/ 4:32 AM",
+      "max_heat_index_time": "Sep 26, 2026/ 6:22 AM",
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Pichucalco, Chiapas, Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:32 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:22 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -235,7 +239,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ixhuatán, Chiapas, Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:32 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:22 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -247,7 +251,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:32 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:22 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -259,7 +263,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Chapultenango, Chiapas, Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:32 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:22 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -271,7 +275,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ocozocoautla, Chiapas, Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:32 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:22 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -295,7 +299,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Sep 26, 2026/ 4:32 AM",
+      "last_valid_time": "Sep 26, 2026/ 6:22 AM",
       "nivel_riesgo_max": "Normal"
     }
   ],
