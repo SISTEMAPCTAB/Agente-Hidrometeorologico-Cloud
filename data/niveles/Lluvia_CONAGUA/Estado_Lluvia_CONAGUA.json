@@ -4,7 +4,7 @@
   "hora_objetivo": 18,
   "pagina_fuente": 2,
   "bloques_precipitacion_detectados": 2,
-  "estaciones_detectadas": 65,
+  "estaciones_detectadas": 69,
   "modo": "precipitacion_conagua_validada_por_estructura",
   "significado_campos": {
     "lluvia_24h_precedentes_mm": "PRECIPITACIÓN REGISTRADA A LAS 8:00 HR, ACUMULADA EN LAS 24:00 HR PRECEDENTES (A)",
@@ -13,15 +13,11 @@
   },
   "regla_blancos": "Celda en blanco = sin_dato; nunca se convierte a 0 mm. Solo se conserva 0 cuando CONAGUA publica explícitamente cero.",
   "conteo": {
-    "blancos_24h": 6,
-    "blancos_48h": 51,
-    "blancos_hoy": 6,
-    "ceros_explicitos_24h": 32,
-    "ceros_explicitos_hoy": 45
+    "blancos_24h": 5,
+    "blancos_48h": 22,
+    "blancos_hoy": 5,
+    "ceros_explicitos_24h": 36,
+    "ceros_explicitos_hoy": 50
   },
-  "diagnostic": null,
-  "run_utc": "2026-09-26T03:06:44.487295+00:00",
-  "status": "fuente_temporalmente_no_disponible",
-  "warning": "No se pudo consultar un reporte reciente de CONAGUA en esta ejecución. principal: ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7ff6543ef560>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=12)')); fuente1: ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7ff6543ee750>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=12)'))",
-  "regla": "Se conserva el último dato válido; ausencia de fuente nunca equivale a cero."
+  "diagnostic": null
 }
