@@ -23,28 +23,42 @@ function chart(series,namo){
 }
 function weatherRows(doc){
  const found=(doc?.stations||[]).filter(x=>existing.has(x.uuid));
+ const order=['e49a137f-741c-4e4d-b9ac-d7118c301f4d','a86b31af-4828-44e9-8709-47f86d62b20e','fefb3d52-6c19-4922-b679-c1302e724124','7cde6e43-d6da-4f2c-b082-e33a2ff2f750'];
+ found.sort((a,b)=>order.indexOf(a.uuid)-order.indexOf(b.uuid));
  return found.map(x=>{
- const t=Date.parse(x.observed_utc||'');const fresh=Number.isFinite(t)&&Date.now()-t<2*3600000&&t<Date.now()+300000;
- const veracruz=x.uuid==='7cde6e43-d6da-4f2c-b082-e33a2ff2f750';
- const a=x.accumulations_mm||{},min=x.accumulation_status?.['24']==='minimo_observado';
- return '<tr><td><b>'+esc(names[x.uuid])+'</b><br><small>'+esc(x.ubicacion)+'</small></td><td>'+esc(veracruz?'Referencia Veracruz; pertenencia a cuenca sin confirmar':'Occidente de Tabasco; asociación hidrológica pendiente de coordenadas')+'</td><td>'+(fresh&&n(a['1'])?num(a['1'])+' mm':'s/d')+'</td><td>'+(fresh&&n(a['6'])?num(a['6'])+' mm':'s/d')+'</td><td>'+(fresh&&n(a['24'])?(min?'≥ ':'')+num(a['24'])+' mm':'s/d')+'</td><td>'+date(x.observed_utc)+'</td><td>'+(fresh?'Actualizada':'Atrasada · no usar acumulado como actual')+'</td></tr>';
+  const t=Date.parse(x.observed_utc||''),fresh=Number.isFinite(t)&&Date.now()-t<2*3600000&&t<Date.now()+300000;
+  const veracruz=x.uuid==='7cde6e43-d6da-4f2c-b082-e33a2ff2f750';
+  const accum=x.accumulations_mm||{},quality=x.accumulation_status||{};
+  const rain=h=>fresh&&n(accum[h])?(quality[h]==='minimo_observado'?'≥ ':'')+num(accum[h])+' mm':'s/d';
+  const state=fresh?'Observado':'Dato anterior';
+  return '<tr><td><b>'+esc(names[x.uuid])+'</b><br><small>'+esc(x.ubicacion)+'</small></td><td>WeatherLink</td><td>'+rain('24')+'</td><td>'+rain('48')+'</td><td>'+date(x.observed_utc)+'</td><td class="weather-quality-cell" style="white-space:normal;min-width:120px">'+state+(veracruz?' · Veracruz; subcuenca por verificar':' · ubicación regional')+'</td></tr>';
  }).join('');
 }
+const panel=(title,body)=>'<section class="panel wide"><h2>'+title+'</h2>'+body+'</section>';
+const table=(head,body,colspan)=>'<div class="table-wrap"><table><thead><tr>'+head.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>'+(body||'<tr><td colspan="'+colspan+'">Sin dato válido disponible</td></tr>')+'</tbody></table></div>';
 async function show(){
  const root=document.getElementById('tonala-root');if(!root)return;const id=++seq;
  const [doc,weather,rain]=await Promise.all([get(ROOT),get(WEATHER),get(RAIN)]);
  if(id!==seq||!document.getElementById('tonala-root'))return;
  const mat=doc?.reports?.matutino,ves=doc?.reports?.vespertino,stations=mat?.stations||[];
- const age=mat?.date?Math.floor((Date.now()-Date.parse(mat.date+'T23:59:59-06:00'))/86400000):Infinity;
- const validity=age<=0?'Actualizado':'Atrasado · última emisión verificada '+esc(mat?.date||'s/d');
- const rows=stations.map(x=>'<tr><td><b>'+esc(x.name)+'</b><br><small>'+esc(x.river)+'</small></td><td>'+num(x.previous_m)+' m</td><td>'+num(x.current_m)+' m</td><td>'+(n(x.delta_m)&&Number(x.delta_m)>0?'+':'')+num(x.delta_m)+' m</td><td>'+num(x.namo_m)+' m</td><td>'+num(x.below_namo_m)+' m abajo</td></tr>').join('');
+ const validDate=mat?.date&&/^\\d{4}-\\d{2}-\\d{2}$/.test(mat.date);
+ const today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Mexico_City',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+ const validity=validDate?(mat.date===today?'Actualizado':'Dato anterior · última emisión '+esc(mat.date)):'No disponible';
+ const rows=stations.map(x=>'<tr><td><b>'+esc(x.name)+'</b><br><small>'+esc(x.river)+'</small></td><td>'+num(x.current_m)+' m</td><td>'+(n(x.delta_m)&&Number(x.delta_m)>0?'+':'')+num(x.delta_m)+' m</td><td>'+esc(n(x.delta_m)?Number(x.delta_m)>0?'Ascenso':Number(x.delta_m)<0?'Descenso':'Estable':'s/d')+'</td><td>'+num(x.below_namo_m)+' m abajo</td><td>'+validity+'</td></tr>').join('');
  const tonal=stations.find(x=>x.id==='san-jose-del-carmen');
- const bridge=(Array.isArray(rain)?rain:[]).filter(x=>/puente tonala/i.test((x.estacion||'').normalize('NFD').replace(/[\u0300-\u036f]/g,''))).sort((a,b)=>Date.parse(b.fecha_hora||'')-Date.parse(a.fecha_hora||''))[0];
- root.innerHTML='<section class="panel wide"><h2>CONAGUA Golfo Centro · niveles</h2><p><b>Estado:</b> '+validity+' · Fuente: informe matutino '+esc(mat?.date||'s/d')+'. La fecha del informe no representa necesariamente la hora de observación.</p><div class="table-wrap"><table><thead><tr><th>Estación</th><th>Escala anterior</th><th>Escala publicada</th><th>Variación</th><th>NAMO</th><th>Distancia NAMO</th></tr></thead><tbody>'+ (rows||'<tr><td colspan="6">Sin escala oficial verificable</td></tr>')+'</tbody></table></div><p><a href="'+esc(mat?.url||'#')+'" target="_blank" rel="noopener noreferrer">Abrir PDF matutino oficial ↗</a></p><p><b>Vespertino:</b> '+esc(ves?.date||'s/d')+' · '+esc(ves?.status||'sin extracción verificada')+'. <a href="'+esc(ves?.url||'#')+'" target="_blank" rel="noopener noreferrer">PDF oficial ↗</a></p><p class="muted">No se mezcla un PDF histórico con el corte actual; los fines de semana se conserva la última fecha válida.</p></section>'+
- '<section class="panel wide"><h2>Río Tonalá · gráfica de evolución</h2>'+chart(doc?.history?.['san-jose-del-carmen'],tonal?.namo_m)+'</section>'+
- '<section class="panel wide"><h2>Lluvia asociada · Puente Tonalá (CONAGUA)</h2>'+(bridge?'<p>Reporte '+date(bridge.fecha_hora)+' · 24 h: '+num(bridge.lluvia_24h_precedentes_mm)+' mm · desde 08:00: '+num(bridge.lluvia_hoy_desde_08_mm)+' mm.</p>':'<p>Sin lectura disponible.</p>')+'</section>'+
- '<section class="panel wide"><h2>WeatherLink · vigilancia regional complementaria</h2><p class="muted">Estaciones ya consultadas por el Agente. La lluvia puntual no representa por sí sola el nivel del Tonalá. Se muestran ubicaciones de referencia, sin adjudicar subcuenca sin coordenadas verificadas.</p><div class="table-wrap"><table><thead><tr><th>Estación</th><th>Ámbito</th><th>1 h</th><th>6 h</th><th>24 h</th><th>Última observación</th><th>Estado</th></tr></thead><tbody>'+ (weatherRows(weather)||'<tr><td colspan="7">Sin datos WeatherLink</td></tr>')+'</tbody></table></div></section>';
+ const bridge=(Array.isArray(rain)?rain:[]).filter(x=>/puente tonala/i.test((x.estacion||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,''))).sort((a,b)=>Date.parse(b.fecha_hora||'')-Date.parse(a.fecha_hora||''))[0];
+ const bridgeRow=bridge?'<tr><td><b>Puente Tonalá</b></td><td>CONAGUA · reporte horario</td><td>'+num(bridge.lluvia_24h_precedentes_mm)+' mm</td><td>s/d</td><td>'+date(bridge.fecha_hora)+'</td><td>'+esc(bridge.estado_24h||'s/d')+'</td></tr>':'';
+ const weatherTable=table(['Estación','Fuente','24 h anteriores','48 h anteriores','Hora','Calidad'],weatherRows(weather),6);
+ const rainTable=table(['Estación','Fuente','24 h anteriores','48 h anteriores','Hora','Calidad'],bridgeRow,6);
+ const levelTable=table(['Estación','Nivel','Δ reporte anterior','Tendencia','Dist. NAMO','Estado'],rows,6);
+ const source='<p class="muted">Corte oficial: '+esc(mat?.date||'s/d')+' · '+validity+'. Escala anterior y actual corresponden al mismo informe, no a dos publicaciones independientes. <a href="'+esc(mat?.url||'#')+'" target="_blank" rel="noopener noreferrer">Informe matutino oficial ↗</a></p><p class="muted">Vespertino: '+esc(ves?.date||'s/d')+' · '+esc(ves?.status||'sin lectura numérica validada')+'. <a href="'+esc(ves?.url||'#')+'" target="_blank" rel="noopener noreferrer">Consultar fuente ↗</a></p>';
+ root.innerHTML=
+  panel('Lluvia observada · 24 y 48 h',rainTable+'<p class="muted">Puente Tonalá · lluvia observada por CONAGUA; no equivale a nivel del río.</p>')+
+  panel('WeatherLink · vigilancia regional complementaria',weatherTable+'<p class="muted">Las estaciones del occidente de Tabasco siguen perteneciendo a sus apartados originales; esta vista es referencia adicional sin reasignar subcuenca. CitrusMax, Veracruz, conserva la fecha original y no se presenta como dato vigente.</p>')+
+  panel('Coatzacoalcos–Tonalá · niveles',levelTable+source)+
+  panel('Gráficas hidrométricas · evolución del Tonalá','<div class="hydro48-grid"><article class="hydro48-card"><div class="hydro48-head"><strong>San José del Carmen · Río Tonalá</strong><span>CONAGUA Golfo Centro</span></div>'+chart(doc?.history?.['san-jose-del-carmen'],tonal?.namo_m)+'</article></div>');
 }
+
 document.addEventListener('DOMContentLoaded',()=>{
  const content=document.getElementById('content');
  content?.addEventListener('app-rendered',e=>{if(e.detail?.section==='tonala')show()});
