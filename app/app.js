@@ -11,7 +11,7 @@ const SRC={
  fuente2:`${BASE}/data/latest/FUENTE2.txt`,
  damHistory:`${BASE}/data/presas/historico_mensual.json`
 };
-const SECTIONS=[['resumen','Resumen operativo'],['tonala','Coatzacoalcos–Tonalá'],['presas','Presas–Mezcalapa–Samaria y Carrizal'],['serranos','Ríos Serranos–Grijalva'],['tulija','Tulijá–Puxcatán–Chilapa'],['usumacinta','Usumacinta'],['weather','WeatherLink / CONAGUA'],['pronostico','Pronóstico SMN 96 / 360 h'],['analisis','Análisis 11:00 h'],['reportes','Reportes']];
+const SECTIONS=[['resumen','Resumen operativo'],['weather','WeatherLink / CONAGUA'],['pronostico','Pronóstico SMN 96 / 360 h'],['tonala','Coatzacoalcos–Tonalá'],['presas','Presas–Mezcalapa–Samaria y Carrizal'],['serranos','Ríos Serranos–Grijalva'],['tulija','Tulijá–Puxcatán–Chilapa'],['usumacinta','Usumacinta'],['analisis','Análisis 11:00 h'],['reportes','Reportes']];
 const SYSTEMS={
  presas:{title:'Presas–Mezcalapa–Samaria y Carrizal',terms:['samaria','gonzalez','carrizal','mezcalapa','platanar','macayo','penitas']},
  serranos:{title:'Ríos Serranos–Grijalva',terms:['oxolotan','tapijulapa','teapa','puyacatengo','san joaquin','pueblo nuevo','rios de la sierra','pichucalco','gaviotas','el muelle','porvenir']},
