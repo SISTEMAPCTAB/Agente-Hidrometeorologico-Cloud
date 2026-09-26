@@ -41,12 +41,12 @@ async function show(){
  const [doc,weather,rain]=await Promise.all([get(ROOT),get(WEATHER),get(RAIN)]);
  if(id!==seq||!document.getElementById('tonala-root'))return;
  const mat=doc?.reports?.matutino,ves=doc?.reports?.vespertino,stations=mat?.stations||[];
- const validDate=mat?.date&&/^\\d{4}-\\d{2}-\\d{2}$/.test(mat.date);
+ const validDate=mat?.date&&/^\d{4}-\d{2}-\d{2}$/.test(mat.date);
  const today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Mexico_City',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
  const validity=validDate?(mat.date===today?'Actualizado':'Dato anterior · última emisión '+esc(mat.date)):'No disponible';
  const rows=stations.map(x=>'<tr><td><b>'+esc(x.name)+'</b><br><small>'+esc(x.river)+'</small></td><td>'+num(x.current_m)+' m</td><td>'+(n(x.delta_m)&&Number(x.delta_m)>0?'+':'')+num(x.delta_m)+' m</td><td>'+esc(n(x.delta_m)?Number(x.delta_m)>0?'Ascenso':Number(x.delta_m)<0?'Descenso':'Estable':'s/d')+'</td><td>'+num(x.below_namo_m)+' m abajo</td><td>'+validity+'</td></tr>').join('');
  const tonal=stations.find(x=>x.id==='san-jose-del-carmen');
- const bridge=(Array.isArray(rain)?rain:[]).filter(x=>/puente tonala/i.test((x.estacion||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,''))).sort((a,b)=>Date.parse(b.fecha_hora||'')-Date.parse(a.fecha_hora||''))[0];
+ const bridge=(Array.isArray(rain)?rain:[]).filter(x=>/puente tonala/i.test((x.estacion||'').normalize('NFD').replace(/[\u0300-\u036f]/g,''))).sort((a,b)=>Date.parse(b.fecha_hora||'')-Date.parse(a.fecha_hora||''))[0];
  const bridgeRow=bridge?'<tr><td><b>Puente Tonalá</b></td><td>CONAGUA · reporte horario</td><td>'+num(bridge.lluvia_24h_precedentes_mm)+' mm</td><td>s/d</td><td>'+date(bridge.fecha_hora)+'</td><td>'+esc(bridge.estado_24h||'s/d')+'</td></tr>':'';
  const weatherTable=table(['Estación','Fuente','24 h anteriores','48 h anteriores','Hora','Calidad'],weatherRows(weather),6);
  const rainTable=table(['Estación','Fuente','24 h anteriores','48 h anteriores','Hora','Calidad'],bridgeRow,6);
