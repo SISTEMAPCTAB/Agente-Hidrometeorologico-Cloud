@@ -397,6 +397,62 @@
       "influencia": "local/directa",
       "confianza": "alta",
       "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "MACUSPANA",
+      "subcuenca": "R. Puxcatán",
+      "sistema": "tulija",
+      "receptor": "Puxcatán → Chilapa → Grijalva",
+      "rios_objetivo": [
+        "Puxcatán",
+        "Chilapa"
+      ],
+      "influencia": "directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "SALTO DE AGUA",
+      "subcuenca": "R. Tulijá",
+      "sistema": "tulija",
+      "receptor": "Tulijá → Chilapa → Grijalva",
+      "rios_objetivo": [
+        "Tulijá",
+        "Chilapa"
+      ],
+      "influencia": "directa/aguas arriba",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "POBLADO C-11",
+      "subcuenca": "R. Tulijá",
+      "sistema": "tulija",
+      "receptor": "Tulijá → Chilapa → Grijalva",
+      "rios_objetivo": [
+        "Tulijá",
+        "Chilapa"
+      ],
+      "influencia": "directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
+    },
+    {
+      "fuente": "CONAGUA",
+      "estacion": "RIO DE JANEIRO",
+      "subcuenca": "R. Tulijá",
+      "sistema": "tulija",
+      "receptor": "Tulijá → Chilapa → Grijalva",
+      "rios_objetivo": [
+        "Tulijá",
+        "Chilapa"
+      ],
+      "influencia": "directa",
+      "confianza": "alta",
+      "gobierna_semaforo": true
     }
   ],
   "fuentes_areales": [
