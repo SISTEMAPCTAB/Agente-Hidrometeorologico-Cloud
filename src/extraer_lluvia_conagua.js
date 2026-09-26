@@ -72,22 +72,42 @@ function detectBlocks(items){
   return blocks.filter((b,i,a)=>i===0||Math.abs(b.stationX-a[i-1].stationX)>20);
 }
 
+const CANONICAL_RAIN_STATIONS=[
+  'PEÑITAS','MEZCALAPA','PTE. SOLIDARIDAD','PAREDON','HUIMANGUILLO (INIFAP)','PLATANAR',
+  'SAMARIA','EL MANGO','SAN CIPRIANO','OXIACAQUE','TECOLUTA','NACAJUCA',
+  'MACAYO MARGEN IZQUIERDA','GONZÁLEZ','POSTA (PTE. LOS MONOS)','LA PIGUA',
+  'OXOLOTÁN','TAPIJULAPA','EL REFUGIO','DOS PATRIAS','TEAPA','PUYACATENGO','SAN JOAQUÍN',
+  'PUEBLO NUEVO','LOS AGAVES','TAPILULA','FRANCISCO I. MADERO','NUEVO XOCHIMILCO',
+  'PANTELHO','SAN JULIÁN','LA LAGARTERA','SAN PEDRO NICHTACULUM','SUNUAPA',
+  'CHAPULTENANGO','PTE. HUITIUPAN','COMALCALCO','VÍA CORTA',
+  'GAVIOTAS','MUELLE','PORVENIR','OBSERVATORIO DE VILLAHERMOSA','LOS ÍDOLOS','TRES BRAZOS',
+  'MACUSPANA','TEPETITÁN','TENOSIQUE','SALTO DE AGUA','POBLADO C-11','RIO DE JANEIRO',
+  'BLASILLO','ZANAPA','SÁNCHEZ MAGALLANEZ','PUENTE TONALÁ','TULIPÁN',
+  'LUIS GIL P. VHSA. (VIEJO MEZCALAPA)','VIEJO MEZCALAPA (PUENTE LIMÓN)',
+  'PLAYA DE CATAZAJA (EL CUYO)','JONUTA (CIUDAD)','JONUTA 2 (PUENTE)',
+  'EMILIANO ZAPATA (CHABLE)','BALANCÁN','SAN PEDRO','BOCA DEL CERRO','RÍO GONZÁLEZ','PARAÍSO'
+];
+
+function canonicalRainStation(raw){
+  const n=norm(raw);
+  if(!n)return raw;
+  // Preferencia por coincidencia exacta o por sufijo tras texto vecino del PDF.
+  const exact=CANONICAL_RAIN_STATIONS.find(x=>norm(x)===n);
+  if(exact)return exact;
+  const suffix=CANONICAL_RAIN_STATIONS
+    .filter(x=>n.endsWith(norm(x)))
+    .sort((a,b)=>norm(b).length-norm(a).length)[0];
+  return suffix||raw;
+}
+
 function cleanStationName(parts){
   let s=parts.map(p=>p.str).join(' ').replace(/\s+/g,' ').trim();
-  // En la página 2 algunos textos de infraestructura del bloque izquierdo
-  // pueden quedar en la misma línea visual que la estación de lluvia.
-  // La marca * / ** del boletín precede al nombre real de la estación:
-  // conservar sólo el texto posterior a la última marca evita contaminar
-  // TAPIJULAPA, TEAPA, PUYACATENGO, SAN JOAQUÍN, PUEBLO NUEVO, etc.
   if(s.includes('*')){
     const tail=s.split('*').pop().trim();
     if(tail) s=tail;
   }
   s=s.replace(/^\*+\s*/,'').trim();
-  const n=norm(s);
-  // Encabezado operativo que también puede quedar unido a texto previo.
-  if(n.includes('RIOS DE LA SIERRA')) return 'RÍOS DE LA SIERRA';
-  return s;
+  return canonicalRainStation(s);
 }
 function isSectionLabel(name){
   const n=norm(name);
