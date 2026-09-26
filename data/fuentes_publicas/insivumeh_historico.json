@@ -3001,49 +3001,94 @@
           "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
         }
       ]
+    },
+    {
+      "clave": "26/09/2026|08:00|805",
+      "boletin": "805",
+      "fecha": "26/09/2026",
+      "hora": "08:00",
+      "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
+      "estaciones": [
+        {
+          "estacion": "El Tigre",
+          "rio": "Usumacinta",
+          "nivel_referencia_min_m": 4.55,
+          "nivel_referencia_max_m": 10.0,
+          "caudal_referencia_min_m3s": 486.87,
+          "caudal_referencia_max_m3s": 2856.43,
+          "nivel_instantaneo_m": 9.15,
+          "caudal_instantaneo_m3s": 2486.87,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+        },
+        {
+          "estacion": "El Porvenir",
+          "rio": "La Pasión",
+          "nivel_referencia_min_m": 93.04,
+          "nivel_referencia_max_m": 399.28,
+          "caudal_referencia_min_m3s": 3.64,
+          "caudal_referencia_max_m3s": 565.17,
+          "nivel_instantaneo_m": 317.0,
+          "caudal_instantaneo_m3s": 2026.0,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+        },
+        {
+          "estacion": "Puente Chocox",
+          "rio": "Chixoy",
+          "nivel_referencia_min_m": 0.56,
+          "nivel_referencia_max_m": 2.33,
+          "caudal_referencia_min_m3s": 7.9,
+          "caudal_referencia_max_m3s": 110.1,
+          "nivel_instantaneo_m": 1.94,
+          "caudal_instantaneo_m3s": 75.51,
+          "calidad": "extraido_del_BHVGM",
+          "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación."
+        }
+      ]
     }
   ],
-  "actualizado_utc": "2026-09-26T10:32:31.458740+00:00",
+  "actualizado_utc": "2026-09-26T14:42:49.167995+00:00",
   "ultima_evolucion_real": [
     {
       "estacion": "El Tigre",
       "rio": "Usumacinta",
-      "desde": "25/09/2026 14:00",
-      "hasta": "25/09/2026 20:00",
-      "horas_transcurridas": 6.0,
-      "delta_nivel_m": -0.71,
-      "delta_caudal_m3s": -308.69,
-      "tendencia_calculada": "disminuyendo"
+      "desde": "25/09/2026 20:00",
+      "hasta": "26/09/2026 08:00",
+      "horas_transcurridas": 12.0,
+      "delta_nivel_m": 2.01,
+      "delta_caudal_m3s": 873.91,
+      "tendencia_calculada": "incrementando"
     },
     {
       "estacion": "El Porvenir",
       "rio": "La Pasión",
-      "desde": "25/09/2026 14:00",
-      "hasta": "25/09/2026 20:00",
-      "horas_transcurridas": 6.0,
-      "delta_nivel_m": 0.0,
+      "desde": "25/09/2026 20:00",
+      "hasta": "26/09/2026 08:00",
+      "horas_transcurridas": 12.0,
+      "delta_nivel_m": 15.0,
       "delta_caudal_m3s": 0.0,
-      "tendencia_calculada": "estable"
+      "tendencia_calculada": "incrementando"
     },
     {
       "estacion": "Puente Chocox",
       "rio": "Chixoy",
-      "desde": "25/09/2026 14:00",
-      "hasta": "25/09/2026 20:00",
-      "horas_transcurridas": 6.0,
-      "delta_nivel_m": 0.63,
-      "delta_caudal_m3s": 39.37,
+      "desde": "25/09/2026 20:00",
+      "hasta": "26/09/2026 08:00",
+      "horas_transcurridas": 12.0,
+      "delta_nivel_m": 0.05,
+      "delta_caudal_m3s": 3.9,
       "tendencia_calculada": "incrementando"
     }
   ],
   "ultimo_pdf_bhvgm": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
-  "senal_usumacinta_alta": "Señal aguas arriba disminuyendo",
+  "senal_usumacinta_alta": "Señal aguas arriba en aumento",
   "el_tigre_estado": {
     "publicado_en_corte_actual": true,
     "corte_actual": {
-      "boletin": "804",
-      "fecha": "25/09/2026",
-      "hora": "20:00"
+      "boletin": "805",
+      "fecha": "26/09/2026",
+      "hora": "08:00"
     },
     "ultimo_publicado_anterior": null,
     "regla": "Un dato anterior se conserva solo como antecedente; nunca sustituye ni gobierna el corte actual."
