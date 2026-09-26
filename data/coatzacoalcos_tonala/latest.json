@@ -1,0 +1,38 @@
+{
+  "updated_at_utc": "2026-09-26T18:45:31Z",
+  "state": "ultimo_informe_verificado; no implica publicación de hoy",
+  "reports": {
+    "matutino": {
+      "date": "2026-09-25",
+      "url": "https://www.gob.mx/cms/uploads/attachment/file/1105250/Informe_Matutino_25092026.pdf",
+      "stations": [
+        {
+          "id": "san-jose-del-carmen",
+          "name": "San José del Carmen",
+          "river": "Río Tonalá",
+          "namo_m": 4.71,
+          "previous_m": 2.84,
+          "current_m": 2.98,
+          "delta_m": 0.14,
+          "below_namo_m": 1.73
+        },
+        {
+          "id": "agua-dulce",
+          "name": "Agua Dulce",
+          "river": "Río Aguadulcita",
+          "namo_m": 6.32,
+          "previous_m": 2.35,
+          "current_m": 2.3,
+          "delta_m": -0.05,
+          "below_namo_m": 4.02
+        }
+      ]
+    },
+    "vespertino": {
+      "date": "2026-07-16",
+      "url": "https://www.gob.mx/cms/uploads/attachment/file/1090562/Informe_vespertino_16072026.pdf",
+      "stations": [],
+      "status": "Documento descargado; formato distinto, sin homologación de lectura actual validada"
+    }
+  }
+}
