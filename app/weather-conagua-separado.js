@@ -5,7 +5,9 @@
     weatherExtra:`${BASE}/data/weatherlink/extra_latest.json`,
     conagua:`${BASE}/data/niveles/Lluvia_CONAGUA/ultimo_corte.json`,
     climate:`${BASE}/data/niveles/Clima_CONAGUA/ultimo_corte.json`,
-    catalog:`${BASE}/data/catalogos/estaciones_influencia_hidrologica.json`
+    catalog:`${BASE}/data/catalogos/estaciones_influencia_hidrologica.json`,
+    insAuto:`${BASE}/data/fuentes_publicas/insivumeh_automaticas.json`,
+    fuente1:`${BASE}/data/latest/FUENTE1.txt`
   };
   const SYSTEM_ORDER=['presas','serranos','tulija','usumacinta'];
   const SYSTEM_FALLBACK={
@@ -34,6 +36,9 @@
   async function fetchJSON(url,fallback){
     try{const r=await fetch(url,{cache:'no-cache'});return r.ok?await r.json():fallback}catch{return fallback}
   }
+  async function fetchText(url,fallback=''){
+    try{const r=await fetch(url,{cache:'no-cache'});return r.ok?await r.text():fallback}catch{return fallback}
+  }
   async function bundle(force=false){
     const now=Date.now();
     if(!force&&cache&&now-cacheAt<60000)return cache;
@@ -43,9 +48,11 @@
       fetchJSON(URLS.weatherExtra,{stations:[]}),
       fetchJSON(URLS.conagua,[]),
       fetchJSON(URLS.climate,{conagua_tabasco:[],frontera_sur:[]}),
-      fetchJSON(URLS.catalog,{sistemas:{},estaciones:[]})
-    ]).then(([weather,extra,conagua,climate,catalog])=>{
-      cache={weather,extra,conagua,climate,catalog};cacheAt=Date.now();return cache;
+      fetchJSON(URLS.catalog,{sistemas:{},estaciones:[]}),
+      fetchJSON(URLS.insAuto,{estaciones:[],acumulados_epoca_lluviosa:[]}),
+      fetchText(URLS.fuente1,'')
+    ]).then(([weather,extra,conagua,climate,catalog,insAuto,fuente1])=>{
+      cache={weather,extra,conagua,climate,catalog,insAuto,fuente1};cacheAt=Date.now();return cache;
     }).finally(()=>{inFlight=null});
     return inFlight;
   }
@@ -96,11 +103,40 @@
     if(!rows.length)return '<p class="muted">Sin estaciones vinculadas disponibles en este corte.</p>';
     return `<div class="table-wrap"><table><thead><tr><th>Estación</th><th>Fuente</th><th>1 h</th><th>6 h</th><th>24 h anteriores</th><th>48 h anteriores</th><th>Temperatura</th><th>Humedad</th><th>Hora</th><th>Calidad</th></tr></thead><tbody>${rows.map(weatherRow).join('')}</tbody></table></div>`;
   }
+  const ALTO_INS=[
+    ['El Tigre','INS171302AT'],['El Porvenir','INS171001AT'],['Bethel','INS171301AT'],
+    ['Machaquilá','INS171201AT'],['Mactún','INS170401AT'],['Chixoy Hidro','INS161301AT'],
+    ['Playa Grande Met (Ixcan)','INS142201AT'],['Santa María Cahabón','INS161201CV'],
+    ['Panzos PHC Altaverapaz','INS160701CV']
+  ];
+  function insByCode(list,code){return (Array.isArray(list)?list:[]).find(x=>String(x.codigo||'').toUpperCase()===code)||null}
+  function altoUsumacintaBlock(data){
+    const rows=[];
+    const extra=(Array.isArray(data.extra?.stations)?data.extra.stations:[]).filter(x=>x.grupo==='alto_usumacinta');
+    for(const r of extra){
+      const a=r.accumulations_mm||{},s=r.accumulation_status||{};
+      rows.push(`<tr><td><b>${esc(r.nombre||'s/d')}</b></td><td>WeatherLink</td><td>${finite(r.daily_mm)?mm(r.daily_mm):'s/d'}</td><td>${rainValue(a['1'],s['1'])}</td><td>${rainValue(a['6'],s['6'])}</td><td>${rainValue(a['24'],s['24'])}</td><td>${rainValue(a['48'],s['48'])}</td><td>${rainValue(a['72'],s['72'])}</td><td>s/d</td><td>${human(r.observed_utc||r.last_updated_at)}</td></tr>`);
+    }
+    const auto=data.insAuto||{}, season=auto.acumulados_epoca_lluviosa||[];
+    for(const [name,code] of ALTO_INS){
+      const a=insByCode(auto.estaciones,code), e=insByCode(season,code);
+      const p24=a&&finite(a.precipitacion_24h_mm)?Number(a.precipitacion_24h_mm):null;
+      const ep=e&&finite(e.acumulado_epoca_lluviosa_mm)?Number(e.acumulado_epoca_lluviosa_mm):null;
+      if(p24===null&&ep===null)continue;
+      rows.push(`<tr><td><b>${esc(name)}</b></td><td>INSIVUMEH</td><td>s/d</td><td>s/d</td><td>s/d</td><td>${p24===null?'s/d':mm(p24)}</td><td>s/d</td><td>s/d</td><td>${ep===null?'s/d':mm(ep)}</td><td>${human(auto.consultado_utc)}</td></tr>`);
+    }
+    const clean=String(data.fuente1||'').replace(/,/g,'');
+    const lm=clean.match(/BHG21\s+Lacant[uú]n\s+Ocosingo\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/i);
+    if(lm)rows.push(`<tr><td><b>Lacantún</b></td><td>OCFS/CONAGUA</td><td>s/d</td><td>s/d</td><td>s/d</td><td>${mm(Number(lm[6]))}</td><td>s/d</td><td>s/d</td><td>s/d</td><td>corte boletín</td></tr>`);
+    const body=rows.length?rows.join(''):'<tr><td colspan="10">Sin datos verificables disponibles en este corte.</td></tr>';
+    return `<div class="subcuenca-weather-block alto-usu" data-unified-alto="1"><h3>Alto Usumacinta · precipitación observada</h3><div class="table-wrap"><table><thead><tr><th>Estación</th><th>Fuente</th><th>Hoy</th><th>1 h</th><th>6 h</th><th>24 h</th><th>48 h</th><th>72 h</th><th>Acum. época lluviosa</th><th>Última actualización</th></tr></thead><tbody>${body}</tbody></table></div></div>`;
+  }
+
   function weatherBlocks(data){
     const map=weatherMap(data),lnk=links(data,'weatherlink'),parts=[];
     for(const id of SYSTEM_ORDER){
       if(id==='usumacinta'){
-        parts.push('<div class="subcuenca-weather-block" data-alto-placeholder="1"><h3>Alto Usumacinta</h3><p class="muted">Integrando observaciones de Guatemala, Lacantún y WeatherLink…</p></div>');
+        parts.push(altoUsumacintaBlock(data));
       }
       const rows=[],seen=new Set();
       for(const e of lnk.filter(x=>x.sistema===id)){
