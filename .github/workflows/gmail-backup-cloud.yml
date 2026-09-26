@@ -11,10 +11,12 @@ on:
       - 'src/auditar_productos_operativos.py'
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
-    # Tabasco UTC-6: consulta horaria de 06:50 a 18:50; pausa nocturna.
-    # No se enlaza a cada ejecución WeatherLink para evitar una cola creciente
-    # de trabajos Gmail que retrase las revisiones posteriores.
+    # Tabasco UTC-6: conservar consulta habitual a las :50 (06:50-18:50).
+    # Respaldo adicional a las :15 (07:15-19:15): recupera boletines
+    # llegados pocos minutos después de cada hora, sin esperar al próximo :50.
+    # Mantiene deduplicación de Gmail; no depende de que el último run sea reciente.
     - cron: '50 12-23,0 * * *'
+    - cron: '15 13-23,0-1 * * *'
 
 permissions:
   contents: write
