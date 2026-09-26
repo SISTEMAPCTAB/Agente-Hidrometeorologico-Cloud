@@ -144,13 +144,24 @@
   }
 
   async function loadData(){
-    const [dr,ar,tr,wr]=await Promise.all([
-      fetch(`${DATA_URL}?v=${Date.now()}`,{cache:'no-store'}),
-      fetch(`${AUTO_URL}?v=${Date.now()}`,{cache:'no-store'}),
-      fetch(`${FUENTE1_URL}?v=${Date.now()}`,{cache:'no-store'}),
-      fetch(`${WEATHER_EXTRA_URL}?v=${Date.now()}`,{cache:'no-store'})
+    // Cada fuente se consulta de forma independiente. Una falla temporal de
+    // WeatherLink, FUENTE1 o latest.json no debe impedir mostrar la lluvia
+    // INSIVUMEH disponible en Alto Usumacinta.
+    const safeJSON=async url=>{
+      try{const r=await fetch(`${url}?v=${Date.now()}`,{cache:'no-store'});return r.ok?await r.json():{}}
+      catch{return {}}
+    };
+    const safeText=async url=>{
+      try{const r=await fetch(`${url}?v=${Date.now()}`,{cache:'no-store'});return r.ok?await r.text():''}
+      catch{return ''}
+    };
+    const [doc,auto,txt,extra]=await Promise.all([
+      safeJSON(DATA_URL),
+      safeJSON(AUTO_URL),
+      safeText(FUENTE1_URL),
+      safeJSON(WEATHER_EXTRA_URL)
     ]);
-    return {doc:dr.ok?await dr.json():{},auto:ar.ok?await ar.json():{},txt:tr.ok?await tr.text():'',extra:wr.ok?await wr.json():{}};
+    return {doc,auto,txt,extra};
   }
 
   let renderGeneration=0;
@@ -189,8 +200,14 @@
         !groups.isConnected
       )return;
 
-      const rows=[...weatherRows(extra),...publicRows(doc,txt,auto)];
-      if(!rows.length)return;
+      const wxRows=weatherRows(extra);
+      const insRows=publicRows(doc,txt,auto);
+      const rows=[...wxRows,...insRows];
+      if(!rows.length){
+        // Conservar el marcador sólo cuando realmente no existe ningún dato
+        // verificable de las fuentes de Alto Usumacinta.
+        return;
+      }
       styles();
 
       const old=[...groups.querySelectorAll('.subcuenca-weather-block')].find(b=>norm(b.querySelector('h3')?.textContent)==='alto usumacinta');
@@ -243,5 +260,13 @@
       const content=document.getElementById('content');
       if(content?.dataset.weatherSplit==='1')scheduleRender(120);
     }).observe(root,{childList:true,subtree:true});
+
+    // Reintento ligero: evita que una carga transitoria deje de forma
+    // permanente el texto "Integrando observaciones…".
+    setInterval(()=>{
+      if(document.hidden||active()!=='weather')return;
+      const groups=document.querySelector('.weather-source-groups');
+      if(groups&&!groups.querySelector('[data-unified-alto="1"]'))scheduleRender(80);
+    },30000);
   });
 })();
