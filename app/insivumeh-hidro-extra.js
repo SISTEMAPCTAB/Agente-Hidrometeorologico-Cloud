@@ -8,6 +8,12 @@
   const active=()=>document.querySelector('#nav button.active')?.dataset.section||'resumen';
   const wanted=['el tigre','el porvenir','machaquila','san pedro mactun','san agustin chixoy','playa grande','san luis ixcan'];
   let busy=false,lastSignature='';
+  function ensureScroll(){
+    if(document.getElementById('insivumehHydroScrollFix'))return;
+    const style=document.createElement('style');style.id='insivumehHydroScrollFix';
+    style.textContent='#insivumehHydroExtra{min-width:0;max-width:100%;overflow:hidden} #insivumehHydroExtra .table-wrap{display:block;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain} #insivumehHydroExtra table{min-width:1100px;width:max-content}';
+    document.head.appendChild(style);
+  }
 
   async function data(){
     try{const r=await fetch(`${URL}?v=${Date.now()}`,{cache:'no-store'});return r.ok?await r.json():null;}catch{return null;}
@@ -44,6 +50,7 @@
     if(active()!=='usumacinta')return false;
     const content=document.getElementById('content');if(!content)return false;
     const d=await data();if(!d)return false;
+    ensureScroll();
     const sig=signature(d);
     let sec=document.getElementById(SECTION_ID);
     if(!sec){sec=document.createElement('section');sec.id=SECTION_ID;sec.className='panel wide usu-upper-levels';}
@@ -55,7 +62,7 @@
       if(anchor?.parentNode===content)content.insertBefore(sec,anchor);else content.insertBefore(sec,content.firstElementChild||null);
     }
 
-    if(force||sig!==lastSignature){
+    if(force||sig!==lastSignature||!sec.querySelector('table')){
       const html=`<h2>Alto Usumacinta · niveles y gastos INSIVUMEH</h2><p class="source-note">BHVGM de INSIVUMEH. Si una estación no trae valor nuevo, se conserva el último dato válido y se marca como heredado; ausencia nunca equivale a cero. Corte fuente: ${esc(`${d.fecha||'s/d'} ${d.hora||''}`.trim())}.</p>${makeTable(d)}`;
       if(sec.innerHTML!==html)sec.innerHTML=html;
       lastSignature=sig;
@@ -85,6 +92,12 @@
 
   document.addEventListener('DOMContentLoaded',()=>{
     settleOrder(true);
+    const root=document.getElementById('content');
+    if(root){let retry=null;new MutationObserver(()=>{
+      if(active()!=='usumacinta'||busy)return;
+      if(document.getElementById(SECTION_ID)?.isConnected)return;
+      clearTimeout(retry);retry=setTimeout(()=>run(false),180);
+    }).observe(root,{childList:true,subtree:false});}
     document.getElementById('refreshBtn')?.addEventListener('click',()=>settleOrder(true));
     document.getElementById('nav')?.addEventListener('click',()=>settleOrder(true));
     document.addEventListener('visibilitychange',()=>{if(!document.hidden)settleOrder(false);});
