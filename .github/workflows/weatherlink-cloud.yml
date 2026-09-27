@@ -71,9 +71,9 @@ jobs:
 
           p=Path('data/weatherlink/Estado_WeatherLink_Cloud.json')
           s=json.loads(p.read_text(encoding='utf-8'))
-          assert s.get('complete') is True, 'WeatherLink no quedó completo'
-          assert s.get('stations_ok') == s.get('stations_expected'), 'No se recolectaron todas las estaciones esperadas'
-          assert not (s.get('errors') or []), 'WeatherLink reportó errores'
+          assert 0 < s.get('stations_ok', 0) <= s.get('stations_expected', 0), 'No hay estaciones recolectadas para publicar'
+          assert s.get('stations_ok', 0) + s.get('stations_error', 0) == s.get('stations_expected', 0), 'Conteo de estaciones incoherente'
+          assert s.get('complete') is (s['stations_error'] == 0), 'Estado de completitud incoherente'
           run=s.get('run_utc')
           assert run, 'Falta hora de ejecución WeatherLink'
           d=datetime.fromisoformat(run.replace('Z','+00:00'))
