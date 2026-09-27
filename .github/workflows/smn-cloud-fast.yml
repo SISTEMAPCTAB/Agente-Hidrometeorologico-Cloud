@@ -10,6 +10,7 @@ on:
       - '.github/workflows/smn-cloud-fast.yml'
   schedule:
     # Revisión ligera cada 10 minutos, independiente del recolector general.
+    # Verificar aviso 270 emitido el 27-sep y activar ejecución inmediata por push.
     - cron: '3,13,23,33,43,53 * * * *'
 
 permissions:
