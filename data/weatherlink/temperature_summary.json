@@ -1,12 +1,20 @@
 {
   "date_local": "2026-09-27",
-  "updated_local": "2026-09-27T01:08:06.762198-06:00",
+  "updated_local": "2026-09-27T05:43:26.175677-06:00",
   "units": {
     "temperature": "°C",
     "heat_index": "°C"
   },
-  "current_valid_stations": 17,
+  "current_valid_stations": 13,
   "current_excluded_stations": [
+    {
+      "estacion": "ACALA PCIVILCHIAPAS",
+      "motivo": "sin_temperatura"
+    },
+    {
+      "estacion": "AMATÁN PCIVILCHIAPAS",
+      "motivo": "sin_temperatura"
+    },
     {
       "estacion": "ATA",
       "motivo": "edad_mayor_2h"
@@ -52,6 +60,10 @@
       "motivo": "sin_temperatura"
     },
     {
+      "estacion": "SALTO DE AGUA PCIVILCHIAPAS",
+      "motivo": "sin_temperatura"
+    },
+    {
       "estacion": "SAN CAYETANO CONSOLA",
       "motivo": "edad_mayor_2h"
     },
@@ -64,6 +76,10 @@
       "motivo": "edad_mayor_2h"
     },
     {
+      "estacion": "Urrutia",
+      "motivo": "edad_mayor_2h"
+    },
+    {
       "estacion": "Yaxhá - INSIVUMEH PETEN",
       "motivo": "edad_mayor_2h"
     }
@@ -72,15 +88,15 @@
   "stations": [
     {
       "estacion": "SEMAR E.I.O. Cd. del Carmen.",
-      "max_temp_c": 26.1,
-      "max_temp_time": "Sep 27, 2026/ 1:07 AM",
-      "max_heat_index_c": 26.1,
-      "max_heat_index_time": "Sep 27, 2026/ 1:07 AM",
-      "max_heat_basis": "Temperatura del aire",
+      "max_temp_c": 27.2,
+      "max_temp_time": "Sep 27, 2026/ 5:42 AM",
+      "max_heat_index_c": 31.3,
+      "max_heat_index_time": "Sep 27, 2026/ 5:42 AM",
+      "max_heat_basis": "Índice de calor",
       "territory": "Otra ubicación",
       "ubicacion": "Ciudad del Carmen, Camp., Mexico",
-      "last_valid_time": "Sep 27, 2026/ 1:07 AM",
-      "nivel_riesgo_max": "Normal"
+      "last_valid_time": "Sep 27, 2026/ 5:42 AM",
+      "nivel_riesgo_max": "Precaución"
     },
     {
       "estacion": "Centro",
@@ -91,7 +107,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Villahermosa, Tab., Mexico",
-      "last_valid_time": "Sep 27, 2026/ 1:07 AM",
+      "last_valid_time": "Sep 27, 2026/ 5:42 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -103,7 +119,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Benito Juárez Garcia Poblado C-21, Tab., Mexico",
-      "last_valid_time": "Sep 27, 2026/ 1:00 AM",
+      "last_valid_time": "Sep 27, 2026/ 5:00 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -127,7 +143,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Dos Montes, Tab., Mexico",
-      "last_valid_time": "Sep 27, 2026/ 1:07 AM",
+      "last_valid_time": "Sep 27, 2026/ 5:42 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -139,7 +155,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Ingenio Presidente Benito Juárez, Tab., Mexico",
-      "last_valid_time": "Sep 27, 2026/ 1:00 AM",
+      "last_valid_time": "Sep 27, 2026/ 5:00 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -151,7 +167,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Reforma, Chiapas, Mexico",
-      "last_valid_time": "Sep 27, 2026/ 1:08 AM",
+      "last_valid_time": "Sep 27, 2026/ 5:43 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -169,13 +185,13 @@
     {
       "estacion": "JUÁREZ PCIVILCHIAPAS",
       "max_temp_c": 24.4,
-      "max_temp_time": "Sep 27, 2026/ 1:07 AM",
+      "max_temp_time": "Sep 27, 2026/ 5:43 AM",
       "max_heat_index_c": 24.4,
-      "max_heat_index_time": "Sep 27, 2026/ 1:07 AM",
+      "max_heat_index_time": "Sep 27, 2026/ 5:43 AM",
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Juárez, Chiapas, Mexico",
-      "last_valid_time": "Sep 27, 2026/ 1:07 AM",
+      "last_valid_time": "Sep 27, 2026/ 5:43 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -187,7 +203,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Pichucalco, Chiapas, Mexico",
-      "last_valid_time": "Sep 27, 2026/ 1:07 AM",
+      "last_valid_time": "Sep 27, 2026/ 5:43 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -199,7 +215,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ostuacán, Chiapas, Mexico",
-      "last_valid_time": "Sep 27, 2026/ 1:08 AM",
+      "last_valid_time": "Sep 27, 2026/ 5:43 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -211,7 +227,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Otra ubicación",
       "ubicacion": "Palenque, Chis., Mexico",
-      "last_valid_time": "Sep 27, 2026/ 1:00 AM",
+      "last_valid_time": "Sep 27, 2026/ 5:30 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -235,7 +251,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Chapultenango, Chiapas, Mexico",
-      "last_valid_time": "Sep 27, 2026/ 1:07 AM",
+      "last_valid_time": "Sep 27, 2026/ 5:43 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -259,7 +275,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Sep 27, 2026/ 1:07 AM",
+      "last_valid_time": "Sep 27, 2026/ 5:43 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -271,7 +287,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Sep 27, 2026/ 1:08 AM",
+      "last_valid_time": "Sep 27, 2026/ 5:43 AM",
       "nivel_riesgo_max": "Normal"
     }
   ],
@@ -279,10 +295,10 @@
     {
       "territorio": "Otra ubicación",
       "estaciones": 2,
-      "max_temp_c": 26.1,
-      "max_heat_index_c": 26.1,
+      "max_temp_c": 27.2,
+      "max_heat_index_c": 31.3,
       "estacion_mas_caliente": "SEMAR E.I.O. Cd. del Carmen.",
-      "nivel_riesgo": "Normal"
+      "nivel_riesgo": "Precaución"
     },
     {
       "territorio": "Tabasco",
