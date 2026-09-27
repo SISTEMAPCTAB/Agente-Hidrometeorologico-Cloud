@@ -11,12 +11,14 @@ on:
       - 'src/auditar_productos_operativos.py'
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
-    # Tabasco UTC-6: conservar consulta habitual a las :50 (06:50-18:50).
-    # Respaldo adicional a las :15 (07:15-19:15): recupera boletines
-    # llegados pocos minutos después de cada hora, sin esperar al próximo :50.
-    # Mantiene deduplicación de Gmail; no depende de que el último run sea reciente.
-    - cron: '50 12-23,0 * * *'
-    - cron: '15 13-23,0-1 * * *'
+    # Arranque autónomo Tabasco UTC-6: el primer boletín suele llegar a las 06:20–06:30.
+    # Consultas tempranas independientes del recolector principal de las 06:50.
+    # Varios disparos reducen dependencia de un único cron que GitHub puede demorar.
+    - cron: '35,45 12 * * *' # 06:35 y 06:45
+    - cron: '5,35 13 * * *'  # 07:05 y 07:35, recuperación matutina
+    # Horarios anteriores intactos; el histórico de ID y SHA impide duplicaciones.
+    - cron: '50 12-23,0 * * *' # 06:50–18:50
+    - cron: '15 13-23,0-1 * * *' # 07:15–19:15
 
 permissions:
   contents: write
