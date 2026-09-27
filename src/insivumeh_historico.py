@@ -30,7 +30,10 @@ def station_record(segment,name,river):
  clean=re.split(r'\bHora\s*:',segment,1,flags=re.I)[0]
  nums=[float(x) for x in re.findall(r'(?<![A-Za-z0-9])-?\d+(?:\.\d+)?',clean)]
  if len(nums)<6:return None
- vals=nums[-6:]
+ # Las seis primeras cifras son las columnas hidrométricas; los números
+ # posteriores pueden pertenecer al BHE (p. ej. 0317-2026), nunca al caudal.
+ vals=nums[:6]
+ if not (0 <= vals[3] <= 100000 and -10 <= vals[4] <= 100 and 0 <= vals[5] <= 100000):return None
  return {'estacion':name,'rio':river,'nivel_referencia_min_m':vals[0],'nivel_referencia_max_m':vals[1],'caudal_referencia_min_m3s':vals[2],'caudal_referencia_max_m3s':vals[3],'nivel_instantaneo_m':vals[4],'caudal_instantaneo_m3s':vals[5],'calidad':'extraido_del_BHVGM','nota_referencia':'Máximos como referencia estadística; no son umbral de inundación.'}
 def stations(txt):
  lines=[asc(x) for x in txt.splitlines() if x.strip()];out=[];seen=set()
