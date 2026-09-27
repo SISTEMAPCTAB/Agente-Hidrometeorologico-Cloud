@@ -22,7 +22,7 @@ STATIONS = [
     {"rio": "Ríos de la Sierra", "estacion": "Oxolotán", "namo": 39.53, "name": 47.37, "label": "Oxolotán", "idx": 6},
     {"rio": "Ríos de la Sierra", "estacion": "Tapijulapa", "namo": 24.63, "name": 28.15, "label": "Tapijulapa", "idx": 6},
     {"rio": "Ríos de la Sierra", "estacion": "Teapa", "namo": 37.71, "name": 39.56, "label": "Teapa", "idx": 5},
-    {"rio": "Ríos de la Sierra", "estacion": "Puyacatengo", "namo": 29.65, "name": 31.35, "label": "Puyacatengo", "idx": 5},
+    {"rio": "Ríos de la Sierra", "estacion": "Puyacatengo", "namo": 29.65, "name": 31.35, "label": "Puyacatengo", "idx": 6},
     {"rio": "Ríos de la Sierra", "estacion": "San Joaquín", "namo": 23.12, "name": 26.66, "label": "San Joaquín", "idx": 5},
     {"rio": "Ríos de la Sierra", "estacion": "Pueblo Nuevo", "namo": 7.49, "name": 8.40, "label": "Pueblo Nuevo", "idx": 5},
     {"rio": "Río Grijalva", "estacion": "Gaviotas", "namo": 7.00, "name": 7.85, "label": "Gaviotas", "idx": 4},
@@ -84,6 +84,17 @@ def validate_layout(st, nums):
     if st.get("namo") is not None:
         if len(nums) <= 2 or abs(nums[2] - st["namo"]) > 0.05:
             errors.append(f"NAMO fuera de posición: esperado {st['namo']}, recibido {nums[2] if len(nums) > 2 else None}")
+    # Puyacatengo también tiene columna de gasto intercalada (p. ej. 34);
+    # ESCALA ACTUAL es token 6. La variación y distancia NAMO deben cuadrar.
+    if st["estacion"] == "Puyacatengo":
+        if len(nums) != 12:
+            errors.append(f"se requieren 12 columnas; recibidas {len(nums)}")
+        else:
+            anterior, actual, variacion, distancia = nums[4], nums[6], nums[10], nums[11]
+            if abs(actual - anterior - variacion) > 0.06:
+                errors.append("variación incompatible con escalas Puyacatengo")
+            if abs(actual - st["namo"] - distancia) > 0.06:
+                errors.append("distancia NAMO incompatible con escala actual Puyacatengo")
     # Oxolotán y Tapijulapa incluyen gasto entre escala anterior y actual.
     # Comprobar el esquema completo antes de publicar una lectura.
     if st["estacion"] in {"Oxolotán", "Tapijulapa"}:
