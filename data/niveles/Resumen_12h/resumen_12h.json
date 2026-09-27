@@ -42,11 +42,11 @@
     {
       "id": "serranos",
       "sistema": "Ríos Serranos–Grijalva",
-      "evolucion_operativa_12h": "estable/mixta",
+      "evolucion_operativa_12h": "estable",
       "hidrometria": {
-        "ascendentes": 1,
+        "ascendentes": 0,
         "descendentes": 0,
-        "estables": 0,
+        "estables": 1,
         "comparables": 1
       },
       "estaciones": [
@@ -78,9 +78,9 @@
           "inicio": "2026-09-27T06:00:00-06:00",
           "fin": "2026-09-27T08:00:00-06:00",
           "nivel_inicio_m": 25.35,
-          "nivel_fin_m": 34.0,
-          "delta_m": 8.65,
-          "tendencia_12h": "ascendente",
+          "nivel_fin_m": 25.34,
+          "delta_m": -0.01,
+          "tendencia_12h": "estable",
           "observaciones": 2
         },
         {
