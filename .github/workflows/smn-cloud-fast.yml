@@ -2,6 +2,13 @@ name: SMN Cloud Fast - 96 y 360 h
 
 on:
   workflow_dispatch:
+  # Activación adicional al terminar una recolección WeatherLink; no depende
+  # exclusivamente del cron SMN. Las fuentes y validaciones permanecen iguales.
+  workflow_run:
+    workflows:
+      - 'WeatherLink Cloud - 32 estaciones'
+      - 'WeatherLink Watchdog - recuperación automática'
+    types: [completed]
   push:
     branches: [main]
     paths:
