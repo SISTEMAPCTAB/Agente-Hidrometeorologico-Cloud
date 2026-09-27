@@ -46,6 +46,9 @@ def stations(txt):
      candidates.append(joined);break
   for seg in candidates:
    rec=station_record(seg,name,river)
+   # Evita asignar la fila vecina a una estación cuando pdftotext une renglones.
+   expected={'El Tigre':(4.55,10.0),'El Porvenir':(1.03,3.0)}.get(name)
+   if rec and expected and (abs(rec['nivel_referencia_min_m']-expected[0])>0.02 or abs(rec['nivel_referencia_max_m']-expected[1])>0.02):continue
    if rec and name not in seen:out.append(rec);seen.add(name);break
  return out
 def write_diag(txt,h,sts):
