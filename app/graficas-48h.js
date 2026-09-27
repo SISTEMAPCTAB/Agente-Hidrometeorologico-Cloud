@@ -88,8 +88,52 @@
   }
   function injectStyles(){if(document.getElementById('hydro48Style'))return;const s=document.createElement('style');s.id='hydro48Style';s.textContent='.hydro48-panel{border-top:4px solid #b9955b}.hydro48-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}.hydro48-card{border:1px solid #e2ded8;border-radius:14px;padding:10px;background:#fff;min-width:0}.hydro48-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:4px;flex-wrap:wrap}.hydro48-head>div{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex:1}.hydro48-head strong{color:#6f112d}.hydro48-head span,.hydro48-foot{font-size:11px;color:#666}.hydro48-scroll,.graph-zoom-scroll{width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}.hydro48-card svg{display:block;max-width:none;background:#fff}.hydro48-foot{padding:4px 2px 0}.hydro48-foot b{color:#2d2d2d}.copy-btn,.zoom-btn{border:1px solid #c9c1b7;background:#fff;border-radius:8px;padding:5px 9px;font:inherit;font-size:11px;cursor:pointer;color:#555;white-space:nowrap}.copy-btn:active,.zoom-btn:active{transform:translateY(1px)}.copy-table-bar{display:flex;justify-content:flex-end;margin:0 0 6px}.graph-zoom-bar{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin:4px 0 6px}.zoom-label{min-width:44px;text-align:center;font-size:11px;color:#666;font-variant-numeric:tabular-nums}.hydro-figure img{display:none!important}.hydro-figure{display:none!important}@media(max-width:760px){.hydro48-grid{grid-template-columns:1fr}.graph-zoom-bar{justify-content:flex-start;overflow-x:auto}}';document.head.appendChild(s)}
   function tableText(table){return [...table.rows].map(row=>[...row.cells].map(cell=>cell.innerText.trim()).join('\t')).join('\n')}
+  function isHydrometTable(table){
+    const panel=table.closest('section.panel'),title=panel?.querySelector('h2')?.textContent||'';
+    const headers=[...(table.tHead?.rows||[])].flatMap(row=>[...row.cells].map(cell=>cell.textContent)).join(' ');
+    return /nivel|lluvia|weatherlink|conagua|precipitaci[oó]n/i.test(title+' '+headers);
+  }
+  function tableImageBlob(table){
+    if(typeof window.html2canvas!=='function')throw new Error('Captura PNG no disponible');
+    const width=Math.ceil(Math.max(table.scrollWidth,table.getBoundingClientRect().width,600));
+    const stage=document.createElement('div');
+    stage.className='table-wrap';
+    stage.style.cssText='position:fixed;left:0;top:0;z-index:-99999;pointer-events:none;overflow:visible;max-width:none;background:#fff;padding:12px;width:'+width+'px';
+    const clone=table.cloneNode(true);
+    clone.style.width='100%';clone.style.maxWidth='none';
+    stage.appendChild(clone);document.body.appendChild(stage);
+    return window.html2canvas(stage,{backgroundColor:'#ffffff',scale:2,useCORS:true,logging:false,
+      width:stage.scrollWidth,height:stage.scrollHeight,windowWidth:Math.max(window.innerWidth,stage.scrollWidth+30)})
+      .then(canvas=>new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('PNG no disponible')),'image/png')))
+      .finally(()=>stage.remove());
+  }
+  function saveTablePNG(blob,table){
+    const title=table.closest('section.panel')?.querySelector('h2')?.textContent||'tabla-hidrometeorologica';
+    const url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=norm(title).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.png';
+    document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);
+  }
   async function copyTable(btn){
     const wrap=btn.closest('.table-wrap'),table=wrap?.querySelector('table');if(!table)return;
+    // Tablas hidrometeorológicas: conservar formato visual y capturar ancho completo,
+    // incluso si en móvil se desplazan horizontalmente.
+    if(isHydrometTable(table)&&typeof window.html2canvas==='function'){
+      let task;
+      try{
+        task=tableImageBlob(table);
+        if(navigator.clipboard?.write&&window.ClipboardItem){
+          // Entregar la promesa directamente conserva el gesto del usuario.
+          await navigator.clipboard.write([new ClipboardItem({'image/png':task})]);
+          flash(btn,'Imagen copiada');return;
+        }
+        saveTablePNG(await task,table);flash(btn,'PNG descargado');return;
+      }catch(err){
+        try{if(task){saveTablePNG(await task,table);flash(btn,'PNG descargado');return}}catch{}
+        console.warn('No se pudo copiar la tabla como imagen:',err);
+        flash(btn,'No disponible');return;
+      }
+    }
+    // Mantener la copia HTML/texto previa para otras tablas y como respaldo sin librería.
     const text=tableText(table),html=table.outerHTML;
     try{
       if(navigator.clipboard?.write&&window.ClipboardItem){
