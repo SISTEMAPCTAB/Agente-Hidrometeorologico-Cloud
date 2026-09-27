@@ -24,9 +24,11 @@ on:
 permissions:
   contents: write
 
-# Cola propia: evita que una ejecución Gmail cancele otra y no interfiere con WeatherLink.
+# Misma cola de escritura que niveles principal y sus dos recuperadores.
+# Impide procesar/publicar simultáneamente los mismos históricos y Word.
+# WeatherLink mantiene su propia cola y frecuencia.
 concurrency:
-  group: gmail-backup-cloud
+  group: datos-hidrometeorologicos-writer
   cancel-in-progress: false
 
 jobs:
@@ -177,61 +179,82 @@ jobs:
         if: steps.gmail.outputs.enabled == 'true' && steps.aporte.outputs.changed != 'true'
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
           git config user.name "Agente Hidrometeorologico Gmail Backup"
           git config user.email "actions@users.noreply.github.com"
-          git add data/niveles/Estado_Gmail_Backup.json
-          if git diff --cached --quiet; then
-            echo "Estado Gmail sin cambios para publicar."
-            exit 0
-          fi
-          for intento in 1 2 3; do
+          cp data/niveles/Estado_Gmail_Backup.json /tmp/estado-gmail.json
+          for intento in 1 2 3 4; do
             git fetch origin main
-            git reset --soft origin/main
+            git reset --hard origin/main
+            cp /tmp/estado-gmail.json data/niveles/Estado_Gmail_Backup.json
             git add data/niveles/Estado_Gmail_Backup.json
             if git diff --cached --quiet; then
-              echo "La revisión Gmail ya fue incorporada."
+              echo "Revisión Gmail ya incorporada."
               exit 0
             fi
-            git commit -m "Actualiza revisión Gmail de niveles [skip ci]" || true
-            if git push origin HEAD:main; then
-              echo "Hora de revisión Gmail publicada."
-              exit 0
-            fi
-            git reset --mixed origin/main
-            sleep $((intento * 6))
+            git commit -m "Actualiza revisión Gmail de niveles [skip ci]"
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((intento * 5))
           done
-          echo "No fue posible publicar la hora de revisión Gmail."
           exit 1
 
-      - name: Publicar únicamente cambios producidos por el respaldo Gmail
+      - name: Publicar respaldo Gmail sin conflictos ni retrocesos
         if: steps.gmail.outputs.enabled == 'true' && steps.aporte.outputs.changed == 'true'
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
           git config user.name "Agente Hidrometeorologico Gmail Backup"
           git config user.email "actions@users.noreply.github.com"
-          git add data/latest data/archive \
-                  data/niveles/Historico \
-                  data/niveles/Resumen_12h \
-                  data/niveles/Ultimo_Corte \
-                  data/niveles/Estado \
-                  data/niveles/Estado_Gmail_Backup.json \
-                  data/niveles/Clima_CONAGUA \
-                  data/niveles/Auditoria \
-                  data/niveles/Graficas \
-                  data/niveles/Reportes
-          if git diff --cached --quiet; then
-            echo "Gmail no aportó información más nueva; sin cambios para publicar."
-            exit 0
-          fi
-          git commit -m "Actualiza respaldo Gmail cloud [skip ci]"
-          for intento in 1 2 3; do
-            if git pull --rebase origin main && git push origin main; then
+          PRODUCTOS=(
+            data/latest data/archive
+            data/niveles/Historico data/niveles/Resumen_12h
+            data/niveles/Ultimo_Corte data/niveles/Estado
+            data/niveles/Estado_Gmail_Backup.json
+            data/niveles/Clima_CONAGUA data/niveles/Auditoria
+            data/niveles/Graficas data/niveles/Reportes
+          )
+          # Conservar los productos ya auditados; nunca rebase de JSON/Word binarios.
+          tar -cf /tmp/gmail-productos.tar "${PRODUCTOS[@]}"
+          cp data/niveles/Ultimo_Corte/ultimo_resumen.json /tmp/gmail-candidato.json
+          for intento in 1 2 3 4; do
+            echo "Publicación Gmail ${intento}/4"
+            git fetch origin main
+            git reset --hard origin/main
+            # Otra ejecución podría haber publicado un corte posterior:
+            # comparar fechas reales de observación, no horas de ejecución.
+            if python - <<'PY'
+          import json
+          from datetime import datetime
+          from pathlib import Path
+          def cutoff(path):
+              try:
+                  rows=json.loads(Path(path).read_text(encoding='utf-8'))
+                  return max(datetime.fromisoformat(r['fecha_hora']) for r in rows if r.get('fecha_hora'))
+              except (OSError, ValueError, KeyError, TypeError):
+                  return None
+          candidate=cutoff('/tmp/gmail-candidato.json')
+          current=cutoff('data/niveles/Ultimo_Corte/ultimo_resumen.json')
+          print('Corte Gmail:',candidate,'corte remoto:',current)
+          if candidate is None or (current is not None and candidate<=current):
+              raise SystemExit(0)
+          raise SystemExit(1)
+          PY
+            then
+              echo "Corte igual, posterior o candidato no válido: se conserva el remoto; no se retrocede."
+              exit 0
+            fi
+            tar -xf /tmp/gmail-productos.tar
+            git add "${PRODUCTOS[@]}"
+            if git diff --cached --quiet; then
+              echo "Productos ya incorporados."
+              exit 0
+            fi
+            git commit -m "Actualiza respaldo Gmail cloud [skip ci]"
+            if git push origin HEAD:main; then
               echo "Respaldo Gmail publicado."
               exit 0
             fi
-            git rebase --abort 2>/dev/null || true
-            sleep $((intento * 10))
+            sleep $((intento * 5))
           done
+          echo "No fue posible publicar Gmail después de 4 intentos."
           exit 1
