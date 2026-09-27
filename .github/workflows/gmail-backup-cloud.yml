@@ -14,6 +14,7 @@ on:
     # Arranque autónomo Tabasco UTC-6: el primer boletín suele llegar a las 06:20–06:30.
     # Consultas tempranas independientes del recolector principal de las 06:50.
     # Varios disparos reducen dependencia de un único cron que GitHub puede demorar.
+    # Recuperación operativa 27-sep: activar ejecución directa para verificar boletín 08:00.
     - cron: '35,45 12 * * *' # 06:35 y 06:45
     - cron: '5,35 13 * * *'  # 07:05 y 07:35, recuperación matutina
     # Horarios anteriores intactos; el histórico de ID y SHA impide duplicaciones.
