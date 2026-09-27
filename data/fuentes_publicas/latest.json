@@ -1,9 +1,9 @@
 {
-  "generated_utc": "2026-09-27T17:16:20.937172+00:00",
+  "generated_utc": "2026-09-27T17:41:42.827502+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
-    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h?_ipcet=1790529382",
+    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h",
     "aviso": "270",
     "fecha": "27 de Septiembre del 2026.",
     "emision": "10:00h",
@@ -161,8 +161,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sun, 27 Sep 2026 17:16:21 GMT",
-      "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
+      "last_modified": "Sun, 27 Sep 2026 17:41:43 GMT"
     },
     "resumen": "Durante este día, un canal de baja presión en el sureste del país y la circulación de la depresión tropical dieciocho-E frente a las costas de Guerrero, originarán lluvias puntuales intensas en las cuencas de Peñitas, Malpaso, Bajo Grijalva, Ucumacinta y La Angostura, y lluvias puntuales muy fuertes en la cuenca de Chicoasén; y lluvias puntuales fuertes en la cuenca de Juan Sabines. Durante el periodo de pronóstico continuará la probabilidad de lluvias intensas a muy fuertes y el ambiente cálido a caluroso en la región.",
     "detalle_ventanas": {
@@ -585,8 +584,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sun, 27 Sep 2026 17:16:21 GMT",
-      "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
+      "last_modified": "Sun, 27 Sep 2026 17:41:44 GMT"
     }
   },
   "insivumeh": {
@@ -605,7 +603,7 @@
         "rio": "Usumacinta",
         "ubicacion": "Las Cruces, Petén",
         "nivel_referencia_min_m": 4.55,
-        "nivel_referencia_max_m": 10,
+        "nivel_referencia_max_m": 10.0,
         "caudal_referencia_min_m3s": 486.87,
         "caudal_referencia_max_m3s": 2856.43,
         "nivel_instantaneo_m": 9.35,
@@ -618,7 +616,7 @@
         "rio": "La Pasión",
         "ubicacion": "Las Cruces, Petén",
         "nivel_referencia_min_m": 1.03,
-        "nivel_referencia_max_m": 3,
+        "nivel_referencia_max_m": 3.0,
         "caudal_referencia_min_m3s": 93.04,
         "caudal_referencia_max_m3s": 399.28,
         "nivel_instantaneo_m": 3.82,
@@ -647,7 +645,7 @@
       "rio": "Usumacinta",
       "desde": "26/09/2026 20:00",
       "hasta": "27/09/2026 08:00",
-      "horas_transcurridas": 12,
+      "horas_transcurridas": 12.0,
       "delta_nivel_m": 0.07,
       "delta_caudal_m3s": 30.44,
       "tendencia_calculada": "incrementando"
@@ -657,7 +655,7 @@
       "rio": "La Pasión",
       "desde": "26/09/2026 20:00",
       "hasta": "27/09/2026 08:00",
-      "horas_transcurridas": 12,
+      "horas_transcurridas": 12.0,
       "delta_nivel_m": -313.18,
       "delta_caudal_m3s": -1407.3,
       "tendencia_calculada": "disminuyendo"
@@ -667,7 +665,7 @@
       "rio": "Chixoy",
       "desde": "26/09/2026 20:00",
       "hasta": "27/09/2026 08:00",
-      "horas_transcurridas": 12,
+      "horas_transcurridas": 12.0,
       "delta_nivel_m": -0.42,
       "delta_caudal_m3s": -367.86,
       "tendencia_calculada": "disminuyendo"
@@ -677,7 +675,7 @@
       "rio": "Chixoy",
       "desde": "26/09/2026 20:00",
       "hasta": "27/09/2026 08:00",
-      "horas_transcurridas": 12,
+      "horas_transcurridas": 12.0,
       "delta_nivel_m": -0.92,
       "delta_caudal_m3s": -67.9,
       "tendencia_calculada": "disminuyendo"
@@ -893,7 +891,7 @@
         "estacion": "El Tigre",
         "rio": "Usumacinta",
         "nivel_referencia_min_m": 4.55,
-        "nivel_referencia_max_m": 10,
+        "nivel_referencia_max_m": 10.0,
         "caudal_referencia_min_m3s": 486.87,
         "caudal_referencia_max_m3s": 2856.43,
         "nivel_instantaneo_m": 9.35,
@@ -905,7 +903,7 @@
         "estacion": "El Porvenir",
         "rio": "La Pasión",
         "nivel_referencia_min_m": 1.03,
-        "nivel_referencia_max_m": 3,
+        "nivel_referencia_max_m": 3.0,
         "caudal_referencia_min_m3s": 93.04,
         "caudal_referencia_max_m3s": 399.28,
         "nivel_instantaneo_m": 3.82,
@@ -943,7 +941,7 @@
   "insivumeh_el_tigre_antecedente": null,
   "insivumeh_el_tigre_regla": "Antecedente informativo: no es observación del corte actual, no se hereda y no gobierna tendencia ni semáforo.",
   "insivumeh_contexto_diagnostico": {
-    "actualizado_utc": "2026-09-27T14:39:39.975643+00:00",
+    "actualizado_utc": "2026-09-27T17:41:52.133650+00:00",
     "errores": [],
     "lluvia": {
       "pagina": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/",

@@ -3172,7 +3172,7 @@
           "estacion": "El Tigre",
           "rio": "Usumacinta",
           "nivel_referencia_min_m": 4.55,
-          "nivel_referencia_max_m": 10,
+          "nivel_referencia_max_m": 10.0,
           "caudal_referencia_min_m3s": 486.87,
           "caudal_referencia_max_m3s": 2856.43,
           "nivel_instantaneo_m": 9.35,
@@ -3184,7 +3184,7 @@
           "estacion": "El Porvenir",
           "rio": "La Pasión",
           "nivel_referencia_min_m": 1.03,
-          "nivel_referencia_max_m": 3,
+          "nivel_referencia_max_m": 3.0,
           "caudal_referencia_min_m3s": 93.04,
           "caudal_referencia_max_m3s": 399.28,
           "nivel_instantaneo_m": 3.82,
@@ -3219,14 +3219,14 @@
       ]
     }
   ],
-  "actualizado_utc": "2026-09-27T14:39:39.861816+00:00",
+  "actualizado_utc": "2026-09-27T17:41:51.937493+00:00",
   "ultima_evolucion_real": [
     {
       "estacion": "El Tigre",
       "rio": "Usumacinta",
       "desde": "26/09/2026 20:00",
       "hasta": "27/09/2026 08:00",
-      "horas_transcurridas": 12,
+      "horas_transcurridas": 12.0,
       "delta_nivel_m": 0.07,
       "delta_caudal_m3s": 30.44,
       "tendencia_calculada": "incrementando"
@@ -3236,7 +3236,7 @@
       "rio": "La Pasión",
       "desde": "26/09/2026 20:00",
       "hasta": "27/09/2026 08:00",
-      "horas_transcurridas": 12,
+      "horas_transcurridas": 12.0,
       "delta_nivel_m": -313.18,
       "delta_caudal_m3s": -1407.3,
       "tendencia_calculada": "disminuyendo"
@@ -3246,7 +3246,7 @@
       "rio": "Chixoy",
       "desde": "26/09/2026 20:00",
       "hasta": "27/09/2026 08:00",
-      "horas_transcurridas": 12,
+      "horas_transcurridas": 12.0,
       "delta_nivel_m": -0.42,
       "delta_caudal_m3s": -367.86,
       "tendencia_calculada": "disminuyendo"
@@ -3256,7 +3256,7 @@
       "rio": "Chixoy",
       "desde": "26/09/2026 20:00",
       "hasta": "27/09/2026 08:00",
-      "horas_transcurridas": 12,
+      "horas_transcurridas": 12.0,
       "delta_nivel_m": -0.92,
       "delta_caudal_m3s": -67.9,
       "tendencia_calculada": "disminuyendo"
