@@ -18,8 +18,9 @@ on:
     - cron: '35,45 12 * * *' # 06:35 y 06:45
     - cron: '5,35 13 * * *'  # 07:05 y 07:35, recuperación matutina
     # Horarios anteriores intactos; el histórico de ID y SHA impide duplicaciones.
-    - cron: '50 12-23,0 * * *' # 06:50–18:50
-    - cron: '15 13-23,0-1 * * *' # 07:15–19:15
+    - cron: '40 12-23,0 * * *' # 06:40–18:40: revisar boletines recibidos alrededor de :20–:36
+    - cron: '50 12-23,0 * * *' # 06:50–18:50, conservar respaldo existente
+    - cron: '15 13-23,0-1 * * *' # 07:15–19:15, recuperación posterior
 
 permissions:
   contents: write
