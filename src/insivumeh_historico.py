@@ -15,7 +15,7 @@ def norm(s): return unicodedata.normalize('NFKD',s).encode('ascii','ignore').dec
 def asc(s): return re.sub(r'\s+',' ',norm(s)).strip()
 def compact(s): return re.sub(r'[^a-z0-9]','',asc(s).lower())
 def pdftext(u):
- r=requests.get(u,headers=UA,timeout=35);r.raise_for_status();raw=r.content
+ r=requests.get(u,headers={**UA,'Cache-Control':'no-cache','Pragma':'no-cache'},params={'actualizacion':int(datetime.now(timezone.utc).timestamp()//60)},timeout=35);r.raise_for_status();raw=r.content
  try:
   with tempfile.NamedTemporaryFile(suffix='.pdf') as f:
    f.write(raw);f.flush();p=subprocess.run(['pdftotext','-layout',f.name,'-'],capture_output=True,text=True,timeout=25,check=True)
