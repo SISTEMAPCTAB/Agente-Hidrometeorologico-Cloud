@@ -20,7 +20,7 @@ function primaryInfo(data){if(!data)return{valid:false,time:null,mins:null};cons
 function gmailInfo(data){if(!data)return{valid:false,time:null,mins:null};const errors=Array.isArray(data.errors)?data.errors.length:0;const time=data.run_local||data.run_utc||null;const mins=ageMinutes(time);return{valid:data.configured===true&&errors===0&&mins!==null,time,mins,errors};}
 function latestCut(rows){if(!Array.isArray(rows))return null;const times=rows.map(r=>new Date(r?.fecha_hora).getTime()).filter(Number.isFinite);return times.length?new Date(Math.max(...times)).toISOString():null;}
 function paint(primary,gmail,levelRows){ensureStyle();const strip=document.getElementById('statusStrip');if(!strip)return false;const card=[...strip.querySelectorAll('.status-card')].find(x=>/niveles/i.test(x.querySelector('span')?.textContent||''));if(!card)return false;const cut=latestCut(levelRows);const main=card.querySelector('b');let line=card.querySelector('.niveles-agent-state');if(!line){line=document.createElement('span');line.className='niveles-agent-state';card.appendChild(line);}let detail=card.querySelector('.niveles-agent-detail');if(!detail){detail=document.createElement('small');detail.className='niveles-agent-detail';card.appendChild(detail);}
-const p=primaryInfo(primary),g=gmailInfo(gmail);const candidates=[];if(p.valid)candidates.push({source:'Carbonio',...p});if(g.valid)candidates.push({source:'Gmail',...g});candidates.sort((a,b)=>new Date(b.time)-new Date(a.time));const best=candidates[0]||null;const op=operatingState();
+const p=primaryInfo(primary),g=gmailInfo(gmail);const cutMins=ageMinutes(cut);const candidates=[];if(p.valid)candidates.push({source:'Carbonio',...p});if(g.valid)candidates.push({source:'Gmail',...g});candidates.sort((a,b)=>new Date(b.time)-new Date(a.time));const best=candidates[0]||null;const op=operatingState();
 if(main)main.textContent=best?fmt(best.time):(cut?fmt(cut):'s/d');
 let cls='bad',label='Recolección sin revisión reciente',cloud='GitHub Cloud · revisar niveles';
 if(op.mode==='pause'){
@@ -39,6 +39,7 @@ const primaryFresh=p.valid&&p.mins<=ACTIVE_MIN;const gmailFresh=g.valid&&g.mins<
 if(primaryFresh){cls='ok';label='Recolección activa';cloud='GitHub Cloud · niveles activos';}
 else if(gmailFresh){cls='ok';label='Recolección operativa · respaldo Gmail activo';cloud='GitHub Cloud · respaldo Gmail activo';}
 else if(best&&best.mins<=ALERT_MIN){cls='ok';label=gmailTakingOver?'Recolección operativa · respaldo Gmail activo':'Recolección operativa · sin nuevo boletín';cloud='GitHub Cloud · niveles operativos';}
+else if(cutMins!==null&&cutMins<=ALERT_MIN){cls='warn';label='Corte hidrométrico publicado · revisión automática pendiente';cloud='GitHub Cloud · corte publicado; pendiente próxima revisión';}
 else if(best){cls='bad';label='Recolección sin revisión reciente';cloud='GitHub Cloud · revisar niveles';}
 else{cls='bad';label='Recolección sin ruta válida';cloud='GitHub Cloud · revisar niveles';}
 line.className=`niveles-agent-state ${cls}`;line.textContent=label;
