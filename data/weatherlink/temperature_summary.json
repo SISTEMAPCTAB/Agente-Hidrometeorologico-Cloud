@@ -1,16 +1,12 @@
 {
   "date_local": "2026-09-28",
-  "updated_local": "2026-09-28T01:03:07.797794-06:00",
+  "updated_local": "2026-09-28T09:31:20.091074-06:00",
   "units": {
     "temperature": "°C",
     "heat_index": "°C"
   },
-  "current_valid_stations": 16,
+  "current_valid_stations": 22,
   "current_excluded_stations": [
-    {
-      "estacion": "AMATÁN PCIVILCHIAPAS",
-      "motivo": "sin_temperatura"
-    },
     {
       "estacion": "ATA",
       "motivo": "edad_mayor_2h"
@@ -36,10 +32,6 @@
       "motivo": "sin_temperatura"
     },
     {
-      "estacion": "Impulsora",
-      "motivo": "sin_temperatura"
-    },
-    {
       "estacion": "IXHUATAN PCIVILCHIAPAS",
       "motivo": "edad_mayor_2h"
     },
@@ -48,257 +40,313 @@
       "motivo": "edad_mayor_2h"
     },
     {
-      "estacion": "PALENQUE PCIVILCHIAPAS",
-      "motivo": "sin_temperatura"
-    },
-    {
-      "estacion": "SALTO DE AGUA PCIVILCHIAPAS",
-      "motivo": "sin_temperatura"
-    },
-    {
       "estacion": "SAN CAYETANO CONSOLA",
       "motivo": "edad_mayor_2h"
     },
     {
-      "estacion": "SEMAR Capitanía de Pto. Alvarado, Ver.",
-      "motivo": "edad_mayor_2h"
-    },
-    {
       "estacion": "SEMAR Capitanía de Pto. Dos Bocas",
-      "motivo": "edad_mayor_2h"
-    },
-    {
-      "estacion": "Yaxhá - INSIVUMEH PETEN",
       "motivo": "edad_mayor_2h"
     }
   ],
   "max_current_age_seconds": 7200,
   "stations": [
     {
-      "estacion": "Centro",
-      "max_temp_c": 26.1,
-      "max_temp_time": "Sep 28, 2026/ 1:02 AM",
-      "max_heat_index_c": 26.1,
-      "max_heat_index_time": "Sep 28, 2026/ 1:02 AM",
-      "max_heat_basis": "Temperatura del aire",
-      "territory": "Tabasco",
-      "ubicacion": "Villahermosa, Tab., Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:02 AM",
-      "nivel_riesgo_max": "Normal"
-    },
-    {
-      "estacion": "SEMAR E.I.O. Cd. del Carmen.",
-      "max_temp_c": 25.0,
-      "max_temp_time": "Sep 28, 2026/ 1:02 AM",
-      "max_heat_index_c": 25.0,
-      "max_heat_index_time": "Sep 28, 2026/ 1:02 AM",
-      "max_heat_basis": "Temperatura del aire",
+      "estacion": "SEMAR Capitanía de Pto. Alvarado, Ver.",
+      "max_temp_c": 30.0,
+      "max_temp_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_index_c": 38.0,
+      "max_heat_index_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_basis": "Índice de calor",
       "territory": "Otra ubicación",
-      "ubicacion": "Ciudad del Carmen, Camp., Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:02 AM",
-      "nivel_riesgo_max": "Normal"
+      "ubicacion": "Alvarado, Ver., Mexico",
+      "last_valid_time": "Sep 28, 2026/ 9:30 AM",
+      "nivel_riesgo_max": "Precaución extrema"
     },
     {
       "estacion": "ASUR Villahermosa",
-      "max_temp_c": 24.4,
-      "max_temp_time": "Sep 28, 2026/ 1:02 AM",
-      "max_heat_index_c": 24.4,
-      "max_heat_index_time": "Sep 28, 2026/ 1:02 AM",
-      "max_heat_basis": "Temperatura del aire",
+      "max_temp_c": 28.9,
+      "max_temp_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_index_c": 36.9,
+      "max_heat_index_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_basis": "Índice de calor",
       "territory": "Tabasco",
       "ubicacion": "Dos Montes, Tab., Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:02 AM",
-      "nivel_riesgo_max": "Normal"
+      "last_valid_time": "Sep 28, 2026/ 9:30 AM",
+      "nivel_riesgo_max": "Precaución extrema"
+    },
+    {
+      "estacion": "Centro",
+      "max_temp_c": 28.9,
+      "max_temp_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_index_c": 36.9,
+      "max_heat_index_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Tabasco",
+      "ubicacion": "Villahermosa, Tab., Mexico",
+      "last_valid_time": "Sep 28, 2026/ 9:30 AM",
+      "nivel_riesgo_max": "Precaución extrema"
+    },
+    {
+      "estacion": "PALENQUE PCIVILCHIAPAS",
+      "max_temp_c": 29.4,
+      "max_temp_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_index_c": 35.0,
+      "max_heat_index_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Chiapas",
+      "ubicacion": "Palenque, Chiapas, Mexico",
+      "last_valid_time": "Sep 28, 2026/ 9:30 AM",
+      "nivel_riesgo_max": "Precaución extrema"
+    },
+    {
+      "estacion": "SEMAR E.I.O. Cd. del Carmen.",
+      "max_temp_c": 28.9,
+      "max_temp_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_index_c": 34.6,
+      "max_heat_index_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Otra ubicación",
+      "ubicacion": "Ciudad del Carmen, Camp., Mexico",
+      "last_valid_time": "Sep 28, 2026/ 9:30 AM",
+      "nivel_riesgo_max": "Precaución extrema"
     },
     {
       "estacion": "JUÁREZ PCIVILCHIAPAS",
-      "max_temp_c": 24.4,
-      "max_temp_time": "Sep 28, 2026/ 1:03 AM",
-      "max_heat_index_c": 24.4,
-      "max_heat_index_time": "Sep 28, 2026/ 1:03 AM",
-      "max_heat_basis": "Temperatura del aire",
+      "max_temp_c": 28.3,
+      "max_temp_time": "Sep 28, 2026/ 9:31 AM",
+      "max_heat_index_c": 34.3,
+      "max_heat_index_time": "Sep 28, 2026/ 9:31 AM",
+      "max_heat_basis": "Índice de calor",
       "territory": "Chiapas",
       "ubicacion": "Juárez, Chiapas, Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:03 AM",
-      "nivel_riesgo_max": "Normal"
-    },
-    {
-      "estacion": "Modesta_1",
-      "max_temp_c": 24.4,
-      "max_temp_time": "Sep 28, 2026/ 1:00 AM",
-      "max_heat_index_c": 24.4,
-      "max_heat_index_time": "Sep 28, 2026/ 1:00 AM",
-      "max_heat_basis": "Temperatura del aire",
-      "territory": "Tabasco",
-      "ubicacion": "Benito Juárez Garcia Poblado C-21, Tab., Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:00 AM",
-      "nivel_riesgo_max": "Normal"
-    },
-    {
-      "estacion": "PASO LA MINA",
-      "max_temp_c": 24.4,
-      "max_temp_time": "Sep 28, 2026/ 1:00 AM",
-      "max_heat_index_c": 24.4,
-      "max_heat_index_time": "Sep 28, 2026/ 1:00 AM",
-      "max_heat_basis": "Temperatura del aire",
-      "territory": "Tabasco",
-      "ubicacion": "Ingenio Presidente Benito Juárez, Tab., Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:00 AM",
-      "nivel_riesgo_max": "Normal"
+      "last_valid_time": "Sep 28, 2026/ 9:31 AM",
+      "nivel_riesgo_max": "Precaución extrema"
     },
     {
       "estacion": "REFORMA PCIVILCHIAPAS",
-      "max_temp_c": 24.4,
-      "max_temp_time": "Sep 28, 2026/ 1:02 AM",
-      "max_heat_index_c": 24.4,
-      "max_heat_index_time": "Sep 28, 2026/ 1:02 AM",
-      "max_heat_basis": "Temperatura del aire",
+      "max_temp_c": 27.2,
+      "max_temp_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_index_c": 33.3,
+      "max_heat_index_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_basis": "Índice de calor",
       "territory": "Chiapas",
       "ubicacion": "Reforma, Chiapas, Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:02 AM",
-      "nivel_riesgo_max": "Normal"
+      "last_valid_time": "Sep 28, 2026/ 9:30 AM",
+      "nivel_riesgo_max": "Precaución extrema"
+    },
+    {
+      "estacion": "Impulsora",
+      "max_temp_c": 27.2,
+      "max_temp_time": "Sep 28, 2026/ 9:00 AM",
+      "max_heat_index_c": 33.3,
+      "max_heat_index_time": "Sep 28, 2026/ 9:00 AM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Tabasco",
+      "ubicacion": "Ingenio Presidente Benito Juárez, Tab., Mexico",
+      "last_valid_time": "Sep 28, 2026/ 9:00 AM",
+      "nivel_riesgo_max": "Precaución extrema"
     },
     {
       "estacion": "Sinai",
-      "max_temp_c": 24.4,
-      "max_temp_time": "Sep 28, 2026/ 1:00 AM",
-      "max_heat_index_c": 24.4,
-      "max_heat_index_time": "Sep 28, 2026/ 1:00 AM",
-      "max_heat_basis": "Temperatura del aire",
+      "max_temp_c": 27.8,
+      "max_temp_time": "Sep 28, 2026/ 9:15 AM",
+      "max_heat_index_c": 33.1,
+      "max_heat_index_time": "Sep 28, 2026/ 9:15 AM",
+      "max_heat_basis": "Índice de calor",
       "territory": "Otra ubicación",
       "ubicacion": "Palenque, Chis., Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:00 AM",
-      "nivel_riesgo_max": "Normal"
-    },
-    {
-      "estacion": "OSTUACÁN PCIVILCHIAPAS",
-      "max_temp_c": 23.9,
-      "max_temp_time": "Sep 28, 2026/ 1:03 AM",
-      "max_heat_index_c": 23.9,
-      "max_heat_index_time": "Sep 28, 2026/ 1:03 AM",
-      "max_heat_basis": "Temperatura del aire",
-      "territory": "Chiapas",
-      "ubicacion": "Ostuacán, Chiapas, Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:03 AM",
-      "nivel_riesgo_max": "Normal"
+      "last_valid_time": "Sep 28, 2026/ 9:15 AM",
+      "nivel_riesgo_max": "Precaución extrema"
     },
     {
       "estacion": "PICHUCALCO PCIVILCHIAPAS",
-      "max_temp_c": 23.9,
-      "max_temp_time": "Sep 28, 2026/ 1:03 AM",
-      "max_heat_index_c": 23.9,
-      "max_heat_index_time": "Sep 28, 2026/ 1:03 AM",
-      "max_heat_basis": "Temperatura del aire",
+      "max_temp_c": 27.8,
+      "max_temp_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_index_c": 32.7,
+      "max_heat_index_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_basis": "Índice de calor",
       "territory": "Chiapas",
       "ubicacion": "Pichucalco, Chiapas, Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:03 AM",
-      "nivel_riesgo_max": "Normal"
+      "last_valid_time": "Sep 28, 2026/ 9:30 AM",
+      "nivel_riesgo_max": "Precaución extrema"
     },
     {
-      "estacion": "Urrutia",
-      "max_temp_c": 23.9,
-      "max_temp_time": "Sep 28, 2026/ 12:28 AM",
-      "max_heat_index_c": 23.9,
-      "max_heat_index_time": "Sep 28, 2026/ 12:28 AM",
-      "max_heat_basis": "Temperatura del aire",
+      "estacion": "OSTUACÁN PCIVILCHIAPAS",
+      "max_temp_c": 27.8,
+      "max_temp_time": "Sep 28, 2026/ 9:31 AM",
+      "max_heat_index_c": 32.3,
+      "max_heat_index_time": "Sep 28, 2026/ 9:31 AM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Chiapas",
+      "ubicacion": "Ostuacán, Chiapas, Mexico",
+      "last_valid_time": "Sep 28, 2026/ 9:31 AM",
+      "nivel_riesgo_max": "Precaución extrema"
+    },
+    {
+      "estacion": "SALTO DE AGUA PCIVILCHIAPAS",
+      "max_temp_c": 27.8,
+      "max_temp_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_index_c": 31.7,
+      "max_heat_index_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Chiapas",
+      "ubicacion": "Salto de Agua, Chiapas, Mexico",
+      "last_valid_time": "Sep 28, 2026/ 9:30 AM",
+      "nivel_riesgo_max": "Precaución"
+    },
+    {
+      "estacion": "PASO LA MINA",
+      "max_temp_c": 26.7,
+      "max_temp_time": "Sep 28, 2026/ 9:00 AM",
+      "max_heat_index_c": 30.7,
+      "max_heat_index_time": "Sep 28, 2026/ 9:00 AM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Tabasco",
+      "ubicacion": "Ingenio Presidente Benito Juárez, Tab., Mexico",
+      "last_valid_time": "Sep 28, 2026/ 9:00 AM",
+      "nivel_riesgo_max": "Precaución"
+    },
+    {
+      "estacion": "Yaxhá - INSIVUMEH PETEN",
+      "max_temp_c": 26.7,
+      "max_temp_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_index_c": 30.5,
+      "max_heat_index_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_basis": "Índice de calor",
       "territory": "Guatemala/Petén",
-      "ubicacion": "Petén, Guatemala",
-      "last_valid_time": "Sep 28, 2026/ 12:28 AM",
+      "ubicacion": "Laguna Yaxjá, Petén, Guatemala",
+      "last_valid_time": "Sep 28, 2026/ 9:30 AM",
+      "nivel_riesgo_max": "Precaución"
+    },
+    {
+      "estacion": "Modesta_1",
+      "max_temp_c": 26.7,
+      "max_temp_time": "Sep 28, 2026/ 9:00 AM",
+      "max_heat_index_c": 27.9,
+      "max_heat_index_time": "Sep 28, 2026/ 9:00 AM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Tabasco",
+      "ubicacion": "Benito Juárez Garcia Poblado C-21, Tab., Mexico",
+      "last_valid_time": "Sep 28, 2026/ 9:00 AM",
+      "nivel_riesgo_max": "Precaución"
+    },
+    {
+      "estacion": "CHAPULTENANGO PCIVILCHIAPAS",
+      "max_temp_c": 26.1,
+      "max_temp_time": "Sep 28, 2026/ 9:24 AM",
+      "max_heat_index_c": 26.1,
+      "max_heat_index_time": "Sep 28, 2026/ 9:24 AM",
+      "max_heat_basis": "Temperatura del aire",
+      "territory": "Chiapas",
+      "ubicacion": "Chapultenango, Chiapas, Mexico",
+      "last_valid_time": "Sep 28, 2026/ 9:24 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
       "estacion": "ACALA PCIVILCHIAPAS",
-      "max_temp_c": 23.3,
-      "max_temp_time": "Sep 28, 2026/ 1:02 AM",
-      "max_heat_index_c": 23.3,
-      "max_heat_index_time": "Sep 28, 2026/ 1:02 AM",
+      "max_temp_c": 25.6,
+      "max_temp_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_index_c": 25.6,
+      "max_heat_index_time": "Sep 28, 2026/ 9:30 AM",
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Acala, Chiapas, Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:02 AM",
-      "nivel_riesgo_max": "Normal"
-    },
-    {
-      "estacion": "BERRIOZÁBAL PCIVILCHIAPAS",
-      "max_temp_c": 21.1,
-      "max_temp_time": "Sep 28, 2026/ 1:02 AM",
-      "max_heat_index_c": 21.1,
-      "max_heat_index_time": "Sep 28, 2026/ 1:02 AM",
-      "max_heat_basis": "Temperatura del aire",
-      "territory": "Chiapas",
-      "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:02 AM",
-      "nivel_riesgo_max": "Normal"
-    },
-    {
-      "estacion": "CHAPULTENANGO PCIVILCHIAPAS",
-      "max_temp_c": 21.1,
-      "max_temp_time": "Sep 28, 2026/ 1:03 AM",
-      "max_heat_index_c": 21.1,
-      "max_heat_index_time": "Sep 28, 2026/ 1:03 AM",
-      "max_heat_basis": "Temperatura del aire",
-      "territory": "Chiapas",
-      "ubicacion": "Chapultenango, Chiapas, Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:03 AM",
+      "last_valid_time": "Sep 28, 2026/ 9:30 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
       "estacion": "Cipat Chiapas",
-      "max_temp_c": 21.1,
-      "max_temp_time": "Sep 28, 2026/ 1:02 AM",
-      "max_heat_index_c": 21.1,
-      "max_heat_index_time": "Sep 28, 2026/ 1:02 AM",
+      "max_temp_c": 25.6,
+      "max_temp_time": "Sep 28, 2026/ 9:31 AM",
+      "max_heat_index_c": 25.6,
+      "max_heat_index_time": "Sep 28, 2026/ 9:31 AM",
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ocozocoautla, Chiapas, Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:02 AM",
+      "last_valid_time": "Sep 28, 2026/ 9:31 AM",
+      "nivel_riesgo_max": "Normal"
+    },
+    {
+      "estacion": "Urrutia",
+      "max_temp_c": 24.4,
+      "max_temp_time": "Sep 28, 2026/ 7:46 AM",
+      "max_heat_index_c": 24.4,
+      "max_heat_index_time": "Sep 28, 2026/ 7:46 AM",
+      "max_heat_basis": "Temperatura del aire",
+      "territory": "Guatemala/Petén",
+      "ubicacion": "Petén, Guatemala",
+      "last_valid_time": "Sep 28, 2026/ 7:46 AM",
+      "nivel_riesgo_max": "Normal"
+    },
+    {
+      "estacion": "AMATÁN PCIVILCHIAPAS",
+      "max_temp_c": 24.4,
+      "max_temp_time": "Sep 28, 2026/ 9:31 AM",
+      "max_heat_index_c": 24.4,
+      "max_heat_index_time": "Sep 28, 2026/ 9:31 AM",
+      "max_heat_basis": "Temperatura del aire",
+      "territory": "Chiapas",
+      "ubicacion": "Amatán, Chiapas, Mexico",
+      "last_valid_time": "Sep 28, 2026/ 9:31 AM",
+      "nivel_riesgo_max": "Normal"
+    },
+    {
+      "estacion": "BERRIOZÁBAL PCIVILCHIAPAS",
+      "max_temp_c": 23.9,
+      "max_temp_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_index_c": 23.9,
+      "max_heat_index_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_basis": "Temperatura del aire",
+      "territory": "Chiapas",
+      "ubicacion": "Berriozábal, Chiapas, Mexico",
+      "last_valid_time": "Sep 28, 2026/ 9:30 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
       "estacion": "MAYA BERRIOZABAL PCIVILCHIAPAS",
-      "max_temp_c": 20.0,
-      "max_temp_time": "Sep 28, 2026/ 1:02 AM",
-      "max_heat_index_c": 20.0,
-      "max_heat_index_time": "Sep 28, 2026/ 1:02 AM",
+      "max_temp_c": 22.8,
+      "max_temp_time": "Sep 28, 2026/ 9:30 AM",
+      "max_heat_index_c": 22.8,
+      "max_heat_index_time": "Sep 28, 2026/ 9:30 AM",
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Sep 28, 2026/ 1:02 AM",
+      "last_valid_time": "Sep 28, 2026/ 9:30 AM",
       "nivel_riesgo_max": "Normal"
     }
   ],
   "territories": [
     {
-      "territorio": "Tabasco",
-      "estaciones": 4,
-      "max_temp_c": 26.1,
-      "max_heat_index_c": 26.1,
-      "estacion_mas_caliente": "Centro",
-      "nivel_riesgo": "Normal"
+      "territorio": "Otra ubicación",
+      "estaciones": 3,
+      "max_temp_c": 30.0,
+      "max_heat_index_c": 38.0,
+      "estacion_mas_caliente": "SEMAR Capitanía de Pto. Alvarado, Ver.",
+      "nivel_riesgo": "Precaución extrema"
     },
     {
-      "territorio": "Otra ubicación",
-      "estaciones": 2,
-      "max_temp_c": 25.0,
-      "max_heat_index_c": 25.0,
-      "estacion_mas_caliente": "SEMAR E.I.O. Cd. del Carmen.",
-      "nivel_riesgo": "Normal"
+      "territorio": "Tabasco",
+      "estaciones": 5,
+      "max_temp_c": 28.9,
+      "max_heat_index_c": 36.9,
+      "estacion_mas_caliente": "ASUR Villahermosa",
+      "nivel_riesgo": "Precaución extrema"
     },
     {
       "territorio": "Chiapas",
-      "estaciones": 9,
-      "max_temp_c": 24.4,
-      "max_heat_index_c": 24.4,
-      "estacion_mas_caliente": "JUÁREZ PCIVILCHIAPAS",
-      "nivel_riesgo": "Normal"
+      "estaciones": 12,
+      "max_temp_c": 29.4,
+      "max_heat_index_c": 35.0,
+      "estacion_mas_caliente": "PALENQUE PCIVILCHIAPAS",
+      "nivel_riesgo": "Precaución extrema"
     },
     {
       "territorio": "Guatemala/Petén",
-      "estaciones": 1,
-      "max_temp_c": 23.9,
-      "max_heat_index_c": 23.9,
-      "estacion_mas_caliente": "Urrutia",
-      "nivel_riesgo": "Normal"
+      "estaciones": 2,
+      "max_temp_c": 26.7,
+      "max_heat_index_c": 30.5,
+      "estacion_mas_caliente": "Yaxhá - INSIVUMEH PETEN",
+      "nivel_riesgo": "Precaución"
     }
   ],
   "note": "Máximas del día construidas sólo con observaciones WeatherLink válidas recibidas por el agente cloud. Datos rezagados/heredados o con más de 2 h de antigüedad no actualizan las máximas. No se reconstruyen horas anteriores a la primera observación válida almacenada del día."
