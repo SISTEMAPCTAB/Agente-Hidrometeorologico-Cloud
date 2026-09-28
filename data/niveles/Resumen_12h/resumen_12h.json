@@ -1,6 +1,6 @@
 {
-  "generated_from_latest_observation": "2026-09-28T14:00:00-06:00",
-  "window_start": "2026-09-28T02:00:00-06:00",
+  "generated_from_latest_observation": "2026-09-28T16:00:00-06:00",
+  "window_start": "2026-09-28T04:00:00-06:00",
   "window_hours": 12,
   "criterio": "Sólo observaciones hidrométricas reales. Heredados excluidos. Cambio >0.02 m ascendente; <-0.02 m descendente; ±0.02 m estable. La etiqueta mejorando/deteriorándose describe la dirección agregada del nivel, no el riesgo por sí sola.",
   "systems": [
@@ -19,23 +19,23 @@
           "estacion": "González",
           "rio": "Río Carrizal",
           "inicio": "2026-09-28T06:00:00-06:00",
-          "fin": "2026-09-28T14:00:00-06:00",
+          "fin": "2026-09-28T16:00:00-06:00",
           "nivel_inicio_m": 3.42,
-          "nivel_fin_m": 3.34,
-          "delta_m": -0.08,
+          "nivel_fin_m": 3.31,
+          "delta_m": -0.11,
           "tendencia_12h": "descendente",
-          "observaciones": 9
+          "observaciones": 11
         },
         {
           "estacion": "Samaria",
           "rio": "Río Samaria",
           "inicio": "2026-09-28T06:00:00-06:00",
-          "fin": "2026-09-28T14:00:00-06:00",
+          "fin": "2026-09-28T16:00:00-06:00",
           "nivel_inicio_m": 11.84,
           "nivel_fin_m": 11.84,
           "delta_m": 0.0,
           "tendencia_12h": "estable",
-          "observaciones": 9
+          "observaciones": 11
         }
       ]
     },
@@ -45,8 +45,8 @@
       "evolucion_operativa_12h": "mejorando",
       "hidrometria": {
         "ascendentes": 1,
-        "descendentes": 4,
-        "estables": 1,
+        "descendentes": 5,
+        "estables": 0,
         "comparables": 6
       },
       "estaciones": [
@@ -54,45 +54,45 @@
           "estacion": "Oxolotán",
           "rio": "Ríos de la Sierra",
           "inicio": "2026-09-28T06:00:00-06:00",
-          "fin": "2026-09-28T14:00:00-06:00",
+          "fin": "2026-09-28T16:00:00-06:00",
           "nivel_inicio_m": 35.05,
-          "nivel_fin_m": 35.03,
-          "delta_m": -0.02,
-          "tendencia_12h": "estable",
-          "observaciones": 5
+          "nivel_fin_m": 35.01,
+          "delta_m": -0.04,
+          "tendencia_12h": "descendente",
+          "observaciones": 6
         },
         {
           "estacion": "Pueblo Nuevo",
           "rio": "Ríos de la Sierra",
           "inicio": "2026-09-28T06:00:00-06:00",
-          "fin": "2026-09-28T14:00:00-06:00",
+          "fin": "2026-09-28T16:00:00-06:00",
           "nivel_inicio_m": 5.46,
-          "nivel_fin_m": 5.62,
-          "delta_m": 0.16,
+          "nivel_fin_m": 5.64,
+          "delta_m": 0.18,
           "tendencia_12h": "ascendente",
-          "observaciones": 9
+          "observaciones": 11
         },
         {
           "estacion": "Puyacatengo",
           "rio": "Ríos de la Sierra",
           "inicio": "2026-09-28T06:00:00-06:00",
-          "fin": "2026-09-28T14:00:00-06:00",
+          "fin": "2026-09-28T16:00:00-06:00",
           "nivel_inicio_m": 25.25,
-          "nivel_fin_m": 25.18,
-          "delta_m": -0.07,
+          "nivel_fin_m": 25.17,
+          "delta_m": -0.08,
           "tendencia_12h": "descendente",
-          "observaciones": 5
+          "observaciones": 6
         },
         {
           "estacion": "San Joaquín",
           "rio": "Ríos de la Sierra",
           "inicio": "2026-09-28T06:00:00-06:00",
-          "fin": "2026-09-28T14:00:00-06:00",
+          "fin": "2026-09-28T16:00:00-06:00",
           "nivel_inicio_m": 22.48,
-          "nivel_fin_m": 21.72,
-          "delta_m": -0.76,
+          "nivel_fin_m": 21.56,
+          "delta_m": -0.92,
           "tendencia_12h": "descendente",
-          "observaciones": 5
+          "observaciones": 6
         },
         {
           "estacion": "Tapijulapa",
@@ -123,9 +123,9 @@
       "sistema": "Tulijá–Puxcatán–Chilapa",
       "evolucion_operativa_12h": "estable/mixta",
       "hidrometria": {
-        "ascendentes": 1,
+        "ascendentes": 0,
         "descendentes": 1,
-        "estables": 0,
+        "estables": 1,
         "comparables": 2
       },
       "estaciones": [
@@ -133,23 +133,23 @@
           "estacion": "Macuspana",
           "rio": "Río Puxcatán",
           "inicio": "2026-09-28T06:00:00-06:00",
-          "fin": "2026-09-28T14:00:00-06:00",
+          "fin": "2026-09-28T16:00:00-06:00",
           "nivel_inicio_m": 6.39,
-          "nivel_fin_m": 6.12,
-          "delta_m": -0.27,
+          "nivel_fin_m": 6.08,
+          "delta_m": -0.31,
           "tendencia_12h": "descendente",
-          "observaciones": 5
+          "observaciones": 6
         },
         {
           "estacion": "Salto de Agua",
           "rio": "Río Tulijá",
           "inicio": "2026-09-28T06:00:00-06:00",
-          "fin": "2026-09-28T14:00:00-06:00",
+          "fin": "2026-09-28T16:00:00-06:00",
           "nivel_inicio_m": 4.85,
-          "nivel_fin_m": 4.9,
-          "delta_m": 0.05,
-          "tendencia_12h": "ascendente",
-          "observaciones": 5
+          "nivel_fin_m": 4.83,
+          "delta_m": -0.02,
+          "tendencia_12h": "estable",
+          "observaciones": 6
         }
       ]
     },
@@ -168,23 +168,23 @@
           "estacion": "Boca del Cerro",
           "rio": "Río Usumacinta",
           "inicio": "2026-09-28T06:00:00-06:00",
-          "fin": "2026-09-28T14:00:00-06:00",
+          "fin": "2026-09-28T16:00:00-06:00",
           "nivel_inicio_m": 15.65,
           "nivel_fin_m": 15.65,
           "delta_m": 0.0,
           "tendencia_12h": "estable",
-          "observaciones": 5
+          "observaciones": 6
         },
         {
           "estacion": "San Pedro",
           "rio": "Río San Pedro",
           "inicio": "2026-09-28T06:00:00-06:00",
-          "fin": "2026-09-28T14:00:00-06:00",
+          "fin": "2026-09-28T16:00:00-06:00",
           "nivel_inicio_m": 8.53,
           "nivel_fin_m": 8.53,
           "delta_m": 0.0,
           "tendencia_12h": "estable",
-          "observaciones": 5
+          "observaciones": 6
         }
       ]
     }
