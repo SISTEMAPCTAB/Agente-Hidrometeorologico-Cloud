@@ -6,6 +6,9 @@ on:
     workflows:
       - Gmail Backup Cloud
       - Niveles Hidrométricos Cloud
+      - SMN Cloud Fast - 96 y 360 h
+      - Fuentes Públicas Cloud - SMN e INSIVUMEH
+      - Acumulados observados 48 y 72 h
     types:
       - completed
   push:
@@ -18,7 +21,7 @@ on:
       - 'data/niveles/Estado_Niveles_Cloud.json'
       - 'data/niveles/Ultimo_Corte/ultimo_resumen.json'
   schedule:
-    # Respaldo cada 15 min; también revisa al terminar Gmail o niveles.
+    # Respaldo cada 15 min más eventos autónomos de otros colectores; sólo recupera si el último corte está rezagado.
     - cron: '6,21,36,51 * * * *'
 
 permissions:
