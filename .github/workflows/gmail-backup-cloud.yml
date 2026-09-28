@@ -2,6 +2,13 @@ name: Gmail Backup Cloud
 
 on:
   workflow_dispatch:
+  # Activación autónoma adicional: el cron de GitHub puede omitir horarios,
+  # WeatherLink aporta disparos frecuentes sin alterar el ciclo de niveles.
+  workflow_run:
+    workflows:
+      - 'WeatherLink Cloud - 32 estaciones'
+      - 'WeatherLink Rescue - independiente'
+    types: [completed]
   push:
     branches:
       - main
@@ -34,6 +41,8 @@ concurrency:
 
 jobs:
   respaldo-gmail:
+    # Sólo operar en ventana diurna de Tabasco, conservar pausa nocturna.
+    if: ${{ github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success') }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
