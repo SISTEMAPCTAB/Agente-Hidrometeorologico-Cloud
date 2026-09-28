@@ -12,6 +12,8 @@ import imaplib
 import json
 import os
 import re
+import socket
+import time
 import subprocess
 import tempfile
 from datetime import datetime, timedelta, timezone
@@ -190,10 +192,25 @@ def main():
     processed = load_processed()
     hashes = load_hashes()
     messages = []
-    mail = imaplib.IMAP4_SSL("imap.gmail.com", 993)
+    mail = None
+    for attempt in range(1, 4):
+        try:
+            mail = imaplib.IMAP4_SSL("imap.gmail.com", 993, timeout=30)
+            mail.login(GMAIL_USER, GMAIL_PASSWORD)
+            typ, _ = mail.select("INBOX", readonly=True)
+            if typ != "OK":
+                raise RuntimeError("Gmail no permitió abrir INBOX")
+            break
+        except (OSError, imaplib.IMAP4.abort, imaplib.IMAP4.error) as exc:
+            if mail is not None:
+                try: mail.logout()
+                except Exception: pass
+            mail = None
+            if attempt == 3:
+                raise
+            print(f"IMAP intento {attempt}/3 falló: {exc}; reintentando")
+            time.sleep(attempt * 5)
     try:
-        mail.login(GMAIL_USER, GMAIL_PASSWORD)
-        mail.select("INBOX", readonly=True)
         since = cutoff.strftime("%d-%b-%Y")
         typ, data = mail.uid("search", None, f'(SINCE "{since}")')
         if typ != "OK":
@@ -215,10 +232,11 @@ def main():
             if parts:
                 messages.append({"uid": uid, "dt": dt, "subject": subject, "parts": parts})
     finally:
-        try:
-            mail.logout()
-        except Exception:
-            pass
+        if mail is not None:
+            try:
+                mail.logout()
+            except Exception:
+                pass
 
     status["messages_scanned"] = len(messages)
     messages.sort(key=lambda x: x["dt"])
@@ -231,7 +249,10 @@ def main():
             key = f"gmail-{uid}"
             for idx, (filename, payload) in enumerate(item["parts"], start=1):
                 digest = pdf_hash(payload)
-                if digest in hashes:
+                is_level = niveles.is_levels_subject(subject)
+                # Un hash histórico no debe bloquear la recuperación de un corte
+                # más reciente; el procesador valida fecha y evita duplicados.
+                if digest in hashes and not (is_level and (current_level_time is None or dt > current_level_time)):
                     status["pdfs_skipped_duplicate_content"] += 1
                     continue
 
@@ -248,7 +269,7 @@ def main():
                             "digest": digest,
                         }
 
-                if not niveles.is_levels_subject(subject):
+                if not is_level:
                     continue
                 if current_level_time and dt <= current_level_time:
                     status["levels_skipped_not_newer"] += 1
