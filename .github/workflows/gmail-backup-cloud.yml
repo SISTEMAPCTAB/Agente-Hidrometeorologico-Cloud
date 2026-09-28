@@ -3,12 +3,14 @@ name: Gmail Backup Cloud
 on:
   workflow_dispatch:
   # Activación autónoma adicional: el cron de GitHub puede omitir horarios,
-  # Otros recolectores programados aportan disparos sin alterar el ciclo de niveles.\n  # No depender de WeatherLink Rescue: ese flujo escucha a Gmail y crearía un ciclo.
+  # Otros recolectores programados aportan disparos sin alterar el ciclo de niveles.
+  # No depender de WeatherLink Rescue: ese flujo escucha a Gmail y crearía un ciclo.
   workflow_run:
     workflows:
       - 'WeatherLink Cloud - 32 estaciones'
       - 'WeatherLink Watchdog - recuperación automática'
       - 'Fuentes Públicas Cloud - SMN e INSIVUMEH'
+      - 'SMN Cloud Fast - 96 y 360 h'
     types: [completed]
   push:
     branches:
