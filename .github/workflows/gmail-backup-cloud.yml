@@ -2,16 +2,9 @@ name: Gmail Backup Cloud
 
 on:
   workflow_dispatch:
-  # Activación autónoma adicional: el cron de GitHub puede omitir horarios,
-  # Otros recolectores programados aportan disparos sin alterar el ciclo de niveles.
-  # No depender de WeatherLink Rescue: ese flujo escucha a Gmail y crearía un ciclo.
-  workflow_run:
-    workflows:
-      - 'WeatherLink Cloud - 32 estaciones'
-      - 'WeatherLink Watchdog - recuperación automática'
-      - 'Fuentes Públicas Cloud - SMN e INSIVUMEH'
-      - 'SMN Cloud Fast - 96 y 360 h'
-    types: [completed]
+  # Respaldo escalonado: no competir con el recolector principal de :50.
+  # Evitar workflow_run de WeatherLink/SMN: generaba múltiples trabajos por hora
+  # en la misma cola de escritura de niveles y retrasaba los cortes nuevos.
   push:
     branches:
       - main
@@ -21,16 +14,8 @@ on:
       - 'src/auditar_productos_operativos.py'
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
-    # Arranque autónomo Tabasco UTC-6: el primer boletín suele llegar a las 06:20–06:30.
-    # Consultas tempranas independientes del recolector principal de las 06:50.
-    # Varios disparos reducen dependencia de un único cron que GitHub puede demorar.
-    # Recuperación operativa 27-sep: activar ejecución directa para verificar boletín 08:00.
-    - cron: '35,45 12 * * *' # 06:35 y 06:45
-    - cron: '5,35 13 * * *'  # 07:05 y 07:35, recuperación matutina
-    # Horarios anteriores intactos; el histórico de ID y SHA impide duplicaciones.
-    - cron: '40 12-23,0 * * *' # 06:40–18:40: revisar boletines recibidos alrededor de :20–:36
-    - cron: '50 12-23,0 * * *' # 06:50–18:50, conservar respaldo existente
-    - cron: '15 13-23,0-1 * * *' # 07:15–19:15, recuperación posterior
+    - cron: '35,45 12 * * *' # 06:35 y 06:45 Tabasco: arranque matutino
+    - cron: '40 13-23,0 * * *' # 07:40 a 18:40 Tabasco: respaldo previo a :50
 
 permissions:
   contents: write
