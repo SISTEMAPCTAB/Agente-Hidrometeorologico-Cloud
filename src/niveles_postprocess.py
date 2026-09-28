@@ -401,6 +401,10 @@ def main():
         delta_prev = current["nivel"] - prev["nivel"] if prev and finite(current.get("nivel")) and finite(prev.get("nivel")) else None
         delta_06 = current["nivel"] - base["nivel"] if base and finite(current.get("nivel")) and finite(base.get("nivel")) else None
         meta = station_meta(rows)
+        # Corrección exclusiva de etiqueta: San Joaquín pertenece al río Pichucalco.
+        # No altera estación, niveles, referencias ni histórico de observaciones.
+        if station == "San Joaquín":
+            meta["rio"] = "Río Pichucalco"
         series = cycle_series(rows, start, cutoff)
 
         row = {
