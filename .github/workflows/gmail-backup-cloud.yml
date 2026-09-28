@@ -79,28 +79,8 @@ jobs:
             echo "Respaldo Gmail aún no configurado; no se modifica ningún dato."
           fi
 
-      - name: Probar acceso IMAP Gmail sin modificar datos
-        if: steps.gmail.outputs.enabled == 'true'
-        env:
-          GMAIL_BACKUP_USER: ${{ secrets.GMAIL_USER }}
-          GMAIL_BACKUP_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-        shell: bash
-        run: |
-          python - <<'PY'
-          import imaplib, os
-          user=os.environ['GMAIL_BACKUP_USER'].strip()
-          password=os.environ['GMAIL_BACKUP_APP_PASSWORD'].replace(' ', '').strip()
-          m=imaplib.IMAP4_SSL('imap.gmail.com', 993, timeout=30)
-          try:
-              m.login(user, password)
-              typ, _ = m.select('INBOX', readonly=True)
-              if typ != 'OK':
-                  raise RuntimeError('Gmail no permitió abrir INBOX')
-              print('Autenticación IMAP Gmail correcta; INBOX disponible.')
-          finally:
-              try: m.logout()
-              except Exception: pass
-          PY
+      # La conexión IMAP y sus reintentos se verifican en gmail_fallback.py;
+      # evitar una segunda conexión preliminar que puede agotar el workflow.
 
       - name: Configurar Python
         if: steps.gmail.outputs.enabled == 'true'
