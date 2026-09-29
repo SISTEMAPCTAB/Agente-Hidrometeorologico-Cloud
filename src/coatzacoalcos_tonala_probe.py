@@ -36,7 +36,7 @@ try:
   # y ordenar por fecha real del nombre, no por posición en HTML.
   for typ in sources:
    def report_date(url):
-    m=re.search(r"(\\d{2})(\\d{2})(\\d{4})\\.pdf",url,re.I)
+    m=re.search(r"(\d{2})(\d{2})(\d{4})\.pdf",url,re.I)
     if not m:return dt.date.min
     try:return dt.date(int(m[3]),int(m[2]),int(m[1]))
     except ValueError:return dt.date.min
@@ -90,7 +90,7 @@ for item in result.get("reports",{}).get("matutino",[]):
  records=[]
  for row in item["station_rows"]:
   line=row["row_text"]
-  m=re.match(r"^(San Jos[eé] del Carmen|Agua Dulce)\s+Ver\.\s+Tonal[aá]\s+R[ií]o\s+(Tonal[aá]|Aguadulcita)\s+(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)\s+(?:-|\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\\s*$",line,re.I)
+  m=re.match(r"^(San Jos[eé] del Carmen|Agua Dulce)\s+Ver\.\s+Tonal[aá]\s+R[ií]o\s+(Tonal[aá]|Aguadulcita)\s+(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)\s+(?:-|\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s*$",line,re.I)
   if not m:continue
   namo,prev,cur,distance=map(float,m.groups()[2:])
   # Distancia de la fuente debe concordar con actual - NAMO.
