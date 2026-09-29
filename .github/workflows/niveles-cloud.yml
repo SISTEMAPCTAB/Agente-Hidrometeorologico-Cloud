@@ -128,6 +128,8 @@ jobs:
           a=json.loads(Path('data/niveles/Auditoria/ultimo_resultado.json').read_text(encoding='utf-8'))
           assert s.get('stations_in_latest_summary',0) > 0, 'Resumen de niveles vacío'
           assert isinstance(s.get('errors',[]), list), 'Estado de errores inválido'
+          assert s.get('complete') is True, 'Extracción principal incompleta'
+          assert not s.get('errors'), f"Errores de extracción: {s.get('errors')}"
           assert a.get('ok') is True, f"Auditoría bloqueó publicación: {a.get('errores')}"
           print('Niveles verificados:', s.get('stations_in_latest_summary'), 'estaciones; corte:', s.get('latest_subject'))
           print('Auditoría automática: OK')
