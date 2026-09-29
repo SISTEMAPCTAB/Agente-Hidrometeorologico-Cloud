@@ -12,7 +12,7 @@ OUT=Path('data/fuentes_publicas'); OUT.mkdir(parents=True,exist_ok=True)
 HIST=OUT/'insivumeh_historico.json'
 UA={'User-Agent':'Mozilla/5.0 Agente-Hidrometeorologico-Cloud/1.0'}; TIMEOUT=35
 SMN96='https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h';SMN360='https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-360h'
-INSI_DAILY='https://insivumeh.gob.gt/boletin-diario-hidrologia-aplicada/';INSI_TREND='https://insivumeh.gob.gt/boletin-de-tendencia-de-niveles-2/';INSI_SAT='https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/';INSI_RAIN='https://insivumeh.gob.gt/mapas-ultimas-24-horas/';INSI_RAIN_ROOT='https://insivumeh.gob.gt/img/MAPAS_24H/';INSI_RAIN_SEASON=INSI_RAIN_ROOT+'Resumen_Departamentos.html'
+INSI_DAILY='https://insivumeh.gob.gt/boletin-diario-hidrologia-aplicada/';INSI_BHVGM='https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf';INSI_TREND='https://insivumeh.gob.gt/boletin-de-tendencia-de-niveles-2/';INSI_SAT='https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/';INSI_RAIN='https://insivumeh.gob.gt/mapas-ultimas-24-horas/';INSI_RAIN_ROOT='https://insivumeh.gob.gt/img/MAPAS_24H/';INSI_RAIN_SEASON=INSI_RAIN_ROOT+'Resumen_Departamentos.html'
 BASINS=['Peñitas','Malpaso','Chicoasén','La Angostura','Bajo Grijalva-Ríos de la Sierra','Usumacinta','Presa Juan Sabines'];UPPER_USU_TERMS=['peten','sayaxche','las cruces','alta verapaz','chixoy','chisec','cahabon','chahal','senahu','raxruha','quiche','ixcan','huehuetenango','barillas','la pasion','usumacinta']
 RAIN_STATIONS=[('El Tigre','Usumacinta directo','INS171302AT','alta'),('El Porvenir','La Pasión','INS171001AT','alta'),('Bethel','Usumacinta/Lacantún-frontera','INS171301AT','media'),('Machaquilá','La Pasión–Machaquilá','INS171201AT','alta'),('Mactún','San Pedro','INS170401AT','alta'),('Chixoy Hidro','Chixoy/Salinas',None,'alta'),('Cobán','Chixoy/Salinas',None,'media'),('Santa María Cahabón','Chixoy/Salinas',None,'media'),('Panzos PHC Altaverapaz','Chixoy/Salinas',None,'media')]
 class LinkParser(HTMLParser):
@@ -92,9 +92,9 @@ def parse_insivumeh_stations(text):
    if len(nums)>=6:out.append({'estacion':station,'rio':river,'ubicacion':loc,'nivel_referencia_min_m':nums[0],'nivel_referencia_max_m':nums[1],'caudal_referencia_min_m3s':nums[2],'caudal_referencia_max_m3s':nums[3],'nivel_instantaneo_m':nums[4],'caudal_instantaneo_m3s':nums[5],'calidad':'extraido_del_BHVGM','nota_referencia':'Máximos como referencia estadística; no son umbral de inundación.'})
  return out
 def parse_insivumeh():
- raw,meta=fetch_text(INSI_DAILY);p=LinkParser();p.feed(raw);c=[urljoin(INSI_DAILY,h) for h,t in p.links if '.pdf' in urljoin(INSI_DAILY,h).lower()];pdf=c[-1] if c else None;r={'fuente':'INSIVUMEH','producto':'BHVGM','url_pagina':INSI_DAILY,'url_pdf':pdf,'http':meta,'estaciones_estructuradas':[],'fragmentos_relevantes':[],'completo':False}
+ raw,meta=fetch_text(INSI_DAILY);p=LinkParser();p.feed(raw);c=[urljoin(INSI_DAILY,h) for h,t in p.links if '.pdf' in urljoin(INSI_DAILY,h).lower() and ('bhvgm' in (h+' '+t).lower() or 'golfo de mexico' in t.lower())];pdf=c[-1] if c else INSI_BHVGM;r={'fuente':'INSIVUMEH','producto':'BHVGM','url_pagina':INSI_DAILY,'url_pdf':pdf,'http':meta,'estaciones_estructuradas':[],'fragmentos_relevantes':[],'completo':False}
  if pdf:
-  txt,n=extract_pdf_text(pdf);r['pdf_bytes']=n;r.update(parse_insivumeh_header(txt));r['fragmentos_relevantes']=find_context(txt,['Chixoy','La Pasión','El Porvenir','El Tigre','Usumacinta','Machaquilá'],3);r['estaciones_estructuradas']=parse_insivumeh_stations(txt);r['completo']=bool(r['fragmentos_relevantes'])
+  txt,n=extract_pdf_text(pdf);r['pdf_bytes']=n;r.update(parse_insivumeh_header(txt));r['fragmentos_relevantes']=find_context(txt,['Chixoy','La Pasión','El Porvenir','El Tigre','Usumacinta','Machaquilá'],3);r['estaciones_estructuradas']=parse_insivumeh_stations(txt);r['completo']=bool(r['fecha'] and r['hora'] and r['estaciones_estructuradas']);r['validacion_fecha']='encabezado_pdf'
  return r
 def parse_bhvgm_datetime(obj):
  try:
@@ -163,6 +163,13 @@ def main():
   try:payload[key]=parser()
   except Exception as e:status['errors'].append(f'{key}: {e}')
  if payload.get('insivumeh'):
+  try:
+   prior=json.loads((OUT/'latest.json').read_text(encoding='utf-8')).get('insivumeh') or {}
+   new_dt=parse_bhvgm_datetime(payload['insivumeh']);old_dt=parse_bhvgm_datetime(prior)
+   if not new_dt or (old_dt and new_dt<old_dt) or not payload['insivumeh'].get('completo'):
+    status['errors'].append('BHVGM sin fecha válida, incompleto o anterior: se conserva último corte verificado')
+    payload['insivumeh']=prior
+  except (OSError,ValueError,TypeError):pass
   try:payload['insivumeh_evolucion_real']=update_insivumeh_history(payload['insivumeh'])
   except Exception as e:status['errors'].append(f'insivumeh_historico: {e}')
  keys=('smn96','smn360','insivumeh','guatemala_acumulados','guatemala_saturacion');status['complete']=all(payload.get(k) for k in keys) and not status['errors'];status['products']={k:{'available':bool(payload.get(k)),'complete':bool(payload.get(k,{}).get('completo')) if isinstance(payload.get(k),dict) else False} for k in keys};status['historico_insivumeh']=str(HIST);(OUT/'latest.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding='utf-8');(OUT/'Estado_Fuentes_Publicas.json').write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding='utf-8')
