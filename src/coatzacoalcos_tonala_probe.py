@@ -32,6 +32,15 @@ try:
    if not (".pdf" in href.lower() or "/attachment/" in href.lower()):continue
    for typ in sources:
     if typ in label and href not in sources[typ]:sources[typ].insert(0,href)
+  # El portal puede conservar enlaces antiguos: registrar los candidatos
+  # y ordenar por fecha real del nombre, no por posición en HTML.
+  for typ in sources:
+   def report_date(url):
+    m=re.search(r"(\\d{2})(\\d{2})(\\d{4})\\.pdf",url,re.I)
+    if not m:return dt.date.min
+    try:return dt.date(int(m[3]),int(m[2]),int(m[1]))
+    except ValueError:return dt.date.min
+   sources[typ].sort(key=report_date,reverse=True)
 except Exception as exc:
  result["discovery"]={"error":type(exc).__name__+": "+str(exc)[:180]}
 for typ,urls in sources.items():
@@ -74,14 +83,14 @@ latest.setdefault("reports",{})
 latest.setdefault("history",{})
 for item in result.get("reports",{}).get("matutino",[]):
  if not item.get("station_rows"):continue
- match=re.search(r"Informe[_-]Matutino[_-](\\d{2})(\\d{2})(\\d{4})\\.pdf",item.get("final_url",item.get("url","")),re.I)
+ match=re.search(r"Informe[_-]Matutino[_-](\d{2})(\d{2})(\d{4})\.pdf",item.get("final_url",item.get("url","")),re.I)
  if not match:continue
  try:stamp=dt.date(int(match.group(3)),int(match.group(2)),int(match.group(1))).isoformat()
  except ValueError:continue
  records=[]
  for row in item["station_rows"]:
   line=row["row_text"]
-  m=re.match(r"^(San Jos[eé] del Carmen|Agua Dulce)\\s+Ver\\.\\s+Tonal[aá]\\s+R[ií]o\\s+(Tonal[aá]|Aguadulcita)\\s+(\\d+(?:\\.\\d+)?)\\s+(\\d+(?:\\.\\d+)?)\\s+(\\d+(?:\\.\\d+)?)\\s+(?:-|\\d+(?:\\.\\d+)?)\\s+(-?\\d+(?:\\.\\d+)?)\\s*$",line,re.I)
+  m=re.match(r"^(San Jos[eé] del Carmen|Agua Dulce)\s+Ver\.\s+Tonal[aá]\s+R[ií]o\s+(Tonal[aá]|Aguadulcita)\s+(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)\s+(?:-|\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\\s*$",line,re.I)
   if not m:continue
   namo,prev,cur,distance=map(float,m.groups()[2:])
   # Distancia de la fuente debe concordar con actual - NAMO.
