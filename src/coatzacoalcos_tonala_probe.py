@@ -20,9 +20,10 @@ UA={"User-Agent":"Mozilla/5.0 (compatible; IPCET-Hidromet/1.0; seguimiento de in
 session=requests.Session()
 session.headers.update(UA)
 sources={key:[url] for key,url in SEEDS.items()}
+# Los enlaces descubiertos tienen prioridad sobre las semillas históricas.
 result={"checked_at_utc":dt.datetime.now(dt.timezone.utc).isoformat(),"source_page":PAGE,"discovery":{},"reports":{}}
 def report_date(url):
- m=re.search(r"(\\d{2})(\\d{2})(\\d{4})\\.pdf",urllib.parse.unquote(url),re.I)
+ m=re.search(r"(\d{2})(\d{2})(\d{4})\.pdf",urllib.parse.unquote(url),re.I)
  if not m:return dt.date.min
  try:return dt.date(int(m[3]),int(m[2]),int(m[1]))
  except ValueError:return dt.date.min
@@ -37,8 +38,8 @@ def discover(html,base):
   label=a.get_text(" ",strip=True).lower()
   if any(t in (href+" "+label).lower() for t in ("matutino","vespertino")):
    candidates.append(href)
- decoded=html.replace("\\\\/","/").replace("&amp;","&")
- candidates += re.findall(r'https?://(?:www\\.)?gob\\.mx/cms/uploads/attachment/file/\\d+/[^"\\s<>]+?\\.pdf',decoded,re.I)
+ decoded=html.replace("\\/","/").replace("&amp;","&")
+ candidates += re.findall(r'https?://(?:www\.)?gob\.mx/cms/uploads/attachment/file/\d+/[^"\s<>]+?\.pdf',decoded,re.I)
  for href in candidates:
   for typ in sources:
    if typ in urllib.parse.unquote(href).lower() and href not in sources[typ]:
@@ -113,7 +114,7 @@ for item in result.get("reports",{}).get("matutino",[]):
  file_date=report_date(item.get("final_url",item["url"]))
  header=item.get("document_header","").lower()
  months=("enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre")
- if file_date==dt.date.min or not re.search(r"\\b"+str(file_date.day)+r"\\s+de\\s+"+months[file_date.month-1]+r"\\s+de\\s+"+str(file_date.year)+r"\\b",header):
+ if file_date==dt.date.min or not re.search(r"\b"+str(file_date.day)+r"\s+de\s+"+months[file_date.month-1]+r"\s+de\s+"+str(file_date.year)+r"\b",header):
   item["validation_error"]="Fecha de nombre de archivo no confirmada en encabezado del PDF"
   continue
  match=re.search(r"Informe[_-]Matutino[_-](\d{2})(\d{2})(\d{4})\.pdf",item.get("final_url",item.get("url","")),re.I)
