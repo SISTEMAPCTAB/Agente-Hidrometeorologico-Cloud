@@ -27,7 +27,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: weatherlink-cloud
+  group: weatherlink-primary
   cancel-in-progress: false
 
 jobs:
@@ -121,15 +121,38 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Actualiza WeatherLink cloud, temperatura y Word [skip ci]"
+          # Guardar productos validados antes de sincronizar: evita rebase de
+          # historicos JSON y DOCX cuando otro recolector publica simultaneamente.
+          tar -cf /tmp/weatherlink-primary.tar data/weatherlink/state.json data/weatherlink/latest.json data/weatherlink/extra_state.json data/weatherlink/extra_latest.json data/weatherlink/shared_resolved.json data/weatherlink/Tabla_WeatherLink_Cloud.csv data/weatherlink/Estado_WeatherLink_Cloud.json data/weatherlink/temperature_state.json data/weatherlink/temperature_summary.json data/weatherlink/Reportes
+          cp data/weatherlink/Estado_WeatherLink_Cloud.json /tmp/weatherlink-primary-status.json
+          cp data/weatherlink/extra_latest.json /tmp/weatherlink-primary-extra.json
 
           for intento in 1 2 3; do
             echo "Intento de publicación ${intento}/3"
-            if git pull --rebase origin main && git push origin main; then
+            git fetch origin main
+            git reset --hard origin/main
+            if python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from datetime import datetime,timezone
+          def stamp(p):
+              try:return datetime.fromisoformat(json.loads(Path(p).read_text())['run_utc'].replace('Z','+00:00')).astimezone(timezone.utc)
+              except (OSError,ValueError,KeyError,TypeError):return None
+          a=stamp('/tmp/weatherlink-primary-status.json'); b=stamp('/tmp/weatherlink-primary-extra.json')
+          x=stamp('data/weatherlink/Estado_WeatherLink_Cloud.json'); y=stamp('data/weatherlink/extra_latest.json')
+          raise SystemExit(0 if x and y and a and b and x>=a and y>=b else 1)
+          PY
+            then
+              echo "Ambos cortes ya incorporados o superados; no retroceder."
+              exit 0
+            fi
+            tar -xf /tmp/weatherlink-primary.tar
+            git add data/weatherlink
+            git commit -m "Actualiza WeatherLink cloud, temperatura y Word [skip ci]"
+            if git push origin HEAD:main; then
               echo "Publicación WeatherLink completada."
               exit 0
             fi
-            git rebase --abort 2>/dev/null || true
             sleep $((intento * 10))
           done
 
