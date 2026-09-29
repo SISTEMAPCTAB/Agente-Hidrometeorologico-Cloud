@@ -144,9 +144,9 @@ jobs:
           git add data/weatherlink/state.json \
                   data/weatherlink/latest.json \
                   data/weatherlink/Tabla_WeatherLink_Cloud.csv \
-                  data/weatherlink/Estado_WeatherLink_Cloud.json \\
-                  data/weatherlink/extra_state.json \\
-                  data/weatherlink/extra_latest.json \\
+                  data/weatherlink/Estado_WeatherLink_Cloud.json \
+                  data/weatherlink/extra_state.json \
+                  data/weatherlink/extra_latest.json \
                   data/weatherlink/shared_resolved.json
           if git diff --cached --quiet; then
             echo "Sin cambios para publicar."
