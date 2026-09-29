@@ -21,31 +21,56 @@ session=requests.Session()
 session.headers.update(UA)
 sources={key:[url] for key,url in SEEDS.items()}
 result={"checked_at_utc":dt.datetime.now(dt.timezone.utc).isoformat(),"source_page":PAGE,"discovery":{},"reports":{}}
+def report_date(url):
+ m=re.search(r"(\\d{2})(\\d{2})(\\d{4})\\.pdf",urllib.parse.unquote(url),re.I)
+ if not m:return dt.date.min
+ try:return dt.date(int(m[3]),int(m[2]),int(m[1]))
+ except ValueError:return dt.date.min
+
+def discover(html,base):
+ # gob.mx alterna entre href directos, enlaces de descarga y URL incrustadas
+ # en HTML/JSON escapado. No inferir identificadores consecutivos de adjuntos.
+ soup=BeautifulSoup(html,"html.parser")
+ candidates=[]
+ for a in soup.find_all("a",href=True):
+  href=urllib.parse.urljoin(base,a["href"])
+  label=a.get_text(" ",strip=True).lower()
+  if any(t in (href+" "+label).lower() for t in ("matutino","vespertino")):
+   candidates.append(href)
+ decoded=html.replace("\\\\/","/").replace("&amp;","&")
+ candidates += re.findall(r'https?://(?:www\\.)?gob\\.mx/cms/uploads/attachment/file/\\d+/[^"\\s<>]+?\\.pdf',decoded,re.I)
+ for href in candidates:
+  for typ in sources:
+   if typ in urllib.parse.unquote(href).lower() and href not in sources[typ]:
+    sources[typ].append(href)
+ return len(candidates)
+
 try:
- response=session.get(PAGE,timeout=25)
+ response=session.get(PAGE,timeout=25,headers={"Cache-Control":"no-cache"})
  result["discovery"]={"http":response.status_code,"url":response.url}
  if response.ok:
+  result["discovery"]["candidates"]=discover(response.text,response.url)
+  # Seguir enlaces de sección de hidrometeorología si el portal muestra
+  # documentos dentro de páginas intermedias, sin explorar otros dominios.
   soup=BeautifulSoup(response.text,"html.parser")
   for a in soup.find_all("a",href=True):
+   label=a.get_text(" ",strip=True).lower()
    href=urllib.parse.urljoin(response.url,a["href"])
-   label=(a.get_text(" ",strip=True)+" "+href).lower()
-   if not (".pdf" in href.lower() or "/attachment/" in href.lower()):continue
-   for typ in sources:
-    if typ in label and href not in sources[typ]:sources[typ].insert(0,href)
-  # El portal puede conservar enlaces antiguos: registrar los candidatos
-  # y ordenar por fecha real del nombre, no por posición en HTML.
-  for typ in sources:
-   def report_date(url):
-    m=re.search(r"(\d{2})(\d{2})(\d{4})\.pdf",url,re.I)
-    if not m:return dt.date.min
-    try:return dt.date(int(m[3]),int(m[2]),int(m[1]))
-    except ValueError:return dt.date.min
-   sources[typ].sort(key=report_date,reverse=True)
+   if ("informe" not in label and "hidrol" not in label):continue
+   if urllib.parse.urlparse(href).netloc not in ("www.gob.mx","gob.mx"):continue
+   if href.lower().endswith(".pdf"):continue
+   try:
+    sub=session.get(href,timeout=15)
+    if sub.ok and "html" in sub.headers.get("Content-Type","").lower():discover(sub.text,sub.url)
+   except requests.RequestException:pass
 except Exception as exc:
  result["discovery"]={"error":type(exc).__name__+": "+str(exc)[:180]}
+for typ in sources:
+ sources[typ].sort(key=report_date,reverse=True)
+ result["discovery"][typ+"_candidates"]=sources[typ][:12]
 for typ,urls in sources.items():
  attempts=[]
- for url in urls[:8]:
+ for url in urls[:12]:
   item={"url":url}
   try:
    r=session.get(url,timeout=35)
@@ -57,6 +82,7 @@ for typ,urls in sources.items():
    else:
     with pdfplumber.open(io.BytesIO(r.content)) as doc:
      item["pages"]=len(doc.pages)
+     item["document_header"]=" ".join((p.extract_text() or "")[:550] for p in doc.pages[:1])
      lines=[]
      for page in doc.pages:
       lines.extend((page.extract_text(layout=False) or "").splitlines())
@@ -65,7 +91,7 @@ for typ,urls in sources.items():
      item["extraction_status"]="Filas recuperadas; columnas numéricas pendientes de validación" if hits else "Sin filas identificadas"
      # No declarar pronóstico, nivel o fecha de hoy sin comprobar columnas y fecha del PDF.
    attempts.append(item)
-   if item.get("station_rows"):break
+   if item.get("station_rows") and report_date(item.get("final_url",url))!=dt.date.min:break
   except Exception as exc:item["error"]=type(exc).__name__+": "+str(exc)[:180];attempts.append(item)
  result["reports"][typ]=attempts
 (OUT/"prueba_extraccion.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
@@ -83,6 +109,13 @@ latest.setdefault("reports",{})
 latest.setdefault("history",{})
 for item in result.get("reports",{}).get("matutino",[]):
  if not item.get("station_rows"):continue
+ # La fecha del archivo debe coincidir con el encabezado del PDF.
+ file_date=report_date(item.get("final_url",item["url"]))
+ header=item.get("document_header","").lower()
+ months=("enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre")
+ if file_date==dt.date.min or not re.search(r"\\b"+str(file_date.day)+r"\\s+de\\s+"+months[file_date.month-1]+r"\\s+de\\s+"+str(file_date.year)+r"\\b",header):
+  item["validation_error"]="Fecha de nombre de archivo no confirmada en encabezado del PDF"
+  continue
  match=re.search(r"Informe[_-]Matutino[_-](\d{2})(\d{2})(\d{4})\.pdf",item.get("final_url",item.get("url","")),re.I)
  if not match:continue
  try:stamp=dt.date(int(match.group(3)),int(match.group(2)),int(match.group(1))).isoformat()
