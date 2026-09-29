@@ -215,91 +215,50 @@ jobs:
             data/niveles/Clima_CONAGUA data/niveles/Auditoria
             data/niveles/Graficas data/niveles/Reportes
           )
-          # Conservar los productos ya auditados; nunca rebase de JSON/Word binarios.
           tar -cf /tmp/gmail-productos.tar "${PRODUCTOS[@]}"
           cp data/niveles/Ultimo_Corte/ultimo_resumen.json /tmp/gmail-candidato.json
-          cp data/latest/FUENTE2.txt /tmp/gmail-fuente2.txt 2>/dev/null || true
-          cp data/latest/FUENTE1.txt /tmp/gmail-fuente1.txt 2>/dev/null || true
+          for source in FUENTE1 FUENTE2; do
+            if [ -f "data/latest/${source}.txt" ]; then
+              cp "data/latest/${source}.txt" "/tmp/gmail-${source}.txt"
+            fi
+          done
           for intento in 1 2 3 4; do
-            echo "Publicación Gmail ${intento}/4"
             git fetch origin main
             git reset --hard origin/main
-            # Otra ejecución podría haber publicado un corte posterior:
-            # comparar fechas reales de observación, no horas de ejecución.
             if python - <<'PY'
           import json,re
-          from datetime import datetime
           from pathlib import Path
+          from datetime import datetime,timezone
           def source_time(path):
               try:
-                  match=re.search(r'^FECHA/HORA MENSAJE:\\s*(.+)
-              try:
-                  rows=json.loads(Path(path).read_text(encoding='utf-8'))
-                  return max(datetime.fromisoformat(r['fecha_hora']) for r in rows if r.get('fecha_hora'))
-              except (OSError, ValueError, KeyError, TypeError):
-                  return None
-          candidate=cutoff('/tmp/gmail-candidato.json')
-          current=cutoff('data/niveles/Ultimo_Corte/ultimo_resumen.json')
-          print('Corte Gmail:',candidate,'corte remoto:',current)
-          source_newer=any((lambda a,b:a is not None and (b is None or a>b))(source_time('/tmp/gmail-'+source.lower()+'.txt'),source_time('data/latest/'+source+'.txt')) for source in ('FUENTE1','FUENTE2'))
-          print('Fuente nueva:',source_newer)
-          if source_newer:
-              raise SystemExit(1)
-          if candidate is None or (current is not None and candidate<=current):
-              raise SystemExit(0)
-          raise SystemExit(1)
-          PY
-            then
-              echo "Corte igual, posterior o candidato no válido: se conserva el remoto; no se retrocede."
-              exit 0
-            fi
-            tar -xf /tmp/gmail-productos.tar
-            git add "${PRODUCTOS[@]}"
-            if git diff --cached --quiet; then
-              echo "Productos ya incorporados."
-              exit 0
-            fi
-            git commit -m "Actualiza respaldo Gmail cloud [skip ci]"
-            if git push origin HEAD:main; then
-              echo "Respaldo Gmail publicado."
-              exit 0
-            fi
-            sleep $((intento * 5))
-          done
-          echo "No fue posible publicar Gmail después de 4 intentos."
-          exit 1
-,Path(path).read_text(encoding='utf-8'),re.M)
-                  return datetime.fromisoformat(match.group(1).strip()) if match else None
+                  m=re.search(r'^FECHA/HORA MENSAJE:\\s*(.+)$',Path(path).read_text(encoding='utf-8'),re.M)
+                  return datetime.fromisoformat(m.group(1).strip()).astimezone(timezone.utc) if m else None
               except (OSError,ValueError):return None
           def cutoff(path):
               try:
                   rows=json.loads(Path(path).read_text(encoding='utf-8'))
-                  return max(datetime.fromisoformat(r['fecha_hora']) for r in rows if r.get('fecha_hora'))
-              except (OSError, ValueError, KeyError, TypeError):
-                  return None
+                  return max(datetime.fromisoformat(r['fecha_hora']).astimezone(timezone.utc) for r in rows if r.get('fecha_hora'))
+              except (OSError,ValueError,KeyError,TypeError):return None
           candidate=cutoff('/tmp/gmail-candidato.json')
           current=cutoff('data/niveles/Ultimo_Corte/ultimo_resumen.json')
-          print('Corte Gmail:',candidate,'corte remoto:',current)
-          if candidate is None or (current is not None and candidate<=current):
-              raise SystemExit(0)
-          raise SystemExit(1)
+          updates=[]
+          for source in ('FUENTE1','FUENTE2'):
+              a=source_time('/tmp/gmail-'+source+'.txt')
+              b=source_time('data/latest/'+source+'.txt')
+              if a and (not b or a>b):updates.append(source)
+          print('Cortes Gmail/remoto:',candidate,current,'fuentes nuevas:',updates)
+          raise SystemExit(0 if not updates and (candidate is None or (current and current>=candidate)) else 1)
           PY
             then
-              echo "Corte igual, posterior o candidato no válido: se conserva el remoto; no se retrocede."
+              echo "Datos ya publicados o superados; se conserva el remoto."
               exit 0
             fi
             tar -xf /tmp/gmail-productos.tar
             git add "${PRODUCTOS[@]}"
-            if git diff --cached --quiet; then
-              echo "Productos ya incorporados."
-              exit 0
-            fi
+            if git diff --cached --quiet; then exit 0; fi
             git commit -m "Actualiza respaldo Gmail cloud [skip ci]"
-            if git push origin HEAD:main; then
-              echo "Respaldo Gmail publicado."
-              exit 0
-            fi
+            if git push origin HEAD:main; then exit 0; fi
             sleep $((intento * 5))
           done
-          echo "No fue posible publicar Gmail después de 4 intentos."
+          echo "Publicación Gmail falló tras cuatro intentos."
           exit 1
