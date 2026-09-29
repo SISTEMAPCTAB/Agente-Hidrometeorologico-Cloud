@@ -252,11 +252,14 @@ def main():
                 is_level = niveles.is_levels_subject(subject)
                 # Un hash histórico no debe bloquear la recuperación de un corte
                 # más reciente; el procesador valida fecha y evita duplicados.
-                if digest in hashes and not (is_level and (current_level_time is None or dt > current_level_time)):
+                source = carbonio.classify(subject, filename)
+                # El hash de un PDF procesado antes no impide actualizar FUENTE2:
+                # comparar fecha del mensaje contra la fuente publicada.
+                source_newer = bool(source and (existing_source_time(source) is None or dt > existing_source_time(source)))
+                if digest in hashes and not source_newer and not (is_level and (current_level_time is None or dt > current_level_time)):
                     status["pdfs_skipped_duplicate_content"] += 1
                     continue
 
-                source = carbonio.classify(subject, filename)
                 if source:
                     current = latest_sources.get(source)
                     if current is None or dt > current["dt"]:
