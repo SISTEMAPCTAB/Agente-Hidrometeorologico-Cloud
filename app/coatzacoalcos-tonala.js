@@ -18,7 +18,11 @@ function chart(series,namo){
  let X=i=>62+640*i/(points.length-1),Y=v=>215-(v-lo)*170/(hi-lo);
  const path=points.map((p,i)=>(i?'L':'M')+X(i).toFixed(1)+','+Y(Number(p.current_m)).toFixed(1)).join(' ');
  const grid=[0,.25,.5,.75,1].map(t=>{let yy=45+t*170;return '<line x1="62" x2="702" y1="'+yy+'" y2="'+yy+'" stroke="#ddd"/><text x="55" y="'+(yy+4)+'" font-size="11" text-anchor="end">'+(hi-t*(hi-lo)).toFixed(2)+'</text>'}).join('');
- const ref=n(namo)&&namo>=lo&&namo<=hi?'<line x1="62" x2="702" y1="'+Y(namo)+'" y2="'+Y(namo)+'" stroke="#ab7b15" stroke-dasharray="6 4"/>':'';
+ // Mismo criterio visual que las demás gráficas: NAMO punteado granate,
+ // valor identificado incluso cuando está fuera del rango observado.
+ const ref=n(namo)?(Number(namo)>=lo&&Number(namo)<=hi
+  ?'<line x1="62" x2="702" y1="'+Y(Number(namo))+'" y2="'+Y(Number(namo))+'" stroke="#7a1230" stroke-width="2" stroke-dasharray="8 5"/><text x="68" y="'+(Y(Number(namo))-6)+'" font-size="12" font-weight="700" fill="#7a1230">NAMO '+num(namo)+' m</text>'
+  :'<line x1="62" x2="702" y1="57" y2="57" stroke="#7a1230" stroke-width="2" stroke-dasharray="8 5"/><text x="68" y="51" font-size="11" font-weight="700" fill="#7a1230">NAMO '+num(namo)+' m · fuera de escala</text>'):'';
  return '<svg role="img" aria-label="Evolución de nivel del Tonalá en metros" viewBox="0 0 760 260" style="max-width:100%;height:auto">'+grid+ref+'<path d="'+path+'" fill="none" stroke="#711833" stroke-width="3"/>'+points.map((p,i)=>'<circle cx="'+X(i)+'" cy="'+Y(p.current_m)+'" r="4" fill="#711833"><title>'+esc(p.date)+' · '+num(p.current_m)+' m</title></circle>').join('')+'<text x="62" y="243" font-size="11">'+esc(points[0].date)+'</text><text x="702" y="243" font-size="11" text-anchor="end">'+esc(points.at(-1).date)+'</text></svg>';
 }
 function weatherRows(doc){
@@ -46,6 +50,7 @@ async function show(){
  const validity=validDate?(mat.date===today?'Actualizado':'Dato anterior · última emisión '+esc(mat.date)):'No disponible';
  const rows=stations.map(x=>'<tr><td><b>'+esc(x.name)+'</b><br><small>'+esc(x.river)+'</small></td><td>'+num(x.current_m)+' m</td><td>'+(n(x.delta_m)&&Number(x.delta_m)>0?'+':'')+num(x.delta_m)+' m</td><td>'+esc(n(x.delta_m)?Number(x.delta_m)>0?'Ascenso':Number(x.delta_m)<0?'Descenso':'Estable':'s/d')+'</td><td>'+num(x.below_namo_m)+' m abajo</td><td>'+validity+'</td></tr>').join('');
  const tonal=stations.find(x=>x.id==='san-jose-del-carmen');
+ const dulce=stations.find(x=>x.id==='agua-dulce');
  const bridge=(Array.isArray(rain)?rain:[]).filter(x=>/puente tonala/i.test((x.estacion||'').normalize('NFD').replace(/[\u0300-\u036f]/g,''))).sort((a,b)=>Date.parse(b.fecha_hora||'')-Date.parse(a.fecha_hora||''))[0];
  const bridgeRow=bridge?'<tr><td><b>Puente Tonalá</b></td><td>CONAGUA · reporte horario</td><td>'+num(bridge.lluvia_24h_precedentes_mm)+' mm</td><td>s/d</td><td>'+date(bridge.fecha_hora)+'</td><td>'+esc(bridge.estado_24h||'s/d')+'</td></tr>':'';
  const weatherTable=table(['Estación','Fuente','24 h anteriores','48 h anteriores','Hora','Calidad'],weatherRows(weather),6);
@@ -56,7 +61,7 @@ async function show(){
   panel('Lluvia observada · 24 y 48 h',rainTable+'<p class="muted">Puente Tonalá · lluvia observada por CONAGUA; no equivale a nivel del río.</p>')+
   panel('WeatherLink · vigilancia regional complementaria',weatherTable+'<p class="muted">Las estaciones del occidente de Tabasco siguen perteneciendo a sus apartados originales; esta vista es referencia adicional sin reasignar subcuenca. CitrusMax, Veracruz, conserva la fecha original y no se presenta como dato vigente.</p>')+
   panel('Coatzacoalcos–Tonalá · niveles',levelTable+source)+
-  panel('Gráficas hidrométricas · evolución del Tonalá','<div class="hydro48-grid"><article class="hydro48-card"><div class="hydro48-head"><strong>San José del Carmen · Río Tonalá</strong><span>CONAGUA Golfo Centro</span></div>'+chart(doc?.history?.['san-jose-del-carmen'],tonal?.namo_m)+'</article></div>');
+  panel('Gráficas hidrométricas · evolución del Tonalá','<div class="hydro48-grid"><article class="hydro48-card"><div class="hydro48-head"><strong>San José del Carmen · Río Tonalá</strong><span>CONAGUA Golfo Centro</span></div>'+chart(doc?.history?.['san-jose-del-carmen'],tonal?.namo_m)+'</article><article class="hydro48-card"><div class="hydro48-head"><strong>Agua Dulce · Río Aguadulcita</strong><span>CONAGUA Golfo Centro</span></div>'+chart(doc?.history?.['agua-dulce'],dulce?.namo_m)+'</article></div>');
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
