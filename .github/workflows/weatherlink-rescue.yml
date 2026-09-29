@@ -5,6 +5,8 @@ on:
   workflow_run:
     workflows:
       - Gmail Backup Cloud
+      - WeatherLink Cloud - 32 estaciones
+      - WeatherLink Watchdog - recuperación automática
       - Niveles Hidrométricos Cloud
       - SMN Cloud Fast - 96 y 360 h
       - Fuentes Públicas Cloud - SMN e INSIVUMEH
@@ -125,13 +127,39 @@ jobs:
             echo "Sin cambios para publicar."
             exit 0
           fi
-          git commit -m "Rescate independiente WeatherLink [skip ci]"
-          for intento in 1 2 3; do
-            if git pull --rebase origin main && git push origin main; then
+          # Conservar sólo productos validados; comparar corte remoto antes de publicar.
+          tar -cf /tmp/weatherlink-rescue.tar data/weatherlink/state.json data/weatherlink/latest.json data/weatherlink/Tabla_WeatherLink_Cloud.csv data/weatherlink/Estado_WeatherLink_Cloud.json
+          for intento in 1 2 3 4; do
+            git fetch origin main
+            git reset --hard origin/main
+            if python3 - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+          def timestamp(path):
+              try:
+                  d=json.loads(Path(path).read_text(encoding='utf-8'))
+                  return datetime.fromisoformat(d['run_utc'].replace('Z','+00:00')).astimezone(timezone.utc)
+              except (OSError, ValueError, KeyError, TypeError): return None
+          import tarfile
+          with tarfile.open('/tmp/weatherlink-rescue.tar') as t:
+              candidate=json.load(t.extractfile('data/weatherlink/Estado_WeatherLink_Cloud.json'))
+          proposed=datetime.fromisoformat(candidate['run_utc'].replace('Z','+00:00')).astimezone(timezone.utc)
+          current=timestamp('data/weatherlink/Estado_WeatherLink_Cloud.json')
+          print('Candidato:',proposed,'Remoto:',current)
+          raise SystemExit(0 if current is not None and current>=proposed else 1)
+          PY
+            then
+              echo "El remoto ya tiene corte igual o posterior; no retroceder."
+              exit 0
+            fi
+            tar -xf /tmp/weatherlink-rescue.tar
+            git add data/weatherlink/state.json data/weatherlink/latest.json data/weatherlink/Tabla_WeatherLink_Cloud.csv data/weatherlink/Estado_WeatherLink_Cloud.json
+            git commit -m "Rescate independiente WeatherLink [skip ci]"
+            if git push origin HEAD:main; then
               echo "Rescate WeatherLink publicado."
               exit 0
             fi
-            git rebase --abort 2>/dev/null || true
             sleep $((intento * 8))
           done
           exit 1
