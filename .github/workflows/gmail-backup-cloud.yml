@@ -15,7 +15,7 @@ on:
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
     - cron: '35,45 12 * * *' # 06:35 y 06:45 Tabasco: arranque matutino
-    - cron: '40 13-23,0 * * *' # 07:40 a 18:40 Tabasco: respaldo previo a :50
+    - cron: '10,45 13-23,0-1 * * *' # 07:10–19:45 Tabasco: dos revisiones por hora; :45 recupera boletines recibidos después de :40
 
 permissions:
   contents: write
