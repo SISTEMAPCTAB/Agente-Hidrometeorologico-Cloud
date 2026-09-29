@@ -170,9 +170,13 @@ jobs:
           with tarfile.open('/tmp/weatherlink-rescue.tar') as t:
               candidate=json.load(t.extractfile('data/weatherlink/Estado_WeatherLink_Cloud.json'))
           proposed=datetime.fromisoformat(candidate['run_utc'].replace('Z','+00:00')).astimezone(timezone.utc)
+          with tarfile.open('/tmp/weatherlink-rescue.tar') as t:
+              extra=json.load(t.extractfile('data/weatherlink/extra_latest.json'))
+          proposed_extra=datetime.fromisoformat(extra['run_utc'].replace('Z','+00:00')).astimezone(timezone.utc)
           current=timestamp('data/weatherlink/Estado_WeatherLink_Cloud.json')
-          print('Candidato:',proposed,'Remoto:',current)
-          raise SystemExit(0 if current is not None and current>=proposed else 1)
+          current_extra=timestamp('data/weatherlink/extra_latest.json')
+          print('Principal candidato/remoto:',proposed,current,'Adicional candidato/remoto:',proposed_extra,current_extra)
+          raise SystemExit(0 if current is not None and current_extra is not None and current>=proposed and current_extra>=proposed_extra else 1)
           PY
             then
               echo "El remoto ya tiene corte igual o posterior; no retroceder."
