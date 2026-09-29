@@ -51,6 +51,8 @@
     }
     const html=vals.map((v,i)=>`<td>${i===0?`<b>${v}</b>`:v}</td>`).join('');
     if(row.innerHTML!==html)row.innerHTML=html;
+    // Lacantún debe encabezar el cuadro, también tras repintados de la app.
+    if(body.firstElementChild!==row)body.insertBefore(row,body.firstElementChild);
     return true;
   }
 
