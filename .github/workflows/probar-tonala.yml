@@ -7,7 +7,7 @@ on:
       - 'src/coatzacoalcos_tonala_probe.py'
       - '.github/workflows/probar-tonala.yml'
   schedule:
-    - cron: '30 15,22 * * *'
+    - cron: '12,42 12-23 * * *'
 permissions:
   contents: write
 concurrency:
