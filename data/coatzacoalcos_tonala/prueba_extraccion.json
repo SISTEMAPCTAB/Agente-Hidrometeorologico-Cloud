@@ -1,9 +1,16 @@
 {
-  "checked_at_utc": "2026-09-29T09:25:51.534403+00:00",
+  "checked_at_utc": "2026-09-29T09:27:28.567262+00:00",
   "source_page": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
   "discovery": {
     "http": 200,
-    "url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia"
+    "url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
+    "candidates": 0,
+    "matutino_candidates": [
+      "https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf"
+    ],
+    "vespertino_candidates": [
+      "https://www.gob.mx/cms/uploads/attachment/file/1090562/Informe_vespertino_16072026.pdf"
+    ]
   },
   "reports": {
     "matutino": [
@@ -13,6 +20,7 @@
         "bytes": 810332,
         "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf",
         "pages": 6,
+        "document_header": "COMISIÓN NACIONAL DEL AGUA\nORGANISMO DE CUENCA GOLFO CENTRO\nDIRECCIÓN TÉCNICA\nJEFATURA DE PROYECTO DE HIDROMETEOROLOGÍA\nXalapa, Veracruz lunes, 28 de septiembre de 2026\nE\nst\na d o Presa\nN.A\nC\n.M\nap\n.\na\nE\n( c\n.\nM id m ad ³\nN\n) t\n.\no\nA\nt\n.\na\nM\nl\n.O. N\nN\n.\ni c\nA\nv a e\n.\np\nM\nl a c\n.\nc o\nE\ni n\n.\nd a r d es t p o\nN\ne t c a\n.A\nt l o\n.\n(\nM\nm a\n.\n) s\nO\nu\n. Ay\nA\ne\nlm\nr\nac (M en m am ³) ien\nH\nto\noy\nN\n%\n. A\nA\n.\na l\nM\nm l a\n.O\nc.\n.\nAyer\nNi ( v m el ) es\nHoy\nTendencia\nEntr\nG\nad\na\na\nstos (m3/\nS\ns\na\n)\nlida\nCuenca del Tecolutla\no Los Reyes 29.263 24.031 2,167.0",
         "station_rows": [
           {
             "row_text": "San José del Carmen Ver. Tonalá Río Tonalá 4.71 3.10 3.16 - -1.55",
@@ -41,6 +49,7 @@
         "bytes": 91936,
         "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1090562/Informe_vespertino_16072026.pdf",
         "pages": 1,
+        "document_header": "ORGANISMO DE CUENCA GOLFO CENTRO\nDIRECCIÓN TÉCNICA\nJEFATURA DE PROYECTO DE HIDROMETEOROLOGÍA\nXalapa, Ver., a 16 de julio de 2026\nLluvia\nEstación Municipio Cuenca T. Máx(°C) acumulada de 8 Nivel (m) NAMO (m)\na 17 h (mm)\nAvila Camacho Xicotepec, Pue. Cazones 0.0 204.03\nPoza Rica Poza Rica de Hidalgo, Ver. Cazones 0.0 38.40 42.50\nEl Espinal Espinal, Ver. Tecolutla 0.0 46.23 54.78\nMartínez de la Torre Martínez de la Torre, Ver. Nautla 34.5 0.0 58.00 61.00\nLibertad Misantla, Ver. Nautla 0.0 47.56 52.00\nActopan Actopan, Ver. Actopan 32.0 3.5 184.00\nI",
         "station_rows": [
           {
             "row_text": "San José del Carmen Las Choapas, Ver. Tonalá 30.0 4.0 2.84 4.71",
