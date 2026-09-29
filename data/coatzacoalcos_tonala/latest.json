@@ -1,20 +1,20 @@
 {
-  "updated_at_utc": "2026-09-29T19:02:52.062011+00:00",
+  "updated_at_utc": "2026-09-29T20:12:14.626264+00:00",
   "state": "Último informe hidrométrico matutino validado, fecha real conservada",
   "reports": {
     "matutino": {
-      "date": "2026-09-28",
-      "url": "https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf",
+      "date": "2026-09-29",
+      "url": "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf",
       "stations": [
         {
           "id": "san-jose-del-carmen",
           "name": "San José del Carmen",
           "river": "Río Tonalá",
           "namo_m": 4.71,
-          "previous_m": 3.1,
-          "current_m": 3.16,
-          "delta_m": 0.06,
-          "below_namo_m": 1.55
+          "previous_m": 3.16,
+          "current_m": 3.14,
+          "delta_m": -0.02,
+          "below_namo_m": 1.57
         },
         {
           "id": "agua-dulce",
@@ -48,6 +48,12 @@
         "period": "matutino",
         "current_m": 3.16,
         "source_url": "https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf"
+      },
+      {
+        "date": "2026-09-29",
+        "period": "matutino",
+        "current_m": 3.14,
+        "source_url": "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf"
       }
     ],
     "agua-dulce": [
@@ -62,6 +68,12 @@
         "period": "matutino",
         "current_m": 2.3,
         "source_url": "https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf"
+      },
+      {
+        "date": "2026-09-29",
+        "period": "matutino",
+        "current_m": 2.3,
+        "source_url": "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf"
       }
     ]
   }
