@@ -70,7 +70,18 @@ jobs:
                   stale=(not healthy) or age>20
           except Exception as exc:
               print('Estado WeatherLink inválido:', exc)
-          print(f'WeatherLink healthy={healthy}; age={age:.1f} min; rescue={stale}')
+          # El conjunto adicional también forma parte de WeatherLink y debe
+          # recuperarse aunque las 32 estaciones principales estén vigentes.
+          extra=Path('data/weatherlink/extra_latest.json')
+          extra_age=9999.0
+          try:
+              e=json.loads(extra.read_text(encoding='utf-8'))
+              ed=datetime.fromisoformat(e['run_utc'].replace('Z','+00:00'))
+              extra_age=(datetime.now(timezone.utc)-ed.astimezone(timezone.utc)).total_seconds()/60
+          except (OSError, ValueError, KeyError, TypeError) as exc:
+              print('WeatherLink adicional inválido:',exc)
+          stale=stale or extra_age>20
+          print(f'WeatherLink healthy={healthy}; age={age:.1f} min; adicional={extra_age:.1f} min; rescue={stale}')
           with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as fh:
               fh.write(f"rescue={'true' if stale else 'false'}\n")
           PY
@@ -87,11 +98,19 @@ jobs:
 
       - name: Instalar dependencia mínima
         if: steps.stale.outputs.rescue == 'true'
-        run: pip install requests
+        run: pip install -r requirements.txt
+
+      - name: Resolver enlaces compartidos WeatherLink
+        if: steps.stale.outputs.rescue == 'true'
+        run: python src/weatherlink_resolve_shared.py
 
       - name: Recuperar WeatherLink
         if: steps.stale.outputs.rescue == 'true'
         run: python src/weatherlink_cloud.py
+
+      - name: Recuperar WeatherLink adicional
+        if: steps.stale.outputs.rescue == 'true'
+        run: python src/weatherlink_extra_cloud.py
 
       - name: Verificar recuperación
         if: steps.stale.outputs.rescue == 'true'
@@ -109,7 +128,10 @@ jobs:
           if d.tzinfo is None:d=d.replace(tzinfo=timezone.utc)
           age=(datetime.now(timezone.utc)-d.astimezone(timezone.utc)).total_seconds()/60
           assert age < 10, f'Corte recuperado antiguo: {age:.1f} min'
-          print('WeatherLink recuperado:',s.get('run_local'),s.get('stations_ok'),'estaciones')
+          extra=json.loads(Path('data/weatherlink/extra_latest.json').read_text(encoding='utf-8'))
+          ed=datetime.fromisoformat(extra['run_utc'].replace('Z','+00:00')).astimezone(timezone.utc)
+          assert (datetime.now(timezone.utc)-ed).total_seconds()/60 < 10, 'WeatherLink adicional no actualizado'
+          print('WeatherLink recuperado:',s.get('run_local'),s.get('stations_ok'),'estaciones; adicional:',extra['run_utc'])
           PY
 
       - name: Publicar recuperación
@@ -122,13 +144,16 @@ jobs:
           git add data/weatherlink/state.json \
                   data/weatherlink/latest.json \
                   data/weatherlink/Tabla_WeatherLink_Cloud.csv \
-                  data/weatherlink/Estado_WeatherLink_Cloud.json
+                  data/weatherlink/Estado_WeatherLink_Cloud.json \\
+                  data/weatherlink/extra_state.json \\
+                  data/weatherlink/extra_latest.json \\
+                  data/weatherlink/shared_resolved.json
           if git diff --cached --quiet; then
             echo "Sin cambios para publicar."
             exit 0
           fi
           # Conservar sólo productos validados; comparar corte remoto antes de publicar.
-          tar -cf /tmp/weatherlink-rescue.tar data/weatherlink/state.json data/weatherlink/latest.json data/weatherlink/Tabla_WeatherLink_Cloud.csv data/weatherlink/Estado_WeatherLink_Cloud.json
+          tar -cf /tmp/weatherlink-rescue.tar data/weatherlink/state.json data/weatherlink/latest.json data/weatherlink/Tabla_WeatherLink_Cloud.csv data/weatherlink/Estado_WeatherLink_Cloud.json data/weatherlink/extra_state.json data/weatherlink/extra_latest.json data/weatherlink/shared_resolved.json
           for intento in 1 2 3 4; do
             git fetch origin main
             git reset --hard origin/main
@@ -154,7 +179,7 @@ jobs:
               exit 0
             fi
             tar -xf /tmp/weatherlink-rescue.tar
-            git add data/weatherlink/state.json data/weatherlink/latest.json data/weatherlink/Tabla_WeatherLink_Cloud.csv data/weatherlink/Estado_WeatherLink_Cloud.json
+            git add data/weatherlink/state.json data/weatherlink/latest.json data/weatherlink/Tabla_WeatherLink_Cloud.csv data/weatherlink/Estado_WeatherLink_Cloud.json data/weatherlink/extra_state.json data/weatherlink/extra_latest.json data/weatherlink/shared_resolved.json
             git commit -m "Rescate independiente WeatherLink [skip ci]"
             if git push origin HEAD:main; then
               echo "Rescate WeatherLink publicado."
