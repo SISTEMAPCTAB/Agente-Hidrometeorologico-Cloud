@@ -70,6 +70,7 @@ jobs:
           exit 1
 
       - name: Completar pronóstico SMN 96 h
+        continue-on-error: true
         shell: bash
         run: |
           set -e
@@ -87,9 +88,11 @@ jobs:
         run: python src/insivumeh_historico.py
 
       - name: Robustecer lluvia y saturación INSIVUMEH
+        continue-on-error: true
         run: python src/insivumeh_contexto.py
 
       - name: Consultar automáticas INSIVUMEH de forma aislada
+        continue-on-error: true
         shell: bash
         run: |
           set -e
