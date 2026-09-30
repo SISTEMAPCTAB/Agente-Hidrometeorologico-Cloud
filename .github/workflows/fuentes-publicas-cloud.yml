@@ -57,13 +57,15 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq poppler-utils
 
-      - name: Consultar SMN e INSIVUMEH con reintentos
+      - name: Consultar INSIVUMEH con reintentos
+        env:
+          FUENTES_PUBLICAS_MODE: insivumeh_only
         shell: bash
         run: |
           set -e
           for intento in 1 2 3; do
             if python src/fuentes_publicas_cloud.py; then exit 0; fi
-            echo "Reintento fuentes públicas ${intento}/3"
+            echo "Reintento INSIVUMEH ${intento}/3"
             sleep $((intento * 12))
           done
           exit 1
