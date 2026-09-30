@@ -1,4 +1,4 @@
-name: Fuentes Públicas Cloud - SMN e INSIVUMEH
+name: Fuentes Públicas Cloud - INSIVUMEH
 
 on:
   workflow_dispatch:
@@ -7,7 +7,6 @@ on:
       - main
     paths:
       - 'src/fuentes_publicas_cloud.py'
-      - 'src/smn96_detalle.py'
       - 'src/insivumeh_pasion_fix.py'
       - 'src/insivumeh_historico.py'
       - 'src/insivumeh_contexto.py'
@@ -66,18 +65,6 @@ jobs:
             if python src/fuentes_publicas_cloud.py; then exit 0; fi
             echo "Reintento fuentes públicas ${intento}/3"
             sleep $((intento * 12))
-          done
-          exit 1
-
-      - name: Completar pronóstico SMN 96 h
-        continue-on-error: true
-        shell: bash
-        run: |
-          set -e
-          for intento in 1 2 3; do
-            if python src/smn96_detalle.py; then exit 0; fi
-            echo "Reintento SMN96 ${intento}/3"
-            sleep $((intento * 10))
           done
           exit 1
 
