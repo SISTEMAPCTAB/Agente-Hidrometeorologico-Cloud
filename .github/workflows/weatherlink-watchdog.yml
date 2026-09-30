@@ -1,11 +1,9 @@
 name: WeatherLink Watchdog - recuperación automática
 
 on:
+  # Respaldo conservado únicamente para recuperación manual.
+  # La operación normal queda en weatherlink-cloud.yml cada 15 minutos.
   workflow_dispatch:
-  schedule:
-    # El flujo principal corre en :14/:29/:44/:59. El watchdog se desplaza
-    # 8 minutos para no competir por el mismo grupo de concurrencia.
-    - cron: '7,22,37,52 * * * *'
 
 permissions:
   contents: write
