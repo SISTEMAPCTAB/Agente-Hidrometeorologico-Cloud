@@ -172,9 +172,15 @@ def main():
    prior=json.loads((OUT/'latest.json').read_text(encoding='utf-8')).get('insivumeh') or {}
    new_dt=parse_bhvgm_datetime(payload['insivumeh']);old_dt=parse_bhvgm_datetime(prior)
    if not new_dt or (old_dt and new_dt<old_dt) or not payload['insivumeh'].get('completo'):
+    status['insivumeh_source_status']='extraction_failure_preserved_last_valid'
     status['errors'].append('BHVGM sin fecha válida, incompleto o anterior: se conserva último corte verificado')
     payload['insivumeh']=prior
-  except (OSError,ValueError,TypeError):pass
+   elif old_dt and new_dt==old_dt:
+    status['insivumeh_source_status']='source_without_new_publication'
+   else:
+    status['insivumeh_source_status']='new_publication'
+  except (OSError,ValueError,TypeError):
+   status['insivumeh_source_status']='new_publication'
   try:payload['insivumeh_evolucion_real']=update_insivumeh_history(payload['insivumeh'])
   except Exception as e:status['errors'].append(f'insivumeh_historico: {e}')
  keys=('smn96','smn360','insivumeh','guatemala_acumulados','guatemala_saturacion');status['complete']=all(payload.get(k) for k in keys) and not status['errors'];status['products']={k:{'available':bool(payload.get(k)),'complete':bool(payload.get(k,{}).get('completo')) if isinstance(payload.get(k),dict) else False} for k in keys};status['historico_insivumeh']=str(HIST);(OUT/'latest.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding='utf-8');(OUT/'Estado_Fuentes_Publicas.json').write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding='utf-8')
