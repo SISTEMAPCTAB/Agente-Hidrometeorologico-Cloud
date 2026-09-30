@@ -9,9 +9,9 @@ on:
       - 'src/acumulados_4872.py'
       - '.github/workflows/acumulados-4872.yml'
   schedule:
-    # Producto derivado: recalcular sólo tras ventanas en que cambian sus fuentes.
-    # 08:45, 14:45 y 20:45 hora Tabasco.
-    - cron: '45 14,20,2 * * *'
+    # Producto derivado: actualización horaria durante el periodo operativo.
+    # 06:45–21:45 hora Tabasco. No modifica la frecuencia de las fuentes.
+    - cron: '45 12-23,0-3 * * *'
 
 permissions:
   contents: write
