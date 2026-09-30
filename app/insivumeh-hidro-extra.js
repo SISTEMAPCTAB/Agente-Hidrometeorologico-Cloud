@@ -15,14 +15,7 @@
     document.head.appendChild(style);
   }
 
-  function protectTableScroll(){
-    const w=document.querySelector('#insivumehHydroExtra .table-wrap');
-    if(!w||w.dataset.touchScroll==='1')return;
-    w.dataset.touchScroll='1';
-    w.addEventListener('touchmove',e=>e.stopPropagation(),{passive:true});
-  }
-
-  async function data(){
+  function protectTableScroll(){\n    const w=document.querySelector('#insivumehHydroExtra .table-wrap');\n    if(!w)return;\n    // Scroller nativo aislado: no interceptar touchmove en iOS.\n    w.style.overflowX='scroll';\n    w.style.webkitOverflowScrolling='touch';\n    w.style.touchAction='auto';\n  }\n\n  async function data(){
     try{const r=await fetch(`${URL}?v=${Date.now()}`,{cache:'no-store'});return r.ok?await r.json():null;}catch{return null;}
   }
 
