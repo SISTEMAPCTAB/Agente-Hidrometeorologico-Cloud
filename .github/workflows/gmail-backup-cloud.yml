@@ -2,9 +2,9 @@ name: Gmail Backup Cloud
 
 on:
   workflow_dispatch:
-  # Respaldo escalonado: no competir con el recolector principal de :50.
-  # Evitar workflow_run de WeatherLink/SMN: generaba múltiples trabajos por hora
-  # en la misma cola de escritura de niveles y retrasaba los cortes nuevos.
+  # Único respaldo programado por Gmail. Los recuperadores de niveles quedan manuales,
+  # para que esta revisión no espere detrás de trabajos redundantes en la misma cola.
+  # Un cambio en este workflow también fuerza una revalidación inmediata de cortes pendientes.
   push:
     branches:
       - main
