@@ -11,11 +11,20 @@
   function ensureScroll(){
     if(document.getElementById('insivumehHydroScrollFix'))return;
     const style=document.createElement('style');style.id='insivumehHydroScrollFix';
-    style.textContent='#insivumehHydroExtra{min-width:0;max-width:100%;overflow:hidden} #insivumehHydroExtra .table-wrap{display:block;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:auto;touch-action:pan-x} #insivumehHydroExtra table{min-width:1100px;width:max-content}';
+    style.textContent='#insivumehHydroExtra{min-width:0;max-width:100%;overflow:hidden} #insivumehHydroExtra .table-wrap{display:block;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;touch-action:auto;overscroll-behavior:auto} #insivumehHydroExtra table{min-width:1100px;width:max-content}';
     document.head.appendChild(style);
   }
 
-  function protectTableScroll(){\n    const w=document.querySelector('#insivumehHydroExtra .table-wrap');\n    if(!w)return;\n    // Scroller nativo aislado: no interceptar touchmove en iOS.\n    w.style.overflowX='scroll';\n    w.style.webkitOverflowScrolling='touch';\n    w.style.touchAction='auto';\n  }\n\n  async function data(){
+  function protectTableScroll(){
+    const w=document.querySelector('#insivumehHydroExtra .table-wrap');
+    if(!w)return;
+    w.style.overflowX='auto';
+    w.style.overflowY='hidden';
+    w.style.webkitOverflowScrolling='touch';
+    w.style.touchAction='auto';
+  }
+
+  async function data(){
     try{const r=await fetch(`${URL}?v=${Date.now()}`,{cache:'no-store'});return r.ok?await r.json():null;}catch{return null;}
   }
 
