@@ -20,17 +20,14 @@ on:
       - '.github/workflows/weatherlink-cloud.yml'
       - '.github/workflows/weatherlink-watchdog.yml'
   schedule:
-    # Recolección programada cada 15 minutos. Se añaden minutos alternos como
-    # respaldo del disparador de GitHub Actions; la concurrencia evita solapes.
-    # Esto mantiene WeatherLink 24/7, independiente de la pausa nocturna de niveles.
+    # Recolección principal cada 15 minutos, 24/7. La recuperación se mantiene en workflow separado.
     - cron: '14,29,44,59 * * * *'
-    - cron: '6,21,36,51 * * * *'
 
 permissions:
   contents: write
 
 concurrency:
-  group: weatherlink-primary
+  group: weatherlink-cloud
   cancel-in-progress: false
 
 jobs:
