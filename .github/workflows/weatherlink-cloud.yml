@@ -19,7 +19,6 @@ on:
       - '.gitattributes'
       - '.github/workflows/weatherlink-cloud.yml'
       - '.github/workflows/weatherlink-watchdog.yml'
-      - '.github/workflows/weatherlink-cloud.yml'
   schedule:
     # Recolección principal cada 15 minutos, 24/7. La recuperación se mantiene en workflow separado.
     - cron: '14,29,44,59 * * * *'
@@ -29,7 +28,8 @@ permissions:
 
 concurrency:
   group: weatherlink-cloud
-  cancel-in-progress: false
+  # El dato vigente prima sobre una ejecución rezagada; evita cola creciente.
+  cancel-in-progress: true
 
 jobs:
   recolectar-weatherlink:
