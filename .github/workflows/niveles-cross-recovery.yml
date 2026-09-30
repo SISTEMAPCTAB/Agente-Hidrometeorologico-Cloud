@@ -1,18 +1,9 @@
 name: Recuperación Independiente Niveles
 
 on:
+  # Segundo recuperador conservado sólo para intervención manual.
+  # No debe competir de forma periódica con niveles-cloud ni Gmail.
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - '.github/workflows/niveles-cross-recovery.yml'
-      - 'src/auditar_productos_operativos.py'
-  schedule:
-    # Segundo respaldo, separado del principal y del watchdog.
-    # 07:20-19:20 local: sólo interviene si el estado continúa atrasado.
-    # Una revisión por hora evita acumular trabajos en la cola de escritura.
-    - cron: '20 13-23,0-1 * * *'
 
 permissions:
   contents: write
