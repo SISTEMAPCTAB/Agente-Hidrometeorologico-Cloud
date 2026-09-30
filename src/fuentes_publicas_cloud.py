@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import io,json,re,html,unicodedata
+import io,json,re,html,unicodedata,os
 from datetime import datetime,timezone
 from html.parser import HTMLParser
 from pathlib import Path
@@ -160,10 +160,18 @@ def parse_guatemala_saturation():
   except Exception as e:r['error_pdf']=str(e)
  return r
 def main():
+ insivumeh_only=os.environ.get('FUENTES_PUBLICAS_MODE','').strip().lower()=='insivumeh_only'
  now=datetime.now(timezone.utc).isoformat();status={'generated_utc':now,'complete':False,'errors':[]};payload={'generated_utc':now,'smn96':None,'smn360':None,'insivumeh':None,'insivumeh_evolucion_real':[],'guatemala_acumulados':None,'guatemala_saturacion':None,'links':{'insivumeh_tendencia':INSI_TREND,'insivumeh_saturacion':INSI_SAT,'insivumeh_acumulados':INSI_RAIN}}
- for key,url,parser in [('smn96',SMN96,parse_smn96),('smn360',SMN360,parse_smn360)]:
-  try:raw,meta=fetch_text(url);obj=parser(raw);obj['http']=meta;payload[key]=obj
-  except Exception as e:status['errors'].append(f'{key}: {e}')
+ if insivumeh_only:
+  try:
+   prior=json.loads((OUT/'latest.json').read_text(encoding='utf-8')) if (OUT/'latest.json').exists() else {}
+  except Exception: prior={}
+  payload['smn96']=prior.get('smn96')
+  payload['smn360']=prior.get('smn360')
+ else:
+  for key,url,parser in [('smn96',SMN96,parse_smn96),('smn360',SMN360,parse_smn360)]:
+   try:raw,meta=fetch_text(url);obj=parser(raw);obj['http']=meta;payload[key]=obj
+   except Exception as e:status['errors'].append(f'{key}: {e}')
  for key,parser in [('insivumeh',parse_insivumeh),('guatemala_acumulados',parse_guatemala_rain),('guatemala_saturacion',parse_guatemala_saturation)]:
   try:payload[key]=parser()
   except Exception as e:status['errors'].append(f'{key}: {e}')
