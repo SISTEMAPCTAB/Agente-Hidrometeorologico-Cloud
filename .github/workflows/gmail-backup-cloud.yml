@@ -14,8 +14,9 @@ on:
       - 'src/auditar_productos_operativos.py'
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
-    - cron: '35,45 12 * * *' # 06:35 y 06:45 Tabasco: arranque matutino
-    - cron: '10,45 13-23,0-1 * * *' # 07:10–19:45 Tabasco: dos revisiones por hora; :45 recupera boletines recibidos después de :40
+    # Respaldo lógico: una revisión 35 min después de los cortes pares 06–18 h.
+    # Incluye explícitamente 18:35; evita competir con el primario de :50.
+    - cron: '35 12,14,16,18,20,22,0 * * *'
 
 permissions:
   contents: write
