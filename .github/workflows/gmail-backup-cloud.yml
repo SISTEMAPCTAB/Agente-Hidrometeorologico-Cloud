@@ -14,7 +14,7 @@ on:
       - 'src/auditar_productos_operativos.py'
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
-    # Respaldo lógico: una revisión 35 min después de los cortes pares 06–18 h.
+    # Respaldo lógico autónomo: una revisión 35 min después de los cortes pares 06–18 h.
     # Incluye explícitamente 18:35; evita competir con el primario de :50.
     - cron: '35 12,14,16,18,20,22,0 * * *'
 
