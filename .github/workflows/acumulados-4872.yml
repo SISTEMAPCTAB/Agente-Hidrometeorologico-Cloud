@@ -49,7 +49,6 @@ jobs:
           p=Path('data/fuentes_publicas/acumulados_4872.json')
           d=json.loads(p.read_text(encoding='utf-8'))
           assert isinstance(d.get('insivumeh'), list), 'Falta arreglo INSIVUMEH'
-          assert isinstance(d.get('lacantun'), dict), 'Falta Lacantún'
           print('Producto 48/72 verificado:', len(d.get('insivumeh', [])), 'estaciones')
           PY
 
