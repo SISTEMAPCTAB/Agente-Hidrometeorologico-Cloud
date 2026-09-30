@@ -9,9 +9,6 @@ from zoneinfo import ZoneInfo
 
 AUTO = Path("data/fuentes_publicas/insivumeh_automaticas.json")
 OUT = Path("data/fuentes_publicas/acumulados_4872.json")
-FUENTE1 = Path("data/latest/FUENTE1.txt")
-ARCHIVE = Path("data/archive")
-MX_TZ = ZoneInfo("America/Mexico_City")
 GT_TZ = ZoneInfo("America/Guatemala")
 AUTO_PATH = "data/fuentes_publicas/insivumeh_automaticas.json"
 MAX_DELTA_MIN = 120
@@ -146,58 +143,6 @@ def closest_snapshot(history, target):
     return best
 
 
-def parse_lacantun(text):
-    clean = str(text or "").replace(",", "")
-    m = re.search(
-        r"BHG21\s+Lacant[uú]n\s+Ocosingo\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)",
-        clean,
-        re.I,
-    )
-    return float(m.group(6)) if m else None
-
-
-def lacantun_daily():
-    rows = {}
-    for p in sorted(ARCHIVE.glob("????-??-??/FUENTE1.txt")):
-        try:
-            day = p.parent.name
-            v = parse_lacantun(p.read_text(encoding="utf-8", errors="ignore"))
-            if v is not None:
-                rows[day] = v
-        except Exception:
-            continue
-    try:
-        raw = FUENTE1.read_text(encoding="utf-8", errors="ignore")
-        v = parse_lacantun(raw)
-        # Never assign an old email attachment to today's date just because
-        # the collector executed today. Use the actual source message date.
-        match = re.search(r"^FECHA/HORA MENSAJE:\s*(\d{4}-\d{2}-\d{2})T", raw, re.M)
-        if v is not None and match:
-            rows[match.group(1)] = v
-    except Exception:
-        pass
-    return rows
-
-
-def consecutive_sum(values_by_day, days, reference_day=None):
-    if not values_by_day:
-        return None, []
-    # Require the requested current cut; do not relabel an old valid window
-    # as today's 24/48/72 h merely because its historical dates are consecutive.
-    latest = reference_day or max(values_by_day)
-    d0 = datetime.fromisoformat(latest).date()
-    used = []
-    total = 0.0
-    for offset in range(days):
-        day = (d0 - timedelta(days=offset)).isoformat()
-        v = num(values_by_day.get(day))
-        if v is None:
-            return None, used
-        used.append({"fecha": day, "precipitacion_24h_mm": v})
-        total += v
-    return round(total, 1), used
-
-
 def main():
     if not AUTO.exists():
         raise RuntimeError(f"No existe {AUTO}")
@@ -217,7 +162,6 @@ def main():
         "insivumeh_corte_fuente_actual": current_doc.get("corte_fuente"),
         "insivumeh_corte_fuente_valido": source_dt is not None,
         "insivumeh": [],
-        "lacantun": {},
     }
 
     for key, row in current.items():
@@ -239,28 +183,9 @@ def main():
         }
         result["insivumeh"].append(out)
 
-    lac = lacantun_daily()
-    today = datetime.now(timezone.utc).astimezone(MX_TZ).date().isoformat()
-    lac24, used24 = consecutive_sum(lac, 1, reference_day=today)
-    lac48, used48 = consecutive_sum(lac, 2, reference_day=today)
-    lac72, used72 = consecutive_sum(lac, 3, reference_day=today)
-    result["lacantun"] = {
-        "precipitacion_24h_mm": lac24,
-        "precipitacion_48h_mm": lac48,
-        "precipitacion_72h_mm": lac72,
-        "fecha_corte_requerida": today,
-        "ultima_fecha_observada": max(lac) if lac else None,
-        "estado_24h": "observado" if lac24 is not None else "sin_dato_del_corte",
-        "estado_48h": "observado" if lac48 is not None else "sin_dato_del_corte",
-        "estado_72h": "observado" if lac72 is not None else "sin_dato_del_corte",
-        "dias_disponibles": sorted(lac),
-        "componentes_48h": used48,
-        "componentes_72h": used72,
-    }
-
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"insivumeh": len(result["insivumeh"]), "corte_fuente_valido": source_dt is not None, "lacantun_48h": lac48, "lacantun_72h": lac72}, ensure_ascii=False))
+    print(json.dumps({"insivumeh": len(result["insivumeh"]), "corte_fuente_valido": source_dt is not None}, ensure_ascii=False))
 
 
 if __name__ == "__main__":
