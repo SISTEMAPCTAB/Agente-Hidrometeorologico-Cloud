@@ -11,8 +11,15 @@
   function ensureScroll(){
     if(document.getElementById('insivumehHydroScrollFix'))return;
     const style=document.createElement('style');style.id='insivumehHydroScrollFix';
-    style.textContent='#insivumehHydroExtra{min-width:0;max-width:100%;overflow:hidden} #insivumehHydroExtra .table-wrap{display:block;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain} #insivumehHydroExtra table{min-width:1100px;width:max-content}';
+    style.textContent='#insivumehHydroExtra{min-width:0;max-width:100%;overflow:hidden} #insivumehHydroExtra .table-wrap{display:block;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:auto;touch-action:pan-x} #insivumehHydroExtra table{min-width:1100px;width:max-content}';
     document.head.appendChild(style);
+  }
+
+  function protectTableScroll(){
+    const w=document.querySelector('#insivumehHydroExtra .table-wrap');
+    if(!w||w.dataset.touchScroll==='1')return;
+    w.dataset.touchScroll='1';
+    w.addEventListener('touchmove',e=>e.stopPropagation(),{passive:true});
   }
 
   async function data(){
@@ -67,6 +74,7 @@
       if(sec.innerHTML!==html)sec.innerHTML=html;
       lastSignature=sig;
     }
+    protectTableScroll();
     return placed;
   }
 
