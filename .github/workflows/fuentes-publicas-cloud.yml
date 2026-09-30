@@ -32,7 +32,9 @@ permissions:
 
 concurrency:
   group: fuentes-publicas-cloud
-  cancel-in-progress: false
+  # Si quedó una ejecución anterior en cola, interesa el BHVGM más reciente.
+  # Evita que un intento viejo retrase la publicación del corte vigente.
+  cancel-in-progress: true
 
 jobs:
   recolectar-fuentes-publicas:
