@@ -33,7 +33,10 @@ def asc(s: str) -> str:
 
 
 def extract_text(url: str) -> str:
-    r = requests.get(url, headers=UA, timeout=40)
+    sep = '&' if '?' in url else '?'
+    fresh = f"{url}{sep}_ts={int(datetime.now(timezone.utc).timestamp())}"
+    headers = {**UA, 'Cache-Control': 'no-cache, no-store, max-age=0', 'Pragma': 'no-cache'}
+    r = requests.get(fresh, headers=headers, timeout=40)
     r.raise_for_status()
     return '\n'.join((p.extract_text() or '') for p in PdfReader(io.BytesIO(r.content)).pages)
 
