@@ -50,8 +50,7 @@
   function placeAfterRain(content,sec){
     const rain=rainAnchor(content);
     if(!rain||rain.parentNode!==content)return false;
-    const target=rain.nextElementSibling;
-    if(target!==sec)content.insertBefore(sec,target);
+    if(sec.parentNode!==content || sec.previousElementSibling!==rain) rain.after(sec);
     return true;
   }
 
@@ -95,21 +94,13 @@
 
   async function run(force=false){if(busy)return false;busy=true;try{const placed=await renderHydro(force);clarifyRainRows();return placed;}finally{busy=false;}}
 
-  function settleOrder(force=false){
-    const delays=[300,900,1800,3200,5000,8000];
-    delays.forEach((ms,i)=>setTimeout(()=>run(force&&i===0),ms));
-  }
-
+  document.addEventListener('app-rendered',e=>{
+    if(e.detail?.section==='usumacinta') run(true);
+  });
   document.addEventListener('DOMContentLoaded',()=>{
-    settleOrder(true);
-    const root=document.getElementById('content');
-    if(root){let retry=null;new MutationObserver(()=>{
-      if(active()!=='usumacinta'||busy)return;
-      if(document.getElementById(SECTION_ID)?.isConnected)return;
-      clearTimeout(retry);retry=setTimeout(()=>run(false),180);
-    }).observe(root,{childList:true,subtree:false});}
-    document.getElementById('refreshBtn')?.addEventListener('click',()=>settleOrder(true));
-    document.getElementById('nav')?.addEventListener('click',()=>settleOrder(true));
-    document.addEventListener('visibilitychange',()=>{if(!document.hidden)settleOrder(false);});
+    document.getElementById('refreshBtn')?.addEventListener('click',()=>setTimeout(()=>run(true),0));
+    document.getElementById('nav')?.addEventListener('click',()=>setTimeout(()=>run(true),0));
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(()=>run(false),0);});
+    setTimeout(()=>run(true),0);
   });
 })();
