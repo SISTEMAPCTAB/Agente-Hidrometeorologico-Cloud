@@ -1,9 +1,9 @@
-name: Operational Heartbeat - WeatherLink e INSIVUMEH
+name: Operational Heartbeat - WeatherLink
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '3,13,23,33,43,53 * * * *'
+    - cron: '3,18,33,48 * * * *'
 
 permissions:
   contents: write
@@ -30,34 +30,26 @@ jobs:
           python src/weatherlink_resolve_shared.py
           python src/weatherlink_cloud.py
           python src/weatherlink_extra_cloud.py
-      - name: INSIVUMEH BHVGM
-        run: |
-          python src/fuentes_publicas_cloud.py
-          python src/insivumeh_pasion_fix.py
-          python src/insivumeh_historico.py
-          python src/insivumeh_alto_hidro_extra.py
       - name: Validar frescura
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
           w=json.loads(Path('data/weatherlink/Estado_WeatherLink_Cloud.json').read_text())
-          h=json.loads(Path('data/fuentes_publicas/insivumeh_alto_hidro.json').read_text())
           assert w.get('complete') is True and w.get('stations_ok')==w.get('stations_expected')
-          assert h.get('fecha') and h.get('hora')
-          print('WeatherLink',w.get('run_local'),'INSIVUMEH',h.get('fecha'),h.get('hora'))
+          print('WeatherLink',w.get('run_local'))
           PY
       - name: Publicar sin retroceder
         run: |
           set -e
           git config user.name "Agente Hidrometeorologico Cloud"
           git config user.email "actions@users.noreply.github.com"
-          tar -cf /tmp/heartbeat.tar data/weatherlink/state.json data/weatherlink/latest.json data/weatherlink/extra_state.json data/weatherlink/extra_latest.json data/weatherlink/shared_resolved.json data/weatherlink/Tabla_WeatherLink_Cloud.csv data/weatherlink/Estado_WeatherLink_Cloud.json data/fuentes_publicas/latest.json data/fuentes_publicas/insivumeh_historico.json data/fuentes_publicas/insivumeh_alto_hidro.json data/fuentes_publicas/insivumeh_alto_hidro_historico.json
+          tar -cf /tmp/heartbeat.tar data/weatherlink/state.json data/weatherlink/latest.json data/weatherlink/extra_state.json data/weatherlink/extra_latest.json data/weatherlink/shared_resolved.json data/weatherlink/Tabla_WeatherLink_Cloud.csv data/weatherlink/Estado_WeatherLink_Cloud.json
           git fetch origin main
           git reset --hard origin/main
           tar -xf /tmp/heartbeat.tar
-          git add data/weatherlink data/fuentes_publicas
+          git add data/weatherlink
           git diff --cached --quiet && exit 0
-          git commit -m "Heartbeat WeatherLink e INSIVUMEH [skip ci]"
+          git commit -m "Heartbeat WeatherLink [skip ci]"
           git pull --rebase origin main
           git push origin main
