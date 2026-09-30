@@ -45,11 +45,17 @@ jobs:
           git config user.name "Agente Hidrometeorologico Cloud"
           git config user.email "actions@users.noreply.github.com"
           tar -cf /tmp/heartbeat.tar data/weatherlink/state.json data/weatherlink/latest.json data/weatherlink/extra_state.json data/weatherlink/extra_latest.json data/weatherlink/shared_resolved.json data/weatherlink/Tabla_WeatherLink_Cloud.csv data/weatherlink/Estado_WeatherLink_Cloud.json
-          git fetch origin main
-          git reset --hard origin/main
-          tar -xf /tmp/heartbeat.tar
-          git add data/weatherlink
-          git diff --cached --quiet && exit 0
-          git commit -m "Heartbeat WeatherLink [skip ci]"
-          git pull --rebase origin main
-          git push origin main
+          for intento in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            tar -xf /tmp/heartbeat.tar
+            git add data/weatherlink
+            git diff --cached --quiet && exit 0
+            git commit -m "Heartbeat WeatherLink [skip ci]"
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep $((intento * 8))
+          done
+          echo "No fue posible publicar WeatherLink tras 3 intentos"
+          exit 1
