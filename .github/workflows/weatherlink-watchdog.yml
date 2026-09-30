@@ -146,17 +146,21 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Recupera WeatherLink automáticamente [skip ci]"
-
-          for intento in 1 2 3; do
-            echo "Intento de publicación de recuperación ${intento}/3"
-            if git pull --rebase origin main && git push origin main; then
+          tar -cf /tmp/weatherlink-watchdog.tar data/weatherlink
+          git reset --hard HEAD
+          for intento in 1 2 3 4; do
+            echo "Intento de publicación de recuperación ${intento}/4"
+            git fetch origin main
+            git reset --hard origin/main
+            tar -xf /tmp/weatherlink-watchdog.tar
+            git add data/weatherlink
+            git diff --cached --quiet && exit 0
+            git commit -m "Recupera WeatherLink automáticamente [skip ci]"
+            if git push origin HEAD:main; then
               echo "Recuperación WeatherLink publicada."
               exit 0
             fi
-            git rebase --abort 2>/dev/null || true
-            sleep $((intento * 10))
+            sleep $((intento * 8))
           done
-
-          echo "No fue posible publicar la recuperación WeatherLink después de 3 intentos."
+          echo "No fue posible publicar la recuperación WeatherLink después de 4 intentos."
           exit 1
