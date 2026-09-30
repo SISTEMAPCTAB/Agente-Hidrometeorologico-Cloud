@@ -74,7 +74,12 @@ def parse_smn360(raw):
    if line.strip():lines.append(line.strip())
   d=' '.join(lines);ps.append({'ventana':'96-168 h' if i==0 else '168-360 h','validez':m.group(1).strip(),'descripcion':d,'rangos_por_cuenca':basin_ranges_from_sentence(d)})
  return {'fuente':'SMN','producto':'Pronóstico especial por cuencas 360 h','url':SMN360,**meta_fields(txt),'periodos':ps,'completo':len(ps)>=2}
-def extract_pdf_text(u):r=requests.get(u,headers=UA,timeout=TIMEOUT);r.raise_for_status();return '\n'.join((p.extract_text() or '') for p in PdfReader(io.BytesIO(r.content)).pages),len(r.content)
+def extract_pdf_text(u):
+ # INSIVUMEH reutiliza BHVGM.pdf; evitar que CDN/proxy entregue el corte anterior.
+ sep='&' if '?' in u else '?'
+ fresh=f"{u}{sep}_ts={int(datetime.now(timezone.utc).timestamp())}"
+ h={**UA,'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}
+ r=requests.get(fresh,headers=h,timeout=TIMEOUT);r.raise_for_status();return '\n'.join((p.extract_text() or '') for p in PdfReader(io.BytesIO(r.content)).pages),len(r.content)
 def ascii_text(s):return re.sub(r'\s+',' ',unicodedata.normalize('NFKD',s).encode('ascii','ignore').decode('ascii')).strip()
 def find_context(text,terms,radius=2):
  lines=[re.sub(r'\s+',' ',x).strip() for x in text.splitlines() if x.strip()];out=[]
