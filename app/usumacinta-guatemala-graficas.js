@@ -51,7 +51,7 @@ async function render(){
   const old=grid.querySelector('.guatemala-charts-stable');
   if(old)old.replaceWith(wrap);else grid.prepend(wrap);
   lastGoodHtml=wrap.outerHTML;
- }catch(e){console.warn('Gráficas INSIVUMEH:',e);const grid=panel?.querySelector('.hydro48-grid');if(grid&&!grid.querySelector('.guatemala-charts-stable')&&lastGoodHtml)grid.insertAdjacentHTML('afterbegin',lastGoodHtml)}finally{running=false}
+ }catch(e){console.warn('Gráficas INSIVUMEH:',e);const grid=panel?.querySelector('.hydro48-grid');if(grid&&!grid.querySelector('.guatemala-charts-stable')&&lastGoodHtml)grid.insertAdjacentHTML('afterbegin',lastGoodHtml)}finally{running=false;if(document.querySelector('#nav button.active')?.dataset.section==='usumacinta'&&!document.querySelector('[data-guatemala-chart]'))setTimeout(render,250)}
 }
 document.addEventListener('DOMContentLoaded',()=>{
  const content=document.getElementById('content');let timer;
