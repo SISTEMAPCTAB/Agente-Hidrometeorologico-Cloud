@@ -26,7 +26,7 @@ today=dt.datetime.now(dt.timezone.utc).date()
 for dayoff in (0,1):
  d=today-dt.timedelta(days=dayoff)
  stamp=d.strftime("%d%m%Y")
- for fid in range(1105821,1105901):
+ for fid in range(1106000,1106251):
   sources["matutino"].append(f"https://www.gob.mx/cms/uploads/attachment/file/{fid}/Informe_Matutino_{stamp}.pdf")
 # Los enlaces descubiertos tienen prioridad sobre las semillas históricas.
 result={"checked_at_utc":dt.datetime.now(dt.timezone.utc).isoformat(),"source_page":PAGE,"discovery":{},"reports":{}}
@@ -75,11 +75,11 @@ try:
 except Exception as exc:
  result["discovery"]={"error":type(exc).__name__+": "+str(exc)[:180]}
 for typ in sources:
- sources[typ].sort(key=report_date,reverse=True)
+ sources[typ].sort(key=lambda u:(report_date(u), int(re.search(r"/file/(\\d+)/",u).group(1)) if re.search(r"/file/(\\d+)/",u) else 0),reverse=True)
  result["discovery"][typ+"_candidates"]=sources[typ][:12]
 for typ,urls in sources.items():
  attempts=[]
- for url in urls[:12]:
+ for url in urls[:80]:
   item={"url":url}
   try:
    r=session.get(url,timeout=35)
