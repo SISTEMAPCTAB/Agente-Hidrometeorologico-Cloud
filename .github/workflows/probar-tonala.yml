@@ -7,14 +7,11 @@ on:
       - 'src/coatzacoalcos_tonala_probe.py'
       - '.github/workflows/probar-tonala.yml'
   schedule:
-    # Ventanas de publicación matutina y vespertina; tres intentos por periodo.
-    # 08:30, 10:00, 11:30 y 15:00, 16:30, 18:00 hora Tabasco.
+    # OCGC: sólo informe matutino vigente. Tres intentos absorben retrasos de publicación.
+    # 08:33, 10:03 y 11:33 hora Tabasco.
     - cron: '33 14 * * *'
     - cron: '3 16 * * *'
     - cron: '33 17 * * *'
-    - cron: '3 21 * * *'
-    - cron: '33 22 * * *'
-    - cron: '3 0 * * *'
 permissions:
   contents: write
 concurrency:
