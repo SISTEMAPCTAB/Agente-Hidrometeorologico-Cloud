@@ -13,8 +13,7 @@ OUT = pathlib.Path("data/coatzacoalcos_tonala")
 OUT.mkdir(parents=True, exist_ok=True)
 PAGE = "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia"
 SEEDS = {
- "matutino": "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf",
- "vespertino": "https://www.gob.mx/cms/uploads/attachment/file/1090562/Informe_vespertino_16072026.pdf"
+ "matutino": "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf"
 }
 UA={"User-Agent":"Mozilla/5.0 (compatible; IPCET-Hidromet/1.0; seguimiento de informes publicos)","Accept":"text/html,application/pdf,*/*"}
 session=requests.Session()
@@ -37,7 +36,7 @@ def discover(html,base):
  for a in soup.find_all("a",href=True):
   href=urllib.parse.urljoin(base,a["href"])
   label=a.get_text(" ",strip=True).lower()
-  if any(t in (href+" "+label).lower() for t in ("matutino","vespertino")):
+  if "matutino" in (href+" "+label).lower():
    candidates.append(href)
  decoded=html.replace("\\/","/").replace("&amp;","&")
  candidates += re.findall(r'https?://(?:www\.)?gob\.mx/cms/uploads/attachment/file/\d+/[^"\s<>]+?\.pdf',decoded,re.I)
@@ -108,6 +107,8 @@ if latest_path.exists():
 else:
  latest={"reports":{}}
 latest.setdefault("reports",{})
+# OCGC no mantiene un vespertino vigente; no conservar un documento histórico como producto operativo.
+latest["reports"].pop("vespertino", None)
 latest.setdefault("history",{})
 for item in result.get("reports",{}).get("matutino",[]):
  if not item.get("station_rows"):continue
