@@ -20,8 +20,10 @@ on:
       - '.github/workflows/weatherlink-cloud.yml'
       - '.github/workflows/weatherlink-watchdog.yml'
   schedule:
-    # Recolección principal cada 15 minutos, 24/7. La recuperación se mantiene en workflow separado.
-    - cron: '14,29,44,59 * * * *'
+    # Recolección principal cada 15 minutos, 24/7.
+    # Minutos desplazados del cuarto de hora convencional para reducir demoras de scheduler.
+    # Modificar el cron también reactiva el schedule si GitHub lo hubiera desactivado.
+    - cron: '12,27,42,57 * * * *'
 
 permissions:
   contents: write
