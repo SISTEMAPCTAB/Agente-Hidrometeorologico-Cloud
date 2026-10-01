@@ -20,6 +20,14 @@ session=requests.Session()
 session.headers.update(UA)
 sources={key:[url] for key,url in SEEDS.items()}
 sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf")
+# El portal de gob.mx no siempre enlaza el adjunto nuevo. Probar la fecha operativa
+# por nombre de archivo usando una búsqueda acotada de IDs recientes, sin asumir un ID único.
+today=dt.datetime.now(dt.timezone.utc).date()
+for dayoff in (0,1):
+ d=today-dt.timedelta(days=dayoff)
+ stamp=d.strftime("%d%m%Y")
+ for fid in range(1105821,1105901):
+  sources["matutino"].append(f"https://www.gob.mx/cms/uploads/attachment/file/{fid}/Informe_Matutino_{stamp}.pdf")
 # Los enlaces descubiertos tienen prioridad sobre las semillas históricas.
 result={"checked_at_utc":dt.datetime.now(dt.timezone.utc).isoformat(),"source_page":PAGE,"discovery":{},"reports":{}}
 def report_date(url):
