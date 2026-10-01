@@ -226,13 +226,15 @@
     await load();injectStyles();bindCopy();enhance();
     const id=current(),content=document.getElementById('content');if(!content||!history.length)return;
     removeLegacy48(content);
+    const guatemala=content.querySelector('#hydro48Panel .guatemala-charts-stable');
+    if(guatemala)guatemala.remove();
     content.querySelector('#hydro48Panel')?.remove();
     const ids=id==='resumen'?['presas','serranos','tulija','usumacinta']:[id];
     if(!ids.some(x=>MAP[x]))return;
     const names=[];ids.forEach(x=>stationNames(x).forEach(n=>{if(!names.some(a=>norm(a)===norm(n)))names.push(n)}));
     const cards=names.map(svgFor).filter(Boolean);if(!cards.length)return;
     const panel=document.createElement('section');panel.id='hydro48Panel';panel.className='panel wide hydro48-panel';panel.innerHTML=`<h2>Niveles de ríos · últimas 96 h</h2><p class="muted">Se conserva la última serie válida hasta que exista una observación nueva.</p><div class="hydro48-grid">${cards.join('')}</div>`;
-    const grid=content.querySelector('.grid')||content;grid.appendChild(panel);enhance(content);
+    const grid=content.querySelector('.grid')||content;grid.appendChild(panel);if(guatemala&&id==='usumacinta')panel.querySelector('.hydro48-grid')?.prepend(guatemala);enhance(content);
   }
   document.addEventListener('DOMContentLoaded',()=>{injectStyles();bindCopy();enhance();setTimeout(render,800);document.getElementById('nav')?.addEventListener('click',()=>setTimeout(render,500));document.getElementById('refreshBtn')?.addEventListener('click',()=>setTimeout(()=>{history=[];render()},900));window.addEventListener('hydro:soft-refresh',()=>setTimeout(render,250));});
 })();
