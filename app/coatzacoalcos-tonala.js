@@ -44,7 +44,7 @@ async function show(){
  const root=document.getElementById('tonala-root');if(!root)return;const id=++seq;
  const [doc,weather,rain]=await Promise.all([get(ROOT),get(WEATHER),get(RAIN)]);
  if(id!==seq||!document.getElementById('tonala-root'))return;
- const mat=doc?.reports?.matutino,ves=doc?.reports?.vespertino,stations=mat?.stations||[];
+ const mat=doc?.reports?.matutino,stations=mat?.stations||[];
  const validDate=mat?.date&&/^\d{4}-\d{2}-\d{2}$/.test(mat.date);
  const today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Mexico_City',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
  const validity=validDate?(mat.date===today?'Actualizado':'Dato anterior · última emisión '+esc(mat.date)):'No disponible';
@@ -56,7 +56,7 @@ async function show(){
  const weatherTable=table(['Estación','Fuente','24 h anteriores','48 h anteriores','Hora','Calidad'],weatherRows(weather),6);
  const rainTable=table(['Estación','Fuente','24 h anteriores','48 h anteriores','Hora','Calidad'],bridgeRow,6);
  const levelTable=table(['Estación','Nivel','Δ reporte anterior','Tendencia','Dist. NAMO','Estado'],rows,6);
- const source='<p class="muted">Corte oficial: '+esc(mat?.date||'s/d')+' · '+validity+'. Escala anterior y actual corresponden al mismo informe, no a dos publicaciones independientes. <a href="'+esc(mat?.url||'#')+'" target="_blank" rel="noopener noreferrer">Informe matutino oficial ↗</a></p><p class="muted">Vespertino: '+esc(ves?.date||'s/d')+' · '+esc(ves?.status||'sin lectura numérica validada')+'. <a href="'+esc(ves?.url||'#')+'" target="_blank" rel="noopener noreferrer">Consultar fuente ↗</a></p>';
+ const source='<p class="muted">Corte oficial: '+esc(mat?.date||'s/d')+' · '+validity+'. Escala anterior y actual corresponden al mismo informe, no a dos publicaciones independientes. <a href="'+esc(mat?.url||'#')+'" target="_blank" rel="noopener noreferrer">Informe matutino oficial ↗</a></p>';
  root.innerHTML=
   panel('Lluvia observada · 24 y 48 h',rainTable+'<p class="muted">Puente Tonalá · lluvia observada por CONAGUA; no equivale a nivel del río.</p>')+
   panel('WeatherLink · vigilancia regional complementaria',weatherTable+'<p class="muted">Las estaciones del occidente de Tabasco siguen perteneciendo a sus apartados originales; esta vista es referencia adicional sin reasignar subcuenca. CitrusMax, Veracruz, conserva la fecha original y no se presenta como dato vigente.</p>')+
