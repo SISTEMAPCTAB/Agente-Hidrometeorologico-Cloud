@@ -9,12 +9,12 @@ on:
   schedule:
     # Ventanas de publicación matutina y vespertina; tres intentos por periodo.
     # 08:30, 10:00, 11:30 y 15:00, 16:30, 18:00 hora Tabasco.
-    - cron: '30 14 * * *'
-    - cron: '0 16 * * *'
-    - cron: '30 17 * * *'
-    - cron: '0 21 * * *'
-    - cron: '30 22 * * *'
-    - cron: '0 0 * * *'
+    - cron: '33 14 * * *'
+    - cron: '3 16 * * *'
+    - cron: '33 17 * * *'
+    - cron: '3 21 * * *'
+    - cron: '33 22 * * *'
+    - cron: '3 0 * * *'
 permissions:
   contents: write
 concurrency:
