@@ -42,7 +42,7 @@ for dayoff in (0,1):
  d=today-dt.timedelta(days=dayoff)
  stamp=d.strftime("%d%m%Y")
  guesses.extend(f"https://www.gob.mx/cms/uploads/attachment/file/{fid}/Informe_Matutino_{stamp}.pdf"
-                for fid in range(1105821,1106401))
+                for fid in range(1105821,1107201))
 with ThreadPoolExecutor(max_workers=24) as pool:
  for hit in (f.result() for f in as_completed([pool.submit(probe_candidate,u) for u in guesses])):
   if hit and hit not in sources["matutino"]:
