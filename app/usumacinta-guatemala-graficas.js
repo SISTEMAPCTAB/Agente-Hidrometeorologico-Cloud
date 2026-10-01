@@ -31,6 +31,7 @@ function chart(rows,name,river){
  return '<div class="hydro48-scroll"><svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Evolución '+esc(name)+'">'+grid+ref+'<polyline points="'+points+'" fill="none" stroke="#1f77b4" stroke-width="3"/>'+dots+labels+'</svg></div><div class="hydro48-foot">Último nivel '+unique.at(-1).value.toFixed(2)+' m · Máximo estadístico de referencia, no NAMO ni umbral de inundación.</div>';
 }
 let running=false;
+let lastGoodHtml='';
 async function render(){
  if(running||document.querySelector('#nav button.active')?.dataset.section!=='usumacinta')return;
  const panel=document.getElementById('hydro48Panel');if(!panel)return;
@@ -40,15 +41,17 @@ async function render(){
   const data=await response.json();
   if(!panel.isConnected)return;
   let grid=panel.querySelector('.hydro48-grid');if(!grid)return;
-  grid.querySelectorAll('[data-guatemala-chart]').forEach(x=>x.remove());
   const frag=document.createDocumentFragment();
   for(const [name,river] of stations){
    const card=document.createElement('div');card.className='hydro48-card';card.dataset.guatemalaChart=name;
    card.innerHTML='<div class="hydro48-head"><div><strong>'+esc(name)+'</strong><span>'+esc(river)+' · INSIVUMEH</span></div></div>'+chart(data.registros||[],name,river);
    frag.appendChild(card);
   }
-  grid.prepend(frag);
- }catch(e){console.warn('Gráficas INSIVUMEH:',e)}finally{running=false}
+  const wrap=document.createElement('div');wrap.className='guatemala-charts-stable';wrap.appendChild(frag);
+  const old=grid.querySelector('.guatemala-charts-stable');
+  if(old)old.replaceWith(wrap);else grid.prepend(wrap);
+  lastGoodHtml=wrap.outerHTML;
+ }catch(e){console.warn('Gráficas INSIVUMEH:',e);const grid=panel?.querySelector('.hydro48-grid');if(grid&&!grid.querySelector('.guatemala-charts-stable')&&lastGoodHtml)grid.insertAdjacentHTML('afterbegin',lastGoodHtml)}finally{running=false}
 }
 document.addEventListener('DOMContentLoaded',()=>{
  const content=document.getElementById('content');let timer;
