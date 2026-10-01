@@ -5,6 +5,7 @@ import json
 import pathlib
 import re
 import urllib.parse
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import requests
 import pdfplumber
 from bs4 import BeautifulSoup
@@ -23,11 +24,29 @@ sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/11055
 # El portal de gob.mx no siempre enlaza el adjunto nuevo. Probar la fecha operativa
 # por nombre de archivo usando una búsqueda acotada de IDs recientes, sin asumir un ID único.
 today=dt.datetime.now(dt.timezone.utc).date()
+# gob.mx no publica de forma confiable el enlace nuevo en la página índice.
+# Resolver el adjunto dentro del MISMO recolector, en paralelo y sólo para hoy/ayer.
+# El rango cubre holgadamente la progresión observada de IDs sin convertir cada
+# candidato en una descarga PDF secuencial.
+def probe_candidate(url):
+ try:
+  rr=session.get(url,timeout=7,stream=True,allow_redirects=True)
+  ok=rr.ok and ('pdf' in rr.headers.get('Content-Type','').lower() or rr.url.lower().endswith('.pdf'))
+  rr.close()
+  return url if ok else None
+ except requests.RequestException:
+  return None
+
+guesses=[]
 for dayoff in (0,1):
  d=today-dt.timedelta(days=dayoff)
  stamp=d.strftime("%d%m%Y")
- for fid in range(1106000,1106251):
-  sources["matutino"].append(f"https://www.gob.mx/cms/uploads/attachment/file/{fid}/Informe_Matutino_{stamp}.pdf")
+ guesses.extend(f"https://www.gob.mx/cms/uploads/attachment/file/{fid}/Informe_Matutino_{stamp}.pdf"
+                for fid in range(1105821,1106401))
+with ThreadPoolExecutor(max_workers=24) as pool:
+ for hit in (f.result() for f in as_completed([pool.submit(probe_candidate,u) for u in guesses])):
+  if hit and hit not in sources["matutino"]:
+   sources["matutino"].append(hit)
 # Los enlaces descubiertos tienen prioridad sobre las semillas históricas.
 result={"checked_at_utc":dt.datetime.now(dt.timezone.utc).isoformat(),"source_page":PAGE,"discovery":{},"reports":{}}
 def report_date(url):
@@ -79,7 +98,7 @@ for typ in sources:
  result["discovery"][typ+"_candidates"]=sources[typ][:12]
 for typ,urls in sources.items():
  attempts=[]
- for url in urls[:80]:
+ for url in urls[:20]:
   item={"url":url}
   try:
    r=session.get(url,timeout=35)
