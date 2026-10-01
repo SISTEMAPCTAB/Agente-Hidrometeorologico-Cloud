@@ -23,8 +23,8 @@ on:
     # BHVGM: dos ventanas lógicas diarias, conforme al patrón operativo observado.
     # Se consulta después de 08:00 y 20:00; un segundo intento una hora después
     # absorbe retrasos de publicación sin sondeo continuo.
-    - cron: '20 14,2 * * *'
-    - cron: '20 15,3 * * *'
+    - cron: '23 14,2 * * *'
+    - cron: '23 15,3 * * *'
 
 permissions:
   contents: write
