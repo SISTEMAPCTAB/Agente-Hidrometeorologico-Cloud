@@ -18,7 +18,7 @@
         overflow-y:hidden!important;
         -webkit-overflow-scrolling:touch;
         overscroll-behavior-x:contain;
-        touch-action:pan-x pan-y;
+        touch-action:pan-x;
         box-sizing:border-box;
         position:relative;
       }
@@ -38,16 +38,9 @@
     root.querySelectorAll?.('.hydro48-scroll,.graph-zoom-scroll').forEach(w=>{
       if(w.dataset.iosGraphGuard==='1')return;
       w.dataset.iosGraphGuard='1';
-      let sx=0,sy=0;
-      w.addEventListener('touchstart',e=>{
-        const t=e.touches?.[0];if(!t)return;
-        sx=t.clientX;sy=t.clientY;
-      },{passive:true});
-      w.addEventListener('touchmove',e=>{
-        const t=e.touches?.[0];if(!t)return;
-        const dx=Math.abs(t.clientX-sx),dy=Math.abs(t.clientY-sy);
-        if(dx>dy) e.stopPropagation();
-      },{passive:true});
+      // El desplazamiento horizontal queda en manos del scroll nativo de iOS.
+      // No interceptar touchmove: esa intervención competía con Safari y hacía
+      // intermitente el arrastre lateral de las gráficas.
       w.addEventListener('click',e=>{
         if(e.target.closest?.('button,a,input,select,textarea'))return;
         if(e.target.tagName?.toLowerCase()==='svg' || e.target.closest?.('svg')){
