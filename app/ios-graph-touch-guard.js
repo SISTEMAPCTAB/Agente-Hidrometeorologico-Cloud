@@ -18,12 +18,14 @@
         overflow-y:hidden!important;
         -webkit-overflow-scrolling:touch;
         overscroll-behavior-x:contain;
-        touch-action:pan-x;
+        touch-action:auto;
         box-sizing:border-box;
         position:relative;
       }
       .hydro48-scroll svg,.graph-zoom-scroll svg{
         display:block;
+        width:auto!important;
+        min-width:760px!important;
         max-width:none!important;
         pointer-events:none!important;
         -webkit-user-select:none!important;
