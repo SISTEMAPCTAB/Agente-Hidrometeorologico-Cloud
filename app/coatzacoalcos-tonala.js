@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 // Apartado aislado: no altera la semaforización ni las consultas de los otros sistemas.
-const ROOT='../data/coatzacoalcos_tonala/latest.json', WEATHER='../data/weatherlink/latest.json';
+const ROOT='../data/coatzacoalcos_tonala/latest.json', DIAG='../data/coatzacoalcos_tonala/prueba_extraccion.json', WEATHER='../data/weatherlink/latest.json';
 const RAIN='../data/niveles/Lluvia_CONAGUA/ultimo_corte.json';
 const existing=new Set(['e49a137f-741c-4e4d-b9ac-d7118c301f4d','a86b31af-4828-44e9-8709-47f86d62b20e','fefb3d52-6c19-4922-b679-c1302e724124','7cde6e43-d6da-4f2c-b082-e33a2ff2f750']);
 const names={'e49a137f-741c-4e4d-b9ac-d7118c301f4d':'Impulsora','a86b31af-4828-44e9-8709-47f86d62b20e':'Paso La Mina','fefb3d52-6c19-4922-b679-c1302e724124':'Modesta_1','7cde6e43-d6da-4f2c-b082-e33a2ff2f750':'CitrusMax IP Gateway S2'};
@@ -42,7 +42,7 @@ const panel=(title,body)=>'<section class="panel wide"><h2>'+title+'</h2>'+body+
 const table=(head,body,colspan)=>'<div class="table-wrap"><table><thead><tr>'+head.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>'+(body||'<tr><td colspan="'+colspan+'">Sin dato válido disponible</td></tr>')+'</tbody></table></div>';
 async function show(){
  const root=document.getElementById('tonala-root');if(!root)return;const id=++seq;
- const [doc,weather,rain]=await Promise.all([get(ROOT),get(WEATHER),get(RAIN)]);
+ const [doc,diag,weather,rain]=await Promise.all([get(ROOT),get(DIAG),get(WEATHER),get(RAIN)]);
  if(id!==seq||!document.getElementById('tonala-root'))return;
  const mat=doc?.reports?.matutino,stations=mat?.stations||[];
  const validDate=mat?.date&&/^\d{4}-\d{2}-\d{2}$/.test(mat.date);
@@ -56,7 +56,11 @@ async function show(){
  const weatherTable=table(['Estación','Fuente','24 h anteriores','48 h anteriores','Hora','Calidad'],weatherRows(weather),6);
  const rainTable=table(['Estación','Fuente','24 h anteriores','48 h anteriores','Hora','Calidad'],bridgeRow,6);
  const levelTable=table(['Estación','Nivel','Δ reporte anterior','Tendencia','Dist. NAMO','Estado'],rows,6);
- const source='<p class="muted">Corte oficial: '+esc(mat?.date||'s/d')+' · '+validity+'. Escala anterior y actual corresponden al mismo informe, no a dos publicaciones independientes. <a href="'+esc(mat?.url||'#')+'" target="_blank" rel="noopener noreferrer">Informe matutino oficial ↗</a></p>';
+ const http=diag?.discovery?.http,checked=diag?.checked_at_utc;
+ const sourceState=http===403
+  ?'<p class="muted"><b>Última verificación automática:</b> '+date(checked)+' · el portal oficial de CONAGUA respondió HTTP 403 al recolector; se conserva sin alterar el último informe validado. Esto corresponde a una falla de acceso a la fuente, no a una actualización del nivel.</p>'
+  :'';
+ const source='<p class="muted">Corte oficial: '+esc(mat?.date||'s/d')+' · '+validity+'. Escala anterior y actual corresponden al mismo informe, no a dos publicaciones independientes. <a href="'+esc(mat?.url||'#')+'" target="_blank" rel="noopener noreferrer">Informe matutino oficial ↗</a></p>'+sourceState;
  root.innerHTML=
   panel('Lluvia observada · 24 y 48 h',rainTable+'<p class="muted">Puente Tonalá · lluvia observada por CONAGUA; no equivale a nivel del río.</p>')+
   panel('WeatherLink · vigilancia regional complementaria',weatherTable+'<p class="muted">Las estaciones del occidente de Tabasco siguen perteneciendo a sus apartados originales; esta vista es referencia adicional sin reasignar subcuenca. CitrusMax, Veracruz, conserva la fecha original y no se presenta como dato vigente.</p>')+
