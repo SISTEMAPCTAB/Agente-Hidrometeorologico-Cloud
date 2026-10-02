@@ -48,6 +48,7 @@ jobs:
           for intento in 1 2 3 4; do
             git fetch origin main
             git reset --hard origin/main
+            cp /tmp/tonala-diagnostico.json data/coatzacoalcos_tonala/prueba_extraccion.json
             if python - <<'PY'
           import json
           from pathlib import Path
@@ -56,16 +57,19 @@ jobs:
           a=candidate.get('reports',{}).get('matutino',{}).get('date','')
           b=remote.get('reports',{}).get('matutino',{}).get('date','')
           print('Corte candidato/remoto:',a,b)
-          raise SystemExit(0 if b>=a else 1)
+          raise SystemExit(0 if a>b else 1)
           PY
             then
-              echo "El remoto ya contiene un corte igual o posterior."
+              cp /tmp/tonala-latest.json data/coatzacoalcos_tonala/latest.json
+            else
+              echo "Sin informe validado posterior; se conserva el último corte."
+            fi
+            git add data/coatzacoalcos_tonala/prueba_extraccion.json data/coatzacoalcos_tonala/latest.json
+            if git diff --cached --quiet; then
+              echo "Sin cambios que publicar."
               exit 0
             fi
-            cp /tmp/tonala-diagnostico.json data/coatzacoalcos_tonala/prueba_extraccion.json
-            cp /tmp/tonala-latest.json data/coatzacoalcos_tonala/latest.json
-            git add data/coatzacoalcos_tonala/prueba_extraccion.json data/coatzacoalcos_tonala/latest.json
-            git commit -m 'Actualiza informe validado Tonala [skip ci]'
+            git commit -m 'Actualiza diagnóstico Tonala y conserva último corte validado [skip ci]'
             if git push origin HEAD:main; then exit 0; fi
             sleep $((intento * 5))
           done
