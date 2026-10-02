@@ -47,11 +47,13 @@ async function render(){
    card.innerHTML='<div class="hydro48-head"><div><strong>'+esc(name)+'</strong><span>'+esc(river)+' · INSIVUMEH</span></div></div>'+chart(data.registros||[],name,river);
    frag.appendChild(card);
   }
-  const wrap=document.createElement('div');wrap.className='guatemala-charts-stable';wrap.appendChild(frag);
-  const old=grid.querySelector('.guatemala-charts-stable');
-  if(old)old.replaceWith(wrap);else grid.prepend(wrap);
-  lastGoodHtml=wrap.outerHTML;
- }catch(e){console.warn('Gráficas INSIVUMEH:',e);const grid=panel?.querySelector('.hydro48-grid');if(grid&&!grid.querySelector('.guatemala-charts-stable')&&lastGoodHtml)grid.insertAdjacentHTML('afterbegin',lastGoodHtml)}finally{running=false;if(document.querySelector('#nav button.active')?.dataset.section==='usumacinta'&&!document.querySelector('[data-guatemala-chart]'))setTimeout(render,250)}
+  // Las tarjetas Guatemala son hijas directas de la misma rejilla que el resto.
+  // No usar wrapper: el wrapper era un ítem de grid y limitaba el ancho/scroll.
+  grid.querySelectorAll('[data-guatemala-chart]').forEach(x=>x.remove());
+  const cards=[...frag.childNodes];
+  cards.reverse().forEach(card=>grid.prepend(card));
+  lastGoodHtml=cards.map(card=>card.outerHTML).join('');
+ }catch(e){console.warn('Gráficas INSIVUMEH:',e);const grid=panel?.querySelector('.hydro48-grid');if(grid&&!grid.querySelector('[data-guatemala-chart]')&&lastGoodHtml)grid.insertAdjacentHTML('afterbegin',lastGoodHtml)}finally{running=false;if(document.querySelector('#nav button.active')?.dataset.section==='usumacinta'&&!document.querySelector('[data-guatemala-chart]'))setTimeout(render,250)}
 }
 document.addEventListener('DOMContentLoaded',()=>{
  const content=document.getElementById('content');let timer;
