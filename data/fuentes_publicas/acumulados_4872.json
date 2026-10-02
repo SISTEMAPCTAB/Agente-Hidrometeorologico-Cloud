@@ -1,71 +1,71 @@
 {
-  "generated_utc": "2026-10-02T02:36:02.188321+00:00",
+  "generated_utc": "2026-10-02T09:02:13.285618+00:00",
   "regla": "48 h y 72 h sólo se forman con ventanas de 24 h asociadas a cortes fuente distintos de INSIVUMEH, separados aproximadamente 24 h. La hora de consulta del agente nunca sustituye al corte fuente. Si falta una ventana verificable, se conserva s/d.",
   "tolerancia_historica_min": 120,
-  "insivumeh_corte_fuente_actual": "01/Oct/2026 14:20",
+  "insivumeh_corte_fuente_actual": "02/Oct/2026 02:40",
   "insivumeh_corte_fuente_valido": true,
   "insivumeh": [
     {
       "codigo": "INS142201AT",
       "estacion": "Playa Grande Met (Ixcan)",
       "precipitacion_24h_mm": 12.5,
-      "precipitacion_48h_mm": null,
+      "precipitacion_48h_mm": 25.0,
       "precipitacion_72h_mm": null,
       "componentes": {
         "actual": {
-          "corte_fuente": "01/Oct/2026 14:20",
-          "corte_utc": "2026-10-01T20:20:00+00:00",
-          "consultado_utc": "2026-10-01T20:23:36.984913+00:00",
+          "corte_fuente": "02/Oct/2026 02:40",
+          "corte_utc": "2026-10-02T08:40:00+00:00",
+          "consultado_utc": "2026-10-02T08:40:11.396084+00:00",
           "mm": 12.5
         },
-        "menos_24h": null,
-        "menos_48h": {
-          "corte_fuente": "29/Sep/2026 13:20",
-          "corte_utc": "2026-09-29T19:20:00+00:00",
+        "menos_24h": {
+          "corte_fuente": "01/Oct/2026 04:15",
+          "corte_utc": "2026-10-01T10:15:00+00:00",
           "mm": 12.5
-        }
+        },
+        "menos_48h": null
       }
     },
     {
       "codigo": "INS161201CV",
       "estacion": "Santa María Cahabón",
       "precipitacion_24h_mm": 0.0,
-      "precipitacion_48h_mm": null,
+      "precipitacion_48h_mm": 0.0,
       "precipitacion_72h_mm": null,
       "componentes": {
         "actual": {
-          "corte_fuente": "01/Oct/2026 14:20",
-          "corte_utc": "2026-10-01T20:20:00+00:00",
-          "consultado_utc": "2026-10-01T20:23:36.984913+00:00",
+          "corte_fuente": "02/Oct/2026 02:40",
+          "corte_utc": "2026-10-02T08:40:00+00:00",
+          "consultado_utc": "2026-10-02T08:40:11.396084+00:00",
           "mm": 0.0
         },
-        "menos_24h": null,
-        "menos_48h": {
-          "corte_fuente": "29/Sep/2026 13:20",
-          "corte_utc": "2026-09-29T19:20:00+00:00",
+        "menos_24h": {
+          "corte_fuente": "01/Oct/2026 04:15",
+          "corte_utc": "2026-10-01T10:15:00+00:00",
           "mm": 0.0
-        }
+        },
+        "menos_48h": null
       }
     },
     {
       "codigo": "INS160701CV",
       "estacion": "Panzos PHC Altaverapaz",
       "precipitacion_24h_mm": 3.6,
-      "precipitacion_48h_mm": null,
+      "precipitacion_48h_mm": 7.2,
       "precipitacion_72h_mm": null,
       "componentes": {
         "actual": {
-          "corte_fuente": "01/Oct/2026 14:20",
-          "corte_utc": "2026-10-01T20:20:00+00:00",
-          "consultado_utc": "2026-10-01T20:23:36.984913+00:00",
+          "corte_fuente": "02/Oct/2026 02:40",
+          "corte_utc": "2026-10-02T08:40:00+00:00",
+          "consultado_utc": "2026-10-02T08:40:11.396084+00:00",
           "mm": 3.6
         },
-        "menos_24h": null,
-        "menos_48h": {
-          "corte_fuente": "29/Sep/2026 13:20",
-          "corte_utc": "2026-09-29T19:20:00+00:00",
+        "menos_24h": {
+          "corte_fuente": "01/Oct/2026 04:15",
+          "corte_utc": "2026-10-01T10:15:00+00:00",
           "mm": 3.6
-        }
+        },
+        "menos_48h": null
       }
     }
   ]
