@@ -227,16 +227,19 @@
     const id=current(),content=document.getElementById('content');if(!content||!history.length)return;
     removeLegacy48(content);
     const oldPanel=content.querySelector('#hydro48Panel');
-    const guatemala=oldPanel?.querySelector('.guatemala-charts-stable')||null;
+    const guatemalaCards=oldPanel?[...oldPanel.querySelectorAll('.guatemala-charts-stable > .hydro48-card')]:[];
     const ids=id==='resumen'?['presas','serranos','tulija','usumacinta']:[id];
     if(!ids.some(x=>MAP[x]))return;
     const names=[];ids.forEach(x=>stationNames(x).forEach(n=>{if(!names.some(a=>norm(a)===norm(n)))names.push(n)}));
     const cards=names.map(svgFor).filter(Boolean);if(!cards.length)return;
     const panel=document.createElement('section');panel.id='hydro48Panel';panel.className='panel wide hydro48-panel';panel.innerHTML=`<h2>Niveles de ríos · últimas 96 h</h2><p class="muted">Se conserva la última serie válida hasta que exista una observación nueva.</p><div class="hydro48-grid">${cards.join('')}</div>`;
-    // En Usumacinta conservar las dos gráficas INSIVUMEH dentro del mismo
-    // reemplazo DOM. Así nunca existe un intervalo en que El Tigre/La Pasión
-    // desaparezcan mientras se repintan las demás gráficas.
-    if(guatemala&&id==='usumacinta')panel.querySelector('.hydro48-grid')?.prepend(guatemala);
+    // En Usumacinta las gráficas INSIVUMEH son tarjetas normales del MISMO
+    // hydro48-grid que Boca del Cerro y las demás. Sin wrapper especial:
+    // comparten exactamente el mismo scroll, zoom y tratamiento móvil.
+    if(guatemalaCards.length&&id==='usumacinta'){
+      const target=panel.querySelector('.hydro48-grid');
+      [...guatemalaCards].reverse().forEach(card=>target?.prepend(card));
+    }
     const grid=content.querySelector('.grid')||content;
     if(oldPanel&&oldPanel.isConnected)oldPanel.replaceWith(panel);else grid.appendChild(panel);
     enhance(content);
