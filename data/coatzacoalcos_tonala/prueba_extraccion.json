@@ -1,11 +1,12 @@
 {
-  "checked_at_utc": "2026-10-03T00:26:51.051325+00:00",
+  "checked_at_utc": "2026-10-03T00:29:11.339109+00:00",
   "source_page": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
   "discovery": {
     "http": 200,
     "transport": "direct",
     "url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
     "candidates": 0,
+    "browser_render_error": "ModuleNotFoundError: No module named 'playwright'",
     "matutino_candidates": [
       "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf",
       "https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf"
