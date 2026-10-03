@@ -2,27 +2,6 @@ name: WeatherLink Cloud - 32 estaciones
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - 'src/weatherlink_cloud.py'
-      - 'src/weatherlink_extra_cloud.py'
-      - 'src/weatherlink_resolve_shared.py'
-      - 'src/temperature_summary.py'
-      - 'src/generar_word_weatherlink.py'
-      - 'config/weatherlink_stations.json'
-      - 'config/weatherlink_stations_extra.json'
-      - 'data/weatherlink/seed.csv'
-      - 'data/weatherlink/seed_daily.json'
-      - 'requirements.txt'
-      - '.gitattributes'
-      - '.github/workflows/weatherlink-cloud.yml'
-      - '.github/workflows/weatherlink-watchdog.yml'
-  schedule:
-    # Recolección principal cada 30 minutos, 24/7.
-    # Minutos desplazados para reducir coincidencias con otros workflows.
-    - cron: '7,37 * * * *'
 
 permissions:
   contents: write
