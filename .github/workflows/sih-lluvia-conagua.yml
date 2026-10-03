@@ -1,0 +1,65 @@
+name: Lluvia SIH CONAGUA
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Tabasco UTC-6: comprobaciones 09:30, 17:00 y 22:00.
+    - cron: '30 15 * * *'
+    - cron: '0 23 * * *'
+    - cron: '0 4 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'src/sih_lluvia_conagua.py'
+      - '.github/workflows/sih-lluvia-conagua.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sih-lluvia-conagua
+  cancel-in-progress: false
+
+jobs:
+  recolectar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Consultar SIH y conservar fecha real de fuente
+        run: python src/sih_lluvia_conagua.py
+      - name: Validar
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path('data/sih_lluvia/Estado_SIH_Lluvia.json').read_text())
+          assert not s.get('errors'), s
+          d=json.loads(Path('data/sih_lluvia/latest.json').read_text())
+          assert d.get('fecha_fuente')
+          assert len(d.get('estaciones_tabasco',[]))>0
+          print('SIH',d['fecha_fuente'],len(d['estaciones_tabasco']),'estaciones Tabasco')
+          PY
+      - name: Publicar sólo productos SIH
+        run: |
+          set -euo pipefail
+          git config user.name "Agente Hidrometeorologico SIH"
+          git config user.email "actions@users.noreply.github.com"
+          tar -cf /tmp/sih.tar data/sih_lluvia
+          for intento in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            tar -xf /tmp/sih.tar
+            git add data/sih_lluvia
+            git diff --cached --quiet && exit 0
+            git commit -m "Actualiza lluvia SIH CONAGUA [skip ci]"
+            git push origin HEAD:main && exit 0
+            sleep $((intento*5))
+          done
+          exit 1
