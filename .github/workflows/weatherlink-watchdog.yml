@@ -2,10 +2,10 @@ name: WeatherLink Watchdog - recuperación automática
 
 on:
   # Recuperación condicionada: no duplica la recolección normal.
-  # Sólo actúa si el último estado válido supera 35 minutos de antigüedad.
+  # Sólo actúa si el último estado válido supera 70 minutos de antigüedad.
   workflow_dispatch:
   schedule:
-    - cron: '6,36 * * * *'
+    - cron: '21 * * * *'
 
 permissions:
   contents: write
@@ -53,9 +53,9 @@ jobs:
                       last = last.replace(tzinfo=timezone.utc)
                   age_minutes = (datetime.now(timezone.utc) - last.astimezone(timezone.utc)).total_seconds() / 60.0
                   healthy = complete and expected == ok and not errors
-                  # Con un flujo principal cada 15 min, >35 min implica al menos
+                  # Con un flujo principal cada 30 min, >70 min implica al menos
                   # dos ventanas consecutivas sin publicar un estado válido.
-                  recover = (not healthy) or age_minutes > 35
+                  recover = (not healthy) or age_minutes > 70
                   reason = f"complete={complete}; estaciones={ok}/{expected}; errores={len(errors)}; antigüedad={age_minutes:.1f} min"
           except Exception as exc:
               reason = f"error leyendo estado: {exc}"
