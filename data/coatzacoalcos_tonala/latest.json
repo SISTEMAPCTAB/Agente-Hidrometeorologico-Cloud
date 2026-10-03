@@ -1,20 +1,20 @@
 {
-  "updated_at_utc": "2026-09-29T20:12:14.626264+00:00",
+  "updated_at_utc": "2026-10-03T00:47:18.387072+00:00",
   "state": "Último informe hidrométrico matutino validado, fecha real conservada",
   "reports": {
     "matutino": {
-      "date": "2026-09-29",
-      "url": "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf",
+      "date": "2026-10-02",
+      "url": "https://www.gob.mx/cms/uploads/attachment/file/1106630/Informe_Matutino_02102026.pdf",
       "stations": [
         {
           "id": "san-jose-del-carmen",
           "name": "San José del Carmen",
           "river": "Río Tonalá",
           "namo_m": 4.71,
-          "previous_m": 3.16,
-          "current_m": 3.14,
-          "delta_m": -0.02,
-          "below_namo_m": 1.57
+          "previous_m": 3.02,
+          "current_m": 2.96,
+          "delta_m": -0.06,
+          "below_namo_m": 1.75
         },
         {
           "id": "agua-dulce",
@@ -23,7 +23,7 @@
           "namo_m": 6.32,
           "previous_m": 2.3,
           "current_m": 2.3,
-          "delta_m": 0,
+          "delta_m": 0.0,
           "below_namo_m": 4.02
         }
       ]
@@ -48,6 +48,12 @@
         "period": "matutino",
         "current_m": 3.14,
         "source_url": "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf"
+      },
+      {
+        "date": "2026-10-02",
+        "period": "matutino",
+        "current_m": 2.96,
+        "source_url": "https://www.gob.mx/cms/uploads/attachment/file/1106630/Informe_Matutino_02102026.pdf"
       }
     ],
     "agua-dulce": [
@@ -68,6 +74,12 @@
         "period": "matutino",
         "current_m": 2.3,
         "source_url": "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf"
+      },
+      {
+        "date": "2026-10-02",
+        "period": "matutino",
+        "current_m": 2.3,
+        "source_url": "https://www.gob.mx/cms/uploads/attachment/file/1106630/Informe_Matutino_02102026.pdf"
       }
     ]
   }

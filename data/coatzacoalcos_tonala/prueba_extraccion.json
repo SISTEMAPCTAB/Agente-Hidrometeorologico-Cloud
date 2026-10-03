@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-03T00:34:05.667432+00:00",
+  "checked_at_utc": "2026-10-03T00:47:18.387072+00:00",
   "source_page": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
   "discovery": {
     "http": 200,
@@ -7,6 +7,7 @@
     "url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
     "candidates": 0,
     "matutino_candidates": [
+      "https://www.gob.mx/cms/uploads/attachment/file/1106630/Informe_Matutino_02102026.pdf",
       "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf",
       "https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf"
     ]
@@ -14,16 +15,16 @@
   "reports": {
     "matutino": [
       {
-        "url": "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf",
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1106630/Informe_Matutino_02102026.pdf",
         "transport": "direct",
         "http": 200,
-        "bytes": 829373,
-        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf",
+        "bytes": 829338,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1106630/Informe_Matutino_02102026.pdf",
         "pages": 6,
-        "document_header": "COMISIÓN NACIONAL DEL AGUA\nORGANISMO DE CUENCA GOLFO CENTRO\nDIRECCIÓN TÉCNICA\nJEFATURA DE PROYECTO DE HIDROMETEOROLOGÍA\nXalapa, Veracruz martes, 29 de septiembre de 2026\nE\nst\na d o Presa\nN.A\nC\n.M\nap\n.\na\nE\n( c\n.\nM id m ad ³\nN\n) t\n.\no\nA\nt\n.\na\nM\nl\n.O. N\nN\n.\ni c\nA\nv a e\n.\np\nM\nl a c\n.\nc o\nE\ni n\n.\nd a r d es t p o\nN\ne t c a\n.A\nt l o\n.\n(\nM\nm a\n.\n) s\nO\nu\n. Ay\nA\ne\nlm\nr\nac (M en m am ³) ien\nH\nto\noy\nN\n%\n. A\nA\n.\na l\nM\nm l a\n.O\nc.\n.\nAyer\nNi ( v m el ) es\nHoy\nTendencia\nEntr\nG\nad\na\na\nstos (m3/\nS\ns\na\n)\nlida\nCuenca del Tecolutla\no Los Reyes 29.263 24.031 2,167.",
+        "document_header": "COMISIÓN NACIONAL DEL AGUA\nORGANISMO DE CUENCA GOLFO CENTRO\nDIRECCIÓN TÉCNICA\nJEFATURA DE PROYECTO DE HIDROMETEOROLOGÍA\nXalapa, Veracruz viernes, 2 de octubre de 2026\nE\nst\na d o Presa\nN.A\nC\n.M\nap\n.\na\nE\n( c\n.\nM id m ad ³\nN\n) t\n.\no\nA\nt\n.\na\nM\nl\n.O. N\nN\n.\ni c\nA\nv a e\n.\np\nM\nl a c\n.\nc o\nE\ni n\n.\nd a r d es t p o\nN\ne t c a\n.A\nt l o\n.\n(\nM\nm a\n.\n) s\nO\nu\n. Ay\nA\ne\nlm\nr\nac (M en m am ³) ien\nH\nto\noy\nN\n%\n. A\nA\n.\na l\nM\nm l a\n.O\nc.\n.\nAyer\nNi ( v m el ) es\nHoy\nTendencia\nEntr\nG\nad\na\na\nstos (m3/\nS\ns\na\n)\nlida\nCuenca del Tecolutla\no Los Reyes 29.263 24.031 2,167.000",
         "station_rows": [
           {
-            "row_text": "San José del Carmen Ver. Tonalá Río Tonalá 4.71 3.16 3.14 - -1.57",
+            "row_text": "San José del Carmen Ver. Tonalá Río Tonalá 4.71 3.02 2.96 - -1.75",
             "page_text_method": "pdfplumber"
           },
           {
@@ -31,11 +32,11 @@
             "page_text_method": "pdfplumber"
           },
           {
-            "row_text": "San José del Carmen Ver. Tonalá 0.0 34.0 20.0 27.0 3.80 327.0 1,626.5",
+            "row_text": "San José del Carmen Ver. Tonalá 0.0 34.0 19.0 26.5 3.91 0.0 1,626.5",
             "page_text_method": "pdfplumber"
           },
           {
-            "row_text": "Agua Dulce (Centro) Ver. Tonala 0.0 - - - - 159.6 1,111.3",
+            "row_text": "Agua Dulce (Centro) Ver. Tonala 0.0 - - - - 0.0 1,113.3",
             "page_text_method": "pdfplumber"
           }
         ],
