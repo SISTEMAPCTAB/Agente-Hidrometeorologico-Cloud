@@ -91,6 +91,33 @@ try:
     except requests.RequestException:pass
 except Exception as exc:
  result["discovery"]={"error":type(exc).__name__+": "+str(exc)[:180]}
+# Si gob.mx no expone el enlace del día en el HTML inicial, renderizar
+# únicamente la página oficial y leer el DOM ya cargado por el navegador.
+local_today=dt.datetime.now(dt.timezone(dt.timedelta(hours=-6))).date()
+if not any(report_date(u)==local_today for u in sources["matutino"]):
+ try:
+  from playwright.sync_api import sync_playwright
+  with sync_playwright() as p:
+   browser=p.chromium.launch(headless=True)
+   page=browser.new_page()
+   page.goto(PAGE,wait_until="networkidle",timeout=45000)
+   links=page.locator("a")
+   for i in range(links.count()):
+    a=links.nth(i)
+    try:
+     label=(a.inner_text() or "").strip()
+     href=a.get_attribute("href") or ""
+     full=urllib.parse.urljoin(PAGE,href)
+     if "matutino" in (label+" "+full).lower() and full.lower().endswith(".pdf"):
+      if full not in sources["matutino"]:
+       sources["matutino"].append(full)
+    except Exception:
+     pass
+   browser.close()
+  result["discovery"]["browser_render"]=True
+ except Exception as exc:
+  result["discovery"]["browser_render_error"]=type(exc).__name__+": "+str(exc)[:180]
+
 # Fallback acotado para el informe del día: el portal puede mostrarlo por JavaScript
 # sin incluir el enlace en el HTML inicial. Se prueban sólo IDs cercanos a la serie
 # vigente y sólo el nombre oficial del archivo del día, sin descargar candidatos.
