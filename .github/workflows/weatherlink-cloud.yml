@@ -22,7 +22,7 @@ on:
   schedule:
     # Recolección principal cada 30 minutos, 24/7.
     # Minutos desplazados para reducir coincidencias con otros workflows.
-    - cron: '11,41 * * * *'
+    - cron: '7,37 * * * *'
 
 permissions:
   contents: write
