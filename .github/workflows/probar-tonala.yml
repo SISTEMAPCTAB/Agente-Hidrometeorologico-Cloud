@@ -26,7 +26,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: python -m pip install requests beautifulsoup4 pdfplumber
+      - run: python -m pip install requests beautifulsoup4 pdfplumber playwright
+      - run: python -m playwright install chromium
       - name: Descargar y examinar informes oficiales sin afectar otros datos
         run: python src/coatzacoalcos_tonala_probe.py
       - name: Guardar evidencia de la prueba
