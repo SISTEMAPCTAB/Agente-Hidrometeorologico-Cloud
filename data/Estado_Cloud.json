@@ -1,19 +1,17 @@
 {
   "agent": "Agente-Hidrometeorologico-Cloud",
-  "run_utc": "2026-10-03T19:24:04.164812+00:00",
-  "run_local": "2026-10-03T13:24:04.164812-06:00",
+  "run_utc": "2026-10-03T19:33:57.333825+00:00",
+  "run_local": "2026-10-03T13:33:57.333825-06:00",
   "accounts": [
     {
       "label": "principal",
-      "ok": false,
-      "messages_scanned": 0,
-      "error": "ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7f5924932ed0>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=45)'))"
+      "ok": true,
+      "messages_scanned": 150
     },
     {
       "label": "fuente1",
-      "ok": false,
-      "messages_scanned": 0,
-      "error": "ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7f59249332c0>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=45)'))"
+      "ok": true,
+      "messages_scanned": 150
     }
   ],
   "fuente1_secondary_account_configured": true,
@@ -23,11 +21,27 @@
   },
   "sources": {
     "FUENTE1": {
-      "status": "not_found"
+      "status": "ok",
+      "account": "fuente1",
+      "subject": "Boletín Hidrométrico, Climatológico y de Presas 03-10-2026",
+      "message_id": "6944",
+      "original_filename": "Boletin 03-10-2026.pdf",
+      "message_time": "2026-10-03T10:18:20-06:00",
+      "bulletin_date": "2026-10-03",
+      "bytes": 896315,
+      "text_chars": 11061
     },
     "FUENTE2": {
-      "status": "not_found"
+      "status": "ok",
+      "account": "principal",
+      "subject": "Se envía Boletín de Hidrometría y Climatología de 8am",
+      "message_id": "16169",
+      "original_filename": "Boletin del 03 de Octubre  del 2026.pdf",
+      "message_time": "2026-10-03T08:27:29-06:00",
+      "bulletin_date": "2026-10-03",
+      "bytes": 105898,
+      "text_chars": 2873
     }
   },
-  "complete": false
+  "complete": true
 }
