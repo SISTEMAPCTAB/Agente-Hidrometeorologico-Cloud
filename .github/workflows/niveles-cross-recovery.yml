@@ -44,8 +44,8 @@ jobs:
           p = Path('data/niveles/Estado_Niveles_Cloud.json')
           now_local = datetime.now(ZoneInfo('America/Mexico_City'))
           automatic = os.environ.get('GITHUB_EVENT_NAME') == 'workflow_run'
-          # Mantener la pausa nocturna y el arranque acordado: primera oportunidad ~06:50.
-          in_window = (6 <= now_local.hour <= 19) and not (now_local.hour == 6 and now_local.minute < 45)
+          # Ventana ampliada por operación de lluvias: 06:45–01:59; pausa 02:00–05:59.
+          in_window = (now_local.hour >= 6 or now_local.hour <= 1) and not (now_local.hour == 6 and now_local.minute < 45)
           recover = True
           age_min = None
           reason = 'estado inexistente o inválido'
