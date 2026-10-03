@@ -39,8 +39,13 @@ jobs:
           import os
           from datetime import datetime, timezone
           from pathlib import Path
+          from zoneinfo import ZoneInfo
 
           p = Path('data/niveles/Estado_Niveles_Cloud.json')
+          now_local = datetime.now(ZoneInfo('America/Mexico_City'))
+          automatic = os.environ.get('GITHUB_EVENT_NAME') == 'workflow_run'
+          # Mantener la pausa nocturna y el arranque acordado: primera oportunidad ~06:50.
+          in_window = (6 <= now_local.hour <= 19) and not (now_local.hour == 6 and now_local.minute < 45)
           recover = True
           age_min = None
           reason = 'estado inexistente o inválido'
@@ -63,6 +68,9 @@ jobs:
           except Exception as exc:
               reason = f'no se pudo leer estado: {exc}'
 
+          if automatic and not in_window:
+              recover = False
+              reason = f'pausa programada; hora local={now_local:%H:%M}'
           print('Estado niveles:', reason)
           print('Recuperar:', recover)
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
