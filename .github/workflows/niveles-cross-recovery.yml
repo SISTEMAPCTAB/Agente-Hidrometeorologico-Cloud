@@ -1,9 +1,15 @@
 name: Recuperación Independiente Niveles
 
 on:
-  # Segundo recuperador conservado sólo para intervención manual.
-  # No debe competir de forma periódica con niveles-cloud ni Gmail.
   workflow_dispatch:
+  # Recuperación autónoma independiente del cron de niveles.
+  # Se despierta al terminar WeatherLink (que mantiene actividad 24/7) y
+  # sólo interviene si niveles realmente quedó atrasado.
+  workflow_run:
+    workflows:
+      - "WeatherLink Cloud 30m - estable"
+    types:
+      - completed
 
 permissions:
   contents: write
@@ -14,6 +20,8 @@ concurrency:
 
 jobs:
   recuperar-si-atrasado:
+    # WeatherLink sólo sirve como señal de despertar. Si falló, no se usa.
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -48,7 +56,9 @@ jobs:
                       d = d.replace(tzinfo=timezone.utc)
                   age_min = (datetime.now(timezone.utc) - d.astimezone(timezone.utc)).total_seconds()/60.0
                   healthy = complete and not errors and stations > 0
-                  recover = (not healthy) or age_min > 35
+                  # El primario corre a :50. Damos margen suficiente para que termine;
+                  # si no dejó estado reciente, este flujo recupera sin esperar otro cron.
+                  recover = (not healthy) or age_min > 65
                   reason = f'complete={complete}; estaciones={stations}; errores={len(errors)}; antigüedad={age_min:.1f} min'
           except Exception as exc:
               reason = f'no se pudo leer estado: {exc}'
