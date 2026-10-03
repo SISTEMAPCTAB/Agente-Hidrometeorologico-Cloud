@@ -1,0 +1,59 @@
+from __future__ import annotations
+import io,json,re
+from datetime import datetime,timezone
+from pathlib import Path
+from zoneinfo import ZoneInfo
+import requests
+from pypdf import PdfReader
+
+URL='https://sih.conagua.gob.mx/docs/precipitacion24horas.pdf'
+OUT=Path('data/sih_lluvia'); OUT.mkdir(parents=True,exist_ok=True)
+UA={'User-Agent':'Mozilla/5.0 Agente-Hidrometeorologico-Cloud/1.0'}
+MONTHS={'enero':1,'febrero':2,'marzo':3,'abril':4,'mayo':5,'junio':6,'julio':7,'agosto':8,'septiembre':9,'octubre':10,'noviembre':11,'diciembre':12}
+
+def source_date(text):
+ m=re.search(r'Ciudad de M[eé]xico,?\s+a\s+(\d{1,2})\s+de\s+([A-Za-záéíóúñ]+)\s+del?\s+(\d{4})',text,re.I)
+ if not m:return None
+ return f"{int(m.group(3)):04d}-{MONTHS[m.group(2).lower()]:02d}-{int(m.group(1)):02d}"
+
+def clean_station(s):
+ return re.sub(r'\s+',' ',s).strip(' ·,-')
+
+def tabasco_rows(text):
+ rows=[]; seen=set()
+ # El detalle nacional identifica inequívocamente las estaciones de Tabasco con ", Tab."
+ pat=re.compile(r'([^\n]{2,90}?,\s*Tab\.\s*(?:SGT\*|SMN\*|INIFAP\*|CFE\*|SEMAR\*|PC\*)?)\s+(\d+(?:\.\d+)?)')
+ for m in pat.finditer(text):
+  name=clean_station(m.group(1)); val=float(m.group(2))
+  # Evita capturar texto de encabezados antes del nombre dentro de la misma línea.
+  if '  ' in name:name=name.split('  ')[-1].strip()
+  key=(name.lower(),val)
+  if key not in seen:
+   seen.add(key); rows.append({'estacion':name,'precipitacion_24h_mm':val,'estado':'Tabasco'})
+ return sorted(rows,key=lambda x:x['precipitacion_24h_mm'],reverse=True)
+
+def main():
+ now=datetime.now(timezone.utc); local=now.astimezone(ZoneInfo('America/Mexico_City'))
+ r=requests.get(URL,headers={**UA,'Cache-Control':'no-cache'},timeout=40);r.raise_for_status()
+ text='\n'.join((p.extract_text() or '') for p in PdfReader(io.BytesIO(r.content)).pages)
+ fecha=source_date(text)
+ m=re.search(r'Tabasco\s+(\d+(?:\.\d+)?)\s+(\d+)\s+(\d+(?:\.\d+)?)\s+([^\n]+)',text)
+ summary={'promedio_mm':float(m.group(1)),'numero_estaciones':int(m.group(2)),'maxima_mm':float(m.group(3)),'maxima_referencia':clean_station(m.group(4))} if m else {}
+ rows=tabasco_rows(text)
+ if not fecha:raise RuntimeError('SIH sin fecha real reconocible')
+ if not rows:raise RuntimeError('SIH sin estaciones de Tabasco extraíbles')
+ candidate={'fuente':'CONAGUA · Sistema de Información Hidrológica (SIH)','producto':'Precipitaciones acumuladas últimas 24 h','url':URL,'fecha_fuente':fecha,'consultado_utc':now.isoformat(),'consultado_local':local.isoformat(),'resumen_tabasco':summary,'estaciones_tabasco':rows,'numero_extraido':len(rows),'calidad':'preliminar_sujeta_a_revision'}
+ latest=OUT/'latest.json'
+ old={}
+ if latest.exists():
+  try:old=json.loads(latest.read_text(encoding='utf-8'))
+  except Exception:old={}
+ # Nunca presentar una consulta como nueva publicación: sólo reemplaza por fecha fuente igual o posterior.
+ if old.get('fecha_fuente') and fecha < old['fecha_fuente']:
+  status={'run_local':local.isoformat(),'run_utc':now.isoformat(),'source_status':'source_older_than_last_valid_preserved','fecha_fuente_detectada':fecha,'fecha_vigente':old.get('fecha_fuente'),'errors':[]}
+ else:
+  latest.write_text(json.dumps(candidate,ensure_ascii=False,indent=2),encoding='utf-8')
+  status={'run_local':local.isoformat(),'run_utc':now.isoformat(),'source_status':'new_publication' if fecha!=old.get('fecha_fuente') else 'source_without_new_publication','fecha_fuente_detectada':fecha,'fecha_vigente':fecha,'stations':len(rows),'errors':[]}
+ (OUT/'Estado_SIH_Lluvia.json').write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding='utf-8')
+ print(json.dumps(status,ensure_ascii=False))
+if __name__=='__main__':main()
