@@ -44,7 +44,12 @@ def pick(p,t,flags=re.I):m=re.search(p,t,flags);return m.group(1).strip() if m e
 def parse_range(s):
  if not s:return {'texto':None,'min_mm':None,'max_mm':None}
  s=re.sub(r'\s+',' ',s).strip();m=re.search(r'(\d+(?:\.\d+)?)\s*(?:a|-|–)\s*(\d+(?:\.\d+)?)',s)
- if m:return {'texto':f'{m.group(1)} a {m.group(2)}','min_mm':float(m.group(1)),'max_mm':float(m.group(2))}
+ if m:
+  lo,hi=float(m.group(1)),float(m.group(2))
+  # Defensa mínima contra dígitos duplicados por el HTML del SMN (p. ej. 750 a 150).
+  if lo>hi and lo>=100 and lo%10==0 and lo/10<=hi:lo/=10
+  if lo>hi:raise ValueError(f'Rango de precipitación inválido: {m.group(1)} a {m.group(2)}')
+  return {'texto':f'{lo:g} a {hi:g}','min_mm':lo,'max_mm':hi}
  m=re.search(r'(\d+(?:\.\d+)?)',s);return {'texto':s,'min_mm':float(m.group(1)) if m else None,'max_mm':float(m.group(1)) if m else None}
 def meta_fields(t):return {'aviso':pick(r'No\.\s*Aviso:\s*(\d+)',t),'fecha':pick(r'Ciudad de México\s*a\s*([^\n]+)',t),'emision':pick(r'Emisión:\s*([0-9]{1,2}:[0-9]{2}h?)',t)}
 def parse_smn96(raw):
