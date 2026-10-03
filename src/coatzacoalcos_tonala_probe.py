@@ -96,7 +96,7 @@ except Exception as exc:
 local_today=dt.datetime.now(dt.timezone(dt.timedelta(hours=-6))).date()
 if not any(report_date(u)==local_today for u in sources["matutino"]):
  stamp=local_today.strftime("%d%m%Y")
- for fid in range(1106600,1106721):
+ for fid in range(1106300,1106600):
   candidate=f"https://www.gob.mx/cms/uploads/attachment/file/{fid}/Informe_Matutino_{stamp}.pdf"
   try:
    rr=session.head(candidate,timeout=4,allow_redirects=True)
@@ -106,30 +106,6 @@ if not any(report_date(u)==local_today for u in sources["matutino"]):
     break
   except requests.RequestException:
    pass
-
-# El portal actualiza el enlace matutino mediante JavaScript. Si el HTML inicial
-# no expone un informe de hoy, renderizar únicamente esta página oficial y leer su DOM.
-local_today=dt.datetime.now(dt.timezone(dt.timedelta(hours=-6))).date()
-if not any(report_date(u)==local_today for u in sources["matutino"]):
- try:
-  from playwright.sync_api import sync_playwright
-  with sync_playwright() as p:
-   browser=p.chromium.launch(headless=True)
-   page=p.new_page()
-   page.goto(PAGE,wait_until="networkidle",timeout=45000)
-   for a in page.locator("a").all():
-    try:
-     label=(a.inner_text() or "").strip()
-     href=a.get_attribute("href") or ""
-     full=urllib.parse.urljoin(PAGE,href)
-     if "matutino" in (label+" "+full).lower() and full.lower().endswith(".pdf"):
-      if full not in sources["matutino"]:sources["matutino"].append(full)
-    except Exception:
-     pass
-   browser.close()
-  result["discovery"]["browser_render"]=True
- except Exception as exc:
-  result["discovery"]["browser_render_error"]=type(exc).__name__+": "+str(exc)[:180]
 
 for typ in sources:
  sources[typ].sort(key=lambda u:(report_date(u), int(re.search(r"/file/(\\d+)/",u).group(1)) if re.search(r"/file/(\\d+)/",u) else 0),reverse=True)
