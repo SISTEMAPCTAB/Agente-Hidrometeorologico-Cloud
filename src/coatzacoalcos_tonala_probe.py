@@ -90,6 +90,23 @@ try:
     except requests.RequestException:pass
 except Exception as exc:
  result["discovery"]={"error":type(exc).__name__+": "+str(exc)[:180]}
+# Fallback acotado para el informe del día: el portal puede mostrarlo por JavaScript
+# sin incluir el enlace en el HTML inicial. Se prueban sólo IDs cercanos a la serie
+# vigente y sólo el nombre oficial del archivo del día, sin descargar candidatos.
+local_today=dt.datetime.now(dt.timezone(dt.timedelta(hours=-6))).date()
+if not any(report_date(u)==local_today for u in sources["matutino"]):
+ stamp=local_today.strftime("%d%m%Y")
+ for fid in range(1106600,1106721):
+  candidate=f"https://www.gob.mx/cms/uploads/attachment/file/{fid}/Informe_Matutino_{stamp}.pdf"
+  try:
+   rr=session.head(candidate,timeout=4,allow_redirects=True)
+   if rr.ok and ("pdf" in rr.headers.get("Content-Type","").lower() or rr.url.lower().endswith(".pdf")):
+    sources["matutino"].append(candidate)
+    result["discovery"]["filename_probe_hit"]=candidate
+    break
+  except requests.RequestException:
+   pass
+
 for typ in sources:
  sources[typ].sort(key=lambda u:(report_date(u), int(re.search(r"/file/(\\d+)/",u).group(1)) if re.search(r"/file/(\\d+)/",u) else 0),reverse=True)
  result["discovery"][typ+"_candidates"]=sources[typ][:12]
