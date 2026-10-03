@@ -1,9 +1,11 @@
 name: WeatherLink Watchdog - recuperación automática
 
 on:
-  # Respaldo conservado únicamente para recuperación manual.
-  # La operación normal queda en weatherlink-cloud.yml cada 15 minutos.
+  # Recuperación condicionada: no duplica la recolección normal.
+  # Sólo actúa si el último estado válido supera 35 minutos de antigüedad.
   workflow_dispatch:
+  schedule:
+    - cron: '6,36 * * * *'
 
 permissions:
   contents: write
