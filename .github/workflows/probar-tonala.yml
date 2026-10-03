@@ -9,9 +9,9 @@ on:
   schedule:
     # OCGC: sólo informe matutino vigente. Tres intentos absorben retrasos de publicación. Schedule reactivado 01-oct-2026.
     # 08:33, 10:03 y 11:33 hora Tabasco.
-    - cron: '33 14 * * *'
-    - cron: '3 16 * * *'
-    - cron: '33 17 * * *'
+    - cron: '33 14 * * 1-5'
+    - cron: '3 16 * * 1-5'
+    - cron: '33 17 * * 1-5'
 permissions:
   contents: write
 concurrency:
