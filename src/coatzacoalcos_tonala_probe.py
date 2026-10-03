@@ -21,32 +21,30 @@ session=requests.Session()
 session.headers.update(UA)
 sources={key:[url] for key,url in SEEDS.items()}
 sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf")
-# El portal de gob.mx no siempre enlaza el adjunto nuevo. Probar la fecha operativa
-# por nombre de archivo usando una búsqueda acotada de IDs recientes, sin asumir un ID único.
-today=dt.datetime.now(dt.timezone.utc).date()
-# gob.mx no publica de forma confiable el enlace nuevo en la página índice.
-# Resolver el adjunto dentro del MISMO recolector, en paralelo y sólo para hoy/ayer.
-# El rango cubre holgadamente la progresión observada de IDs sin convertir cada
-# candidato en una descarga PDF secuencial.
-def probe_candidate(url):
- try:
-  rr=session.get(url,timeout=7,stream=True,allow_redirects=True)
-  ok=rr.ok and ('pdf' in rr.headers.get('Content-Type','').lower() or rr.url.lower().endswith('.pdf'))
-  rr.close()
-  return url if ok else None
- except requests.RequestException:
-  return None
+# gob.mx puede bloquear (HTTP 403) a los runners de GitHub aunque el informe sea público.
+# Como respaldo de transporte se usa Jina Reader sobre la MISMA URL oficial.
+# La fecha y los valores siguen validándose contra el contenido recuperado del documento oficial.
+def reader_url(url):
+ u=re.sub(r'^https?://','',url)
+ return "https://r.jina.ai/http://"+u
 
-guesses=[]
-for dayoff in (0,1):
- d=today-dt.timedelta(days=dayoff)
- stamp=d.strftime("%d%m%Y")
- guesses.extend(f"https://www.gob.mx/cms/uploads/attachment/file/{fid}/Informe_Matutino_{stamp}.pdf"
-                for fid in range(1105821,1107201))
-with ThreadPoolExecutor(max_workers=24) as pool:
- for hit in (f.result() for f in as_completed([pool.submit(probe_candidate,u) for u in guesses])):
-  if hit and hit not in sources["matutino"]:
-   sources["matutino"].append(hit)
+def get_with_reader(url, timeout=35):
+ direct=None
+ try:
+  direct=session.get(url,timeout=timeout)
+  if direct.ok:
+   return direct,"direct",direct.status_code
+  direct_status=direct.status_code
+ except requests.RequestException:
+  direct_status=None
+ try:
+  rr=session.get(reader_url(url),timeout=timeout,headers={"Accept":"text/plain,*/*"})
+  if rr.ok:
+   return rr,"reader",direct_status
+ except requests.RequestException:
+  pass
+ return direct,"direct",direct_status
+
 # Los enlaces descubiertos tienen prioridad sobre las semillas históricas.
 result={"checked_at_utc":dt.datetime.now(dt.timezone.utc).isoformat(),"source_page":PAGE,"discovery":{},"reports":{}}
 def report_date(url):
@@ -66,7 +64,7 @@ def discover(html,base):
   if "matutino" in (href+" "+label).lower():
    candidates.append(href)
  decoded=html.replace("\\/","/").replace("&amp;","&")
- candidates += re.findall(r'https?://(?:www\.)?gob\.mx/cms/uploads/attachment/file/\d+/[^"\s<>]+?\.pdf',decoded,re.I)
+ candidates += re.findall(r'https?://(?:www\.)?gob\.mx/cms/uploads/attachment/file/\d+/[^"\s<>)]+?\.pdf',decoded,re.I)
  for href in candidates:
   for typ in sources:
    if typ in urllib.parse.unquote(href).lower() and href not in sources[typ]:
@@ -74,23 +72,22 @@ def discover(html,base):
  return len(candidates)
 
 try:
- response=session.get(PAGE,timeout=25,headers={"Cache-Control":"no-cache"})
- result["discovery"]={"http":response.status_code,"url":response.url}
- if response.ok:
-  result["discovery"]["candidates"]=discover(response.text,response.url)
-  # Seguir enlaces de sección de hidrometeorología si el portal muestra
-  # documentos dentro de páginas intermedias, sin explorar otros dominios.
-  soup=BeautifulSoup(response.text,"html.parser")
-  for a in soup.find_all("a",href=True):
-   label=a.get_text(" ",strip=True).lower()
-   href=urllib.parse.urljoin(response.url,a["href"])
-   if ("informe" not in label and "hidrol" not in label):continue
-   if urllib.parse.urlparse(href).netloc not in ("www.gob.mx","gob.mx"):continue
-   if href.lower().endswith(".pdf"):continue
-   try:
-    sub=session.get(href,timeout=15)
-    if sub.ok and "html" in sub.headers.get("Content-Type","").lower():discover(sub.text,sub.url)
-   except requests.RequestException:pass
+ response,transport,direct_status=get_with_reader(PAGE,25)
+ result["discovery"]={"http":direct_status,"transport":transport,"url":PAGE}
+ if response is not None and response.ok:
+  result["discovery"]["candidates"]=discover(response.text,PAGE)
+  if transport=="direct":
+   soup=BeautifulSoup(response.text,"html.parser")
+   for a in soup.find_all("a",href=True):
+    label=a.get_text(" ",strip=True).lower()
+    href=urllib.parse.urljoin(response.url,a["href"])
+    if ("informe" not in label and "hidrol" not in label):continue
+    if urllib.parse.urlparse(href).netloc not in ("www.gob.mx","gob.mx"):continue
+    if href.lower().endswith(".pdf"):continue
+    try:
+     sub=session.get(href,timeout=15)
+     if sub.ok and "html" in sub.headers.get("Content-Type","").lower():discover(sub.text,sub.url)
+    except requests.RequestException:pass
 except Exception as exc:
  result["discovery"]={"error":type(exc).__name__+": "+str(exc)[:180]}
 for typ in sources:
@@ -101,26 +98,36 @@ for typ,urls in sources.items():
  for url in urls[:20]:
   item={"url":url}
   try:
-   r=session.get(url,timeout=35)
-   item["http"]=r.status_code
-   item["bytes"]=len(r.content)
-   item["final_url"]=r.url
-   if not(r.ok and r.content.startswith(b"%PDF")):
-    item["error"]="No se recibió un PDF válido"
-   else:
+   r,transport,direct_status=get_with_reader(url,35)
+   item["transport"]=transport
+   item["http"]=direct_status
+   item["bytes"]=len(r.content) if r is not None else 0
+   item["final_url"]=url
+   lines=[]
+   if r is None or not r.ok:
+    item["error"]="No se recibió contenido válido"
+   elif r.content.startswith(b"%PDF"):
     with pdfplumber.open(io.BytesIO(r.content)) as doc:
      item["pages"]=len(doc.pages)
      item["document_header"]=" ".join((p.extract_text() or "")[:550] for p in doc.pages[:1])
-     lines=[]
      for page in doc.pages:
       lines.extend((page.extract_text(layout=False) or "").splitlines())
-     hits=[{"row_text":line.strip(),"page_text_method":"pdfplumber"} for line in lines if re.search(r"san jos[eé] del carmen|agua dulce",line,re.I)]
-     item["station_rows"]=hits[:12]
-     item["extraction_status"]="Filas recuperadas; columnas numéricas pendientes de validación" if hits else "Sin filas identificadas"
-     # No declarar pronóstico, nivel o fecha de hoy sin comprobar columnas y fecha del PDF.
+   elif transport=="reader":
+    text=r.text
+    lines=text.splitlines()
+    item["document_header"]=" ".join(x.strip() for x in lines[:100])[:2400]
+    item["reader_text"]=True
+   else:
+    item["error"]="No se recibió un PDF válido"
+   if lines:
+    hits=[{"row_text":line.strip(),"page_text_method":"pdfplumber" if transport=="direct" else "reader"} for line in lines if re.search(r"san jos[eé] del carmen|agua dulce",line,re.I)]
+    item["station_rows"]=hits[:12]
+    item["extraction_status"]="Filas recuperadas; columnas numéricas pendientes de validación" if hits else "Sin filas identificadas"
    attempts.append(item)
    if item.get("station_rows") and report_date(item.get("final_url",url))!=dt.date.min:break
-  except Exception as exc:item["error"]=type(exc).__name__+": "+str(exc)[:180];attempts.append(item)
+  except Exception as exc:
+   item["error"]=type(exc).__name__+": "+str(exc)[:180]
+   attempts.append(item)
  result["reports"][typ]=attempts
 (OUT/"prueba_extraccion.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
 print(json.dumps(result,ensure_ascii=False,indent=2))
