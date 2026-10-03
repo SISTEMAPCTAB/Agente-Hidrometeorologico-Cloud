@@ -20,7 +20,8 @@ UA={"User-Agent":"Mozilla/5.0 (compatible; IPCET-Hidromet/1.0; seguimiento de in
 session=requests.Session()
 session.headers.update(UA)
 sources={key:[url] for key,url in SEEDS.items()}
-sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf")\nsources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf")
+sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf")
+sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf")
 # gob.mx puede bloquear (HTTP 403) a los runners de GitHub aunque el informe sea público.
 # Como respaldo de transporte se usa Jina Reader sobre la MISMA URL oficial.
 # La fecha y los valores siguen validándose contra el contenido recuperado del documento oficial.
