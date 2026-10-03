@@ -1,11 +1,7 @@
 name: WeatherLink Watchdog - recuperación automática
 
 on:
-  # Recuperación condicionada: no duplica la recolección normal.
-  # Sólo actúa si el último estado válido supera 70 minutos de antigüedad.
   workflow_dispatch:
-  schedule:
-    - cron: '21 * * * *'
 
 permissions:
   contents: write
