@@ -1,9 +1,9 @@
 {
-  "generated_utc": "2026-10-03T19:12:39.326098+00:00",
+  "generated_utc": "2026-10-03T19:49:30.108463+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
-    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h?_ipcet=1791054760",
+    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h?_ipcet=1791056971",
     "aviso": "276",
     "fecha": "03 de Octubre del 2026.",
     "emision": "10:00h",
@@ -109,8 +109,8 @@
           "max_mm": 150.0
         },
         "Usumacinta": {
-          "texto": "750 a 150",
-          "min_mm": 750.0,
+          "texto": "75 a 150",
+          "min_mm": 75.0,
           "max_mm": 150.0
         },
         "Presa Juan Sabines": {
@@ -161,7 +161,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sat, 03 Oct 2026 19:12:39 GMT",
+      "last_modified": "Sat, 03 Oct 2026 19:49:30 GMT",
       "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
     },
     "resumen": "Durante este día, una circulación ciclónica y una vaguada en altura , propiciarán lluvias puntuales intensas en las cuencas de Bajo Grijalva, Usumacinta, Malpaso y Chicoasén, así como lluvias puntuales muy fuertes en las cuencas de Peñitas, La Angostura y Juan Sabines. Durante el periodo de pronóstico, se mantendrá la probabilidad de lluvias muy fuertes a puntuales intensas en la región.",
@@ -324,7 +324,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "Usumacinta": {
-          "precipitacion_mm": "750 a 150",
+          "precipitacion_mm": "75 a 150",
           "temperatura_max_c": "28 a 30",
           "temperatura_min_c": "20 a 22",
           "viento_sostenido_kmh": "E 10 a 20",
@@ -424,12 +424,6 @@
         "cuenca": "Presa Juan Sabines",
         "extraido_detalle": "75 a 150",
         "validado": "50 a 75"
-      },
-      {
-        "ventana": "48-72",
-        "cuenca": "Usumacinta",
-        "extraido_detalle": "75 a 150",
-        "validado": "750 a 150"
       }
     ],
     "detalle_completo": true
@@ -526,7 +520,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Sat, 03 Oct 2026 19:12:39 GMT",
+      "last_modified": "Sat, 03 Oct 2026 19:49:31 GMT",
       "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
     }
   },
