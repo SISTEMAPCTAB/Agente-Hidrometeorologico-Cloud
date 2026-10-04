@@ -3,8 +3,9 @@ name: Lluvia SIH CONAGUA
 on:
   workflow_dispatch:
   schedule:
-    # Tabasco UTC-6: comprobaciones 09:30, 17:00 y 22:00.
+    # Tabasco UTC-6: comprobaciones 09:30, 11:00, 17:00 y 22:00.
     - cron: '30 15 * * *'
+    - cron: '0 17 * * *'
     - cron: '0 23 * * *'
     - cron: '0 4 * * *'
   push:
