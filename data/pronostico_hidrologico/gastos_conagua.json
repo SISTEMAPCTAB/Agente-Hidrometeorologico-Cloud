@@ -1,0 +1,118 @@
+{
+  "fuente": "CONAGUA OCFS / FUENTE1 ya recolectada",
+  "producto": "Gastos para modelo hidrologico",
+  "generado_utc": "2026-10-04T01:13:05.246653+00:00",
+  "regla": "Q solo desde columnas Gasto (m3/s); ausente=null",
+  "estaciones": [
+    {
+      "estacion": "Samaria",
+      "rio": "Samaria",
+      "h_anterior_m": 11.57,
+      "q_anterior_m3s": 323.31,
+      "h_actual_m": 11.6,
+      "q_actual_m3s": 326.0,
+      "delta_h_m": 0.03,
+      "delta_q_m3s": 2.69,
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
+    },
+    {
+      "estacion": "González",
+      "rio": "Carrizal",
+      "h_anterior_m": null,
+      "q_anterior_m3s": null,
+      "h_actual_m": null,
+      "q_actual_m3s": null,
+      "delta_h_m": null,
+      "delta_q_m3s": null,
+      "validacion": "sin_q_validado"
+    },
+    {
+      "estacion": "Oxolotán",
+      "rio": "Tacotalpa",
+      "h_anterior_m": null,
+      "q_anterior_m3s": null,
+      "h_actual_m": null,
+      "q_actual_m3s": null,
+      "delta_h_m": null,
+      "delta_q_m3s": null,
+      "validacion": "sin_q_validado"
+    },
+    {
+      "estacion": "Tapijulapa",
+      "rio": "La Sierra",
+      "h_anterior_m": 16.54,
+      "q_anterior_m3s": 91.0,
+      "h_actual_m": 16.98,
+      "q_actual_m3s": 128.0,
+      "delta_h_m": 0.44,
+      "delta_q_m3s": 37.0,
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
+    },
+    {
+      "estacion": "Teapa",
+      "rio": "Teapa",
+      "h_anterior_m": 33.79,
+      "q_anterior_m3s": 41.0,
+      "h_actual_m": 34.21,
+      "q_actual_m3s": 84.0,
+      "delta_h_m": 0.42,
+      "delta_q_m3s": 43.0,
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
+    },
+    {
+      "estacion": "Puyacatengo",
+      "rio": "Puyacatengo",
+      "h_anterior_m": 25.12,
+      "q_anterior_m3s": 14.96,
+      "h_actual_m": 25.13,
+      "q_actual_m3s": 15.0,
+      "delta_h_m": 0.01,
+      "delta_q_m3s": 0.04,
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
+    },
+    {
+      "estacion": "San Joaquín",
+      "rio": "Pichucalco",
+      "h_anterior_m": null,
+      "q_anterior_m3s": null,
+      "h_actual_m": null,
+      "q_actual_m3s": null,
+      "delta_h_m": null,
+      "delta_q_m3s": null,
+      "validacion": "sin_q_validado"
+    },
+    {
+      "estacion": "Pueblo Nuevo",
+      "rio": "La Sierra",
+      "h_anterior_m": 3.9,
+      "q_anterior_m3s": 136.4,
+      "h_actual_m": 3.8,
+      "q_actual_m3s": 126.0,
+      "delta_h_m": -0.1,
+      "delta_q_m3s": -10.4,
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
+    },
+    {
+      "estacion": "Porvenir",
+      "rio": "Grijalva",
+      "h_anterior_m": 1.2,
+      "q_anterior_m3s": 280.0,
+      "h_actual_m": 1.16,
+      "q_actual_m3s": 276.0,
+      "delta_h_m": -0.04,
+      "delta_q_m3s": -4.0,
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
+    },
+    {
+      "estacion": "Platanar",
+      "rio": "Platanar",
+      "h_anterior_m": null,
+      "q_anterior_m3s": null,
+      "h_actual_m": 32.28,
+      "q_actual_m3s": 34.65,
+      "delta_h_m": null,
+      "delta_q_m3s": null,
+      "validacion": "columna_gasto_conagua_resumen"
+    }
+  ]
+}
