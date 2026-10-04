@@ -54,7 +54,7 @@ def main():
  rows=tabasco_rows(text)
  if not fecha:raise RuntimeError('SIH sin fecha real reconocible')
  if not rows:raise RuntimeError('SIH sin estaciones de Tabasco extraíbles')
- candidate={'fuente':'CONAGUA · Sistema de Información Hidrológica (SIH)','producto':'Precipitaciones acumuladas últimas 24 h','url':URL,'fecha_fuente':fecha,'periodo_fuente':periodo_fuente,'consultado_utc':now.isoformat(),'consultado_local':local.isoformat(),'resumen_tabasco':summary,'estaciones_tabasco':rows,'numero_extraido':len(rows),'calidad':'preliminar_sujeta_a_revision'}
+ # Este producto oficial corresponde a las 24 h anteriores a las 08:00 h del día indicado por CONAGUA.\n hora_dato='08:00'\n fecha_hora_dato=f'{fecha}T08:00:00-06:00'\n candidate={'fuente':'CONAGUA · Sistema de Información Hidrológica (SIH)','producto':'Precipitaciones acumuladas últimas 24 h','url':URL,'fecha_fuente':fecha,'hora_dato':hora_dato,'fecha_hora_dato':fecha_hora_dato,'periodo_fuente':periodo_fuente or '24 h anteriores a las 08:00 h','consultado_utc':now.isoformat(),'consultado_local':local.isoformat(),'resumen_tabasco':summary,'estaciones_tabasco':rows,'numero_extraido':len(rows),'calidad':'preliminar_sujeta_a_revision'}
  latest=OUT/'latest.json'
  old={}
  if latest.exists():
