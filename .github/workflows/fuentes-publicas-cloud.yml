@@ -20,11 +20,10 @@ on:
       - 'requirements.txt'
       - '.github/workflows/fuentes-publicas-cloud.yml'
   schedule:
-    # BHVGM: dos ventanas lógicas diarias, conforme al patrón operativo observado.
-    # Se consulta después de 08:00 y 20:00; un segundo intento una hora después
-    # absorbe retrasos de publicación sin sondeo continuo.
-    - cron: '23 14,2 * * *'
-    - cron: '23 15,3 * * *'
+    # BHVGM: cortes operativos observados 08:00, 14:00 y 20:00 hora Tabasco/Guatemala.
+    # Se consulta 23 min después y se reintenta una hora después, sin sondeo continuo.
+    - cron: '23 14,20,2 * * *'
+    - cron: '23 15,21,3 * * *'
 
 permissions:
   contents: write
