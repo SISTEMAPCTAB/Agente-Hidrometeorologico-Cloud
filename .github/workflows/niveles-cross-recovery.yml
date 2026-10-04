@@ -3,13 +3,20 @@ name: Recuperación Independiente Niveles
 on:
   workflow_dispatch:
   # Recuperación autónoma independiente del cron de niveles.
-  # Se despierta al terminar WeatherLink (que mantiene actividad 24/7) y
-  # sólo interviene si niveles realmente quedó atrasado.
+  # Se despierta con cualquiera de los tres caminos WeatherLink 24/7.
+  # Así el arranque matutino no depende de un único cron de GitHub.
   workflow_run:
     workflows:
       - "WeatherLink Cloud 30m - estable"
+      - "WeatherLink Cloud - 32 estaciones"
+      - "WeatherLink Rescue - independiente"
     types:
       - completed
+  # La modificación de este mismo mecanismo ejecuta una prueba real inmediata.
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/niveles-cross-recovery.yml'
 
 permissions:
   contents: write
@@ -21,7 +28,8 @@ concurrency:
 jobs:
   recuperar-si-atrasado:
     # WeatherLink sólo sirve como señal de despertar. Si falló, no se usa.
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    # Push sólo se admite para probar cambios de este workflow.
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
