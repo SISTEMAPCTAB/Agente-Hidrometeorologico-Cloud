@@ -122,7 +122,7 @@
       const a=insByCode(auto.estaciones,code), e=insByCode(season,code);
       const p24=a&&finite(a.precipitacion_24h_mm)?Number(a.precipitacion_24h_mm):null;
       const ep=e&&finite(e.acumulado_epoca_lluviosa_mm)?Number(e.acumulado_epoca_lluviosa_mm):null;
-      if(p24===null&&ep===null)continue;
+      if(p24===null)continue;
       rows.push(`<tr><td><b>${esc(name)}</b></td><td>INSIVUMEH</td><td>s/d</td><td>s/d</td><td>s/d</td><td>${p24===null?'s/d':mm(p24)}</td><td>s/d</td><td>s/d</td><td>${ep===null?'s/d':mm(ep)}</td><td>${human(auto.consultado_utc)}</td></tr>`);
     }
     const clean=String(data.fuente1||'').replace(/,/g,'');
