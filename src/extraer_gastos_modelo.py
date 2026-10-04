@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Producto aditivo para el Agente de Pronóstico Hidrológico.
 # Lee únicamente FUENTE1 ya recolectada. No modifica niveles ni recolectores.
-import json,re
+import json,re,unicodedata
 from pathlib import Path
 from datetime import datetime, timezone
 SRC=Path("data/latest/FUENTE1.txt")
