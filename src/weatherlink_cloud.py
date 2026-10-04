@@ -140,8 +140,14 @@ def fetch_station(station):
     rain_rate_mmh = r1(rain_rate_in * 25.4) if rain_rate_in is not None else None
     ts = data.get("lastTimestamp")
     observed = datetime.fromtimestamp(int(ts), tz=timezone.utc) if ts else datetime.now(timezone.utc)
+    # Conservar georreferencia cuando el endpoint público la ofrece.
+    # No altera cálculos de lluvia; sólo añade metadatos opcionales para consumidores como el mapa.
+    lat = next((parse_float(data.get(k)) for k in ("latitude","lat","stationLatitude","stationLat") if parse_float(data.get(k)) is not None), None)
+    lon = next((parse_float(data.get(k)) for k in ("longitude","lon","lng","stationLongitude","stationLon") if parse_float(data.get(k)) is not None), None)
     return {
         "nombre_fuente": data.get("sStation"),
+        "latitude": lat,
+        "longitude": lon,
         "daily_mm": daily_mm,
         "storm_mm": storm_mm,
         "storm_start": data.get("stormStart") or data.get("stormStartAt") or data.get("stormStartDate"),
