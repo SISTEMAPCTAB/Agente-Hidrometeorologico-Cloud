@@ -29,7 +29,11 @@
   }
 
   function makeTable(d){
-    const rows=(d?.estaciones||[]).filter(x=>wanted.includes(norm(x.estacion)));
+    const rows=(d?.estaciones||[]).filter(x=>{
+      if(!wanted.includes(norm(x.estacion)))return false;
+      const st=norm(x.estado_dato);
+      return (st==='observado'||st==='heredado')&&(n(x.nivel_instantaneo_m)!==null||n(x.caudal_instantaneo_m3s)!==null);
+    });
     if(!rows.length)return '';
     const body=rows.map(x=>{
       const st=norm(x.estado_dato);
