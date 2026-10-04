@@ -1,0 +1,137 @@
+name: SMN Watchdog - recuperación autónoma
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - 'WeatherLink Cloud - 32 estaciones'
+      - 'WeatherLink Cloud 30m - estable'
+      - 'WeatherLink Rescue - independiente'
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/smn-watchdog.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: smn-cloud-fast
+  cancel-in-progress: false
+
+jobs:
+  recuperar-smn:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verificar si SMN requiere actualización
+        id: gate
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, re
+          from datetime import datetime
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+
+          now=datetime.now(ZoneInfo('America/Mexico_City'))
+          # Sólo vigilar durante la jornada operativa, después de la emisión habitual de 10:00.
+          in_window=(now.hour>=10 and now.hour<20)
+          current=None
+          p=Path('data/fuentes_publicas/latest.json')
+          if p.exists():
+              try: current=(json.loads(p.read_text(encoding='utf-8')).get('smn96') or {})
+              except Exception: current={}
+          fecha=str((current or {}).get('fecha') or '')
+          m=re.search(r'(\d{1,2})\s+de\s+([A-Za-zÁÉÍÓÚáéíóúñÑ]+)\s+(?:del?\s+)?(20\d{2})',fecha,re.I)
+          months={'enero':1,'febrero':2,'marzo':3,'abril':4,'mayo':5,'junio':6,'julio':7,'agosto':8,'septiembre':9,'octubre':10,'noviembre':11,'diciembre':12}
+          source_date=None
+          if m:
+              key=m.group(2).lower().translate(str.maketrans('áéíóú','aeiou'))
+              month=months.get(key)
+              if month:
+                  source_date=(int(m.group(3)),month,int(m.group(1)))
+          today=(now.year,now.month,now.day)
+          stale=(source_date!=today)
+          run=bool(in_window and stale)
+          print('SMN watchdog:', 'ahora=',now.isoformat(), 'fecha_publicada=',fecha, 'ejecutar=',run)
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as f:
+              f.write(f"run={'true' if run else 'false'}\n")
+          PY
+
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependencias
+        if: steps.gate.outputs.run == 'true'
+        run: pip install requests pypdf
+
+      - name: Consultar SMN sin caché
+        if: steps.gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          set -e
+          for intento in 1 2 3; do
+            if python src/smn_cloud_fast.py; then exit 0; fi
+            echo "Reintento SMN watchdog ${intento}/3"
+            sleep $((intento * 8))
+          done
+          exit 1
+
+      - name: Completar tabla 96 h
+        if: steps.gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          python - <<'PY'
+          import sys,time
+          sys.path.insert(0,'src')
+          import smn96_detalle as m
+          sep='&' if '?' in m.URL else '?'
+          m.URL=f"{m.URL}{sep}_ipcet={int(time.time())}"
+          m.UA.update({'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'})
+          m.main()
+          PY
+
+      - name: Validar corte
+        if: steps.gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('data/fuentes_publicas/latest.json').read_text(encoding='utf-8'))
+          for key in ('smn96','smn360'):
+              d=p.get(key) or {}
+              assert d.get('aviso') and d.get('fecha') and d.get('emision'), (key,d)
+          assert p['smn96'].get('detalle_completo') is True
+          print('SMN96',p['smn96'].get('aviso'),p['smn96'].get('fecha'),p['smn96'].get('emision'))
+          print('SMN360',p['smn360'].get('aviso'),p['smn360'].get('fecha'),p['smn360'].get('emision'))
+          PY
+
+      - name: Publicar sólo productos SMN
+        if: steps.gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Agente Hidrometeorologico SMN Watchdog"
+          git config user.email "actions@users.noreply.github.com"
+          tar -cf /tmp/smn-watchdog.tar data/fuentes_publicas/latest.json data/fuentes_publicas/Estado_SMN_Cloud.json
+          for intento in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            tar -xf /tmp/smn-watchdog.tar
+            git add data/fuentes_publicas/latest.json data/fuentes_publicas/Estado_SMN_Cloud.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Recupera actualización SMN [skip ci]"
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((intento*5))
+          done
+          exit 1
