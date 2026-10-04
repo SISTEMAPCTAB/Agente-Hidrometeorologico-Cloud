@@ -61,7 +61,10 @@ def veracruz_rows(text):return state_rows(text,'Ver','Veracruz',VERACRUZ_INTERES
 
 def main():
  now=datetime.now(timezone.utc); local=now.astimezone(ZoneInfo('America/Mexico_City'))
- r=requests.get(URL,headers={**UA,'Cache-Control':'no-cache'},timeout=40);r.raise_for_status()
+ # Evitar que el CDN/servidor entregue el PDF del día anterior tras una actualización.
+ # El parámetro sólo fuerza lectura fresca; la URL oficial publicada se conserva en los metadatos.
+ fresh_url=f"{URL}?v={int(now.timestamp())}"
+ r=requests.get(fresh_url,headers={**UA,'Cache-Control':'no-cache, no-store','Pragma':'no-cache'},timeout=40);r.raise_for_status()
  text='\n'.join((p.extract_text() or '') for p in PdfReader(io.BytesIO(r.content)).pages)
  fecha=source_date(text)
  periodo_fuente=source_period(text)
