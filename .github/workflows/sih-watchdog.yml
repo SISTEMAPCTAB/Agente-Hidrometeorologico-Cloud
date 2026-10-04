@@ -1,0 +1,117 @@
+name: SIH CONAGUA Watchdog
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - 'WeatherLink Cloud - 32 estaciones'
+      - 'WeatherLink Cloud 30m - estable'
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sih-watchdog.yml'
+
+permissions:
+  contents: write
+
+# Comparte exclusión con el flujo SIH principal: nunca escriben a la vez.
+concurrency:
+  group: sih-lluvia-conagua
+  cancel-in-progress: false
+
+jobs:
+  recuperar-si-corresponde:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+
+      - name: Determinar si falta una consulta SIH programada
+        id: gate
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os
+          from datetime import datetime
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+
+          tz=ZoneInfo('America/Mexico_City')
+          now=datetime.now(tz)
+          slots=[(9,30),(11,0),(17,0),(22,0)]
+          due=[now.replace(hour=h,minute=m,second=0,microsecond=0) for h,m in slots
+               if now >= now.replace(hour=h,minute=m,second=0,microsecond=0)]
+          target=max(due) if due else None
+
+          last=None
+          p=Path('data/sih_lluvia/Estado_SIH_Lluvia.json')
+          if p.exists():
+              try:
+                  raw=json.loads(p.read_text(encoding='utf-8')).get('run_local')
+                  if raw:
+                      last=datetime.fromisoformat(raw)
+                      if last.tzinfo is None:last=last.replace(tzinfo=tz)
+                      else:last=last.astimezone(tz)
+              except Exception:
+                  pass
+
+          needed=bool(target and (last is None or last < target))
+          print('SIH watchdog:', 'ahora=',now.isoformat(), 'objetivo=',target.isoformat() if target else None,
+                'ultima_revision=',last.isoformat() if last else None, 'ejecutar=',needed)
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as f:
+              f.write(f"run={'true' if needed else 'false'}\n")
+          PY
+
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Instalar dependencias
+        if: steps.gate.outputs.run == 'true'
+        run: pip install -r requirements.txt
+
+      - name: Consultar SIH
+        if: steps.gate.outputs.run == 'true'
+        run: python src/sih_lluvia_conagua.py
+
+      - name: Validar resultado
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path('data/sih_lluvia/Estado_SIH_Lluvia.json').read_text(encoding='utf-8'))
+          d=json.loads(Path('data/sih_lluvia/latest.json').read_text(encoding='utf-8'))
+          assert not s.get('errors'), s
+          assert d.get('fecha_fuente'), d
+          assert len(d.get('estaciones_tabasco',[]))>0, d
+          print('SIH validado:', d['fecha_fuente'], len(d['estaciones_tabasco']), 'estaciones Tabasco')
+          PY
+
+      - name: Publicar sólo productos SIH
+        if: steps.gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Agente Hidrometeorologico SIH Watchdog"
+          git config user.email "actions@users.noreply.github.com"
+          tar -cf /tmp/sih-watchdog.tar data/sih_lluvia
+          for intento in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            tar -xf /tmp/sih-watchdog.tar
+            git add data/sih_lluvia
+            if git diff --cached --quiet; then
+              echo "SIH ya estaba publicado."
+              exit 0
+            fi
+            git commit -m "Recupera consulta SIH CONAGUA [skip ci]"
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((intento*5))
+          done
+          exit 1
