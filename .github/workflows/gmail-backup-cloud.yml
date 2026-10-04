@@ -2,6 +2,13 @@ name: Gmail Backup Cloud
 
 on:
   workflow_dispatch:
+  # Disparo por eventos 24/7 ya operativos: evita depender sólo del cron de Gmail.
+  # Gmail sólo procesa en ventana diurna mediante la validación horaria del job.
+  workflow_run:
+    workflows:
+      - 'WeatherLink Cloud - 32 estaciones'
+      - 'WeatherLink Cloud 30m - estable'
+    types: [completed]
   # Único respaldo programado por Gmail. Los recuperadores de niveles quedan manuales,
   # para que esta revisión no espere detrás de trabajos redundantes en la misma cola.
   # Un cambio en este workflow también fuerza una revalidación inmediata de cortes pendientes.
