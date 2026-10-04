@@ -11,7 +11,7 @@ ROWS={
 "Oxolotan":("Oxolotán","Tacotalpa"),"Tapijulapa":("Tapijulapa","La Sierra"),
 "Teapa":("Teapa","Teapa"),"Puyacatengo":("Puyacatengo","Puyacatengo"),
 "San Joaquin":("San Joaquín","Pichucalco"),"Pueblo Nuevo":("Pueblo Nuevo","La Sierra"),
-"Porvenir":("Porvenir","Grijalva"),"Platanar":("Platanar","Platanar")
+"Porvenir":("Porvenir","Grijalva"),"Platanar":("Platanar","Platanar"),"Penitas":("Peñitas","Mezcalapa")
 }
 def nums(s): return [float(x) for x in re.findall(r"-?\d+(?:\.\d+)?",s)]
 def main():
@@ -19,6 +19,14 @@ def main():
  mdate=re.search(r"TUXTLA GUTIÉRREZ A (\d+) DE ([A-ZÁÉÍÓÚ]+) DE (\d{4})",t,re.I)
  out=[]
  for key,(est,rio) in ROWS.items():
+  # Peñitas: extracción promedio O.T. es la condición de entrada del Mezcalapa.
+  if key=="Penitas":
+   m=re.search(r"Extracc\\s+Promedio\\s+O\\.\\s*T\\.\\s*\\(m3/s\\)\\s+([^\\r\\n]+)",t,re.I)
+   item={"estacion":est,"rio":rio,"h_anterior_m":None,"q_anterior_m3s":None,"h_actual_m":None,"q_actual_m3s":None,"delta_h_m":None,"delta_q_m3s":None,"validacion":"sin_q_validado"}
+   if m:
+    a=nums(m.group(1))
+    if len(a)>=5:item.update(q_actual_m3s=a[4],validacion="extraccion_promedio_ot_penitas_entrada_mezcalapa")
+   out.append(item); continue
   # Prefer page-4 AFT row: NAMO,Hprev,Qprev,Hnow,Qnow,...
   line=next((x for x in lines if re.match(r"AFT\d+\s+",x,re.I) and re.search(r"\b"+re.escape(key)+r"\b",x,re.I)),None)
   item={"estacion":est,"rio":rio,"h_anterior_m":None,"q_anterior_m3s":None,"h_actual_m":None,"q_actual_m3s":None,"delta_h_m":None,"delta_q_m3s":None,"validacion":"sin_q_validado"}
