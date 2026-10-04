@@ -30,18 +30,34 @@ def source_period(text):
 def clean_station(s):
  return re.sub(r'\s+',' ',s).strip(' ·,-')
 
-def tabasco_rows(text):
+CHIAPAS_INTERES=[
+ 'pichucalco','chapultenango','ixtacomitan','ixtacomitán','solosuchiapa','ixtapangajoya','juarez','juárez','reforma','ostuacan','ostuacán','amatan','amatán',
+ 'salto de agua','tila','yajalon','yajalón','sabanilla','tumbala','tumbalá','palenque','ocosingo','marques de comillas','marqués de comillas','benemerito de las americas','benemérito de las américas',
+ 'tulija','tulijá','lacantun','lacantún'
+]
+VERACRUZ_INTERES=[
+ 'las choapas','agua dulce','uxpanapa','moloacan','moloacán','minatitlan','minatitlán','hidalgotitlan','hidalgotitlán','jesus carranza','jesús carranza',
+ 'coatzacoalcos','tonala','tonalá','cuichapa','nanchital','ixhuatlan del sureste','ixhuatlán del sureste'
+]
+
+def state_rows(text,abbr,state,interest=None):
  rows=[]; seen=set()
- # El detalle nacional identifica inequívocamente las estaciones de Tabasco con ", Tab."
- pat=re.compile(r'([^\n]{2,90}?,\s*Tab\.\s*(?:SGT\*|SMN\*|INIFAP\*|CFE\*|SEMAR\*|PC\*)?)\s+(\d+(?:\.\d+)?)')
+ pat=re.compile(r'([^\n]{2,90}?,\s*'+re.escape(abbr)+r'\.\s*(?:SGT\*|SMN\*|INIFAP\*|CFE\*|SEMAR\*|PC\*)?)\s+(\d+(?:\.\d+)?)')
+ low=text.lower()
  for m in pat.finditer(text):
   name=clean_station(m.group(1)); val=float(m.group(2))
-  # Evita capturar texto de encabezados antes del nombre dentro de la misma línea.
   if '  ' in name:name=name.split('  ')[-1].strip()
+  if interest:
+   context=low[max(0,m.start()-40):min(len(low),m.end()+140)]
+   if not any(k in context for k in interest):continue
   key=(name.lower(),val)
   if key not in seen:
-   seen.add(key); rows.append({'estacion':name,'precipitacion_24h_mm':val,'estado':'Tabasco'})
+   seen.add(key); rows.append({'estacion':name,'precipitacion_24h_mm':val,'estado':state})
  return sorted(rows,key=lambda x:x['precipitacion_24h_mm'],reverse=True)
+
+def tabasco_rows(text):return state_rows(text,'Tab','Tabasco')
+def chiapas_rows(text):return state_rows(text,'Chis','Chiapas',CHIAPAS_INTERES)
+def veracruz_rows(text):return state_rows(text,'Ver','Veracruz',VERACRUZ_INTERES)
 
 def main():
  now=datetime.now(timezone.utc); local=now.astimezone(ZoneInfo('America/Mexico_City'))
@@ -51,10 +67,12 @@ def main():
  periodo_fuente=source_period(text)
  m=re.search(r'Tabasco\s+(\d+(?:\.\d+)?)\s+(\d+)\s+(\d+(?:\.\d+)?)\s+([^\n]+)',text)
  summary={'promedio_mm':float(m.group(1)),'numero_estaciones':int(m.group(2)),'maxima_mm':float(m.group(3)),'maxima_referencia':clean_station(m.group(4))} if m else {}
+ rows_chiapas=chiapas_rows(text)
  rows=tabasco_rows(text)
+ rows_veracruz=veracruz_rows(text)
  if not fecha:raise RuntimeError('SIH sin fecha real reconocible')
  if not rows:raise RuntimeError('SIH sin estaciones de Tabasco extraíbles')
- # Este producto oficial corresponde a las 24 h anteriores a las 08:00 h del día indicado por CONAGUA.\n hora_dato='08:00'\n fecha_hora_dato=f'{fecha}T08:00:00-06:00'\n candidate={'fuente':'CONAGUA · Sistema de Información Hidrológica (SIH)','producto':'Precipitaciones acumuladas últimas 24 h','url':URL,'fecha_fuente':fecha,'hora_dato':hora_dato,'fecha_hora_dato':fecha_hora_dato,'periodo_fuente':periodo_fuente or '24 h anteriores a las 08:00 h','consultado_utc':now.isoformat(),'consultado_local':local.isoformat(),'resumen_tabasco':summary,'estaciones_tabasco':rows,'numero_extraido':len(rows),'calidad':'preliminar_sujeta_a_revision'}
+ # Este producto oficial corresponde a las 24 h anteriores a las 08:00 h del día indicado por CONAGUA.\n hora_dato='08:00'\n fecha_hora_dato=f'{fecha}T08:00:00-06:00'\n candidate={'fuente':'CONAGUA · Sistema de Información Hidrológica (SIH)','producto':'Precipitaciones acumuladas últimas 24 h','url':URL,'fecha_fuente':fecha,'hora_dato':hora_dato,'fecha_hora_dato':fecha_hora_dato,'periodo_fuente':periodo_fuente or '24 h anteriores a las 08:00 h','consultado_utc':now.isoformat(),'consultado_local':local.isoformat(),'resumen_tabasco':summary,'estaciones_chiapas_interes':rows_chiapas,'estaciones_tabasco':rows,'estaciones_veracruz_interes':rows_veracruz,'numero_extraido':len(rows),'numero_chiapas_interes':len(rows_chiapas),'numero_veracruz_interes':len(rows_veracruz),'calidad':'preliminar_sujeta_a_revision'}
  latest=OUT/'latest.json'
  old={}
  if latest.exists():
@@ -65,7 +83,7 @@ def main():
   status={'run_local':local.isoformat(),'run_utc':now.isoformat(),'source_status':'source_older_than_last_valid_preserved','fecha_fuente_detectada':fecha,'fecha_vigente':old.get('fecha_fuente'),'errors':[]}
  else:
   latest.write_text(json.dumps(candidate,ensure_ascii=False,indent=2),encoding='utf-8')
-  status={'run_local':local.isoformat(),'run_utc':now.isoformat(),'source_status':'new_publication' if fecha!=old.get('fecha_fuente') else 'source_without_new_publication','fecha_fuente_detectada':fecha,'fecha_vigente':fecha,'stations':len(rows),'errors':[]}
+  status={'run_local':local.isoformat(),'run_utc':now.isoformat(),'source_status':'new_publication' if fecha!=old.get('fecha_fuente') else 'source_without_new_publication','fecha_fuente_detectada':fecha,'fecha_vigente':fecha,'stations':len(rows),'stations_chiapas_interes':len(rows_chiapas),'stations_veracruz_interes':len(rows_veracruz),'errors':[]}
  (OUT/'Estado_SIH_Lluvia.json').write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding='utf-8')
  print(json.dumps(status,ensure_ascii=False))
 if __name__=='__main__':main()
