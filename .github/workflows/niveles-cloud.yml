@@ -25,6 +25,7 @@ on:
       - 'requirements.txt'
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
+      - 'data/control/niveles-trigger.txt'
   schedule:
     # Tabasco UTC-6: cada hora de 06:50 a 01:50 del día siguiente; pausa 02:00–05:59.
     # Este es el recolector primario. Los respaldos se ejecutan después,
