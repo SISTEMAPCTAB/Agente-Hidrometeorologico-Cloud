@@ -1,7 +1,7 @@
 {
   "fuente": "CONAGUA OCFS / FUENTE1 ya recolectada",
   "producto": "Gastos para modelo hidrologico",
-  "generado_utc": "2026-10-04T02:04:45.294894+00:00",
+  "generado_utc": "2026-10-04T02:05:45.507753+00:00",
   "regla": "Q solo desde columnas Gasto (m3/s); ausente=null",
   "estaciones": [
     {
@@ -113,6 +113,17 @@
       "delta_h_m": null,
       "delta_q_m3s": null,
       "validacion": "columna_gasto_conagua_resumen"
+    },
+    {
+      "estacion": "Peñitas",
+      "rio": "Mezcalapa",
+      "h_anterior_m": null,
+      "q_anterior_m3s": null,
+      "h_actual_m": null,
+      "q_actual_m3s": null,
+      "delta_h_m": null,
+      "delta_q_m3s": null,
+      "validacion": "sin_q_validado"
     }
   ]
 }
