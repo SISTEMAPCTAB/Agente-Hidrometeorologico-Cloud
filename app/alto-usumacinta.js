@@ -105,12 +105,12 @@
       const vsAuto=autoAccum(auto,'acumulados_epoca_lluviosa',name,code,'acumulado_epoca_lluviosa_mm');
       const vs=vsMap!==null?vsMap:vsAuto;
 
-      // Regla visual: una estación INSIVUMEH sin ningún valor verificable no
-      // ocupa espacio en el cuadro operativo. No se elimina del catálogo.
-      // Si vuelve a publicar 24 h, semanal, mensual o época lluviosa,
-      // reaparece automáticamente en el siguiente corte.
-      const hasAny=[v24,vw,vm,vs].some(v=>v!==null);
-      if(!hasAny)continue;
+      // Regla visual: una estación INSIVUMEH sin dato operativo reciente no
+      // ocupa espacio en el cuadro. El acumulado de época lluviosa por sí solo
+      // no basta para mantenerla visible. No se elimina del catálogo:
+      // reaparece automáticamente si vuelve a publicar 24 h, semanal o mensual.
+      const hasOperational=[v24,vw,vm].some(v=>v!==null);
+      if(!hasOperational)continue;
 
       rows.push([
         `<b>${esc(name)}</b>`,
