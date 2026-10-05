@@ -21,9 +21,10 @@ on:
       - 'src/auditar_productos_operativos.py'
       - '.github/workflows/gmail-backup-cloud.yml'
   schedule:
-    # Respaldo lógico autónomo: una revisión 35 min después de los cortes pares 06–18 h.
-    # Incluye explícitamente 18:35; evita competir con el primario de :50.
+    # Respaldo lógico autónomo: revisiones 35 min después de los cortes diurnos
+    # y una ventana nocturna corta para boletines extraordinarios hasta las 22 h.
     - cron: '35 12,14,16,18,20,22,0 * * *'
+    - cron: '35 2,3,4 * * *'
 
 permissions:
   contents: write
@@ -54,13 +55,14 @@ jobs:
           GMAIL_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         shell: bash
         run: |
-          # Los eventos WeatherLink son 24/7, pero niveles sólo operan 06:00–19:59.
+          # Los eventos WeatherLink son 24/7. Gmail mantiene una ventana corta
+          # hasta las 22:59 para capturar boletines extraordinarios de niveles.
           # TZ explícita: el runner usa UTC.
           if [ "$GITHUB_EVENT_NAME" = "workflow_run" ]; then
             hora=$(TZ=America/Mexico_City date +%H)
-            if [ "$hora" -lt 6 ] || [ "$hora" -ge 20 ]; then
+            if [ "$hora" -lt 6 ] || [ "$hora" -ge 23 ]; then
               echo "enabled=false" >> "$GITHUB_OUTPUT"
-              echo "Pausa nocturna: evento WeatherLink no inicia niveles."
+              echo "Pausa nocturna: evento WeatherLink fuera de ventana Gmail de niveles."
               exit 0
             fi
           fi
