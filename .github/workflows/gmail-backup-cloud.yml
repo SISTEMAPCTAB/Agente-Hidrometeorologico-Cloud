@@ -20,6 +20,7 @@ on:
       - 'src/fuente2_niveles.py'
       - 'src/auditar_productos_operativos.py'
       - '.github/workflows/gmail-backup-cloud.yml'
+      - 'data/control/gmail-trigger.txt'
   schedule:
     # Respaldo lógico autónomo: revisiones 35 min después de los cortes diurnos
     # y una ventana nocturna corta para boletines extraordinarios hasta las 22 h.
