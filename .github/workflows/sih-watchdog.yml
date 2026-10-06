@@ -6,7 +6,12 @@ on:
     workflows:
       - 'WeatherLink Cloud - 32 estaciones'
       - 'WeatherLink Cloud 30m - estable'
+      - 'WeatherLink Rescue - independiente'
     types: [completed]
+  schedule:
+    # Comprobación propia después de la actualización oficial diaria de SIH (12:00 h).
+    - cron: '15 18 * * *'
+    - cron: '45 18 * * *'
   push:
     branches: [main]
     paths:
@@ -58,9 +63,21 @@ jobs:
               except Exception:
                   pass
 
-          needed=bool(target and (last is None or last < target))
+          source_date=None
+          try:
+              q=Path('data/sih_lluvia/latest.json')
+              if q.exists():
+                  source_date=json.loads(q.read_text(encoding='utf-8')).get('fecha_fuente')
+          except Exception:
+              pass
+          stale_source=bool(now.hour>=12 and source_date!=now.date().isoformat())
+          # Tras las 12:00, si la fuente sigue siendo de ayer, reintentar como máximo
+          # una vez cada 25 minutos. Antes de las 12:00 conserva el criterio de slots.
+          retry_due=bool(stale_source and (last is None or (now-last).total_seconds()>=25*60))
+          needed=bool((target and (last is None or last < target)) or retry_due)
           print('SIH watchdog:', 'ahora=',now.isoformat(), 'objetivo=',target.isoformat() if target else None,
-                'ultima_revision=',last.isoformat() if last else None, 'ejecutar=',needed)
+                'ultima_revision=',last.isoformat() if last else None, 'fecha_fuente=',source_date,
+                'fuente_atrasada=',stale_source, 'ejecutar=',needed)
           with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as f:
               f.write(f"run={'true' if needed else 'false'}\n")
           PY
