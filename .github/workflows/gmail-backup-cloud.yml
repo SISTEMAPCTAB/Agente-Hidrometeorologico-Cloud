@@ -8,6 +8,7 @@ on:
     workflows:
       - 'WeatherLink Cloud - 32 estaciones'
       - 'WeatherLink Cloud 30m - estable'
+      - 'Niveles Hidrométricos Cloud'
     types: [completed]
   # Único respaldo programado por Gmail. Los recuperadores de niveles quedan manuales,
   # para que esta revisión no espere detrás de trabajos redundantes en la misma cola.
