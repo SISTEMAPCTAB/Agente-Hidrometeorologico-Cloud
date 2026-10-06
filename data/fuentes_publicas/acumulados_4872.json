@@ -1,8 +1,8 @@
 {
-  "generated_utc": "2026-10-06T01:56:16.338539+00:00",
+  "generated_utc": "2026-10-06T09:26:53.748967+00:00",
   "regla": "48 h y 72 h sólo se forman con ventanas de 24 h asociadas a cortes fuente distintos de INSIVUMEH, separados aproximadamente 24 h. La hora de consulta del agente nunca sustituye al corte fuente. Si falta una ventana verificable, se conserva s/d.",
   "tolerancia_historica_min": 120,
-  "insivumeh_corte_fuente_actual": "05/Oct/2026 16:05",
+  "insivumeh_corte_fuente_actual": "06/Oct/2026 03:05",
   "insivumeh_corte_fuente_valido": true,
   "insivumeh": [
     {
@@ -10,20 +10,24 @@
       "estacion": "Playa Grande Met (Ixcan)",
       "precipitacion_24h_mm": 12.5,
       "precipitacion_48h_mm": 25.0,
-      "precipitacion_72h_mm": null,
+      "precipitacion_72h_mm": 37.5,
       "componentes": {
         "actual": {
-          "corte_fuente": "05/Oct/2026 16:05",
-          "corte_utc": "2026-10-05T22:05:00+00:00",
-          "consultado_utc": "2026-10-05T22:06:04.055262+00:00",
+          "corte_fuente": "06/Oct/2026 03:05",
+          "corte_utc": "2026-10-06T09:05:00+00:00",
+          "consultado_utc": "2026-10-06T09:08:24.548426+00:00",
           "mm": 12.5
         },
         "menos_24h": {
-          "corte_fuente": "04/Oct/2026 16:05",
-          "corte_utc": "2026-10-04T22:05:00+00:00",
+          "corte_fuente": "05/Oct/2026 03:15",
+          "corte_utc": "2026-10-05T09:15:00+00:00",
           "mm": 12.5
         },
-        "menos_48h": null
+        "menos_48h": {
+          "corte_fuente": "04/Oct/2026 02:30",
+          "corte_utc": "2026-10-04T08:30:00+00:00",
+          "mm": 12.5
+        }
       }
     },
     {
@@ -31,20 +35,24 @@
       "estacion": "Santa María Cahabón",
       "precipitacion_24h_mm": 0.0,
       "precipitacion_48h_mm": 0.0,
-      "precipitacion_72h_mm": null,
+      "precipitacion_72h_mm": 0.0,
       "componentes": {
         "actual": {
-          "corte_fuente": "05/Oct/2026 16:05",
-          "corte_utc": "2026-10-05T22:05:00+00:00",
-          "consultado_utc": "2026-10-05T22:06:04.055262+00:00",
+          "corte_fuente": "06/Oct/2026 03:05",
+          "corte_utc": "2026-10-06T09:05:00+00:00",
+          "consultado_utc": "2026-10-06T09:08:24.548426+00:00",
           "mm": 0.0
         },
         "menos_24h": {
-          "corte_fuente": "04/Oct/2026 16:05",
-          "corte_utc": "2026-10-04T22:05:00+00:00",
+          "corte_fuente": "05/Oct/2026 03:15",
+          "corte_utc": "2026-10-05T09:15:00+00:00",
           "mm": 0.0
         },
-        "menos_48h": null
+        "menos_48h": {
+          "corte_fuente": "04/Oct/2026 02:30",
+          "corte_utc": "2026-10-04T08:30:00+00:00",
+          "mm": 0.0
+        }
       }
     },
     {
@@ -52,20 +60,24 @@
       "estacion": "Panzos PHC Altaverapaz",
       "precipitacion_24h_mm": 3.6,
       "precipitacion_48h_mm": 7.2,
-      "precipitacion_72h_mm": null,
+      "precipitacion_72h_mm": 10.8,
       "componentes": {
         "actual": {
-          "corte_fuente": "05/Oct/2026 16:05",
-          "corte_utc": "2026-10-05T22:05:00+00:00",
-          "consultado_utc": "2026-10-05T22:06:04.055262+00:00",
+          "corte_fuente": "06/Oct/2026 03:05",
+          "corte_utc": "2026-10-06T09:05:00+00:00",
+          "consultado_utc": "2026-10-06T09:08:24.548426+00:00",
           "mm": 3.6
         },
         "menos_24h": {
-          "corte_fuente": "04/Oct/2026 16:05",
-          "corte_utc": "2026-10-04T22:05:00+00:00",
+          "corte_fuente": "05/Oct/2026 03:15",
+          "corte_utc": "2026-10-05T09:15:00+00:00",
           "mm": 3.6
         },
-        "menos_48h": null
+        "menos_48h": {
+          "corte_fuente": "04/Oct/2026 02:30",
+          "corte_utc": "2026-10-04T08:30:00+00:00",
+          "mm": 3.6
+        }
       }
     }
   ]
