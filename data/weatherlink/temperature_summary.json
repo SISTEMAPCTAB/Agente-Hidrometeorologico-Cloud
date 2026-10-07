@@ -1,6 +1,6 @@
 {
   "date_local": "2026-10-07",
-  "updated_local": "2026-10-07T12:24:29.066091-06:00",
+  "updated_local": "2026-10-07T14:58:58.021916-06:00",
   "units": {
     "temperature": "°C",
     "heat_index": "°C"
@@ -40,14 +40,26 @@
   "stations": [
     {
       "estacion": "Impulsora",
-      "max_temp_c": 31.1,
-      "max_temp_time": "Oct 07, 2026/ 12:00 PM",
-      "max_heat_index_c": 46.4,
-      "max_heat_index_time": "Oct 07, 2026/ 12:00 PM",
+      "max_temp_c": 31.7,
+      "max_temp_time": "Oct 07, 2026/ 2:00 PM",
+      "max_heat_index_c": 47.0,
+      "max_heat_index_time": "Oct 07, 2026/ 2:00 PM",
       "max_heat_basis": "Índice de calor",
       "territory": "Tabasco",
       "ubicacion": "Ingenio Presidente Benito Juárez, Tab., Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:00 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:00 PM",
+      "nivel_riesgo_max": "Peligro"
+    },
+    {
+      "estacion": "REFORMA PCIVILCHIAPAS",
+      "max_temp_c": 32.2,
+      "max_temp_time": "Oct 07, 2026/ 2:58 PM",
+      "max_heat_index_c": 46.1,
+      "max_heat_index_time": "Oct 07, 2026/ 2:58 PM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Chiapas",
+      "ubicacion": "Reforma, Chiapas, Mexico",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Peligro"
     },
     {
@@ -59,31 +71,31 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Tabasco",
       "ubicacion": "Los Ídolos, Tab., Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
+      "nivel_riesgo_max": "Peligro"
+    },
+    {
+      "estacion": "PASO LA MINA",
+      "max_temp_c": 32.8,
+      "max_temp_time": "Oct 07, 2026/ 2:00 PM",
+      "max_heat_index_c": 45.4,
+      "max_heat_index_time": "Oct 07, 2026/ 2:00 PM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Tabasco",
+      "ubicacion": "Ingenio Presidente Benito Juárez, Tab., Mexico",
+      "last_valid_time": "Oct 07, 2026/ 2:00 PM",
       "nivel_riesgo_max": "Peligro"
     },
     {
       "estacion": "Centro",
-      "max_temp_c": 31.7,
-      "max_temp_time": "Oct 07, 2026/ 12:23 PM",
+      "max_temp_c": 32.2,
+      "max_temp_time": "Oct 07, 2026/ 2:58 PM",
       "max_heat_index_c": 44.8,
       "max_heat_index_time": "Oct 07, 2026/ 12:23 PM",
       "max_heat_basis": "Índice de calor",
       "territory": "Tabasco",
       "ubicacion": "Villahermosa, Tab., Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:23 PM",
-      "nivel_riesgo_max": "Peligro"
-    },
-    {
-      "estacion": "REFORMA PCIVILCHIAPAS",
-      "max_temp_c": 31.1,
-      "max_temp_time": "Oct 07, 2026/ 12:24 PM",
-      "max_heat_index_c": 44.7,
-      "max_heat_index_time": "Oct 07, 2026/ 12:24 PM",
-      "max_heat_basis": "Índice de calor",
-      "territory": "Chiapas",
-      "ubicacion": "Reforma, Chiapas, Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Peligro"
     },
     {
@@ -95,7 +107,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Tabasco",
       "ubicacion": "Dos Montes, Tab., Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:23 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Peligro"
     },
     {
@@ -107,7 +119,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Tabasco",
       "ubicacion": "Montaña, Tab., Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:15 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:45 PM",
       "nivel_riesgo_max": "Peligro"
     },
     {
@@ -119,19 +131,31 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Chiapas",
       "ubicacion": "Pichucalco, Chiapas, Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Peligro"
     },
     {
-      "estacion": "PASO LA MINA",
-      "max_temp_c": 30.6,
-      "max_temp_time": "Oct 07, 2026/ 12:00 PM",
-      "max_heat_index_c": 41.8,
-      "max_heat_index_time": "Oct 07, 2026/ 12:00 PM",
+      "estacion": "SEMAR Capitanía de Pto. Alvarado, Ver.",
+      "max_temp_c": 31.7,
+      "max_temp_time": "Oct 07, 2026/ 2:58 PM",
+      "max_heat_index_c": 42.4,
+      "max_heat_index_time": "Oct 07, 2026/ 2:58 PM",
       "max_heat_basis": "Índice de calor",
-      "territory": "Tabasco",
-      "ubicacion": "Ingenio Presidente Benito Juárez, Tab., Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:00 PM",
+      "territory": "Otra ubicación",
+      "ubicacion": "Alvarado, Ver., Mexico",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
+      "nivel_riesgo_max": "Peligro"
+    },
+    {
+      "estacion": "Urrutia",
+      "max_temp_c": 30.6,
+      "max_temp_time": "Oct 07, 2026/ 2:58 PM",
+      "max_heat_index_c": 41.8,
+      "max_heat_index_time": "Oct 07, 2026/ 2:58 PM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Guatemala/Petén",
+      "ubicacion": "Petén, Guatemala",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Peligro"
     },
     {
@@ -143,7 +167,19 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Chiapas",
       "ubicacion": "Juárez, Chiapas, Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
+      "nivel_riesgo_max": "Peligro"
+    },
+    {
+      "estacion": "OSTUACÁN PCIVILCHIAPAS",
+      "max_temp_c": 31.7,
+      "max_temp_time": "Oct 07, 2026/ 12:24 PM",
+      "max_heat_index_c": 40.9,
+      "max_heat_index_time": "Oct 07, 2026/ 2:58 PM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Chiapas",
+      "ubicacion": "Ostuacán, Chiapas, Mexico",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Peligro"
     },
     {
@@ -155,43 +191,19 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Otra ubicación",
       "ubicacion": "Palenque, Chis., Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:15 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:45 PM",
       "nivel_riesgo_max": "Peligro"
     },
     {
-      "estacion": "Urrutia",
-      "max_temp_c": 30.0,
-      "max_temp_time": "Oct 07, 2026/ 12:23 PM",
-      "max_heat_index_c": 40.4,
-      "max_heat_index_time": "Oct 07, 2026/ 12:23 PM",
+      "estacion": "Yaxhá - INSIVUMEH PETEN",
+      "max_temp_c": 31.7,
+      "max_temp_time": "Oct 07, 2026/ 2:58 PM",
+      "max_heat_index_c": 39.8,
+      "max_heat_index_time": "Oct 07, 2026/ 2:58 PM",
       "max_heat_basis": "Índice de calor",
       "territory": "Guatemala/Petén",
-      "ubicacion": "Petén, Guatemala",
-      "last_valid_time": "Oct 07, 2026/ 12:23 PM",
-      "nivel_riesgo_max": "Peligro"
-    },
-    {
-      "estacion": "OSTUACÁN PCIVILCHIAPAS",
-      "max_temp_c": 31.7,
-      "max_temp_time": "Oct 07, 2026/ 12:24 PM",
-      "max_heat_index_c": 40.1,
-      "max_heat_index_time": "Oct 07, 2026/ 12:24 PM",
-      "max_heat_basis": "Índice de calor",
-      "territory": "Chiapas",
-      "ubicacion": "Ostuacán, Chiapas, Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
-      "nivel_riesgo_max": "Peligro"
-    },
-    {
-      "estacion": "SEMAR Capitanía de Pto. Alvarado, Ver.",
-      "max_temp_c": 30.6,
-      "max_temp_time": "Oct 07, 2026/ 12:23 PM",
-      "max_heat_index_c": 40.1,
-      "max_heat_index_time": "Oct 07, 2026/ 12:23 PM",
-      "max_heat_basis": "Índice de calor",
-      "territory": "Otra ubicación",
-      "ubicacion": "Alvarado, Ver., Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:23 PM",
+      "ubicacion": "Laguna Yaxjá, Petén, Guatemala",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Peligro"
     },
     {
@@ -199,12 +211,24 @@
       "max_temp_c": 31.7,
       "max_temp_time": "Oct 07, 2026/ 12:24 PM",
       "max_heat_index_c": 39.4,
-      "max_heat_index_time": "Oct 07, 2026/ 12:24 PM",
+      "max_heat_index_time": "Oct 07, 2026/ 2:58 PM",
       "max_heat_basis": "Índice de calor",
       "territory": "Chiapas",
       "ubicacion": "Salto de Agua, Chiapas, Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Peligro"
+    },
+    {
+      "estacion": "ACALA PCIVILCHIAPAS",
+      "max_temp_c": 32.8,
+      "max_temp_time": "Oct 07, 2026/ 2:58 PM",
+      "max_heat_index_c": 38.6,
+      "max_heat_index_time": "Oct 07, 2026/ 2:58 PM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Chiapas",
+      "ubicacion": "Acala, Chiapas, Mexico",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
+      "nivel_riesgo_max": "Precaución extrema"
     },
     {
       "estacion": "PALENQUE PCIVILCHIAPAS",
@@ -215,43 +239,31 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Chiapas",
       "ubicacion": "Palenque, Chiapas, Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Precaución extrema"
     },
     {
       "estacion": "SEMAR E.I.O. Cd. del Carmen.",
       "max_temp_c": 29.4,
-      "max_temp_time": "Oct 07, 2026/ 12:23 PM",
+      "max_temp_time": "Oct 07, 2026/ 2:58 PM",
       "max_heat_index_c": 36.3,
       "max_heat_index_time": "Oct 07, 2026/ 12:23 PM",
       "max_heat_basis": "Índice de calor",
       "territory": "Otra ubicación",
       "ubicacion": "Ciudad del Carmen, Camp., Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:23 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Precaución extrema"
     },
     {
-      "estacion": "Yaxhá - INSIVUMEH PETEN",
-      "max_temp_c": 29.4,
-      "max_temp_time": "Oct 07, 2026/ 12:24 PM",
-      "max_heat_index_c": 35.8,
-      "max_heat_index_time": "Oct 07, 2026/ 12:24 PM",
-      "max_heat_basis": "Índice de calor",
-      "territory": "Guatemala/Petén",
-      "ubicacion": "Laguna Yaxjá, Petén, Guatemala",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
-      "nivel_riesgo_max": "Precaución extrema"
-    },
-    {
-      "estacion": "ACALA PCIVILCHIAPAS",
-      "max_temp_c": 30.6,
-      "max_temp_time": "Oct 07, 2026/ 12:24 PM",
-      "max_heat_index_c": 34.4,
-      "max_heat_index_time": "Oct 07, 2026/ 12:24 PM",
+      "estacion": "Cipat Chiapas",
+      "max_temp_c": 30.0,
+      "max_temp_time": "Oct 07, 2026/ 2:58 PM",
+      "max_heat_index_c": 34.6,
+      "max_heat_index_time": "Oct 07, 2026/ 2:58 PM",
       "max_heat_basis": "Índice de calor",
       "territory": "Chiapas",
-      "ubicacion": "Acala, Chiapas, Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
+      "ubicacion": "Ocozocoautla, Chiapas, Mexico",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Precaución extrema"
     },
     {
@@ -263,31 +275,43 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Chiapas",
       "ubicacion": "Ixhuatán, Chiapas, Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Precaución extrema"
     },
     {
       "estacion": "Modesta_1",
-      "max_temp_c": 30.0,
-      "max_temp_time": "Oct 07, 2026/ 12:00 PM",
-      "max_heat_index_c": 32.8,
-      "max_heat_index_time": "Oct 07, 2026/ 12:00 PM",
+      "max_temp_c": 31.1,
+      "max_temp_time": "Oct 07, 2026/ 2:00 PM",
+      "max_heat_index_c": 33.4,
+      "max_heat_index_time": "Oct 07, 2026/ 2:00 PM",
       "max_heat_basis": "Índice de calor",
       "territory": "Tabasco",
       "ubicacion": "Benito Juárez Garcia Poblado C-21, Tab., Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:00 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:00 PM",
       "nivel_riesgo_max": "Precaución extrema"
     },
     {
-      "estacion": "Cipat Chiapas",
-      "max_temp_c": 28.3,
-      "max_temp_time": "Oct 07, 2026/ 12:24 PM",
+      "estacion": "MAYA BERRIOZABAL PCIVILCHIAPAS",
+      "max_temp_c": 29.4,
+      "max_temp_time": "Oct 07, 2026/ 2:58 PM",
       "max_heat_index_c": 31.5,
-      "max_heat_index_time": "Oct 07, 2026/ 12:24 PM",
+      "max_heat_index_time": "Oct 07, 2026/ 2:58 PM",
       "max_heat_basis": "Índice de calor",
       "territory": "Chiapas",
-      "ubicacion": "Ocozocoautla, Chiapas, Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
+      "ubicacion": "Berriozábal, Chiapas, Mexico",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
+      "nivel_riesgo_max": "Precaución"
+    },
+    {
+      "estacion": "BERRIOZÁBAL PCIVILCHIAPAS",
+      "max_temp_c": 27.8,
+      "max_temp_time": "Oct 07, 2026/ 12:24 PM",
+      "max_heat_index_c": 30.6,
+      "max_heat_index_time": "Oct 07, 2026/ 2:58 PM",
+      "max_heat_basis": "Índice de calor",
+      "territory": "Chiapas",
+      "ubicacion": "Berriozábal, Chiapas, Mexico",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Precaución"
     },
     {
@@ -299,31 +323,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Chiapas",
       "ubicacion": "Chapultenango, Chiapas, Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
-      "nivel_riesgo_max": "Precaución"
-    },
-    {
-      "estacion": "BERRIOZÁBAL PCIVILCHIAPAS",
-      "max_temp_c": 27.8,
-      "max_temp_time": "Oct 07, 2026/ 12:24 PM",
-      "max_heat_index_c": 30.2,
-      "max_heat_index_time": "Oct 07, 2026/ 12:24 PM",
-      "max_heat_basis": "Índice de calor",
-      "territory": "Chiapas",
-      "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
-      "nivel_riesgo_max": "Precaución"
-    },
-    {
-      "estacion": "MAYA BERRIOZABAL PCIVILCHIAPAS",
-      "max_temp_c": 27.8,
-      "max_temp_time": "Oct 07, 2026/ 12:24 PM",
-      "max_heat_index_c": 29.3,
-      "max_heat_index_time": "Oct 07, 2026/ 12:24 PM",
-      "max_heat_basis": "Índice de calor",
-      "territory": "Chiapas",
-      "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Precaución"
     },
     {
@@ -335,7 +335,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Amatán, Chiapas, Mexico",
-      "last_valid_time": "Oct 07, 2026/ 12:24 PM",
+      "last_valid_time": "Oct 07, 2026/ 2:58 PM",
       "nivel_riesgo_max": "Normal"
     }
   ],
@@ -343,32 +343,32 @@
     {
       "territorio": "Tabasco",
       "estaciones": 7,
-      "max_temp_c": 32.2,
-      "max_heat_index_c": 46.4,
+      "max_temp_c": 32.8,
+      "max_heat_index_c": 47.0,
       "estacion_mas_caliente": "Impulsora",
       "nivel_riesgo": "Peligro"
     },
     {
       "territorio": "Chiapas",
       "estaciones": 13,
-      "max_temp_c": 31.7,
-      "max_heat_index_c": 44.7,
+      "max_temp_c": 32.8,
+      "max_heat_index_c": 46.1,
       "estacion_mas_caliente": "REFORMA PCIVILCHIAPAS",
       "nivel_riesgo": "Peligro"
     },
     {
       "territorio": "Otra ubicación",
       "estaciones": 3,
-      "max_temp_c": 31.1,
-      "max_heat_index_c": 40.9,
-      "estacion_mas_caliente": "Sinai",
+      "max_temp_c": 31.7,
+      "max_heat_index_c": 42.4,
+      "estacion_mas_caliente": "SEMAR Capitanía de Pto. Alvarado, Ver.",
       "nivel_riesgo": "Peligro"
     },
     {
       "territorio": "Guatemala/Petén",
       "estaciones": 2,
-      "max_temp_c": 30.0,
-      "max_heat_index_c": 40.4,
+      "max_temp_c": 31.7,
+      "max_heat_index_c": 41.8,
       "estacion_mas_caliente": "Urrutia",
       "nivel_riesgo": "Peligro"
     }
