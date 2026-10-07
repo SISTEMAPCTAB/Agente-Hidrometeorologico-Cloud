@@ -1,6 +1,12 @@
 name: Probar informes Coatzacoalcos Tonala
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows:
+      - 'WeatherLink Cloud - 32 estaciones'
+      - 'WeatherLink Cloud 30m - estable'
+      - 'WeatherLink Rescue - independiente'
+    types: [completed]
   push:
     branches: [main]
     paths:
@@ -20,19 +26,55 @@ concurrency:
   cancel-in-progress: false
 jobs:
   extract:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
+      - name: Decidir si Tonalá requiere recuperación
+        id: gate
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os
+          from datetime import datetime, timedelta
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+          event=os.environ.get('GITHUB_EVENT_NAME','')
+          run=True
+          if event=='workflow_run':
+              now=datetime.now(ZoneInfo('America/Mexico_City'))
+              mins=now.hour*60+now.minute
+              expected=None
+              if 19*60+25 <= mins <= 23*60+59:
+                  expected=now.date()
+              elif 0 <= mins <= 2*60:
+                  expected=(now-timedelta(days=1)).date()
+              latest_date=None
+              try:
+                  p=json.loads(Path('data/coatzacoalcos_tonala/latest.json').read_text(encoding='utf-8'))
+                  raw=((p.get('reports') or {}).get('matutino') or {}).get('date')
+                  if raw: latest_date=datetime.fromisoformat(raw).date()
+              except Exception:
+                  pass
+              run=bool(expected and (latest_date is None or latest_date < expected))
+              print('Tonalá wake:', 'ahora=',now.isoformat(), 'esperado=',expected, 'vigente=',latest_date, 'ejecutar=',run)
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as out:
+              out.write(f"run={'true' if run else 'false'}\n")
+          PY
       - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
         with:
           python-version: '3.11'
       - run: python -m pip install requests beautifulsoup4 pdfplumber playwright
+        if: steps.gate.outputs.run == 'true'
       - run: python -m playwright install chromium
+        if: steps.gate.outputs.run == 'true'
       - name: Descargar y examinar informes oficiales sin afectar otros datos
+        if: steps.gate.outputs.run == 'true'
         run: python src/coatzacoalcos_tonala_probe.py
       - name: Guardar evidencia de la prueba
-        if: always()
+        if: ${{ always() && steps.gate.outputs.run == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: prueba-tonala-pdf
@@ -41,7 +83,7 @@ jobs:
             data/coatzacoalcos_tonala/latest.json
           if-no-files-found: warn
       - name: Publicar diagnóstico aislado
-        if: success()
+        if: ${{ success() && steps.gate.outputs.run == 'true' }}
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
