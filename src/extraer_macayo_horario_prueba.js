@@ -36,7 +36,33 @@ function load(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'))
  }
  const pen=rowNums('Peñitas');
  const pla=rowNums('Platanar');
- if(pen.length<8){
+
+ function qVertical(label){
+   const nl=norm(label);
+   const head=items.find(x=>x.page===1&&(norm(x.str)===nl||norm(x.str).startsWith(nl+' ')));
+   if(!head)return null;
+   const qLabels=items.filter(x=>x.page===head.page&&norm(x.str)==='Q'&&x.x<100);
+   const candidates=[];
+   for(const ql of qLabels){
+     const cells=items.filter(x=>x.page===head.page&&Math.abs(x.y-ql.y)<=2.8&&x.x>100);
+     let best=null;
+     for(const cell of cells){
+       const vs=numbersFromString(cell.str);
+       if(!vs.length)continue;
+       const d=Math.abs(cell.x-head.x);
+       if(!best||d<best.d)best={d,x:cell.x,y:cell.y,raw:cell.str,v:vs[0],q_row_y:ql.y};
+     }
+     if(best&&best.d<=18)candidates.push(best);
+   }
+   if(!candidates.length)return null;
+   candidates.sort((a,b)=>a.d-b.d);
+   return candidates[0];
+ }
+
+ const qPenVertical=qVertical('Peñitas');
+ const qPlaVertical=qVertical('Platanar');
+
+ if(pen.length<8 && !qPenVertical){
    const dir=path.join('data','pronostico_hidrologico','prueba_macayo');
    function contexto(label){
      const nl=norm(label),idx=items.findIndex(x=>norm(x.str)===nl || norm(x.str).startsWith(nl+' '));
@@ -69,9 +95,9 @@ function load(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'))
    });
    throw new Error(`Fila Peñitas incompleta: ${pen.length} valores numéricos`);
  }
- const qPen=pen[7].v;
+ const qPen=pen.length>=8?pen[7].v:qPenVertical.v;
  if(!(qPen>=0&&qPen<=3000))throw new Error(`Extracción Peñitas fuera de rango: ${qPen}`);
- const qPla=pla.length>=4?pla[3].v:null;
+ const qPla=pla.length>=4?pla[3].v:(qPlaVertical?qPlaVertical.v:null);
  const hPla=pla.length>=3?pla[2].v:null;
  if(qPla!==null&&!(qPla>=0&&qPla<=5000))throw new Error(`Gasto Platanar fuera de rango: ${qPla}`);
  const stamp=hour==null?null:`${date}T${String(hour).padStart(2,'0')}:00:00-06:00`;
@@ -80,9 +106,10 @@ function load(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'))
    q_penitas_m3s:qPen,q_platanar_m3s:qPla,h_platanar_m:hPla,
    q_suma_sin_transito_m3s:qPla===null?null:qPen+qPla,
    fuente:'CONAGUA-reporte-horario',asunto:subject,message_id:messageId,
-   archivo:path.basename(pdfPath),parser:'macayo_shadow_v1',
-   validacion_penitas:'fila_penitas_ext_prom_24h',
-   validacion_platanar:qPla===null?'sin_dato':'fila_platanar_gasto_actual',
+   archivo:path.basename(pdfPath),parser:'macayo_shadow_v2',
+   validacion_penitas:pen.length>=8?'fila_penitas_ext_prom_24h':'columna_vertical_fila_Q_horario',
+   validacion_platanar:qPla===null?'sin_dato':(pla.length>=4?'fila_platanar_gasto_actual':'columna_vertical_fila_Q_horario'),
+   evidencia_q_vertical:{penitas:qPenVertical,platanar:qPlaVertical},
    advertencia:'PRUEBA AISLADA: la suma no equivale automáticamente al gasto instantáneo en Macayo; falta calibrar tránsito/atenuación.'
  };
  const dir=path.join('data','pronostico_hidrologico','prueba_macayo');
