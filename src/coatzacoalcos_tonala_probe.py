@@ -139,6 +139,33 @@ if not any(report_date(u)==local_today for u in sources["matutino"]):
  except Exception as exc:
   result["discovery"]["browser_render_error"]=type(exc).__name__+": "+str(exc)[:180]
 
+# Fuente oficial alterna de CONAGUA: consulta de publicaciones.
+# Se inspecciona de forma aislada; todavía no modifica el corte operativo.
+PUB_PAGE="https://app.conagua.gob.mx/ConsultaPublicaciones.aspx"
+try:
+ from playwright.sync_api import sync_playwright
+ with sync_playwright() as p:
+  browser=p.chromium.launch(headless=True)
+  page=browser.new_page()
+  page.goto(PUB_PAGE,wait_until="networkidle",timeout=45000)
+  selects=[]
+  for idx in range(page.locator("select").count()):
+   sel=page.locator("select").nth(idx)
+   opts=[]
+   for j in range(sel.locator("option").count()):
+    o=sel.locator("option").nth(j)
+    opts.append({"text":(o.inner_text() or "").strip(),"value":o.get_attribute("value") or ""})
+   selects.append({"name":sel.get_attribute("name") or "","id":sel.get_attribute("id") or "","options":opts[:100]})
+  buttons=[]
+  for idx in range(page.locator("input,button").count()):
+   b=page.locator("input,button").nth(idx)
+   buttons.append({"tag":b.evaluate("(e)=>e.tagName"),"type":b.get_attribute("type") or "","name":b.get_attribute("name") or "","id":b.get_attribute("id") or "","value":b.get_attribute("value") or "","text":(b.inner_text() or "").strip()})
+  result["discovery"]["publicaciones_selects"]=selects
+  result["discovery"]["publicaciones_buttons"]=buttons[:80]
+  browser.close()
+except Exception as exc:
+ result["discovery"]["publicaciones_error"]=type(exc).__name__+": "+str(exc)[:180]
+
 # Fallback acotado y dinámico para el informe del día. El identificador de adjunto
 # de gob.mx cambia diariamente y no es consecutivo por producto. Se estima desde
 # los últimos informes Tonalá conocidos y se sondea en paralelo sólo el nombre
