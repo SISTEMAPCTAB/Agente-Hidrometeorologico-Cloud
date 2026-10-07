@@ -124,22 +124,55 @@ if not any(report_date(u)==local_today for u in sources["matutino"]):
  except Exception as exc:
   result["discovery"]["browser_render_error"]=type(exc).__name__+": "+str(exc)[:180]
 
-# Fallback acotado para el informe del día: el portal puede mostrarlo por JavaScript
-# sin incluir el enlace en el HTML inicial. Se prueban sólo IDs cercanos a la serie
-# vigente y sólo el nombre oficial del archivo del día, sin descargar candidatos.
+# Fallback acotado y dinámico para el informe del día. El identificador de adjunto
+# de gob.mx cambia diariamente y no es consecutivo por producto. Se estima desde
+# los últimos informes Tonalá conocidos y se sondea en paralelo sólo el nombre
+# oficial del archivo del día. La validación posterior del encabezado y las filas
+# sigue siendo obligatoria antes de publicar.
 local_today=dt.datetime.now(dt.timezone(dt.timedelta(hours=-6))).date()
 if not any(report_date(u)==local_today for u in sources["matutino"]):
  stamp=local_today.strftime("%d%m%Y")
- for fid in range(1106300,1106600):
-  candidate=f"https://www.gob.mx/cms/uploads/attachment/file/{fid}/Informe_Matutino_{stamp}.pdf"
-  try:
-   rr=session.head(candidate,timeout=4,allow_redirects=True)
-   if rr.ok and ("pdf" in rr.headers.get("Content-Type","").lower() or rr.url.lower().endswith(".pdf")):
-    sources["matutino"].append(candidate)
-    result["discovery"]["filename_probe_hit"]=candidate
-    break
-  except requests.RequestException:
-   pass
+ known=[]
+ for u in sources["matutino"]:
+  m_id=re.search(r"/file/(\d+)/",u)
+  d=report_date(u)
+  if m_id and d!=dt.date.min:
+   known.append((d,int(m_id.group(1))))
+ known=sorted(set(known))
+ if known:
+  last_date,last_id=known[-1]
+  daily_rate=270
+  if len(known)>=2:
+   prev_date,prev_id=known[-2]
+   dd=max(1,(last_date-prev_date).days)
+   observed=round((last_id-prev_id)/dd)
+   if 120<=observed<=500:daily_rate=observed
+  days=max(1,(local_today-last_date).days)
+  predicted=last_id+days*daily_rate
+  lo=max(last_id+1,predicted-600)
+  hi=predicted+600
+  result["discovery"]["filename_probe_window"]={"from":lo,"to":hi,"predicted":predicted,"daily_rate":daily_rate,"base_date":last_date.isoformat(),"base_id":last_id}
+  def probe_id(fid):
+   candidate=f"https://www.gob.mx/cms/uploads/attachment/file/{fid}/Informe_Matutino_{stamp}.pdf"
+   try:
+    rr=session.head(candidate,timeout=4,allow_redirects=True)
+    ctype=rr.headers.get("Content-Type","").lower()
+    if rr.ok and ("pdf" in ctype or "Informe_Matutino_" in rr.url):
+     return candidate
+   except requests.RequestException:
+    return None
+   return None
+  hit=None
+  with ThreadPoolExecutor(max_workers=32) as ex:
+   futures={ex.submit(probe_id,fid):fid for fid in range(lo,hi+1)}
+   for fut in as_completed(futures):
+    found=fut.result()
+    if found:
+     hit=found
+     break
+  if hit:
+   sources["matutino"].append(hit)
+   result["discovery"]["filename_probe_hit"]=hit
 
 for typ in sources:
  sources[typ].sort(key=lambda u:(report_date(u), int(re.search(r"/file/(\\d+)/",u).group(1)) if re.search(r"/file/(\\d+)/",u) else 0),reverse=True)
