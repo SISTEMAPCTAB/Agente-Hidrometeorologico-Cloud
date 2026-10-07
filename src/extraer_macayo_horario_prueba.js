@@ -16,11 +16,23 @@ function load(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'))
 (async()=>{
  const items=await extract(pdfPath),allText=items.map(x=>x.str).join(' ');
  const date=parseDate(allText),hour=targetHour(subject);
+ function numbersFromString(s){
+   return [...String(s||'').replace(/(?<=\d),(?=\d{3}(?:\D|$))/g,'').matchAll(/-?\d+(?:[.,]\d+)?/g)]
+     .map(m=>toNum(m[0])).filter(Number.isFinite);
+ }
  function rowNums(label){
-   const p=items.find(x=>norm(x.str)===norm(label));
+   const nl=norm(label);
+   const p=items.find(x=>norm(x.str)===nl || norm(x.str).startsWith(nl+' '));
    if(!p)return [];
-   return items.filter(x=>Math.abs(x.y-p.y)<=3.2&&x.x>p.x+5).sort((a,b)=>a.x-b.x)
-     .map(x=>({raw:x.str,x:x.x,v:toNum(x.str)})).filter(x=>Number.isFinite(x.v));
+   const own=norm(p.str).startsWith(nl+' ')?numbersFromString(p.str).map(v=>({raw:String(v),x:p.x,v})):[];
+   const same=items.filter(x=>Math.abs(x.y-p.y)<=4.0&&x!==p&&x.x>p.x-1).sort((a,b)=>a.x-b.x)
+     .flatMap(x=>numbersFromString(x.str).map(v=>({raw:x.str,x:x.x,v})));
+   const out=[...own,...same].sort((a,b)=>a.x-b.x);
+   if(out.length)return out;
+   // Respaldo textual: algunos PDF entregan toda la fila como un solo bloque.
+   const flat=items.map(x=>x.str).join(' ');
+   const m=flat.match(new RegExp(label+'\\s+([^A-Za-zÁÉÍÓÚÑ]+)','i'));
+   return m?numbersFromString(m[1]).map(v=>({raw:String(v),x:0,v})):[];
  }
  const pen=rowNums('Peñitas');
  const pla=rowNums('Platanar');
