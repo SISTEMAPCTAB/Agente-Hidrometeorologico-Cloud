@@ -2,15 +2,6 @@ name: WeatherLink Cloud 30m - estable
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '9,39 * * * *'
-  # GitHub puede omitir cron bajo carga. Los commits autónomos de Niveles
-  # sirven sólo como señal adicional; WeatherLink conserva su lógica y datos.
-  push:
-    branches:
-      - main
-    paths:
-      - 'data/niveles/Estado_Niveles_Cloud.json'
 
 permissions:
   contents: write
