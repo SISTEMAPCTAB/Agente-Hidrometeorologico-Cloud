@@ -1,0 +1,170 @@
+name: WeatherLink independiente B
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/weatherlink-slot-b.yml'
+  schedule:
+    - cron: '37 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  # Los dos turnos son independientes del resto del agente, pero se serializan
+  # entre sí para impedir recolecciones duplicadas.
+  group: weatherlink-live-slots
+  cancel-in-progress: false
+
+jobs:
+  weatherlink:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verificar si realmente hace falta recolectar
+        id: stale
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          def age(path):
+              try:
+                  d=json.loads(Path(path).read_text(encoding='utf-8'))
+                  s=d.get('run_utc')
+                  if not s:
+                      return 9999.0
+                  t=datetime.fromisoformat(str(s).replace('Z','+00:00'))
+                  if t.tzinfo is None:
+                      t=t.replace(tzinfo=timezone.utc)
+                  return (datetime.now(timezone.utc)-t.astimezone(timezone.utc)).total_seconds()/60
+              except Exception:
+                  return 9999.0
+
+          principal=age('data/weatherlink/Estado_WeatherLink_Cloud.json')
+          adicional=age('data/weatherlink/extra_latest.json')
+          stale=max(principal, adicional) > 25
+          print(f'WeatherLink principal={principal:.1f} min; adicional={adicional:.1f} min; recolectar={stale}')
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as f:
+              f.write(f"stale={'true' if stale else 'false'}\n")
+          PY
+
+      - name: Corte vigente; no reprocesar
+        if: steps.stale.outputs.stale != 'true'
+        run: echo "WeatherLink está vigente. Este turno termina sin reproceso."
+
+      - name: Configurar Python
+        if: steps.stale.outputs.stale == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Instalar dependencia mínima
+        if: steps.stale.outputs.stale == 'true'
+        run: pip install --disable-pip-version-check requests
+
+      - name: Recolectar WeatherLink principal y adicional
+        if: steps.stale.outputs.stale == 'true'
+        shell: bash
+        run: |
+          set -e
+          python src/weatherlink_resolve_shared.py
+          python src/weatherlink_cloud.py
+          python src/weatherlink_extra_cloud.py
+
+      - name: Verificar antes de publicar
+        if: steps.stale.outputs.stale == 'true'
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          s=json.loads(Path('data/weatherlink/Estado_WeatherLink_Cloud.json').read_text(encoding='utf-8'))
+          e=json.loads(Path('data/weatherlink/extra_latest.json').read_text(encoding='utf-8'))
+          assert s.get('complete') is True
+          assert s.get('stations_ok') == s.get('stations_expected') == 32
+          assert not (s.get('errors') or [])
+          for label,obj in [('principal',s),('adicional',e)]:
+              t=datetime.fromisoformat(str(obj['run_utc']).replace('Z','+00:00'))
+              if t.tzinfo is None: t=t.replace(tzinfo=timezone.utc)
+              a=(datetime.now(timezone.utc)-t.astimezone(timezone.utc)).total_seconds()/60
+              assert a < 10, f'{label} quedó antiguo: {a:.1f} min'
+          print('WeatherLink validado 32/32; principal y adicional frescos.')
+          PY
+
+      - name: Publicar sólo WeatherLink
+        if: steps.stale.outputs.stale == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Agente WeatherLink Independiente"
+          git config user.email "actions@users.noreply.github.com"
+
+          PRODUCTOS=(
+            data/weatherlink/state.json
+            data/weatherlink/latest.json
+            data/weatherlink/extra_state.json
+            data/weatherlink/extra_latest.json
+            data/weatherlink/shared_resolved.json
+            data/weatherlink/Tabla_WeatherLink_Cloud.csv
+            data/weatherlink/Estado_WeatherLink_Cloud.json
+          )
+          tar -cf /tmp/weatherlink-slot.tar "${PRODUCTOS[@]}"
+
+          for ciclo in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+
+            # Si otro turno ya publicó un corte igual o más reciente, terminar.
+            if python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from datetime import datetime, timezone
+          def stamp(p):
+              try:
+                  s=json.loads(Path(p).read_text(encoding='utf-8'))['run_utc']
+                  d=datetime.fromisoformat(str(s).replace('Z','+00:00'))
+                  return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
+              except Exception:
+                  return None
+          import tarfile
+          with tarfile.open('/tmp/weatherlink-slot.tar') as t:
+              cand=json.load(t.extractfile('data/weatherlink/Estado_WeatherLink_Cloud.json'))
+          proposed=datetime.fromisoformat(str(cand['run_utc']).replace('Z','+00:00'))
+          if proposed.tzinfo is None: proposed=proposed.replace(tzinfo=timezone.utc)
+          current=stamp('data/weatherlink/Estado_WeatherLink_Cloud.json')
+          raise SystemExit(0 if current and current>=proposed else 1)
+          PY
+            then
+              echo "El remoto ya contiene este corte o uno posterior."
+              exit 0
+            fi
+
+            tar -xf /tmp/weatherlink-slot.tar
+            git add "${PRODUCTOS[@]}"
+            git diff --cached --quiet && exit 0
+            git commit -m "Actualiza WeatherLink independiente [skip ci]"
+
+            for intento in 1 2 3; do
+              if git push origin HEAD:main; then
+                echo "WeatherLink publicado."
+                exit 0
+              fi
+              sleep $((intento * 10))
+            done
+            sleep $((ciclo * 8))
+          done
+          echo "No fue posible publicar WeatherLink."
+          exit 1
