@@ -91,7 +91,15 @@ function load(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'))
      penitas_valores_detectados:pen,
      platanar_valores_detectados:pla,
      contexto_penitas:contexto('Peñitas'),
-     contexto_platanar:contexto('Platanar')
+     contexto_platanar:contexto('Platanar'),
+     filas_Q:items.filter(x=>x.page===1&&(
+       (norm(x.str)==='Q'&&x.x<100) ||
+       items.some(q=>q.page===1&&norm(q.str)==='Q'&&q.x<100&&Math.abs(x.y-q.y)<=3.2)
+     )).sort((a,b)=>b.y-a.y||a.x-b.x),
+     filas_HA:items.filter(x=>x.page===1&&(
+       (norm(x.str)==='H.A.'&&x.x<100) ||
+       items.some(q=>q.page===1&&norm(q.str)==='H.A.'&&q.x<100&&Math.abs(x.y-q.y)<=3.2)
+     )).sort((a,b)=>b.y-a.y||a.x-b.x)
    });
    throw new Error(`Fila Peñitas incompleta: ${pen.length} valores numéricos`);
  }
