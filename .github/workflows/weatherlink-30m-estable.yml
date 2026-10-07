@@ -1,141 +1,166 @@
-name: WeatherLink Cloud 30m - estable
+name: WeatherLink autónomo estable
 
 on:
   workflow_dispatch:
+  schedule:
+    # Supervisor autónomo y ligero. Se consulta cada 10 min, pero sólo recolecta
+    # cuando el corte principal o adicional supera 24 min. No hay reproceso.
+    - cron: '3/10 * * * *'
 
 permissions:
   contents: write
 
 concurrency:
-  group: weatherlink-cloud
-  # El dato vigente prima sobre una ejecución rezagada; evita cola creciente.
+  group: weatherlink-autonomo
   cancel-in-progress: true
 
 jobs:
-  recolectar-weatherlink:
+  weatherlink:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 8
     steps:
-      - name: Descargar repositorio
+      - name: Descargar estado vigente
         uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
+      - name: Decidir si corresponde una nueva recolección
+        id: freshness
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          def age(path):
+              try:
+                  d=json.loads(Path(path).read_text(encoding='utf-8'))
+                  s=d.get('run_utc')
+                  if not s:
+                      return 9999.0
+                  t=datetime.fromisoformat(str(s).replace('Z','+00:00'))
+                  if t.tzinfo is None:
+                      t=t.replace(tzinfo=timezone.utc)
+                  return (datetime.now(timezone.utc)-t.astimezone(timezone.utc)).total_seconds()/60.0
+              except Exception:
+                  return 9999.0
+
+          principal=age('data/weatherlink/Estado_WeatherLink_Cloud.json')
+          adicional=age('data/weatherlink/extra_latest.json')
+          stale=max(principal, adicional) > 24.0
+          print(f'principal={principal:.1f} min; adicional={adicional:.1f} min; recolectar={stale}')
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as f:
+              f.write(f"stale={'true' if stale else 'false'}\n")
+          PY
+
+      - name: Corte vigente; terminar sin reproceso
+        if: steps.freshness.outputs.stale != 'true'
+        run: echo "WeatherLink vigente. No se recolecta ni se publica nada."
+
       - name: Configurar Python
+        if: steps.freshness.outputs.stale == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-          cache: 'pip'
 
-      - name: Instalar dependencias
-        run: pip install -r requirements.txt
+      - name: Instalar sólo dependencia necesaria
+        if: steps.freshness.outputs.stale == 'true'
+        run: pip install --disable-pip-version-check --no-cache-dir requests
 
-      - name: Resolver enlaces compartidos WeatherLink
-        run: python src/weatherlink_resolve_shared.py
-
-      - name: Ejecutar WeatherLink Cloud
-        run: python src/weatherlink_cloud.py
-
-      - name: Ejecutar WeatherLink adicional
-        run: python src/weatherlink_extra_cloud.py
-
-      - name: Actualizar resumen térmico diario
-        run: python src/temperature_summary.py
-
-      - name: Verificar recolección WeatherLink antes de generar productos
+      - name: Recolectar WeatherLink de forma independiente
+        if: steps.freshness.outputs.stale == 'true'
         shell: bash
         run: |
-          python - <<'PY'
+          set -euo pipefail
+          python src/weatherlink_resolve_shared.py
+          python src/weatherlink_cloud.py
+          python src/weatherlink_extra_cloud.py
+
+      - name: Validar corte antes de publicar
+        if: steps.freshness.outputs.stale == 'true'
+        shell: bash
+        run: |
+          python3 - <<'PY'
           import json
           from datetime import datetime, timezone
           from pathlib import Path
 
-          p=Path('data/weatherlink/Estado_WeatherLink_Cloud.json')
-          s=json.loads(p.read_text(encoding='utf-8'))
-          assert s.get('complete') is True, 'WeatherLink no quedó completo'
-          assert s.get('stations_ok') == s.get('stations_expected'), 'No se recolectaron todas las estaciones esperadas'
-          assert not (s.get('errors') or []), 'WeatherLink reportó errores'
-          run=s.get('run_utc')
-          assert run, 'Falta hora de ejecución WeatherLink'
-          d=datetime.fromisoformat(run.replace('Z','+00:00'))
-          if d.tzinfo is None: d=d.replace(tzinfo=timezone.utc)
-          age=(datetime.now(timezone.utc)-d.astimezone(timezone.utc)).total_seconds()/60
-          assert age < 20, f'El estado generado ya es antiguo: {age:.1f} min'
-          print(f"WeatherLink verificado: {s.get('stations_ok')}/{s.get('stations_expected')}; antigüedad {age:.1f} min")
+          s=json.loads(Path('data/weatherlink/Estado_WeatherLink_Cloud.json').read_text(encoding='utf-8'))
+          e=json.loads(Path('data/weatherlink/extra_latest.json').read_text(encoding='utf-8'))
+          assert s.get('complete') is True, 'WeatherLink principal incompleto'
+          assert s.get('stations_ok') == s.get('stations_expected') == 32, 'WeatherLink no obtuvo 32/32'
+          assert not (s.get('errors') or []), f"WeatherLink reportó errores: {s.get('errors')}"
+
+          for label,obj in [('principal',s),('adicional',e)]:
+              t=datetime.fromisoformat(str(obj['run_utc']).replace('Z','+00:00'))
+              if t.tzinfo is None:
+                  t=t.replace(tzinfo=timezone.utc)
+              age=(datetime.now(timezone.utc)-t.astimezone(timezone.utc)).total_seconds()/60.0
+              assert age < 10, f'{label} quedó antiguo: {age:.1f} min'
+          print('WeatherLink validado: 32/32; principal y adicional frescos.')
           PY
 
-      - name: Generar y verificar Word WeatherLink
-        run: python src/generar_word_weatherlink.py
-
-      - name: Verificar entrega Word para PC y celular
+      - name: Publicar sólo productos WeatherLink vigentes
+        if: steps.freshness.outputs.stale == 'true'
         shell: bash
         run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          p = Path('data/weatherlink/Reportes/Estado_Word.json')
-          s = json.loads(p.read_text(encoding='utf-8'))
-          assert s.get('verified') is True, 'Word no verificado'
-          assert s.get('docx_structure_verified') is True, 'Estructura DOCX no verificada'
-          assert s.get('download_url', '').endswith('?raw=1'), 'Falta URL de descarga directa'
-          print('Word WeatherLink verificado y listo para descarga directa:', s['download_url'])
-          PY
-
-      - name: Publicar estado, tabla, temperatura y Word WeatherLink
-        shell: bash
-        run: |
-          set -e
-          git config user.name "Agente Hidrometeorologico Cloud"
+          set -euo pipefail
+          git config user.name "WeatherLink Autónomo"
           git config user.email "actions@users.noreply.github.com"
-          git add data/weatherlink/state.json \
-                  data/weatherlink/latest.json \
-                  data/weatherlink/extra_state.json \
-                  data/weatherlink/extra_latest.json \
-                  data/weatherlink/shared_resolved.json \
-                  data/weatherlink/Tabla_WeatherLink_Cloud.csv \
-                  data/weatherlink/Estado_WeatherLink_Cloud.json \
-                  data/weatherlink/temperature_state.json \
-                  data/weatherlink/temperature_summary.json \
-                  data/weatherlink/Reportes
-          if git diff --cached --quiet; then
-            echo "Sin cambios WeatherLink para publicar."
-            exit 0
-          fi
 
-          # Guardar productos validados antes de sincronizar: evita rebase de
-          # historicos JSON y DOCX cuando otro recolector publica simultaneamente.
-          tar -cf /tmp/weatherlink-primary.tar data/weatherlink/state.json data/weatherlink/latest.json data/weatherlink/extra_state.json data/weatherlink/extra_latest.json data/weatherlink/shared_resolved.json data/weatherlink/Tabla_WeatherLink_Cloud.csv data/weatherlink/Estado_WeatherLink_Cloud.json data/weatherlink/temperature_state.json data/weatherlink/temperature_summary.json data/weatherlink/Reportes
-          cp data/weatherlink/Estado_WeatherLink_Cloud.json /tmp/weatherlink-primary-status.json
-          cp data/weatherlink/extra_latest.json /tmp/weatherlink-primary-extra.json
+          PRODUCTOS=(
+            data/weatherlink/state.json
+            data/weatherlink/latest.json
+            data/weatherlink/extra_state.json
+            data/weatherlink/extra_latest.json
+            data/weatherlink/shared_resolved.json
+            data/weatherlink/Tabla_WeatherLink_Cloud.csv
+            data/weatherlink/Estado_WeatherLink_Cloud.json
+          )
 
-          for intento in 1 2 3; do
-            echo "Intento de publicación ${intento}/3"
+          tar -cf /tmp/weatherlink-autonomo.tar "${PRODUCTOS[@]}"
+          cp data/weatherlink/Estado_WeatherLink_Cloud.json /tmp/weatherlink-candidato.json
+
+          for ciclo in 1 2 3; do
             git fetch origin main
             git reset --hard origin/main
+
             if python3 - <<'PY'
           import json
+          from datetime import datetime, timezone
           from pathlib import Path
-          from datetime import datetime,timezone
-          def stamp(p):
-              try:return datetime.fromisoformat(json.loads(Path(p).read_text())['run_utc'].replace('Z','+00:00')).astimezone(timezone.utc)
-              except (OSError,ValueError,KeyError,TypeError):return None
-          a=stamp('/tmp/weatherlink-primary-status.json'); b=stamp('/tmp/weatherlink-primary-extra.json')
-          x=stamp('data/weatherlink/Estado_WeatherLink_Cloud.json'); y=stamp('data/weatherlink/extra_latest.json')
-          raise SystemExit(0 if x and y and a and b and x>=a and y>=b else 1)
+          def stamp(path):
+              try:
+                  s=json.loads(Path(path).read_text(encoding='utf-8'))['run_utc']
+                  d=datetime.fromisoformat(str(s).replace('Z','+00:00'))
+                  return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
+              except Exception:
+                  return None
+          proposed=stamp('/tmp/weatherlink-candidato.json')
+          current=stamp('data/weatherlink/Estado_WeatherLink_Cloud.json')
+          raise SystemExit(0 if proposed and current and current>=proposed else 1)
           PY
             then
-              echo "Ambos cortes ya incorporados o superados; no retroceder."
+              echo "El remoto ya contiene este corte o uno posterior."
               exit 0
             fi
-            tar -xf /tmp/weatherlink-primary.tar
-            git add data/weatherlink
-            git commit -m "Actualiza WeatherLink cloud, temperatura y Word [skip ci]"
-            if git push origin HEAD:main; then
-              echo "Publicación WeatherLink completada."
-              exit 0
-            fi
-            sleep $((intento * 10))
+
+            tar -xf /tmp/weatherlink-autonomo.tar
+            git add "${PRODUCTOS[@]}"
+            git diff --cached --quiet && exit 0
+            git commit -m "Actualiza WeatherLink autónomo [skip ci]"
+
+            for intento in 1 2 3; do
+              if git push origin HEAD:main; then
+                echo "WeatherLink autónomo publicado."
+                exit 0
+              fi
+              sleep $((intento * 8))
+            done
+            sleep $((ciclo * 8))
           done
 
-          echo "No fue posible publicar WeatherLink después de 3 intentos."
+          echo "No fue posible publicar WeatherLink autónomo."
           exit 1
