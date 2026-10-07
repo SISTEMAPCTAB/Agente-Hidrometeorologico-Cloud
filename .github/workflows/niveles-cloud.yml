@@ -78,6 +78,9 @@ jobs:
           NIVELES_BASE: data/niveles
         run: python src/niveles_cloud_robusto.py
 
+      - name: Extraer gastos CONAGUA para modelo hidrológico (salida aislada)
+        run: python src/extraer_gastos_modelo.py
+
       - name: Completar todas las horas publicadas del boletín hidrométrico
         env:
           CARBONIO_BASE: https://correo.tabasco.gob.mx
@@ -93,9 +96,6 @@ jobs:
 
       - name: Extraer lluvia y temperatura de boletines CONAGUA Tabasco y Frontera Sur
         run: python src/extraer_clima_boletines.py
-
-      - name: Extraer gastos CONAGUA para modelo hidrológico (salida aislada)
-        run: python src/extraer_gastos_modelo.py
 
       - name: Extraer lluvia horaria CONAGUA del reporte más reciente
         env:
