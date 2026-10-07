@@ -16,9 +16,12 @@ PAGE = "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia"
 SEEDS = {
  "matutino": "https://www.gob.mx/cms/uploads/attachment/file/1106630/Informe_Matutino_02102026.pdf"
 }
-UA={"User-Agent":"Mozilla/5.0 (compatible; IPCET-Hidromet/1.0; seguimiento de informes publicos)","Accept":"text/html,application/pdf,*/*"}
+UA={"User-Agent":"Mozilla/5.0 (compatible; IPCET-Hidromet/1.0; seguimiento de informes publicos)","Accept":"text/html,application/pdf,*/*","Cache-Control":"no-cache, no-store, max-age=0","Pragma":"no-cache"}
 session=requests.Session()
 session.headers.update(UA)
+
+def fresh_page_url():
+ return PAGE + ("&" if "?" in PAGE else "?") + "_ipcet=" + str(int(dt.datetime.now(dt.timezone.utc).timestamp()))
 sources={key:[url] for key,url in SEEDS.items()}
 sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf")
 sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf")
@@ -66,6 +69,8 @@ def discover(html,base):
    candidates.append(href)
  decoded=html.replace("\\/","/").replace("&amp;","&")
  candidates += re.findall(r'https?://(?:www\.)?gob\.mx/cms/uploads/attachment/file/\d+/[^"\s<>)]+?\.pdf',decoded,re.I)
+ relatives=re.findall(r'/cms/uploads/attachment/file/\d+/[^"\s<>)]+?\.pdf',decoded,re.I)
+ candidates += [urllib.parse.urljoin(base,x) for x in relatives]
  for href in candidates:
   for typ in sources:
    if typ in urllib.parse.unquote(href).lower() and href not in sources[typ]:
@@ -73,8 +78,9 @@ def discover(html,base):
  return len(candidates)
 
 try:
- response,transport,direct_status=get_with_reader(PAGE,25)
- result["discovery"]={"http":direct_status,"transport":transport,"url":PAGE}
+ page_url=fresh_page_url()
+ response,transport,direct_status=get_with_reader(page_url,25)
+ result["discovery"]={"http":direct_status,"transport":transport,"url":PAGE,"request_url":page_url}
  if response is not None and response.ok:
   result["discovery"]["candidates"]=discover(response.text,PAGE)
   if transport=="direct":
@@ -100,7 +106,7 @@ if not any(report_date(u)==local_today for u in sources["matutino"]):
   with sync_playwright() as p:
    browser=p.chromium.launch(headless=True)
    page=browser.new_page()
-   page.goto(PAGE,wait_until="networkidle",timeout=45000)
+   page.goto(fresh_page_url(),wait_until="networkidle",timeout=45000)
    links=page.locator("a")
    for i in range(links.count()):
     a=links.nth(i)
