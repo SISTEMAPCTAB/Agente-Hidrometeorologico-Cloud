@@ -21,9 +21,10 @@ on:
       - '.github/workflows/fuentes-publicas-cloud.yml'
   schedule:
     # BHVGM: cortes operativos observados 08:00, 14:00 y 20:00 hora Tabasco/Guatemala.
-    # Se consulta 23 min después y se reintenta una hora después, sin sondeo continuo.
+    # Consulta primaria 23 min después. El respaldo se separa cuatro horas para
+    # cubrir retrasos/omisiones del scheduler de GitHub sin sondeo continuo.
     - cron: '23 14,20,2 * * *'
-    - cron: '23 15,21,3 * * *'
+    - cron: '23 18,0,6 * * *'
 
 permissions:
   contents: write
