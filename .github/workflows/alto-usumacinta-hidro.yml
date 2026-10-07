@@ -1,0 +1,105 @@
+name: Alto Usumacinta Hidrométrico - respaldo ligero
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/insivumeh_alto_hidro_extra.py'
+      - '.github/workflows/alto-usumacinta-hidro.yml'
+  schedule:
+    # INSIVUMEH BHVGM: cortes 08:00, 14:00 y 20:00 hora Tabasco/Guatemala.
+    # Respaldo ligero 37 min después; no toca WeatherLink, niveles, SMN ni otras fuentes.
+    - cron: '37 14,20,2 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: alto-usumacinta-hidro
+  cancel-in-progress: true
+
+jobs:
+  alto-usumacinta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Dependencias mínimas
+        shell: bash
+        run: |
+          python - <<'PY'
+          import importlib.util, subprocess, sys
+          missing=[]
+          for module, package in [('requests','requests'),('pypdf','pypdf')]:
+              if importlib.util.find_spec(module) is None:
+                  missing.append(package)
+          if missing:
+              subprocess.check_call([sys.executable,'-m','pip','install','--disable-pip-version-check','--no-cache-dir',*missing])
+          else:
+              print('requests y pypdf ya disponibles')
+          PY
+
+      - name: Recolectar Alto Usumacinta desde BHVGM fresco
+        run: python src/insivumeh_alto_hidro_extra.py
+
+      - name: Verificar producto
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('data/fuentes_publicas/insivumeh_alto_hidro.json')
+          d=json.loads(p.read_text(encoding='utf-8'))
+          rows={x.get('estacion'):x for x in d.get('estaciones',[])}
+          assert len(d.get('estaciones',[])) >= 5, 'Catálogo Alto Usumacinta incompleto'
+          assert d.get('observadas',0) >= 2, 'No se obtuvieron lecturas hidrométricas suficientes'
+          assert rows.get('El Tigre',{}).get('nivel_instantaneo_m') is not None, 'El Tigre sin nivel'
+          assert rows.get('El Porvenir',{}).get('nivel_instantaneo_m') is not None, 'El Porvenir sin nivel'
+          print('Alto Usumacinta verificado:',d.get('fecha'),d.get('hora'),'observadas=',d.get('observadas'))
+          print('El Tigre:',rows['El Tigre'].get('nivel_instantaneo_m'),rows['El Tigre'].get('caudal_instantaneo_m3s'))
+          print('El Porvenir:',rows['El Porvenir'].get('nivel_instantaneo_m'),rows['El Porvenir'].get('caudal_instantaneo_m3s'))
+          PY
+
+      - name: Publicar sólo Alto Usumacinta
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Agente Alto Usumacinta"
+          git config user.email "actions@users.noreply.github.com"
+
+          tar -cf /tmp/alto-usumacinta.tar \
+            data/fuentes_publicas/insivumeh_alto_hidro.json \
+            data/fuentes_publicas/insivumeh_alto_hidro_historico.json
+
+          for ciclo in 1 2 3 4; do
+            git fetch origin main
+            git reset --hard origin/main
+            tar -xf /tmp/alto-usumacinta.tar
+            git add data/fuentes_publicas/insivumeh_alto_hidro.json \
+                    data/fuentes_publicas/insivumeh_alto_hidro_historico.json
+            if git diff --cached --quiet; then
+              echo "El producto ya está publicado o no cambió."
+              exit 0
+            fi
+            git commit -m "Actualiza Alto Usumacinta hidrométrico [skip ci]"
+            for intento in 1 2 3; do
+              if git push origin HEAD:main; then
+                echo "Alto Usumacinta publicado."
+                exit 0
+              fi
+              sleep $((intento * 10))
+            done
+            sleep $((ciclo * 8))
+          done
+          echo "No fue posible publicar Alto Usumacinta."
+          exit 1
