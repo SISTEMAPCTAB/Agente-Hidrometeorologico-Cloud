@@ -106,7 +106,10 @@ if not any(report_date(u)==local_today for u in sources["matutino"]):
   with sync_playwright() as p:
    browser=p.chromium.launch(headless=True)
    page=browser.new_page()
+   network_urls=[]
+   page.on("response",lambda resp: network_urls.append(resp.url))
    page.goto(fresh_page_url(),wait_until="networkidle",timeout=45000)
+   result["discovery"]["browser_network_urls"]=list(dict.fromkeys(network_urls))[:200]
    links=page.locator("a")
    rendered=[]
    for i in range(links.count()):
