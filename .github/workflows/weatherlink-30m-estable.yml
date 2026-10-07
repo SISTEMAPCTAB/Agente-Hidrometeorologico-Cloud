@@ -2,6 +2,10 @@ name: WeatherLink autónomo estable
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/weatherlink-30m-estable.yml'
   schedule:
     # Supervisor autónomo y ligero. Se consulta cada 10 min, pero sólo recolecta
     # cuando el corte principal o adicional supera 24 min. No hay reproceso.
