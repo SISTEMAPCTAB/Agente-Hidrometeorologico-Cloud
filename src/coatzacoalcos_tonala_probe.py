@@ -172,28 +172,35 @@ except Exception as exc:
 # oficial del archivo del día. La validación posterior del encabezado y las filas
 # sigue siendo obligatoria antes de publicar.
 local_today=dt.datetime.now(dt.timezone(dt.timedelta(hours=-6))).date()
-if not any(report_date(u)==local_today for u in sources["matutino"]):
- stamp=local_today.strftime("%d%m%Y")
- known=[]
- for u in sources["matutino"]:
-  m_id=re.search(r"/file/(\d+)/",u)
-  d=report_date(u)
-  if m_id and d!=dt.date.min:
-   known.append((d,int(m_id.group(1))))
- known=sorted(set(known))
- if known:
-  last_date,last_id=known[-1]
-  daily_rate=270
-  if len(known)>=2:
-   prev_date,prev_id=known[-2]
-   dd=max(1,(last_date-prev_date).days)
-   observed=round((last_id-prev_id)/dd)
-   if 120<=observed<=500:daily_rate=observed
-  days=max(1,(local_today-last_date).days)
+known=[]
+for u in sources["matutino"]:
+ m_id=re.search(r"/file/(\d+)/",u)
+ d=report_date(u)
+ if m_id and d!=dt.date.min:
+  known.append((d,int(m_id.group(1))))
+known=sorted(set(known))
+if known:
+ last_date,last_id=known[-1]
+ daily_rate=270
+ if len(known)>=2:
+  prev_date,prev_id=known[-2]
+  dd=max(1,(last_date-prev_date).days)
+  observed=round((last_id-prev_id)/dd)
+  if 120<=observed<=500:daily_rate=observed
+ # Si un disparo nocturno fue omitido, recuperar también los días intermedios
+ # pendientes (máximo 7 días) en vez de buscar únicamente la fecha del reloj.
+ missing_days=min(7,max(0,(local_today-last_date).days))
+ target_dates=[local_today-dt.timedelta(days=i) for i in range(missing_days+1)
+               if local_today-dt.timedelta(days=i)>last_date]
+ result["discovery"]["filename_probe_windows"]=[]
+ for target_date in target_dates:
+  if any(report_date(u)==target_date for u in sources["matutino"]):continue
+  stamp=target_date.strftime("%d%m%Y")
+  days=max(1,(target_date-last_date).days)
   predicted=last_id+days*daily_rate
   lo=max(last_id+1,predicted-600)
   hi=predicted+600
-  result["discovery"]["filename_probe_window"]={"from":lo,"to":hi,"predicted":predicted,"daily_rate":daily_rate,"base_date":last_date.isoformat(),"base_id":last_id}
+  result["discovery"]["filename_probe_windows"].append({"date":target_date.isoformat(),"from":lo,"to":hi,"predicted":predicted,"daily_rate":daily_rate,"base_date":last_date.isoformat(),"base_id":last_id})
   def probe_id(fid):
    candidate=f"https://www.gob.mx/cms/uploads/attachment/file/{fid}/Informe_Matutino_{stamp}.pdf"
    try:
@@ -215,6 +222,8 @@ if not any(report_date(u)==local_today for u in sources["matutino"]):
   if hit:
    sources["matutino"].append(hit)
    result["discovery"]["filename_probe_hit"]=hit
+   result["discovery"]["filename_probe_hit_date"]=target_date.isoformat()
+   break
 
 for typ in sources:
  sources[typ].sort(key=lambda u:(report_date(u), int(re.search(r"/file/(\\d+)/",u).group(1)) if re.search(r"/file/(\\d+)/",u) else 0),reverse=True)
