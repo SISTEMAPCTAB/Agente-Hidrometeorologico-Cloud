@@ -48,7 +48,9 @@ function load(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'))
        x:p.x,
        y:p.y,
        bloque_secuencial:items.slice(Math.max(0,idx-12),Math.min(items.length,idx+30)),
-       misma_zona:items.filter(x=>x.page===p.page&&Math.abs(x.y-p.y)<=14).sort((a,b)=>b.y-a.y||a.x-b.x)
+       misma_zona:items.filter(x=>x.page===p.page&&Math.abs(x.y-p.y)<=14).sort((a,b)=>b.y-a.y||a.x-b.x),
+       columna_vertical:items.filter(x=>x.page===p.page&&Math.abs(x.x-p.x)<=16&&x.y<p.y+8&&x.y>90).sort((a,b)=>b.y-a.y||a.x-b.x),
+       columna_amplia:items.filter(x=>x.page===p.page&&Math.abs(x.x-p.x)<=28&&x.y<p.y+8&&x.y>90).sort((a,b)=>b.y-a.y||a.x-b.x)
      };
    }
    save(path.join(dir,'diagnostico_parser_ultima.json'),{
