@@ -108,17 +108,32 @@ if not any(report_date(u)==local_today for u in sources["matutino"]):
    page=browser.new_page()
    page.goto(fresh_page_url(),wait_until="networkidle",timeout=45000)
    links=page.locator("a")
+   rendered=[]
    for i in range(links.count()):
     a=links.nth(i)
     try:
      label=(a.inner_text() or "").strip()
      href=a.get_attribute("href") or ""
      full=urllib.parse.urljoin(PAGE,href)
-     if "matutino" in (label+" "+full).lower() and full.lower().endswith(".pdf"):
+     blob=(label+" "+full).lower()
+     if "matutino" in blob or "hidrometeor" in blob or ".pdf" in blob:
+      rendered.append({"label":label[:180],"href":full[:500]})
+     if "matutino" in blob and full.lower().endswith(".pdf"):
       if full not in sources["matutino"]:
        sources["matutino"].append(full)
     except Exception:
      pass
+   html=page.content()
+   low=html.lower()
+   snippets=[]
+   pos=0
+   while len(snippets)<20:
+    j=low.find("matutino",pos)
+    if j<0:break
+    snippets.append(re.sub(r"\s+"," ",html[max(0,j-350):j+500])[:900])
+    pos=j+8
+   result["discovery"]["browser_links"]=rendered[:80]
+   result["discovery"]["browser_matutino_snippets"]=snippets
    browser.close()
   result["discovery"]["browser_render"]=True
  except Exception as exc:
