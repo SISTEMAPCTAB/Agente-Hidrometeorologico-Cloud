@@ -2,10 +2,6 @@ name: WeatherLink Cloud - 32 estaciones
 
 on:
   workflow_dispatch:
-  schedule:
-    # WeatherLink opera 24/7, independiente de Gmail/niveles.
-    # Cada 30 minutos para mantener vigente el corte mostrado en el agente.
-    - cron: '7,37 * * * *'
   push:
     branches: [main]
     paths:
