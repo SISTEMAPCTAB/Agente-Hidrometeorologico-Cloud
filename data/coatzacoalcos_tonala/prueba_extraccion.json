@@ -1,25 +1,64 @@
 {
-  "checked_at_utc": "2026-10-07T06:49:44.031485+00:00",
+  "checked_at_utc": "2026-10-07T06:52:02.708907+00:00",
   "source_page": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
   "discovery": {
     "http": 200,
     "transport": "direct",
     "url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
-    "request_url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia?_ipcet=1791355784",
+    "request_url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia?_ipcet=1791355922",
     "candidates": 0,
     "browser_links": [],
     "browser_matutino_snippets": [],
     "browser_render": true,
     "publicaciones_selects": [],
     "publicaciones_buttons": [],
-    "filename_probe_window": {
-      "from": 1107380,
-      "to": 1108580,
-      "predicted": 1107980,
-      "daily_rate": 270,
-      "base_date": "2026-10-02",
-      "base_id": 1106630
-    },
+    "filename_probe_windows": [
+      {
+        "date": "2026-10-07",
+        "from": 1107380,
+        "to": 1108580,
+        "predicted": 1107980,
+        "daily_rate": 270,
+        "base_date": "2026-10-02",
+        "base_id": 1106630
+      },
+      {
+        "date": "2026-10-06",
+        "from": 1107110,
+        "to": 1108310,
+        "predicted": 1107710,
+        "daily_rate": 270,
+        "base_date": "2026-10-02",
+        "base_id": 1106630
+      },
+      {
+        "date": "2026-10-05",
+        "from": 1106840,
+        "to": 1108040,
+        "predicted": 1107440,
+        "daily_rate": 270,
+        "base_date": "2026-10-02",
+        "base_id": 1106630
+      },
+      {
+        "date": "2026-10-04",
+        "from": 1106631,
+        "to": 1107770,
+        "predicted": 1107170,
+        "daily_rate": 270,
+        "base_date": "2026-10-02",
+        "base_id": 1106630
+      },
+      {
+        "date": "2026-10-03",
+        "from": 1106631,
+        "to": 1107500,
+        "predicted": 1106900,
+        "daily_rate": 270,
+        "base_date": "2026-10-02",
+        "base_id": 1106630
+      }
+    ],
     "matutino_candidates": [
       "https://www.gob.mx/cms/uploads/attachment/file/1106630/Informe_Matutino_02102026.pdf",
       "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf",
