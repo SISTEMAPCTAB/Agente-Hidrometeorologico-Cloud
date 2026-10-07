@@ -99,7 +99,9 @@ function load(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'))
      filas_HA:items.filter(x=>x.page===1&&(
        (norm(x.str)==='H.A.'&&x.x<100) ||
        items.some(q=>q.page===1&&norm(q.str)==='H.A.'&&q.x<100&&Math.abs(x.y-q.y)<=3.2)
-     )).sort((a,b)=>b.y-a.y||a.x-b.x)
+     )).sort((a,b)=>b.y-a.y||a.x-b.x),
+     bloque_presas:items.filter(x=>x.page===1&&x.x>=85&&x.x<=205&&x.y>=90&&x.y<=430)
+       .sort((a,b)=>b.y-a.y||a.x-b.x)
    });
    throw new Error(`Fila Peñitas incompleta: ${pen.length} valores numéricos`);
  }
