@@ -26,6 +26,7 @@ jobs:
       - name: Descargar repositorio
         uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
       - name: Verificar si realmente hace falta recolectar
