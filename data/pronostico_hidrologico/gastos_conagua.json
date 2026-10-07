@@ -1,8 +1,8 @@
 {
   "fuente": "CONAGUA OCFS / fuentes ya recolectadas",
   "producto": "Gastos para modelo hidrologico",
-  "generado_utc": "2026-10-07T19:52:25.013800+00:00",
-  "regla": "Q desde columnas Gasto; Peñitas desde la extracción promedio del boletín más reciente FUENTE1/FUENTE2; ausente=null",
+  "generado_utc": "2026-10-07T20:54:06.345Z",
+  "regla": "Q desde columnas Gasto; Peñitas desde la extracción promedio del boletín más reciente FUENTE1/FUENTE2; Platanar sin gasto actual explícito=null; ausente=null",
   "estaciones": [
     {
       "estacion": "Samaria",
@@ -41,22 +41,22 @@
       "estacion": "Tapijulapa",
       "rio": "La Sierra",
       "h_anterior_m": 17.27,
-      "q_anterior_m3s": 18.0,
+      "q_anterior_m3s": 18,
       "h_actual_m": 17.23,
-      "q_actual_m3s": 144.0,
+      "q_actual_m3s": 144,
       "delta_h_m": -0.04,
-      "delta_q_m3s": 126.0,
+      "delta_q_m3s": 126,
       "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
       "estacion": "Teapa",
       "rio": "Teapa",
       "h_anterior_m": 34.32,
-      "q_anterior_m3s": 95.0,
+      "q_anterior_m3s": 95,
       "h_actual_m": 34.08,
-      "q_actual_m3s": 71.0,
+      "q_actual_m3s": 71,
       "delta_h_m": -0.24,
-      "delta_q_m3s": -24.0,
+      "delta_q_m3s": -24,
       "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
@@ -85,7 +85,7 @@
       "estacion": "Pueblo Nuevo",
       "rio": "La Sierra",
       "h_anterior_m": 3.39,
-      "q_anterior_m3s": 96.0,
+      "q_anterior_m3s": 96,
       "h_actual_m": 3.78,
       "q_actual_m3s": 134.53,
       "delta_h_m": 0.39,
@@ -96,11 +96,11 @@
       "estacion": "Porvenir",
       "rio": "Grijalva",
       "h_anterior_m": 0.91,
-      "q_anterior_m3s": 233.0,
+      "q_anterior_m3s": 233,
       "h_actual_m": 1.05,
-      "q_actual_m3s": 246.0,
+      "q_actual_m3s": 246,
       "delta_h_m": 0.14,
-      "delta_q_m3s": 13.0,
+      "delta_q_m3s": 13,
       "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
@@ -108,11 +108,11 @@
       "rio": "Platanar",
       "h_anterior_m": null,
       "q_anterior_m3s": null,
-      "h_actual_m": 32.28,
-      "q_actual_m3s": 34.65,
+      "h_actual_m": null,
+      "q_actual_m3s": null,
       "delta_h_m": null,
       "delta_q_m3s": null,
-      "validacion": "columna_gasto_conagua_resumen"
+      "validacion": "sin_gasto_actual_observado_en_fuente"
     },
     {
       "estacion": "Peñitas",
