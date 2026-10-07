@@ -36,9 +36,18 @@ def get_with_reader(url, timeout=35):
  direct=None
  try:
   direct=session.get(url,timeout=timeout)
-  if direct.ok:
-   return direct,"direct",direct.status_code
   direct_status=direct.status_code
+  if direct.ok:
+   ctype=direct.headers.get("Content-Type","").lower()
+   # gob.mx puede devolver HTTP 200 con una página de verificación Akamai en
+   # lugar del contenido solicitado. No aceptar ese 200 como fuente válida.
+   body=""
+   if "html" in ctype or "text" in ctype:
+    try:body=direct.text.lower()
+    except Exception:body=""
+   challenged=("/_sec/verify" in body or "go-mpulse.net" in body or "epcc75td" in body)
+   if not challenged:
+    return direct,"direct",direct_status
  except requests.RequestException:
   direct_status=None
  try:
