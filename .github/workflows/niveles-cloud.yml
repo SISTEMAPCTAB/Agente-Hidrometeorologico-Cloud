@@ -165,8 +165,8 @@ jobs:
 
           tar -cf /tmp/productos-niveles.tar "${PRODUCTOS[@]}"
 
-          for intento in 1 2 3; do
-            echo "Intento de publicación niveles ${intento}/3"
+          for ciclo in 1 2 3 4; do
+            echo "Ciclo de publicación niveles ${ciclo}/4"
             git fetch origin main
             git reset --hard origin/main
             tar -xf /tmp/productos-niveles.tar
@@ -178,14 +178,21 @@ jobs:
             fi
 
             git commit -m "Actualiza niveles lluvia clima CONAGUA y graficas [skip ci]"
-            if git push origin HEAD:main; then
-              echo "Niveles publicados sin conflictos."
-              exit 0
-            fi
 
-            echo "El remoto cambió durante la publicación; se reconstruirá el commit sobre el HEAD vigente."
-            sleep $((intento * 8))
+            # Primero reintenta el mismo commit: cubre errores 5xx/transitorios de GitHub
+            # sin reconstruir productos ni perder una extracción ya validada.
+            for push_intento in 1 2 3; do
+              echo "Push niveles ${push_intento}/3 del ciclo ${ciclo}/4"
+              if git push origin HEAD:main; then
+                echo "Niveles publicados sin conflictos."
+                exit 0
+              fi
+              sleep $((push_intento * 12))
+            done
+
+            echo "Push no aceptado; reconstruyendo sobre el HEAD remoto vigente."
+            sleep $((ciclo * 10))
           done
 
-          echo "No fue posible publicar niveles después de 3 intentos."
+          echo "No fue posible publicar niveles después de 4 ciclos con reintentos."
           exit 1
