@@ -5,7 +5,7 @@ on:
   schedule:
     # WeatherLink opera 24/7, independiente de Gmail/niveles.
     # Cada 30 minutos para mantener vigente el corte mostrado en el agente.
-    - cron: '*/30 * * * *'
+    - cron: '7,37 * * * *'
   push:
     branches: [main]
     paths:
@@ -120,8 +120,8 @@ jobs:
           cp data/weatherlink/Estado_WeatherLink_Cloud.json /tmp/weatherlink-primary-status.json
           cp data/weatherlink/extra_latest.json /tmp/weatherlink-primary-extra.json
 
-          for intento in 1 2 3; do
-            echo "Intento de publicación ${intento}/3"
+          for ciclo in 1 2 3 4; do
+            echo "Ciclo de publicación WeatherLink ${ciclo}/4"
             git fetch origin main
             git reset --hard origin/main
             if python3 - <<'PY'
@@ -142,12 +142,20 @@ jobs:
             tar -xf /tmp/weatherlink-primary.tar
             git add data/weatherlink
             git commit -m "Actualiza WeatherLink cloud, temperatura y Word [skip ci]"
-            if git push origin HEAD:main; then
-              echo "Publicación WeatherLink completada."
-              exit 0
-            fi
-            sleep $((intento * 10))
+
+            # Reintento corto del mismo commit para fallas 5xx/transitorias del remoto.
+            for push_intento in 1 2 3; do
+              echo "Push WeatherLink ${push_intento}/3 del ciclo ${ciclo}/4"
+              if git push origin HEAD:main; then
+                echo "Publicación WeatherLink completada."
+                exit 0
+              fi
+              sleep $((push_intento * 12))
+            done
+
+            echo "Push no aceptado; reconstruyendo sobre el HEAD remoto vigente."
+            sleep $((ciclo * 10))
           done
 
-          echo "No fue posible publicar WeatherLink después de 3 intentos."
+          echo "No fue posible publicar WeatherLink después de 4 ciclos con reintentos."
           exit 1
