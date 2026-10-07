@@ -135,7 +135,19 @@ def main():
     parsed_by = {}
     if url_pdf:
         try:
+            # El PDF se descarga siempre con cache-busting. Su encabezado y sus
+            # lecturas frescas tienen prioridad sobre latest.json, que puede
+            # quedar rezagado si otro flujo de GitHub no se ejecutó.
             flat = asc(extract_text(url_pdf))
+            m_fecha = re.search(r'Fecha:\s*(\d{1,2}/\d{1,2}/\d{4})', flat, re.I)
+            m_hora = re.search(r'Hora:\s*(\d{1,2}:\d{2})', flat, re.I)
+            m_boletin = re.search(r'BOLETIN\s+(?:No\.?\s*)?(\d+)\s+ano\s+(\d{4})', flat, re.I)
+            if m_fecha:
+                result['fecha'] = m_fecha.group(1)
+            if m_hora:
+                result['hora'] = m_hora.group(1)
+            if m_boletin:
+                result['boletin'] = f"{m_boletin.group(1)}-{m_boletin.group(2)}"
             for args in TARGETS:
                 row = parse_station(flat, *args)
                 if row:
@@ -147,7 +159,8 @@ def main():
 
     for station, river, location, _aliases in TARGETS:
         key = norm_name(station)
-        row = structured_from_latest(latest, station) or parsed_by.get(key)
+        # Prioridad: PDF fresco > estructura heredada de latest.json.
+        row = parsed_by.get(key) or structured_from_latest(latest, station)
         if row:
             row = dict(row)
             row['estacion'] = station
