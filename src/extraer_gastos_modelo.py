@@ -59,11 +59,6 @@ def main():
    if len(a)>=6:
     hp,qp,ha,qa=a[1:5]
     d.update(h_anterior_m=hp,q_anterior_m3s=qp,h_actual_m=ha,q_actual_m3s=qa,delta_h_m=round(ha-hp,3),delta_q_m3s=round(qa-qp,3),validacion="columnas_gasto_conagua_dia_anterior_actual")
-  if key=="Platanar" and d["q_actual_m3s"] is None:
-   line=next((x for x in lines if norm(x).startswith("platanar platanar ")),None)
-   if line:
-    a=nums(line)
-    if len(a)>=2:d.update(h_actual_m=a[0],q_actual_m3s=a[1],validacion="columna_gasto_conagua_resumen")
   out.append(d)
 
  # Peñitas: elegir el boletín más reciente entre FUENTE1 y FUENTE2.
