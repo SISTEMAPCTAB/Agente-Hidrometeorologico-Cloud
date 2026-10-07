@@ -36,7 +36,37 @@ function load(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'))
  }
  const pen=rowNums('Peñitas');
  const pla=rowNums('Platanar');
- if(pen.length<8)throw new Error(`Fila Peñitas incompleta: ${pen.length} valores numéricos`);
+ if(pen.length<8){
+   const dir=path.join('data','pronostico_hidrologico','prueba_macayo');
+   function contexto(label){
+     const nl=norm(label),idx=items.findIndex(x=>norm(x.str)===nl || norm(x.str).startsWith(nl+' '));
+     if(idx<0)return {encontrado:false};
+     const p=items[idx];
+     return {
+       encontrado:true,
+       page:p.page,
+       x:p.x,
+       y:p.y,
+       bloque_secuencial:items.slice(Math.max(0,idx-12),Math.min(items.length,idx+30)),
+       misma_zona:items.filter(x=>x.page===p.page&&Math.abs(x.y-p.y)<=14).sort((a,b)=>b.y-a.y||a.x-b.x)
+     };
+   }
+   save(path.join(dir,'diagnostico_parser_ultima.json'),{
+     modo:'SHADOW_ONLY',
+     generado_utc:new Date().toISOString(),
+     asunto:subject,
+     message_id:messageId,
+     archivo:path.basename(pdfPath),
+     fecha_detectada:date,
+     hora_detectada:hour,
+     paginas:[...new Set(items.map(x=>x.page))],
+     penitas_valores_detectados:pen,
+     platanar_valores_detectados:pla,
+     contexto_penitas:contexto('Peñitas'),
+     contexto_platanar:contexto('Platanar')
+   });
+   throw new Error(`Fila Peñitas incompleta: ${pen.length} valores numéricos`);
+ }
  const qPen=pen[7].v;
  if(!(qPen>=0&&qPen<=3000))throw new Error(`Extracción Peñitas fuera de rango: ${qPen}`);
  const qPla=pla.length>=4?pla[3].v:null;
