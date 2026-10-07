@@ -8,6 +8,7 @@ import niveles_cloud_robusto as robust
 nc = robust.base
 
 PROCESSOR = Path('src/procesar_niveles_horas.js')
+PENITAS_PROCESSOR = Path('src/extraer_penitas_horaria.js')
 
 
 def normalize_subject_hour(subject: str) -> str:
@@ -29,6 +30,26 @@ def run_processor(pdf_path: Path, subject: str, message_key: str):
         print(proc.stdout.strip())
     if proc.returncode != 0:
         raise RuntimeError(proc.stderr.strip() or f'{PROCESSOR} terminó con código {proc.returncode}')
+
+
+def run_penitas_probe(pdf_path: Path, subject: str, message_key: str):
+    """Prueba aislada: captura la extracción de Peñitas sin afectar niveles."""
+    if not PENITAS_PROCESSOR.exists():
+        print(f'Prueba Peñitas omitida: no existe {PENITAS_PROCESSOR}')
+        return
+    subject = normalize_subject_hour(subject)
+    cmd = [
+        'node', str(PENITAS_PROCESSOR),
+        '--pdf', str(pdf_path),
+        '--subject', subject,
+        '--message-id', message_key,
+        '--base', str(nc.BASE),
+    ]
+    proc = subprocess.run(cmd, capture_output=True, text=True)
+    if proc.stdout.strip():
+        print(proc.stdout.strip())
+    if proc.returncode != 0:
+        print(proc.stderr.strip() or f'Prueba Peñitas terminó con código {proc.returncode}')
 
 
 def main():
@@ -72,6 +93,7 @@ def main():
             pdf_path = tmpdir / f'{message_key}_{index}_{safe_name}'
             pdf_path.write_bytes(content)
             run_processor(pdf_path, subject, message_key)
+            run_penitas_probe(pdf_path, subject, message_key)
 
 
 if __name__ == '__main__':
