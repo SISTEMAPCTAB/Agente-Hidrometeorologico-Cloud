@@ -2,12 +2,6 @@ name: SIH CONAGUA Watchdog
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows:
-      - 'WeatherLink Cloud - 32 estaciones'
-      - 'WeatherLink Cloud 30m - estable'
-      - 'WeatherLink Rescue - independiente'
-    types: [completed]
   schedule:
     # Comprobación propia después de la actualización oficial diaria de SIH (12:00 h).
     - cron: '15 18 * * *'
