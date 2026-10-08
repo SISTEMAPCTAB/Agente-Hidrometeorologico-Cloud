@@ -1,15 +1,9 @@
 name: WeatherLink Cloud - 32 estaciones
 
 on:
+  # Respaldo manual solamente. La automatización operativa queda concentrada
+  # en weatherlink-30m-estable.yml para evitar dobles disparos y colisiones.
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/weatherlink-cloud.yml'
-      - 'src/weatherlink_cloud.py'
-      - 'src/weatherlink_extra_cloud.py'
-      - 'src/weatherlink_resolve_shared.py'
-      - 'data/control/weatherlink-trigger.txt'
 
 permissions:
   contents: write
