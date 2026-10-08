@@ -11,7 +11,6 @@ on:
       - 'src/insivumeh_historico.py'
       - 'src/insivumeh_contexto.py'
       - 'src/insivumeh_automaticas.py'
-      - 'src/insivumeh_alto_hidro_extra.py'
       - 'src/weatherlink_cloud.py'
       - 'src/weatherlink_extra_cloud.py'
       - 'src/weatherlink_resolve_shared.py'
@@ -96,33 +95,19 @@ jobs:
           done
           exit 1
 
-      - name: Completar estaciones hidrométricas Alto Usumacinta
-        shell: bash
-        run: |
-          set -e
-          for intento in 1 2 3; do
-            if python src/insivumeh_alto_hidro_extra.py; then exit 0; fi
-            echo "Reintento Alto Usumacinta hidrométrico ${intento}/3"
-            sleep $((intento * 10))
-          done
-          exit 1
 
       - name: Verificar productos mínimos
         shell: bash
         run: |
           test -s data/fuentes_publicas/latest.json
           test -s data/fuentes_publicas/insivumeh_automaticas.json
-          test -s data/fuentes_publicas/insivumeh_alto_hidro.json
           python - <<'PY'
           import json
           from pathlib import Path
           a=json.loads(Path('data/fuentes_publicas/insivumeh_automaticas.json').read_text(encoding='utf-8'))
-          h=json.loads(Path('data/fuentes_publicas/insivumeh_alto_hidro.json').read_text(encoding='utf-8'))
           assert a.get('estado') in ('ok','parcial'), 'Estado INSIVUMEH automáticas inválido'
           assert isinstance(a.get('estaciones'), list), 'Falta arreglo estaciones INSIVUMEH'
-          assert isinstance(h.get('estaciones'), list), 'Falta arreglo Alto Usumacinta hidrométrico'
-          assert len(h.get('estaciones', [])) >= 5, 'Catálogo Alto Usumacinta incompleto'
-          print('Fuentes públicas verificadas; automáticas:', len(a.get('estaciones', [])), 'hidrométricas Alto Usumacinta:', len(h.get('estaciones', [])))
+          print('Fuentes públicas INSIVUMEH verificadas; automáticas:', len(a.get('estaciones', [])))
           PY
 
       - name: Publicar fuentes públicas
@@ -131,7 +116,11 @@ jobs:
           set -e
           git config user.name "Agente Hidrometeorologico Cloud"
           git config user.email "actions@users.noreply.github.com"
-          git add data/fuentes_publicas
+          git add data/fuentes_publicas/latest.json \
+                  data/fuentes_publicas/insivumeh_automaticas.json \
+                  data/fuentes_publicas/insivumeh_historico.json \
+                  data/fuentes_publicas/insivumeh_contexto.json 2>/dev/null || true
+          # Alto Usumacinta tiene un único dueño: alto-usumacinta-hidro.yml
           git diff --cached --quiet && exit 0
           git commit -m "Actualiza fuentes públicas [skip ci]"
           for intento in 1 2 3; do
