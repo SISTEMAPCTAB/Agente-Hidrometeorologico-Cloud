@@ -3,7 +3,13 @@ name: SIH CONAGUA Watchdog
 on:
   workflow_dispatch:
   schedule:
-    # Comprobación propia después de la actualización oficial diaria de SIH (12:00 h).
+    # Recuperación aislada 15 min después de cada ventana SIH.
+    # Tabasco UTC-6: 09:45, 11:15, 17:15 y 22:15.
+    - cron: '45 15 * * *'
+    - cron: '15 17 * * *'
+    - cron: '15 23 * * *'
+    - cron: '15 5 * * *'
+    # Refuerzo tras la actualización oficial diaria de SIH.
     - cron: '15 18 * * *'
     - cron: '45 18 * * *'
   push:
