@@ -2,6 +2,11 @@ name: SMN Watchdog - recuperación autónoma
 
 on:
   workflow_dispatch:
+  schedule:
+    # Vigilancia autónoma SMN. Sólo actúa si el aviso 96 h aún no es del día.
+    # 10:15–13:45 hora Tabasco, cada 15 min.
+    - cron: '15,30,45 16-19 * * *'
+    - cron: '0 17-20 * * *'
   workflow_run:
     workflows:
       - 'WeatherLink Cloud - 32 estaciones'
@@ -17,7 +22,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: smn-cloud-fast
+  group: operacion-hidrometeorologica-writer
   cancel-in-progress: false
 
 jobs:
