@@ -163,11 +163,41 @@ jobs:
           )
 
           tar -cf /tmp/productos-niveles.tar "${PRODUCTOS[@]}"
+          cp data/niveles/Ultimo_Corte/ultimo_resumen.json /tmp/niveles-candidato.json
 
           for ciclo in 1 2 3 4; do
             echo "Ciclo de publicación niveles ${ciclo}/4"
             git fetch origin main
             git reset --hard origin/main
+            # GUARDIA_MONOTONICA_NIVELES: nunca sobrescribir un corte remoto más reciente.
+            if python3 - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+          def cut(path):
+              try:
+                  rows=json.loads(Path(path).read_text(encoding='utf-8'))
+                  vals=[datetime.fromisoformat(str(r['fecha_hora']).replace('Z','+00:00')).astimezone(timezone.utc) for r in rows if r.get('fecha_hora')]
+                  return max(vals) if vals else None
+              except (OSError, ValueError, KeyError, TypeError, AttributeError):
+                  return None
+          proposed=cut('/tmp/niveles-candidato.json')
+          published=cut('data/niveles/Ultimo_Corte/ultimo_resumen.json')
+          if proposed is None:
+              print('ERROR: candidato sin fecha hidrométrica válida; no se publica.')
+              raise SystemExit(2)
+          if published and published > proposed:
+              print('BLOQUEO: remoto más reciente:',published,'candidato:',proposed)
+              raise SystemExit(0)
+          raise SystemExit(1)
+          PY
+            then
+              echo "Corte remoto más reciente; no sobrescribir productos."
+              exit 0
+            else
+              rc=$?
+              if [ "$rc" -eq 2 ]; then exit 1; fi
+            fi
             tar -xf /tmp/productos-niveles.tar
             git add "${PRODUCTOS[@]}"
 
