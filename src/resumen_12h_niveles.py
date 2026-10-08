@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-import csv
 import json
 from collections import defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
 
-SRC = Path('data/niveles/Historico/niveles_historicos.csv')
+SRC = Path('data/niveles/Historico/niveles_historicos.json')
 OUT = Path('data/niveles/Resumen_12h/resumen_12h.json')
 WINDOW_HOURS = 12
 EPS = 0.02
@@ -37,18 +36,23 @@ def main():
     if not SRC.exists():
         raise SystemExit(f'No existe {SRC}')
     rows = []
-    with SRC.open(encoding='utf-8-sig', newline='') as f:
-        for r in csv.DictReader(f):
-            if norm(r.get('estado_dato')) != 'observado':
-                continue
-            dt = parse_dt(r.get('ultima_actualizacion_real') or r.get('fecha_hora'))
-            try:
-                nivel = float(r.get('nivel'))
-            except Exception:
-                continue
-            if dt is None:
-                continue
-            rows.append({**r, '_dt': dt, '_nivel': nivel})
+    try:
+        raw_rows = json.loads(SRC.read_text(encoding='utf-8'))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise SystemExit(f'No se pudo leer {SRC}: {exc}')
+    if not isinstance(raw_rows, list):
+        raise SystemExit(f'Formato inválido en {SRC}: se esperaba una lista JSON')
+    for r in raw_rows:
+        if not isinstance(r, dict) or norm(r.get('estado_dato')) != 'observado':
+            continue
+        dt = parse_dt(r.get('ultima_actualizacion_real') or r.get('fecha_hora'))
+        try:
+            nivel = float(r.get('nivel'))
+        except Exception:
+            continue
+        if dt is None:
+            continue
+        rows.append({**r, '_dt': dt, '_nivel': nivel})
     if not rows:
         raise SystemExit('Sin observaciones históricas válidas')
     latest = max(r['_dt'] for r in rows)
