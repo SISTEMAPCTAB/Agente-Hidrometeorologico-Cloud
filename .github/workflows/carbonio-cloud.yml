@@ -24,7 +24,7 @@ permissions:
 
 # Cola compartida: Carbonio, niveles y respaldos no publican datos simultáneamente.
 concurrency:
-  group: datos-hidrometeorologicos-writer
+  group: operacion-hidrometeorologica-writer
   cancel-in-progress: false
 
 jobs:
