@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: weatherlink-live-slots
+  group: operacion-hidrometeorologica-writer
   cancel-in-progress: false
 
 jobs:
