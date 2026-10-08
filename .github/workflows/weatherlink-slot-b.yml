@@ -1,4 +1,4 @@
-name: WeatherLink manual de contingencia B
+name: WeatherLink independiente B
 
 on:
   workflow_dispatch:
@@ -6,6 +6,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/weatherlink-slot-b.yml'
+  schedule:
+    # Turno independiente restaurado tras retrasos del supervisor.
+    - cron: '47 * * * *'
 
 permissions:
   contents: write
