@@ -36,6 +36,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
+      - name: Registrar verificación de Gmail
+        run: echo "Gmail backup disparo=${{ github.event_name }} fecha_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
       - name: Descargar repositorio
         uses: actions/checkout@v4
         with:
