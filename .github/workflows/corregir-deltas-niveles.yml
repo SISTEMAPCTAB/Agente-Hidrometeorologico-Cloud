@@ -8,23 +8,16 @@ on:
     paths:
       - 'src/corregir_deltas_niveles.py'
       - '.github/workflows/corregir-deltas-niveles.yml'
-  workflow_run:
-    workflows:
-      - 'Niveles Hidrométricos Cloud'
-      - 'Gmail Backup Cloud'
-    types:
-      - completed
 
 permissions:
   contents: write
 
 concurrency:
-  group: datos-hidrometeorologicos-writer
+  group: operacion-hidrometeorologica-writer
   cancel-in-progress: false
 
 jobs:
   corregir:
-    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
