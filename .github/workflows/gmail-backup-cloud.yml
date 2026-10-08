@@ -27,7 +27,7 @@ permissions:
 # Impide procesar/publicar simultáneamente los mismos históricos y Word.
 # WeatherLink mantiene su propia cola y frecuencia.
 concurrency:
-  group: datos-hidrometeorologicos-writer
+  group: gmail-backup-independent
   cancel-in-progress: false
 
 jobs:
@@ -253,7 +253,9 @@ jobs:
               b=source_time('data/latest/'+source+'.txt')
               if a and (not b or a>b):updates.append(source)
           print('Cortes Gmail/remoto:',candidate,current,'fuentes nuevas:',updates)
-          raise SystemExit(0 if not updates and (candidate is None or (current and current>=candidate)) else 1)
+          # Corte hidrométrico publicado nunca debe regresar ni ser sobrescrito
+          # por productos procesados con un boletín igual o anterior.
+          raise SystemExit(0 if candidate is None or (current and candidate<=current) else 1)
           PY
             then
               echo "Datos ya publicados o superados; se conserva el remoto."
