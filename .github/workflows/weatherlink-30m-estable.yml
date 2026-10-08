@@ -6,10 +6,6 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/weatherlink-30m-estable.yml'
-  schedule:
-    # Supervisor autónomo y ligero. Se consulta cada 10 min; prueba de puerta de frescura validada.
-    # cuando el corte principal o adicional supera 24 min. No hay reproceso.
-    - cron: '3/10 * * * *'
 
 permissions:
   contents: write
