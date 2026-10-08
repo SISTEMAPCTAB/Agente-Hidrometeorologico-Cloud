@@ -1,19 +1,16 @@
-name: WeatherLink independiente A - recolector cada 30 min
+name: WeatherLink independiente A - contingencia manual
 
 on:
+  # Contingencia manual. La única programación automática WeatherLink
+  # queda en weatherlink-30m-estable.yml, una vez por hora.
   workflow_dispatch:
-  schedule:
-    # WeatherLink: 24/7 cada 30 minutos, independiente de niveles y Gmail.
-    # Horarios Tabasco :17 y :47 (UTC mantiene los mismos minutos).
-    - cron: '17,47 * * * *'
 
 permissions:
   contents: write
 
 concurrency:
-  # Los dos turnos son independientes del resto del agente, pero se serializan
-  # entre sí para impedir recolecciones duplicadas.
-  group: operacion-hidrometeorologica-writer
+  # Comparte sólo la cola WeatherLink; no bloquea ni depende de Niveles.
+  group: weatherlink-cloud
   cancel-in-progress: false
 
 jobs:
