@@ -6,6 +6,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/weatherlink-slot-a.yml'
+  schedule:
+    # Turno A independiente. Minuto 17 evita la zona de mayor carga al inicio de hora.
+    - cron: '17 * * * *'
 
 permissions:
   contents: write
