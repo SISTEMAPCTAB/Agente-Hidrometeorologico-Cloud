@@ -27,12 +27,11 @@ on:
       - '.github/workflows/niveles-cloud.yml'
       - 'data/control/niveles-trigger.txt'
   schedule:
-    # Tabasco UTC-6: cada hora de 06:50 a 01:50 del día siguiente; pausa 02:00–05:59.
-    # Este es el recolector primario. Los respaldos se ejecutan después,
-    # escalonados, para no bloquear su turno de :50 en la cola de escritura.
-    # Los boletines nuevos en data/latest/FUENTE1.txt o FUENTE2.txt
-    # también disparan este flujo por push, sin esperar al siguiente turno.
-    - cron: '50 12-23,0-7 * * *'
+    # Niveles: hora 06:50 a 01:50 del día siguiente, hora de Tabasco (UTC-6).
+    # Único recolector principal programado de niveles. Pausa 02:00–06:49.
+    # Se conservan los disparos por llegada de boletines FUENTE1/FUENTE2.
+    - cron: '50 12-23 * * *'
+    - cron: '50 0-7 * * *'
 
 permissions:
   contents: write
