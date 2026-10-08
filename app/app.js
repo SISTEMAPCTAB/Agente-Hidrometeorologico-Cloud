@@ -131,6 +131,15 @@ async function refreshWeatherOnly(){
       const rw=await fetch(SRC.weather,{cache:'no-cache'});
       if(rw.ok)state.data.weather=await rw.json();
     }
+    // Evitar que el refresco WeatherLink repinte niveles antiguos.
+    // Recuperar niveles antes de redibujar y nunca aceptar un corte anterior.
+    try {
+      const latest=await getJSON(SRC.niveles);
+      if(Array.isArray(latest)&&latest.length){
+        const maxCut=rows=>Math.max(0,...rows.map(r=>Date.parse(r.fecha_hora)||0));
+        if(maxCut(latest)>=maxCut(levels()))state.data.niveles=latest;
+      }
+    }catch(_){/* Mantener último nivel ya cargado */ }
     status();
     if(state.current==='weather'){
       document.getElementById('content')?.dispatchEvent(new CustomEvent('weather-data-updated'));
