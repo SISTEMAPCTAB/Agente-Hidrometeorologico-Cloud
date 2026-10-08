@@ -1,14 +1,11 @@
-name: WeatherLink independiente A
+name: WeatherLink independiente A - recolector cada 30 min
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/weatherlink-slot-a.yml'
   schedule:
-    # Turno independiente restaurado tras retrasos del supervisor.
-    - cron: '17 * * * *'
+    # WeatherLink: 24/7 cada 30 minutos, independiente de niveles y Gmail.
+    # Horarios Tabasco :17 y :47 (UTC mantiene los mismos minutos).
+    - cron: '17,47 * * * *'
 
 permissions:
   contents: write
