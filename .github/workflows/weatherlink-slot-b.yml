@@ -6,6 +6,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/weatherlink-slot-b.yml'
+  schedule:
+    # Turno B independiente, 30 min después de A.
+    - cron: '47 * * * *'
 
 permissions:
   contents: write
