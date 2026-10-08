@@ -1,0 +1,65 @@
+name: TEST estabilización integral agente-modelo
+
+on:
+  push:
+    branches:
+      - stabilization-integral-20261008
+    paths:
+      - 'src/**'
+      - 'app/**'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Instalar dependencias mínimas
+        run: |
+          pip install -r requirements.txt
+          npm install --no-audit --no-fund
+      - name: Validar sintaxis
+        run: |
+          python -m py_compile src/integrar_boletines_verificados.py src/resumen_12h_niveles.py src/corregir_deltas_niveles.py src/extraer_gastos_modelo.py
+          node --check app/app.js
+      - name: Ejecutar cadena hidrométrica offline
+        run: |
+          python src/extraer_gastos_modelo.py
+          python src/integrar_boletines_verificados.py
+          python src/niveles_postprocess.py
+          python src/corregir_deltas_niveles.py
+          python src/resumen_12h_niveles.py
+      - name: Verificar resultados esperados
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime
+          from pathlib import Path
+          def dt(x): return datetime.fromisoformat(str(x).replace('Z','+00:00'))
+          levels=json.loads(Path('data/niveles/Ultimo_Corte/ultimo_resumen.json').read_text(encoding='utf-8'))
+          summary=json.loads(Path('data/niveles/Resumen_12h/resumen_12h.json').read_text(encoding='utf-8'))
+          gastos=json.loads(Path('data/pronostico_hidrologico/gastos_conagua.json').read_text(encoding='utf-8'))
+          latest=max(dt(r['fecha_hora']) for r in levels if r.get('fecha_hora'))
+          assert dt(summary['generated_from_latest_observation'])==latest, (summary['generated_from_latest_observation'],latest.isoformat())
+          assert gastos.get('fuente1_fecha_hora'), 'Gastos sin fecha real FUENTE1'
+          for name in ('Pueblo Nuevo','Porvenir','Samaria','González'):
+              r=next(x for x in levels if x.get('estacion')==name)
+              assert r.get('estado_dato')=='observado'
+          mac=next(x for x in levels if x.get('estacion')=='Macuspana')
+          if isinstance(mac.get('ultimo_nivel'),(int,float)) and isinstance(mac.get('delta_24h'),(int,float)):
+              assert abs(float(mac['ultimo_nivel'])-float(mac['delta_24h']))>1e-9 or abs(float(mac['ultimo_nivel']))<=0.25
+          print('TEST INTEGRAL OK', latest.isoformat(), gastos['fuente1_fecha_hora'])
+          PY
+      - name: Confirmar que no publica
+        run: echo "Rama de prueba: no se hace git push ni se modifica main."
