@@ -1,10 +1,10 @@
-name: WeatherLink autónomo estable - cada hora
+name: WeatherLink autónomo estable - cada 2 horas
 
 on:
   workflow_dispatch:
   schedule:
-    # Recolección automática WeatherLink cada hora, 24/7. Independiente de Niveles.
-    - cron: '2 * * * *'
+    # Recolección automática WeatherLink cada 2 horas, 24/7. Independiente de Niveles y del modelo.
+    - cron: '2 */2 * * *'
   push:
     branches: [main]
     paths:
@@ -20,7 +20,7 @@ concurrency:
 jobs:
   weatherlink:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 15
     steps:
       - name: Descargar estado vigente
         uses: actions/checkout@v4
