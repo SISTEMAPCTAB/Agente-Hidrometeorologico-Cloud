@@ -1,0 +1,36 @@
+name: TEST integración workflows fuentes-gastos
+
+on:
+  push:
+    branches:
+      - test-gastos-boletin-10h-20261008
+    paths:
+      - '.github/workflows/niveles-cloud.yml'
+      - '.github/workflows/carbonio-cloud.yml'
+      - '.github/workflows/test-integracion-fuentes-workflows.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar integración sin publicar
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q "Recuperar FUENTE1/FUENTE2 sólo si están rezagadas" .github/workflows/niveles-cloud.yml
+          grep -q "python src/refrescar_fuentes_diarias.py" .github/workflows/niveles-cloud.yml
+          python - <<'PY'
+          from pathlib import Path
+          n=Path('.github/workflows/niveles-cloud.yml').read_text()
+          c=Path('.github/workflows/carbonio-cloud.yml').read_text()
+          assert "group: operacion-hidrometeorologica-writer" in n
+          assert "group: operacion-hidrometeorologica-writer" in c
+          assert n.index("Recuperar FUENTE1/FUENTE2 sólo si están rezagadas") < n.index("Extraer gastos CONAGUA para modelo hidrológico")
+          assert "src/refrescar_fuentes_diarias.py" in n
+          print("INTEGRACION WORKFLOWS OK")
+          PY
