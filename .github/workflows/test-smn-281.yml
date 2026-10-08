@@ -1,0 +1,41 @@
+name: TEST SMN aviso actual
+
+on:
+  push:
+    branches: [test-smn-281-20261008]
+    paths: ['.github/workflows/test-smn-281.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests pypdf
+      - name: Consultar y validar SMN sin publicar
+        run: |
+          python src/smn_cloud_fast.py
+          python - <<'PY'
+          import sys,time,json
+          from pathlib import Path
+          sys.path.insert(0,'src')
+          import smn96_detalle as m
+          sep='&' if '?' in m.URL else '?'
+          m.URL=f"{m.URL}{sep}_ipcet={int(time.time())}"
+          m.UA.update({'Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'})
+          m.main()
+          p=json.loads(Path('data/fuentes_publicas/latest.json').read_text(encoding='utf-8'))
+          d=p['smn96']
+          print('SMN96',d.get('aviso'),d.get('fecha'),d.get('emision'))
+          assert d.get('aviso')=='281', d
+          assert '08 de Octubre del 2026' in d.get('fecha',''), d.get('fecha')
+          assert d.get('emision')=='10:00h', d.get('emision')
+          assert d.get('detalle_completo') is True
+          print('TEST SMN OK')
+          PY
