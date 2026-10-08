@@ -1,0 +1,50 @@
+name: TEST Carbonio FUENTE1/FUENTE2 hoy
+
+on:
+  push:
+    branches:
+      - test-gastos-boletin-10h-20261008
+    paths:
+      - '.github/workflows/test-carbonio-fuentes-hoy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspeccionar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Ejecutar recolector en modo aislado
+        env:
+          CARBONIO_BASE: https://correo.tabasco.gob.mx
+          CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
+          CARBONIO_PASSWORD: ${{ secrets.CARBONIO_PASSWORD }}
+          CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
+          CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
+          SOURCE1_REGEX: ${{ vars.SOURCE1_REGEX }}
+          SOURCE2_REGEX: ${{ vars.SOURCE2_REGEX }}
+          OUTPUT_DIR: out-test
+        run: python src/carbonio_to_repo.py
+      - name: Mostrar sólo estado detectado
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('out-test/data/Estado_Cloud.json')
+          d=json.loads(p.read_text(encoding='utf-8'))
+          print(json.dumps({
+            'run_local':d.get('run_local'),
+            'accounts':d.get('accounts'),
+            'sources':d.get('sources'),
+            'complete':d.get('complete')
+          },ensure_ascii=False,indent=2))
+          PY
+      - name: Confirmar aislamiento
+        run: echo "TEST solamente lectura; no publica ni modifica main."
