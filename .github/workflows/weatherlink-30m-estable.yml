@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: weatherlink-autonomo
+  group: weatherlink-live-slots
   cancel-in-progress: false
 
 jobs:

@@ -18,14 +18,14 @@ on:
       - 'src/procesar_niveles_horas.js'
       - 'src/extraer_lluvia_conagua.js'
       - 'src/niveles_postprocess.py'
-      - 'src/resumen_12h_niveles.py'
+      - 'src/resumen_12h_niveles.py'\n      - 'src/integrar_boletines_verificados.py'
       - 'src/generar_word_niveles.py'
       - 'data/latest/FUENTE1.txt'
       - 'data/latest/FUENTE2.txt'
       - 'requirements.txt'
       - 'package.json'
       - '.github/workflows/niveles-cloud.yml'
-      - 'data/control/niveles-trigger.txt'
+      - 'data/control/niveles-trigger.txt'\n      - 'data/niveles/Boletines_Verificados/**'
   schedule:
     # Niveles: hora 06:50 a 01:50 del día siguiente, hora de Tabasco (UTC-6).
     # Único recolector principal programado de niveles. Pausa 02:00–06:49.
@@ -89,6 +89,9 @@ jobs:
           CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
           NIVELES_BASE: data/niveles
         run: python src/niveles_horas_cloud.py
+
+      - name: Integrar boletines verificados al histórico
+        run: python src/integrar_boletines_verificados.py
 
       - name: Incorporar corte FUENTE2 de las 08:00 a niveles vigentes
         run: python src/fuente2_niveles.py

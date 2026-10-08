@@ -13,7 +13,7 @@ ROWS={"Samaria":("Samaria","Samaria"),"Gonzalez":("González","Carrizal"),"Oxolo
 
 def norm(s): return "".join(c for c in unicodedata.normalize("NFD",s) if unicodedata.category(c)!="Mn").lower()
 def nums(s): return [float(x) for x in re.findall(r"-?\d+(?:\.\d+)?",s)]
-def item(est,rio): return {"estacion":est,"rio":rio,"h_anterior_m":None,"q_anterior_m3s":None,"h_actual_m":None,"q_actual_m3s":None,"delta_h_m":None,"delta_q_m3s":None,"validacion":"sin_q_validado"}
+def item(est,rio): return {"estacion":est,"rio":rio,"h_anterior_m":None,"q_anterior_m3s":None,"h_actual_m":None,"q_actual_m3s":None,"delta_h_m":None,"delta_q_m3s":None,"fuente_fecha_hora":None,"validacion":"sin_q_validado"}
 
 def source_time(txt):
  m=re.search(r"FECHA/HORA MENSAJE:\s*([^\r\n]+)",txt,re.I)
@@ -58,25 +58,27 @@ def main():
    a=nums(re.sub(r"^AFT\d+\s+","",seg,flags=re.I))
    if len(a)>=6:
     hp,qp,ha,qa=a[1:5]
-    d.update(h_anterior_m=hp,q_anterior_m3s=qp,h_actual_m=ha,q_actual_m3s=qa,delta_h_m=round(ha-hp,3),delta_q_m3s=round(qa-qp,3),validacion="columnas_gasto_conagua_dia_anterior_actual")
+    d.update(h_anterior_m=hp,q_anterior_m3s=qp,h_actual_m=ha,q_actual_m3s=qa,delta_h_m=round(ha-hp,3),delta_q_m3s=round(qa-qp,3),fuente_fecha_hora=source_iso(t),validacion="columnas_gasto_conagua_dia_anterior_actual")
   out.append(d)
 
  # Peñitas: elegir el boletín más reciente entre FUENTE1 y FUENTE2.
  d=item("Peñitas","Mezcalapa")
  candidates=[]
  q1=penitas_fuente1(t)
- if q1 is not None:candidates.append((source_time(t) or 0,q1,"extraccion_promedio_ot_penitas_fuente1"))
+ if q1 is not None:candidates.append((source_time(t) or 0,q1,"extraccion_promedio_ot_penitas_fuente1",source_iso(t)))
  q2=penitas_fuente2(t2) if t2 else None
- if q2 is not None:candidates.append((source_time(t2) or 0,q2,"extraccion_promedio_24h_penitas_fuente2"))
+ if q2 is not None:candidates.append((source_time(t2) or 0,q2,"extraccion_promedio_24h_penitas_fuente2",source_iso(t2)))
  if candidates:
-  _,q,validation=max(candidates,key=lambda x:x[0])
-  d.update(q_actual_m3s=q,validacion=validation)
+  _,q,validation,source_iso_value=max(candidates,key=lambda x:x[0])
+  d.update(q_actual_m3s=q,fuente_fecha_hora=source_iso_value,validacion=validation)
  out.append(d)
 
  payload={
   "fuente":"CONAGUA OCFS / fuentes ya recolectadas",
   "producto":"Gastos para modelo hidrologico",
   "generado_utc":datetime.now(timezone.utc).isoformat(),
+  "fuente1_fecha_hora":source_iso(t),
+  "fuente2_fecha_hora":source_iso(t2) if t2 else None,
   "regla":"Q desde columnas Gasto; Peñitas desde la extracción promedio del boletín más reciente FUENTE1/FUENTE2; ausente=null",
   "estaciones":out
  }
