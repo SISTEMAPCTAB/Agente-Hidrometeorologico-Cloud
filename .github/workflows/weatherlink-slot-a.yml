@@ -24,6 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Registrar disparador de WeatherLink
+        run: echo "WeatherLink A | evento=${{ github.event_name }} | fecha_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ) | run=${{ github.run_id }}"
+
       - name: Descargar repositorio
         uses: actions/checkout@v4
         with:
