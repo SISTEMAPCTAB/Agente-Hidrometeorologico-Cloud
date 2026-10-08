@@ -1,9 +1,9 @@
-name: WeatherLink autónomo estable
+name: WeatherLink autónomo estable - cada hora
 
 on:
   workflow_dispatch:
   schedule:
-    # Respaldo autónomo cada hora; sólo recolecta si WeatherLink está rezagado.
+    # Recolección automática WeatherLink cada hora, 24/7. Independiente de Niveles.
     - cron: '2 * * * *'
   push:
     branches: [main]
@@ -14,7 +14,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: operacion-hidrometeorologica-writer
+  group: weatherlink-cloud
   cancel-in-progress: false
 
 jobs:
