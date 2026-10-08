@@ -2,6 +2,9 @@ name: WeatherLink autónomo estable
 
 on:
   workflow_dispatch:
+  schedule:
+    # Respaldo autónomo cada hora; sólo recolecta si WeatherLink está rezagado.
+    - cron: '2 * * * *'
   push:
     branches: [main]
     paths:
