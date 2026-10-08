@@ -6,13 +6,6 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/weatherlink-30m-estable.yml'
-  schedule:
-    # Único recolector programado de WeatherLink. Corre desacoplado de Niveles,
-    # Gmail, INSIVUMEH y cualquier otro workflow. La puerta de frescura evita
-    # reprocesos: sólo recolecta si principal o adicional supera 24 minutos.
-    # Se usa una cadencia de 15 min para absorber demoras del scheduler de GitHub
-    # sin duplicar recolecciones ni crear cola de ejecuciones.
-    - cron: '7,22,37,52 * * * *'
 
 permissions:
   contents: write
