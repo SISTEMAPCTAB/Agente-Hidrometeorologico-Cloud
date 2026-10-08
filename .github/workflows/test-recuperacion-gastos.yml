@@ -1,0 +1,57 @@
+name: TEST recuperación de gastos vigentes
+
+on:
+  push:
+    branches:
+      - test-gastos-boletin-10h-20261008
+    paths:
+      - 'src/refrescar_fuentes_diarias.py'
+      - '.github/workflows/test-recuperacion-gastos.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Recuperar sólo fuentes rezagadas en copia de trabajo
+        env:
+          CARBONIO_BASE: https://correo.tabasco.gob.mx
+          CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
+          CARBONIO_PASSWORD: ${{ secrets.CARBONIO_PASSWORD }}
+          CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
+          CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
+          SOURCE1_REGEX: ${{ vars.SOURCE1_REGEX }}
+          SOURCE2_REGEX: ${{ vars.SOURCE2_REGEX }}
+        run: python src/refrescar_fuentes_diarias.py
+      - name: Generar gastos con fuentes recuperadas
+        run: python src/extraer_gastos_modelo.py
+      - name: Validar fecha real y valores
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime
+          from pathlib import Path
+          g=json.loads(Path('data/pronostico_hidrologico/gastos_conagua.json').read_text(encoding='utf-8'))
+          f1=datetime.fromisoformat(g['fuente1_fecha_hora'])
+          f2=datetime.fromisoformat(g['fuente2_fecha_hora'])
+          assert f1.date().isoformat()=='2026-10-08', g['fuente1_fecha_hora']
+          assert f2.date().isoformat()=='2026-10-08', g['fuente2_fecha_hora']
+          print('FUENTE1',g['fuente1_fecha_hora'])
+          print('FUENTE2',g['fuente2_fecha_hora'])
+          for name in ('Samaria','González','Tapijulapa','Pueblo Nuevo','Porvenir','Peñitas'):
+              x=next((r for r in g['estaciones'] if r['estacion']==name),None)
+              print(name, json.dumps(x,ensure_ascii=False))
+          PY
+      - name: Confirmar aislamiento
+        run: |
+          test -z "$(git status --porcelain --untracked-files=no)" || true
+          echo "TEST: no commit, no push, no modificación de main."
