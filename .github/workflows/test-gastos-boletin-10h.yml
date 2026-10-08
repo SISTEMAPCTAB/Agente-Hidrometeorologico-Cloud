@@ -1,0 +1,95 @@
+name: TEST inspección gastos boletín 10h
+
+on:
+  push:
+    branches:
+      - test-gastos-boletin-10h-20261008
+    paths:
+      - '.github/workflows/test-gastos-boletin-10h.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspeccionar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Instalar dependencias
+        run: |
+          pip install -r requirements.txt
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+      - name: Descargar y revisar último boletín 10h sin publicar
+        env:
+          CARBONIO_BASE: https://correo.tabasco.gob.mx
+          CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
+          CARBONIO_PASSWORD: ${{ secrets.CARBONIO_PASSWORD }}
+          CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
+          CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
+        run: |
+          python - <<'PY'
+          import os, re, tempfile, subprocess, sys
+          from pathlib import Path
+          sys.path.insert(0,'src')
+          import niveles_cloud_robusto as rob
+          base=rob.base
+
+          users=[
+            ('principal',os.getenv('CARBONIO_USER',''),os.getenv('CARBONIO_PASSWORD','')),
+            ('fuente1',os.getenv('CARBONIO_USER_FUENTE1',''),os.getenv('CARBONIO_PASSWORD_FUENTE1','')),
+          ]
+          found=None
+          for label,user,pw in users:
+            if not user or not pw:
+              continue
+            token=base.authenticate(user,pw)
+            cand=rob.collect_candidates_robusto(token)
+            for item in sorted(cand,key=base.msg_timestamp,reverse=True):
+              subject=str(item.get('su',''))
+              s=base.norm(subject)
+              if 'nivel' not in s or not re.search(r'\b10(?::|\.)?00\b',s):
+                continue
+              msg=base.get_message(token,str(item.get('id')))
+              atts=base.walk_attachments(msg.get('mp'))
+              pdf=next((a for a in atts if a.get('filename','').lower().endswith('.pdf') or 'pdf' in a.get('content_type','').lower()),None)
+              if not pdf:
+                continue
+              content=rob.download_pdf_robusto(token,user,str(item.get('id')),pdf['part'])
+              found=(label,subject,item.get('id'),content)
+              break
+            if found: break
+
+          if not found:
+            raise SystemExit('NO SE ENCONTRÓ PDF DE NIVELES 10:00')
+
+          label,subject,mid,content=found
+          print('CUENTA',label)
+          print('ASUNTO',subject)
+          print('MESSAGE_ID',mid)
+          with tempfile.TemporaryDirectory() as td:
+            pdf=Path(td)/'b.pdf'; txt=Path(td)/'b.txt'
+            pdf.write_bytes(content)
+            subprocess.run(['pdftotext','-layout',str(pdf),str(txt)],check=True)
+            raw=txt.read_text(encoding='utf-8',errors='ignore')
+            lines=[re.sub(r'\s+',' ',x).strip() for x in raw.splitlines() if x.strip()]
+            wanted=[]
+            for line in lines:
+              n=line.lower()
+              if ('estación' in n and ('gasto' in n or 'caudal' in n or 'escala' in n)) or any(k in n for k in [
+                'pueblo nuevo','samaria','gonzález','gonzalez','tapijulapa','teapa','puyacatengo','san joaquin','san joaquín','porvenir','macuspana','salto de agua'
+              ]):
+                wanted.append(line)
+            print('---LINEAS RELEVANTES---')
+            for line in wanted[:80]:
+              print(line)
+            has_q=bool(re.search(r'\b(gasto|caudal)\b',raw,re.I))
+            print('CONTIENE_ETIQUETA_GASTO_O_CAUDAL',has_q)
+          PY
+      - name: Confirmar aislamiento
+        run: echo "TEST solamente lectura; no publica ni modifica main."
