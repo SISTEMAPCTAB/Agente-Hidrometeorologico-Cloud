@@ -39,7 +39,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: datos-hidrometeorologicos-writer
+  group: operacion-hidrometeorologica-writer
   cancel-in-progress: false
 
 jobs:
@@ -113,6 +113,9 @@ jobs:
 
       - name: Calcular ciclo 06:00 y generar gráficas PNG
         run: python src/niveles_postprocess.py
+
+      - name: Recalcular deltas 24, 48 y 72 h antes de publicar
+        run: python src/corregir_deltas_niveles.py
 
       - name: Generar resumen compacto últimas 12 h
         run: python src/resumen_12h_niveles.py

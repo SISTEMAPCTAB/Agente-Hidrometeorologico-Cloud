@@ -13,7 +13,7 @@ permissions:
 concurrency:
   # Los dos turnos son independientes del resto del agente, pero se serializan
   # entre sí para impedir recolecciones duplicadas.
-  group: weatherlink-live-slots
+  group: operacion-hidrometeorologica-writer
   cancel-in-progress: false
 
 jobs:

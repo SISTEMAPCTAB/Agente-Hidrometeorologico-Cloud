@@ -38,6 +38,16 @@ async function getJSON(u){const r=await fetch(`${u}?v=${Date.now()}`,{cache:'no-
 async function getText(u){const r=await fetch(`${u}?v=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw Error(r.status);return r.text()}
 const arr=v=>Array.isArray(v)?v:[];
 function levels(){return arr(state.data.niveles)} function weather(){return arr(state.data.weather?.stations)} function conagua(){return arr(state.data.conagua)}
+function maxLevelCutRows(rows){return Math.max(0,...arr(rows).map(r=>Date.parse(r?.fecha_hora||r?.ultima_actualizacion_real)||0))}
+function weatherStamp(obj){return Date.parse(obj?.run_utc||obj?.run_local||'')||0}
+function historyStamp(rows){return Math.max(0,...arr(rows).map(r=>Date.parse(r?.fecha_hora)||0))}
+function acceptMonotonic(key,next){
+  const prev=state.data[key];
+  if(key==='niveles')return !arr(prev).length||maxLevelCutRows(next)>=maxLevelCutRows(prev);
+  if(key==='weather'||key==='weatherState')return !prev||weatherStamp(next)>=weatherStamp(prev);
+  if(key==='history')return !arr(prev).length||historyStamp(next)>=historyStamp(prev);
+  return true;
+}
 function systemRows(id){const c=SYSTEMS[id];return c?levels().filter(r=>c.terms.some(t=>norm(`${r.estacion||''} ${r.rio||''}`).includes(t))):[]}
 function levelState(r){if(r.estado_dato!=='observado')return'Dato anterior';if(finite(r.delta_24h)&&Number(r.delta_24h)>.20)return'Ascenso relevante';if(/asc/i.test(r.tendencia||''))return'Ascenso';if(/desc/i.test(r.tendencia||''))return'Descenso';return'Estable'}
 function levelTable(rows,summary=false,preserveOrder=false){if(!rows.length)return'<p class="muted">Sin datos válidos.</p>';const rr=preserveOrder?[...rows]:[...rows].sort((a,b)=>(Number(b.delta_24h)||0)-(Number(a.delta_24h)||0));return `<div class="table-wrap"><table><thead><tr>${summary?'<th>Sistema / río</th>':''}<th>Estación</th><th>Nivel</th><th>Δ24 h</th><th>Tendencia</th><th>Dist. NAMO</th><th>Estado</th></tr></thead><tbody>${rr.map(r=>`<tr>${summary?`<td>${esc(r.rio||'s/d')}</td>`:''}<td><b>${esc(r.estacion||'s/d')}</b></td><td>${fmt(r.ultimo_nivel)} m</td><td>${finite(r.delta_24h)?`${Number(r.delta_24h)>=0?'+':''}${fmt(r.delta_24h)} m`:'s/d'}</td><td>${esc(r.tendencia||'s/d')}</td><td>${finite(r.distancia_namo)?`${Math.abs(Number(r.distancia_namo)).toFixed(2)} m ${Number(r.distancia_namo)<0?'abajo':'arriba'}`:'s/d'}</td><td>${esc(levelState(r))}</td></tr>`).join('')}</tbody></table></div>`}
@@ -122,14 +132,13 @@ function latestLevelCut(){const dates=levels().map(r=>new Date(r.fecha_hora)).fi
 function status(){const lv=latestLevelCut(),w=state.data.weatherState?.run_local||state.data.weather?.run_local;$('#statusStrip').innerHTML=`<div class="status-card"><span>Niveles</span><b>${levelCutDate(lv)}</b></div><div class="status-card"><span>WeatherLink</span><b>${humanDate(w)}</b></div><div class="status-card"><span>Actualización WeatherLink</span><b>Cada 30 min · 24/7</b></div>`}
 async function refreshWeatherOnly(){
   try{
-    const r=await fetch(SRC.weatherState,{cache:'no-cache'});if(!r.ok)return;
-    const ws=await r.json();
+    const ws=await getJSON(SRC.weatherState);
     const prev=state.data.weatherState?.run_utc||state.data.weather?.run_utc||null;
     const next=ws?.run_utc||null;
     state.data.weatherState=ws;
     if(next&&next!==prev){
-      const rw=await fetch(SRC.weather,{cache:'no-cache'});
-      if(rw.ok)state.data.weather=await rw.json();
+      const nw=await getJSON(SRC.weather);
+      if(acceptMonotonic('weather',nw))state.data.weather=nw;
     }
     // Evitar que el refresco WeatherLink repinte niveles antiguos.
     // Recuperar niveles antes de redibujar y nunca aceptar un corte anterior.
@@ -148,5 +157,16 @@ async function refreshWeatherOnly(){
     }
   }catch(_){/* conserva último corte válido; reintenta en el siguiente ciclo */}
 }
-async function loadAll(){const c=$('#content');if(c)c.innerHTML='<div class="panel"><p>Cargando información operativa…</p></div>';const tasks=[['niveles',SRC.niveles,'json'],['weather',SRC.weather,'json'],['weatherState',SRC.weatherState,'json'],['conagua',SRC.conagua,'json'],['climaConagua',SRC.climaConagua,'json'],['publicas',SRC.publicas,'json'],['analysis',SRC.analysis,'text'],['history',SRC.history,'json'],['fuente2',SRC.fuente2,'text'],['damHistory',SRC.damHistory,'json'],['sih',SRC.sih,'json'],['sihSubcuencas',SRC.sihSubcuencas,'json']];await Promise.all(tasks.map(async([k,u,t])=>{try{state.data[k]=t==='json'?await getJSON(u):await getText(u)}catch{state.data[k]=t==='json'?[]:''}}));state.history=arr(state.data.history);state.damHistory=arr(state.data.damHistory);status();render()}
-document.addEventListener('DOMContentLoaded',()=>{buildNav();$('#menuBtn')?.addEventListener('click',()=>$('#sidebar')?.classList.toggle('open'));$('#refreshBtn')?.addEventListener('click',loadAll);loadAll();setInterval(refreshWeatherOnly,30*60*1000);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshWeatherOnly()});if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js?v=79').catch(()=>{})});
+async function loadAll(){
+ const c=$('#content');if(c)c.innerHTML='<div class="panel"><p>Cargando información operativa…</p></div>';
+ const tasks=[['niveles',SRC.niveles,'json'],['weather',SRC.weather,'json'],['weatherState',SRC.weatherState,'json'],['conagua',SRC.conagua,'json'],['climaConagua',SRC.climaConagua,'json'],['publicas',SRC.publicas,'json'],['analysis',SRC.analysis,'text'],['history',SRC.history,'json'],['fuente2',SRC.fuente2,'text'],['damHistory',SRC.damHistory,'json'],['sih',SRC.sih,'json'],['sihSubcuencas',SRC.sihSubcuencas,'json']];
+ const fresh={};
+ await Promise.all(tasks.map(async([k,u,t])=>{try{fresh[k]=t==='json'?await getJSON(u):await getText(u)}catch{fresh[k]=undefined}}));
+ for(const [k] of tasks){
+   const v=fresh[k];
+   if(v===undefined)continue;
+   if(acceptMonotonic(k,v))state.data[k]=v;
+ }
+ state.history=arr(state.data.history);state.damHistory=arr(state.data.damHistory);status();render()
+}
+document.addEventListener('DOMContentLoaded',()=>{buildNav();$('#menuBtn')?.addEventListener('click',()=>$('#sidebar')?.classList.toggle('open'));$('#refreshBtn')?.addEventListener('click',loadAll);loadAll();setInterval(loadAll,5*60*1000);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')loadAll()});if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js?v=79').catch(()=>{})});
