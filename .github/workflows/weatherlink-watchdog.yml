@@ -2,6 +2,10 @@ name: WeatherLink Watchdog - recuperación automática
 
 on:
   workflow_dispatch:
+  schedule:
+    # Respaldo aislado 30 min después de cada ventana principal de 2 horas.
+    # Si el corte está vigente no recolecta ni publica nada.
+    - cron: '32 */2 * * *'
 
 permissions:
   contents: write
@@ -49,8 +53,9 @@ jobs:
                       last = last.replace(tzinfo=timezone.utc)
                   age_minutes = (datetime.now(timezone.utc) - last.astimezone(timezone.utc)).total_seconds() / 60.0
                   healthy = complete and expected == ok and not errors
-                  # Con un flujo principal cada 30 min, >70 min implica al menos
-                  # dos ventanas consecutivas sin publicar un estado válido.
+                  # Respaldo del flujo principal cada 2 h: sólo intervenir cuando
+                  # el último corte válido supera 70 min o está incompleto.
+                  # A los ~30 min de una ejecución exitosa no hace nada.
                   recover = (not healthy) or age_minutes > 70
                   reason = f"complete={complete}; estaciones={ok}/{expected}; errores={len(errors)}; antigüedad={age_minutes:.1f} min"
           except Exception as exc:
