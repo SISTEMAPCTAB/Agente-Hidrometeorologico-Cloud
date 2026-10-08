@@ -15,10 +15,14 @@ def norm(s): return "".join(c for c in unicodedata.normalize("NFD",s) if unicode
 def nums(s): return [float(x) for x in re.findall(r"-?\d+(?:\.\d+)?",s)]
 def item(est,rio): return {"estacion":est,"rio":rio,"h_anterior_m":None,"q_anterior_m3s":None,"h_actual_m":None,"q_actual_m3s":None,"delta_h_m":None,"delta_q_m3s":None,"fuente_fecha_hora":None,"validacion":"sin_q_validado"}
 
-def source_time(txt):
+def source_iso(txt):
  m=re.search(r"FECHA/HORA MENSAJE:\s*([^\r\n]+)",txt,re.I)
- if not m:return None
- try:return datetime.fromisoformat(m.group(1).strip()).timestamp()
+ return m.group(1).strip() if m else None
+
+def source_time(txt):
+ s=source_iso(txt)
+ if not s:return None
+ try:return datetime.fromisoformat(s).timestamp()
  except Exception:return None
 
 def penitas_fuente1(txt):
