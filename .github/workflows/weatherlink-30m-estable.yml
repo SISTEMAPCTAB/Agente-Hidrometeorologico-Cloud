@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/weatherlink-30m-estable.yml'
+      - 'data/control/weatherlink-trigger.txt'
 
 permissions:
   contents: write
