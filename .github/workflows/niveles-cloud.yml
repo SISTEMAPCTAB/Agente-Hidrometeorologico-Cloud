@@ -80,17 +80,6 @@ jobs:
           NIVELES_BASE: data/niveles
         run: python src/niveles_cloud_robusto.py
 
-      - name: Recuperar FUENTE1/FUENTE2 sólo si están rezagadas
-        env:
-          CARBONIO_BASE: https://correo.tabasco.gob.mx
-          CARBONIO_USER: ${{ secrets.CARBONIO_USER }}
-          CARBONIO_PASSWORD: ${{ secrets.CARBONIO_PASSWORD }}
-          CARBONIO_USER_FUENTE1: ${{ secrets.CARBONIO_USER_FUENTE1 }}
-          CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
-          SOURCE1_REGEX: ${{ vars.SOURCE1_REGEX }}
-          SOURCE2_REGEX: ${{ vars.SOURCE2_REGEX }}
-        run: python src/refrescar_fuentes_diarias.py
-
       - name: Extraer gastos CONAGUA para modelo hidrológico (salida aislada)
         run: python src/extraer_gastos_modelo.py
 
