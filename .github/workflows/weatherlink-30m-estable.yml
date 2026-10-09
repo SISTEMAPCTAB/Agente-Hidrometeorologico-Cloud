@@ -4,19 +4,13 @@ on:
   workflow_dispatch:
   schedule:
     # Recolección autónoma cada 30 min, 24/7; independiente de niveles y modelo.
-    # Disparo de recuperación puntual 09-oct por ausencia de cortes posteriores a 11:22.
     - cron: '7,37 * * * *'
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/weatherlink-30m-estable.yml'
-      - 'data/control/weatherlink-trigger.txt'
 
 permissions:
   contents: write
 
 concurrency:
-  group: weatherlink-cloud
+  group: weatherlink-periodico
   cancel-in-progress: false
 
 jobs:
