@@ -1,6 +1,6 @@
 {
   "agent": "Niveles Hidrométricos Cloud",
-  "run_utc": "2026-10-09T16:25:12.977976+00:00",
+  "run_utc": "2026-10-09T16:27:40.930784+00:00",
   "complete": true,
   "selected_account": null,
   "lookback_days": 7,
@@ -16,12 +16,13 @@
     {
       "label": "principal",
       "ok": false,
-      "reason": "paused_for_gmail_priority",
+      "reason": "gmail_only_levels",
       "candidate_count": 0
     },
     {
       "label": "fuente1",
-      "ok": true,
+      "ok": false,
+      "reason": "gmail_only_levels",
       "candidate_count": 0
     }
   ],
