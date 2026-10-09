@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     # Recolección automática WeatherLink cada 2 horas, 24/7. Independiente de Niveles y del modelo.
-    - cron: '2 */2 * * *'
+    - cron: '12 */2 * * *'
   push:
     branches: [main]
     paths:
@@ -52,7 +52,7 @@ jobs:
 
           principal=age('data/weatherlink/Estado_WeatherLink_Cloud.json')
           adicional=age('data/weatherlink/extra_latest.json')
-          stale=max(principal, adicional) > 24.0
+          stale=max(principal, adicional) > 110.0
           print(f'principal={principal:.1f} min; adicional={adicional:.1f} min; recolectar={stale}')
           with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as f:
               f.write(f"stale={'true' if stale else 'false'}\n")
