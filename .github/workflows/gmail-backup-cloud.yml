@@ -19,6 +19,7 @@ on:
     # El primer intento antecede al colector principal de las 06:50.
     - cron: '45 12 * * *'
     - cron: '5,25 13 * * *'
+    - cron: '30 14 * * *' # 08:30 Tabasco
     # Respaldo lógico autónomo: revisiones 35 min después de los cortes diurnos
     # y una ventana nocturna corta para boletines extraordinarios hasta las 22 h.
     - cron: '35 12,14,16,18,20,22,0 * * *'
