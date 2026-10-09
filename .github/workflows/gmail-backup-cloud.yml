@@ -24,6 +24,9 @@ on:
     # y una ventana nocturna corta para boletines extraordinarios hasta las 22 h.
     - cron: '35 12,14,16,18,20,22,0 * * *'
     - cron: '35 2,3,4 * * *'
+    # Reintentos aislados para boletines de tarde: 14:10, 16:10, 18:10 y 21:10 Tabasco.
+    # Sólo revisan Gmail: los procesadores existentes deduplican y conservan el último corte.
+    - cron: '10 20,22,0,3 * * *'
 
 permissions:
   contents: write
