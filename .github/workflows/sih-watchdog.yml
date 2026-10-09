@@ -4,9 +4,10 @@ on:
   workflow_dispatch:
   schedule:
     # Recuperación aislada 15 min después de cada ventana SIH.
-    # Tabasco UTC-6: 09:45, 11:15, 17:15 y 22:15.
+    # Tabasco UTC-6: 09:45, 11:15, 14:15, 17:15 y 22:15.
     - cron: '45 15 * * *'
     - cron: '15 17 * * *'
+    - cron: '15 20 * * *'
     - cron: '15 23 * * *'
     - cron: '15 5 * * *'
     # Refuerzo tras la actualización oficial diaria de SIH.
@@ -46,7 +47,7 @@ jobs:
 
           tz=ZoneInfo('America/Mexico_City')
           now=datetime.now(tz)
-          slots=[(9,30),(11,0),(17,0),(22,0)]
+          slots=[(9,30),(11,0),(14,0),(17,0),(22,0)]
           due=[now.replace(hour=h,minute=m,second=0,microsecond=0) for h,m in slots
                if now >= now.replace(hour=h,minute=m,second=0,microsecond=0)]
           target=max(due) if due else None
