@@ -19,12 +19,12 @@ permissions:
 
 concurrency:
   group: smn-cloud-fast
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   actualizar-smn:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 12
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
