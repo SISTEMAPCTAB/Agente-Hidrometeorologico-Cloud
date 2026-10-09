@@ -159,7 +159,7 @@ function latestLevelCut(){const dates=levels().map(r=>new Date(r.fecha_hora)).fi
 function status(){
  const strip=$('#statusStrip');if(!strip)return;
  if(!strip.querySelector('.status-card')){
-  strip.innerHTML=`<div class="status-card"><span>Niveles</span><b>s/d</b></div><div class="status-card"><span>WeatherLink</span><b>s/d</b></div><div class="status-card"><span>Actualización WeatherLink</span><b>Cada 2 h · 24/7</b></div>`;
+  strip.innerHTML=`<div class="status-card"><span>Niveles</span><b>s/d</b></div><div class="status-card"><span>WeatherLink</span><b>s/d</b></div><div class="status-card"><span>Actualización WeatherLink</span><b>Cada 30 min · 24/7</b></div>`;
  }
  const cards=strip.querySelectorAll('.status-card');
  const lv=latestLevelCut(),main=cards[0]?.querySelector('b');
