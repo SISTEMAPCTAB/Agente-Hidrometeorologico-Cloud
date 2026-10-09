@@ -2,7 +2,10 @@ name: Recuperación Independiente Niveles
 
 on:
   workflow_dispatch:
-  # Recuperación manual/por cambio del propio mecanismo. No depende de WeatherLink.
+  # Arranque autónomo de respaldo después de la pausa nocturna (hora Tabasco UTC-6).
+  # 07:05 y 07:35 locales; las demás ventanas siguen en los flujos existentes.
+  schedule:
+    - cron: '5,35 13 * * *'
   push:
     branches: [main]
     paths:
@@ -17,8 +20,6 @@ concurrency:
 
 jobs:
   recuperar-si-atrasado:
-    # Respaldo aislado: sólo manual o prueba del propio workflow.
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -40,9 +41,9 @@ jobs:
 
           p = Path('data/niveles/Estado_Niveles_Cloud.json')
           now_local = datetime.now(ZoneInfo('America/Mexico_City'))
-          automatic = False
-          # Ventana ampliada por operación de lluvias: 06:45–01:59; pausa 02:00–05:59.
-          in_window = (now_local.hour >= 6 or now_local.hour <= 1) and not (now_local.hour == 6 and now_local.minute < 45)
+          automatic = os.environ.get('GITHUB_EVENT_NAME') == 'schedule'
+          # Respetar la pausa nocturna; reanudar únicamente en ventana diurna.
+          in_window = 6 <= now_local.hour <= 19
           recover = True
           age_min = None
           reason = 'estado inexistente o inválido'
