@@ -30,23 +30,22 @@ on:
       - 'data/control/niveles-trigger.txt'
       - 'data/niveles/Boletines_Verificados/**'
   schedule:
-    # Niveles: hora 06:50 a 01:50 del día siguiente, hora de Tabasco (UTC-6).
-    # Único recolector principal programado de niveles. Pausa 02:00–06:49.
+    # Niveles: cada 2 horas, de 06:50 a 00:50 hora de Tabasco (UTC-6).
+    # Ventanas: 06:50, 08:50, 10:50, 12:50, 14:50, 16:50, 18:50, 20:50, 22:50 y 00:50.
     # Se conservan los disparos por llegada de boletines FUENTE1/FUENTE2.
-    - cron: '50 12-23 * * *'
-    - cron: '50 0-7 * * *'
+    - cron: '50 0,2,4,6,12,14,16,18,20,22 * * *'
 
 permissions:
   contents: write
 
 concurrency:
-  group: operacion-hidrometeorologica-writer
+  group: niveles-hidrometricos-cloud
   cancel-in-progress: false
 
 jobs:
   recolectar-niveles:
     runs-on: ubuntu-latest
-    timeout-minutes: 22
+    timeout-minutes: 30
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
