@@ -166,5 +166,26 @@
     "validacion_platanar": "sin_gasto_actual_publicado_en_formato_horario",
     "evidencia_extraccion_horaria": null,
     "advertencia": "PRUEBA AISLADA: no se suma Platanar mientras no exista gasto actual observado. NAME/NAMO no son gasto actual. Peñitas sólo cambia si el formato horario publica explícitamente una nueva extracción."
+  },
+  {
+    "fecha_hora": "2026-10-09T16:00:00-06:00",
+    "fecha": "2026-10-09",
+    "hora": 16,
+    "q_penitas_m3s": 385.96,
+    "q_platanar_m3s": null,
+    "h_platanar_m": null,
+    "q_suma_sin_transito_m3s": null,
+    "nivel_embalse_penitas_m": 85.72,
+    "nivel_platanar_horario_m": null,
+    "fuente": "CONAGUA-reporte-horario + gasto Peñitas validado",
+    "asunto": "Se envia Informe de Niveles de 16 hrs",
+    "message_id": "principal-16516",
+    "archivo": "principal-16516_1_Niveles_del_09_de_Octubre_del_2026.pdf",
+    "parser": "macayo_shadow_v3_conservador",
+    "cambio_extraccion_horario_detectado": false,
+    "validacion_penitas": "sin_cambio_explicito_horario_se_conserva_ultimo_gasto_validado",
+    "validacion_platanar": "sin_gasto_actual_publicado_en_formato_horario",
+    "evidencia_extraccion_horaria": null,
+    "advertencia": "PRUEBA AISLADA: no se suma Platanar mientras no exista gasto actual observado. NAME/NAMO no son gasto actual. Peñitas sólo cambia si el formato horario publica explícitamente una nueva extracción."
   }
 ]
