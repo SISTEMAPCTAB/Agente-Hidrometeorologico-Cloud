@@ -307,8 +307,10 @@ def main():
     for account in ACCOUNTS:
         # Prueba reversible: Gmail prioriza Niveles; no consultar el buzón Carbonio
         # principal de niveles. La cuenta fuente1 (OCFS) permanece disponible.
-        if account["label"] == "principal" and os.getenv("NIVELES_PAUSAR_CARBONIO_PRINCIPAL", "1") == "1":
-            account_results.append({"label": account["label"], "ok": False, "reason": "paused_for_gmail_priority"})
+        if account["label"] in {"principal", "fuente1"}:
+            # Niveles horarios exclusivamente Gmail. Carbonio FUENTE1 sólo se
+            # consulta en carbonio-cloud.yml para el boletín diario OCFS.
+            account_results.append({"label": account["label"], "ok": False, "reason": "gmail_only_levels"})
             continue
         if not account["user"] or not account["password"]:
             account_results.append({"label": account["label"], "ok": False, "reason": "secret_missing"})
