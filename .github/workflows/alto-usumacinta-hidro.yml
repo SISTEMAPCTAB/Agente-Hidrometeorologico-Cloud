@@ -10,6 +10,7 @@ on:
   schedule:
     # INSIVUMEH BHVGM: cortes 08:00, 14:00 y 20:00 hora Tabasco/Guatemala.
     # Consulta aislada 37 min después y recuperación 30 min más tarde.
+    # Recuperación puntual tras reparar la integridad del JSON compartido (09-oct).
     # No toca WeatherLink, Niveles, SMN ni otras fuentes.
     - cron: '37 14,20,2 * * *'
     - cron: '7 15,21,3 * * *'
