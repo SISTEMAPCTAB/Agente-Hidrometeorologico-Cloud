@@ -1,167 +1,169 @@
-name: WeatherLink Watchdog - recuperación automática
+name: WeatherLink respaldo autónomo - cada 2 horas
 
 on:
   workflow_dispatch:
   schedule:
-    # Respaldo aislado 30 min después de cada ventana principal de 2 horas.
-    # Si el corte está vigente no recolecta ni publica nada.
-    - cron: '32 */2 * * *'
+    # Respaldo 40 minutos después del principal; sin Word, Niveles ni modelo.
+    - cron: '42 */2 * * *'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/weatherlink-watchdog.yml'
 
 permissions:
   contents: write
 
 concurrency:
-  # Comparte el mismo grupo del flujo principal para impedir ejecuciones simultáneas.
   group: weatherlink-cloud
   cancel-in-progress: false
 
 jobs:
-  verificar-y-recuperar:
+  weatherlink:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
-      - name: Descargar repositorio
+      - name: Descargar estado vigente
         uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
-      - name: Verificar antigüedad del último corte WeatherLink
+      - name: Decidir si corresponde una nueva recolección
         id: freshness
         shell: bash
         run: |
           python3 - <<'PY'
-          import json
-          import os
+          import json, os
           from datetime import datetime, timezone
           from pathlib import Path
 
-          p = Path('data/weatherlink/Estado_WeatherLink_Cloud.json')
-          recover = True
-          reason = 'estado inexistente o inválido'
-          age_minutes = None
+          def age(path):
+              try:
+                  d=json.loads(Path(path).read_text(encoding='utf-8'))
+                  s=d.get('run_utc')
+                  if not s:
+                      return 9999.0
+                  t=datetime.fromisoformat(str(s).replace('Z','+00:00'))
+                  if t.tzinfo is None:
+                      t=t.replace(tzinfo=timezone.utc)
+                  return (datetime.now(timezone.utc)-t.astimezone(timezone.utc)).total_seconds()/60.0
+              except Exception:
+                  return 9999.0
 
-          try:
-              s = json.loads(p.read_text(encoding='utf-8'))
-              run_utc = s.get('run_utc')
-              complete = s.get('complete') is True
-              expected = s.get('stations_expected')
-              ok = s.get('stations_ok')
-              errors = s.get('errors') or []
-              if run_utc:
-                  last = datetime.fromisoformat(run_utc.replace('Z', '+00:00'))
-                  if last.tzinfo is None:
-                      last = last.replace(tzinfo=timezone.utc)
-                  age_minutes = (datetime.now(timezone.utc) - last.astimezone(timezone.utc)).total_seconds() / 60.0
-                  healthy = complete and expected == ok and not errors
-                  # Respaldo del flujo principal cada 2 h: sólo intervenir cuando
-                  # el último corte válido supera 70 min o está incompleto.
-                  # A los ~30 min de una ejecución exitosa no hace nada.
-                  recover = (not healthy) or age_minutes > 70
-                  reason = f"complete={complete}; estaciones={ok}/{expected}; errores={len(errors)}; antigüedad={age_minutes:.1f} min"
-          except Exception as exc:
-              reason = f"error leyendo estado: {exc}"
-
-          print(f"WeatherLink: {reason}")
-          print(f"Recuperación necesaria: {recover}")
-          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
-              fh.write(f"recover={'true' if recover else 'false'}\n")
-              if age_minutes is not None:
-                  fh.write(f"age_minutes={age_minutes:.1f}\n")
+          principal=age('data/weatherlink/Estado_WeatherLink_Cloud.json')
+          adicional=age('data/weatherlink/extra_latest.json')
+          stale=max(principal, adicional) > 110.0
+          print(f'principal={principal:.1f} min; adicional={adicional:.1f} min; recolectar={stale}')
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as f:
+              f.write(f"stale={'true' if stale else 'false'}\n")
           PY
 
-      - name: Estado vigente, no ejecutar respaldo
-        if: steps.freshness.outputs.recover != 'true'
-        run: echo "WeatherLink está vigente. El watchdog no duplica la recolección."
+      - name: Corte vigente; terminar sin reproceso
+        if: steps.freshness.outputs.stale != 'true'
+        run: echo "WeatherLink vigente. No se recolecta ni se publica nada."
 
       - name: Configurar Python
-        if: steps.freshness.outputs.recover == 'true'
+        if: steps.freshness.outputs.stale == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-          cache: 'pip'
 
-      - name: Instalar dependencias
-        if: steps.freshness.outputs.recover == 'true'
-        run: pip install -r requirements.txt
+      - name: Instalar sólo dependencia necesaria
+        if: steps.freshness.outputs.stale == 'true'
+        run: pip install --disable-pip-version-check --no-cache-dir requests
 
-      - name: Resolver enlaces compartidos WeatherLink
-        if: steps.freshness.outputs.recover == 'true'
-        run: python src/weatherlink_resolve_shared.py
-
-      - name: Ejecutar recuperación WeatherLink Cloud
-        if: steps.freshness.outputs.recover == 'true'
-        run: python src/weatherlink_cloud.py
-
-      - name: Ejecutar recuperación WeatherLink adicional
-        if: steps.freshness.outputs.recover == 'true'
-        run: python src/weatherlink_extra_cloud.py
-
-      - name: Actualizar resumen térmico diario
-        if: steps.freshness.outputs.recover == 'true'
-        run: python src/temperature_summary.py
-
-      - name: Generar Word WeatherLink
-        if: steps.freshness.outputs.recover == 'true'
-        run: python src/generar_word_weatherlink.py
-
-      - name: Verificar recuperación y Word
-        if: steps.freshness.outputs.recover == 'true'
+      - name: Recolectar WeatherLink de forma independiente
+        if: steps.freshness.outputs.stale == 'true'
         shell: bash
         run: |
-          python - <<'PY'
+          set -euo pipefail
+          python src/weatherlink_resolve_shared.py
+          python src/weatherlink_cloud.py
+          python src/weatherlink_extra_cloud.py
+
+      - name: Validar corte antes de publicar
+        if: steps.freshness.outputs.stale == 'true'
+        shell: bash
+        run: |
+          python3 - <<'PY'
           import json
+          from datetime import datetime, timezone
           from pathlib import Path
 
-          estado = json.loads(Path('data/weatherlink/Estado_WeatherLink_Cloud.json').read_text(encoding='utf-8'))
-          assert estado.get('complete') is True, 'La recuperación WeatherLink no quedó completa'
-          assert estado.get('stations_ok') == estado.get('stations_expected'), 'No se recuperaron todas las estaciones esperadas'
-          assert not estado.get('errors'), 'La recuperación WeatherLink reportó errores'
+          s=json.loads(Path('data/weatherlink/Estado_WeatherLink_Cloud.json').read_text(encoding='utf-8'))
+          e=json.loads(Path('data/weatherlink/extra_latest.json').read_text(encoding='utf-8'))
+          assert s.get('complete') is True, 'WeatherLink principal incompleto'
+          assert s.get('stations_ok') == s.get('stations_expected') == 32, 'WeatherLink no obtuvo 32/32'
+          assert not (s.get('errors') or []), f"WeatherLink reportó errores: {s.get('errors')}"
 
-          word = json.loads(Path('data/weatherlink/Reportes/Estado_Word.json').read_text(encoding='utf-8'))
-          assert word.get('verified') is True, 'Word no verificado'
-          assert word.get('docx_structure_verified') is True, 'Estructura DOCX no verificada'
-          assert word.get('download_url', '').endswith('?raw=1'), 'Falta URL de descarga directa'
-          print('Recuperación WeatherLink verificada:', estado.get('run_local'))
+          for label,obj in [('principal',s),('adicional',e)]:
+              t=datetime.fromisoformat(str(obj['run_utc']).replace('Z','+00:00'))
+              if t.tzinfo is None:
+                  t=t.replace(tzinfo=timezone.utc)
+              age=(datetime.now(timezone.utc)-t.astimezone(timezone.utc)).total_seconds()/60.0
+              assert age < 10, f'{label} quedó antiguo: {age:.1f} min'
+          print('WeatherLink validado: 32/32; principal y adicional frescos.')
           PY
 
-      - name: Publicar recuperación WeatherLink
-        if: steps.freshness.outputs.recover == 'true'
+      - name: Publicar sólo productos WeatherLink vigentes
+        if: steps.freshness.outputs.stale == 'true'
         shell: bash
         run: |
-          set -e
-          git config user.name "Agente Hidrometeorologico Cloud"
+          set -euo pipefail
+          git config user.name "WeatherLink Autónomo"
           git config user.email "actions@users.noreply.github.com"
-          git add data/weatherlink/state.json \
-                  data/weatherlink/latest.json \
-                  data/weatherlink/extra_state.json \
-                  data/weatherlink/extra_latest.json \
-                  data/weatherlink/shared_resolved.json \
-                  data/weatherlink/Tabla_WeatherLink_Cloud.csv \
-                  data/weatherlink/Estado_WeatherLink_Cloud.json \
-                  data/weatherlink/temperature_state.json \
-                  data/weatherlink/temperature_summary.json \
-                  data/weatherlink/Reportes
 
-          if git diff --cached --quiet; then
-            echo "La recuperación no produjo cambios para publicar."
-            exit 0
-          fi
+          PRODUCTOS=(
+            data/weatherlink/state.json
+            data/weatherlink/latest.json
+            data/weatherlink/extra_state.json
+            data/weatherlink/extra_latest.json
+            data/weatherlink/shared_resolved.json
+            data/weatherlink/Tabla_WeatherLink_Cloud.csv
+            data/weatherlink/Estado_WeatherLink_Cloud.json
+          )
 
-          tar -cf /tmp/weatherlink-watchdog.tar data/weatherlink
-          git reset --hard HEAD
-          for intento in 1 2 3 4; do
-            echo "Intento de publicación de recuperación ${intento}/4"
+          tar -cf /tmp/weatherlink-autonomo.tar "${PRODUCTOS[@]}"
+          cp data/weatherlink/Estado_WeatherLink_Cloud.json /tmp/weatherlink-candidato.json
+
+          for ciclo in 1 2 3; do
             git fetch origin main
             git reset --hard origin/main
-            tar -xf /tmp/weatherlink-watchdog.tar
-            git add data/weatherlink
-            git diff --cached --quiet && exit 0
-            git commit -m "Recupera WeatherLink automáticamente [skip ci]"
-            if git push origin HEAD:main; then
-              echo "Recuperación WeatherLink publicada."
+
+            if python3 - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+          def stamp(path):
+              try:
+                  s=json.loads(Path(path).read_text(encoding='utf-8'))['run_utc']
+                  d=datetime.fromisoformat(str(s).replace('Z','+00:00'))
+                  return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
+              except Exception:
+                  return None
+          proposed=stamp('/tmp/weatherlink-candidato.json')
+          current=stamp('data/weatherlink/Estado_WeatherLink_Cloud.json')
+          raise SystemExit(0 if proposed and current and current>=proposed else 1)
+          PY
+            then
+              echo "El remoto ya contiene este corte o uno posterior."
               exit 0
             fi
-            sleep $((intento * 8))
+
+            tar -xf /tmp/weatherlink-autonomo.tar
+            git add "${PRODUCTOS[@]}"
+            git diff --cached --quiet && exit 0
+            git commit -m "Actualiza WeatherLink respaldo [skip ci]"
+
+            for intento in 1 2 3; do
+              if git push origin HEAD:main; then
+                echo "WeatherLink autónomo publicado."
+                exit 0
+              fi
+              sleep $((intento * 8))
+            done
+            sleep $((ciclo * 8))
           done
-          echo "No fue posible publicar la recuperación WeatherLink después de 4 intentos."
+
+          echo "No fue posible publicar WeatherLink autónomo."
           exit 1
