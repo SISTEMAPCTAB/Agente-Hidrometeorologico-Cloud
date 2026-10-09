@@ -132,7 +132,25 @@ jobs:
           for intento in 1 2 3; do
             git fetch origin main
             git reset --hard origin/main
+            cp data/fuentes_publicas/latest.json /tmp/smn-remoto-actual.json
             tar -xf /tmp/smn-watchdog.tar
+            # Fusionar ambos productos contra el remoto para no retroceder ni
+            # descartar una actualización simultánea de SMN96/SMN360.
+            python3 - <<'PY'
+          import json,sys
+          from pathlib import Path
+          sys.path.insert(0,'src')
+          from smn_cloud_fast import source_key
+          p=Path('data/fuentes_publicas/latest.json')
+          candidato=json.loads(p.read_text(encoding='utf-8'))
+          remoto=json.loads(Path('/tmp/smn-remoto-actual.json').read_text(encoding='utf-8'))
+          for producto in ('smn96','smn360'):
+              if source_key(remoto.get(producto)) >= source_key(candidato.get(producto)):
+                  candidato[producto]=remoto.get(producto)
+          for key,value in remoto.items():
+              if key not in candidato:candidato[key]=value
+          p.write_text(json.dumps(candidato,ensure_ascii=False,indent=2)+'\\n',encoding='utf-8')
+          PY
             git add data/fuentes_publicas/latest.json data/fuentes_publicas/Estado_SMN_Cloud.json
             if git diff --cached --quiet; then exit 0; fi
             git commit -m "Recupera actualización SMN [skip ci]"
