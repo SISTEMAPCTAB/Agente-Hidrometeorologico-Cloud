@@ -11,13 +11,9 @@ on:
       - 'requirements.txt'
       - '.github/workflows/carbonio-cloud.yml'
   schedule:
-    # Tabasco = UTC-6. Se mantienen las ventanas habituales y se agregan dos respaldos
-    # cercanos al análisis de las 11:00 para capturar boletines que lleguen con retraso.
-    - cron: '30 14 * * *'  # 08:30
-    - cron: '15 16 * * *'  # 10:15
-    - cron: '45 16 * * *'  # 10:45
-    - cron: '55 16 * * *'  # 10:55
-    - cron: '10 17 * * *'  # 11:10
+    # Única recolección diaria OCFS a las 11:00 hora de Tabasco (UTC-6).
+    # No recolectar FUENTE2 ni niveles desde Carbonio.
+    - cron: '0 17 * * *'
 
 permissions:
   contents: write
