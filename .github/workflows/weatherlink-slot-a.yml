@@ -2,15 +2,15 @@ name: WeatherLink independiente A - contingencia manual
 
 on:
   # Contingencia manual. La única programación automática WeatherLink
-  # queda en weatherlink-30m-estable.yml, una vez por hora.
+  # queda en weatherlink-30m-estable.yml, cada 30 minutos.
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  # Comparte sólo la cola WeatherLink; no bloquea ni depende de Niveles.
-  group: weatherlink-cloud
+  # Comparte cola con el otro respaldo manual; no bloquea el automático.
+  group: weatherlink-respaldo-manual
   cancel-in-progress: false
 
 jobs:
