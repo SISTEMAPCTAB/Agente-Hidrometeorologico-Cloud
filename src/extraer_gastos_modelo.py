@@ -70,7 +70,9 @@ def main():
  candidates=[]
  q1=penitas_fuente1(t)
  if q1 is not None:candidates.append((source_time(t) or 0,q1,"extraccion_promedio_ot_penitas_fuente1",source_iso(t)))
- q2=penitas_fuente2(t2) if t2 else None
+ # FUENTE2 presenta elevación/volumen; su octava cifra NO es extracción.
+ # Hasta validar una sección inequívoca de gasto, se excluye como fuente Q.
+ q2=None
  if q2 is not None:candidates.append((source_time(t2) or 0,q2,"extraccion_promedio_24h_penitas_fuente2",source_iso(t2)))
  if candidates:
   _,q,validation,source_iso_value=max(candidates,key=lambda x:x[0])
@@ -83,7 +85,7 @@ def main():
   "generado_utc":datetime.now(timezone.utc).isoformat(),
   "fuente1_fecha_hora":source_iso(t),
   "fuente2_fecha_hora":source_iso(t2) if t2 else None,
-  "regla":"Q desde columnas Gasto; Peñitas desde la extracción promedio del boletín más reciente FUENTE1/FUENTE2; ausente=null",
+  "regla":"Q desde columnas Gasto; Peñitas desde Extracc Promedio O.T. FUENTE1; FUENTE2 no validada para Q; ausente=null",
   "estaciones":out
  }
  OUT.parent.mkdir(parents=True,exist_ok=True)
