@@ -17,8 +17,6 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(
 
 CARBONIO_BASE = os.getenv("CARBONIO_BASE", "https://correo.tabasco.gob.mx").rstrip("/")
 SOAP_URL = f"{CARBONIO_BASE}/service/soap"
-PRIMARY_USER = os.environ["CARBONIO_USER"]
-PRIMARY_PASSWORD = os.environ["CARBONIO_PASSWORD"]
 FUENTE1_USER = os.getenv("CARBONIO_USER_FUENTE1", "").strip()
 FUENTE1_PASSWORD = os.getenv("CARBONIO_PASSWORD_FUENTE1", "").strip()
 SOURCE1_REGEX = os.getenv("SOURCE1_REGEX", "").strip()
@@ -235,13 +233,13 @@ def main():
     account_scans = []
     selected = {}
 
-    accounts = [("principal", PRIMARY_USER, PRIMARY_PASSWORD)]
-    if FUENTE1_USER and FUENTE1_PASSWORD:
-        accounts.append(("fuente1", FUENTE1_USER, FUENTE1_PASSWORD))
+    # Única fuente Carbonio autorizada: buzón OCFS para FUENTE1.
+    # Los boletines horarios y FUENTE2 se obtienen exclusivamente por Gmail.
+    accounts = [("fuente1", FUENTE1_USER, FUENTE1_PASSWORD)] if FUENTE1_USER and FUENTE1_PASSWORD else []
 
     for label, user, password in accounts:
         try:
-            found, scanned = scan_account(label, user, password)
+            found, scanned = scan_account(label, user, password, desired=("FUENTE1",))
             account_scans.append({"label": label, "ok": True, "messages_scanned": scanned})
             for source, item in found.items():
                 selected[source] = choose_newer(selected.get(source), item)
