@@ -1,0 +1,52 @@
+name: Actualizar gastos CONAGUA del modelo (aislado)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/latest/FUENTE1.txt'
+      - 'data/latest/FUENTE2.txt'
+      - 'src/extraer_gastos_modelo.py'
+      - '.github/workflows/gastos-modelo.yml'
+  schedule:
+    - cron: '30 17 * * *' # 11:30 Tabasco: respaldo posterior al boletín OCFS
+permissions:
+  contents: write
+concurrency:
+  group: gastos-modelo-aislado
+  cancel-in-progress: false
+jobs:
+  publicar-gastos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Recalcular sobre las fuentes más recientes y publicar solamente gastos
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Agente Gastos CONAGUA"
+          git config user.email "actions@users.noreply.github.com"
+          for intento in 1 2 3 4; do
+            git fetch origin main
+            git reset --hard origin/main
+            python3 src/extraer_gastos_modelo.py
+            python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('data/pronostico_hidrologico/gastos_conagua.json').read_text())
+          assert len(d['estaciones']) == 11
+          p=next(x for x in d['estaciones'] if x['estacion']=='Peñitas')
+          assert p['q_actual_m3s'] != 0.04, 'Se detectó la columna incorrecta de FUENTE2'
+          assert d['fuente1_fecha_hora'], 'FUENTE1 sin fecha'
+          print('FUENTE1:',d['fuente1_fecha_hora'],'Peñitas:',p['q_actual_m3s'])
+          PY
+            git add data/pronostico_hidrologico/gastos_conagua.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Actualizar gastos CONAGUA desde boletín más reciente [skip ci]"
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((intento * 3))
+          done
+          exit 1
