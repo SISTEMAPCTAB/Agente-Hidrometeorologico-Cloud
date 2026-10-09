@@ -10,6 +10,7 @@ const START_HOUR=6;
 const END_HOUR=20;
 const START_GRACE_MIN=65;
 let timer=null;
+let highestCutMs=0; // Proteger el último corte hidrométrico mostrado frente a respuestas tardías.
 function fmt(v){if(!v)return's/d';const d=new Date(v);if(Number.isNaN(d.getTime()))return's/d';return d.toLocaleString('es-MX',{timeZone:TZ,day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false});}
 function ageMinutes(v){const t=new Date(v).getTime();return Number.isFinite(t)?Math.max(0,Math.round((Date.now()-t)/60000)):null;}
 function localClock(){const parts=new Intl.DateTimeFormat('en-CA',{timeZone:TZ,hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());const h=Number(parts.find(p=>p.type==='hour')?.value||0);const m=Number(parts.find(p=>p.type==='minute')?.value||0);return{h,m,total:h*60+m};}
@@ -19,9 +20,16 @@ async function fetchJSON(url){const sep=url.includes('?')?'&':'?';const r=await 
 function primaryInfo(data){if(!data)return{valid:false,time:null,mins:null};const errors=Array.isArray(data.errors)?data.errors.length:0;const accounts=Array.isArray(data.accounts)?data.accounts:[];const accountOk=accounts.length===0||accounts.some(a=>a&&a.ok===true);const time=data.run_utc||null;const mins=ageMinutes(time);return{valid:data.complete===true&&errors===0&&accountOk&&mins!==null,time,mins,errors,accountOk};}
 function gmailInfo(data){if(!data)return{valid:false,time:null,mins:null};const errors=Array.isArray(data.errors)?data.errors.length:0;const time=data.run_local||data.run_utc||null;const mins=ageMinutes(time);return{valid:data.configured===true&&errors===0&&mins!==null,time,mins,errors};}
 function latestCut(rows){if(!Array.isArray(rows))return null;const times=rows.map(r=>new Date(r?.fecha_hora).getTime()).filter(Number.isFinite);return times.length?new Date(Math.max(...times)).toISOString():null;}
-function paint(primary,gmail,levelRows){ensureStyle();const strip=document.getElementById('statusStrip');if(!strip)return false;const card=[...strip.querySelectorAll('.status-card')].find(x=>/niveles/i.test(x.querySelector('span')?.textContent||''));if(!card)return false;const cut=latestCut(levelRows);const main=card.querySelector('b');let line=card.querySelector('.niveles-agent-state');if(!line){line=document.createElement('span');line.className='niveles-agent-state';card.appendChild(line);}let detail=card.querySelector('.niveles-agent-detail');if(!detail){detail=document.createElement('small');detail.className='niveles-agent-detail';card.appendChild(detail);}
+function paint(primary,gmail,levelRows){ensureStyle();const strip=document.getElementById('statusStrip');if(!strip)return false;const card=[...strip.querySelectorAll('.status-card')].find(x=>/niveles/i.test(x.querySelector('span')?.textContent||''));if(!card)return false;const incomingCut=latestCut(levelRows);
+if(incomingCut){highestCutMs=Math.max(highestCutMs,new Date(incomingCut).getTime());}
+const shown=card.querySelector('b')?.dataset?.hydroCut||'';
+if(shown){const parsed=new Date(shown).getTime();if(Number.isFinite(parsed))highestCutMs=Math.max(highestCutMs,parsed);}
+const cut=highestCutMs?new Date(highestCutMs).toISOString():null;
+const main=card.querySelector('b');let line=card.querySelector('.niveles-agent-state');if(!line){line=document.createElement('span');line.className='niveles-agent-state';card.appendChild(line);}let detail=card.querySelector('.niveles-agent-detail');if(!detail){detail=document.createElement('small');detail.className='niveles-agent-detail';card.appendChild(detail);}
 const p=primaryInfo(primary),g=gmailInfo(gmail);const cutMins=ageMinutes(cut);const candidates=[];if(p.valid)candidates.push({source:'Carbonio',...p});if(g.valid)candidates.push({source:'Gmail',...g});candidates.sort((a,b)=>new Date(b.time)-new Date(a.time));const best=candidates[0]||null;const op=operatingState();
-if(main)main.textContent=best?fmt(best.time):(cut?fmt(cut):'s/d');
+// La fecha principal representa el boletín, NO la hora de ejecución del colector.
+// Nunca reemplazar un corte nuevo por la revisión más antigua de Gmail/Carbonio.
+if(main&&cut){main.textContent=fmt(cut);main.dataset.hydroCut=cut;}
 let cls='bad',label='Recolección sin revisión reciente',cloud='GitHub Cloud · revisar niveles';
 if(op.mode==='pause'){
   cls='ok';label='Pausa nocturna programada';cloud='GitHub Cloud · niveles en pausa nocturna';
