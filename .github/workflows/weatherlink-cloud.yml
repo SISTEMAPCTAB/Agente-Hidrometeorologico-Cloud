@@ -9,9 +9,9 @@ permissions:
   contents: write
 
 concurrency:
-  group: weatherlink-cloud
-  # El dato vigente prima sobre una ejecución rezagada; evita cola creciente.
-  cancel-in-progress: true
+  group: weatherlink-respaldo-manual
+  # Respaldo manual separado del turno periódico; no cancela otros trabajos.
+  cancel-in-progress: false
 
 jobs:
   recolectar-weatherlink:
