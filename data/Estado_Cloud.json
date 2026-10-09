@@ -1,13 +1,8 @@
 {
   "agent": "Agente-Hidrometeorologico-Cloud",
-  "run_utc": "2026-10-08T22:02:43.636172+00:00",
-  "run_local": "2026-10-08T16:02:43.636172-06:00",
+  "run_utc": "2026-10-09T16:24:32.423798+00:00",
+  "run_local": "2026-10-09T10:24:32.423798-06:00",
   "accounts": [
-    {
-      "label": "principal",
-      "ok": true,
-      "messages_scanned": 150
-    },
     {
       "label": "fuente1",
       "ok": true,
@@ -23,25 +18,17 @@
     "FUENTE1": {
       "status": "ok",
       "account": "fuente1",
-      "subject": "Boletín Hidrométrico, Climatológico y de Presas 08-10-2026",
-      "message_id": "7020",
-      "original_filename": "Boletin 08-10-2026.pdf",
-      "message_time": "2026-10-08T10:05:45-06:00",
-      "bulletin_date": "2026-10-08",
-      "bytes": 886646,
-      "text_chars": 11100
+      "subject": "Boletín Hidrométrico, Climatológico y de Presas 09-10-2026",
+      "message_id": "7040",
+      "original_filename": "Boletin 09-10-2026.pdf",
+      "message_time": "2026-10-09T10:20:41-06:00",
+      "bulletin_date": "2026-10-09",
+      "bytes": 886000,
+      "text_chars": 11115
     },
     "FUENTE2": {
-      "status": "ok",
-      "account": "principal",
-      "subject": "SE ENVIA BOLETIN DE HIDROEMTRIA Y CLIMATOLOGIA DE 8:00 AM",
-      "message_id": "16420",
-      "original_filename": "Boletin del 08 de Octubre  del 2026.pdf",
-      "message_time": "2026-10-08T08:41:14-06:00",
-      "bulletin_date": "2026-10-08",
-      "bytes": 310257,
-      "text_chars": 2740
+      "status": "not_found"
     }
   },
-  "complete": true
+  "complete": false
 }
