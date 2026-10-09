@@ -118,18 +118,19 @@ function parseDams(txt){
  return ['Angostura','Malpaso'].map(name=>{
   const m=txt.match(new RegExp('^'+name+'\\s+(.+)$','mi'));
   if(!m)return null;
-  const v=m[1].trim().split(/\\s+/).map(parseNum).filter(x=>x!==null);
+  const v=m[1].trim().split(/\s+/).map(parseNum).filter(x=>x!==null);
   // Formato real CONAGUA: 10 cifras (Angostura/Malpaso), no 12.
   // No inferir Curva Guía desde columnas sin encabezado alineado.
   if(v.length<9)return null;
-  return{name,actual:v[4],pct:v[5],namo:ref[name]};
+  const offset=name==='Malpaso'&&v.length===11?1:0;
+  return{name,actual:v[4+offset],pct:v[5+offset],namo:ref[name]};
  }).filter(Boolean);
 }
 function parsePenitas(txt,ocfs){
- const m=txt.match(/^Peñitas\\s+(.+)$/mi);
- const v=m?m[1].trim().split(/\\s+/).map(parseNum).filter(x=>x!==null):[];
- const q=(ocfs||'').match(/^Extracc\\s+Promedio\\s+O\\.\\s*T\\.\\s*\\(m3\\/s\\)\\s+(.+)$/mi);
- const flows=q?q[1].trim().split(/\\s+/).map(parseNum).filter(x=>x!==null):[];
+ const m=txt.match(/^Peñitas\s+(.+)$/mi);
+ const v=m?m[1].trim().split(/\s+/).map(parseNum).filter(x=>x!==null):[];
+ const q=(ocfs||'').match(/^Extracc\s+Promedio\s+O\.\s*T\.\s*\(m3\/s\)\s+(.+)$/mi);
+ const flows=q?q[1].trim().split(/\s+/).map(parseNum).filter(x=>x!==null):[];
  if(v.length<6&&!flows.length)return null;
  return{nivel:v.length>=5?v[4]:null,pct:v.length>=6?v[5]:null,extr:flows.length>=5?flows[4]:null};
 }
