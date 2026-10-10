@@ -173,6 +173,16 @@ def write_source(source: str, subject: str, filename: str, uid: str, dt: datetim
         f"FECHA/HORA RECOLECCIÓN: {datetime.now(timezone.utc).astimezone(MX_TZ).isoformat()}\n\n"
     )
     full = header + text
+    if source == "FUENTE2":
+        # La extracción estándar pierde la columna Actual/Gasto al final del PDF.
+        # Adjuntar la representación en renglones, sin cambiar el texto de niveles.
+        from pypdf import PdfReader
+        import io
+        layout = "\n".join(
+            page.extract_text(extraction_mode="layout") or ""
+            for page in PdfReader(io.BytesIO(pdf)).pages
+        )
+        full += "\n\n===== GASTOS_LAYOUT_FUENTE2 =====\n" + layout
     latest = Path("data/latest") / f"{source}.txt"
     archive = Path("data/archive") / dt.strftime("%Y-%m-%d") / f"{source}.txt"
     latest.parent.mkdir(parents=True, exist_ok=True)
