@@ -71,7 +71,8 @@ def fuente2_gastos(txt):
 def main():
  t=SRC.read_text(encoding="utf-8",errors="replace")
  t2=SRC2.read_text(encoding="utf-8",errors="replace") if SRC2.exists() else ""
- lines=[x.strip() for x in t.splitlines() if x.strip()]\n tab2=fuente2_gastos(t2)
+ lines=[x.strip() for x in t.splitlines() if x.strip()]
+ tab2=fuente2_gastos(t2)
  out=[]
 
  # Resto de estaciones: comportamiento previo intacto (FUENTE1).
