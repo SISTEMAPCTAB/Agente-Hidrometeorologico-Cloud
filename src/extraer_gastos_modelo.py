@@ -44,10 +44,34 @@ def penitas_fuente2(txt):
  q=a[7]
  return q if 0<=q<=10000 else None
 
+def fuente2_gastos(txt):
+ # El bloque layout proviene del mismo PDF; no desplazar columnas por el texto aplanado.
+ marker="===== GASTOS_LAYOUT_FUENTE2 ====="
+ if marker not in txt:return {}
+ rows={}
+ for line in txt.split(marker,1)[1].splitlines():
+  m=re.match(r"^\s*([*]?\s*[A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]+?)\s{2,}(.+)$",line)
+  if not m:continue
+  key=norm(m.group(1).strip("* "))
+  tokens=re.findall(r"(?<!\S)-?\d{1,3}(?:,\d{3})*(?:\.\d+)?(?!\S)|(?<!\S)-?\d+(?:\.\d+)?(?!\S)",m.group(2))
+  a=[float(x.replace(",","")) for x in tokens]
+  if key in {"samaria","oxolotan","puyacatengo","tapijulapa","san joaquin","teapa","gonzalez","pueblo nuevo","salto de agua","macuspana","boca del cerro"} and len(a)>=8:
+   hp,qp,ha,qa=a[4:8]
+  elif key=="porvenir" and len(a)>=7:
+   hp,qp,ha,qa=a[3:7]
+  elif key=="penitas" and len(a)>=12:
+   # Fila de presa: Ext. Prom. (m3/s) en 24:00 horas, columna 9.
+   if 0<=a[8]<=10000:rows["penitas"]={"q":a[8]}
+   continue
+  else:continue
+  if not (0<=qp<=20000 and 0<=qa<=20000 and -5<=hp<=60 and -5<=ha<=60):continue
+  rows[key]={"hp":hp,"qp":qp,"ha":ha,"qa":qa}
+ return rows
+
 def main():
  t=SRC.read_text(encoding="utf-8",errors="replace")
  t2=SRC2.read_text(encoding="utf-8",errors="replace") if SRC2.exists() else ""
- lines=[x.strip() for x in t.splitlines() if x.strip()]
+ lines=[x.strip() for x in t.splitlines() if x.strip()]\n tab2=fuente2_gastos(t2)
  out=[]
 
  # Resto de estaciones: comportamiento previo intacto (FUENTE1).
@@ -72,7 +96,7 @@ def main():
  if q1 is not None:candidates.append((source_time(t) or 0,q1,"extraccion_promedio_ot_penitas_fuente1",source_iso(t)))
  # FUENTE2 presenta elevación/volumen; su octava cifra NO es extracción.
  # Hasta validar una sección inequívoca de gasto, se excluye como fuente Q.
- q2=None
+ q2=tab2.get('penitas',{}).get('q')
  if q2 is not None:candidates.append((source_time(t2) or 0,q2,"extraccion_promedio_24h_penitas_fuente2",source_iso(t2)))
  if candidates:
   _,q,validation,source_iso_value=max(candidates,key=lambda x:x[0])
@@ -85,7 +109,7 @@ def main():
   "generado_utc":datetime.now(timezone.utc).isoformat(),
   "fuente1_fecha_hora":source_iso(t),
   "fuente2_fecha_hora":source_iso(t2) if t2 else None,
-  "regla":"Q desde columnas Gasto; Peñitas desde Extracc Promedio O.T. FUENTE1; FUENTE2 no validada para Q; ausente=null",
+  "regla":"Q FUENTE2: columna Actual/Gasto verificada por layout del PDF; FUENTE1 respaldo; Peñitas extracción promedio 24 h; ausente=null",
   "estaciones":out
  }
  OUT.parent.mkdir(parents=True,exist_ok=True)
