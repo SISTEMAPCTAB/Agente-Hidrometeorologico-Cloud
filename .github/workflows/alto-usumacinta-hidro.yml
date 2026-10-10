@@ -88,8 +88,34 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
             tar -xf /tmp/alto-usumacinta.tar
+            # Sincronizar sólo el campo BHVGM del agregado, nunca sobrescribir otras fuentes.
+            python3 - <<'PY'
+          import json
+          from datetime import datetime
+          from pathlib import Path
+          base=Path('data/fuentes_publicas')
+          source=json.loads((base/'insivumeh_alto_hidro.json').read_text(encoding='utf-8'))
+          target=base/'latest.json'
+          aggregate=json.loads(target.read_text(encoding='utf-8'))
+          def instant(obj):
+              try:return datetime.strptime(str(obj['fecha'])+' '+str(obj['hora']),'%d/%m/%Y %H:%M')
+              except (ValueError,KeyError,TypeError):return None
+          previous=aggregate.get('insivumeh_bhvgm_actual') or {}
+          current=instant(source);old=instant(previous)
+          observed=[r for r in source.get('estaciones',[]) if r.get('estado_dato')=='observado']
+          if current and observed and (old is None or current>old):
+              aggregate['insivumeh_bhvgm_actual']={
+                  'boletin':source.get('boletin'),'fecha':source['fecha'],'hora':source['hora'],
+                  'url_pdf':source.get('url_pdf'),'estaciones':observed,
+                  'el_tigre_publicado':any(r.get('estacion')=='El Tigre' for r in observed)
+              }
+              target.write_text(json.dumps(aggregate,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+              print('BHVGM agregado actualizado:',source['fecha'],source['hora'])
+          else:print('BHVGM agregado conservado; no existe corte observado más reciente')
+          PY
             git add data/fuentes_publicas/insivumeh_alto_hidro.json \
-                    data/fuentes_publicas/insivumeh_alto_hidro_historico.json
+                    data/fuentes_publicas/insivumeh_alto_hidro_historico.json \
+                    data/fuentes_publicas/latest.json
             if git diff --cached --quiet; then
               echo "El producto ya está publicado o no cambió."
               exit 0
