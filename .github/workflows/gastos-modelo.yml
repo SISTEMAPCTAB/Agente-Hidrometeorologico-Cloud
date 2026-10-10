@@ -41,7 +41,17 @@ jobs:
           p=next(x for x in d['estaciones'] if x['estacion']=='Peñitas')
           assert p['q_actual_m3s'] != 0.04, 'Se detectó la columna incorrecta de FUENTE2'
           assert d['fuente1_fecha_hora'], 'FUENTE1 sin fecha'
-          print('FUENTE1:',d['fuente1_fecha_hora'],'Peñitas:',p['q_actual_m3s'])
+          from datetime import datetime
+          from math import isfinite
+          validos=[x for x in d['estaciones'] if x.get('q_actual_m3s') is not None]
+          assert validos, 'No hay gastos validos'
+          for x in validos:
+              q=x['q_actual_m3s']
+              assert isinstance(q,(int,float)) and isfinite(q) and 0<=q<=20000, 'Gasto invalido: '+x['estacion']
+              assert x.get('fuente_fecha_hora'), 'Gasto sin fecha fuente: '+x['estacion']
+          fuentes=[datetime.fromisoformat(x['fuente_fecha_hora']) for x in validos]
+          assert min(fuentes).tzinfo is not None, 'Gasto sin zona horaria'
+          print('Gastos auditados:',len(validos),'fuente reciente:',max(fuentes).isoformat(),'Peñitas:',p['q_actual_m3s'])
           PY
             git add data/pronostico_hidrologico/gastos_conagua.json
             if git diff --cached --quiet; then exit 0; fi
