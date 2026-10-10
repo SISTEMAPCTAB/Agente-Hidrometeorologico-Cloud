@@ -22,7 +22,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: operacion-hidrometeorologica-writer
+  group: smn-cloud-fast
   cancel-in-progress: false
 
 jobs:
