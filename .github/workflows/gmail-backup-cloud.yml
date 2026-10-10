@@ -231,6 +231,7 @@ jobs:
           )
           tar -cf /tmp/gmail-productos.tar "${PRODUCTOS[@]}"
           cp data/niveles/Ultimo_Corte/ultimo_resumen.json /tmp/gmail-candidato.json
+          cp data/niveles/Estado_Gmail_Backup.json /tmp/gmail-estado-candidato.json
           for source in FUENTE1 FUENTE2; do
             if [ -f "data/latest/${source}.txt" ]; then
               cp "data/latest/${source}.txt" "/tmp/gmail-${source}.txt"
@@ -266,41 +267,26 @@ jobs:
           raise SystemExit(0 if candidate is None or (current and candidate<=current) else 1)
           PY
             then
-              echo "Datos ya publicados o superados; se conserva el remoto."
-              exit 0
-            fi
-            tar -xf /tmp/gmail-productos.tar
-            git add "${PRODUCTOS[@]}"
-            if git diff --cached --quiet; then exit 0; fi
-            git commit -m "Actualiza respaldo Gmail cloud [skip ci]"
-            if git push origin HEAD:main; then exit 0; fi
-            sleep $((intento * 5))
-          done
-          echo "Publicación Gmail falló tras cuatro intentos."
-          exit 1
-,Path(path).read_text(encoding='utf-8'),re.M)
-                  return datetime.fromisoformat(m.group(1).strip()).astimezone(timezone.utc) if m else None
-              except (OSError,ValueError):return None
-          def cutoff(path):
-              try:
-                  rows=json.loads(Path(path).read_text(encoding='utf-8'))
-                  return max(datetime.fromisoformat(r['fecha_hora']).astimezone(timezone.utc) for r in rows if r.get('fecha_hora'))
+              echo "Corte hidrométrico ya publicado; actualizar únicamente hora real de consulta Gmail."
+              if python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from datetime import datetime
+          def stamp(p):
+              try:return datetime.fromisoformat(json.loads(Path(p).read_text())['run_local'])
               except (OSError,ValueError,KeyError,TypeError):return None
-          candidate=cutoff('/tmp/gmail-candidato.json')
-          current=cutoff('data/niveles/Ultimo_Corte/ultimo_resumen.json')
-          updates=[]
-          for source in ('FUENTE1','FUENTE2'):
-              a=source_time('/tmp/gmail-'+source+'.txt')
-              b=source_time('data/latest/'+source+'.txt')
-              if a and (not b or a>b):updates.append(source)
-          print('Cortes Gmail/remoto:',candidate,current,'fuentes nuevas:',updates)
-          # Corte hidrométrico publicado nunca debe regresar ni ser sobrescrito
-          # por productos procesados con un boletín igual o anterior.
-          raise SystemExit(0 if candidate is None or (current and candidate<=current) else 1)
+          a=stamp('/tmp/gmail-estado-candidato.json')
+          b=stamp('data/niveles/Estado_Gmail_Backup.json')
+          raise SystemExit(0 if a is not None and (b is None or a>b) else 1)
           PY
-            then
-              echo "Datos ya publicados o superados; se conserva el remoto."
-              exit 0
+              then
+                cp /tmp/gmail-estado-candidato.json data/niveles/Estado_Gmail_Backup.json
+                git add data/niveles/Estado_Gmail_Backup.json
+                if git diff --cached --quiet; then exit 0; fi
+                git commit -m "Actualiza estado real Gmail sin alterar cortes [skip ci]"
+                if git push origin HEAD:main; then exit 0; fi
+              fi
+              continue
             fi
             tar -xf /tmp/gmail-productos.tar
             git add "${PRODUCTOS[@]}"
