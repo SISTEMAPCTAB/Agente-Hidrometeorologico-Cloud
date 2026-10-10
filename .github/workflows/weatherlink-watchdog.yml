@@ -2,9 +2,6 @@ name: WeatherLink respaldo autónomo - cada 2 horas
 
 on:
   workflow_dispatch:
-  schedule:
-    # Respaldo 40 minutos después del principal; sin Word, Niveles ni modelo.
-    - cron: '42 */2 * * *'
   push:
     branches: [main]
     paths:
