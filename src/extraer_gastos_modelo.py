@@ -68,6 +68,26 @@ def fuente2_gastos(txt):
   rows[key]={"hp":hp,"qp":qp,"ha":ha,"qa":qa}
  return rows
 
+def conservar_lecturas_recientes(rows):
+ # La llegada tardía de FUENTE1 o de un PDF sin tabla no puede borrar el Q vigente.
+ try:
+  prev=json.loads(OUT.read_text(encoding="utf-8"))
+  antiguos={x["estacion"]:x for x in prev.get("estaciones",[]) if isinstance(x,dict)}
+ except (OSError,ValueError,KeyError,TypeError):
+  return rows
+ for i,candidato in enumerate(rows):
+  anterior=antiguos.get(candidato["estacion"])
+  if not anterior or anterior.get("q_actual_m3s") is None:continue
+  viejo=source_time_from_iso(anterior.get("fuente_fecha_hora"))
+  nuevo=source_time_from_iso(candidato.get("fuente_fecha_hora"))
+  if nuevo is None or (viejo is not None and nuevo<viejo):
+   rows[i]=anterior
+ return rows
+
+def source_time_from_iso(s):
+ try:return datetime.fromisoformat(s).timestamp() if s else None
+ except (ValueError,TypeError):return None
+
 def main():
  t=SRC.read_text(encoding="utf-8",errors="replace")
  t2=SRC2.read_text(encoding="utf-8",errors="replace") if SRC2.exists() else ""
@@ -106,6 +126,7 @@ def main():
   _,q,validation,source_iso_value=max(candidates,key=lambda x:x[0])
   d.update(q_actual_m3s=q,fuente_fecha_hora=source_iso_value,validacion=validation)
  out.append(d)
+ out=conservar_lecturas_recientes(out)
 
  payload={
   "fuente":"CONAGUA OCFS / fuentes ya recolectadas",
