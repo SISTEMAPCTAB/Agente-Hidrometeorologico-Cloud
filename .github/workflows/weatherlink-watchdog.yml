@@ -52,7 +52,7 @@ jobs:
 
           principal=age('data/weatherlink/Estado_WeatherLink_Cloud.json')
           adicional=age('data/weatherlink/extra_latest.json')
-          stale=max(principal, adicional) > 110.0
+          stale=max(principal, adicional) > 65.0
           print(f'principal={principal:.1f} min; adicional={adicional:.1f} min; recolectar={stale}')
           with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as f:
               f.write(f"stale={'true' if stale else 'false'}\n")
@@ -77,9 +77,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python src/weatherlink_resolve_shared.py
           python src/weatherlink_cloud.py
           python src/weatherlink_extra_cloud.py
+          if ! timeout 90s python src/weatherlink_resolve_shared.py; then
+            echo "Resolver enlaces auxiliares falló; conservar estado previo."
+            git checkout -- data/weatherlink/shared_resolved.json || true
+          fi
 
       - name: Validar corte antes de publicar
         if: steps.freshness.outputs.stale == 'true'
