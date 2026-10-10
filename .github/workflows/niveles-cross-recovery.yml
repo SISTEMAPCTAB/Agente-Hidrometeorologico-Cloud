@@ -2,10 +2,6 @@ name: Recuperación Independiente Niveles
 
 on:
   workflow_dispatch:
-  # Arranque autónomo de respaldo después de la pausa nocturna (hora Tabasco UTC-6).
-  # 07:05 y 07:35 locales; las demás ventanas siguen en los flujos existentes.
-  schedule:
-    - cron: '5,35 13 * * *'
   push:
     branches: [main]
     paths:
