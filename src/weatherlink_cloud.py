@@ -125,7 +125,7 @@ def initial_state(stations):
 
 def fetch_station(station):
     url = f"{BASE}/map/data/station/{station['uuid']}"
-    r = requests.get(url, headers=HEADERS, timeout=35)
+    r = requests.get(url, headers=HEADERS, timeout=12)
     r.raise_for_status()
     data = r.json()
     daily_in = parse_float(data.get("dailyRain"))
