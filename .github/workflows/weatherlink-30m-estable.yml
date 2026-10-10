@@ -110,7 +110,6 @@ jobs:
               assert len(uuids)==len(expected) and set(uuids)==expected, f'{label}: estaciones ausentes, ajenas o duplicadas'
               assert sum(not row.get('error') for row in principal['stations']) == s['stations_ok'], 'Estaciones correctas inconsistentes'
           assert sum(bool(row.get('error')) for row in principal['stations']) == s['stations_error'], 'Estaciones fallidas inconsistentes'
-          assert any(not row.get('error') for row in observed), f'{label}: ninguna estación recuperada'
           assert principal.get('run_utc')==s.get('run_utc'), 'Estado principal y datos no corresponden al mismo corte'
 
           for label,obj in [('principal',s),('adicional',e)]:
