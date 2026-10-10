@@ -12,7 +12,6 @@ on:
       - 'src/fuente2_niveles.py'
       - 'src/lluvia_conagua_cloud.py'
       - 'src/extraer_clima_boletines.py'
-      - 'src/extraer_gastos_modelo.py'
       - 'src/refrescar_fuentes_diarias.py'
       - 'src/auditar_productos_operativos.py'
       - 'src/procesar_niveles.js'
@@ -79,9 +78,6 @@ jobs:
           CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
           NIVELES_BASE: data/niveles
         run: python src/niveles_cloud_robusto.py
-
-      - name: Extraer gastos CONAGUA para modelo hidrológico (salida aislada)
-        run: python src/extraer_gastos_modelo.py
 
       - name: Completar todas las horas publicadas del boletín hidrométrico
         env:
@@ -168,7 +164,6 @@ jobs:
             data/niveles/Graficas
             data/niveles/Reportes
             data/niveles/Evidencia_Texto
-            data/pronostico_hidrologico
           )
 
           tar -cf /tmp/productos-niveles.tar "${PRODUCTOS[@]}"
