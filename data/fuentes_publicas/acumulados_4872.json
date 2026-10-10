@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-10-10T10:08:37.394989+00:00",
+  "generated_utc": "2026-10-10T17:28:57.072153+00:00",
   "regla": "48 h y 72 h sólo se forman con ventanas de 24 h asociadas a cortes fuente distintos de INSIVUMEH, separados aproximadamente 24 h. La hora de consulta del agente nunca sustituye al corte fuente. Si falta una ventana verificable, se conserva s/d.",
   "tolerancia_historica_min": 120,
   "insivumeh_corte_fuente_actual": "08/Oct/2026 03:10",
@@ -10,7 +10,7 @@
       "estacion": "Playa Grande Met (Ixcan)",
       "precipitacion_24h_mm": 12.5,
       "precipitacion_48h_mm": 25.0,
-      "precipitacion_72h_mm": 37.5,
+      "precipitacion_72h_mm": null,
       "componentes": {
         "actual": {
           "corte_fuente": "08/Oct/2026 03:10",
@@ -23,11 +23,7 @@
           "corte_utc": "2026-10-07T08:50:00+00:00",
           "mm": 12.5
         },
-        "menos_48h": {
-          "corte_fuente": "06/Oct/2026 04:30",
-          "corte_utc": "2026-10-06T10:30:00+00:00",
-          "mm": 12.5
-        }
+        "menos_48h": null
       }
     },
     {
@@ -35,7 +31,7 @@
       "estacion": "Santa María Cahabón",
       "precipitacion_24h_mm": 0.0,
       "precipitacion_48h_mm": 0.0,
-      "precipitacion_72h_mm": 0.0,
+      "precipitacion_72h_mm": null,
       "componentes": {
         "actual": {
           "corte_fuente": "08/Oct/2026 03:10",
@@ -48,11 +44,7 @@
           "corte_utc": "2026-10-07T08:50:00+00:00",
           "mm": 0.0
         },
-        "menos_48h": {
-          "corte_fuente": "06/Oct/2026 04:30",
-          "corte_utc": "2026-10-06T10:30:00+00:00",
-          "mm": 0.0
-        }
+        "menos_48h": null
       }
     },
     {
@@ -60,7 +52,7 @@
       "estacion": "Panzos PHC Altaverapaz",
       "precipitacion_24h_mm": 3.6,
       "precipitacion_48h_mm": 7.2,
-      "precipitacion_72h_mm": 10.8,
+      "precipitacion_72h_mm": null,
       "componentes": {
         "actual": {
           "corte_fuente": "08/Oct/2026 03:10",
@@ -73,11 +65,7 @@
           "corte_utc": "2026-10-07T08:50:00+00:00",
           "mm": 3.6
         },
-        "menos_48h": {
-          "corte_fuente": "06/Oct/2026 04:30",
-          "corte_utc": "2026-10-06T10:30:00+00:00",
-          "mm": 3.6
-        }
+        "menos_48h": null
       }
     }
   ]
