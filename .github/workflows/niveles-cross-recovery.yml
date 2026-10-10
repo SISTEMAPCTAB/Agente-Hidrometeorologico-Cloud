@@ -15,7 +15,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: datos-hidrometeorologicos-writer
+  group: niveles-hidrometricos-cloud
   cancel-in-progress: false
 
 jobs:
