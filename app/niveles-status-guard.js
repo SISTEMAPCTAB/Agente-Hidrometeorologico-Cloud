@@ -26,7 +26,7 @@ const shown=card.querySelector('b')?.dataset?.hydroCut||'';
 if(shown){const parsed=new Date(shown).getTime();if(Number.isFinite(parsed))highestCutMs=Math.max(highestCutMs,parsed);}
 const cut=highestCutMs?new Date(highestCutMs).toISOString():null;
 const main=card.querySelector('b');let line=card.querySelector('.niveles-agent-state');if(!line){line=document.createElement('span');line.className='niveles-agent-state';card.appendChild(line);}let detail=card.querySelector('.niveles-agent-detail');if(!detail){detail=document.createElement('small');detail.className='niveles-agent-detail';card.appendChild(detail);}
-const p=primaryInfo(primary),g=gmailInfo(gmail);const cutMins=ageMinutes(cut);const candidates=[];if(p.valid)candidates.push({source:'Carbonio',...p});if(g.valid)candidates.push({source:'Gmail',...g});candidates.sort((a,b)=>new Date(b.time)-new Date(a.time));const best=candidates[0]||null;const op=operatingState();
+const g=gmailInfo(gmail);const cutMins=ageMinutes(cut);const best=g.valid?{source:'Gmail',...g}:null;const op=operatingState();
 // La fecha principal representa el boletín, NO la hora de ejecución del colector.
 // Nunca reemplazar un corte nuevo por la revisión más antigua de Gmail/Carbonio.
 if(main&&cut){main.textContent=fmt(cut);main.dataset.hydroCut=cut;}
@@ -34,24 +34,23 @@ let cls='bad',label='Recolección sin revisión reciente',cloud='GitHub Cloud ·
 if(op.mode==='pause'){
   cls='ok';label='Pausa nocturna programada';cloud='GitHub Cloud · niveles en pausa nocturna';
   line.className=`niveles-agent-state ${cls}`;line.textContent=label;
-  detail.textContent=best?`Última revisión válida: ${fmt(best.time)} · ${best.source}${best.source==='Gmail'?' (respaldo)':''} · último corte recibido: ${cut?fmt(cut):'s/d'} · reanuda 06:00`:'Recolección pausada · reanuda automáticamente a las 06:00';
+  detail.textContent=best?`Última revisión Gmail: ${fmt(best.time)} · Gmail (niveles horarios) · último corte recibido: ${cut?fmt(cut):'s/d'} · reanuda 06:00`:'Recolección pausada · reanuda automáticamente a las 06:00';
   const cloudEl=document.getElementById('cloudState');if(cloudEl)cloudEl.textContent=cloud;return true;
 }
 if(op.mode==='startup'){
   cls='warn';label='Reanudando recolección · ventana operativa';cloud='GitHub Cloud · iniciando niveles';
   line.className=`niveles-agent-state ${cls}`;line.textContent=label;
-  detail.textContent=best?`Última revisión válida: ${fmt(best.time)} · ${best.source}${best.source==='Gmail'?' (respaldo)':''} · último corte recibido: ${cut?fmt(cut):'s/d'} · margen de arranque hasta 07:05`:'Ventana iniciada a las 06:00 · esperando primera revisión válida';
+  detail.textContent=best?`Última revisión Gmail: ${fmt(best.time)} · Gmail (niveles horarios) · último corte recibido: ${cut?fmt(cut):'s/d'} · margen de arranque hasta 07:05`:'Ventana iniciada a las 06:00 · esperando primera revisión válida';
   const cloudEl=document.getElementById('cloudState');if(cloudEl)cloudEl.textContent=cloud;return true;
 }
-const primaryFresh=p.valid&&p.mins<=ACTIVE_MIN;const gmailFresh=g.valid&&g.mins<=ACTIVE_MIN;const gmailTakingOver=g.valid&&(!p.valid||p.mins>ACTIVE_MIN)&&g.mins<=ALERT_MIN;
-if(primaryFresh){cls='ok';label='Recolección activa';cloud='GitHub Cloud · niveles activos';}
-else if(gmailFresh){cls='ok';label='Recolección operativa · respaldo Gmail activo';cloud='GitHub Cloud · respaldo Gmail activo';}
-else if(best&&best.mins<=ALERT_MIN){cls='ok';label=gmailTakingOver?'Recolección operativa · respaldo Gmail activo':'Recolección operativa · sin nuevo boletín';cloud='GitHub Cloud · niveles operativos';}
-else if(cutMins!==null&&cutMins<=ALERT_MIN){cls='warn';label='Corte hidrométrico publicado · revisión automática pendiente';cloud='GitHub Cloud · corte publicado; pendiente próxima revisión';}
-else if(best){cls='bad';label='Recolección sin revisión reciente';cloud='GitHub Cloud · revisar niveles';}
-else{cls='bad';label='Recolección sin ruta válida';cloud='GitHub Cloud · revisar niveles';}
+const gmailFresh=g.valid&&g.mins<=ACTIVE_MIN;
+if(gmailFresh){cls='ok';label='Recolección Gmail activa';cloud='GitHub Cloud · Gmail niveles';}
+else if(best&&best.mins<=ALERT_MIN){cls='ok';label='Última revisión Gmail disponible';cloud='GitHub Cloud · Gmail niveles';}
+else if(cutMins!==null&&cutMins<=ALERT_MIN){cls='warn';label='Corte hidrométrico vigente · revisión Gmail anterior';cloud='GitHub Cloud · niveles publicados';}
+else if(best){cls='bad';label='Revisión Gmail atrasada';cloud='GitHub Cloud · verificar Gmail';}
+else{cls='bad';label='Sin estado de revisión Gmail';cloud='GitHub Cloud · verificar Gmail';}
 line.className=`niveles-agent-state ${cls}`;line.textContent=label;
-if(best){detail.textContent=`Última revisión válida: ${fmt(best.time)} · hace ${best.mins} min · ${best.source}${best.source==='Gmail'?' (respaldo)':''} · último corte recibido: ${cut?fmt(cut):'s/d'}`;}else{const parts=[];if(primary?.run_utc)parts.push(`Carbonio ${fmt(primary.run_utc)}`);if(gmail?.run_local)parts.push(`Gmail ${fmt(gmail.run_local)}`);detail.textContent=parts.length?`Sin ruta válida reciente · ${parts.join(' · ')}`:'Estado de recolección no disponible';}
+if(best){detail.textContent=`Última revisión Gmail: ${fmt(best.time)} · hace ${best.mins} min · Gmail (niveles horarios) · último corte recibido: ${cut?fmt(cut):'s/d'}`;}else{const parts=[];if(gmail?.run_local)parts.push(`Gmail ${fmt(gmail.run_local)}`);detail.textContent=parts.length?`Sin revisión Gmail válida · ${parts.join(' · ')}`:'Estado de recolección no disponible';}
 const cloudEl=document.getElementById('cloudState');if(cloudEl)cloudEl.textContent=cloud;return true;}
 async function refresh(){const [pr,gr,lr]=await Promise.allSettled([fetchJSON(PRIMARY_URL),fetchJSON(GMAIL_URL),fetchJSON(LEVELS_URL)]);const primary=pr.status==='fulfilled'?pr.value:null;const gmail=gr.status==='fulfilled'?gr.value:null;const levelRows=lr.status==='fulfilled'?lr.value:null;if(!paint(primary,gmail,levelRows))setTimeout(()=>paint(primary,gmail,levelRows),700);}
 function start(){refresh().catch(e=>console.warn('Estado combinado de niveles no disponible',e));clearInterval(timer);timer=setInterval(()=>refresh().catch(()=>{}),60000);document.getElementById('refreshBtn')?.addEventListener('click',()=>setTimeout(()=>refresh().catch(()=>{}),900));}
