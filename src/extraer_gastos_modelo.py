@@ -99,8 +99,7 @@ def main():
  candidates=[]
  q1=penitas_fuente1(t)
  if q1 is not None:candidates.append((source_time(t) or 0,q1,"extraccion_promedio_ot_penitas_fuente1",source_iso(t)))
- # FUENTE2 presenta elevación/volumen; su octava cifra NO es extracción.
- # Hasta validar una sección inequívoca de gasto, se excluye como fuente Q.
+ # FUENTE2 se admite exclusivamente con columna Ext. Prom. verificada en PDF.
  q2=tab2.get('penitas',{}).get('q')
  if q2 is not None:candidates.append((source_time(t2) or 0,q2,"extraccion_promedio_24h_penitas_fuente2",source_iso(t2)))
  if candidates:
