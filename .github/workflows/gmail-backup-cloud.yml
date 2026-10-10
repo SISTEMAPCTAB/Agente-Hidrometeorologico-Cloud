@@ -245,7 +245,7 @@ jobs:
           from datetime import datetime,timezone
           def source_time(path):
               try:
-                  m=re.search(r'^FECHA/HORA MENSAJE:\s*(.+),Path(path).read_text(encoding='utf-8'),re.M)
+                  m=re.search(r'^FECHA/HORA MENSAJE:\s*(.+)$',Path(path).read_text(encoding='utf-8'),re.M)
                   return datetime.fromisoformat(m.group(1).strip()).astimezone(timezone.utc) if m else None
               except (OSError,ValueError):return None
           def cutoff(path):
