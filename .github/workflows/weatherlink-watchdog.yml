@@ -14,7 +14,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: weatherlink-cloud
+  group: weatherlink-periodico
   cancel-in-progress: false
 
 jobs:
