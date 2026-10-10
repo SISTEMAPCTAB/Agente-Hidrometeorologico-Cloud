@@ -35,7 +35,7 @@ permissions:
 # Impide procesar/publicar simultáneamente los mismos históricos y Word.
 # WeatherLink mantiene su propia cola y frecuencia.
 concurrency:
-  group: gmail-backup-independent
+  group: niveles-hidrometricos-cloud
   cancel-in-progress: false
 
 jobs:
