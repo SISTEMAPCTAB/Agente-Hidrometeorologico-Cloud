@@ -28,12 +28,6 @@ on:
       - '.github/workflows/niveles-cloud.yml'
       - 'data/control/niveles-trigger.txt'
       - 'data/niveles/Boletines_Verificados/**'
-  schedule:
-    # Niveles: cada 2 horas, de 06:50 a 18:50 hora de Tabasco (UTC-6).
-    # CONAGUA sólo emite reportes hasta el corte de las 18:00.
-    # Ventanas: 06:50, 08:50, 10:50, 12:50, 14:50, 16:50 y 18:50.
-    # Se conservan los disparos por llegada de boletines FUENTE1/FUENTE2.
-    - cron: '50 0,12,14,16,18,20,22 * * *'
 
 permissions:
   contents: write
