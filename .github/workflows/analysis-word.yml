@@ -1,35 +1,7 @@
-name: Análisis Hidrometeorológico - Word persistente
+name: Análisis Hidrometeorológico - Word histórico (sin ejecución automática)
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - 'data/analysis/latest.md'
-      - 'data/analysis/chat/latest.md'
-      - 'data/niveles/Ultimo_Corte/ultimo_resumen.json'
-      - 'data/niveles/Resumen_12h/resumen_12h.json'
-      - 'data/niveles/Lluvia_CONAGUA/**'
-      - 'data/latest/FUENTE1.txt'
-      - 'data/latest/FUENTE2.txt'
-      - 'data/fuentes_publicas/latest.json'
-      - 'data/fuentes_publicas/insivumeh_historico.json'
-      - 'data/fuentes_publicas/insivumeh_automaticas.json'
-      - 'data/weatherlink/latest.json'
-      - 'data/weatherlink/extra_latest.json'
-      - 'data/weatherlink/Estado_WeatherLink_Cloud.json'
-      - 'data/presas/historico_mensual.json'
-      - 'src/generar_analisis_diario.py'
-      - 'src/complementar_analisis_fuente1.py'
-      - 'src/generar_word_analisis.py'
-      - 'requirements.txt'
-      - '.github/workflows/analysis-word.yml'
-  schedule:
-    # Tabasco = UTC-6. Ejecución principal 11:05 y dos respaldos automáticos.
-    - cron: '5 17 * * *'
-    - cron: '20 17 * * *'
-    - cron: '35 17 * * *'
 
 permissions:
   contents: write
