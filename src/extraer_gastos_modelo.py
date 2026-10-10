@@ -88,6 +88,10 @@ def main():
    if len(a)>=6:
     hp,qp,ha,qa=a[1:5]
     d.update(h_anterior_m=hp,q_anterior_m3s=qp,h_actual_m=ha,q_actual_m3s=qa,delta_h_m=round(ha-hp,3),delta_q_m3s=round(qa-qp,3),fuente_fecha_hora=source_iso(t),validacion="columnas_gasto_conagua_dia_anterior_actual")
+  newer=tab2.get(norm(key))
+  if newer and (source_time(t2) or 0) > (source_time(t) or 0):
+   hp,qp,ha,qa=(newer[x] for x in ("hp","qp","ha","qa"))
+   d.update(h_anterior_m=hp,q_anterior_m3s=qp,h_actual_m=ha,q_actual_m3s=qa,delta_h_m=round(ha-hp,3),delta_q_m3s=round(qa-qp,3),fuente_fecha_hora=source_iso(t2),validacion="fuente2_layout_columnas_actual_gasto")
   out.append(d)
 
  # Peñitas: elegir el boletín más reciente entre FUENTE1 y FUENTE2.
