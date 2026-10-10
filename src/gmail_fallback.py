@@ -99,20 +99,35 @@ def pdf_hash(payload: bytes) -> str:
 
 
 def current_latest_level_time():
-    path = BASE / "Estado_Niveles_Cloud.json"
-    if not path.exists():
-        return None
+    """Usar hora del último mensaje cuando exista; si no, corte observado real.
+
+    El estado del recolector puede tener latest_message_utc=null cuando no
+    encuentra correos nuevos, aunque Ultimo_Corte conserve observaciones.
+    """
+    timestamps = []
+    status = BASE / "Estado_Niveles_Cloud.json"
     try:
-        raw = json.loads(path.read_text(encoding="utf-8"))
+        raw = json.loads(status.read_text(encoding="utf-8"))
         value = raw.get("latest_message_utc")
-        if not value:
-            return None
-        dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
-        if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=timezone.utc)
-        return dt.astimezone(MX_TZ)
-    except Exception:
-        return None
+        if value:
+            dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+            timestamps.append(dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc))
+    except (OSError, ValueError, TypeError, AttributeError):
+        pass
+    summary = BASE / "Ultimo_Corte" / "ultimo_resumen.json"
+    try:
+        rows = json.loads(summary.read_text(encoding="utf-8"))
+        for row in rows if isinstance(rows, list) else []:
+            # Nunca usar fecha de ejecución ni de revisión como corte observado.
+            value = row.get("ultima_actualizacion_real") or row.get("fecha_hora")
+            if row.get("estado_dato") not in (None, "observado"):
+                continue
+            if value:
+                dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+                timestamps.append(dt if dt.tzinfo else dt.replace(tzinfo=MX_TZ))
+    except (OSError, ValueError, TypeError, AttributeError):
+        pass
+    return max(timestamps).astimezone(MX_TZ) if timestamps else None
 
 
 def existing_source_time(source: str):
