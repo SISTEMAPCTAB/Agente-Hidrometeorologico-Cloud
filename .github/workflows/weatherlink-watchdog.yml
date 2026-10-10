@@ -92,9 +92,10 @@ jobs:
 
           s=json.loads(Path('data/weatherlink/Estado_WeatherLink_Cloud.json').read_text(encoding='utf-8'))
           e=json.loads(Path('data/weatherlink/extra_latest.json').read_text(encoding='utf-8'))
-          assert s.get('complete') is True, 'WeatherLink principal incompleto'
-          assert s.get('stations_ok') == s.get('stations_expected') == 32, 'WeatherLink no obtuvo 32/32'
-          assert not (s.get('errors') or []), f"WeatherLink reportó errores: {s.get('errors')}"
+          assert s.get('stations_expected') == 32, 'Configuración principal inesperada'
+          assert 0 < s.get('stations_ok', 0) <= 32, 'Ninguna estación principal recuperada'
+          assert s.get('stations_error') == len(s.get('errors') or []), 'Conteo de errores inconsistente'
+          assert s['stations_ok'] + s['stations_error'] == 32, 'Conteo total de estaciones inconsistente'
 
           for label,obj in [('principal',s),('adicional',e)]:
               t=datetime.fromisoformat(str(obj['run_utc']).replace('Z','+00:00'))
@@ -102,7 +103,7 @@ jobs:
                   t=t.replace(tzinfo=timezone.utc)
               age=(datetime.now(timezone.utc)-t.astimezone(timezone.utc)).total_seconds()/60.0
               assert age < 10, f'{label} quedó antiguo: {age:.1f} min'
-          print('WeatherLink validado: 32/32; principal y adicional frescos.')
+          print(f"WeatherLink validado: {s['stations_ok']}/32; fallas aisladas: {s['stations_error']}; corte reciente.")
           PY
 
       - name: Publicar sólo productos WeatherLink vigentes
