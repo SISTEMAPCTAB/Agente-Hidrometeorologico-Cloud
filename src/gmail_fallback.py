@@ -299,9 +299,10 @@ def main():
 
                 if not is_level:
                     continue
-                if current_level_time and dt <= current_level_time:
-                    status["levels_skipped_not_newer"] += 1
-                    continue
+                # No comparar la fecha de recepción del correo con el corte
+                # hidrométrico: un PDF tardío puede completar horas anteriores.
+                # La clave de mensaje y el hash mantienen la deduplicación;
+                # los procesadores validan fecha y hora dentro del propio PDF.
                 processed_key = f"{key}-{idx}"
                 if processed_key in processed:
                     continue
