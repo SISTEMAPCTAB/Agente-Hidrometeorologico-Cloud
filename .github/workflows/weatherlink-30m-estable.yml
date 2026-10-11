@@ -101,10 +101,10 @@ jobs:
           principal=json.loads(Path('data/weatherlink/latest.json').read_text(encoding='utf-8'))
           expected_extra=json.loads(Path('config/weatherlink_stations_extra.json').read_text(encoding='utf-8'))
           expected_main=json.loads(Path('config/weatherlink_stations.json').read_text(encoding='utf-8'))
-          for label,observed,configured in (
-              ('principal',principal['stations'],expected_main),
-              ('adicional',e['stations'],expected_extra) if e is not None else ('adicional',expected_extra,expected_extra),
-          ):
+          groups=[('principal',principal['stations'],expected_main)]
+          if e is not None:
+              groups.append(('adicional',e['stations'],expected_extra))
+          for label,observed,configured in groups:
               uuids=[row.get('uuid') for row in observed]
               expected={row['uuid'] for row in configured}
               assert len(uuids)==len(expected) and set(uuids)==expected, f'{label}: estaciones ausentes, ajenas o duplicadas'
