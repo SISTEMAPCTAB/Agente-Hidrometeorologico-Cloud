@@ -7,8 +7,10 @@ on:
     paths:
       - 'src/insivumeh_alto_hidro_extra.py'
       - '.github/workflows/alto-usumacinta-hidro.yml'
-  # Respaldo manual únicamente: el flujo Fuentes Públicas realiza
-  # las cinco consultas automáticas de INSIVUMEH sin duplicar recolecciones.
+  schedule:
+    # Actualizar tabla específica de Alto Usumacinta 10 minutos después
+    # de las consultas generales: 10:10, 12:10, 14:10, 18:10 y 20:10 Tabasco.
+    - cron: '10 16,18,20,0,2 * * *'
 
 permissions:
   contents: write
