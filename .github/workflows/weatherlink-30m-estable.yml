@@ -69,12 +69,19 @@ jobs:
         run: pip install --disable-pip-version-check --no-cache-dir requests
 
       - name: Recolectar WeatherLink de forma independiente
+        id: collect
         if: steps.freshness.outputs.stale == 'true'
         shell: bash
         run: |
           set -euo pipefail
           python src/weatherlink_cloud.py
-          python src/weatherlink_extra_cloud.py
+          if python src/weatherlink_extra_cloud.py; then
+            echo "extra_ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Aviso: falló el recolector adicional; se publica el principal sin alterar los datos adicionales."
+            echo "extra_ok=false" >> "$GITHUB_OUTPUT"
+            git checkout -- data/weatherlink/extra_state.json data/weatherlink/extra_latest.json
+          fi
 
       - name: Validar corte antes de publicar
         if: steps.freshness.outputs.stale == 'true'
@@ -86,7 +93,7 @@ jobs:
           from pathlib import Path
 
           s=json.loads(Path('data/weatherlink/Estado_WeatherLink_Cloud.json').read_text(encoding='utf-8'))
-          e=json.loads(Path('data/weatherlink/extra_latest.json').read_text(encoding='utf-8'))
+          e=json.loads(Path('data/weatherlink/extra_latest.json').read_text(encoding='utf-8')) if '${{ steps.collect.outputs.extra_ok }}' == 'true' else None
           assert s.get('stations_expected') == 32, 'Configuración principal inesperada'
           assert 0 < s.get('stations_ok', 0) <= 32, 'Ninguna estación principal recuperada'
           assert s.get('stations_error') == len(s.get('errors') or []), 'Conteo de errores inconsistente'
@@ -96,7 +103,7 @@ jobs:
           expected_main=json.loads(Path('config/weatherlink_stations.json').read_text(encoding='utf-8'))
           for label,observed,configured in (
               ('principal',principal['stations'],expected_main),
-              ('adicional',e['stations'],expected_extra),
+              ('adicional',e['stations'],expected_extra) if e is not None else ('adicional',expected_extra,expected_extra),
           ):
               uuids=[row.get('uuid') for row in observed]
               expected={row['uuid'] for row in configured}
@@ -105,7 +112,7 @@ jobs:
           assert sum(bool(row.get('error')) for row in principal['stations']) == s['stations_error'], 'Estaciones fallidas inconsistentes'
           assert principal.get('run_utc')==s.get('run_utc'), 'Estado principal y datos no corresponden al mismo corte'
 
-          for label,obj in [('principal',s),('adicional',e)]:
+          for label,obj in [('principal',s)] + ([('adicional',e)] if e is not None else []):
               t=datetime.fromisoformat(str(obj['run_utc']).replace('Z','+00:00'))
               if t.tzinfo is None:
                   t=t.replace(tzinfo=timezone.utc)
@@ -129,11 +136,14 @@ jobs:
             data/weatherlink/latest.json
             data/weatherlink/extra_state.json
             data/weatherlink/extra_latest.json
-            data/weatherlink/shared_resolved.json
             data/weatherlink/Tabla_WeatherLink_Cloud.csv
             data/weatherlink/Estado_WeatherLink_Cloud.json
           )
 
+          if [ "${{ steps.collect.outputs.extra_ok }}" != "true" ]; then
+            PRODUCTOS=( "${PRODUCTOS[@]/data\/weatherlink\/extra_state.json/}" )
+            PRODUCTOS=( "${PRODUCTOS[@]/data\/weatherlink\/extra_latest.json/}" )
+          fi
           tar -cf /tmp/weatherlink-autonomo.tar "${PRODUCTOS[@]}"
           cp data/weatherlink/Estado_WeatherLink_Cloud.json /tmp/weatherlink-candidato.json
 
