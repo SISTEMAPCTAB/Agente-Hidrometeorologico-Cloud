@@ -37,8 +37,9 @@
     const names=[];
     for(const r of history){
       if(!r.estacion)continue;
-      const text=norm(`${r.estacion} ${r.rio||''}`);
-      if(terms.some(t=>text.includes(t))&&!names.some(x=>norm(x)===norm(r.estacion)))names.push(r.estacion);
+      const station=norm(r.estacion);
+      // Seleccionar por identidad de estación, no por coincidencia con el nombre del río.
+      if(terms.includes(station)&&!names.some(x=>norm(x)===station))names.push(r.estacion);
     }
     return names;
   }
