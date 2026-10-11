@@ -306,6 +306,7 @@ def main():
                         "mm": increment,
                         "metodo": increment_method,
                         "rollover_incierto": rollover_uncertain,
+                        "intervalo_incierto": prev_obs is None or (observed-prev_obs).total_seconds()>3600,
                     })
 
                 month_key = observed_local.strftime("%Y-%m")
@@ -357,6 +358,12 @@ def main():
                     acc[h] = None
                     window_status[h] = "sin_dato"
 
+            # Un acumulado tras una pausa superior a una hora no es lluvia horaria comprobada.
+            for h in (1, 6):
+                cutoff=now_utc-timedelta(hours=h)
+                if any(e.get("intervalo_incierto") and iso_to_dt(e.get("ts")) and iso_to_dt(e["ts"])>cutoff for e in st.get("events", [])):
+                    acc[h]=None
+                    window_status[h]="intervalo_incierto"
             uncertain_windows = [h for h in WINDOWS if window_status.get(h) == "minimo_observado"]
             range24, next_threshold = classify_24h(acc[24])
             age = obs.get("age_seconds")
