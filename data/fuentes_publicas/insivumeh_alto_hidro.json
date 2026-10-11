@@ -1,9 +1,9 @@
 {
   "fuente": "INSIVUMEH",
   "producto": "BHVGM · estaciones Alto Usumacinta",
-  "consultado_utc": "2026-10-11T00:11:39.689159+00:00",
+  "consultado_utc": "2026-10-11T09:16:26.849225+00:00",
   "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
-  "fecha": "07/10/2026",
+  "fecha": "10/10/2026",
   "hora": "20:00",
   "boletin": null,
   "estaciones": [
@@ -12,30 +12,28 @@
       "rio": "Usumacinta",
       "ubicacion": "Las Cruces, Petén",
       "nivel_referencia_min_m": 4.55,
-      "nivel_referencia_max_m": 10,
+      "nivel_referencia_max_m": 10.0,
       "caudal_referencia_min_m3s": 486.87,
       "caudal_referencia_max_m3s": 2856.43,
-      "nivel_instantaneo_m": 11.07,
-      "caudal_instantaneo_m3s": 3321.65,
-      "calidad": "extraido_del_BHVGM",
-      "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación.",
+      "nivel_instantaneo_m": 11.75,
+      "caudal_instantaneo_m3s": 3617.3,
       "estado_dato": "observado",
-      "ultima_observacion_fuente": "07/10/2026 20:00"
+      "calidad": "extraido_del_BHVGM",
+      "ultima_observacion_fuente": "10/10/2026 20:00"
     },
     {
       "estacion": "El Porvenir",
       "rio": "La Pasión",
       "ubicacion": "Las Cruces, Petén",
       "nivel_referencia_min_m": 1.03,
-      "nivel_referencia_max_m": 3,
+      "nivel_referencia_max_m": 3.0,
       "caudal_referencia_min_m3s": 93.04,
       "caudal_referencia_max_m3s": 399.28,
-      "nivel_instantaneo_m": 4.4,
-      "caudal_instantaneo_m3s": 813.15,
-      "calidad": "extraido_del_BHVGM",
-      "nota_referencia": "Máximos como referencia estadística; no son umbral de inundación.",
+      "nivel_instantaneo_m": 4.98,
+      "caudal_instantaneo_m3s": 1043.25,
       "estado_dato": "observado",
-      "ultima_observacion_fuente": "07/10/2026 20:00"
+      "calidad": "extraido_del_BHVGM",
+      "ultima_observacion_fuente": "10/10/2026 20:00"
     },
     {
       "estacion": "Machaquilá",
@@ -74,7 +72,7 @@
       "estado_dato": "heredado",
       "calidad": "extraido_del_BHVGM",
       "ultima_observacion_fuente": "10/10/2026 14:00",
-      "heredado_en_utc": "2026-10-11T00:11:39.689159+00:00"
+      "heredado_en_utc": "2026-10-11T09:16:26.849225+00:00"
     },
     {
       "estacion": "San Luis Ixcán",
@@ -85,9 +83,7 @@
       "estado_dato": "sin_dato"
     }
   ],
-  "errors": [
-    "HTTPSConnectionPool(host='insivumeh.gob.gt', port=443): Max retries exceeded with url: /hidrologia/hidro/niveles/BHVGM.pdf?_ts=1791677499 (Caused by ConnectTimeoutError(<HTTPSConnection(host='insivumeh.gob.gt', port=443) at 0x7f5dadbad760>, 'Connection to insivumeh.gob.gt timed out. (connect timeout=40)'))"
-  ],
+  "errors": [],
   "nota": "Se prioriza dato estructurado del BHVGM; si falta una lectura, se conserva el último valor válido y se marca heredado. Ausencia nunca equivale a cero.",
   "observadas": 2,
   "heredadas": 1,
