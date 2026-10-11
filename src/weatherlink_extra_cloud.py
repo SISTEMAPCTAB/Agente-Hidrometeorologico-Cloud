@@ -43,7 +43,8 @@ def main():
             observed=obs['observed_utc'];local=observed.astimezone(MX_TZ)
             cur=obs.get('daily_mm');prev=parse_float(st.get('prev_daily_mm'));prev_dt=iso_to_dt(st.get('prev_observed_utc'))
             inc=0.0
-            if cur is not None:
+            # Mantener acumulados y ancla si el proveedor repite o retrasa el corte.
+            if cur is not None and (prev_dt is None or observed > prev_dt):
                 if prev is not None and prev_dt is not None:
                     same=prev_dt.astimezone(MX_TZ).date()==local.date()
                     inc=max(0.0,cur-prev) if same and cur>=prev-0.05 else max(0.0,cur)
