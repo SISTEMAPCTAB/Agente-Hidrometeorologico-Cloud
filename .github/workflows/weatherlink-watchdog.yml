@@ -76,10 +76,6 @@ jobs:
           set -euo pipefail
           python src/weatherlink_cloud.py
           python src/weatherlink_extra_cloud.py
-          if ! timeout 90s python src/weatherlink_resolve_shared.py; then
-            echo "Resolver enlaces auxiliares falló; conservar estado previo."
-            git checkout -- data/weatherlink/shared_resolved.json || true
-          fi
 
       - name: Validar corte antes de publicar
         if: steps.freshness.outputs.stale == 'true'
