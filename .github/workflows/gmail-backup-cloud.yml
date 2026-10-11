@@ -15,18 +15,13 @@ on:
       - '.github/workflows/gmail-backup-cloud.yml'
       - 'data/control/gmail-trigger.txt'
   schedule:
-    # Prioridad Gmail al reanudar Niveles: 06:45, 07:05 y 07:25 Tabasco (UTC-6).
-    # El primer intento antecede al colector principal de las 06:50.
-    - cron: '45 12 * * *'
-    - cron: '5,25 13 * * *'
-    - cron: '30 14 * * *' # 08:30 Tabasco
-    # Respaldo lógico autónomo: revisiones 35 min después de los cortes diurnos
-    # y una ventana nocturna corta para boletines extraordinarios hasta las 22 h.
-    - cron: '35 12,14,16,18,20,22,0 * * *'
-    - cron: '35 2,3,4 * * *'
-    # Reintentos aislados para boletines de tarde: 14:10, 16:10, 18:10 y 21:10 Tabasco.
-    # Sólo revisan Gmail: los procesadores existentes deduplican y conservan el último corte.
-    - cron: '10 20,22,0,3 * * *'
+    # Régimen ordinario CONAGUA: boletines de 06:00 a 18:00 Tabasco;
+    # Gmail consulta con margen por desfase de recepción, sin turnos nocturnos.
+    # Todas las horas cron están expresadas en UTC (Tabasco = UTC-6).
+    - cron: '45 12,14,16,18,20,22,0 * * *' # 06:45 a 18:45 cada dos horas
+    - cron: '15,45 13 * * *'            # refuerzo arranque 07:15 y 07:45
+    - cron: '15 14 * * *'               # última comprobación inicial 08:15
+    - cron: '15,45 1 * * *'             # cierre boletín 18:00: 19:15 y 19:45
 
 permissions:
   contents: write
