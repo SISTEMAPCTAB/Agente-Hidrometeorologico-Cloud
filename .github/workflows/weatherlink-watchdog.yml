@@ -129,8 +129,14 @@ jobs:
           )
 
           if [ "${{ steps.collect.outputs.extra_ok }}" != "true" ]; then
-            PRODUCTOS=( "${PRODUCTOS[@]/data\/weatherlink\/extra_state.json/}" )
-            PRODUCTOS=( "${PRODUCTOS[@]/data\/weatherlink\/extra_latest.json/}" )
+            PRODUCTOS_FILTRADOS=()
+            for producto in "${PRODUCTOS[@]}"; do
+              case "$producto" in
+                data/weatherlink/extra_state.json|data/weatherlink/extra_latest.json) ;;
+                *) PRODUCTOS_FILTRADOS+=("$producto") ;;
+              esac
+            done
+            PRODUCTOS=("${PRODUCTOS_FILTRADOS[@]}")
           fi
           tar -cf /tmp/weatherlink-autonomo.tar "${PRODUCTOS[@]}"
           cp data/weatherlink/Estado_WeatherLink_Cloud.json /tmp/weatherlink-candidato.json
