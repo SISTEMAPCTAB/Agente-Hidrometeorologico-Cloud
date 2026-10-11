@@ -75,13 +75,6 @@ jobs:
           set -euo pipefail
           python src/weatherlink_cloud.py
           python src/weatherlink_extra_cloud.py
-          # Resolución de enlaces compartidos es auxiliar, no requisito
-          # para las estaciones configuradas ni para sus acumulados.
-          # Acotarla evita que bloquee indefinidamente la recolección.
-          if ! timeout 90s python src/weatherlink_resolve_shared.py; then
-            echo "Aviso: resolución auxiliar de enlaces no completada; se conserva información anterior."
-            git checkout -- data/weatherlink/shared_resolved.json || true
-          fi
 
       - name: Validar corte antes de publicar
         if: steps.freshness.outputs.stale == 'true'
