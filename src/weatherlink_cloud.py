@@ -269,7 +269,8 @@ def main():
             increment = None
             increment_method = "sin_dato"
             rollover_uncertain = False
-            if current_daily is not None:
+            # Una lectura repetida o anterior no debe mover el ancla ni duplicar lluvia.
+            if current_daily is not None and (prev_obs is None or observed > prev_obs):
                 if prev_daily is None or prev_obs is None:
                     increment = 0.0
                     increment_method = "inicio_sin_referencia"
