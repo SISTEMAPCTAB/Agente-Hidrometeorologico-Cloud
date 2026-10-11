@@ -54,17 +54,6 @@ jobs:
           GMAIL_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         shell: bash
         run: |
-          # Los eventos WeatherLink son 24/7. Gmail mantiene una ventana corta
-          # hasta las 22:59 para capturar boletines extraordinarios de niveles.
-          # TZ explícita: el runner usa UTC.
-          if [ "$GITHUB_EVENT_NAME" = "workflow_run" ]; then
-            hora=$(TZ=America/Mexico_City date +%H)
-            if [ "$hora" -lt 6 ] || [ "$hora" -ge 23 ]; then
-              echo "enabled=false" >> "$GITHUB_OUTPUT"
-              echo "Pausa nocturna: evento WeatherLink fuera de ventana Gmail de niveles."
-              exit 0
-            fi
-          fi
           if [ -n "$GMAIL_USER" ] && [ -n "$GMAIL_PASSWORD" ]; then
             echo "enabled=true" >> "$GITHUB_OUTPUT"
             echo "Respaldo Gmail configurado en GitHub Secrets."
