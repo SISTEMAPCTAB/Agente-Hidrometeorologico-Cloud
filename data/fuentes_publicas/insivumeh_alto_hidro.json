@@ -1,10 +1,10 @@
 {
   "fuente": "INSIVUMEH",
   "producto": "BHVGM · estaciones Alto Usumacinta",
-  "consultado_utc": "2026-10-11T18:10:37.407108+00:00",
+  "consultado_utc": "2026-10-11T23:37:55.856216+00:00",
   "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
   "fecha": "11/10/2026",
-  "hora": "08:00",
+  "hora": "14:00",
   "boletin": null,
   "estaciones": [
     {
@@ -15,11 +15,11 @@
       "nivel_referencia_max_m": 10.0,
       "caudal_referencia_min_m3s": 486.87,
       "caudal_referencia_max_m3s": 2856.43,
-      "nivel_instantaneo_m": 11.2,
-      "caudal_instantaneo_m3s": 3378.17,
+      "nivel_instantaneo_m": 11.08,
+      "caudal_instantaneo_m3s": 3326.0,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "11/10/2026 08:00"
+      "ultima_observacion_fuente": "11/10/2026 14:00"
     },
     {
       "estacion": "El Porvenir",
@@ -29,11 +29,11 @@
       "nivel_referencia_max_m": 3.0,
       "caudal_referencia_min_m3s": 93.04,
       "caudal_referencia_max_m3s": 399.28,
-      "nivel_instantaneo_m": 4.85,
-      "caudal_instantaneo_m3s": 988.43,
+      "nivel_instantaneo_m": 4.28,
+      "caudal_instantaneo_m3s": 770.09,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "11/10/2026 08:00"
+      "ultima_observacion_fuente": "11/10/2026 14:00"
     },
     {
       "estacion": "Machaquilá",
@@ -67,12 +67,11 @@
       "nivel_referencia_max_m": 1.9,
       "caudal_referencia_min_m3s": 178.87,
       "caudal_referencia_max_m3s": 633.81,
-      "nivel_instantaneo_m": 0.35,
-      "caudal_instantaneo_m3s": 268.65,
-      "estado_dato": "heredado",
+      "nivel_instantaneo_m": 0.25,
+      "caudal_instantaneo_m3s": 246.54,
+      "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "10/10/2026 14:00",
-      "heredado_en_utc": "2026-10-11T18:10:37.407108+00:00"
+      "ultima_observacion_fuente": "11/10/2026 14:00"
     },
     {
       "estacion": "San Luis Ixcán",
@@ -85,8 +84,8 @@
   ],
   "errors": [],
   "nota": "Se prioriza dato estructurado del BHVGM; si falta una lectura, se conserva el último valor válido y se marca heredado. Ausencia nunca equivale a cero.",
-  "observadas": 2,
-  "heredadas": 1,
+  "observadas": 3,
+  "heredadas": 0,
   "sin_dato": 4,
   "estado": "ok"
 }
