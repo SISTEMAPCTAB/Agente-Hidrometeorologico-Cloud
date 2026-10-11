@@ -19,11 +19,9 @@ on:
       - 'requirements.txt'
       - '.github/workflows/fuentes-publicas-cloud.yml'
   schedule:
-    # BHVGM: cortes operativos observados 08:00, 14:00 y 20:00 hora Tabasco/Guatemala.
-    # Consulta primaria 23 min después. El respaldo se separa cuatro horas para
-    # cubrir retrasos/omisiones del scheduler de GitHub sin sondeo continuo.
-    - cron: '23 14,20,2 * * *'
-    - cron: '23 18,0,6 * * *'
+    # Consultas INSIVUMEH en horario Tabasco (UTC-6): 10, 12, 14, 18 y 20 h.
+    # Único flujo automático; conserva la última lectura válida si la fuente no cambia.
+    - cron: '0 16,18,20,0,2 * * *'
 
 permissions:
   contents: write
