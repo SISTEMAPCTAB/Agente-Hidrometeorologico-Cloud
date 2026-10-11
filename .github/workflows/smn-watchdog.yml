@@ -7,12 +7,6 @@ on:
     # 10:15–13:45 hora Tabasco, cada 15 min.
     - cron: '15,30,45 16-19 * * *'
     - cron: '0 17-20 * * *'
-  workflow_run:
-    workflows:
-      - 'WeatherLink Cloud - 32 estaciones'
-      - 'WeatherLink Cloud 30m - estable'
-      - 'WeatherLink Rescue - independiente'
-    types: [completed]
   push:
     branches: [main]
     paths:
@@ -27,7 +21,6 @@ concurrency:
 
 jobs:
   recuperar-smn:
-    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
