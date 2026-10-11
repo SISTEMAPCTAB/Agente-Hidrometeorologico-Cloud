@@ -49,7 +49,13 @@ def main():
                     same=prev_dt.astimezone(MX_TZ).date()==local.date()
                     inc=max(0.0,cur-prev) if same and cur>=prev-0.05 else max(0.0,cur)
                 inc=r1(inc)
-                if inc and inc>0:st['events'].append({'ts':observed.isoformat(),'mm':inc})
+                if inc and inc>0:
+                    # Si hubo interrupción, el acumulado es válido pero no su hora exacta.
+                    gap_h=(observed-prev_dt).total_seconds()/3600 if prev_dt is not None else None
+                    uncertain=gap_h is None or gap_h>1.0
+                    st['events'].append({'ts':observed.isoformat(),'mm':inc,
+                                         'intervalo_incierto':uncertain,
+                                         'intervalo_horas':round(gap_h,2) if gap_h is not None else None})
                 mk=local.strftime('%Y-%m');yk=local.strftime('%Y')
                 if st.get('month_key')!=mk:st['month_key']=mk;st['month_mm']=0.0
                 if st.get('year_key')!=yk:st['year_key']=yk;st['year_mm']=0.0
@@ -59,6 +65,18 @@ def main():
             cutoff=now-timedelta(hours=240)
             st['events']=[e for e in st.get('events',[]) if iso_to_dt(e.get('ts')) and iso_to_dt(e['ts'])>=cutoff]
             acc={str(h):(window_sum(st['events'],now,h) if coverage>=h else None) for h in WINDOWS}
+            # No presentar como lluvia de 1/6 horas una recuperación de intervalo mayor.
+            # Las ventanas 24-120 h y el histórico se conservan, pero se etiquetan
+            # explícitamente cuando contienen lluvia sin distribución temporal verificable.
+            uncertain_events=[e for e in st['events'] if e.get('intervalo_incierto')]
+            uncertain_windows={}
+            for h in WINDOWS:
+                cut=now-timedelta(hours=h)
+                uncertain_windows[str(h)]=any(iso_to_dt(e.get('ts')) and iso_to_dt(e['ts'])>cut for e in uncertain_events)
+            for h in (1,6):
+                if uncertain_windows[str(h)]:
+                    acc[str(h)]=None
+            item['intervalos_inciertos']=uncertain_windows
             item['increment_mm']=inc;item['accumulations_mm']=acc;item['month_mm']=st.get('month_mm');item['year_mm']=st.get('year_mm')
             age=obs.get('age_seconds');item['estado']='OK' if age is None or age<=7200 else 'Dato rezagado';item['quality']='Cloud adicional'
         except Exception as e:
