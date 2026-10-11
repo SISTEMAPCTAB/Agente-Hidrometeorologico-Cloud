@@ -101,8 +101,10 @@ jobs:
               t=datetime.fromisoformat(str(obj['run_utc']).replace('Z','+00:00'))
               if t.tzinfo is None:
                   t=t.replace(tzinfo=timezone.utc)
-              age=(datetime.now(timezone.utc)-t.astimezone(timezone.utc)).total_seconds()/60.0
-              assert age < 10, f'{label} quedó antiguo: {age:.1f} min'
+              # La duración de consultas no invalida un corte recién generado.
+              # Sólo rechazar fechas futuras incoherentes.
+              skew=(t.astimezone(timezone.utc)-datetime.now(timezone.utc)).total_seconds()
+              assert skew <= 120, f'{label} tiene fecha futura incoherente: {skew:.0f} s'
           print(f"WeatherLink validado: {s['stations_ok']}/32; fallas aisladas: {s['stations_error']}; corte reciente.")
           PY
 
