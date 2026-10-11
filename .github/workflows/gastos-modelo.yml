@@ -9,7 +9,8 @@ on:
       - 'src/extraer_gastos_modelo.py'
       - '.github/workflows/gastos-modelo.yml'
   schedule:
-    - cron: '30 17 * * *' # 11:30 Tabasco: respaldo posterior al boletín OCFS
+    - cron: '45 15 * * *' # 09:45 Tabasco: primer boletín diario recibido con desfase
+    - cron: '30 17 * * *' # 11:30 Tabasco: respaldo si la fuente se publicó después
 permissions:
   contents: write
 concurrency:
