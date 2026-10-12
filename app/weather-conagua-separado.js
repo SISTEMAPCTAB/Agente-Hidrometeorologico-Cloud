@@ -79,22 +79,29 @@
     if(!finite(v))return's/d';
     return `${status==='minimo_observado'?'≥ ':''}${mm(v)}`;
   }
+  function weatherStale(r){
+    const observed=Date.parse(r.observed_utc||r.last_updated_at||'');
+    const run=Date.parse(cache?.weather?.run_utc||cache?.extra?.run_utc||'');
+    if(Number.isFinite(observed)&&Number.isFinite(run))return run-observed>7200000;
+    return /rezagado|heredado/i.test(String(r.estado||'')+' '+String(r.quality||''));
+  }
+  function historical(v){return finite(v)?'Histórico · '+mm(v):'s/d';}
   function weatherRow(r){
     const a=r.accumulations_mm||{},s=r.accumulation_status||{};
     const qualityFull=[r.quality||'Cloud'];
     if(r.estado&&r.estado!=='OK')qualityFull.push(r.estado);
     const minHours=['1','6','24','48'].filter(h=>s[h]==='minimo_observado');
-    const isStale=/rezagado|heredado/i.test(String(r.estado||'')+' '+String(r.quality||''));
+    const isStale=weatherStale(r);
     const qualityShort=`Cloud${minHours.length?' · ≥ '+minHours.join('/')+' h':''}${isStale?' · Rezagado':''}`;
     return `<tr>
       <td><b>${esc(r.nombre||'s/d')}</b></td>
       <td>WeatherLink</td>
-      <td>${rainValue(a['1'],s['1'])}</td>
-      <td>${rainValue(a['6'],s['6'])}</td>
-      <td>${rainValue(a['24'],s['24'])}</td>
-      <td>${rainValue(a['48'],s['48'])}</td>
-      <td>${celsius(r.temperature_f)}</td>
-      <td>${finite(r.humidity_pct)?Number(r.humidity_pct).toFixed(0)+'%':'s/d'}</td>
+      <td>${isStale?historical(a['1']):rainValue(a['1'],s['1'])}</td>
+      <td>${isStale?historical(a['6']):rainValue(a['6'],s['6'])}</td>
+      <td>${isStale?historical(a['24']):rainValue(a['24'],s['24'])}</td>
+      <td>${isStale?historical(a['48']):rainValue(a['48'],s['48'])}</td>
+      <td>${isStale?'Histórico':celsius(r.temperature_f)}</td>
+      <td>${isStale?'Histórico':finite(r.humidity_pct)?Number(r.humidity_pct).toFixed(0)+'%':'s/d'}</td>
       <td>${human(r.observed_utc||r.last_updated_at)}</td>
       <td class="weather-quality-cell" title="${esc(qualityFull.join(' · '))}">${esc(qualityShort)}</td>
     </tr>`;
@@ -115,7 +122,8 @@
     const extra=(Array.isArray(data.extra?.stations)?data.extra.stations:[]).filter(x=>x.grupo==='alto_usumacinta');
     for(const r of extra){
       const a=r.accumulations_mm||{},s=r.accumulation_status||{};
-      rows.push(`<tr><td><b>${esc(r.nombre||'s/d')}</b></td><td>WeatherLink</td><td>${finite(r.daily_mm)?mm(r.daily_mm):'s/d'}</td><td>${rainValue(a['1'],s['1'])}</td><td>${rainValue(a['6'],s['6'])}</td><td>${rainValue(a['24'],s['24'])}</td><td>${rainValue(a['48'],s['48'])}</td><td>${rainValue(a['72'],s['72'])}</td><td>s/d</td><td>${human(r.observed_utc||r.last_updated_at)}</td></tr>`);
+      const delayed=weatherStale(r);
+      rows.push(`<tr><td><b>${esc(r.nombre||'s/d')}</b></td><td>WeatherLink${delayed?' · HISTÓRICO':''}</td><td>${delayed?historical(r.daily_mm):finite(r.daily_mm)?mm(r.daily_mm):'s/d'}</td><td>${delayed?historical(a['1']):rainValue(a['1'],s['1'])}</td><td>${delayed?historical(a['6']):rainValue(a['6'],s['6'])}</td><td>${delayed?historical(a['24']):rainValue(a['24'],s['24'])}</td><td>${delayed?historical(a['48']):rainValue(a['48'],s['48'])}</td><td>${delayed?historical(a['72']):rainValue(a['72'],s['72'])}</td><td>s/d</td><td>${human(r.observed_utc||r.last_updated_at)}</td></tr>`);
     }
     const auto=data.insAuto||{}, season=auto.acumulados_epoca_lluviosa||[];
     for(const [name,code] of ALTO_INS){
