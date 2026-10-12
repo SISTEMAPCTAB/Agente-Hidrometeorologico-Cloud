@@ -9,7 +9,7 @@ SRC=Path("data/latest/FUENTE1.txt")
 SRC2=Path("data/latest/FUENTE2.txt")
 OUT=Path("data/pronostico_hidrologico/gastos_conagua.json")
 
-ROWS={"Samaria":("Samaria","Samaria"),"Gonzalez":("González","Carrizal"),"Oxolotan":("Oxolotán","Tacotalpa"),"Tapijulapa":("Tapijulapa","La Sierra"),"Teapa":("Teapa","Teapa"),"Puyacatengo":("Puyacatengo","Puyacatengo"),"San Joaquin":("San Joaquín","Pichucalco"),"Pueblo Nuevo":("Pueblo Nuevo","La Sierra"),"Porvenir":("Porvenir","Grijalva"),"Platanar":("Platanar","Platanar")}
+ROWS={"Samaria":("Samaria","Samaria"),"Gonzalez":("González","Carrizal"),"Oxolotan":("Oxolotán","Tacotalpa"),"Tapijulapa":("Tapijulapa","La Sierra"),"Teapa":("Teapa","Teapa"),"Puyacatengo":("Puyacatengo","Puyacatengo"),"San Joaquin":("San Joaquín","Pichucalco"),"Pueblo Nuevo":("Pueblo Nuevo","La Sierra"),"Porvenir":("Porvenir","Grijalva"),"Salto de Agua":("Salto de Agua","Tulijá"),"Macuspana":("Macuspana","Puxcatán"),"Platanar":("Platanar","Platanar")}
 
 def norm(s): return "".join(c for c in unicodedata.normalize("NFD",s) if unicodedata.category(c)!="Mn").lower()
 def nums(s): return [float(x) for x in re.findall(r"-?\d+(?:\.\d+)?",s)]
