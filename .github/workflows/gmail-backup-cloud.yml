@@ -21,7 +21,7 @@ on:
     - cron: '45 12,14,16,18,20,22,0 * * *' # 06:45 a 18:45 cada dos horas
     - cron: '15,45 13 * * *'            # refuerzo arranque 07:15 y 07:45
     - cron: '15 14 * * *'               # última comprobación inicial 08:15
-    - cron: '15,45 1 * * *'             # cierre boletín 18:00: 19:15 y 19:45
+    - cron: '15 1 * * *'                # 19:15 Tabasco: última revisión por desfase del boletín 18:00
 
 permissions:
   contents: write
