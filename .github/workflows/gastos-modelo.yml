@@ -38,7 +38,11 @@ jobs:
           import json
           from pathlib import Path
           d=json.loads(Path('data/pronostico_hidrologico/gastos_conagua.json').read_text())
-          assert len(d['estaciones']) == 11
+          assert len(d['estaciones']) == 13
+          for nombre in ('Salto de Agua', 'Macuspana'):
+              x=next(t for t in d['estaciones'] if t['estacion']==nombre)
+              assert x['q_actual_m3s'] is not None, 'Falta gasto actual '+nombre
+              assert x['validacion']=='fuente2_layout_columnas_actual_gasto' or x['fuente_fecha_hora'], 'Falta fuente '+nombre
           p=next(x for x in d['estaciones'] if x['estacion']=='Peñitas')
           assert p['q_actual_m3s'] != 0.04, 'Se detectó la columna incorrecta de FUENTE2'
           assert d['fuente1_fecha_hora'], 'FUENTE1 sin fecha'
