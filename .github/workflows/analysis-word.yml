@@ -1,7 +1,32 @@
-name: Análisis Hidrometeorológico - Word histórico (sin ejecución automática)
+name: Análisis Hidrometeorológico - Word persistente
 
 on:
+  # Disparo automático restaurado (era el bloque vigente antes del commit que
+  # lo desactivó): corre al cambiar los datos que alimentan el análisis y,
+  # además, con un respaldo diario a las 11:05 hora de Tabasco (17:05 UTC;
+  # México ya no usa horario de verano). Si un corte llega tarde, el
+  # siguiente push de datos vuelve a generar el análisis.
+  schedule:
+    - cron: '5 17 * * *'
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/analysis/latest.md'
+      - 'data/analysis/chat/latest.md'
+      - 'data/niveles/Ultimo_Corte/ultimo_resumen.json'
+      - 'data/niveles/Resumen_12h/resumen_12h.json'
+      - 'data/niveles/Lluvia_CONAGUA/**'
+      - 'data/latest/FUENTE1.txt'
+      - 'data/latest/FUENTE2.txt'
+      - 'data/fuentes_publicas/latest.json'
+      - 'data/fuentes_publicas/insivumeh_historico.json'
+      - 'data/fuentes_publicas/insivumeh_automaticas.json'
+      - 'data/weatherlink/latest.json'
+      - 'data/weatherlink/extra_latest.json'
+      - 'data/weatherlink/Estado_WeatherLink_Cloud.json'
+      - 'data/presas/historico_mensual.json'
 
 permissions:
   contents: write

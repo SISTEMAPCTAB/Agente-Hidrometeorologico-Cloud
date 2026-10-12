@@ -1,4 +1,5 @@
-name: Recuperación Independiente Niveles
+name: Recuperación Niveles (manual)
+# Sin programación automática: se ejecuta solo a mano o por disparo externo.
 
 on:
   workflow_dispatch:

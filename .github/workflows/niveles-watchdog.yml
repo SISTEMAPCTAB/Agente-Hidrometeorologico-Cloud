@@ -1,4 +1,5 @@
-name: Watchdog Niveles Hidrométricos Cloud
+name: Watchdog Niveles (manual)
+# Sin programación automática: se ejecuta solo a mano o por disparo externo.
 
 on:
   workflow_dispatch:

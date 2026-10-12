@@ -1,4 +1,5 @@
-name: Operational Heartbeat - WeatherLink
+name: Operational Heartbeat - WeatherLink (manual)
+# Sin programación automática: se ejecuta solo a mano o por disparo externo.
 
 on:
   workflow_dispatch:

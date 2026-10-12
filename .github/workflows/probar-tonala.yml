@@ -5,7 +5,7 @@ on:
     workflows:
       - 'WeatherLink Cloud - 32 estaciones'
       - 'WeatherLink Cloud 30m - estable'
-      - 'WeatherLink Rescue - independiente'
+      - 'WeatherLink Rescue (manual)'
     types: [completed]
   push:
     branches: [main]
