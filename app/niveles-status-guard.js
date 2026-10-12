@@ -8,7 +8,7 @@ const ACTIVE_MIN=45;
 const ALERT_MIN=180;
 const START_HOUR=6;
 const END_HOUR=20;
-const START_GRACE_MIN=65;
+const START_GRACE_MIN=105;
 let timer=null;
 let highestCutMs=0; // Proteger el último corte hidrométrico mostrado frente a respuestas tardías.
 function fmt(v){if(!v)return's/d';const d=new Date(v);if(Number.isNaN(d.getTime()))return's/d';return d.toLocaleString('es-MX',{timeZone:TZ,day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false});}
@@ -34,13 +34,13 @@ let cls='bad',label='Recolección sin revisión reciente',cloud='GitHub Cloud ·
 if(op.mode==='pause'){
   cls='ok';label='Pausa nocturna programada';cloud='GitHub Cloud · niveles en pausa nocturna';
   line.className=`niveles-agent-state ${cls}`;line.textContent=label;
-  detail.textContent=best?`Última revisión Gmail: ${fmt(best.time)} · Gmail (niveles horarios) · último corte recibido: ${cut?fmt(cut):'s/d'} · reanuda 06:00`:'Recolección pausada · reanuda automáticamente a las 06:00';
+  detail.textContent=best?`Última revisión Gmail: ${fmt(best.time)} · Gmail (niveles horarios) · último corte recibido: ${cut?fmt(cut):'s/d'} · primera revisión prevista 06:45`:'Recolección pausada · primera revisión prevista a las 06:45 (GitHub Actions)';
   const cloudEl=document.getElementById('cloudState');if(cloudEl)cloudEl.textContent=cloud;return true;
 }
 if(op.mode==='startup'){
   cls='warn';label='Reanudando recolección · ventana operativa';cloud='GitHub Cloud · iniciando niveles';
   line.className=`niveles-agent-state ${cls}`;line.textContent=label;
-  detail.textContent=best?`Última revisión Gmail: ${fmt(best.time)} · Gmail (niveles horarios) · último corte recibido: ${cut?fmt(cut):'s/d'} · margen de arranque hasta 07:05`:'Ventana iniciada a las 06:00 · esperando primera revisión válida';
+  detail.textContent=best?`Última revisión Gmail: ${fmt(best.time)} · Gmail (niveles horarios) · último corte recibido: ${cut?fmt(cut):'s/d'} · primera revisión programada 06:45; refuerzo 07:15 y 07:45`:'Ventana iniciada a las 06:00 · primer disparo programado 06:45; no implica ejecución confirmada';
   const cloudEl=document.getElementById('cloudState');if(cloudEl)cloudEl.textContent=cloud;return true;
 }
 const gmailFresh=g.valid&&g.mins<=ACTIVE_MIN;
