@@ -1,7 +1,7 @@
 {
   "fuente": "CONAGUA OCFS / fuentes ya recolectadas",
   "producto": "Gastos para modelo hidrologico",
-  "generado_utc": "2026-10-12T15:48:00.578678+00:00",
+  "generado_utc": "2026-10-12T15:49:22.596524+00:00",
   "fuente1_fecha_hora": "2026-10-11T09:47:45-06:00",
   "fuente2_fecha_hora": "2026-10-12T08:27:12-06:00",
   "regla": "Q FUENTE2: columna Actual/Gasto verificada por layout del PDF; FUENTE1 respaldo; Peñitas extracción promedio 24 h; ausente=null",
@@ -156,11 +156,11 @@
       "h_anterior_m": null,
       "q_anterior_m3s": null,
       "h_actual_m": null,
-      "q_actual_m3s": 330.59,
+      "q_actual_m3s": 330.0,
       "delta_h_m": null,
       "delta_q_m3s": null,
-      "fuente_fecha_hora": "2026-10-11T09:47:45-06:00",
-      "validacion": "extraccion_promedio_ot_penitas_fuente1"
+      "fuente_fecha_hora": "2026-10-12T08:27:12-06:00",
+      "validacion": "extraccion_promedio_24h_penitas_fuente2"
     }
   ]
 }
