@@ -53,7 +53,11 @@ def fuente2_gastos(txt):
   m=re.match(r"^\s*([*]?\s*[A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]+?)\s{2,}(.+)$",line)
   if not m:continue
   key=norm(m.group(1).strip("* "))
-  tokens=re.findall(r"(?<!\S)-?\d{1,3}(?:,\d{3})*(?:\.\d+)?(?!\S)|(?<!\S)-?\d+(?:\.\d+)?(?!\S)",m.group(2))
+  numeric_line=m.group(2)
+  if key=="penitas":
+   # La columna de porcentaje en este PDF usa decimal 82,87; no partirla en dos.
+   numeric_line=re.sub(r"(?<=\d),(?=\d{2}(?:\s|$))",".",numeric_line)
+  tokens=re.findall(r"(?<!\S)-?\d{1,3}(?:,\d{3})*(?:\.\d+)?(?!\S)|(?<!\S)-?\d+(?:\.\d+)?(?!\S)",numeric_line)
   a=[float(x.replace(",","")) for x in tokens]
   if key in {"samaria","oxolotan","puyacatengo","tapijulapa","san joaquin","teapa","gonzalez","pueblo nuevo","salto de agua","macuspana","boca del cerro"} and len(a)>=8:
    hp,qp,ha,qa=a[4:8]
