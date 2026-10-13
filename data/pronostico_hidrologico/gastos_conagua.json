@@ -1,8 +1,8 @@
 {
   "fuente": "CONAGUA OCFS / fuentes ya recolectadas",
   "producto": "Gastos para modelo hidrologico",
-  "generado_utc": "2026-10-13T20:50:05.082375+00:00",
-  "fuente1_fecha_hora": "2026-10-12T10:00:24-06:00",
+  "generado_utc": "2026-10-13T21:56:00.621197+00:00",
+  "fuente1_fecha_hora": "2026-10-13T10:02:12-06:00",
   "fuente2_fecha_hora": "2026-10-13T08:13:30-06:00",
   "regla": "Q FUENTE2: columna Actual/Gasto verificada por layout del PDF; FUENTE1 respaldo; Peñitas extracción promedio 24 h; ausente=null",
   "estaciones": [
@@ -15,8 +15,8 @@
       "q_actual_m3s": 316.74,
       "delta_h_m": -0.06,
       "delta_q_m3s": -8.54,
-      "fuente_fecha_hora": "2026-10-13T08:13:30-06:00",
-      "validacion": "fuente2_layout_columnas_actual_gasto"
+      "fuente_fecha_hora": "2026-10-13T10:02:12-06:00",
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
       "estacion": "González",
@@ -27,8 +27,8 @@
       "q_actual_m3s": 41.74,
       "delta_h_m": 0.03,
       "delta_q_m3s": 3.23,
-      "fuente_fecha_hora": "2026-10-13T08:13:30-06:00",
-      "validacion": "fuente2_layout_columnas_actual_gasto"
+      "fuente_fecha_hora": "2026-10-13T10:02:12-06:00",
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
       "estacion": "Oxolotán",
@@ -39,8 +39,8 @@
       "q_actual_m3s": 212.44,
       "delta_h_m": -0.35,
       "delta_q_m3s": -418.14,
-      "fuente_fecha_hora": "2026-10-13T08:13:30-06:00",
-      "validacion": "fuente2_layout_columnas_actual_gasto"
+      "fuente_fecha_hora": "2026-10-13T10:02:12-06:00",
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
       "estacion": "Tapijulapa",
@@ -51,8 +51,8 @@
       "q_actual_m3s": 152.0,
       "delta_h_m": -0.21,
       "delta_q_m3s": -20.0,
-      "fuente_fecha_hora": "2026-10-13T08:13:30-06:00",
-      "validacion": "fuente2_layout_columnas_actual_gasto"
+      "fuente_fecha_hora": "2026-10-13T10:02:12-06:00",
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
       "estacion": "Teapa",
@@ -63,8 +63,8 @@
       "q_actual_m3s": 59.0,
       "delta_h_m": -0.18,
       "delta_q_m3s": -18.0,
-      "fuente_fecha_hora": "2026-10-13T08:13:30-06:00",
-      "validacion": "fuente2_layout_columnas_actual_gasto"
+      "fuente_fecha_hora": "2026-10-13T10:02:12-06:00",
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
       "estacion": "Puyacatengo",
@@ -75,8 +75,8 @@
       "q_actual_m3s": 11.88,
       "delta_h_m": -0.07,
       "delta_q_m3s": -1.84,
-      "fuente_fecha_hora": "2026-10-13T08:13:30-06:00",
-      "validacion": "fuente2_layout_columnas_actual_gasto"
+      "fuente_fecha_hora": "2026-10-13T10:02:12-06:00",
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
       "estacion": "San Joaquín",
@@ -87,8 +87,8 @@
       "q_actual_m3s": 31.4,
       "delta_h_m": 0.66,
       "delta_q_m3s": -8.4,
-      "fuente_fecha_hora": "2026-10-13T08:13:30-06:00",
-      "validacion": "fuente2_layout_columnas_actual_gasto"
+      "fuente_fecha_hora": "2026-10-13T10:02:12-06:00",
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
       "estacion": "Pueblo Nuevo",
@@ -99,8 +99,8 @@
       "q_actual_m3s": 238.28,
       "delta_h_m": -0.72,
       "delta_q_m3s": -76.62,
-      "fuente_fecha_hora": "2026-10-13T08:13:30-06:00",
-      "validacion": "fuente2_layout_columnas_actual_gasto"
+      "fuente_fecha_hora": "2026-10-13T10:02:12-06:00",
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
       "estacion": "Porvenir",
@@ -111,8 +111,8 @@
       "q_actual_m3s": 298.0,
       "delta_h_m": -0.15,
       "delta_q_m3s": -8.0,
-      "fuente_fecha_hora": "2026-10-13T08:13:30-06:00",
-      "validacion": "fuente2_layout_columnas_actual_gasto"
+      "fuente_fecha_hora": "2026-10-13T10:02:12-06:00",
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
       "estacion": "Salto de Agua",
@@ -123,8 +123,8 @@
       "q_actual_m3s": 281.91,
       "delta_h_m": -2.74,
       "delta_q_m3s": -452.33,
-      "fuente_fecha_hora": "2026-10-13T08:13:30-06:00",
-      "validacion": "fuente2_layout_columnas_actual_gasto"
+      "fuente_fecha_hora": "2026-10-13T10:02:12-06:00",
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
       "estacion": "Macuspana",
@@ -135,8 +135,8 @@
       "q_actual_m3s": 152.85,
       "delta_h_m": 0.08,
       "delta_q_m3s": 5.22,
-      "fuente_fecha_hora": "2026-10-13T08:13:30-06:00",
-      "validacion": "fuente2_layout_columnas_actual_gasto"
+      "fuente_fecha_hora": "2026-10-13T10:02:12-06:00",
+      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
     },
     {
       "estacion": "Platanar",
@@ -156,11 +156,11 @@
       "h_anterior_m": null,
       "q_anterior_m3s": null,
       "h_actual_m": null,
-      "q_actual_m3s": 371.25,
+      "q_actual_m3s": 371.15,
       "delta_h_m": null,
       "delta_q_m3s": null,
-      "fuente_fecha_hora": "2026-10-13T08:13:30-06:00",
-      "validacion": "extraccion_promedio_24h_penitas_fuente2"
+      "fuente_fecha_hora": "2026-10-13T10:02:12-06:00",
+      "validacion": "extraccion_promedio_ot_penitas_fuente1"
     }
   ]
 }
