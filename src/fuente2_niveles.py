@@ -21,17 +21,17 @@ STATIONS = [
     {"rio": "Río Carrizal", "estacion": "González", "namo": 8.77, "name": 10.20, "label": "González", "idx": 6},
     {"rio": "Ríos de la Sierra", "estacion": "Oxolotán", "namo": 39.53, "name": 47.37, "label": "Oxolotán", "idx": 6},
     {"rio": "Ríos de la Sierra", "estacion": "Tapijulapa", "namo": 24.63, "name": 28.15, "label": "Tapijulapa", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "Teapa", "namo": 37.71, "name": 39.56, "label": "Teapa", "idx": 5},
+    {"rio": "Ríos de la Sierra", "estacion": "Teapa", "namo": 37.71, "name": 39.56, "label": "Teapa", "idx": 6},
     {"rio": "Ríos de la Sierra", "estacion": "Puyacatengo", "namo": 29.65, "name": 31.35, "label": "Puyacatengo", "idx": 6},
-    {"rio": "Ríos de la Sierra", "estacion": "San Joaquín", "namo": 23.12, "name": 26.66, "label": "San Joaquín", "idx": 5},
-    {"rio": "Ríos de la Sierra", "estacion": "Pueblo Nuevo", "namo": 7.49, "name": 8.40, "label": "Pueblo Nuevo", "idx": 5},
+    {"rio": "Ríos de la Sierra", "estacion": "San Joaquín", "namo": 23.12, "name": 26.66, "label": "San Joaquín", "idx": 6},
+    {"rio": "Ríos de la Sierra", "estacion": "Pueblo Nuevo", "namo": 7.49, "name": 8.40, "label": "Pueblo Nuevo", "idx": 6},
     {"rio": "Río Grijalva", "estacion": "Gaviotas", "namo": 7.00, "name": 7.85, "label": "Gaviotas", "idx": 4},
     {"rio": "Río Grijalva", "estacion": "El Muelle", "namo": None, "name": 7.23, "label": "Muelle", "idx": 3},
-    {"rio": "Río Grijalva", "estacion": "Porvenir", "namo": 4.74, "name": 6.67, "label": "Porvenir", "idx": 4},
-    {"rio": "Río Tulijá", "estacion": "Salto de Agua", "namo": 10.99, "name": 14.72, "label": "Salto de Agua", "idx": 5},
-    {"rio": "Río Puxcatán", "estacion": "Macuspana", "namo": 9.85, "name": 12.78, "label": "Macuspana", "idx": 5},
+    {"rio": "Río Grijalva", "estacion": "Porvenir", "namo": 4.74, "name": 6.67, "label": "Porvenir", "idx": 5},
+    {"rio": "Río Tulijá", "estacion": "Salto de Agua", "namo": 10.99, "name": 14.72, "label": "Salto de Agua", "idx": 6},
+    {"rio": "Río Puxcatán", "estacion": "Macuspana", "namo": 9.85, "name": 12.78, "label": "Macuspana", "idx": 6},
     {"rio": "Río San Pedro", "estacion": "San Pedro", "namo": 9.01, "name": 9.77, "label": "San Pedro", "idx": 5},
-    {"rio": "Río Usumacinta", "estacion": "Boca del Cerro", "namo": 19.21, "name": 21.57, "label": "Boca del Cerro", "idx": 5},
+    {"rio": "Río Usumacinta", "estacion": "Boca del Cerro", "namo": 19.21, "name": 21.57, "label": "Boca del Cerro", "idx": 6},
 ]
 
 
@@ -84,28 +84,19 @@ def validate_layout(st, nums):
     if st.get("namo") is not None:
         if len(nums) <= 2 or abs(nums[2] - st["namo"]) > 0.05:
             errors.append(f"NAMO fuera de posición: esperado {st['namo']}, recibido {nums[2] if len(nums) > 2 else None}")
-    # Puyacatengo también tiene columna de gasto intercalada (p. ej. 34);
-    # ESCALA ACTUAL es token 6. La variación y distancia NAMO deben cuadrar.
-    if st["estacion"] == "Puyacatengo":
+    # Verificación estructural de todas las filas completas con gasto intercalado.
+    if st["idx"] == 6:
         if len(nums) != 12:
-            errors.append(f"se requieren 12 columnas; recibidas {len(nums)}")
+            errors.append(f"esquema con gasto: se requieren 12 columnas, recibidas {len(nums)}")
         else:
             anterior, actual, variacion, distancia = nums[4], nums[6], nums[10], nums[11]
             if abs(actual - anterior - variacion) > 0.06:
-                errors.append("variación incompatible con escalas Puyacatengo")
-            if abs(actual - st["namo"] - distancia) > 0.06:
-                errors.append("distancia NAMO incompatible con escala actual Puyacatengo")
-    # Oxolotán y Tapijulapa incluyen gasto entre escala anterior y actual.
-    # Comprobar el esquema completo antes de publicar una lectura.
-    if st["estacion"] in {"Oxolotán", "Tapijulapa"}:
-        if len(nums) != 12:
-            errors.append(f"se requieren 12 columnas; recibidas {len(nums)}")
-        else:
-            anterior, actual, variacion = nums[4], nums[6], nums[10]
-            if abs(actual - anterior - variacion) > 0.06:
-                errors.append("variación incompatible con las escalas anterior y actual")
-            if abs(actual - st["namo"] - nums[11]) > 0.06:
-                errors.append("distancia NAMO incompatible con escala actual")
+                errors.append("variación incompatible con escalas anterior y actual")
+            if st.get("namo") is not None and abs(actual - st["namo"] - distancia) > 0.06:
+                errors.append("distancia al NAMO incompatible con escala actual")
+    elif st["estacion"] == "Porvenir":
+        if len(nums) != 11 or abs(nums[5] - nums[3] - nums[9]) > 0.06 or abs(nums[5] - st["namo"] - nums[10]) > 0.06:
+            errors.append("esquema Porvenir incompatible con variación o NAMO")
     return errors
 
 
@@ -198,14 +189,28 @@ def main():
     existing_times = [parse_dt(r.get("fecha_hora")) for r in history]
     latest = max((t for t in existing_times if t), default=None)
     if latest and cut < latest:
-        print(f"FUENTE2 {stamp} es anterior al histórico vigente {latest.isoformat()}; no se retrocede el corte.")
-        return
+        print(f"FUENTE2 {stamp} anterior al último corte {latest.isoformat()}; se verifican sólo filas del mismo instante, sin retroceder.")
 
     added = observed_added = inherited_added = corrected = rejected = 0
     for st in STATIONS:
         key = f"{stamp}|{st['estacion']}|FUENTE2-{message_id}"
         existing = next((r for r in history if r.get("_key") == key), None)
         observed = values.get(st["estacion"])
+        # Corregir el registro de igual fecha/estación aun si vino del PDF.
+        if observed is not None:
+            same_cut = [r for r in history if r.get("estacion") == st["estacion"] and parse_dt(r.get("fecha_hora")) == cut]
+            for record in same_cut:
+                old_value = record.get("nivel")
+                if not isinstance(old_value, (int, float)) or abs(old_value - observed) > 1e-9 or record.get("estado_dato") != "observado":
+                    record["nivel"] = observed
+                    record["estado_dato"] = "observado"
+                    record["ultima_actualizacion_real"] = stamp
+                    record["correccion_fundamento"] = "FUENTE2: escala actual validada con variación/NAMO"
+                    corrected += 1
+            if same_cut:
+                continue
+        if latest and cut < latest:
+            continue
         diag = diagnostics.get(st["estacion"], {})
         if observed is None and diag.get("validation_errors"):
             rejected += 1
