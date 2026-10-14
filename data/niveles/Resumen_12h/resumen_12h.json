@@ -44,10 +44,10 @@
       "sistema": "Ríos Serranos–Grijalva",
       "evolucion_operativa_12h": "estable/mixta",
       "hidrometria": {
-        "ascendentes": 1,
-        "descendentes": 0,
-        "estables": 0,
-        "comparables": 1
+        "ascendentes": 0,
+        "descendentes": 1,
+        "estables": 2,
+        "comparables": 3
       },
       "estaciones": [
         {
@@ -65,12 +65,12 @@
           "estacion": "Pueblo Nuevo",
           "rio": "Ríos de la Sierra",
           "inicio": "2026-10-14T06:00:00-06:00",
-          "fin": "2026-10-14T06:00:00-06:00",
+          "fin": "2026-10-14T08:00:00-06:00",
           "nivel_inicio_m": 4.48,
-          "nivel_fin_m": 4.48,
-          "delta_m": null,
-          "tendencia_12h": "sin comparación",
-          "observaciones": 1
+          "nivel_fin_m": 4.43,
+          "delta_m": -0.05,
+          "tendencia_12h": "descendente",
+          "observaciones": 2
         },
         {
           "estacion": "Puyacatengo",
@@ -89,9 +89,9 @@
           "inicio": "2026-10-14T06:00:00-06:00",
           "fin": "2026-10-14T08:00:00-06:00",
           "nivel_inicio_m": 20.61,
-          "nivel_fin_m": 31.4,
-          "delta_m": 10.79,
-          "tendencia_12h": "ascendente",
+          "nivel_fin_m": 20.6,
+          "delta_m": -0.01,
+          "tendencia_12h": "estable",
           "observaciones": 2
         },
         {
@@ -109,47 +109,47 @@
           "estacion": "Teapa",
           "rio": "Ríos de la Sierra",
           "inicio": "2026-10-14T06:00:00-06:00",
-          "fin": "2026-10-14T06:00:00-06:00",
+          "fin": "2026-10-14T08:00:00-06:00",
           "nivel_inicio_m": 33.85,
-          "nivel_fin_m": 33.85,
-          "delta_m": null,
-          "tendencia_12h": "sin comparación",
-          "observaciones": 1
+          "nivel_fin_m": 33.84,
+          "delta_m": -0.01,
+          "tendencia_12h": "estable",
+          "observaciones": 2
         }
       ]
     },
     {
       "id": "tulija",
       "sistema": "Tulijá–Puxcatán–Chilapa",
-      "evolucion_operativa_12h": "sin datos comparables",
+      "evolucion_operativa_12h": "mejorando",
       "hidrometria": {
         "ascendentes": 0,
-        "descendentes": 0,
+        "descendentes": 2,
         "estables": 0,
-        "comparables": 0
+        "comparables": 2
       },
       "estaciones": [
         {
           "estacion": "Macuspana",
           "rio": "Río Puxcatán",
           "inicio": "2026-10-14T06:00:00-06:00",
-          "fin": "2026-10-14T06:00:00-06:00",
+          "fin": "2026-10-14T08:00:00-06:00",
           "nivel_inicio_m": 4.58,
-          "nivel_fin_m": 4.58,
-          "delta_m": null,
-          "tendencia_12h": "sin comparación",
-          "observaciones": 1
+          "nivel_fin_m": 4.53,
+          "delta_m": -0.05,
+          "tendencia_12h": "descendente",
+          "observaciones": 2
         },
         {
           "estacion": "Salto de Agua",
           "rio": "Río Tulijá",
           "inicio": "2026-10-14T06:00:00-06:00",
-          "fin": "2026-10-14T06:00:00-06:00",
+          "fin": "2026-10-14T08:00:00-06:00",
           "nivel_inicio_m": 4.49,
-          "nivel_fin_m": 4.49,
-          "delta_m": null,
-          "tendencia_12h": "sin comparación",
-          "observaciones": 1
+          "nivel_fin_m": 4.38,
+          "delta_m": -0.11,
+          "tendencia_12h": "descendente",
+          "observaciones": 2
         }
       ]
     },
@@ -160,20 +160,20 @@
       "hidrometria": {
         "ascendentes": 0,
         "descendentes": 0,
-        "estables": 1,
-        "comparables": 1
+        "estables": 2,
+        "comparables": 2
       },
       "estaciones": [
         {
           "estacion": "Boca del Cerro",
           "rio": "Río Usumacinta",
           "inicio": "2026-10-14T06:00:00-06:00",
-          "fin": "2026-10-14T06:00:00-06:00",
+          "fin": "2026-10-14T08:00:00-06:00",
           "nivel_inicio_m": 17.93,
-          "nivel_fin_m": 17.93,
-          "delta_m": null,
-          "tendencia_12h": "sin comparación",
-          "observaciones": 1
+          "nivel_fin_m": 17.94,
+          "delta_m": 0.01,
+          "tendencia_12h": "estable",
+          "observaciones": 2
         },
         {
           "estacion": "San Pedro",
