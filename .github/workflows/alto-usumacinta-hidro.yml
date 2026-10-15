@@ -1,16 +1,14 @@
 name: Alto Usumacinta Hidrométrico - respaldo ligero
 
 on:
+  # Programación: Cloudflare Worker despachador-hidro (cloudflare/despachador-hidro/worker.js, tabla JOBS).
+  # Sin cron de GitHub: el cron de Actions retrasa o pierde corridas. Para cambiar el horario, editar JOBS.
   workflow_dispatch:
   push:
     branches: [main]
     paths:
       - 'src/insivumeh_alto_hidro_extra.py'
       - '.github/workflows/alto-usumacinta-hidro.yml'
-  schedule:
-    # Actualizar tabla específica de Alto Usumacinta 10 minutos después
-    # de las consultas generales: 10:10, 12:10, 14:10, 18:10 y 20:10 Tabasco.
-    - cron: '10 16,18,20,0,2 * * *'
 
 permissions:
   contents: write

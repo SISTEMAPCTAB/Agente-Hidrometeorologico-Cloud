@@ -1,6 +1,8 @@
 name: Fuentes Públicas Cloud - INSIVUMEH
 
 on:
+  # Programación: Cloudflare Worker despachador-hidro (cloudflare/despachador-hidro/worker.js, tabla JOBS).
+  # Sin cron de GitHub: el cron de Actions retrasa o pierde corridas. Para cambiar el horario, editar JOBS.
   workflow_dispatch:
   push:
     branches:
@@ -18,10 +20,6 @@ on:
       - 'src/generar_word_weatherlink.py'
       - 'requirements.txt'
       - '.github/workflows/fuentes-publicas-cloud.yml'
-  schedule:
-    # Consultas INSIVUMEH en horario Tabasco (UTC-6): 10, 12, 14, 18 y 20 h.
-    # Único flujo automático; conserva la última lectura válida si la fuente no cambia.
-    - cron: '0 16,18,20,0,2 * * *'
 
 permissions:
   contents: write

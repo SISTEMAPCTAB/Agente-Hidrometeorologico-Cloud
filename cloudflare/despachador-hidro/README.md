@@ -20,6 +20,14 @@ en Cloudflare y desplegar; el repositorio no lo despliega solo.
   y solo lanza el workflow si el corte tiene más de 20 minutos. Así no se gastan
   minutos de Actions en corridas que no recolectan nada.
 
+- **Lectura de la edad del corte.** Primero por la API de GitHub (con `GH_TOKEN`) y, si falla,
+  por el sitio público de Pages, que sirve los mismos JSON sin token. Si no se puede medir por
+  ninguna vía, solo lanza en los minutos :00 y :30. Los registros indican la vía usada
+  (`[vía api]` o `[vía pages; api: HTTP …]`).
+- **Fuente única de horarios.** Desde el 15 de octubre de 2026 los workflows listados en `JOBS`
+  ya no tienen cron de GitHub (era un duplicado que gastaba minutos). Quedan con cron propio solo
+  `sih-watchdog`, `smn-watchdog` y `probar-tonala`, que funcionan como red de seguridad.
+
 ## Configuración en Cloudflare (Settings → Variables and Secrets)
 
 | Nombre | Tipo | Uso |

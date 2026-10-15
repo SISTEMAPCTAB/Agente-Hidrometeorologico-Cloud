@@ -1,10 +1,9 @@
 name: WeatherLink autónomo estable - cada 30 minutos
 
 on:
+  # Programación: Cloudflare Worker despachador-hidro (cloudflare/despachador-hidro/worker.js, tabla JOBS).
+  # Sin cron de GitHub: el cron de Actions retrasa o pierde corridas. Para cambiar el horario, editar JOBS.
   workflow_dispatch:
-  schedule:
-    # Recolección autónoma cada 30 min, 24/7; independiente de niveles y modelo.
-    - cron: '7,37 * * * *'
 
 permissions:
   contents: write

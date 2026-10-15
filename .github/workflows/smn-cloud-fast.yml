@@ -1,6 +1,8 @@
 name: SMN Cloud Fast - 96 y 360 h
 
 on:
+  # Programación: Cloudflare Worker despachador-hidro (cloudflare/despachador-hidro/worker.js, tabla JOBS).
+  # Sin cron de GitHub: el cron de Actions retrasa o pierde corridas. Para cambiar el horario, editar JOBS.
   workflow_dispatch:
   push:
     branches: [main]
@@ -8,11 +10,6 @@ on:
       - 'src/smn_cloud_fast.py'
       - 'src/smn96_detalle.py'
       - '.github/workflows/smn-cloud-fast.yml'
-  schedule:
-    # Ventana lógica SMN: publicación habitual matutina; reintentos acotados.
-    # 10:10, 10:40, 11:10 y respaldo 13:10 hora Tabasco.
-    - cron: '10,40 16 * * *'
-    - cron: '10 17,19 * * *'
 
 permissions:
   contents: write

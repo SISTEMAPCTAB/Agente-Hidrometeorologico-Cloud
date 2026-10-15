@@ -1,6 +1,8 @@
 name: Carbonio Cloud - boletines diarios
 
 on:
+  # Programación: Cloudflare Worker despachador-hidro (cloudflare/despachador-hidro/worker.js, tabla JOBS).
+  # Sin cron de GitHub: el cron de Actions retrasa o pierde corridas. Para cambiar el horario, editar JOBS.
   workflow_dispatch:
   push:
     branches:
@@ -10,10 +12,6 @@ on:
       - 'src/presas_history.py'
       - 'requirements.txt'
       - '.github/workflows/carbonio-cloud.yml'
-  schedule:
-    # Única recolección diaria OCFS a las 11:00 hora de Tabasco (UTC-6).
-    # No recolectar FUENTE2 ni niveles desde Carbonio.
-    - cron: '0 17 * * *'
 
 permissions:
   contents: write

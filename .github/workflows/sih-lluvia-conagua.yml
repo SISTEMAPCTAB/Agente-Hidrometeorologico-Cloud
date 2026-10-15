@@ -1,14 +1,9 @@
 name: Lluvia SIH CONAGUA
 
 on:
+  # Programación: Cloudflare Worker despachador-hidro (cloudflare/despachador-hidro/worker.js, tabla JOBS).
+  # Sin cron de GitHub: el cron de Actions retrasa o pierde corridas. Para cambiar el horario, editar JOBS.
   workflow_dispatch:
-  schedule:
-    # Tabasco UTC-6: comprobaciones 09:30, 11:00, 14:00, 17:00 y 22:00.
-    - cron: '30 15 * * *'
-    - cron: '0 17 * * *'
-    - cron: '0 20 * * *'
-    - cron: '0 23 * * *'
-    - cron: '0 4 * * *'
   push:
     branches: [main]
     paths:

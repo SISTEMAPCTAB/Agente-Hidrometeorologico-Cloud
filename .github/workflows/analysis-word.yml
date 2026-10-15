@@ -1,13 +1,13 @@
 name: Análisis Hidrometeorológico - Word persistente
 
 on:
+  # Programación: Cloudflare Worker despachador-hidro (cloudflare/despachador-hidro/worker.js, tabla JOBS).
+  # Sin cron de GitHub: el cron de Actions retrasa o pierde corridas. Para cambiar el horario, editar JOBS.
   # Disparo automático restaurado (era el bloque vigente antes del commit que
   # lo desactivó): corre al cambiar los datos que alimentan el análisis y,
-  # además, con un respaldo diario a las 11:05 hora de Tabasco (17:05 UTC;
+  # además, el Worker lo lanza a las 11:05 hora de Tabasco (17:05 UTC;
   # México ya no usa horario de verano). Si un corte llega tarde, el
   # siguiente push de datos vuelve a generar el análisis.
-  schedule:
-    - cron: '5 17 * * *'
   workflow_dispatch:
   push:
     branches:

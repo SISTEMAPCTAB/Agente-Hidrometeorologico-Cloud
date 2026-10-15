@@ -87,21 +87,46 @@ async function dispatch(workflow, env) {
   return res.status;
 }
 
+// Sitio público de Pages: sirve los mismos JSON sin token. Respaldo de la lectura por API.
+const PAGES = "https://sistemapctab.github.io/Agente-Hidrometeorologico-Cloud";
+
+async function readRunTime(url, init, field) {
+  const res = await fetch(url, init);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const iso = String((await res.json())[field] || "").replace(/(\.\d{3})\d+/, "$1");
+  const t = Date.parse(iso);
+  if (Number.isNaN(t)) throw new Error("fecha ilegible");
+  return t;
+}
+
+// Devuelve { age (minutos, o null si ninguna fuente respondió), via, err }.
 async function ageMinutes(path, field, env, now) {
+  const errs = [];
   try {
-    const res = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`,
-      { headers: headers(env, "application/vnd.github.raw+json") });
-    if (!res.ok) return 9999;
-    const iso = String((await res.json())[field] || "").replace(/(\.\d{3})\d+/, "$1");
-    const t = Date.parse(iso);
-    return Number.isNaN(t) ? 9999 : (now.getTime() - t) / 60000;
-  } catch { return 9999; }                     // ilegible = atrasado, igual que en el workflow
+    const t = await readRunTime(`${API}/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`,
+      { headers: headers(env, "application/vnd.github.raw+json") }, field);
+    return { age: (now.getTime() - t) / 60000, via: "api" };
+  } catch (e) { errs.push(`api: ${e.message}`); }
+  try {
+    const t = await readRunTime(`${PAGES}/${path}?t=${now.getTime()}`, {}, field);   // t= evita caché
+    return { age: (now.getTime() - t) / 60000, via: "pages", err: errs[0] };
+  } catch (e) { errs.push(`pages: ${e.message}`); }
+  return { age: null, via: "ninguna", err: errs.join("; ") };
 }
 
 async function checkGate(gate, env, now) {
-  const ages = await Promise.all(gate.files.map((f) => ageMinutes(f, gate.field, env, now)));
-  const worst = Math.max(...ages);
-  return { stale: worst > gate.maxAgeMin, detail: `antigüedad máx ${worst.toFixed(1)} min (límite ${gate.maxAgeMin})` };
+  const rs = await Promise.all(gate.files.map((f) => ageMinutes(f, gate.field, env, now)));
+  const via = [...new Set(rs.map((r) => r.via))].join("+");
+  const errs = rs.map((r) => r.err).filter(Boolean).join(" | ");
+  if (rs.some((r) => r.age === null)) {
+    // No se pudo medir la edad: antes se trataba como atrasado y se lanzaba cada 10 min.
+    // Ahora solo se lanza en :00 y :30 (cadencia de 30 min) hasta que la lectura vuelva.
+    const lanza = now.getUTCMinutes() % 30 === 0;
+    return { stale: lanza, detail: `edad desconocida (${errs}); ${lanza ? "lanza por cadencia de 30 min" : "espera a :00/:30"}` };
+  }
+  const worst = Math.max(...rs.map((r) => r.age));
+  return { stale: worst > gate.maxAgeMin,
+    detail: `antigüedad máx ${worst.toFixed(1)} min (límite ${gate.maxAgeMin}) [vía ${via}${errs ? "; " + errs : ""}]` };
 }
 
 export default {
