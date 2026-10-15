@@ -9,6 +9,7 @@ nc = robust.base
 
 PROCESSOR = Path('src/procesar_niveles_horas.js')
 MACAYO_SHADOW_PROCESSOR = Path('src/extraer_macayo_horario_prueba.js')
+BIFURCACION_HORARIO_PROCESSOR = Path('src/extraer_niveles_horarios_bifurcacion.js')
 
 
 def normalize_subject_hour(subject: str) -> str:
@@ -50,6 +51,28 @@ def run_macayo_shadow(pdf_path: Path, subject: str, message_key: str):
     if proc.returncode != 0:
         # Nunca interrumpe la operación normal de niveles.
         print(proc.stderr.strip() or 'Shadow Macayo no disponible.')
+
+
+def run_bifurcacion_horario(pdf_path: Path, subject: str, message_key: str):
+    """Aditivo y no bloqueante: acumula niveles horarios Malpaso/Peñitas/Platanar/Samaria/Macayo/González
+    en data/niveles/Horario_Bifurcacion para calibrar el tránsito Peñitas -> Samaria. Nunca lanza excepción."""
+    try:
+        if not BIFURCACION_HORARIO_PROCESSOR.exists():
+            return
+        cmd = [
+            'node', str(BIFURCACION_HORARIO_PROCESSOR),
+            '--pdf', str(pdf_path),
+            '--subject', normalize_subject_hour(subject),
+            '--message-id', message_key,
+            '--base', str(nc.BASE),
+        ]
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+        if proc.stdout.strip():
+            print(proc.stdout.strip())
+        if proc.returncode != 0:
+            print(proc.stderr.strip() or 'Horario bifurcación no disponible.')
+    except Exception as exc:  # nunca interrumpe la operación normal de niveles
+        print(f'Horario bifurcación omitido: {exc}')
 
 
 def main():
@@ -94,6 +117,7 @@ def main():
             pdf_path.write_bytes(content)
             run_processor(pdf_path, subject, message_key)
             run_macayo_shadow(pdf_path, subject, message_key)
+            run_bifurcacion_horario(pdf_path, subject, message_key)
 
 
 if __name__ == '__main__':
