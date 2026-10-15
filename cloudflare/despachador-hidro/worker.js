@@ -31,7 +31,12 @@ const JOBS = [
     "30 15 * * *", "0 17 * * *", "0 20 * * *", "0 23 * * *", "0 4 * * *"] },
   { workflow: "alto-usumacinta-hidro.yml", crons: ["10 16,18,20,0,2 * * *"] },
   { workflow: "gastos-modelo.yml", crons: ["45 15 * * *", "30 17 * * *"] },
-  { workflow: "carbonio-cloud.yml", crons: ["0 17 * * *"] },
+  // FUENTE1 (boletín de CONAGUA): llega entre 09:45 y 11:33 (mediana 10:01, medido en 32 días).
+  // Se prueba varias veces alrededor de esa hora, pero solo mientras el boletín del día no esté
+  // guardado en data/latest/FUENTE1.txt. Si no se puede leer, queda el horario de respaldo de 11:00.
+  { workflow: "carbonio-cloud.yml",
+    crons: ["55 15 * * *", "5,15,30,45 16 * * *", "0,30 17 * * *", "0 18 * * *"],
+    gate: { kind: "bulletin", file: "data/latest/FUENTE1.txt", fallbackCron: "0 17 * * *" } },
   // WeatherLink: se revisa cada 10 min y solo se lanza si el último corte tiene más de
   // 20 min (misma regla que el propio workflow, pero sin gastar minutos de Actions).
   { workflow: "weatherlink-30m-estable.yml", crons: ["*/10 * * * *"], gate: {
@@ -114,7 +119,37 @@ async function ageMinutes(path, field, env, now) {
   return { age: null, via: "ninguna", err: errs.join("; ") };
 }
 
+async function readText(url, init) {
+  const res = await fetch(url, init);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.text();
+}
+
+// Boletín diario: "falta" mientras la fecha del mensaje guardado no sea la de hoy (hora de Tabasco).
+async function checkBulletin(gate, env, now) {
+  const hoy = new Date(now.getTime() - 6 * 3600 * 1000).toISOString().slice(0, 10);
+  const errs = [];
+  let head = null, via = "";
+  try {
+    head = (await readText(`${API}/repos/${OWNER}/${REPO}/contents/${gate.file}?ref=${BRANCH}`,
+      { headers: headers(env, "application/vnd.github.raw+json") })).slice(0, 1200);
+    via = "api";
+  } catch (e) { errs.push(`api: ${e.message}`); }
+  if (head === null) {
+    try { head = (await readText(`${PAGES}/${gate.file}?t=${now.getTime()}`, {})).slice(0, 1200); via = "pages"; }
+    catch (e) { errs.push(`pages: ${e.message}`); }
+  }
+  const m = head && head.match(/FECHA\/HORA MENSAJE:\s*(\d{4}-\d{2}-\d{2})/);
+  if (!m) {
+    const lanza = cronMatches(gate.fallbackCron, now);
+    return { stale: lanza, detail: `no se pudo leer la fecha del boletín (${errs.join("; ") || "formato inesperado"}); ${lanza ? "lanza por horario de respaldo" : "espera el horario de respaldo"}` };
+  }
+  const guardado = m[1] === hoy;
+  return { stale: !guardado, detail: `boletín guardado: ${m[1]}, hoy: ${hoy} [vía ${via}] -> ${guardado ? "ya está" : "falta"}` };
+}
+
 async function checkGate(gate, env, now) {
+  if (gate.kind === "bulletin") return checkBulletin(gate, env, now);
   const rs = await Promise.all(gate.files.map((f) => ageMinutes(f, gate.field, env, now)));
   const via = [...new Set(rs.map((r) => r.via))].join("+");
   const errs = rs.map((r) => r.err).filter(Boolean).join(" | ");

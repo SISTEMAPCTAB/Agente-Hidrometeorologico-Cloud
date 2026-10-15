@@ -20,6 +20,12 @@ en Cloudflare y desplegar; el repositorio no lo despliega solo.
   y solo lanza el workflow si el corte tiene más de 20 minutos. Así no se gastan
   minutos de Actions en corridas que no recolectan nada.
 
+- **Boletín FUENTE1 (CONAGUA).** Llega entre 09:45 y 11:33 hora de Tabasco (mediana 10:01, medido en
+  32 días con la hora real de los correos en el historial de `data/Estado_Cloud.json`). El Worker
+  lanza `carbonio-cloud.yml` a las 09:55, 10:05, 10:15, 10:30, 10:45, 11:00, 11:30 y 12:00, pero solo
+  mientras la fecha de `FECHA/HORA MENSAJE` en `data/latest/FUENTE1.txt` no sea la de hoy. En cuanto
+  el boletín queda guardado, los intentos restantes del día se saltan. Si no puede leer el archivo
+  (API y Pages), lanza solo a las 11:00. FUENTE2 la recoge `gmail-backup-cloud.yml` (llega 08:06–08:45).
 - **Lectura de la edad del corte.** Primero por la API de GitHub (con `GH_TOKEN`) y, si falla,
   por el sitio público de Pages, que sirve los mismos JSON sin token. Si no se puede medir por
   ninguna vía, solo lanza en los minutos :00 y :30. Los registros indican la vía usada
