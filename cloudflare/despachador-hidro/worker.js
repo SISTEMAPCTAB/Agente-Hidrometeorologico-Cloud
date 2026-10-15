@@ -27,8 +27,9 @@ const JOBS = [
   { workflow: "smn-cloud-fast.yml", crons: ["10,40 16 * * *", "10 17,19 * * *"] },
   { workflow: "acumulados-4872.yml", crons: ["45 12-23,0-3 * * *"] },
   { workflow: "fuentes-publicas-cloud.yml", crons: ["0 16,18,20,0,2 * * *"] },
-  { workflow: "sih-lluvia-conagua.yml", crons: [
-    "30 15 * * *", "0 17 * * *", "0 20 * * *", "0 23 * * *", "0 4 * * *"] },
+  // SIH publica el PDF de lluvia de 24 h entre ~13:30 y ~16:30 hora de Tabasco (visto 13:38, 14:47 y 16:33
+  // en tres días). Revisiones a las 14:00, 15:30 y 17:00 locales; las de 09:30, 11:00 y 22:00 nunca hallaron dato nuevo.
+  { workflow: "sih-lluvia-conagua.yml", crons: ["0 20 * * *", "30 21 * * *", "0 23 * * *"] },
   { workflow: "alto-usumacinta-hidro.yml", crons: ["10 16,18,20,0,2 * * *"] },
   { workflow: "gastos-modelo.yml", crons: ["45 15 * * *", "30 17 * * *"] },
   // FUENTE1 (boletín de CONAGUA): llega entre 09:45 y 11:33 (mediana 10:01, medido en 32 días).

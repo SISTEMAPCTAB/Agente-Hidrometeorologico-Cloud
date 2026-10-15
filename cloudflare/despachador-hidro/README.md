@@ -26,6 +26,9 @@ en Cloudflare y desplegar; el repositorio no lo despliega solo.
   mientras la fecha de `FECHA/HORA MENSAJE` en `data/latest/FUENTE1.txt` no sea la de hoy. En cuanto
   el boletín queda guardado, los intentos restantes del día se saltan. Si no puede leer el archivo
   (API y Pages), lanza solo a las 11:00. FUENTE2 la recoge `gmail-backup-cloud.yml` (llega 08:06–08:45).
+- **SIH lluvia (CONAGUA).** El PDF de 24 h se publica entre ~13:30 y ~16:30 hora de Tabasco. El Worker
+  lanza `sih-lluvia-conagua.yml` a las 14:00, 15:30 y 17:00 locales (antes 5 revisiones, 3 sin resultado).
+  `sih-watchdog.yml` sigue como red de seguridad.
 - **Lectura de la edad del corte.** Primero por la API de GitHub (con `GH_TOKEN`) y, si falla,
   por el sitio público de Pages, que sirve los mismos JSON sin token. Si no se puede medir por
   ninguna vía, solo lanza en los minutos :00 y :30. Los registros indican la vía usada
