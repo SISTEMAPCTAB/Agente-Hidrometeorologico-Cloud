@@ -124,6 +124,9 @@ jobs:
           # Alto Usumacinta tiene un único dueño: alto-usumacinta-hidro.yml
           git diff --cached --quiet && exit 0
           git commit -m "Actualiza fuentes públicas [skip ci]"
+          # Los pasos anteriores dejan otros archivos modificados sin publicar (latest.json, histórico);
+          # git pull --rebase se niega a correr con cambios sin confirmar, así que se apartan.
+          git stash push -u -q || true
           for intento in 1 2 3; do
             if git pull --rebase origin main && git push origin main; then exit 0; fi
             git rebase --abort 2>/dev/null || true
