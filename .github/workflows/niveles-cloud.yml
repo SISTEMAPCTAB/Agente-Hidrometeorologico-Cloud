@@ -158,6 +158,7 @@ jobs:
             data/niveles/Graficas
             data/niveles/Reportes
             data/niveles/Evidencia_Texto
+            data/niveles/Horario_Bifurcacion
           )
 
           tar -cf /tmp/productos-niveles.tar "${PRODUCTOS[@]}"
