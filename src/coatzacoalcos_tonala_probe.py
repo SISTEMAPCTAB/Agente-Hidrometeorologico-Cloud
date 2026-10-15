@@ -31,10 +31,11 @@ sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/11085
 # Anclas adicionales: todos los informes ya validados y guardados, para que la ventana parta del más reciente.
 try:
  _prev=json.loads((OUT/"latest.json").read_text(encoding="utf-8"))
- for _h in _prev.get("history",[]):
-  _u=_h.get("source_url","")
-  if "Informe_Matutino_" in _u and _u not in sources["matutino"]:sources["matutino"].append(_u)
-except (OSError,ValueError):pass
+ for _rows in _prev.get("history",{}).values():
+  for _h in _rows:
+   _u=_h.get("source_url","") if isinstance(_h,dict) else ""
+   if "Informe_Matutino_" in _u and _u not in sources["matutino"]:sources["matutino"].append(_u)
+except (OSError,ValueError,AttributeError,TypeError):pass
 # gob.mx puede bloquear (HTTP 403) a los runners de GitHub aunque el informe sea público.
 # Como respaldo de transporte se usa Jina Reader sobre la MISMA URL oficial.
 # La fecha y los valores siguen validándose contra el contenido recuperado del documento oficial.
