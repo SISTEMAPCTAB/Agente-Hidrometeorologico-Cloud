@@ -28,6 +28,7 @@
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const mm=v=>finite(v)?`${Number(v).toFixed(1)} mm`:'s/d';
   const celsius=f=>finite(f)?`${((Number(f)-32)*5/9).toFixed(1)} °C`:'s/d';
+  const diaDato=f=>{const m=String(f).match(/^(\d{4})-(\d{2})-(\d{2})/);if(!m)return esc(String(f));const ms=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];return 'día '+Number(m[3])+' '+ms[Number(m[2])-1]};
   const human=v=>{if(!v)return's/d';const d=new Date(v);return Number.isNaN(d.getTime())?esc(String(v).replace('T',' ')):d.toLocaleString('es-MX',{timeZone:'America/Mexico_City',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',hour12:false})};
   const active=()=>document.querySelector('#nav button.active')?.dataset.section||'';
 
@@ -131,7 +132,7 @@
       const p24=a&&finite(a.precipitacion_24h_mm)?Number(a.precipitacion_24h_mm):null;
       const ep=e&&finite(e.acumulado_epoca_lluviosa_mm)?Number(e.acumulado_epoca_lluviosa_mm):null;
       if(p24===null)continue;
-      rows.push(`<tr><td><b>${esc(name)}</b></td><td>INSIVUMEH</td><td>s/d</td><td>s/d</td><td>s/d</td><td>${p24===null?'s/d':mm(p24)}</td><td>s/d</td><td>s/d</td><td>${ep===null?'s/d':mm(ep)}</td><td>${human((a&&a.valor_vigente_desde_utc)||auto.consultado_utc)}</td></tr>`);
+      rows.push(`<tr><td><b>${esc(name)}</b></td><td>INSIVUMEH</td><td>s/d</td><td>s/d</td><td>s/d</td><td>${p24===null?'s/d':mm(p24)}</td><td>s/d</td><td>s/d</td><td>${ep===null?'s/d':mm(ep)}</td><td>${a&&a.fecha_dato?diaDato(a.fecha_dato):human((a&&a.valor_vigente_desde_utc)||auto.consultado_utc)}</td></tr>`);
     }
     const clean=String(data.fuente1||'').replace(/,/g,'');
     const lm=clean.match(/BHG21\s+Lacant[uú]n\s+Ocosingo\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/i);

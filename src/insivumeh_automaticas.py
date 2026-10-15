@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import csv
+import io
 import json
 import re
 from datetime import datetime, timezone
@@ -11,6 +13,7 @@ OUT = Path("data/fuentes_publicas/insivumeh_automaticas.json")
 URL = "https://www.insivumeh.gob.gt/img/estaciones_automaticas_met/"
 DASHBOARD_BASE = "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard"
 SEASON_URL = "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Departamentos.html"
+ACUDIA_URL = "https://insivumeh.gob.gt/img/MAPAS_24H/acudia_fecha.csv"
 CHRONO_URL = "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Cronologico_Grupo.html"
 UA = {"User-Agent": "Mozilla/5.0 Agente-Hidrometeorologico-Cloud/1.0"}
 
@@ -170,6 +173,42 @@ def main():
     except Exception as e:
         result["estado_mes_actual"] = "error_consulta"
         result["error_mes_actual"] = str(e)
+
+    # Lluvia diaria oficial con fecha explícita (acudia_fecha.csv: codigo, acudia, fecha_dato).
+    # Los tableros individuales llevan semanas sin cambiar (p. ej. Panzós: tablero 3.6 mm vs CSV 7.2 mm),
+    # así que el CSV es la fuente del valor diario; el valor del tablero queda solo como referencia.
+    try:
+        c2 = requests.get(ACUDIA_URL, headers=UA, timeout=35)
+        c2.raise_for_status()
+        daily = {}
+        for row in csv.DictReader(io.StringIO(response_text_utf8(c2))):
+            code = (row.get("codigo") or "").strip().upper()
+            try:
+                daily[code] = (float(row["acudia"]), (row.get("fecha_dato") or "").strip())
+            except (KeyError, TypeError, ValueError):
+                continue  # celda vacía = sin dato; nunca se convierte en 0
+        usados = 0
+        for name, code in ALTO_USUMACINTA.items():
+            if code not in daily:
+                continue
+            mm_dia, fecha = daily[code]
+            est = by_code.get(code)
+            if est is None:
+                est = {"estacion": name, "codigo": code, "estado_dato": "observado_preliminar"}
+                result["estaciones"].append(est)
+                by_code[code] = est
+            if est.get("precipitacion_24h_mm") is not None:
+                est["precipitacion_24h_tablero_mm"] = est["precipitacion_24h_mm"]
+            est["precipitacion_24h_mm"] = mm_dia
+            est["fecha_dato"] = fecha
+            est["fuente_24h"] = "acudia_fecha.csv (lluvia del día calendario fecha_dato)"
+            usados += 1
+        result["acudia_fecha_estado"] = "ok" if daily else "sin_filas"
+        result["acudia_fecha_estaciones_alto_usumacinta"] = usados
+        result["acudia_fecha_url"] = ACUDIA_URL
+    except Exception as e:
+        result["acudia_fecha_estado"] = "error_consulta"
+        result["acudia_fecha_error"] = str(e)
 
     # Los tableros de INSIVUMEH no traen fecha propia: si el valor de 24 h no cambió respecto a la
     # consulta anterior, se conserva desde cuándo se observa ese mismo valor para no aparentar frescura.
