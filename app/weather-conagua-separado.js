@@ -131,7 +131,7 @@
       const p24=a&&finite(a.precipitacion_24h_mm)?Number(a.precipitacion_24h_mm):null;
       const ep=e&&finite(e.acumulado_epoca_lluviosa_mm)?Number(e.acumulado_epoca_lluviosa_mm):null;
       if(p24===null)continue;
-      rows.push(`<tr><td><b>${esc(name)}</b></td><td>INSIVUMEH</td><td>s/d</td><td>s/d</td><td>s/d</td><td>${p24===null?'s/d':mm(p24)}</td><td>s/d</td><td>s/d</td><td>${ep===null?'s/d':mm(ep)}</td><td>${human(auto.consultado_utc)}</td></tr>`);
+      rows.push(`<tr><td><b>${esc(name)}</b></td><td>INSIVUMEH</td><td>s/d</td><td>s/d</td><td>s/d</td><td>${p24===null?'s/d':mm(p24)}</td><td>s/d</td><td>s/d</td><td>${ep===null?'s/d':mm(ep)}</td><td>${human((a&&a.valor_vigente_desde_utc)||auto.consultado_utc)}</td></tr>`);
     }
     const clean=String(data.fuente1||'').replace(/,/g,'');
     const lm=clean.match(/BHG21\s+Lacant[uú]n\s+Ocosingo\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/i);

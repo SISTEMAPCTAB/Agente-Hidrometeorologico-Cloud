@@ -118,8 +118,6 @@ jobs:
           # latest.json e insivumeh_historico.json se dejan fuera a propósito (los publican otros flujos
           # y el BHVGM funciona bien); aquí solo las estaciones automáticas y su contexto.
           for f in data/fuentes_publicas/insivumeh_automaticas.json \
-                   data/fuentes_publicas/diagnostico_insivumeh_mapa.txt \
-                   data/fuentes_publicas/diagnostico_insivumeh_alto.txt \
                    data/fuentes_publicas/insivumeh_contexto.json; do
             [ -f "$f" ] && git add "$f" || true
           done

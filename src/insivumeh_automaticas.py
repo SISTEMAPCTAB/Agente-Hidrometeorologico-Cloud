@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import base64
 import json
 import re
 from datetime import datetime, timezone
@@ -76,9 +75,9 @@ def monthly_rows_from_chrono(html: str):
     text = clean_html(html)
     rows = []
     for name, code in ALTO_USUMACINTA.items():
-        m = re.search(re.escape(name) + r"\s+(?:🌧️\s*)?(\d+(?:\.\d+)?)\s*mm\s+acumulados", text, re.I)
+        m = re.search(re.escape(name) + r"\s*(?:\|\s*)?(?:🌧️\s*)?(\d+(?:\.\d+)?)\s*mm\s+acumulados", text, re.I)
         if not m and name == "Playa Grande Met (Ixcan)":
-            m = re.search(r"Playa\s+Grande\s+Met\s*\(Ixc[aá]n\)\s+(?:🌧️\s*)?(\d+(?:\.\d+)?)\s*mm\s+acumulados", text, re.I)
+            m = re.search(r"Playa\s+Grande\s+Met\s*\(Ixc[aá]n\)\s*(?:\|\s*)?(?:🌧️\s*)?(\d+(?:\.\d+)?)\s*mm\s+acumulados", text, re.I)
         if m:
             rows.append({"estacion": name, "codigo": code, "acumulado_mensual_mm": float(m.group(1)), "estado_dato": "observado_preliminar", "url_producto": CHRONO_URL})
     return rows
@@ -99,14 +98,6 @@ def dashboard_row(name: str, code: str):
     return {"estacion": name, "codigo": code, "precipitacion_24h_mm": rain24, "temperatura_min_c": tmin, "temperatura_media_c": tmean, "temperatura_max_c": tmax, "humedad_relativa_pct": hum, "estado_dato": "observado_preliminar", "url_tablero": url}
 
 
-def _g_diag(u):
-    try:
-        rr = requests.get(u, headers=UA, timeout=30)
-        return rr.status_code, response_text_utf8(rr)
-    except Exception as ex:
-        return "ERR %s" % ex, ""
-
-
 def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc).isoformat()
@@ -119,31 +110,7 @@ def main():
         result["bytes"] = len(r.content)
         h = re.search(r"INFORMACI[ÓO]N\s+PRELIMINAR.*?[–-]\s*(\d{1,2}/[A-Za-z]{3}/\d{4}\s+\d{1,2}:\d{2})", clean_html(raw), re.I)
         result["corte_fuente"] = h.group(1) if h else None
-        # Desde oct-2026 el mapa (folium) guarda cada popup como <iframe src="data:text/html;...;base64,...">.
-        decoded = []
-        for b64 in re.findall(r"data:text/html;charset=utf-8;base64,([A-Za-z0-9+/=]+)", raw):
-            try:
-                decoded.append(base64.b64decode(b64).decode("utf-8", "replace"))
-            except Exception:
-                continue
-        result["popups_base64_decodificados"] = len(decoded)
-        try:  # diagnóstico: nombres de todos los popups y un popup completo
-            sin_estilo = lambda x: re.sub(r"<style.*?</style>", "", x, flags=re.S | re.I)
-            nombres = []
-            for x in decoded:
-                hm = re.search(r'class="header">(.*?)</div>', x, re.S)
-                fm = re.search(r'class="fuente">(.*?)</div>', x, re.S)
-                hr = re.search(r'class="hora">(.*?)</div>', x, re.S)
-                nombres.append(" | ".join(clean_html(m.group(1)) if m else "?" for m in (hm, fm, hr)))
-            ejemplo = ""
-            for x in decoded:
-                if re.search(r"Playa\s+Grande|Cahab|Panz|Tigre|Porvenir|Bethel|Machaqu", x, re.I):
-                    ejemplo = clean_html(sin_estilo(x))[:1500]; break
-            Path("data/fuentes_publicas/diagnostico_insivumeh_mapa.txt").write_text(
-                "POPUPS base64: %d\n\nEJEMPLO ALTO USUMACINTA:\n%s\n\nNOMBRES:\n%s" % (len(decoded), ejemplo, "\n".join(sorted(nombres))), encoding="utf-8")
-        except Exception as e:
-            Path("data/fuentes_publicas/diagnostico_insivumeh_mapa.txt").write_text("error diag: %s" % e, encoding="utf-8")
-        candidates = decoded + re.findall(r"(?:html_|popup_|tooltip_)[A-Za-z0-9_]+\s*=\s*\$\(`(.*?)`\)", raw, re.S)
+        candidates = re.findall(r"(?:html_|popup_|tooltip_)[A-Za-z0-9_]+\s*=\s*\$\(`(.*?)`\)", raw, re.S)
         if not candidates:
             candidates = re.findall(r"<div[^>]*>(.*?)</div>", raw, re.S | re.I)
         seen = set()
@@ -204,20 +171,19 @@ def main():
         result["estado_mes_actual"] = "error_consulta"
         result["error_mes_actual"] = str(e)
 
-    try:  # diagnóstico temporal (2): HTML crudo del progreso diario y listado de tableros
-        d2 = []
-        st, tx = _g_diag(CHRONO_URL)
-        d2.append(f"##### CRONO {st} {len(tx)} bytes")
-        m = re.search(r"Playa\s+Grande\s+Met", tx)
-        if m:
-            d2.append("RAW Playa Grande:\n" + tx[max(0, m.start() - 600):m.start() + 3500])
-        d2.append("RAW inicio:\n" + re.sub(r"<style.*?</style>", "", tx, flags=re.S)[:2500])
-        st, tx = _g_diag(DASHBOARD_BASE + "/")
-        cods = re.findall(r"(INS\w+)\.html\s*</a></td><td[^>]*>([^<]*)", tx)
-        d2.append(f"##### DIR {st}: {len(cods)} archivos; INS14-17: " + ", ".join(f"{c} {f.strip()}" for c, f in cods if c[3:5] in ("14", "15", "16", "17")))
-        Path("data/fuentes_publicas/diagnostico_insivumeh_alto.txt").write_text("\n".join(d2)[:40000], encoding="utf-8")
-    except Exception as ex:
-        Path("data/fuentes_publicas/diagnostico_insivumeh_alto.txt").write_text("error diag2: %s" % ex, encoding="utf-8")
+    # Los tableros de INSIVUMEH no traen fecha propia: si el valor de 24 h no cambió respecto a la
+    # consulta anterior, se conserva desde cuándo se observa ese mismo valor para no aparentar frescura.
+    try:
+        previo = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
+        prev_by = {str(x.get("codigo", "")).upper(): x for x in previo.get("estaciones", []) if x.get("codigo")}
+    except Exception:
+        prev_by = {}
+    for x in result["estaciones"]:
+        pv = prev_by.get(str(x.get("codigo", "")).upper())
+        if pv and pv.get("precipitacion_24h_mm") == x.get("precipitacion_24h_mm"):
+            x["valor_vigente_desde_utc"] = pv.get("valor_vigente_desde_utc") or previo.get("consultado_utc") or now
+        else:
+            x["valor_vigente_desde_utc"] = now
     result["total_estaciones_extraidas"] = len(result["estaciones"])
     result["estado"] = "ok" if (result["estaciones"] or result["acumulados_mes_actual"]) else "fuente_consultada_sin_dato_estructurado_extraible"
 
