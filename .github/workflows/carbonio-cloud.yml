@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: write
+  actions: write   # para lanzar niveles-cloud.yml (un push con GITHUB_TOKEN no dispara otros workflows)
 
 # Cola compartida: Carbonio, niveles y respaldos no publican datos simultáneamente.
 concurrency:
@@ -71,6 +72,8 @@ jobs:
 
       - name: Publicar datos de lectura e histórico semanal de presas
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -e
           mkdir -p data
@@ -83,6 +86,9 @@ jobs:
             echo "Sin cambios de datos para publicar."
             exit 0
           fi
+          # ¿Cambió el boletín FUENTE1? Entonces hay que lanzar el procesamiento de niveles y lluvia CONAGUA.
+          FUENTE1_NUEVA=false
+          git diff --cached --quiet -- data/latest/FUENTE1.txt || FUENTE1_NUEVA=true
 
           # No usar [skip ci]: FUENTE1/FUENTE2 deben activar procesamientos dependientes.
           git commit -m "Actualiza boletines Carbonio cloud"
@@ -90,6 +96,10 @@ jobs:
             echo "Intento de publicación Carbonio ${intento}/3"
             if git pull --rebase origin main && git push origin main; then
               echo "Boletines Carbonio publicados."
+              if [ "$FUENTE1_NUEVA" = "true" ]; then
+                # workflow_dispatch sí está permitido con GITHUB_TOKEN (a diferencia de un push).
+                gh workflow run niveles-cloud.yml --ref main && echo "Lanzado niveles-cloud.yml"
+              fi
               exit 0
             fi
             git rebase --abort 2>/dev/null || true
