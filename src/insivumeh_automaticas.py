@@ -99,6 +99,14 @@ def dashboard_row(name: str, code: str):
     return {"estacion": name, "codigo": code, "precipitacion_24h_mm": rain24, "temperatura_min_c": tmin, "temperatura_media_c": tmean, "temperatura_max_c": tmax, "humedad_relativa_pct": hum, "estado_dato": "observado_preliminar", "url_tablero": url}
 
 
+def _g_diag(u):
+    try:
+        rr = requests.get(u, headers=UA, timeout=30)
+        return rr.status_code, response_text_utf8(rr)
+    except Exception as ex:
+        return "ERR %s" % ex, ""
+
+
 def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc).isoformat()
@@ -196,23 +204,17 @@ def main():
         result["estado_mes_actual"] = "error_consulta"
         result["error_mes_actual"] = str(e)
 
-    try:  # diagnóstico temporal de las fuentes de las 9 estaciones de Alto Usumacinta
+    try:  # diagnóstico temporal (2): HTML crudo del progreso diario y listado de tableros
         d2 = []
-        def _g(u):
-            try:
-                rr = requests.get(u, headers=UA, timeout=30)
-                return rr.status_code, response_text_utf8(rr)
-            except Exception as ex:
-                return "ERR %s" % ex, ""
-        for etiqueta, u in (("DASH_OK", f"{DASHBOARD_BASE}/INS142201AT.html"), ("DASH_404", f"{DASHBOARD_BASE}/INS171302AT.html"),
-                            ("DASH_DIR", DASHBOARD_BASE + "/"), ("CRONO", CHRONO_URL), ("EPOCA", SEASON_URL)):
-            st, tx = _g(u)
-            d2.append(f"##### {etiqueta} {u} -> {st}, {len(tx)} bytes")
-            plano = clean_html(re.sub(r"<style.*?</style>|<script.*?</script>", "", tx, flags=re.S | re.I))
-            d2.append("TEXTO: " + plano[:1500])
-            for pat in (r"Playa\s+Grande", r"El\s+Tigre|INS171302AT", r"Cahab", r"Panz"):
-                for m in list(re.finditer(pat, plano, re.I))[:2]:
-                    d2.append(f"  [{pat}] " + plano[max(0, m.start() - 150):m.end() + 250])
+        st, tx = _g_diag(CHRONO_URL)
+        d2.append(f"##### CRONO {st} {len(tx)} bytes")
+        m = re.search(r"Playa\s+Grande\s+Met", tx)
+        if m:
+            d2.append("RAW Playa Grande:\n" + tx[max(0, m.start() - 600):m.start() + 3500])
+        d2.append("RAW inicio:\n" + re.sub(r"<style.*?</style>", "", tx, flags=re.S)[:2500])
+        st, tx = _g_diag(DASHBOARD_BASE + "/")
+        cods = re.findall(r"(INS\w+)\.html\s*</a></td><td[^>]*>([^<]*)", tx)
+        d2.append(f"##### DIR {st}: {len(cods)} archivos; INS14-17: " + ", ".join(f"{c} {f.strip()}" for c, f in cods if c[3:5] in ("14", "15", "16", "17")))
         Path("data/fuentes_publicas/diagnostico_insivumeh_alto.txt").write_text("\n".join(d2)[:40000], encoding="utf-8")
     except Exception as ex:
         Path("data/fuentes_publicas/diagnostico_insivumeh_alto.txt").write_text("error diag2: %s" % ex, encoding="utf-8")
