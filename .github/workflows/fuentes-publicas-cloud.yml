@@ -112,10 +112,15 @@ jobs:
           set -e
           git config user.name "Agente Hidrometeorologico Cloud"
           git config user.email "actions@users.noreply.github.com"
-          git add data/fuentes_publicas/latest.json \
-                  data/fuentes_publicas/insivumeh_automaticas.json \
-                  data/fuentes_publicas/insivumeh_historico.json \
-                  data/fuentes_publicas/insivumeh_contexto.json 2>/dev/null || true
+          # Un solo "git add" con un archivo inexistente cancela TODO el add (fatal: pathspec) y el
+          # "|| true" lo ocultaba: las estaciones automáticas dejaron de publicarse el 8-oct.
+          # Se agrega cada archivo por separado y solo si existe.
+          # latest.json e insivumeh_historico.json se dejan fuera a propósito (los publican otros flujos
+          # y el BHVGM funciona bien); aquí solo las estaciones automáticas y su contexto.
+          for f in data/fuentes_publicas/insivumeh_automaticas.json \
+                   data/fuentes_publicas/insivumeh_contexto.json; do
+            [ -f "$f" ] && git add "$f" || true
+          done
           # Alto Usumacinta tiene un único dueño: alto-usumacinta-hidro.yml
           git diff --cached --quiet && exit 0
           git commit -m "Actualiza fuentes públicas [skip ci]"
