@@ -119,14 +119,22 @@ def main():
             except Exception:
                 continue
         result["popups_base64_decodificados"] = len(decoded)
-        try:  # muestra para diagnóstico
+        try:  # diagnóstico: nombres de todos los popups y un popup completo
             sin_estilo = lambda x: re.sub(r"<style.*?</style>", "", x, flags=re.S | re.I)
-            muestra = [sin_estilo(x).replace("\n", " ")[:1200] for x in decoded[:2]]
-            hit = [sin_estilo(x).replace("\n", " ")[:1200] for x in decoded if re.search(r"Playa\s+Grande|Cahab|Panz", x, re.I)][:2]
+            nombres = []
+            for x in decoded:
+                hm = re.search(r'class="header">(.*?)</div>', x, re.S)
+                fm = re.search(r'class="fuente">(.*?)</div>', x, re.S)
+                hr = re.search(r'class="hora">(.*?)</div>', x, re.S)
+                nombres.append(" | ".join(clean_html(m.group(1)) if m else "?" for m in (hm, fm, hr)))
+            ejemplo = ""
+            for x in decoded:
+                if re.search(r"Playa\s+Grande|Cahab|Panz|Tigre|Porvenir|Bethel|Machaqu", x, re.I):
+                    ejemplo = clean_html(sin_estilo(x))[:1500]; break
             Path("data/fuentes_publicas/diagnostico_insivumeh_mapa.txt").write_text(
-                "POPUPS base64: %d\n\n" % len(decoded) + "\n---\n".join(muestra + hit), encoding="utf-8")
-        except Exception:
-            pass
+                "POPUPS base64: %d\n\nEJEMPLO ALTO USUMACINTA:\n%s\n\nNOMBRES:\n%s" % (len(decoded), ejemplo, "\n".join(sorted(nombres))), encoding="utf-8")
+        except Exception as e:
+            Path("data/fuentes_publicas/diagnostico_insivumeh_mapa.txt").write_text("error diag: %s" % e, encoding="utf-8")
         candidates = decoded + re.findall(r"(?:html_|popup_|tooltip_)[A-Za-z0-9_]+\s*=\s*\$\(`(.*?)`\)", raw, re.S)
         if not candidates:
             candidates = re.findall(r"<div[^>]*>(.*?)</div>", raw, re.S | re.I)
