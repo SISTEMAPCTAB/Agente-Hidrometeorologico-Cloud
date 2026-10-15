@@ -112,7 +112,7 @@ def main():
         result["corte_fuente"] = h.group(1) if h else None
         try:  # diagnóstico compacto de la estructura actual (la página pesa ~2 MB)
             diag = [f"bytes={len(raw)} corte={result['corte_fuente']}"]
-            for pat in (r"Playa\s+Grande", r"Cahab[oó]n", r"Panz[oó]s", r"INS\d{6}[A-Z]{2}", r"precipitaci[oó]n|lluvia", r"<script[^>]*src=[^>]+>", r"fetch\(|\.json|geojson|L\.marker|circleMarker"):
+            for pat in (r"var html_[0-9a-f]+", r"setContent", r"bindPopup|bindTooltip|L\.popup", r"mm/h|mm\b", r"Estaci[oó]n"):
                 ms = list(re.finditer(pat, raw, re.I))
                 diag.append(f"\n=== {pat}: {len(ms)} coincidencias ===")
                 for m in ms[:4]:
