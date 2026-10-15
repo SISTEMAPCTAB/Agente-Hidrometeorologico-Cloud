@@ -196,6 +196,26 @@ def main():
         result["estado_mes_actual"] = "error_consulta"
         result["error_mes_actual"] = str(e)
 
+    try:  # diagnóstico temporal de las fuentes de las 9 estaciones de Alto Usumacinta
+        d2 = []
+        def _g(u):
+            try:
+                rr = requests.get(u, headers=UA, timeout=30)
+                return rr.status_code, response_text_utf8(rr)
+            except Exception as ex:
+                return "ERR %s" % ex, ""
+        for etiqueta, u in (("DASH_OK", f"{DASHBOARD_BASE}/INS142201AT.html"), ("DASH_404", f"{DASHBOARD_BASE}/INS171302AT.html"),
+                            ("DASH_DIR", DASHBOARD_BASE + "/"), ("CRONO", CHRONO_URL), ("EPOCA", SEASON_URL)):
+            st, tx = _g(u)
+            d2.append(f"##### {etiqueta} {u} -> {st}, {len(tx)} bytes")
+            plano = clean_html(re.sub(r"<style.*?</style>|<script.*?</script>", "", tx, flags=re.S | re.I))
+            d2.append("TEXTO: " + plano[:1500])
+            for pat in (r"Playa\s+Grande", r"El\s+Tigre|INS171302AT", r"Cahab", r"Panz"):
+                for m in list(re.finditer(pat, plano, re.I))[:2]:
+                    d2.append(f"  [{pat}] " + plano[max(0, m.start() - 150):m.end() + 250])
+        Path("data/fuentes_publicas/diagnostico_insivumeh_alto.txt").write_text("\n".join(d2)[:40000], encoding="utf-8")
+    except Exception as ex:
+        Path("data/fuentes_publicas/diagnostico_insivumeh_alto.txt").write_text("error diag2: %s" % ex, encoding="utf-8")
     result["total_estaciones_extraidas"] = len(result["estaciones"])
     result["estado"] = "ok" if (result["estaciones"] or result["acumulados_mes_actual"]) else "fuente_consultada_sin_dato_estructurado_extraible"
 
