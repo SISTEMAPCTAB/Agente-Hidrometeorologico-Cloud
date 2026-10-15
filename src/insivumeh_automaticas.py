@@ -120,8 +120,9 @@ def main():
                 continue
         result["popups_base64_decodificados"] = len(decoded)
         try:  # muestra para diagnóstico
-            muestra = [clean_html(x)[:300] for x in decoded[:3]]
-            hit = [clean_html(x)[:300] for x in decoded if re.search(r"Playa\s+Grande|Cahab", x, re.I)][:2]
+            sin_estilo = lambda x: re.sub(r"<style.*?</style>", "", x, flags=re.S | re.I)
+            muestra = [sin_estilo(x).replace("\n", " ")[:1200] for x in decoded[:2]]
+            hit = [sin_estilo(x).replace("\n", " ")[:1200] for x in decoded if re.search(r"Playa\s+Grande|Cahab|Panz", x, re.I)][:2]
             Path("data/fuentes_publicas/diagnostico_insivumeh_mapa.txt").write_text(
                 "POPUPS base64: %d\n\n" % len(decoded) + "\n---\n".join(muestra + hit), encoding="utf-8")
         except Exception:
