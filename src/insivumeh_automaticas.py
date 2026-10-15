@@ -110,6 +110,17 @@ def main():
         result["bytes"] = len(r.content)
         h = re.search(r"INFORMACI[ÓO]N\s+PRELIMINAR.*?[–-]\s*(\d{1,2}/[A-Za-z]{3}/\d{4}\s+\d{1,2}:\d{2})", clean_html(raw), re.I)
         result["corte_fuente"] = h.group(1) if h else None
+        try:  # diagnóstico compacto de la estructura actual (la página pesa ~2 MB)
+            diag = [f"bytes={len(raw)} corte={result['corte_fuente']}"]
+            for pat in (r"Playa\s+Grande", r"Cahab[oó]n", r"Panz[oó]s", r"INS\d{6}[A-Z]{2}", r"precipitaci[oó]n|lluvia", r"<script[^>]*src=[^>]+>", r"fetch\(|\.json|geojson|L\.marker|circleMarker"):
+                ms = list(re.finditer(pat, raw, re.I))
+                diag.append(f"\n=== {pat}: {len(ms)} coincidencias ===")
+                for m in ms[:4]:
+                    a, b = max(0, m.start() - 250), min(len(raw), m.end() + 450)
+                    diag.append(raw[a:b].replace("\n", " ")[:700])
+            Path("data/fuentes_publicas/diagnostico_insivumeh_mapa.txt").write_text("\n".join(diag)[:45000], encoding="utf-8")
+        except Exception:
+            pass
         candidates = re.findall(r"(?:html_|popup_|tooltip_)[A-Za-z0-9_]+\s*=\s*\$\(`(.*?)`\)", raw, re.S)
         if not candidates:
             candidates = re.findall(r"<div[^>]*>(.*?)</div>", raw, re.S | re.I)
