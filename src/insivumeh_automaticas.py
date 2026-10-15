@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import json
 import re
 from datetime import datetime, timezone
@@ -110,18 +111,22 @@ def main():
         result["bytes"] = len(r.content)
         h = re.search(r"INFORMACI[ÓO]N\s+PRELIMINAR.*?[–-]\s*(\d{1,2}/[A-Za-z]{3}/\d{4}\s+\d{1,2}:\d{2})", clean_html(raw), re.I)
         result["corte_fuente"] = h.group(1) if h else None
-        try:  # diagnóstico compacto de la estructura actual (la página pesa ~2 MB)
-            diag = [f"bytes={len(raw)} corte={result['corte_fuente']}"]
-            for pat in (r"var html_[0-9a-f]+", r"setContent", r"bindPopup|bindTooltip|L\.popup", r"mm/h|mm\b", r"Estaci[oó]n"):
-                ms = list(re.finditer(pat, raw, re.I))
-                diag.append(f"\n=== {pat}: {len(ms)} coincidencias ===")
-                for m in ms[:4]:
-                    a, b = max(0, m.start() - 250), min(len(raw), m.end() + 450)
-                    diag.append(raw[a:b].replace("\n", " ")[:700])
-            Path("data/fuentes_publicas/diagnostico_insivumeh_mapa.txt").write_text("\n".join(diag)[:45000], encoding="utf-8")
+        # Desde oct-2026 el mapa (folium) guarda cada popup como <iframe src="data:text/html;...;base64,...">.
+        decoded = []
+        for b64 in re.findall(r"data:text/html;charset=utf-8;base64,([A-Za-z0-9+/=]+)", raw):
+            try:
+                decoded.append(base64.b64decode(b64).decode("utf-8", "replace"))
+            except Exception:
+                continue
+        result["popups_base64_decodificados"] = len(decoded)
+        try:  # muestra para diagnóstico
+            muestra = [clean_html(x)[:300] for x in decoded[:3]]
+            hit = [clean_html(x)[:300] for x in decoded if re.search(r"Playa\s+Grande|Cahab", x, re.I)][:2]
+            Path("data/fuentes_publicas/diagnostico_insivumeh_mapa.txt").write_text(
+                "POPUPS base64: %d\n\n" % len(decoded) + "\n---\n".join(muestra + hit), encoding="utf-8")
         except Exception:
             pass
-        candidates = re.findall(r"(?:html_|popup_|tooltip_)[A-Za-z0-9_]+\s*=\s*\$\(`(.*?)`\)", raw, re.S)
+        candidates = decoded + re.findall(r"(?:html_|popup_|tooltip_)[A-Za-z0-9_]+\s*=\s*\$\(`(.*?)`\)", raw, re.S)
         if not candidates:
             candidates = re.findall(r"<div[^>]*>(.*?)</div>", raw, re.S | re.I)
         seen = set()
