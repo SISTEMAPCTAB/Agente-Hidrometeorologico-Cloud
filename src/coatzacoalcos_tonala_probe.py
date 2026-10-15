@@ -25,6 +25,16 @@ def fresh_page_url():
 sources={key:[url] for key,url in SEEDS.items()}
 sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf")
 sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf")
+# Último informe confirmado a mano (13-oct-2026). Sin esta ancla, la predicción del número de archivo
+# partía del 2-oct y se pasaba de la ventana (real 1108510; se predecía ~1109600).
+sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/1108510/Informe_Matutino_13102026.pdf")
+# Anclas adicionales: todos los informes ya validados y guardados, para que la ventana parta del más reciente.
+try:
+ _prev=json.loads((OUT/"latest.json").read_text(encoding="utf-8"))
+ for _h in _prev.get("history",[]):
+  _u=_h.get("source_url","")
+  if "Informe_Matutino_" in _u and _u not in sources["matutino"]:sources["matutino"].append(_u)
+except (OSError,ValueError):pass
 # gob.mx puede bloquear (HTTP 403) a los runners de GitHub aunque el informe sea público.
 # Como respaldo de transporte se usa Jina Reader sobre la MISMA URL oficial.
 # La fecha y los valores siguen validándose contra el contenido recuperado del documento oficial.
@@ -210,8 +220,8 @@ if known:
   stamp=target_date.strftime("%d%m%Y")
   days=max(1,(target_date-last_date).days)
   predicted=last_id+days*daily_rate
-  lo=max(last_id+1,predicted-600)
-  hi=predicted+600
+  lo=max(last_id+1,predicted-900)
+  hi=predicted+900
   result["discovery"]["filename_probe_windows"].append({"date":target_date.isoformat(),"from":lo,"to":hi,"predicted":predicted,"daily_rate":daily_rate,"base_date":last_date.isoformat(),"base_id":last_id})
   def probe_id(fid):
    candidate=f"https://www.gob.mx/cms/uploads/attachment/file/{fid}/Informe_Matutino_{stamp}.pdf"
