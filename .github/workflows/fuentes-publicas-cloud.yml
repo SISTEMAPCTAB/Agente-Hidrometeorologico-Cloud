@@ -128,7 +128,8 @@ jobs:
           # git pull --rebase se niega a correr con cambios sin confirmar, así que se apartan.
           git stash push -u -q || true
           for intento in 1 2 3; do
-            if git pull --rebase origin main && git push origin main; then exit 0; fi
+            # -X theirs: ante un choque con otra corrida gana este cambio (el más reciente de esta ejecución)
+            if git pull --rebase -X theirs origin main && git push origin main; then exit 0; fi
             git rebase --abort 2>/dev/null || true
             sleep $((intento * 10))
           done
