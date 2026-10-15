@@ -1,0 +1,22 @@
+name: Diagnóstico INSIVUMEH (temporal, manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests
+      - run: python src/diag_insivumeh.py
+      - run: |
+          git config user.name "Agente Hidrometeorologico Cloud"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/fuentes_publicas/diagnostico_insivumeh_fuentes.txt
+          git commit -m "Diagnóstico INSIVUMEH fuentes [skip ci]"
+          for i in 1 2 3; do git pull --rebase origin main && git push origin main && exit 0; sleep 5; done; exit 1
