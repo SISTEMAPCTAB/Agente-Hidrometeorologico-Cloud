@@ -2,45 +2,108 @@
   "fuente": "INSIVUMEH",
   "producto": "Estaciones meteorologicas automaticas y acumulados oficiales",
   "url": "https://www.insivumeh.gob.gt/img/estaciones_automaticas_met/",
-  "consultado_utc": "2026-10-15T17:11:00.712123+00:00",
+  "consultado_utc": "2026-10-15T17:26:29.496072+00:00",
   "independiente_weatherlink": true,
   "estado": "ok",
   "estaciones": [
     {
       "estacion": "Playa Grande Met (Ixcan)",
       "codigo": "INS142201AT",
-      "precipitacion_24h_mm": 12.5,
+      "precipitacion_24h_mm": 0.0,
       "temperatura_min_c": null,
       "temperatura_media_c": null,
       "temperatura_max_c": null,
       "humedad_relativa_pct": null,
       "estado_dato": "observado_preliminar",
       "url_tablero": "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS142201AT.html",
-      "valor_vigente_desde_utc": "2026-10-08T09:10:35.634294+00:00"
+      "precipitacion_24h_tablero_mm": 12.5,
+      "fecha_dato": "2026-10-14",
+      "fuente_24h": "acudia_fecha.csv (lluvia del día calendario fecha_dato)",
+      "valor_vigente_desde_utc": "2026-10-15T17:26:29.496072+00:00"
     },
     {
       "estacion": "Santa María Cahabón",
       "codigo": "INS161201CV",
-      "precipitacion_24h_mm": 0.0,
+      "precipitacion_24h_mm": 8.1,
       "temperatura_min_c": 23.4,
       "temperatura_media_c": 30.5,
       "temperatura_max_c": 36.8,
       "humedad_relativa_pct": 92.0,
       "estado_dato": "observado_preliminar",
       "url_tablero": "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS161201CV.html",
-      "valor_vigente_desde_utc": "2026-10-08T09:10:35.634294+00:00"
+      "precipitacion_24h_tablero_mm": 0.0,
+      "fecha_dato": "2026-10-14",
+      "fuente_24h": "acudia_fecha.csv (lluvia del día calendario fecha_dato)",
+      "valor_vigente_desde_utc": "2026-10-15T17:26:29.496072+00:00"
     },
     {
       "estacion": "Panzos PHC Altaverapaz",
       "codigo": "INS160701CV",
-      "precipitacion_24h_mm": 3.6,
+      "precipitacion_24h_mm": 7.2,
       "temperatura_min_c": 23.8,
       "temperatura_media_c": 29.0,
       "temperatura_max_c": 36.8,
       "humedad_relativa_pct": 85.0,
       "estado_dato": "observado_preliminar",
       "url_tablero": "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS160701CV.html",
-      "valor_vigente_desde_utc": "2026-10-08T09:10:35.634294+00:00"
+      "precipitacion_24h_tablero_mm": 3.6,
+      "fecha_dato": "2026-10-14",
+      "fuente_24h": "acudia_fecha.csv (lluvia del día calendario fecha_dato)",
+      "valor_vigente_desde_utc": "2026-10-15T17:26:29.496072+00:00"
+    },
+    {
+      "estacion": "El Tigre",
+      "codigo": "INS171302AT",
+      "estado_dato": "observado_preliminar",
+      "precipitacion_24h_mm": 86.0,
+      "fecha_dato": "2026-10-14",
+      "fuente_24h": "acudia_fecha.csv (lluvia del día calendario fecha_dato)",
+      "valor_vigente_desde_utc": "2026-10-15T17:26:29.496072+00:00"
+    },
+    {
+      "estacion": "El Porvenir",
+      "codigo": "INS171001AT",
+      "estado_dato": "observado_preliminar",
+      "precipitacion_24h_mm": 17.6,
+      "fecha_dato": "2026-10-14",
+      "fuente_24h": "acudia_fecha.csv (lluvia del día calendario fecha_dato)",
+      "valor_vigente_desde_utc": "2026-10-15T17:26:29.496072+00:00"
+    },
+    {
+      "estacion": "Bethel",
+      "codigo": "INS171301AT",
+      "estado_dato": "observado_preliminar",
+      "precipitacion_24h_mm": 1.0,
+      "fecha_dato": "2026-10-14",
+      "fuente_24h": "acudia_fecha.csv (lluvia del día calendario fecha_dato)",
+      "valor_vigente_desde_utc": "2026-10-15T17:26:29.496072+00:00"
+    },
+    {
+      "estacion": "Machaquilá",
+      "codigo": "INS171201AT",
+      "estado_dato": "observado_preliminar",
+      "precipitacion_24h_mm": 4.4,
+      "fecha_dato": "2026-10-14",
+      "fuente_24h": "acudia_fecha.csv (lluvia del día calendario fecha_dato)",
+      "valor_vigente_desde_utc": "2026-10-15T17:26:29.496072+00:00"
+    },
+    {
+      "estacion": "Mactún",
+      "codigo": "INS170401AT",
+      "estado_dato": "observado_preliminar",
+      "precipitacion_24h_mm": 1.2,
+      "fecha_dato": "2026-10-14",
+      "fuente_24h": "acudia_fecha.csv (lluvia del día calendario fecha_dato)",
+      "valor_vigente_desde_utc": "2026-10-15T17:26:29.496072+00:00"
+    },
+    {
+      "estacion": "Chixoy Hidro",
+      "codigo": "INS161301AT",
+      "estado_dato": "observado_preliminar",
+      "precipitacion_24h_mm": 3.0,
+      "fecha_dato": "2026-10-14",
+      "fuente_24h": "acudia_fecha.csv (lluvia del día calendario fecha_dato)",
+      "valor_vigente_desde_utc": "2026-10-15T17:26:29.496072+00:00"
     }
   ],
   "acumulados_mes_actual": [
@@ -647,8 +710,8 @@
   ],
   "nota": "Datos oficiales/preliminares según producto. No se sustituyen s/d por cero y no se estiman valores desde colores del mapa.",
   "http_status": 200,
-  "bytes": 2359437,
-  "corte_fuente": "15/Oct/2026 11:10",
+  "bytes": 2352995,
+  "corte_fuente": "15/Oct/2026 11:25",
   "estado_mapa_automatico": "fuente_consultada_sin_dato_estructurado_extraible",
   "tableros_alto_usumacinta_consultados": 9,
   "tableros_alto_usumacinta_con_dato": 3,
@@ -662,7 +725,10 @@
   },
   "url_progreso_diario": "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Cronologico_Grupo.html",
   "estado_mes_actual": "ok",
-  "total_estaciones_extraidas": 3,
+  "acudia_fecha_estado": "ok",
+  "acudia_fecha_estaciones_alto_usumacinta": 9,
+  "acudia_fecha_url": "https://insivumeh.gob.gt/img/MAPAS_24H/acudia_fecha.csv",
+  "total_estaciones_extraidas": 9,
   "periodo_epoca_lluviosa": {
     "inicio": "01/05/2026",
     "fin": "14/10/2026"
