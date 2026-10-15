@@ -2,7 +2,7 @@
   "fuente": "INSIVUMEH",
   "producto": "Estaciones meteorologicas automaticas y acumulados oficiales",
   "url": "https://www.insivumeh.gob.gt/img/estaciones_automaticas_met/",
-  "consultado_utc": "2026-10-15T17:08:53.889664+00:00",
+  "consultado_utc": "2026-10-15T17:11:00.712123+00:00",
   "independiente_weatherlink": true,
   "estado": "ok",
   "estaciones": [
@@ -15,7 +15,8 @@
       "temperatura_max_c": null,
       "humedad_relativa_pct": null,
       "estado_dato": "observado_preliminar",
-      "url_tablero": "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS142201AT.html"
+      "url_tablero": "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS142201AT.html",
+      "valor_vigente_desde_utc": "2026-10-15T17:08:53.889664+00:00"
     },
     {
       "estacion": "Santa María Cahabón",
@@ -26,7 +27,8 @@
       "temperatura_max_c": 36.8,
       "humedad_relativa_pct": 92.0,
       "estado_dato": "observado_preliminar",
-      "url_tablero": "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS161201CV.html"
+      "url_tablero": "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS161201CV.html",
+      "valor_vigente_desde_utc": "2026-10-15T17:08:53.889664+00:00"
     },
     {
       "estacion": "Panzos PHC Altaverapaz",
@@ -37,10 +39,75 @@
       "temperatura_max_c": 36.8,
       "humedad_relativa_pct": 85.0,
       "estado_dato": "observado_preliminar",
-      "url_tablero": "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS160701CV.html"
+      "url_tablero": "https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS160701CV.html",
+      "valor_vigente_desde_utc": "2026-10-15T17:08:53.889664+00:00"
     }
   ],
-  "acumulados_mes_actual": [],
+  "acumulados_mes_actual": [
+    {
+      "estacion": "El Tigre",
+      "codigo": "INS171302AT",
+      "acumulado_mensual_mm": 97.5,
+      "estado_dato": "observado_preliminar",
+      "url_producto": "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Cronologico_Grupo.html"
+    },
+    {
+      "estacion": "El Porvenir",
+      "codigo": "INS171001AT",
+      "acumulado_mensual_mm": 139.6,
+      "estado_dato": "observado_preliminar",
+      "url_producto": "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Cronologico_Grupo.html"
+    },
+    {
+      "estacion": "Bethel",
+      "codigo": "INS171301AT",
+      "acumulado_mensual_mm": 79.1,
+      "estado_dato": "observado_preliminar",
+      "url_producto": "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Cronologico_Grupo.html"
+    },
+    {
+      "estacion": "Machaquilá",
+      "codigo": "INS171201AT",
+      "acumulado_mensual_mm": 83.5,
+      "estado_dato": "observado_preliminar",
+      "url_producto": "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Cronologico_Grupo.html"
+    },
+    {
+      "estacion": "Mactún",
+      "codigo": "INS170401AT",
+      "acumulado_mensual_mm": 101.5,
+      "estado_dato": "observado_preliminar",
+      "url_producto": "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Cronologico_Grupo.html"
+    },
+    {
+      "estacion": "Chixoy Hidro",
+      "codigo": "INS161301AT",
+      "acumulado_mensual_mm": 89.3,
+      "estado_dato": "observado_preliminar",
+      "url_producto": "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Cronologico_Grupo.html"
+    },
+    {
+      "estacion": "Playa Grande Met (Ixcan)",
+      "codigo": "INS142201AT",
+      "acumulado_mensual_mm": 132.1,
+      "estado_dato": "observado_preliminar",
+      "url_producto": "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Cronologico_Grupo.html"
+    },
+    {
+      "estacion": "Santa María Cahabón",
+      "codigo": "INS161201CV",
+      "acumulado_mensual_mm": 135.0,
+      "estado_dato": "observado_preliminar",
+      "url_producto": "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Cronologico_Grupo.html"
+    },
+    {
+      "estacion": "Panzos PHC Altaverapaz",
+      "codigo": "INS160701CV",
+      "acumulado_mensual_mm": 194.6,
+      "estado_dato": "observado_preliminar",
+      "url_producto": "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Cronologico_Grupo.html"
+    }
+  ],
   "acumulados_epoca_lluviosa": [
     {
       "estacion": "Chixoy Hidro",
@@ -580,9 +647,8 @@
   ],
   "nota": "Datos oficiales/preliminares según producto. No se sustituyen s/d por cero y no se estiman valores desde colores del mapa.",
   "http_status": 200,
-  "bytes": 2364513,
-  "corte_fuente": "15/Oct/2026 11:05",
-  "popups_base64_decodificados": 223,
+  "bytes": 2359437,
+  "corte_fuente": "15/Oct/2026 11:10",
   "estado_mapa_automatico": "fuente_consultada_sin_dato_estructurado_extraible",
   "tableros_alto_usumacinta_consultados": 9,
   "tableros_alto_usumacinta_con_dato": 3,
@@ -595,7 +661,7 @@
     "INS161301AT": "404 Client Error: Not Found for url: https://insivumeh.gob.gt/img/Estaciones_Met/output_dashboard/INS161301AT.html"
   },
   "url_progreso_diario": "https://insivumeh.gob.gt/img/MAPAS_24H/Sin_Lluvia/Resumen_Cronologico_Grupo.html",
-  "estado_mes_actual": "sin_dato_estructurado_extraible",
+  "estado_mes_actual": "ok",
   "total_estaciones_extraidas": 3,
   "periodo_epoca_lluviosa": {
     "inicio": "01/05/2026",
