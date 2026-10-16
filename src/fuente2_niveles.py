@@ -100,6 +100,38 @@ def validate_layout(st, nums):
     return errors
 
 
+def locate_actual(st, nums):
+    """Ubica ESCALA ACTUAL sin depender del número de columnas.
+
+    El boletín omite o incluye columnas de gasto según el día (11, 12 o más
+    tokens). Las dos últimas cifras siempre son Dif. 24 h y Dif. al NAMO, así que
+    la escala actual es el único token (después de NAME/gasto/NAMO) que cumple a
+    la vez: actual - NAMO = Dif. NAMO, y existe un token previo (día anterior)
+    tal que actual - anterior = Dif. 24 h. Si no hay exactamente un candidato,
+    se rechaza y no se publica nada dudoso.
+    Devuelve (indice_actual, indice_anterior) o (None, motivo).
+    """
+    if st.get("namo") is None or len(nums) < 7:
+        return None, "sin NAMO o columnas insuficientes para validación cruzada"
+    if abs(nums[0] - st["name"]) > 0.05:
+        return None, f"NAME fuera de posición: esperado {st['name']}, recibido {nums[0]}"
+    if abs(nums[2] - st["namo"]) > 0.05:
+        return None, f"NAMO fuera de posición: esperado {st['namo']}, recibido {nums[2]}"
+    variacion, distancia = nums[-2], nums[-1]
+    matches = []
+    for i in range(4, len(nums) - 2):
+        actual = nums[i]
+        if abs(actual - st["namo"] - distancia) > 0.06:
+            continue
+        for j in range(3, i):
+            if abs(actual - nums[j] - variacion) <= 0.06:
+                matches.append((i, j))
+                break
+    if len(matches) != 1:
+        return None, f"escala actual no identificable de forma única ({len(matches)} candidatos)"
+    return matches[0]
+
+
 def extract_values(text):
     values = {}
     diagnostics = {}
@@ -107,12 +139,20 @@ def extract_values(text):
         line = find_line(text, st["label"])
         nums = numeric_tokens(line or "")
         errors = [] if line else ["fila no encontrada"]
-        if line:
+        idx_used = st["idx"]
+        if line and st.get("namo") is not None:
+            # Validación cruzada contra Dif. 24 h y Dif. NAMO (independiente del layout).
+            found, info = locate_actual(st, nums)
+            if found is None:
+                errors.append(info)
+            else:
+                idx_used = found
+        elif line:
             errors.extend(validate_layout(st, nums))
 
         value = None
-        if not errors and len(nums) > st["idx"]:
-            candidate = nums[st["idx"]]
+        if not errors and len(nums) > idx_used:
+            candidate = nums[idx_used]
             if not math.isfinite(candidate) or candidate < -5 or candidate > 60:
                 errors.append(f"nivel fuera de rango general: {candidate}")
             # Barrera adicional contra temperaturas/gastos capturados como escala.
@@ -127,7 +167,7 @@ def extract_values(text):
             "line": line,
             "numeric_count": len(nums),
             "tokens": nums,
-            "idx_actual": st["idx"],
+            "idx_actual": idx_used,
             "value": value,
             "validation_errors": errors,
         }
