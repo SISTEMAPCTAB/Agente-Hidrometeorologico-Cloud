@@ -108,9 +108,12 @@ jobs:
               print('BHVGM agregado actualizado:',source['fecha'],source['hora'])
           else:print('BHVGM agregado conservado; no existe corte observado más reciente')
           PY
+            # Evolución real El Tigre/El Porvenir (aditivo; si falla no detiene la publicación)
+            python3 src/insivumeh_evolucion_alto.py || true
             git add data/fuentes_publicas/insivumeh_alto_hidro.json \
                     data/fuentes_publicas/insivumeh_alto_hidro_historico.json \
-                    data/fuentes_publicas/latest.json
+                    data/fuentes_publicas/latest.json \
+                    data/fuentes_publicas/insivumeh_historico.json
             if git diff --cached --quiet; then
               echo "El producto ya está publicado o no cambió."
               exit 0
