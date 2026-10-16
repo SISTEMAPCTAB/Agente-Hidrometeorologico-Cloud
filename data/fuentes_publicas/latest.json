@@ -610,22 +610,22 @@
     {
       "estacion": "El Tigre",
       "rio": "Usumacinta",
-      "desde": "15/10/2026 08:00",
-      "hasta": "15/10/2026 14:00",
-      "horas_transcurridas": 6.0,
-      "delta_nivel_m": -0.36,
-      "delta_caudal_m3s": -156.52,
+      "desde": "15/10/2026 14:00",
+      "hasta": "16/10/2026 08:00",
+      "horas_transcurridas": 18.0,
+      "delta_nivel_m": -0.38,
+      "delta_caudal_m3s": -165.22,
       "tendencia_calculada": "disminuyendo",
       "fuente_evolucion": "insivumeh_alto_hidro_historico"
     },
     {
       "estacion": "El Porvenir",
       "rio": "La Pasión",
-      "desde": "15/10/2026 08:00",
-      "hasta": "15/10/2026 14:00",
-      "horas_transcurridas": 6.0,
+      "desde": "15/10/2026 14:00",
+      "hasta": "16/10/2026 08:00",
+      "horas_transcurridas": 18.0,
       "delta_nivel_m": -0.03,
-      "delta_caudal_m3s": -12.31,
+      "delta_caudal_m3s": -12.21,
       "tendencia_calculada": "disminuyendo",
       "fuente_evolucion": "insivumeh_alto_hidro_historico"
     }
@@ -832,8 +832,8 @@
   "senal_usumacinta_alta": "Señal aguas arriba disminuyendo",
   "insivumeh_bhvgm_actual": {
     "boletin": null,
-    "fecha": "15/10/2026",
-    "hora": "14:00",
+    "fecha": "16/10/2026",
+    "hora": "08:00",
     "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
     "estaciones": [
       {
@@ -844,11 +844,11 @@
         "nivel_referencia_max_m": 10.0,
         "caudal_referencia_min_m3s": 486.87,
         "caudal_referencia_max_m3s": 2856.43,
-        "nivel_instantaneo_m": 9.94,
-        "caudal_instantaneo_m3s": 2830.35,
+        "nivel_instantaneo_m": 9.56,
+        "caudal_instantaneo_m3s": 2665.13,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "15/10/2026 14:00"
+        "ultima_observacion_fuente": "16/10/2026 08:00"
       },
       {
         "estacion": "El Porvenir",
@@ -858,11 +858,11 @@
         "nivel_referencia_max_m": 3.0,
         "caudal_referencia_min_m3s": 93.04,
         "caudal_referencia_max_m3s": 399.28,
-        "nivel_instantaneo_m": 4.8,
-        "caudal_instantaneo_m3s": 967.86,
+        "nivel_instantaneo_m": 4.77,
+        "caudal_instantaneo_m3s": 955.65,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "15/10/2026 14:00"
+        "ultima_observacion_fuente": "16/10/2026 08:00"
       }
     ],
     "el_tigre_publicado": true
