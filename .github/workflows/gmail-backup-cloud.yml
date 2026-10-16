@@ -206,6 +206,7 @@ jobs:
             data/niveles/Estado_Gmail_Backup.json
             data/niveles/Clima_CONAGUA data/niveles/Auditoria
             data/niveles/Graficas data/niveles/Reportes
+            data/niveles/Horario_Bifurcacion
           )
           tar -cf /tmp/gmail-productos.tar "${PRODUCTOS[@]}"
           cp data/niveles/Ultimo_Corte/ultimo_resumen.json /tmp/gmail-candidato.json

@@ -312,6 +312,8 @@ def main():
                 try:
                     niveles.run_processor(path, subject, key)
                     niveles_horas.run_processor(path, subject, key)
+                    # Aditivo y no bloqueante (nunca lanza): niveles horarios Peñitas-Samaria en Horario_Bifurcacion.
+                    niveles_horas.run_bifurcacion_horario(path, subject, key)
                     processed.add(processed_key)
                     hashes.add(digest)
                     status["levels_processed_now"] += 1
