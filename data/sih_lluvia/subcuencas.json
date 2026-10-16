@@ -1,7 +1,7 @@
 {
  "version": 2,
  "criterio": "Clasificación operativa independiente de la extracción SIH. Una estación sin correspondencia conserva el dato y se muestra como 'Por clasificar'. v2: cada estación se ubica con la 'cuenca de disponibilidad' del catálogo oficial SIH (catalogo_climas) o, si no está en el catálogo (redes SGT/CFE/PC), con su municipio verificado o la agrupación del informe horario CONAGUA. Las reglas más específicas van primero. Atención: 'Reforma, Chis.' del SIH 24 h es REFCP (La Concordia, Alto Grijalva), no Reforma junto al Viejo Mezcalapa.",
- "actualizado": "2026-10-15",
+ "actualizado": "2026-10-16",
  "reglas": [
   {
    "aliases": [
@@ -1967,6 +1967,16 @@
     "Veracruz (fuera de las cuencas del modelo)"
    ],
    "nota": "Respaldo general para estaciones de Veracruz no listadas arriba."
+  },
+  {
+   "aliases": [
+    "Puente Solidaridad, Tab"
+   ],
+   "subcuencas": [
+    "Mezcalapa–Samaria/Carrizal"
+   ],
+   "nota": "Puente Solidaridad, Villahermosa (Centro): sistema Mezcalapa–Samaria/Carrizal",
+   "fuente": "clasificación indicada por la Dirección Operativa (16/10/2026)"
   }
  ],
  "pendientes_sin_ubicacion_verificada": [
@@ -1995,7 +2005,6 @@
   "Piletas, Ver.",
   "Presa Tuxpango, Ver. SMN*",
   "Puente Cuatro Caminos, Ver. SGT*",
-  "Puente Solidaridad, Tab. SGT*",
   "Quiosco, Chis. SGT*",
   "Río de Janeiro, Chis. SGT*",
   "Secundaria Técnica 103, Chis. SGT*",
