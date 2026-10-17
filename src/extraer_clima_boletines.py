@@ -36,14 +36,21 @@ def local_name(line):
     return None
 
 
+LAYOUT_MARKER = '===== GASTOS_LAYOUT_FUENTE2 ====='
+
+
 def parse_fuente2(text):
     rows = []
     msg = header(text, 'FECHA/HORA MENSAJE')
     rec = header(text, 'FECHA/HORA RECOLECCIÓN')
-    for raw in text.splitlines():
+    # El respaldo Gmail anexa una segunda lectura del mismo PDF (para gastos).
+    # Para clima sólo se usa la primera lectura; la copia de gastos no se toca.
+    body = text.split(LAYOUT_MARKER, 1)[0]
+    seen = set()
+    for raw in body.splitlines():
         line = raw.strip()
         name = local_name(line)
-        if not name:
+        if not name or name in seen:
             continue
         n = nums(line)
         # Formato local: ... precip, Tmax, Tmin, diferencia 24h, diferencia NAMO.
@@ -55,6 +62,7 @@ def parse_fuente2(text):
                 rain, tmax, tmin = cand_rain, cand_tmax, cand_tmin
         if rain is None and tmax is None and tmin is None:
             continue
+        seen.add(name)
         rows.append({
             'estacion': name,
             'lluvia_24h_mm': rain,
