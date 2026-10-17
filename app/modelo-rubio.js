@@ -20,7 +20,7 @@ async function show(){
  const age=(Date.now()-Date.parse(d.calculado_utc||''))/3600000;
  const fresh=Number.isFinite(age)&&age<=6;
  const conPico=d.estaciones.some(e=>e.pico);
- const head='<tr><th rowspan="2">Estación</th><th colspan="3">H+24</th><th colspan="3">H+36</th><th colspan="3">H+72</th>'+(conPico?'<th rowspan="2">Pico 0–72 h</th>':'')+'</tr><tr>'+'<th>Nivel</th><th>Gasto</th><th>Situación</th>'.repeat(3)+'</tr>';
+ const head='<tr><th rowspan="2">Río · estación</th><th colspan="3">H+24</th><th colspan="3">H+36</th><th colspan="3">H+72</th>'+(conPico?'<th rowspan="2">Pico 0–72 h</th>':'')+'</tr><tr>'+'<th>Nivel</th><th>Gasto</th><th>Situación</th>'.repeat(3)+'</tr>';
  const rows=d.estaciones.map(e=>'<tr><td><b>'+esc(e.estacion)+'</b></td>'+['h24','h36','h72'].map(k=>'<td>'+m(e[k]?.nivel_m)+'</td><td>'+q(e[k]?.gasto_m3s)+'</td><td>'+sit(e[k]?.situacion)+'</td>').join('')+(conPico?'<td>'+esc(e.pico||'—')+'</td>':'')+'</tr>').join('');
  const alto=new Map((d.picos_sierra_alto||[]).map(p=>[p.estacion,p]));
  const picos=(d.picos_sierra||[]).map(p=>{const a=alto.get(p.estacion);return '<tr><td><b>'+esc(p.estacion)+'</b></td><td>'+q(p.gasto_m3s)+' m³/s</td><td>'+m(p.nivel_m)+'</td><td>'+esc(p.hora)+'</td>'+(alto.size?'<td>'+(a?q(a.gasto_m3s)+' m³/s · '+m(a.nivel_m)+'<br><small>'+esc(a.hora)+'</small>':'—')+'</td>':'')+'</tr>'}).join('');
@@ -30,8 +30,8 @@ async function show(){
  root.innerHTML=aviso+
   '<section class="panel wide"><h2>Modelo Rubio/SegAMH · pronóstico 0–72 h</h2>'+
   '<p class="muted">Corrida '+esc(d.version||'')+' · calculada '+fdate(d.calculado_utc)+' · '+estado+'<br>Lluvia futura: '+esc(d.lluvia_futura||'s/d')+'</p>'+
-  '<div class="table-wrap"><table><thead>'+head+'</thead><tbody>'+rows+'</tbody></table></div></section>'+
-  (picos?'<section class="panel wide"><h2>Picos esperados 0–72 h · Sierra</h2><div class="table-wrap"><table><thead><tr><th>Estación</th><th>Gasto pico</th><th>Nivel pico</th><th>Hora</th>'+((d.picos_sierra_alto||[]).length?'<th>Escenario alto (boletín SMN)</th>':'')+'</tr></thead><tbody>'+picos+'</tbody></table></div><p class="muted">Los picos pueden caer entre las columnas H+36 y H+72 del cuadro. Escenario alto: lluvia del boletín SMN 96 h del día convertida a su percentil 90 observado; no es el pronóstico central.</p></section>':'')+
+  '<div class="table-wrap"><table><thead>'+head+'</thead><tbody>'+rows+'</tbody></table></div><p class="muted">Río La Sierra en Pueblo Nuevo (Centro): ya incluye los ríos Tacotalpa (Tapijulapa), Teapa y Puyacatengo.</p></section>'+
+  (picos?'<section class="panel wide"><h2>Picos esperados 0–72 h · Sierra</h2><div class="table-wrap"><table><thead><tr><th>Río · estación</th><th>Gasto pico</th><th>Nivel pico</th><th>Hora</th>'+((d.picos_sierra_alto||[]).length?'<th>Escenario alto (boletín SMN)</th>':'')+'</tr></thead><tbody>'+picos+'</tbody></table></div><p class="muted">Los picos pueden caer entre las columnas H+36 y H+72 del cuadro. Escenario alto: lluvia del boletín SMN 96 h del día convertida a su percentil 90 observado; no es el pronóstico central.</p></section>':'')+
   '<section class="panel wide"><p class="muted">'+(d.notas||[]).map(esc).join('<br>')+'<br>Modelo hidrológico experimental del Dr. Horacio Rubio Gutiérrez, desarrollo AMH Sección Tabasco (SegAMH). Gasto en m³/s.</p></section>';
 }
 document.addEventListener('DOMContentLoaded',()=>{
