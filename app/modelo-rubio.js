@@ -24,7 +24,9 @@ async function show(){
  const alto=new Map((d.picos_sierra_alto||[]).map(p=>[p.estacion,p]));
  const picos=(d.picos_sierra||[]).map(p=>{const a=alto.get(p.estacion);return '<tr><td><b>'+esc(p.estacion)+'</b></td><td>'+q(p.gasto_m3s)+' m³/s</td><td>'+m(p.nivel_m)+'</td><td>'+esc(p.hora)+'</td>'+(alto.size?'<td>'+(a?q(a.gasto_m3s)+' m³/s · '+m(a.nivel_m)+'<br><small>'+esc(a.hora)+'</small>':'—')+'</td>':'')+'</tr>'}).join('');
  const estado=fresh?'<span style="color:#15803d"><b>Vigente</b></span>':'<span style="color:#b45309"><b>Desactualizado</b> · la PC del modelo no ha publicado en '+(Number.isFinite(age)?age.toFixed(0)+' h':'s/d')+'</span>';
- root.innerHTML=
+ const al=Array.isArray(d.alertas_cabecera)?d.alertas_cabecera:[];
+ const aviso=al.length&&fresh?'<section class="panel wide" style="border-left:6px solid #b91c1c;background:#fef2f2"><h2 style="color:#b91c1c">⚠ Lluvia intensa observada en cabecera</h2><p>'+al.map(a=>'<b>'+esc(a.estacion)+'</b>: '+esc(a.mm3h)+' mm en 3 h · '+esc(a.mm6h)+' mm en 6 h → río <b>'+esc(a.rio)+'</b>').join('<br>')+'</p><p class="muted">Para esos ríos considerar el escenario alto y la tendencia observada por encima del pronóstico central. Umbral: ≥30 mm en 3 h o ≥50 mm en 6 h (WeatherLink).</p></section>':'';
+ root.innerHTML=aviso+
   '<section class="panel wide"><h2>Modelo Rubio/SegAMH · pronóstico 0–72 h</h2>'+
   '<p class="muted">Corrida '+esc(d.version||'')+' · calculada '+fdate(d.calculado_utc)+' · '+estado+'<br>Lluvia futura: '+esc(d.lluvia_futura||'s/d')+'</p>'+
   '<div class="table-wrap"><table><thead>'+head+'</thead><tbody>'+rows+'</tbody></table></div></section>'+
