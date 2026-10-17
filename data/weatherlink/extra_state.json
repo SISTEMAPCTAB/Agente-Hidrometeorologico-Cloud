@@ -3,7 +3,7 @@
   "stations": {
     "c04a4e28-b0a3-4044-b6e3-f48c43afab16": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-17T03:45:00+00:00",
+      "prev_observed_utc": "2026-10-17T04:15:00+00:00",
       "events": [
         {
           "ts": "2026-10-07T05:15:00+00:00",
@@ -232,8 +232,8 @@
       "year_key": "2026"
     },
     "bf6a4e56-a2c4-4138-84ba-19b7ced4e630": {
-      "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-17T03:00:00+00:00",
+      "prev_daily_mm": 0.8,
+      "prev_observed_utc": "2026-10-17T04:00:00+00:00",
       "events": [
         {
           "ts": "2026-10-07T05:00:00+00:00",
@@ -380,16 +380,22 @@
           "mm": 1.0,
           "intervalo_incierto": false,
           "intervalo_horas": 1.0
+        },
+        {
+          "ts": "2026-10-17T04:00:00+00:00",
+          "mm": 0.8,
+          "intervalo_incierto": false,
+          "intervalo_horas": 1.0
         }
       ],
-      "month_mm": 241.7,
-      "year_mm": 510.2,
+      "month_mm": 242.5,
+      "year_mm": 511.0,
       "month_key": "2026-10",
       "year_key": "2026"
     },
     "707f03fe-ca75-4c47-8404-9348b98a084e": {
       "prev_daily_mm": 7.1,
-      "prev_observed_utc": "2026-10-17T04:00:59+00:00",
+      "prev_observed_utc": "2026-10-17T04:31:02+00:00",
       "events": [
         {
           "ts": "2026-10-07T04:48:59+00:00",
@@ -597,7 +603,7 @@
     },
     "f402f31c-df4c-48bb-8fa7-2bb58326d0c8": {
       "prev_daily_mm": 21.3,
-      "prev_observed_utc": "2026-10-17T04:01:08+00:00",
+      "prev_observed_utc": "2026-10-17T04:31:10+00:00",
       "events": [
         {
           "ts": "2026-10-08T11:10:07+00:00",
@@ -721,7 +727,7 @@
     },
     "5a4141e8-0fa1-46ff-a032-bdb484eb2fc2": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-17T04:00:27+00:00",
+      "prev_observed_utc": "2026-10-17T04:30:28+00:00",
       "events": [
         {
           "ts": "2026-10-07T04:48:47+00:00",
@@ -839,7 +845,7 @@
     },
     "96bdee43-3e9c-45ca-a4b1-5efe1f4577ae": {
       "prev_daily_mm": 0.5,
-      "prev_observed_utc": "2026-10-17T04:00:00+00:00",
+      "prev_observed_utc": "2026-10-17T04:30:00+00:00",
       "events": [
         {
           "ts": "2026-10-07T09:00:00+00:00",
@@ -934,5 +940,5 @@
       "year_key": "2026"
     }
   },
-  "last_run_utc": "2026-10-17T04:01:17.190868+00:00"
+  "last_run_utc": "2026-10-17T04:31:15.362909+00:00"
 }
