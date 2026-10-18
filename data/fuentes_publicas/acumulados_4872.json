@@ -1,232 +1,232 @@
 {
-  "generated_utc": "2026-10-18T15:46:09.769392+00:00",
+  "generated_utc": "2026-10-18T16:46:04.773686+00:00",
   "regla": "48 h y 72 h sólo se forman con ventanas de 24 h asociadas a cortes fuente distintos de INSIVUMEH, separados aproximadamente 24 h. La hora de consulta del agente nunca sustituye al corte fuente. Si falta una ventana verificable, se conserva s/d.",
   "tolerancia_historica_min": 120,
-  "insivumeh_corte_fuente_actual": "17/Oct/2026 20:03",
+  "insivumeh_corte_fuente_actual": "18/Oct/2026 10:01",
   "insivumeh_corte_fuente_valido": true,
   "insivumeh": [
     {
       "codigo": "INS142201AT",
       "estacion": "Playa Grande Met (Ixcan)",
-      "precipitacion_24h_mm": 3.8,
-      "precipitacion_48h_mm": 16.3,
-      "precipitacion_72h_mm": 16.3,
+      "precipitacion_24h_mm": 47.0,
+      "precipitacion_48h_mm": 50.8,
+      "precipitacion_72h_mm": 63.3,
       "componentes": {
         "actual": {
-          "corte_fuente": "17/Oct/2026 20:03",
-          "corte_utc": "2026-10-18T02:03:00+00:00",
-          "consultado_utc": "2026-10-18T02:03:58.235437+00:00",
-          "mm": 3.8
+          "corte_fuente": "18/Oct/2026 10:01",
+          "corte_utc": "2026-10-18T16:01:00+00:00",
+          "consultado_utc": "2026-10-18T16:03:29.393775+00:00",
+          "mm": 47.0
         },
         "menos_24h": {
-          "corte_fuente": "16/Oct/2026 20:00",
-          "corte_utc": "2026-10-17T02:00:00+00:00",
-          "mm": 12.5
+          "corte_fuente": "17/Oct/2026 10:00",
+          "corte_utc": "2026-10-17T16:00:00+00:00",
+          "mm": 3.8
         },
         "menos_48h": {
-          "corte_fuente": "15/Oct/2026 20:00",
-          "corte_utc": "2026-10-16T02:00:00+00:00",
-          "mm": 0.0
+          "corte_fuente": "16/Oct/2026 10:00",
+          "corte_utc": "2026-10-16T16:00:00+00:00",
+          "mm": 12.5
         }
       }
     },
     {
       "codigo": "INS161201CV",
       "estacion": "Santa María Cahabón",
-      "precipitacion_24h_mm": 27.3,
-      "precipitacion_48h_mm": 28.2,
-      "precipitacion_72h_mm": 36.3,
+      "precipitacion_24h_mm": 22.1,
+      "precipitacion_48h_mm": 49.4,
+      "precipitacion_72h_mm": 50.3,
       "componentes": {
         "actual": {
-          "corte_fuente": "17/Oct/2026 20:03",
-          "corte_utc": "2026-10-18T02:03:00+00:00",
-          "consultado_utc": "2026-10-18T02:03:58.235437+00:00",
-          "mm": 27.3
+          "corte_fuente": "18/Oct/2026 10:01",
+          "corte_utc": "2026-10-18T16:01:00+00:00",
+          "consultado_utc": "2026-10-18T16:03:29.393775+00:00",
+          "mm": 22.1
         },
         "menos_24h": {
-          "corte_fuente": "16/Oct/2026 20:00",
-          "corte_utc": "2026-10-17T02:00:00+00:00",
-          "mm": 0.9
+          "corte_fuente": "17/Oct/2026 10:00",
+          "corte_utc": "2026-10-17T16:00:00+00:00",
+          "mm": 27.3
         },
         "menos_48h": {
-          "corte_fuente": "15/Oct/2026 20:00",
-          "corte_utc": "2026-10-16T02:00:00+00:00",
-          "mm": 8.1
+          "corte_fuente": "16/Oct/2026 10:00",
+          "corte_utc": "2026-10-16T16:00:00+00:00",
+          "mm": 0.9
         }
       }
     },
     {
       "codigo": "INS160701CV",
       "estacion": "Panzos PHC Altaverapaz",
-      "precipitacion_24h_mm": 12.2,
-      "precipitacion_48h_mm": 12.2,
-      "precipitacion_72h_mm": 19.4,
+      "precipitacion_24h_mm": 19.6,
+      "precipitacion_48h_mm": 31.8,
+      "precipitacion_72h_mm": 31.8,
       "componentes": {
         "actual": {
-          "corte_fuente": "17/Oct/2026 20:03",
-          "corte_utc": "2026-10-18T02:03:00+00:00",
-          "consultado_utc": "2026-10-18T02:03:58.235437+00:00",
-          "mm": 12.2
+          "corte_fuente": "18/Oct/2026 10:01",
+          "corte_utc": "2026-10-18T16:01:00+00:00",
+          "consultado_utc": "2026-10-18T16:03:29.393775+00:00",
+          "mm": 19.6
         },
         "menos_24h": {
-          "corte_fuente": "16/Oct/2026 20:00",
-          "corte_utc": "2026-10-17T02:00:00+00:00",
-          "mm": 0.0
+          "corte_fuente": "17/Oct/2026 10:00",
+          "corte_utc": "2026-10-17T16:00:00+00:00",
+          "mm": 12.2
         },
         "menos_48h": {
-          "corte_fuente": "15/Oct/2026 20:00",
-          "corte_utc": "2026-10-16T02:00:00+00:00",
-          "mm": 7.2
+          "corte_fuente": "16/Oct/2026 10:00",
+          "corte_utc": "2026-10-16T16:00:00+00:00",
+          "mm": 0.0
         }
       }
     },
     {
       "codigo": "INS171302AT",
       "estacion": "El Tigre",
-      "precipitacion_24h_mm": 2.1,
-      "precipitacion_48h_mm": 2.4,
-      "precipitacion_72h_mm": 88.4,
+      "precipitacion_24h_mm": 27.7,
+      "precipitacion_48h_mm": 29.8,
+      "precipitacion_72h_mm": 30.1,
       "componentes": {
         "actual": {
-          "corte_fuente": "17/Oct/2026 20:03",
-          "corte_utc": "2026-10-18T02:03:00+00:00",
-          "consultado_utc": "2026-10-18T02:03:58.235437+00:00",
-          "mm": 2.1
+          "corte_fuente": "18/Oct/2026 10:01",
+          "corte_utc": "2026-10-18T16:01:00+00:00",
+          "consultado_utc": "2026-10-18T16:03:29.393775+00:00",
+          "mm": 27.7
         },
         "menos_24h": {
-          "corte_fuente": "16/Oct/2026 20:00",
-          "corte_utc": "2026-10-17T02:00:00+00:00",
-          "mm": 0.3
+          "corte_fuente": "17/Oct/2026 10:00",
+          "corte_utc": "2026-10-17T16:00:00+00:00",
+          "mm": 2.1
         },
         "menos_48h": {
-          "corte_fuente": "15/Oct/2026 20:00",
-          "corte_utc": "2026-10-16T02:00:00+00:00",
-          "mm": 86.0
+          "corte_fuente": "16/Oct/2026 10:00",
+          "corte_utc": "2026-10-16T16:00:00+00:00",
+          "mm": 0.3
         }
       }
     },
     {
       "codigo": "INS171001AT",
       "estacion": "El Porvenir",
-      "precipitacion_24h_mm": 0.7,
-      "precipitacion_48h_mm": 0.7,
-      "precipitacion_72h_mm": 18.3,
+      "precipitacion_24h_mm": 4.2,
+      "precipitacion_48h_mm": 4.9,
+      "precipitacion_72h_mm": 4.9,
       "componentes": {
         "actual": {
-          "corte_fuente": "17/Oct/2026 20:03",
-          "corte_utc": "2026-10-18T02:03:00+00:00",
-          "consultado_utc": "2026-10-18T02:03:58.235437+00:00",
-          "mm": 0.7
+          "corte_fuente": "18/Oct/2026 10:01",
+          "corte_utc": "2026-10-18T16:01:00+00:00",
+          "consultado_utc": "2026-10-18T16:03:29.393775+00:00",
+          "mm": 4.2
         },
         "menos_24h": {
-          "corte_fuente": "16/Oct/2026 20:00",
-          "corte_utc": "2026-10-17T02:00:00+00:00",
-          "mm": 0.0
+          "corte_fuente": "17/Oct/2026 10:00",
+          "corte_utc": "2026-10-17T16:00:00+00:00",
+          "mm": 0.7
         },
         "menos_48h": {
-          "corte_fuente": "15/Oct/2026 20:00",
-          "corte_utc": "2026-10-16T02:00:00+00:00",
-          "mm": 17.6
+          "corte_fuente": "16/Oct/2026 10:00",
+          "corte_utc": "2026-10-16T16:00:00+00:00",
+          "mm": 0.0
         }
       }
     },
     {
       "codigo": "INS171301AT",
       "estacion": "Bethel",
-      "precipitacion_24h_mm": 0.0,
-      "precipitacion_48h_mm": 0.0,
-      "precipitacion_72h_mm": 1.0,
+      "precipitacion_24h_mm": 31.9,
+      "precipitacion_48h_mm": 31.9,
+      "precipitacion_72h_mm": 31.9,
       "componentes": {
         "actual": {
-          "corte_fuente": "17/Oct/2026 20:03",
-          "corte_utc": "2026-10-18T02:03:00+00:00",
-          "consultado_utc": "2026-10-18T02:03:58.235437+00:00",
-          "mm": 0.0
+          "corte_fuente": "18/Oct/2026 10:01",
+          "corte_utc": "2026-10-18T16:01:00+00:00",
+          "consultado_utc": "2026-10-18T16:03:29.393775+00:00",
+          "mm": 31.9
         },
         "menos_24h": {
-          "corte_fuente": "16/Oct/2026 20:00",
-          "corte_utc": "2026-10-17T02:00:00+00:00",
+          "corte_fuente": "17/Oct/2026 10:00",
+          "corte_utc": "2026-10-17T16:00:00+00:00",
           "mm": 0.0
         },
         "menos_48h": {
-          "corte_fuente": "15/Oct/2026 20:00",
-          "corte_utc": "2026-10-16T02:00:00+00:00",
-          "mm": 1.0
+          "corte_fuente": "16/Oct/2026 10:00",
+          "corte_utc": "2026-10-16T16:00:00+00:00",
+          "mm": 0.0
         }
       }
     },
     {
       "codigo": "INS171201AT",
       "estacion": "Machaquilá",
-      "precipitacion_24h_mm": 45.8,
-      "precipitacion_48h_mm": 46.4,
-      "precipitacion_72h_mm": 50.8,
+      "precipitacion_24h_mm": 33.5,
+      "precipitacion_48h_mm": 79.3,
+      "precipitacion_72h_mm": 79.9,
       "componentes": {
         "actual": {
-          "corte_fuente": "17/Oct/2026 20:03",
-          "corte_utc": "2026-10-18T02:03:00+00:00",
-          "consultado_utc": "2026-10-18T02:03:58.235437+00:00",
-          "mm": 45.8
+          "corte_fuente": "18/Oct/2026 10:01",
+          "corte_utc": "2026-10-18T16:01:00+00:00",
+          "consultado_utc": "2026-10-18T16:03:29.393775+00:00",
+          "mm": 33.5
         },
         "menos_24h": {
-          "corte_fuente": "16/Oct/2026 20:00",
-          "corte_utc": "2026-10-17T02:00:00+00:00",
-          "mm": 0.6
+          "corte_fuente": "17/Oct/2026 10:00",
+          "corte_utc": "2026-10-17T16:00:00+00:00",
+          "mm": 45.8
         },
         "menos_48h": {
-          "corte_fuente": "15/Oct/2026 20:00",
-          "corte_utc": "2026-10-16T02:00:00+00:00",
-          "mm": 4.4
+          "corte_fuente": "16/Oct/2026 10:00",
+          "corte_utc": "2026-10-16T16:00:00+00:00",
+          "mm": 0.6
         }
       }
     },
     {
       "codigo": "INS170401AT",
       "estacion": "Mactún",
-      "precipitacion_24h_mm": 4.3,
-      "precipitacion_48h_mm": 4.3,
-      "precipitacion_72h_mm": 5.5,
+      "precipitacion_24h_mm": 17.7,
+      "precipitacion_48h_mm": 22.0,
+      "precipitacion_72h_mm": 22.0,
       "componentes": {
         "actual": {
-          "corte_fuente": "17/Oct/2026 20:03",
-          "corte_utc": "2026-10-18T02:03:00+00:00",
-          "consultado_utc": "2026-10-18T02:03:58.235437+00:00",
-          "mm": 4.3
+          "corte_fuente": "18/Oct/2026 10:01",
+          "corte_utc": "2026-10-18T16:01:00+00:00",
+          "consultado_utc": "2026-10-18T16:03:29.393775+00:00",
+          "mm": 17.7
         },
         "menos_24h": {
-          "corte_fuente": "16/Oct/2026 20:00",
-          "corte_utc": "2026-10-17T02:00:00+00:00",
-          "mm": 0.0
+          "corte_fuente": "17/Oct/2026 10:00",
+          "corte_utc": "2026-10-17T16:00:00+00:00",
+          "mm": 4.3
         },
         "menos_48h": {
-          "corte_fuente": "15/Oct/2026 20:00",
-          "corte_utc": "2026-10-16T02:00:00+00:00",
-          "mm": 1.2
+          "corte_fuente": "16/Oct/2026 10:00",
+          "corte_utc": "2026-10-16T16:00:00+00:00",
+          "mm": 0.0
         }
       }
     },
     {
       "codigo": "INS161301AT",
       "estacion": "Chixoy Hidro",
-      "precipitacion_24h_mm": 0.6,
-      "precipitacion_48h_mm": 0.9,
-      "precipitacion_72h_mm": 3.9,
+      "precipitacion_24h_mm": 60.2,
+      "precipitacion_48h_mm": 60.8,
+      "precipitacion_72h_mm": 61.1,
       "componentes": {
         "actual": {
-          "corte_fuente": "17/Oct/2026 20:03",
-          "corte_utc": "2026-10-18T02:03:00+00:00",
-          "consultado_utc": "2026-10-18T02:03:58.235437+00:00",
-          "mm": 0.6
+          "corte_fuente": "18/Oct/2026 10:01",
+          "corte_utc": "2026-10-18T16:01:00+00:00",
+          "consultado_utc": "2026-10-18T16:03:29.393775+00:00",
+          "mm": 60.2
         },
         "menos_24h": {
-          "corte_fuente": "16/Oct/2026 20:00",
-          "corte_utc": "2026-10-17T02:00:00+00:00",
-          "mm": 0.3
+          "corte_fuente": "17/Oct/2026 10:00",
+          "corte_utc": "2026-10-17T16:00:00+00:00",
+          "mm": 0.6
         },
         "menos_48h": {
-          "corte_fuente": "15/Oct/2026 20:00",
-          "corte_utc": "2026-10-16T02:00:00+00:00",
-          "mm": 3.0
+          "corte_fuente": "16/Oct/2026 10:00",
+          "corte_utc": "2026-10-16T16:00:00+00:00",
+          "mm": 0.3
         }
       }
     }
