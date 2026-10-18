@@ -2,8 +2,8 @@
   "seed_utc": "2026-09-07T01:11:56.534268+00:00",
   "stations": {
     "c04a4e28-b0a3-4044-b6e3-f48c43afab16": {
-      "prev_daily_mm": 1.3,
-      "prev_observed_utc": "2026-10-18T09:00:00+00:00",
+      "prev_daily_mm": 1.5,
+      "prev_observed_utc": "2026-10-18T09:30:00+00:00",
       "events": [
         {
           "ts": "2026-10-08T11:00:00+00:00",
@@ -170,10 +170,16 @@
           "mm": 1.0,
           "intervalo_incierto": false,
           "intervalo_horas": 0.75
+        },
+        {
+          "ts": "2026-10-18T09:30:00+00:00",
+          "mm": 0.2,
+          "intervalo_incierto": false,
+          "intervalo_horas": 0.5
         }
       ],
-      "month_mm": 277.0,
-      "year_mm": 413.3,
+      "month_mm": 277.2,
+      "year_mm": 413.5,
       "month_key": "2026-10",
       "year_key": "2026"
     },
@@ -493,7 +499,7 @@
     },
     "707f03fe-ca75-4c47-8404-9348b98a084e": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-18T09:00:46+00:00",
+      "prev_observed_utc": "2026-10-18T09:30:55+00:00",
       "events": [
         {
           "ts": "2026-10-11T19:42:49+00:00",
@@ -743,7 +749,7 @@
     },
     "f402f31c-df4c-48bb-8fa7-2bb58326d0c8": {
       "prev_daily_mm": 8.4,
-      "prev_observed_utc": "2026-10-18T09:01:26+00:00",
+      "prev_observed_utc": "2026-10-18T09:30:31+00:00",
       "events": [
         {
           "ts": "2026-10-08T11:10:07+00:00",
@@ -891,7 +897,7 @@
     },
     "5a4141e8-0fa1-46ff-a032-bdb484eb2fc2": {
       "prev_daily_mm": 0.5,
-      "prev_observed_utc": "2026-10-18T09:01:00+00:00",
+      "prev_observed_utc": "2026-10-18T09:31:01+00:00",
       "events": [
         {
           "ts": "2026-10-08T11:09:43+00:00",
@@ -1055,7 +1061,7 @@
     },
     "96bdee43-3e9c-45ca-a4b1-5efe1f4577ae": {
       "prev_daily_mm": 5.3,
-      "prev_observed_utc": "2026-10-18T09:00:00+00:00",
+      "prev_observed_utc": "2026-10-18T09:15:00+00:00",
       "events": [
         {
           "ts": "2026-10-08T18:45:00+00:00",
@@ -1354,5 +1360,5 @@
       "year_key": "2026"
     }
   },
-  "last_run_utc": "2026-10-18T09:01:39.687186+00:00"
+  "last_run_utc": "2026-10-18T09:31:11.490410+00:00"
 }
