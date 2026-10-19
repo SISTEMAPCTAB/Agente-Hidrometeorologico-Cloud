@@ -1,16 +1,14 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-10-19T06:47:32.008613-06:00",
+  "run_local": "2026-10-19T07:15:19.988265-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
-  "current_level_time_before_run": "2026-10-19T04:00:00-06:00",
+  "current_level_time_before_run": "2026-10-19T06:00:00-06:00",
   "messages_scanned": 45,
-  "levels_processed_now": 1,
+  "levels_processed_now": 0,
   "levels_skipped_not_newer": 0,
-  "pdfs_skipped_duplicate_content": 25,
-  "sources_updated": [
-    "FUENTE2"
-  ],
+  "pdfs_skipped_duplicate_content": 26,
+  "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [
     {
@@ -23,11 +21,5 @@
       "subject": "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 6:00 AM Y EL\r\n SEGUIMEINTO DE NIVELES",
       "error": "RuntimeError: ERROR COMPAT: Error: No se pudo establecer la geometría hidrométrica compatible.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:22:276"
     }
-  ],
-  "lluvia_conagua": {
-    "intentado": true,
-    "actualizada": false,
-    "corte_niveles": "2026-10-19T06:00:00-06:00",
-    "motivo": "extractor terminó con código 3: "
-  }
+  ]
 }
