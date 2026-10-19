@@ -1,13 +1,12 @@
 {
   "agent": "Agente-Hidrometeorologico-Cloud",
-  "run_utc": "2026-10-19T16:06:22.977815+00:00",
-  "run_local": "2026-10-19T10:06:22.977815-06:00",
+  "run_utc": "2026-10-19T16:16:27.809801+00:00",
+  "run_local": "2026-10-19T10:16:27.809801-06:00",
   "accounts": [
     {
       "label": "fuente1",
-      "ok": false,
-      "messages_scanned": 0,
-      "error": "ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7f6482d06c90>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=45)'))"
+      "ok": true,
+      "messages_scanned": 150
     }
   ],
   "fuente1_secondary_account_configured": true,
@@ -17,7 +16,15 @@
   },
   "sources": {
     "FUENTE1": {
-      "status": "not_found"
+      "status": "ok",
+      "account": "fuente1",
+      "subject": "Boletín Hidrométrico, Climatológico y de Presas 18-10-2026",
+      "message_id": "7080",
+      "original_filename": "Boletin 18-10-2026.pdf",
+      "message_time": "2026-10-18T09:53:21-06:00",
+      "bulletin_date": "2026-10-18",
+      "bytes": 900834,
+      "text_chars": 11107
     },
     "FUENTE2": {
       "status": "not_found"
