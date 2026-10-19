@@ -27,12 +27,22 @@ async function show(){
  const estado=fresh?'<span style="color:#15803d"><b>Vigente</b></span>':'<span style="color:#b45309"><b>Desactualizado</b> · la PC del modelo no ha publicado en '+(Number.isFinite(age)?age.toFixed(0)+' h':'s/d')+'</span>';
  const al=Array.isArray(d.alertas_cabecera)?d.alertas_cabecera:[];
  const aviso=al.length&&fresh?'<section class="panel wide" style="border-left:6px solid #b91c1c;background:#fef2f2"><h2 style="color:#b91c1c">⚠ Lluvia intensa observada en cabecera</h2><p>'+al.map(a=>'<b>'+esc(a.estacion)+'</b>: '+esc(a.mm3h)+' mm en 3 h · '+esc(a.mm6h)+' mm en 6 h → río <b>'+esc(a.rio)+'</b>').join('<br>')+'</p><p class="muted">Para esos ríos considerar el escenario alto y la tendencia observada por encima del pronóstico central. Umbral: ≥30 mm en 3 h o ≥50 mm en 6 h (WeatherLink).</p></section>':'';
+ // Lluvia acumulada frente a crecidas mayores (exportado por el modelo desde V106l).
+ const la=d.lluvia_acumulada,mm=v=>ok(v)?Math.round(v)+' mm':'s/d';
+ const col=x=>x.pct_mediana==null?'#666':(x.maximo_mm&&x.total_mm>=x.maximo_mm)?'#9b1c1c':x.pct_mediana>=100?'#c2410c':x.pct_mediana>=50?'#a16207':'#15803d';
+ const acu=la&&Array.isArray(la.rios)&&la.rios.length?'<section class="panel wide"><h2>Lluvia acumulada frente a crecidas mayores</h2>'+
+  '<p style="background:#f8fafc;border-left:4px solid #64748b;padding:8px 10px"><b>Qué se analiza:</b> '+esc(la.explicacion||'')+'</p>'+
+  '<div class="table-wrap"><table><thead><tr><th>Río · estación</th><th>Observada</th><th>Pronosticada 0–96 h</th><th>SMN 360 h'+(la.smn360_validez?' <small>('+esc(la.smn360_validez)+')</small>':'')+'</th><th>Total</th><th>Crecidas mayores (mediana)</th><th>Lectura</th></tr></thead><tbody>'+
+  la.rios.map(x=>'<tr><td><b>'+esc(x.rio)+'</b></td><td>'+mm(x.observada_mm)+(x.dias_obs<x.dias_tot?' <small>('+esc(x.dias_obs)+'/'+esc(x.dias_tot)+' días)</small>':'')+'</td><td>'+mm(x.pronosticada_96h_mm)+'</td><td>'+mm(x.smn360_mm)+'</td><td><b>'+mm(x.total_mm)+'</b></td><td>'+(ok(x.mediana_mm)?mm(x.mediana_mm)+'<br><small>máx.: '+mm(x.maximo_mm)+' · '+esc(x.maximo_txt||'')+'</small>':'—')+'</td><td>'+
+   (x.pct_mediana==null?'<span style="color:#666">'+esc(x.lectura)+'</span>':'<b style="color:'+col(x)+'">'+esc(x.pct_mediana)+' % de la mediana</b>'+(ok(x.pct_maximo)?' <span style="color:#555">· '+esc(x.pct_maximo)+' % del máximo</span>':'')+'<br><span style="color:'+col(x)+'">'+esc(x.lectura)+'</span>')+'</td></tr>').join('')+
+  '</tbody></table></div><p class="muted">Lluvia observada: cortes SIH de 24 h'+(la.observada_hasta?' hasta el '+esc(la.observada_hasta):'')+'. SMN 360 h convertido a lluvia media con ×0.3 (indicativo). No es un pronóstico de nivel.</p></section>':'';
  root.innerHTML=aviso+
   '<section class="panel wide"><h2>Modelo Rubio/SegAMH · pronóstico 0–72 h</h2>'+
   '<p class="muted">Corrida '+esc(d.version||'')+' · calculada '+fdate(d.calculado_utc)+' · '+estado+'<br>Lluvia futura: '+esc(d.lluvia_futura||'s/d')+'</p>'+
   '<div class="table-wrap"><table><thead>'+head+'</thead><tbody>'+rows+'</tbody></table></div><p class="muted">Río La Sierra en Pueblo Nuevo (Centro): ya incluye los ríos Tacotalpa (Tapijulapa), Teapa y Puyacatengo.</p></section>'+
   (picos?'<section class="panel wide"><h2>Picos esperados 0–72 h · Sierra</h2><div class="table-wrap"><table><thead><tr><th>Río · estación</th><th>Gasto pico</th><th>Nivel pico</th><th>Hora</th>'+((d.picos_sierra_alto||[]).length?'<th>Escenario alto (boletín SMN)</th>':'')+'</tr></thead><tbody>'+picos+'</tbody></table></div><p class="muted">Los picos pueden caer entre las columnas H+36 y H+72 del cuadro. Escenario alto: lluvia del boletín SMN 96 h del día convertida a su percentil 90 observado; no es el pronóstico central.</p></section>':'')+
-  '<section class="panel wide"><p class="muted">'+(d.notas||[]).map(esc).join('<br>')+'<br>Modelo hidrológico experimental del Dr. Horacio Rubio Gutiérrez, desarrollo AMH Sección Tabasco (SegAMH). Gasto en m³/s.</p></section>';
+  acu+
+ '<section class="panel wide"><p class="muted">'+(d.notas||[]).map(esc).join('<br>')+'<br>Modelo hidrológico experimental del Dr. Horacio Rubio Gutiérrez, desarrollo AMH Sección Tabasco (SegAMH). Gasto en m³/s.</p></section>';
 }
 document.addEventListener('DOMContentLoaded',()=>{
  document.getElementById('content')?.addEventListener('app-rendered',e=>{if(e.detail?.section==='modelo')show()});
