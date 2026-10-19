@@ -44,12 +44,26 @@ def penitas_fuente2(txt):
  q=a[7]
  return q if 0<=q<=10000 else None
 
+def _layout_columns(block):
+ # Encabezado "Escala Gasto Escala Gasto Escala Gasto Escala Gasto Precip. Máx. Min." del layout.
+ # Devuelve los centros de columna para asignar cada número por su posición (no por su orden),
+ # así una celda vacía (p. ej. "Gasto actual" en el boletín de 06:00) queda vacía y no se desplaza.
+ for line in block.splitlines():
+  if len(re.findall(r"\bEscala\b",line))>=4 and len(re.findall(r"\bGasto\b",line))>=4:
+   cols=[(m.group(0),(m.start()+m.end())/2) for m in re.finditer(r"Escala|Gasto|Precip\.?|M[aá]x\.?|M[ií]n\.?",line)]
+   eg=[c for c in cols if c[0] in ("Escala","Gasto")]
+   if len(eg)>=8 and [c[0] for c in eg[:8]]==["Escala","Gasto"]*4:
+    return cols,[c[1] for c in eg[:8]]
+ return None,None
+
 def fuente2_gastos(txt):
  # El bloque layout proviene del mismo PDF; no desplazar columnas por el texto aplanado.
  marker="===== GASTOS_LAYOUT_FUENTE2 ====="
  if marker not in txt:return {}
+ block=txt.split(marker,1)[1]
+ cols,eg=_layout_columns(block)
  rows={}
- for line in txt.split(marker,1)[1].splitlines():
+ for line in block.splitlines():
   m=re.match(r"^\s*([*]?\s*[A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]+?)\s{2,}(.+)$",line)
   if not m:continue
   key=norm(m.group(1).strip("* "))
@@ -59,15 +73,24 @@ def fuente2_gastos(txt):
    numeric_line=re.sub(r"(?<=\d),(?=\d{2}(?:\s|$))",".",numeric_line)
   tokens=re.findall(r"(?<!\S)-?\d{1,3}(?:,\d{3})*(?:\.\d+)?(?!\S)|(?<!\S)-?\d+(?:\.\d+)?(?!\S)",numeric_line)
   a=[float(x.replace(",","")) for x in tokens]
-  if key in {"samaria","oxolotan","puyacatengo","tapijulapa","san joaquin","teapa","gonzalez","pueblo nuevo","salto de agua","macuspana","boca del cerro"} and len(a)>=8:
-   hp,qp,ha,qa=a[4:8]
-  elif key=="porvenir" and len(a)>=7:
-   hp,qp,ha,qa=a[3:7]
-  elif key=="penitas" and len(a)>=12:
+  if key=="penitas" and len(a)>=12:
    # Fila de presa: Ext. Prom. (m3/s) en 24:00 horas, columna 9.
    if 0<=a[8]<=10000:rows["penitas"]={"q":a[8]}
    continue
-  else:continue
+  if key not in {"samaria","oxolotan","puyacatengo","tapijulapa","san joaquin","teapa","gonzalez","pueblo nuevo","salto de agua","macuspana","boca del cerro","porvenir"}:continue
+  if not cols:continue  # sin encabezado verificable no se arriesga una lectura por orden
+  # Asignar cada número a la columna de encabezado más cercana por posición de carácter.
+  off=m.start(2)
+  cell={}
+  for t in re.finditer(r"(?<!\S)-?\d{1,3}(?:,\d{3})*(?:\.\d+)?(?!\S)|(?<!\S)-?\d+(?:\.\d+)?(?!\S)",numeric_line):
+   c=off+(t.start()+t.end())/2
+   j=min(range(len(cols)),key=lambda i:abs(cols[i][1]-c))
+   if abs(cols[j][1]-c)>12:continue
+   if cols[j][0] in ("Escala","Gasto"):
+    k=eg.index(cols[j][1]) if cols[j][1] in eg else None
+    if k is not None and k not in cell:cell[k]=float(t.group(0).replace(",",""))
+  if not all(k in cell for k in (4,5,6,7)):continue  # falta escala o gasto anterior/actual: sin Q validado
+  hp,qp,ha,qa=cell[4],cell[5],cell[6],cell[7]
   if not (0<=qp<=20000 and 0<=qa<=20000 and -5<=hp<=60 and -5<=ha<=60):continue
   rows[key]={"hp":hp,"qp":qp,"ha":ha,"qa":qa}
  return rows
