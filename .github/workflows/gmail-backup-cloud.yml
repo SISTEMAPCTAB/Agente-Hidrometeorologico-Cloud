@@ -283,13 +283,14 @@ jobs:
 
       # CFE · funcionamiento de vasos (Peñitas, Juan de Grijalva, Malpaso). Paso independiente al final:
       # si falla, no afecta niveles ni boletines. Sólo publica data/cfe_vasos (sin el Excel).
+      # Cuenta propia de CFE (secretos CFE_GMAIL_USER / CFE_GMAIL_APP_PASSWORD); si no existen, usa la cuenta del agente.
       - name: CFE funcionamiento de vasos (Peñitas)
         if: always() && steps.gmail.outputs.enabled == 'true'
         continue-on-error: true
         timeout-minutes: 5
         env:
-          GMAIL_BACKUP_USER: ${{ secrets.GMAIL_USER }}
-          GMAIL_BACKUP_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          GMAIL_BACKUP_USER: ${{ secrets.CFE_GMAIL_USER || secrets.GMAIL_USER }}
+          GMAIL_BACKUP_APP_PASSWORD: ${{ secrets.CFE_GMAIL_APP_PASSWORD || secrets.GMAIL_APP_PASSWORD }}
         shell: bash
         run: |
           set -uo pipefail
