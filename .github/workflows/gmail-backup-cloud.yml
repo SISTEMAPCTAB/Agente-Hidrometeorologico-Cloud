@@ -207,6 +207,7 @@ jobs:
             data/niveles/Clima_CONAGUA data/niveles/Auditoria
             data/niveles/Graficas data/niveles/Reportes
             data/niveles/Horario_Bifurcacion
+            data/niveles/Lluvia_CONAGUA
           )
           tar -cf /tmp/gmail-productos.tar "${PRODUCTOS[@]}"
           cp data/niveles/Ultimo_Corte/ultimo_resumen.json /tmp/gmail-candidato.json

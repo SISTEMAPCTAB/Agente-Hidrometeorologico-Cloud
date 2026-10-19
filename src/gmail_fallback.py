@@ -192,6 +192,106 @@ def write_source(source: str, subject: str, filename: str, uid: str, dt: datetim
     return True
 
 
+RAIN_DIR = BASE / "Lluvia_CONAGUA"
+RAIN_FILES = ("ultimo_corte.json", "ultimo_corte.csv", "historico.json", "Estado_Lluvia_CONAGUA.json")
+RAIN_EXTRACTOR = Path("src/extraer_lluvia_conagua.js")
+
+
+def _cut_time(rows):
+    """Corte más reciente (fecha_hora) de una lista de filas, o None."""
+    best = None
+    for r in rows if isinstance(rows, list) else []:
+        try:
+            t = datetime.fromisoformat(str(r.get("fecha_hora")))
+        except (TypeError, ValueError, AttributeError):
+            continue
+        best = t if best is None or t > best else best
+    return best
+
+
+def _rain_rows_ok(rows):
+    """Mismas reglas que auditar_productos_operativos.audit_rain, para no bloquear la publicación de niveles."""
+    if not isinstance(rows, list) or len(rows) < 60:
+        return f"sólo {len(rows) if isinstance(rows, list) else 0} filas"
+    cuts = {r.get("fecha_hora") for r in rows if isinstance(r, dict)}
+    if len(cuts) != 1:
+        return "mezcla de cortes"
+    for r in rows:
+        for field, st_field in (("lluvia_24h_precedentes_mm", "estado_24h"), ("lluvia_hoy_desde_08_mm", "estado_hoy"),
+                                ("lluvia_48h_precedentes_mm", "estado_48h")):
+            v, st = r.get(field), r.get(st_field)
+            if st == "observado":
+                if not isinstance(v, (int, float)) or not 0 <= float(v) <= 500:
+                    return f"{r.get('estacion')}: {field}={v!r}"
+            elif st == "sin_dato":
+                if v is not None:
+                    return f"{r.get('estacion')}: {field} con valor y sin_dato"
+            elif st is not None:
+                return f"{r.get('estacion')}: estado {st!r}"
+        v24, v48 = r.get("lluvia_24h_precedentes_mm"), r.get("lluvia_48h_precedentes_mm")
+        if r.get("estado_48h") == "observado" and isinstance(v24, (int, float)) and isinstance(v48, (int, float)) and v48 + 0.001 < v24:
+            return f"{r.get('estacion')}: 48 h menor que 24 h"
+    return None
+
+
+def extraer_lluvia_respaldo(level, tmpdir: Path) -> dict:
+    """Extrae la lluvia CONAGUA del PDF de niveles recuperado por Gmail.
+
+    Trabaja en una copia temporal y sólo reemplaza Lluvia_CONAGUA si el resultado
+    es válido, corresponde al mismo corte que los niveles y es más nuevo que la
+    lluvia publicada. Nunca lanza excepciones.
+    """
+    info = {"intentado": True, "actualizada": False}
+    try:
+        hist = json.loads((BASE / "Historico" / "niveles_historicos.json").read_text(encoding="utf-8"))
+        cut = _cut_time([r for r in hist if isinstance(r, dict) and r.get("message_id") == level["key"]])
+        if cut is None:
+            info["motivo"] = "no se encontró el corte de niveles de este mensaje"
+            return info
+        info["corte_niveles"] = cut.isoformat()
+        try:
+            current = _cut_time(json.loads((RAIN_DIR / "ultimo_corte.json").read_text(encoding="utf-8")))
+        except (OSError, ValueError):
+            current = None
+        if current is not None and cut <= current:
+            info["motivo"] = f"la lluvia publicada ({current.isoformat()}) ya es igual o más reciente"
+            return info
+        work = tmpdir / "lluvia_base"
+        (work / "Lluvia_CONAGUA").mkdir(parents=True, exist_ok=True)
+        for name in RAIN_FILES:
+            src = RAIN_DIR / name
+            if src.exists():
+                (work / "Lluvia_CONAGUA" / name).write_bytes(src.read_bytes())
+        # La hora del corte va primero para que el extractor no la tome de otra parte del asunto.
+        subject = f"INFORME DE NIVELES DE LAS {cut.hour:02d}:00 HORAS · {level['subject']}"
+        proc = subprocess.run(["node", str(RAIN_EXTRACTOR), "--pdf", str(level["path"]), "--subject", subject,
+                               "--message-id", level["key"], "--base", str(work)],
+                              capture_output=True, text=True, timeout=180)
+        print(proc.stdout.strip())
+        if proc.returncode != 0:
+            info["motivo"] = f"extractor terminó con código {proc.returncode}: {proc.stderr.strip()[:200]}"
+            return info
+        rows = json.loads((work / "Lluvia_CONAGUA" / "ultimo_corte.json").read_text(encoding="utf-8"))
+        got = _cut_time(rows)
+        if got is None or got != cut:
+            info["motivo"] = f"el corte extraído ({got}) no coincide con el de niveles ({cut.isoformat()})"
+            return info
+        problem = _rain_rows_ok(rows)
+        if problem:
+            info["motivo"] = "validación: " + problem
+            return info
+        RAIN_DIR.mkdir(parents=True, exist_ok=True)
+        for name in RAIN_FILES:
+            src = work / "Lluvia_CONAGUA" / name
+            if src.exists():
+                (RAIN_DIR / name).write_bytes(src.read_bytes())
+        info.update({"actualizada": True, "corte": cut.isoformat(), "estaciones": len(rows),
+                     "observadas_24h": sum(1 for r in rows if r.get("estado_24h") == "observado")})
+    except Exception as exc:  # nunca bloquear niveles
+        info["motivo"] = f"{type(exc).__name__}: {exc}"
+    return info
+
+
 def main():
     now = datetime.now(timezone.utc).astimezone(MX_TZ)
     current_level_time = current_latest_level_time()
@@ -267,6 +367,7 @@ def main():
     messages.sort(key=lambda x: x["dt"])
     latest_sources = {}
 
+    newest_level = None
     with tempfile.TemporaryDirectory(prefix="gmail_backup_") as tmp:
         tmpdir = Path(tmp)
         for item in messages:
@@ -317,8 +418,18 @@ def main():
                     processed.add(processed_key)
                     hashes.add(digest)
                     status["levels_processed_now"] += 1
+                    # Conservar el PDF de niveles más reciente para extraer la lluvia al final.
+                    if newest_level is None or dt > newest_level["dt"]:
+                        keep = tmpdir / f"lluvia_{processed_key}.pdf"
+                        keep.write_bytes(payload)
+                        newest_level = {"dt": dt, "path": keep, "subject": subject, "key": key}
                 except Exception as exc:
                     status["errors"].append({"uid": uid, "subject": subject, "error": f"{type(exc).__name__}: {exc}"})
+
+        # Aditivo y no bloqueante: lluvia CONAGUA del mismo PDF de niveles.
+        # Nunca agrega a status["errors"]; cualquier problema sólo queda en status["lluvia_conagua"].
+        if newest_level is not None:
+            status["lluvia_conagua"] = extraer_lluvia_respaldo(newest_level, tmpdir)
 
     for source, item in latest_sources.items():
         try:
