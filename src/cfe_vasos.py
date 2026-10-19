@@ -193,8 +193,41 @@ def main():
                 print(f'IMAP intento {attempt}/3 falló: {exc}')
                 time.sleep(attempt * 5)
         since = (now_local() - timedelta(days=2)).strftime('%d-%b-%Y')
-        typ, data = mail.uid('search', None, f'(SINCE "{since}" FROM "cfe.mx" SUBJECT "FUNCIONAMIENTO DE VASOS")')
-        uids = [int(u) for u in (data[0] or b'').split()] if typ == 'OK' else []
+        diag, uids = {}, []
+        consultas = [('gm_raw', ('X-GM-RAW', '"from:cfe.mx subject:(funcionamiento vasos) newer_than:2d"')),
+                     ('imap', (f'(SINCE "{since}" FROM "cfe.mx" SUBJECT "FUNCIONAMIENTO")',)),
+                     ('asunto', (f'(SINCE "{since}" SUBJECT "FUNCIONAMIENTO DE VASOS")',))]
+        buzones = ['INBOX']
+        try:
+            typ, lst = mail.list()
+            for ln in lst or []:
+                t = ln.decode('utf-8', 'ignore')
+                if '\\All' in t:
+                    buzones.append(t.split(' "/" ')[-1].strip())
+        except Exception:
+            pass
+        for bz in buzones:
+            if bz != 'INBOX':
+                try:
+                    mail.select(bz, readonly=True)
+                except Exception as exc:
+                    diag[bz] = f'no se abrió: {exc}'[:80]
+                    continue
+            for nombre, crit in consultas:
+                try:
+                    typ, data = mail.uid('search', None, *crit)
+                    u = [int(x) for x in (data[0] or b'').split()] if typ == 'OK' else []
+                except Exception as exc:
+                    u = []
+                    diag[f'{bz}:{nombre}'] = f'error {exc}'[:80]
+                    continue
+                diag[f'{bz}:{nombre}'] = len(u)
+                if u and not uids:
+                    uids = u
+            if uids:
+                break
+        st['busqueda'] = diag
+        print('CFE vasos búsqueda:', diag)
         if not uids:
             st['error'] = None
             st['resultado'] = 'sin correos CFE recientes'
