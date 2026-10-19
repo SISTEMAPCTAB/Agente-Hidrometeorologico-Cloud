@@ -244,6 +244,63 @@ def _rain_rows_ok(rows):
     return None
 
 
+def _fix_overnight_48h(rain_dir: Path, cut: datetime) -> str:
+    """Cortes de 00:00 a 07:59: el bloque oficial de 24 h del PDF sigue siendo el de las 08:00 del día
+    anterior, pero el extractor lo fecha con el día del PDF y lo suma consigo mismo para 48 h.
+    Se toma el 48 h ya calculado para ese mismo bloque (corte del día anterior desde las 08:00) cuando
+    el valor de 24 h coincide; si no se puede asegurar, 48 h queda sin_dato (nunca se inventa)."""
+    import csv as _csv, io as _io
+    cut_iso = cut.isoformat()
+    prev_day = (cut - timedelta(days=1)).date().isoformat()
+    hist = json.loads((rain_dir / "historico.json").read_text(encoding="utf-8"))
+    ref = {}
+    for r in hist:
+        fh = str(r.get("fecha_hora") or "")
+        if not fh.startswith(prev_day):
+            continue
+        try:
+            if datetime.fromisoformat(fh).hour < 8:
+                continue
+        except ValueError:
+            continue
+        k = niveles.norm(r.get("estacion"))
+        if k not in ref or fh > str(ref[k].get("fecha_hora")):
+            ref[k] = r
+    fixed = cleared = 0
+
+    def fix(r):
+        nonlocal fixed, cleared
+        p = ref.get(niveles.norm(r.get("estacion")))
+        same = (p is not None and r.get("estado_24h") == "observado" and p.get("estado_24h") == "observado"
+                and isinstance(r.get("lluvia_24h_precedentes_mm"), (int, float))
+                and isinstance(p.get("lluvia_24h_precedentes_mm"), (int, float))
+                and abs(float(p["lluvia_24h_precedentes_mm"]) - float(r["lluvia_24h_precedentes_mm"])) < 0.05)
+        if same and p.get("estado_48h") == "observado" and isinstance(p.get("lluvia_48h_precedentes_mm"), (int, float)):
+            r["lluvia_48h_precedentes_mm"], r["estado_48h"] = p["lluvia_48h_precedentes_mm"], "observado"
+            r["fecha_referencia_48h"] = p.get("fecha_referencia_48h")
+            fixed += 1
+        else:
+            if r.get("estado_48h") == "observado":
+                cleared += 1
+            r["lluvia_48h_precedentes_mm"], r["estado_48h"], r["fecha_referencia_48h"] = None, "sin_dato", None
+        return r
+
+    rows = [fix(r) for r in json.loads((rain_dir / "ultimo_corte.json").read_text(encoding="utf-8"))]
+    (rain_dir / "ultimo_corte.json").write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
+    by = {(r.get("fecha_hora"), niveles.norm(r.get("estacion"))): r for r in rows}
+    hist = [by.get((r.get("fecha_hora"), niveles.norm(r.get("estacion"))), r) if r.get("fecha_hora") == cut_iso else r for r in hist]
+    (rain_dir / "historico.json").write_text(json.dumps(hist, ensure_ascii=False, indent=2), encoding="utf-8")
+    hdr = ["fecha_hora", "estacion", "lluvia_24h_precedentes_mm", "estado_24h", "lluvia_48h_precedentes_mm", "estado_48h",
+           "fecha_referencia_48h", "lluvia_hoy_desde_08_mm", "estado_hoy", "fuente"]
+    buf = _io.StringIO()
+    w = _csv.writer(buf, lineterminator="\n")
+    w.writerow(hdr)
+    for r in rows:
+        w.writerow(["" if r.get(h) is None else r.get(h) for h in hdr])
+    (rain_dir / "ultimo_corte.csv").write_text(buf.getvalue().rstrip("\n"), encoding="utf-8")
+    return f"48 h tomado del bloque del {prev_day} en {fixed} estaciones; {cleared} quedan sin_dato"
+
+
 def extraer_lluvia_respaldo(level, tmpdir: Path) -> dict:
     """Extrae la lluvia CONAGUA del PDF de niveles recuperado por Gmail.
 
@@ -281,6 +338,8 @@ def extraer_lluvia_respaldo(level, tmpdir: Path) -> dict:
         if proc.returncode != 0:
             info["motivo"] = f"extractor terminó con código {proc.returncode}: {proc.stderr.strip()[:200]}"
             return info
+        if cut.hour < 8:
+            info["ajuste_madrugada"] = _fix_overnight_48h(work / "Lluvia_CONAGUA", cut)
         rows = json.loads((work / "Lluvia_CONAGUA" / "ultimo_corte.json").read_text(encoding="utf-8"))
         got = _cut_time(rows)
         if got is None or got != cut:
