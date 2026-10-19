@@ -197,6 +197,16 @@ RAIN_FILES = ("ultimo_corte.json", "ultimo_corte.csv", "historico.json", "Estado
 RAIN_EXTRACTOR = Path("src/extraer_lluvia_conagua.js")
 
 
+def is_levels_subject_extra(subject: str) -> bool:
+    """Variantes de asunto que no reconoce niveles_cloud.is_levels_subject.
+
+    Ej.: "SE ENVIA NIVELES DE 2 AM DEL 19 DE OCTUBRE" (sin "de las"). Exige la marca de hora
+    (AM/PM/HRS/HORAS o :MM) para no confundir con fechas.
+    """
+    s = niveles.norm(subject)
+    return bool(re.search(r"niveles\s+de\s+\d{1,2}(?::\d{2})?\s*(?:a\.?\s?m\.?|p\.?\s?m\.?|hrs?\b|horas?\b)|niveles\s+de\s+\d{1,2}:\d{2}", s))
+
+
 def _cut_time(rows):
     """Corte más reciente (fecha_hora) de una lista de filas, o None."""
     best = None
@@ -307,6 +317,7 @@ def main():
         "pdfs_skipped_duplicate_content": 0,
         "sources_updated": [],
         "errors": [],
+        "mensajes_con_error": [],
     }
     BASE.mkdir(parents=True, exist_ok=True)
     if not GMAIL_USER or not GMAIL_PASSWORD:
@@ -375,7 +386,7 @@ def main():
             key = f"gmail-{uid}"
             for idx, (filename, payload) in enumerate(item["parts"], start=1):
                 digest = pdf_hash(payload)
-                is_level = niveles.is_levels_subject(subject)
+                is_level = niveles.is_levels_subject(subject) or is_levels_subject_extra(subject)
                 # Un hash histórico no debe bloquear la recuperación de un corte
                 # más reciente; el procesador valida fecha y evita duplicados.
                 source = carbonio.classify(subject, filename)
@@ -424,7 +435,10 @@ def main():
                         keep.write_bytes(payload)
                         newest_level = {"dt": dt, "path": keep, "subject": subject, "key": key}
                 except Exception as exc:
-                    status["errors"].append({"uid": uid, "subject": subject, "error": f"{type(exc).__name__}: {exc}"})
+                    # Un PDF que no se puede procesar no debe bloquear los demás cortes ni la publicación:
+                    # queda registrado aquí (no en "errors") y se reintenta en la siguiente revisión.
+                    status.setdefault("mensajes_con_error", []).append(
+                        {"uid": uid, "subject": subject, "error": f"{type(exc).__name__}: {exc}"[:1500]})
 
         # Aditivo y no bloqueante: lluvia CONAGUA del mismo PDF de niveles.
         # Nunca agrega a status["errors"]; cualquier problema sólo queda en status["lluvia_conagua"].
@@ -437,7 +451,8 @@ def main():
                 status["sources_updated"].append(source)
                 hashes.add(item["digest"])
         except Exception as exc:
-            status["errors"].append({"source": source, "error": f"{type(exc).__name__}: {exc}"})
+            # No bloquea niveles: queda registrado y se reintenta en la siguiente revisión.
+            status.setdefault("mensajes_con_error", []).append({"source": source, "error": f"{type(exc).__name__}: {exc}"[:1500]})
 
     save_processed(processed)
     save_hashes(hashes)
