@@ -1,13 +1,26 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-10-19T00:08:32.777734-06:00",
+  "run_local": "2026-10-19T05:34:59.704624-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-10-18T22:00:00-06:00",
-  "messages_scanned": 42,
-  "levels_processed_now": 0,
+  "messages_scanned": 45,
+  "levels_processed_now": 2,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 24,
   "sources_updated": [],
-  "errors": []
+  "errors": [],
+  "mensajes_con_error": [
+    {
+      "uid": "65585",
+      "subject": "SE ENVIA NIVELES DE LAS 24 HRS. DEL 18 DE OCTUBRE DEL 2026",
+      "error": "RuntimeError: ERROR COMPAT: Error: No existe fila horaria 24:00 en el PDF.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:22:506"
+    }
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": false,
+    "corte_niveles": "2026-10-19T04:00:00-06:00",
+    "motivo": "validación: PLATANAR: lluvia_48h_precedentes_mm=534"
+  }
 }
