@@ -42,7 +42,7 @@ async function show(){
   '<div class="table-wrap"><table><thead>'+head+'</thead><tbody>'+rows+'</tbody></table></div><p class="muted">Río La Sierra en Pueblo Nuevo (Centro): ya incluye los ríos Tacotalpa (Tapijulapa), Teapa y Puyacatengo.</p></section>'+
   (picos?'<section class="panel wide"><h2>Picos esperados 0–72 h · Sierra</h2><div class="table-wrap"><table><thead><tr><th>Río · estación</th><th>Gasto pico</th><th>Nivel pico</th><th>Hora</th>'+((d.picos_sierra_alto||[]).length?'<th>Escenario alto (boletín SMN)</th>':'')+'</tr></thead><tbody>'+picos+'</tbody></table></div><p class="muted">Los picos pueden caer entre las columnas H+36 y H+72 del cuadro. Escenario alto: lluvia del boletín SMN 96 h del día convertida a su percentil 90 observado; no es el pronóstico central.</p></section>':'')+
   acu+
- '<section class="panel wide"><p class="muted">'+(d.notas||[]).map(esc).join('<br>')+'<br>Modelo hidrológico experimental del Dr. Horacio Rubio Gutiérrez, desarrollo AMH Sección Tabasco (SegAMH). Gasto en m³/s.</p></section>';
+ '<section class="panel wide"><p class="muted">'+(d.notas||[]).map(esc).join('<br>')+'<br>Modelo hidrológico experimental del Dr. Horacio Rubio Gutiérrez, desarrollo AMH Sección Tabasco (SegAMH). Aforos, curvas escala–gasto y topografía de Gaviotas: Dr. J. Enrique León Jiménez (UJAT). Gasto en m³/s.</p></section>';
 }
 document.addEventListener('DOMContentLoaded',()=>{
  document.getElementById('content')?.addEventListener('app-rendered',e=>{if(e.detail?.section==='modelo')show()});
