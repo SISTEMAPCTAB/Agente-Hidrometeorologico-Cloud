@@ -18,18 +18,27 @@
       by.set(k,x);
     };
     for(const r of rainRows(id))put(r.station,r.h24,r.h48,r.source);
-    // 48 h de CONAGUA (rainRows no lo trae): misma estación, mismo filtro de sistema y misma guarda de Peñitas.
+    // 48 h de CONAGUA (rainRows no lo trae). Si el reporte horario es del mismo día que el boletín vigente
+    // (o no hay boletín), se usa su 48 h oficial. Si el boletín es más nuevo, el 48 h horario ya no aplica:
+    // se estima ≈48 h = 24 h del boletín + bloque oficial de 24 h del reporte horario anterior.
+    const bol=Array.isArray(state.data.climaConagua?.conagua_tabasco)?state.data.climaConagua.conagua_tabasco:[];
+    const bolDay=bol.map(r=>String(r.fecha_hora_mensaje||'').slice(0,10)).sort().at(-1)||'';
     for(const r of conagua()){
-      if(r.estado_48h!=='observado'||!finite(r.lluvia_48h_precedentes_mm))continue;
       const t=norm(r.estacion);if(!c.terms.some(x=>t.includes(x)))continue;
       if(t==='penitas'&&(Number(r.lluvia_24h_precedentes_mm)>150||r.advertencia))continue;
-      if(!by.has(t))continue; // sólo completa estaciones que ya cuentan con 24 h vigente
-      put(r.estacion,null,r.lluvia_48h_precedentes_mm,'CONAGUA');
+      const x=by.get(t);if(!x)continue; // sólo completa estaciones que ya cuentan con 24 h vigente
+      const stale=bolDay&&String(r.fecha_hora||'').slice(0,10)<bolDay;
+      if(!stale){
+        if(r.estado_48h==='observado'&&finite(r.lluvia_48h_precedentes_mm))put(r.estacion,null,r.lluvia_48h_precedentes_mm,'CONAGUA');
+      }else if(r.estado_24h==='observado'&&finite(r.lluvia_24h_precedentes_mm)&&finite(x.h24)&&x.h24!==-Infinity){
+        put(r.estacion,null,Number(x.h24)+Number(r.lluvia_24h_precedentes_mm),'boletín + bloque previo');
+        by.get(t).approx48=true;
+      }
     }
     return [...by.values()].map(x=>{
       const h24=x.h24===-Infinity?null:x.h24,h48=x.h48===-Infinity?null:x.h48;
       const max=Math.max(...[h24,h48].filter(finite),-Infinity);
-      return {...x,h24,h48,max,win:finite(h48)&&h48>=(h24??-Infinity)?'48 h':'24 h'};
+      return {...x,h24,h48,max,win:finite(h48)&&h48>=(h24??-Infinity)?(x.approx48?'≈48 h':'48 h'):'24 h'};
     }).filter(x=>Number.isFinite(x.max)).sort((a,b)=>b.max-a.max);
   }
 
