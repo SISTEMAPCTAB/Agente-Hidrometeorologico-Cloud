@@ -7,7 +7,24 @@
   //   75–150   → Atención prioritaria     si hay respuesta hidrométrica; si no, Vigilancia reforzada.
   //   <75      → Seguimiento ordinario; Vigilancia reforzada si alguna estación está sobre el NAMO.
   // Respuesta hidrométrica: ≥2 estaciones en ascenso, ascenso ≥0.20 m en 24 h, o nivel a ≤1 m del NAMO (o sobre él).
+  // v4 (19-oct-2026): riesgo de desbordamiento del malecón de Villahermosa exportado por el Modelo (campo "malecon",
+  // V106s). Sólo si la corrida tiene ≤6 h. Eleva Ríos Serranos–Grijalva: Desbordamiento probable → Emergencia;
+  // Riesgo de desbordamiento → Atención prioritaria; Vigilar → Vigilancia reforzada. Nunca baja el nivel.
   const mm=v=>Number(v).toFixed(1),m2=v=>Number(v).toFixed(2);
+  let MODELO=null;
+  const cargarModelo=()=>fetch('../data/modelo_rubio/latest.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{
+    const nuevo=JSON.stringify(d?.malecon||null)!==JSON.stringify(MODELO?.malecon||null);MODELO=d;
+    try{if(nuevo&&state.current==='resumen'&&typeof render==='function')render()}catch(_e){}
+  }).catch(()=>{});
+  cargarModelo();setInterval(cargarModelo,10*60*1000);
+  const RANGO={'Seguimiento ordinario':0,'Vigilancia reforzada':1,'Atención prioritaria':2,'Atención de la Emergencia':3,'Atención del Desastre':4};
+  function malecon(){
+    const d=MODELO,m=d?.malecon,age=(Date.now()-Date.parse(d?.calculado_utc||''))/3600000;
+    if(!m||!m.estado||!Number.isFinite(age)||age>6)return null;
+    const lvl={'Desbordamiento probable':['Atención de la Emergencia','danger'],'Riesgo de desbordamiento':['Atención prioritaria','danger'],'Vigilar':['Vigilancia reforzada','warn']}[m.estado];
+    const g=m.gaviotas||{};
+    return {lvl,txt:`Malecón: ${m.estado} (Gaviotas máx. ${Number.isFinite(g.max72_central_m)?m2(g.max72_central_m):'s/d'} m, nivel alto ${Number.isFinite(g.max72_alto_m)?m2(g.max72_alto_m):'s/d'} m; umbral ${m2(m.umbral_gaviotas_m)} m · Modelo ${d.version||''})`};
+  }
 
   function systemRain(id){
     const c=SYSTEMS[id];const by=new Map();
@@ -67,6 +84,9 @@
       else{label='Vigilancia reforzada';cls='warn';why=hydroTxt;}
     }else if(above.length){label='Vigilancia reforzada';cls='warn';why=hydroTxt;}
     const rainTxt=top?`${top.station}: ${mm(top.max)} mm en ${top.win}`:'sin lluvia observada válida';
+    if(id==='serranos'){const mc=malecon();if(mc){
+      if(mc.lvl&&RANGO[mc.lvl[0]]>RANGO[label]){label=mc.lvl[0];cls=mc.lvl[1];why=mc.txt}
+      else why=(why?why+' · ':'')+mc.txt}}
     return {label,cls,rainTxt,why};
   }
 
@@ -75,7 +95,7 @@
       const e=evaluate(id);
       return `<div class="station-card"><strong>${esc(c.title)}</strong><span class="badge ${e.cls}">${e.label}</span>`+
         `<small class="muted" style="display:block;margin-top:6px;line-height:1.35">${esc(e.rainTxt)}${e.why?' · '+esc(e.why):''}</small></div>`;
-    }).join('')}</div><p class="section-note" style="margin:10px 0 0">Criterio: lluvia observada máxima por estación (24 o 48 h). ≥250 mm = Desastre y 150–250 mm = Emergencia sólo si se confirma con nivel sobre NAMO, respuesta hidrométrica o más de una estación; una lectura aislada baja un escalón. 75–150 mm con respuesta hidrométrica = Atención prioritaria; sin ella, Vigilancia reforzada.</p>`;
+    }).join('')}</div><p class="section-note" style="margin:10px 0 0">Criterio: lluvia observada máxima por estación (24 o 48 h). ≥250 mm = Desastre y 150–250 mm = Emergencia sólo si se confirma con nivel sobre NAMO, respuesta hidrométrica o más de una estación; una lectura aislada baja un escalón. 75–150 mm con respuesta hidrométrica = Atención prioritaria; sin ella, Vigilancia reforzada. Ríos Serranos–Grijalva sube de nivel si el Modelo pronostica riesgo de desbordamiento del malecón de Villahermosa (Gaviotas 7.70 m / El Muelle 7.60 m).</p>`;
   }
 
   // Sustituye únicamente el motor visual del semáforo; no crea apartados ni altera tablas/datos.

@@ -36,7 +36,15 @@ async function show(){
   la.rios.map(x=>'<tr><td><b>'+esc(x.rio)+'</b></td><td>'+mm(x.observada_mm)+(x.dias_obs<x.dias_tot?' <small>('+esc(x.dias_obs)+'/'+esc(x.dias_tot)+' días)</small>':'')+'</td><td>'+mm(x.pronosticada_96h_mm)+'</td><td>'+mm(x.smn360_mm)+'</td><td><b>'+mm(x.total_mm)+'</b></td><td>'+(ok(x.mediana_mm)?mm(x.mediana_mm)+'<br><small>máx.: '+mm(x.maximo_mm)+' · '+esc(x.maximo_txt||'')+'</small>':'—')+'</td><td>'+
    (x.pct_mediana==null?'<span style="color:#666">'+esc(x.lectura)+'</span>':'<b style="color:'+col(x)+'">'+esc(x.pct_mediana)+' % de la mediana</b>'+(ok(x.pct_maximo)?' <span style="color:#555">· '+esc(x.pct_maximo)+' % del máximo</span>':'')+'<br><span style="color:'+col(x)+'">'+esc(x.lectura)+'</span>')+'</td></tr>').join('')+
   '</tbody></table></div><p class="muted">Lluvia observada: cortes SIH de 24 h'+(la.observada_hasta?' hasta el '+esc(la.observada_hasta):'')+'. SMN 360 h convertido a lluvia media con ×0.3 (indicativo). No es un pronóstico de nivel.</p></section>':'';
- root.innerHTML=aviso+
+ const mc=d.malecon,f2=v=>ok(v)?Number(v).toFixed(2)+' m':'s/d';
+ const mcol={'Desbordamiento probable':'#9b1c1c','Riesgo de desbordamiento':'#b91c1c','Vigilar':'#a16207','Sin riesgo':'#15803d'}[mc?.estado]||'#666';
+ const mal=mc&&mc.estado?'<section class="panel wide" style="border-left:6px solid '+mcol+'"><h2>Malecón de Villahermosa · riesgo de desbordamiento</h2>'+
+  '<p><b style="color:'+mcol+';font-size:1.1em">'+esc(mc.estado)+'</b>'+(fresh?'':' <span style="color:#b45309">(corrida desactualizada)</span>')+'</p>'+
+  '<div class="table-wrap"><table><thead><tr><th>Estación</th><th>Nivel actual</th><th>Máximo 0–72 h (central)</th><th>Nivel alto probable</th><th>Umbral (10 cm bajo la corona)</th><th>Margen con nivel alto</th></tr></thead><tbody>'+
+  '<tr><td><b>Río Grijalva · Gaviotas</b></td><td>'+f2(mc.gaviotas?.actual_m)+'</td><td>'+f2(mc.gaviotas?.max72_central_m)+' <small>'+esc(mc.gaviotas?.hora_central||'')+'</small></td><td>'+f2(mc.gaviotas?.max72_alto_m)+'</td><td><b>'+f2(mc.umbral_gaviotas_m)+'</b></td><td>'+f2(mc.gaviotas?.margen_alto_m)+'</td></tr>'+
+  '<tr><td><b>Río Grijalva · El Muelle</b></td><td>'+f2(mc.muelle?.actual_m)+'</td><td>'+f2(mc.muelle?.max72_central_m)+'</td><td>'+f2(mc.muelle?.max72_alto_m)+'</td><td><b>'+f2(mc.umbral_muelle_m)+'</b></td><td>'+f2(mc.muelle?.margen_alto_m)+'</td></tr>'+
+  '</tbody></table></div><p class="muted">'+esc(mc.criterio||'')+' '+esc(mc.fuente||'')+'</p></section>':'';
+ root.innerHTML=aviso+mal+
   '<section class="panel wide"><h2>Modelo Rubio/SegAMH · pronóstico 0–72 h</h2>'+
   '<p class="muted">Corrida '+esc(d.version||'')+' · calculada '+fdate(d.calculado_utc)+' · '+estado+'<br>Lluvia futura: '+esc(d.lluvia_futura||'s/d')+'</p>'+
   '<div class="table-wrap"><table><thead>'+head+'</thead><tbody>'+rows+'</tbody></table></div><p class="muted">Río La Sierra en Pueblo Nuevo (Centro): ya incluye los ríos Tacotalpa (Tapijulapa), Teapa y Puyacatengo.</p></section>'+
