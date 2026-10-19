@@ -60,6 +60,10 @@ def parse_fuente2(text):
             cand_rain, cand_tmax, cand_tmin = n[-5], n[-4], n[-3]
             if 0 <= cand_rain <= 500 and plausible_temp(cand_tmax, cand_tmin):
                 rain, tmax, tmin = cand_rain, cand_tmax, cand_tmin
+        elif len(n) == 3:
+            # Fila sin escalas (Observatorio de Villahermosa): sólo precip, Tmax, Tmin.
+            if 0 <= n[0] <= 500 and plausible_temp(n[1], n[2]):
+                rain, tmax, tmin = n[0], n[1], n[2]
         if rain is None and tmax is None and tmin is None:
             continue
         seen.add(name)
@@ -71,6 +75,29 @@ def parse_fuente2(text):
             'fecha_hora_mensaje': msg,
             'fecha_hora_recoleccion': rec,
             'fuente': 'CONAGUA Tabasco / FUENTE2',
+            'estado_dato': 'observado'
+        })
+    # Bloque "* Estaciones Automaticas": una fila por estación con sólo la precipitación
+    # ("* HUIMANGUILLO (INIFAP) 177.8"). Antes no se leía. Exactamente un número al final;
+    # "N/A" o celdas vacías no generan fila (nunca se convierten a cero).
+    auto_rx = re.compile(r'^\*\s*([A-ZÁÉÍÓÚÜÑ][A-ZÁÉÍÓÚÜÑ0-9 ().\-]*?[A-ZÁÉÍÓÚÜÑ0-9)])\s+(\d{1,3}(?:\.\d+)?)\s*$')
+    for raw in body.splitlines():
+        m = auto_rx.match(raw.strip())
+        if not m:
+            continue
+        name, val = re.sub(r'\s+', ' ', m.group(1)).strip(), float(m.group(2))
+        if (local_name(name) or '').lower() == name.lower() or name in seen or not 0 <= val <= 500:
+            continue
+        seen.add(name)
+        rows.append({
+            'estacion': name,
+            'lluvia_24h_mm': val,
+            'temp_max_c': None,
+            'temp_min_c': None,
+            'fecha_hora_mensaje': msg,
+            'fecha_hora_recoleccion': rec,
+            'fuente': 'CONAGUA Tabasco / FUENTE2 · estación automática',
+            'tipo': 'automatica',
             'estado_dato': 'observado'
         })
     return rows
