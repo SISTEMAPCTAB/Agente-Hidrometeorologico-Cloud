@@ -23,8 +23,8 @@ const JOBS = [
   { workflow: "gmail-backup-cloud.yml", crons: [
     "45 12,14,16,18,20,22,0 * * *", "15,45 13 * * *", "15 14 * * *", "15 1 * * *",
     // TEMPORAL evento frente frío oct-2026: CONAGUA envía niveles cada 2 h también de noche.
-    // Revisiones 22:45, 23:45, 01:45, 03:45 y 05:45 hora de Tabasco. Quitar al terminar el evento.
-    "45 4,5,7,9,11 * * *"] },
+    // Revisiones 20:45, 21:45, 22:45, 23:45, 01:45, 03:45 y 05:45 hora de Tabasco. Quitar al terminar el evento.
+    "45 2,3,4,5,7,9,11 * * *"] },
   // Análisis integral de las 11:05 hora de Tabasco.
   { workflow: "analysis-word.yml", crons: ["5 17 * * *"] },
   { workflow: "smn-cloud-fast.yml", crons: ["10,40 16 * * *", "10 17,19 * * *"] },
