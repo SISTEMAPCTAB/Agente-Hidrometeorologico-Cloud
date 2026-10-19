@@ -19,6 +19,7 @@ on:
 
 permissions:
   contents: write
+  actions: write   # para lanzar gastos-modelo.yml (un push con GITHUB_TOKEN no dispara otros workflows)
 
 # Misma cola de escritura que niveles principal y sus dos recuperadores.
 # Impide procesar/publicar simultáneamente los mismos históricos y Word.
@@ -280,6 +281,32 @@ jobs:
           done
           echo "Publicación Gmail falló tras cuatro intentos."
           exit 1
+
+      # Gastos del modelo: si este respaldo publicó un boletín nuevo (FUENTE1/FUENTE2), lanzar de inmediato
+      # gastos-modelo.yml (su commit [skip ci] no lo dispara). El extractor sólo acepta gastos con columna
+      # verificada; un boletín sin gastos (06:00) conserva el último válido. No afecta niveles.
+      - name: Lanzar actualización de gastos del modelo si llegó boletín nuevo
+        if: always() && steps.gmail.outputs.enabled == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          if python3 - <<'PY'
+          import json
+          from pathlib import Path
+          try:
+              s=json.loads(Path('data/niveles/Estado_Gmail_Backup.json').read_text(encoding='utf-8'))
+          except (OSError,ValueError):
+              raise SystemExit(1)
+          raise SystemExit(0 if set(s.get('sources_updated') or [])&{'FUENTE1','FUENTE2'} else 1)
+          PY
+          then
+            gh workflow run gastos-modelo.yml --ref main && echo "Lanzado gastos-modelo.yml"
+          else
+            echo "Sin boletín nuevo: no se recalculan gastos."
+          fi
 
       # CFE · funcionamiento de vasos (Peñitas, Juan de Grijalva, Malpaso). Paso independiente al final:
       # si falla, no afecta niveles ni boletines. Sólo publica data/cfe_vasos (sin el Excel).
