@@ -1,32 +1,72 @@
 (() => {
+  // Semáforo operativo por sistema (v2, 19-oct-2026).
+  // Criterio: lluvia observada (máximo de 24 h o 48 h por estación) confirmada con más de una
+  // estación o con respuesta hidrométrica. Una sola lectura extrema baja un escalón si no se confirma.
+  //   ≥250 mm  → Atención del Desastre   si hay nivel sobre NAMO o ≥2 estaciones ≥150 mm; si no, Emergencia.
+  //   150–250  → Atención de la Emergencia si hay respuesta hidrométrica o ≥2 estaciones ≥75 mm; si no, Prioritaria.
+  //   75–150   → Atención prioritaria     si hay respuesta hidrométrica; si no, Vigilancia reforzada.
+  //   <75      → Seguimiento ordinario; Vigilancia reforzada si alguna estación está sobre el NAMO.
+  // Respuesta hidrométrica: ≥2 estaciones en ascenso, ascenso ≥0.20 m en 24 h, o nivel a ≤1 m del NAMO (o sobre él).
+  const mm=v=>Number(v).toFixed(1),m2=v=>Number(v).toFixed(2);
+
+  function systemRain(id){
+    const c=SYSTEMS[id];const by=new Map();
+    const put=(name,h24,h48,src)=>{
+      const k=norm(name);const x=by.get(k)||{station:name,h24:null,h48:null,src};
+      if(finite(h24))x.h24=Math.max(x.h24??-Infinity,Number(h24));
+      if(finite(h48))x.h48=Math.max(x.h48??-Infinity,Number(h48));
+      by.set(k,x);
+    };
+    for(const r of rainRows(id))put(r.station,r.h24,r.h48,r.source);
+    // 48 h de CONAGUA (rainRows no lo trae): misma estación, mismo filtro de sistema y misma guarda de Peñitas.
+    for(const r of conagua()){
+      if(r.estado_48h!=='observado'||!finite(r.lluvia_48h_precedentes_mm))continue;
+      const t=norm(r.estacion);if(!c.terms.some(x=>t.includes(x)))continue;
+      if(t==='penitas'&&(Number(r.lluvia_24h_precedentes_mm)>150||r.advertencia))continue;
+      if(!by.has(t))continue; // sólo completa estaciones que ya cuentan con 24 h vigente
+      put(r.estacion,null,r.lluvia_48h_precedentes_mm,'CONAGUA');
+    }
+    return [...by.values()].map(x=>{
+      const h24=x.h24===-Infinity?null:x.h24,h48=x.h48===-Infinity?null:x.h48;
+      const max=Math.max(...[h24,h48].filter(finite),-Infinity);
+      return {...x,h24,h48,max,win:finite(h48)&&h48>=(h24??-Infinity)?'48 h':'24 h'};
+    }).filter(x=>Number.isFinite(x.max)).sort((a,b)=>b.max-a.max);
+  }
+
+  function evaluate(id){
+    const rr=systemRows(id).filter(r=>r.estado_dato==='observado');
+    const rain=systemRain(id);const top=rain[0]||null;const L=top?top.max:-Infinity;
+    const n150=rain.filter(r=>r.max>=150).length,n75=rain.filter(r=>r.max>=75).length;
+    const asc=rr.filter(r=>/asc/i.test(r.tendencia||'')||(finite(r.delta_24h)&&Number(r.delta_24h)>0)).length;
+    const rise=Math.max(0,...rr.map(r=>Number(r.delta_24h)||0));
+    const withNamo=rr.filter(r=>finite(r.distancia_namo));
+    const above=withNamo.filter(r=>Number(r.distancia_namo)>=0).sort((a,b)=>b.distancia_namo-a.distancia_namo);
+    const near=withNamo.filter(r=>Number(r.distancia_namo)>=-1).sort((a,b)=>b.distancia_namo-a.distancia_namo);
+    const hydro=asc>=2||rise>=0.20||near.length>0;
+    const hydroTxt=above.length?`${above[0].estacion} ${m2(above[0].distancia_namo)} m sobre NAMO`
+      :near.length?`${near[0].estacion} a ${m2(-near[0].distancia_namo)} m del NAMO`
+      :rise>=0.20?`ascenso de ${rise.toFixed(2)} m en 24 h`:asc>=2?`${asc} estaciones en ascenso`:'sin respuesta hidrométrica relevante';
+    let label='Seguimiento ordinario',cls='ok',why='';
+    if(L>=250){
+      if(above.length||n150>=2){label='Atención del Desastre';cls='danger';why=above.length?hydroTxt:`${n150} estaciones ≥150 mm`;}
+      else{label='Atención de la Emergencia';cls='danger';why='una sola estación ≥150 mm y sin nivel sobre NAMO';}
+    }else if(L>=150){
+      if(hydro||n75>=2){label='Atención de la Emergencia';cls='danger';why=hydro?hydroTxt:`${n75} estaciones ≥75 mm`;}
+      else{label='Atención prioritaria';cls='danger';why='una sola estación ≥75 mm y '+hydroTxt;}
+    }else if(L>=75){
+      if(hydro){label='Atención prioritaria';cls='danger';why=hydroTxt;}
+      else{label='Vigilancia reforzada';cls='warn';why=hydroTxt;}
+    }else if(above.length){label='Vigilancia reforzada';cls='warn';why=hydroTxt;}
+    const rainTxt=top?`${top.station}: ${mm(top.max)} mm en ${top.win}`:'sin lluvia observada válida';
+    return {label,cls,rainTxt,why};
+  }
+
   function operationalSemaphore(){
     return `<div class="cards">${Object.entries(SYSTEMS).map(([id,c])=>{
-      const rr=systemRows(id);
-      const rains=rainRows(id);
-      const valid24=rains.filter(r=>finite(r.h24)).map(r=>Number(r.h24));
-      const valid48=rains.filter(r=>finite(r.h48)).map(r=>Number(r.h48));
-      const max24=valid24.length?Math.max(...valid24):null;
-      const max48=valid48.length?Math.max(...valid48):null;
-      const maxRain=Math.max(...[max24,max48].filter(finite),-Infinity);
-      const asc=rr.filter(r=>r.estado_dato==='observado'&&(/asc/i.test(r.tendencia||'')||(finite(r.delta_24h)&&Number(r.delta_24h)>0))).length;
-      const relevantRise=Math.max(0,...rr.filter(r=>r.estado_dato==='observado').map(r=>Number(r.delta_24h)||0));
-      const nearNamo=rr.some(r=>r.estado_dato==='observado'&&finite(r.distancia_namo)&&Math.abs(Number(r.distancia_namo))<=1);
-      let label='Seguimiento ordinario',cls='ok';
-
-      // Criterio rector solicitado: lluvia acumulada/persistente y respuesta hidrométrica coherente.
-      if(maxRain>=250){
-        label='Atención del Desastre'; cls='danger';
-      }else if(maxRain>=150){
-        label='Atención de la Emergencia'; cls='danger';
-      }else if(max48!==null&&max48>=75&&max48<150){
-        // En la banda 75–150 mm, la persistencia/confirmación hidrométrica diferencia
-        // Atención prioritaria de Vigilancia reforzada. Un ascenso aislado no escala por sí solo.
-        const persistentResponse=(asc>=2)||(relevantRise>=0.20)||nearNamo;
-        if(persistentResponse){label='Atención prioritaria';cls='danger';}
-        else {label='Vigilancia reforzada';cls='warn';}
-      }
-      return `<div class="station-card"><strong>${esc(c.title)}</strong><span class="badge ${cls}">${label}</span></div>`;
-    }).join('')}</div>`;
+      const e=evaluate(id);
+      return `<div class="station-card"><strong>${esc(c.title)}</strong><span class="badge ${e.cls}">${e.label}</span>`+
+        `<small class="muted" style="display:block;margin-top:6px;line-height:1.35">${esc(e.rainTxt)}${e.why?' · '+esc(e.why):''}</small></div>`;
+    }).join('')}</div><p class="section-note" style="margin:10px 0 0">Criterio: lluvia observada máxima por estación (24 o 48 h). ≥250 mm = Desastre y 150–250 mm = Emergencia sólo si se confirma con nivel sobre NAMO, respuesta hidrométrica o más de una estación; una lectura aislada baja un escalón. 75–150 mm con respuesta hidrométrica = Atención prioritaria; sin ella, Vigilancia reforzada.</p>`;
   }
 
   // Sustituye únicamente el motor visual del semáforo; no crea apartados ni altera tablas/datos.
