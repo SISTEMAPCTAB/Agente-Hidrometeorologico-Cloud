@@ -280,3 +280,33 @@ jobs:
           done
           echo "Publicación Gmail falló tras cuatro intentos."
           exit 1
+
+      # CFE · funcionamiento de vasos (Peñitas, Juan de Grijalva, Malpaso). Paso independiente al final:
+      # si falla, no afecta niveles ni boletines. Sólo publica data/cfe_vasos (sin el Excel).
+      - name: CFE funcionamiento de vasos (Peñitas)
+        if: always() && steps.gmail.outputs.enabled == 'true'
+        continue-on-error: true
+        timeout-minutes: 5
+        env:
+          GMAIL_BACKUP_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_BACKUP_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          pip install -q openpyxl==3.1.5
+          git fetch -q origin main && git reset -q --hard origin/main
+          python src/cfe_vasos.py
+          git config user.name "Agente Hidrometeorologico Gmail Backup"
+          git config user.email "actions@users.noreply.github.com"
+          [ -d data/cfe_vasos ] || exit 0
+          tar -cf /tmp/cfe-vasos.tar data/cfe_vasos
+          for intento in 1 2 3 4; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            tar -xf /tmp/cfe-vasos.tar
+            git add data/cfe_vasos
+            if git diff --cached --quiet; then echo "CFE vasos sin cambios."; exit 0; fi
+            git commit -q -m "CFE funcionamiento de vasos [skip ci]"
+            if git push -q origin HEAD:main; then exit 0; fi
+            sleep $((intento * 5))
+          done
+          exit 0
