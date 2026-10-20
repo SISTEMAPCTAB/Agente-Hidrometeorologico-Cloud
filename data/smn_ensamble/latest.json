@@ -1,13 +1,9 @@
 {
  "fuente": "SMN · FTP modelos numéricos · ensamble 00z",
- "corrida_utc": "2026-10-18T00:00:00+00:00",
- "archivo": "pronostico_ens_20261018_00.csv",
- "generado_utc": "2026-10-19T02:36:14+00:00",
+ "corrida_utc": "2026-10-19T00:00:00+00:00",
+ "archivo": "pronostico_ens_20261019_00.csv",
+ "generado_utc": "2026-10-20T02:41:27+00:00",
  "ventanas": [
-  {
-   "inicio_local": "2026-10-18T08:00:00-06:00",
-   "fin_local": "2026-10-19T08:00:00-06:00"
-  },
   {
    "inicio_local": "2026-10-19T08:00:00-06:00",
    "fin_local": "2026-10-20T08:00:00-06:00"
@@ -23,6 +19,10 @@
   {
    "inicio_local": "2026-10-22T08:00:00-06:00",
    "fin_local": "2026-10-23T08:00:00-06:00"
+  },
+  {
+   "inicio_local": "2026-10-23T08:00:00-06:00",
+   "fin_local": "2026-10-24T08:00:00-06:00"
   }
  ],
  "subcuencas": [
@@ -32,39 +32,39 @@
    "puntos_malla": 143,
    "dias": [
     {
-     "promedio_mm": 2.2,
-     "p90_mm": 6.5,
-     "max_mm": 9.7,
+     "promedio_mm": 1.4,
+     "p90_mm": 4.2,
+     "max_mm": 8.6,
      "categoria_max": "Chubascos",
      "categoria_promedio": "Aisladas"
     },
     {
-     "promedio_mm": 1.5,
-     "p90_mm": 4.4,
-     "max_mm": 6.5,
-     "categoria_max": "Chubascos",
-     "categoria_promedio": "Aisladas"
-    },
-    {
-     "promedio_mm": 13.4,
-     "p90_mm": 27.1,
-     "max_mm": 44.7,
+     "promedio_mm": 15.4,
+     "p90_mm": 27.8,
+     "max_mm": 47.6,
      "categoria_max": "Fuertes",
      "categoria_promedio": "Chubascos"
     },
     {
-     "promedio_mm": 11.5,
-     "p90_mm": 21.3,
-     "max_mm": 39.5,
-     "categoria_max": "Fuertes",
-     "categoria_promedio": "Chubascos"
-    },
-    {
-     "promedio_mm": 26.6,
-     "p90_mm": 43.7,
-     "max_mm": 58.3,
+     "promedio_mm": 22.9,
+     "p90_mm": 47.5,
+     "max_mm": 64.6,
      "categoria_max": "Muy fuertes",
-     "categoria_promedio": "Fuertes"
+     "categoria_promedio": "Chubascos"
+    },
+    {
+     "promedio_mm": 6.0,
+     "p90_mm": 12.8,
+     "max_mm": 16.3,
+     "categoria_max": "Chubascos",
+     "categoria_promedio": "Chubascos"
+    },
+    {
+     "promedio_mm": 1.2,
+     "p90_mm": 3.0,
+     "max_mm": 3.8,
+     "categoria_max": "Aisladas",
+     "categoria_promedio": "Aisladas"
     }
    ]
   },
@@ -74,39 +74,39 @@
    "puntos_malla": 132,
    "dias": [
     {
-     "promedio_mm": 2.3,
-     "p90_mm": 7.0,
-     "max_mm": 13.2,
-     "categoria_max": "Chubascos",
+     "promedio_mm": 0.8,
+     "p90_mm": 2.5,
+     "max_mm": 4.9,
+     "categoria_max": "Aisladas",
      "categoria_promedio": "Aisladas"
+    },
+    {
+     "promedio_mm": 20.3,
+     "p90_mm": 34.8,
+     "max_mm": 59.0,
+     "categoria_max": "Muy fuertes",
+     "categoria_promedio": "Chubascos"
+    },
+    {
+     "promedio_mm": 24.6,
+     "p90_mm": 48.2,
+     "max_mm": 64.6,
+     "categoria_max": "Muy fuertes",
+     "categoria_promedio": "Chubascos"
+    },
+    {
+     "promedio_mm": 6.3,
+     "p90_mm": 13.0,
+     "max_mm": 16.3,
+     "categoria_max": "Chubascos",
+     "categoria_promedio": "Chubascos"
     },
     {
      "promedio_mm": 1.8,
-     "p90_mm": 5.1,
-     "max_mm": 13.3,
+     "p90_mm": 4.2,
+     "max_mm": 5.3,
      "categoria_max": "Chubascos",
      "categoria_promedio": "Aisladas"
-    },
-    {
-     "promedio_mm": 15.2,
-     "p90_mm": 27.4,
-     "max_mm": 35.6,
-     "categoria_max": "Fuertes",
-     "categoria_promedio": "Chubascos"
-    },
-    {
-     "promedio_mm": 15.4,
-     "p90_mm": 26.0,
-     "max_mm": 44.7,
-     "categoria_max": "Fuertes",
-     "categoria_promedio": "Chubascos"
-    },
-    {
-     "promedio_mm": 31.3,
-     "p90_mm": 45.5,
-     "max_mm": 67.6,
-     "categoria_max": "Muy fuertes",
-     "categoria_promedio": "Fuertes"
     }
    ]
   },
@@ -116,39 +116,39 @@
    "puntos_malla": 169,
    "dias": [
     {
-     "promedio_mm": 4.6,
-     "p90_mm": 11.1,
-     "max_mm": 13.5,
+     "promedio_mm": 1.2,
+     "p90_mm": 3.2,
+     "max_mm": 5.2,
      "categoria_max": "Chubascos",
      "categoria_promedio": "Aisladas"
     },
     {
-     "promedio_mm": 4.6,
-     "p90_mm": 15.1,
-     "max_mm": 41.8,
-     "categoria_max": "Fuertes",
-     "categoria_promedio": "Aisladas"
-    },
-    {
-     "promedio_mm": 16.9,
-     "p90_mm": 28.5,
-     "max_mm": 35.6,
-     "categoria_max": "Fuertes",
+     "promedio_mm": 19.6,
+     "p90_mm": 37.0,
+     "max_mm": 59.0,
+     "categoria_max": "Muy fuertes",
      "categoria_promedio": "Chubascos"
     },
     {
-     "promedio_mm": 19.5,
-     "p90_mm": 39.3,
-     "max_mm": 98.1,
-     "categoria_max": "Intensas",
-     "categoria_promedio": "Chubascos"
-    },
-    {
-     "promedio_mm": 37.4,
-     "p90_mm": 68.0,
-     "max_mm": 92.6,
-     "categoria_max": "Intensas",
+     "promedio_mm": 26.7,
+     "p90_mm": 48.3,
+     "max_mm": 64.6,
+     "categoria_max": "Muy fuertes",
      "categoria_promedio": "Fuertes"
+    },
+    {
+     "promedio_mm": 6.4,
+     "p90_mm": 13.6,
+     "max_mm": 16.3,
+     "categoria_max": "Chubascos",
+     "categoria_promedio": "Chubascos"
+    },
+    {
+     "promedio_mm": 2.3,
+     "p90_mm": 6.1,
+     "max_mm": 10.0,
+     "categoria_max": "Chubascos",
+     "categoria_promedio": "Aisladas"
     }
    ]
   },
@@ -158,39 +158,39 @@
    "puntos_malla": 144,
    "dias": [
     {
-     "promedio_mm": 3.2,
-     "p90_mm": 9.2,
-     "max_mm": 13.2,
+     "promedio_mm": 1.1,
+     "p90_mm": 2.9,
+     "max_mm": 5.7,
      "categoria_max": "Chubascos",
      "categoria_promedio": "Aisladas"
     },
     {
-     "promedio_mm": 2.1,
-     "p90_mm": 5.5,
-     "max_mm": 20.6,
-     "categoria_max": "Chubascos",
-     "categoria_promedio": "Aisladas"
-    },
-    {
-     "promedio_mm": 15.3,
-     "p90_mm": 28.3,
-     "max_mm": 35.6,
-     "categoria_max": "Fuertes",
+     "promedio_mm": 20.0,
+     "p90_mm": 37.6,
+     "max_mm": 59.0,
+     "categoria_max": "Muy fuertes",
      "categoria_promedio": "Chubascos"
     },
     {
-     "promedio_mm": 13.6,
-     "p90_mm": 25.0,
-     "max_mm": 44.6,
-     "categoria_max": "Fuertes",
-     "categoria_promedio": "Chubascos"
-    },
-    {
-     "promedio_mm": 31.7,
-     "p90_mm": 47.6,
-     "max_mm": 70.9,
+     "promedio_mm": 25.9,
+     "p90_mm": 49.3,
+     "max_mm": 64.6,
      "categoria_max": "Muy fuertes",
      "categoria_promedio": "Fuertes"
+    },
+    {
+     "promedio_mm": 6.2,
+     "p90_mm": 12.9,
+     "max_mm": 16.3,
+     "categoria_max": "Chubascos",
+     "categoria_promedio": "Chubascos"
+    },
+    {
+     "promedio_mm": 1.7,
+     "p90_mm": 4.5,
+     "max_mm": 6.6,
+     "categoria_max": "Chubascos",
+     "categoria_promedio": "Aisladas"
     }
    ]
   },
@@ -200,39 +200,39 @@
    "puntos_malla": 440,
    "dias": [
     {
-     "promedio_mm": 8.0,
-     "p90_mm": 18.5,
-     "max_mm": 27.2,
+     "promedio_mm": 4.0,
+     "p90_mm": 9.5,
+     "max_mm": 28.6,
      "categoria_max": "Fuertes",
+     "categoria_promedio": "Aisladas"
+    },
+    {
+     "promedio_mm": 12.6,
+     "p90_mm": 24.3,
+     "max_mm": 62.7,
+     "categoria_max": "Muy fuertes",
      "categoria_promedio": "Chubascos"
     },
     {
-     "promedio_mm": 4.4,
-     "p90_mm": 9.3,
-     "max_mm": 15.7,
+     "promedio_mm": 16.1,
+     "p90_mm": 30.5,
+     "max_mm": 64.5,
+     "categoria_max": "Muy fuertes",
+     "categoria_promedio": "Chubascos"
+    },
+    {
+     "promedio_mm": 4.9,
+     "p90_mm": 12.2,
+     "max_mm": 15.1,
      "categoria_max": "Chubascos",
      "categoria_promedio": "Aisladas"
     },
     {
-     "promedio_mm": 9.3,
-     "p90_mm": 22.8,
-     "max_mm": 49.4,
-     "categoria_max": "Fuertes",
-     "categoria_promedio": "Chubascos"
-    },
-    {
-     "promedio_mm": 8.9,
-     "p90_mm": 18.8,
-     "max_mm": 41.7,
-     "categoria_max": "Fuertes",
-     "categoria_promedio": "Chubascos"
-    },
-    {
-     "promedio_mm": 19.2,
-     "p90_mm": 34.7,
-     "max_mm": 45.5,
-     "categoria_max": "Fuertes",
-     "categoria_promedio": "Chubascos"
+     "promedio_mm": 1.0,
+     "p90_mm": 2.4,
+     "max_mm": 2.9,
+     "categoria_max": "Aisladas",
+     "categoria_promedio": "Aisladas"
     }
    ]
   },
@@ -242,39 +242,39 @@
    "puntos_malla": 380,
    "dias": [
     {
-     "promedio_mm": 2.7,
-     "p90_mm": 7.9,
-     "max_mm": 22.6,
+     "promedio_mm": 1.3,
+     "p90_mm": 4.6,
+     "max_mm": 14.4,
      "categoria_max": "Chubascos",
      "categoria_promedio": "Aisladas"
     },
     {
-     "promedio_mm": 2.2,
-     "p90_mm": 6.1,
-     "max_mm": 15.7,
-     "categoria_max": "Chubascos",
-     "categoria_promedio": "Aisladas"
-    },
-    {
-     "promedio_mm": 10.4,
-     "p90_mm": 23.8,
-     "max_mm": 44.7,
-     "categoria_max": "Fuertes",
-     "categoria_promedio": "Chubascos"
-    },
-    {
-     "promedio_mm": 14.0,
-     "p90_mm": 26.0,
-     "max_mm": 47.9,
-     "categoria_max": "Fuertes",
-     "categoria_promedio": "Chubascos"
-    },
-    {
-     "promedio_mm": 23.7,
-     "p90_mm": 40.7,
-     "max_mm": 62.9,
+     "promedio_mm": 16.3,
+     "p90_mm": 30.3,
+     "max_mm": 62.7,
      "categoria_max": "Muy fuertes",
      "categoria_promedio": "Chubascos"
+    },
+    {
+     "promedio_mm": 17.7,
+     "p90_mm": 36.3,
+     "max_mm": 64.6,
+     "categoria_max": "Muy fuertes",
+     "categoria_promedio": "Chubascos"
+    },
+    {
+     "promedio_mm": 5.0,
+     "p90_mm": 12.5,
+     "max_mm": 16.3,
+     "categoria_max": "Chubascos",
+     "categoria_promedio": "Aisladas"
+    },
+    {
+     "promedio_mm": 1.4,
+     "p90_mm": 3.2,
+     "max_mm": 10.1,
+     "categoria_max": "Chubascos",
+     "categoria_promedio": "Aisladas"
     }
    ]
   },
@@ -284,39 +284,39 @@
    "puntos_malla": 84,
    "dias": [
     {
-     "promedio_mm": 5.8,
-     "p90_mm": 12.0,
-     "max_mm": 17.1,
-     "categoria_max": "Chubascos",
-     "categoria_promedio": "Chubascos"
+     "promedio_mm": 0.9,
+     "p90_mm": 2.8,
+     "max_mm": 3.8,
+     "categoria_max": "Aisladas",
+     "categoria_promedio": "Aisladas"
     },
     {
-     "promedio_mm": 14.7,
-     "p90_mm": 37.1,
-     "max_mm": 64.7,
+     "promedio_mm": 18.3,
+     "p90_mm": 37.3,
+     "max_mm": 59.0,
      "categoria_max": "Muy fuertes",
      "categoria_promedio": "Chubascos"
     },
     {
-     "promedio_mm": 17.7,
-     "p90_mm": 28.9,
-     "max_mm": 31.7,
-     "categoria_max": "Fuertes",
+     "promedio_mm": 23.4,
+     "p90_mm": 48.7,
+     "max_mm": 55.0,
+     "categoria_max": "Muy fuertes",
      "categoria_promedio": "Chubascos"
     },
     {
-     "promedio_mm": 25.2,
-     "p90_mm": 88.5,
-     "max_mm": 111.1,
-     "categoria_max": "Intensas",
-     "categoria_promedio": "Fuertes"
+     "promedio_mm": 4.5,
+     "p90_mm": 13.8,
+     "max_mm": 18.0,
+     "categoria_max": "Chubascos",
+     "categoria_promedio": "Aisladas"
     },
     {
-     "promedio_mm": 30.5,
-     "p90_mm": 70.9,
-     "max_mm": 92.6,
-     "categoria_max": "Intensas",
-     "categoria_promedio": "Fuertes"
+     "promedio_mm": 2.9,
+     "p90_mm": 8.4,
+     "max_mm": 10.9,
+     "categoria_max": "Chubascos",
+     "categoria_promedio": "Aisladas"
     }
    ]
   },
@@ -326,39 +326,39 @@
    "puntos_malla": 2499,
    "dias": [
     {
-     "promedio_mm": 16.2,
-     "p90_mm": 32.5,
-     "max_mm": 95.6,
+     "promedio_mm": 10.5,
+     "p90_mm": 22.9,
+     "max_mm": 91.1,
      "categoria_max": "Intensas",
      "categoria_promedio": "Chubascos"
     },
     {
-     "promedio_mm": 11.7,
-     "p90_mm": 28.1,
-     "max_mm": 73.3,
+     "promedio_mm": 8.1,
+     "p90_mm": 17.4,
+     "max_mm": 92.1,
+     "categoria_max": "Intensas",
+     "categoria_promedio": "Chubascos"
+    },
+    {
+     "promedio_mm": 9.8,
+     "p90_mm": 21.6,
+     "max_mm": 79.6,
+     "categoria_max": "Intensas",
+     "categoria_promedio": "Chubascos"
+    },
+    {
+     "promedio_mm": 11.3,
+     "p90_mm": 26.6,
+     "max_mm": 69.7,
      "categoria_max": "Muy fuertes",
      "categoria_promedio": "Chubascos"
     },
     {
-     "promedio_mm": 8.5,
-     "p90_mm": 19.2,
-     "max_mm": 60.0,
-     "categoria_max": "Muy fuertes",
-     "categoria_promedio": "Chubascos"
-    },
-    {
-     "promedio_mm": 7.2,
-     "p90_mm": 14.5,
-     "max_mm": 68.0,
-     "categoria_max": "Muy fuertes",
-     "categoria_promedio": "Chubascos"
-    },
-    {
-     "promedio_mm": 11.6,
-     "p90_mm": 23.5,
-     "max_mm": 56.5,
-     "categoria_max": "Muy fuertes",
-     "categoria_promedio": "Chubascos"
+     "promedio_mm": 2.0,
+     "p90_mm": 3.6,
+     "max_mm": 32.1,
+     "categoria_max": "Fuertes",
+     "categoria_promedio": "Aisladas"
     }
    ]
   }
