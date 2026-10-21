@@ -18,6 +18,7 @@ on:
       - 'src/procesar_niveles_horas.js'
       - 'src/extraer_lluvia_conagua.js'
       - 'src/niveles_postprocess.py'
+      - 'src/depurar_historico_niveles.py'
       - 'src/resumen_12h_niveles.py'
       - 'src/integrar_boletines_verificados.py'
       - 'src/generar_word_niveles.py'
@@ -101,6 +102,9 @@ jobs:
           CARBONIO_PASSWORD_FUENTE1: ${{ secrets.CARBONIO_PASSWORD_FUENTE1 }}
           NIVELES_BASE: data/niveles
         run: python src/lluvia_conagua_cloud.py
+
+      - name: Depurar lecturas espurias del histórico (ceros, picos aislados)
+        run: python src/depurar_historico_niveles.py
 
       - name: Calcular ciclo 06:00 y generar gráficas PNG
         run: python src/niveles_postprocess.py

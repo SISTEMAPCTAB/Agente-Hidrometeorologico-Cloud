@@ -81,7 +81,9 @@ def reference_level(rows, target):
             return None
         return float(a)
 
-    if closest[0] <= 3600:
+    # Una sola lectura observada cercana: el histórico ya pasó por
+    # depurar_historico_niveles.py, así que se acepta hasta 3 h de distancia.
+    if closest[0] <= 3 * 3600:
         return float(closest[2])
     return None
 

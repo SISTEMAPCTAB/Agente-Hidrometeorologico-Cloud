@@ -97,7 +97,9 @@ jobs:
           python src/fuente2_niveles.py
           python src/extraer_clima_boletines.py
           python src/lluvia_conagua_cloud.py
+          python src/depurar_historico_niveles.py
           python src/niveles_postprocess.py
+          python src/corregir_deltas_niveles.py
           python src/resumen_12h_niveles.py
           python src/generar_word_niveles.py
 
