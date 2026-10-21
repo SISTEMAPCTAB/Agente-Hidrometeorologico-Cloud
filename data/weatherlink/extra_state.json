@@ -2,8 +2,8 @@
   "seed_utc": "2026-09-07T01:11:56.534268+00:00",
   "stations": {
     "c04a4e28-b0a3-4044-b6e3-f48c43afab16": {
-      "prev_daily_mm": 1.5,
-      "prev_observed_utc": "2026-10-21T06:15:00+00:00",
+      "prev_daily_mm": 1.8,
+      "prev_observed_utc": "2026-10-21T07:00:00+00:00",
       "events": [
         {
           "ts": "2026-10-12T00:30:00+00:00",
@@ -286,16 +286,22 @@
           "mm": 1.5,
           "intervalo_incierto": false,
           "intervalo_horas": 0.5
+        },
+        {
+          "ts": "2026-10-21T07:00:00+00:00",
+          "mm": 0.3,
+          "intervalo_incierto": false,
+          "intervalo_horas": 0.75
         }
       ],
-      "month_mm": 336.1,
-      "year_mm": 472.4,
+      "month_mm": 336.4,
+      "year_mm": 472.7,
       "month_key": "2026-10",
       "year_key": "2026"
     },
     "e9e96794-b60f-4639-a233-8d53a64ae516": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-21T06:00:00+00:00",
+      "prev_observed_utc": "2026-10-21T07:00:00+00:00",
       "events": [
         {
           "ts": "2026-10-12T02:00:00+00:00",
@@ -765,7 +771,7 @@
     },
     "707f03fe-ca75-4c47-8404-9348b98a084e": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-21T06:30:58+00:00",
+      "prev_observed_utc": "2026-10-21T07:01:01+00:00",
       "events": [
         {
           "ts": "2026-10-11T19:42:49+00:00",
@@ -1287,7 +1293,7 @@
     },
     "5a4141e8-0fa1-46ff-a032-bdb484eb2fc2": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-21T06:31:07+00:00",
+      "prev_observed_utc": "2026-10-21T07:01:09+00:00",
       "events": [
         {
           "ts": "2026-10-11T19:43:17+00:00",
@@ -1717,7 +1723,7 @@
     },
     "96bdee43-3e9c-45ca-a4b1-5efe1f4577ae": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-21T06:30:00+00:00",
+      "prev_observed_utc": "2026-10-21T07:00:00+00:00",
       "events": [
         {
           "ts": "2026-10-15T22:00:00+00:00",
@@ -2170,5 +2176,5 @@
       "year_key": "2026"
     }
   },
-  "last_run_utc": "2026-10-21T06:31:19.942736+00:00"
+  "last_run_utc": "2026-10-21T07:01:56.149858+00:00"
 }
