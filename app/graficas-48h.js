@@ -237,5 +237,8 @@
     if(oldPanel&&oldPanel.isConnected)oldPanel.replaceWith(panel);else grid.appendChild(panel);
     enhance(content);
   }
-  document.addEventListener('DOMContentLoaded',()=>{injectStyles();bindCopy();enhance();setTimeout(render,800);document.getElementById('nav')?.addEventListener('click',()=>setTimeout(render,500));document.getElementById('refreshBtn')?.addEventListener('click',()=>setTimeout(()=>{history=[];render()},900));window.addEventListener('hydro:soft-refresh',()=>setTimeout(render,250));});
+  document.addEventListener('DOMContentLoaded',()=>{injectStyles();bindCopy();enhance();setTimeout(render,800);document.getElementById('nav')?.addEventListener('click',()=>setTimeout(render,500));document.getElementById('refreshBtn')?.addEventListener('click',()=>setTimeout(()=>{history=[];render()},900));window.addEventListener('hydro:soft-refresh',()=>setTimeout(render,250));
+    // 21-oct-2026: la recarga automática de app.js (cada 5 min y al volver a la pestaña) redibuja el apartado con las
+    // gráficas antiguas de 48 h; sin esto el panel de 96 h y las tarjetas de Guatemala desaparecían hasta pulsar el menú.
+    document.getElementById('content')?.addEventListener('app-rendered',()=>setTimeout(render,250));});
 })();

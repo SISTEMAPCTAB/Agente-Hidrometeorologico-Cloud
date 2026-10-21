@@ -55,6 +55,16 @@ async function render(){
   lastGoodHtml=cards.map(card=>card.outerHTML).join('');
  }catch(e){console.warn('Gráficas INSIVUMEH:',e);const grid=panel?.querySelector('.hydro48-grid');if(grid&&!grid.querySelector('[data-guatemala-chart]')&&lastGoodHtml)grid.insertAdjacentHTML('afterbegin',lastGoodHtml)}finally{running=false;if(document.querySelector('#nav button.active')?.dataset.section==='usumacinta'&&!document.querySelector('[data-guatemala-chart]'))setTimeout(render,250)}
 }
+// 21-oct-2026: el panel de 96 h se reemplaza en cada recarga automática (cada 5 min y al volver a la pestaña) y las
+// tarjetas de El Tigre y El Porvenir se perdían si el reemplazo ocurría mientras se leían los datos. Guardia: si el panel
+// existe sin tarjetas, se reponen al instante con la última versión buena y se vuelve a leer el dato.
+function ensure(){
+ if(document.querySelector('#nav button.active')?.dataset.section!=='usumacinta')return;
+ const grid=document.querySelector('#hydro48Panel .hydro48-grid');if(!grid||grid.querySelector('[data-guatemala-chart]'))return;
+ if(lastGoodHtml)grid.insertAdjacentHTML('afterbegin',lastGoodHtml);
+ if(!running)render();
+}
+setInterval(()=>{if(!document.hidden)ensure()},2000);
 document.addEventListener('DOMContentLoaded',()=>{
  const content=document.getElementById('content');let timer;
  new MutationObserver(()=>{if(document.querySelector('#nav button.active')?.dataset.section!=='usumacinta')return;clearTimeout(timer);timer=setTimeout(()=>{if(!document.querySelector('[data-guatemala-chart]'))render()},350)}).observe(content,{childList:true,subtree:true});

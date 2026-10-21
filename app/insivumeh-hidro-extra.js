@@ -98,9 +98,11 @@
 
   async function run(force=false){if(busy)return false;busy=true;try{const placed=await renderHydro(force);clarifyRainRows();return placed;}finally{busy=false;}}
 
-  document.addEventListener('app-rendered',e=>{
-    if(e.detail?.section==='usumacinta') run(true);
-  });
+  // 21-oct-2026: app.js dispara 'app-rendered' sobre #content y el evento no burbujea; escuchándolo en document nunca llegaba,
+  // y tras la recarga automática (cada 5 min o al volver a la pestaña) la tabla Alto Usumacinta desaparecía.
+  const onRendered=e=>{if(e.detail?.section==='usumacinta') setTimeout(()=>run(true),0);};
+  document.addEventListener('app-rendered',onRendered);
+  document.addEventListener('DOMContentLoaded',()=>document.getElementById('content')?.addEventListener('app-rendered',onRendered));
   document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('refreshBtn')?.addEventListener('click',()=>setTimeout(()=>run(true),0));
     document.getElementById('nav')?.addEventListener('click',()=>setTimeout(()=>run(true),0));
