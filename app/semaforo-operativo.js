@@ -95,7 +95,7 @@
       const e=evaluate(id);
       return `<div class="station-card"><strong>${esc(c.title)}</strong><span class="badge ${e.cls}">${e.label}</span>`+
         `<small class="muted" style="display:block;margin-top:6px;line-height:1.35">${esc(e.rainTxt)}${e.why?' · '+esc(e.why):''}</small></div>`;
-    }).join('')}</div><p class="section-note" style="margin:10px 0 0">Criterio: lluvia observada máxima por estación (24 o 48 h). ≥250 mm = Desastre y 150–250 mm = Emergencia sólo si se confirma con nivel sobre NAMO, respuesta hidrométrica o más de una estación; una lectura aislada baja un escalón. 75–150 mm con respuesta hidrométrica = Atención prioritaria; sin ella, Vigilancia reforzada. Ríos Serranos–Grijalva sube de nivel si el Modelo pronostica riesgo de desbordamiento del malecón de Villahermosa (Gaviotas 7.70 m / El Muelle 7.60 m).</p>`;
+    }).join('')}</div><p class="section-note" style="margin:10px 0 0">Criterio: lluvia observada máxima por estación (24 o 48 h). ≥250 mm = Desastre y 150–250 mm = Emergencia sólo si se confirma con nivel sobre NAMO, respuesta hidrométrica o más de una estación; una lectura aislada baja un escalón. 75–150 mm con respuesta hidrométrica = Atención prioritaria; sin ella, Vigilancia reforzada. Ríos Serranos–Grijalva sube de nivel si el Modelo pronostica riesgo de desbordamiento del malecón de Villahermosa (Gaviotas 7.60 m / El Muelle 7.50 m; corona oficial 7.76 msnm).</p>`;
   }
 
   // Sustituye únicamente el motor visual del semáforo; no crea apartados ni altera tablas/datos.
