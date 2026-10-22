@@ -414,12 +414,22 @@ def main():
         # cada uno) bajar el mensaje completo de todos los correos hacía que IMAP excediera el tiempo y fallara toda la
         # revisión de niveles. Ahora: primero sólo encabezado y tamaño; se omiten los reportes CFE (los lee cfe_vasos.py)
         # y los mensajes muy grandes; se revisa del más reciente al más antiguo y un tiempo agotado ya no tumba la corrida.
+        sin_pdf = 0
         for raw_uid in reversed((data[0] or b"").split()[-250:]):
             uid = raw_uid.decode("ascii", errors="ignore")
             try:
-                typ, hdr = mail.uid("fetch", raw_uid, "(RFC822.SIZE BODY.PEEK[HEADER.FIELDS (SUBJECT)])")
+                typ, hdr = mail.uid("fetch", raw_uid, "(RFC822.SIZE BODYSTRUCTURE BODY.PEEK[HEADER.FIELDS (SUBJECT)])")
                 if typ == "OK" and hdr and isinstance(hdr[0], tuple):
                     meta = hdr[0][0].decode("ascii", errors="ignore")
+                    # 22-oct-2026 (tarde): sin adjunto PDF no hay nada que procesar (avisos de GitHub, promociones, etc.);
+                    # se omite sin bajar el mensaje completo. Por seguridad sólo se omite si la estructura no menciona
+                    # "pdf", "octet-stream" ni nombres codificados (=?...?=).
+                    estructura = " ".join(x.decode("latin-1", errors="ignore") if isinstance(x, bytes) else
+                                          " ".join(y.decode("latin-1", errors="ignore") for y in x if isinstance(y, bytes))
+                                          for x in hdr).lower()
+                    if "bodystructure" in estructura and not any(k in estructura for k in ("pdf", "octet-stream", "=?")):
+                        sin_pdf += 1
+                        continue
                     m_size = re.search(r"RFC822\.SIZE (\d+)", meta)
                     subj_h = decode(email.message_from_bytes(hdr[0][1]).get("Subject"))
                     if re.search(r"FUNCIONAMIENTO\s+DE\s+VASOS", subj_h or "", re.I):
@@ -444,6 +454,8 @@ def main():
             parts = pdf_parts(msg)
             if parts:
                 messages.append({"uid": uid, "dt": dt, "subject": subject, "parts": parts})
+        print(f"Gmail: {len(messages)} mensajes con PDF leídos; {sin_pdf} sin PDF omitidos sin descargar")
+        status["mensajes_sin_pdf_omitidos"] = sin_pdf
     finally:
         if mail is not None:
             try:
