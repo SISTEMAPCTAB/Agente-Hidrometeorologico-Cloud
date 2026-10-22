@@ -2,29 +2,29 @@
  "producto": "Funcionamiento de vasos · Sistema Hidroeléctrico Grijalva",
  "fuente": "CFE · Subgerencia de Producción Hidroeléctrica Grijalva, Departamento Regional de Hidrometría",
  "fecha": "2026-10-22",
- "hora_ultimo_dato": 14,
- "fecha_hora_ultimo_dato": "2026-10-22T14:00:00-06:00",
- "mensaje_local": "2026-10-22T14:27-06:00",
- "actualizado_local": "2026-10-22T14:52-06:00",
+ "hora_ultimo_dato": 16,
+ "fecha_hora_ultimo_dato": "2026-10-22T16:00:00-06:00",
+ "mensaje_local": "2026-10-22T16:26-06:00",
+ "actualizado_local": "2026-10-22T16:49-06:00",
  "penitas": {
-  "nivel_msnm": 85.73,
+  "nivel_msnm": 85.64,
   "namo_msnm": 87.4,
-  "dif_namo_m": 1.67,
-  "aportado_m3s": 463.9,
+  "dif_namo_m": 1.76,
+  "aportado_m3s": 407.7,
   "turbinado_m3s": 690.0,
   "vertido_m3s": 0,
   "extraccion_m3s": 690.0,
   "extraccion_prom_6h_m3s": 690.0,
   "extraccion_prom_dia_m3s": 690.0,
-  "aportado_prom_6h_m3s": 519.7
+  "aportado_prom_6h_m3s": 473.2
  },
  "juan_grijalva": {
-  "nivel_msnm": 87.16,
-  "aportado_m3s": 589.8,
-  "canal_m3s": 434.8,
-  "tuneles_m3s": 289.9,
-  "salida_total_m3s": 724.7,
-  "salida_prom_6h_m3s": 735.2
+  "nivel_msnm": 87.1,
+  "aportado_m3s": 511.2,
+  "canal_m3s": 428.2,
+  "tuneles_m3s": 285.4,
+  "salida_total_m3s": 713.6,
+  "salida_prom_6h_m3s": 723.9
  },
  "malpaso": {
   "nivel_msnm": 165.8,
@@ -34,13 +34,13 @@
   "aportado_m3s": 215.0
  },
  "angostura": {
-  "nivel_msnm": 517.63
+  "nivel_msnm": 517.64
  },
  "chicoasen": {
-  "nivel_msnm": 391.52,
+  "nivel_msnm": 391.5,
   "namo_msnm": 392.5
  },
- "novedades": "Presa Malpaso 14 h en la cota 165.8 msnm, 16.7 m abajo del NAMO, con un almacenamiento del 62.8%, se mantiene el nivel con la hora anterior . Sin unidades de Malpaso operando con una extracción de 0 m3/s y gasto de aportaciones asociados a 215 m3/s promedio. Nivel de la presa Peñitas 14 h en la cota 85.73 msnm, porcentaje de llenado 90.19 %, aportaciones de 464 y extracciones de 690 m3/s con un ascenso estable.",
+ "novedades": "Presa Malpaso 16 h en la cota 165.8 msnm, 16.7 m abajo del NAMO, con un almacenamiento del 62.8%, se mantiene el nivel con la hora anterior . Sin unidades de Malpaso operando con una extracción de 0 m3/s y gasto de aportaciones asociados a 215 m3/s promedio. Nivel de la presa Peñitas 16 h en la cota 85.64 msnm, porcentaje de llenado 89.73 %, aportaciones de 408 y extracciones de 690 m3/s con un ascenso estable.",
  "horario": [
   {
    "hora": 1,
@@ -265,6 +265,38 @@
    "malpaso_aportado": 215.0,
    "angostura_nivel": 517.63,
    "chicoasen_nivel": 391.52
+  },
+  {
+   "hora": 15,
+   "penitas_nivel": 85.69,
+   "penitas_aportado": 464.0,
+   "penitas_turbinado": 690.0,
+   "penitas_vertido": null,
+   "penitas_extraccion": 690.0,
+   "jg_nivel": 87.13,
+   "jg_aportado": 515.3,
+   "jg_salida": 717.7,
+   "malpaso_nivel": 165.8,
+   "malpaso_extraccion": 0.0,
+   "malpaso_aportado": 215.0,
+   "angostura_nivel": 517.63,
+   "chicoasen_nivel": 391.52
+  },
+  {
+   "hora": 16,
+   "penitas_nivel": 85.64,
+   "penitas_aportado": 407.7,
+   "penitas_turbinado": 690.0,
+   "penitas_vertido": null,
+   "penitas_extraccion": 690.0,
+   "jg_nivel": 87.1,
+   "jg_aportado": 511.2,
+   "jg_salida": 713.6,
+   "malpaso_nivel": 165.8,
+   "malpaso_extraccion": 0.0,
+   "malpaso_aportado": 215.0,
+   "angostura_nivel": 517.64,
+   "chicoasen_nivel": 391.5
   }
  ],
  "nota": "Valores horarios de operación de presas tomados del reporte de CFE; sólo se publican los que usa el modelo."
