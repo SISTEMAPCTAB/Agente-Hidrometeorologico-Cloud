@@ -646,22 +646,22 @@
     {
       "estacion": "El Tigre",
       "rio": "Usumacinta",
-      "desde": "21/10/2026 20:00",
-      "hasta": "22/10/2026 08:00",
-      "horas_transcurridas": 12.0,
-      "delta_nivel_m": 0.01,
-      "delta_caudal_m3s": 4.35,
-      "tendencia_calculada": "estable",
+      "desde": "22/10/2026 08:00",
+      "hasta": "22/10/2026 14:00",
+      "horas_transcurridas": 6.0,
+      "delta_nivel_m": 0.06,
+      "delta_caudal_m3s": 26.09,
+      "tendencia_calculada": "incrementando",
       "fuente_evolucion": "insivumeh_alto_hidro_historico"
     },
     {
       "estacion": "El Porvenir",
       "rio": "La Pasión",
-      "desde": "21/10/2026 20:00",
-      "hasta": "22/10/2026 08:00",
-      "horas_transcurridas": 12.0,
-      "delta_nivel_m": 0.18,
-      "delta_caudal_m3s": 64.41,
+      "desde": "22/10/2026 08:00",
+      "hasta": "22/10/2026 14:00",
+      "horas_transcurridas": 6.0,
+      "delta_nivel_m": 0.08,
+      "delta_caudal_m3s": 30.58,
       "tendencia_calculada": "incrementando",
       "fuente_evolucion": "insivumeh_alto_hidro_historico"
     }
@@ -865,11 +865,11 @@
     "insivumeh_saturacion": "https://insivumeh.gob.gt/porcentaje-de-saturacion-del-suelo-2/",
     "insivumeh_acumulados": "https://insivumeh.gob.gt/mapas-ultimas-24-horas/"
   },
-  "senal_usumacinta_alta": "Señal aguas arriba estable",
+  "senal_usumacinta_alta": "Señal aguas arriba en aumento",
   "insivumeh_bhvgm_actual": {
     "boletin": null,
     "fecha": "22/10/2026",
-    "hora": "08:00",
+    "hora": "14:00",
     "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
     "estaciones": [
       {
@@ -880,11 +880,11 @@
         "nivel_referencia_max_m": 10.0,
         "caudal_referencia_min_m3s": 486.87,
         "caudal_referencia_max_m3s": 2856.43,
-        "nivel_instantaneo_m": 14.06,
-        "caudal_instantaneo_m3s": 4621.65,
+        "nivel_instantaneo_m": 14.12,
+        "caudal_instantaneo_m3s": 4647.74,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "22/10/2026 08:00"
+        "ultima_observacion_fuente": "22/10/2026 14:00"
       },
       {
         "estacion": "El Porvenir",
@@ -894,11 +894,25 @@
         "nivel_referencia_max_m": 3.0,
         "caudal_referencia_min_m3s": 93.04,
         "caudal_referencia_max_m3s": 399.28,
-        "nivel_instantaneo_m": 6.4,
-        "caudal_instantaneo_m3s": 597.24,
+        "nivel_instantaneo_m": 6.48,
+        "caudal_instantaneo_m3s": 627.82,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "22/10/2026 08:00"
+        "ultima_observacion_fuente": "22/10/2026 14:00"
+      },
+      {
+        "estacion": "Playa Grande",
+        "rio": "Chixoy",
+        "ubicacion": "Ixcán, Quiché",
+        "nivel_referencia_min_m": -0.22,
+        "nivel_referencia_max_m": 1.9,
+        "caudal_referencia_min_m3s": 178.87,
+        "caudal_referencia_max_m3s": 633.81,
+        "nivel_instantaneo_m": 1.9,
+        "caudal_instantaneo_m3s": 827.69,
+        "estado_dato": "observado",
+        "calidad": "extraido_del_BHVGM",
+        "ultima_observacion_fuente": "22/10/2026 14:00"
       }
     ],
     "el_tigre_publicado": true
