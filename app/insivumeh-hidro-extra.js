@@ -11,7 +11,7 @@
   function ensureScroll(){
     if(document.getElementById('insivumehHydroScrollFix'))return;
     const style=document.createElement('style');style.id='insivumehHydroScrollFix';
-    style.textContent='#insivumehHydroExtra{min-width:0;max-width:100%;overflow:hidden} #insivumehHydroExtra .table-wrap{display:block;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;touch-action:auto;overscroll-behavior:auto} #insivumehHydroExtra table{min-width:1100px;width:max-content}';
+    style.textContent='#insivumehHydroExtra{min-width:0;max-width:100%;overflow:hidden} #insivumehHydroExtra .table-wrap{display:block;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;touch-action:auto;overscroll-behavior:auto} #insivumehHydroExtra table{min-width:1100px;width:100%}';
     document.head.appendChild(style);
   }
 
