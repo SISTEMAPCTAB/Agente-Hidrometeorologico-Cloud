@@ -1,10 +1,10 @@
 {
   "fuente": "INSIVUMEH",
   "producto": "BHVGM · estaciones Alto Usumacinta",
-  "consultado_utc": "2026-10-22T02:11:06.878465+00:00",
+  "consultado_utc": "2026-10-22T16:11:38.121031+00:00",
   "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
-  "fecha": "21/10/2026",
-  "hora": "20:00",
+  "fecha": "22/10/2026",
+  "hora": "08:00",
   "boletin": null,
   "estaciones": [
     {
@@ -15,11 +15,11 @@
       "nivel_referencia_max_m": 10.0,
       "caudal_referencia_min_m3s": 486.87,
       "caudal_referencia_max_m3s": 2856.43,
-      "nivel_instantaneo_m": 14.05,
-      "caudal_instantaneo_m3s": 4617.3,
+      "nivel_instantaneo_m": 14.06,
+      "caudal_instantaneo_m3s": 4621.65,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "21/10/2026 20:00"
+      "ultima_observacion_fuente": "22/10/2026 08:00"
     },
     {
       "estacion": "El Porvenir",
@@ -29,11 +29,11 @@
       "nivel_referencia_max_m": 3.0,
       "caudal_referencia_min_m3s": 93.04,
       "caudal_referencia_max_m3s": 399.28,
-      "nivel_instantaneo_m": 6.22,
-      "caudal_instantaneo_m3s": 532.83,
+      "nivel_instantaneo_m": 6.4,
+      "caudal_instantaneo_m3s": 597.24,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "21/10/2026 20:00"
+      "ultima_observacion_fuente": "22/10/2026 08:00"
     },
     {
       "estacion": "Machaquilá",
@@ -69,9 +69,10 @@
       "caudal_referencia_max_m3s": 633.81,
       "nivel_instantaneo_m": 2.1,
       "caudal_instantaneo_m3s": 936.09,
-      "estado_dato": "observado",
+      "estado_dato": "heredado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "21/10/2026 20:00"
+      "ultima_observacion_fuente": "21/10/2026 20:00",
+      "heredado_en_utc": "2026-10-22T16:11:38.121031+00:00"
     },
     {
       "estacion": "San Luis Ixcán",
@@ -84,8 +85,8 @@
   ],
   "errors": [],
   "nota": "Se prioriza dato estructurado del BHVGM; si falta una lectura, se conserva el último valor válido y se marca heredado. Ausencia nunca equivale a cero.",
-  "observadas": 3,
-  "heredadas": 0,
+  "observadas": 2,
+  "heredadas": 1,
   "sin_dato": 4,
   "estado": "ok"
 }

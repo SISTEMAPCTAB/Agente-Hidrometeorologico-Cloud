@@ -646,22 +646,22 @@
     {
       "estacion": "El Tigre",
       "rio": "Usumacinta",
-      "desde": "21/10/2026 14:00",
-      "hasta": "21/10/2026 20:00",
-      "horas_transcurridas": 6.0,
+      "desde": "21/10/2026 20:00",
+      "hasta": "22/10/2026 08:00",
+      "horas_transcurridas": 12.0,
       "delta_nivel_m": 0.01,
-      "delta_caudal_m3s": 4.34,
+      "delta_caudal_m3s": 4.35,
       "tendencia_calculada": "estable",
       "fuente_evolucion": "insivumeh_alto_hidro_historico"
     },
     {
       "estacion": "El Porvenir",
       "rio": "La Pasión",
-      "desde": "21/10/2026 14:00",
-      "hasta": "21/10/2026 20:00",
-      "horas_transcurridas": 6.0,
-      "delta_nivel_m": 0.05,
-      "delta_caudal_m3s": 16.85,
+      "desde": "21/10/2026 20:00",
+      "hasta": "22/10/2026 08:00",
+      "horas_transcurridas": 12.0,
+      "delta_nivel_m": 0.18,
+      "delta_caudal_m3s": 64.41,
       "tendencia_calculada": "incrementando",
       "fuente_evolucion": "insivumeh_alto_hidro_historico"
     }
@@ -868,8 +868,8 @@
   "senal_usumacinta_alta": "Señal aguas arriba estable",
   "insivumeh_bhvgm_actual": {
     "boletin": null,
-    "fecha": "21/10/2026",
-    "hora": "20:00",
+    "fecha": "22/10/2026",
+    "hora": "08:00",
     "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
     "estaciones": [
       {
@@ -880,11 +880,11 @@
         "nivel_referencia_max_m": 10.0,
         "caudal_referencia_min_m3s": 486.87,
         "caudal_referencia_max_m3s": 2856.43,
-        "nivel_instantaneo_m": 14.05,
-        "caudal_instantaneo_m3s": 4617.3,
+        "nivel_instantaneo_m": 14.06,
+        "caudal_instantaneo_m3s": 4621.65,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "21/10/2026 20:00"
+        "ultima_observacion_fuente": "22/10/2026 08:00"
       },
       {
         "estacion": "El Porvenir",
@@ -894,25 +894,11 @@
         "nivel_referencia_max_m": 3.0,
         "caudal_referencia_min_m3s": 93.04,
         "caudal_referencia_max_m3s": 399.28,
-        "nivel_instantaneo_m": 6.22,
-        "caudal_instantaneo_m3s": 532.83,
+        "nivel_instantaneo_m": 6.4,
+        "caudal_instantaneo_m3s": 597.24,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "21/10/2026 20:00"
-      },
-      {
-        "estacion": "Playa Grande",
-        "rio": "Chixoy",
-        "ubicacion": "Ixcán, Quiché",
-        "nivel_referencia_min_m": -0.22,
-        "nivel_referencia_max_m": 1.9,
-        "caudal_referencia_min_m3s": 178.87,
-        "caudal_referencia_max_m3s": 633.81,
-        "nivel_instantaneo_m": 2.1,
-        "caudal_instantaneo_m3s": 936.09,
-        "estado_dato": "observado",
-        "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "21/10/2026 20:00"
+        "ultima_observacion_fuente": "22/10/2026 08:00"
       }
     ],
     "el_tigre_publicado": true
