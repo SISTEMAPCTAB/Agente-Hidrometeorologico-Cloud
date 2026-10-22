@@ -410,9 +410,27 @@ def main():
         typ, data = mail.uid("search", None, f'(SINCE "{since}")')
         if typ != "OK":
             raise RuntimeError("Gmail IMAP no devolvió resultados de búsqueda.")
-        for raw_uid in (data[0] or b"").split()[-250:]:
+        # 22-oct-2026: desde que llegan los reportes CFE "FUNCIONAMIENTO DE VASOS" (Excel + muchas imágenes, varios MB
+        # cada uno) bajar el mensaje completo de todos los correos hacía que IMAP excediera el tiempo y fallara toda la
+        # revisión de niveles. Ahora: primero sólo encabezado y tamaño; se omiten los reportes CFE (los lee cfe_vasos.py)
+        # y los mensajes muy grandes; se revisa del más reciente al más antiguo y un tiempo agotado ya no tumba la corrida.
+        for raw_uid in reversed((data[0] or b"").split()[-250:]):
             uid = raw_uid.decode("ascii", errors="ignore")
-            typ, msg_data = mail.uid("fetch", raw_uid, "(RFC822)")
+            try:
+                typ, hdr = mail.uid("fetch", raw_uid, "(RFC822.SIZE BODY.PEEK[HEADER.FIELDS (SUBJECT)])")
+                if typ == "OK" and hdr and isinstance(hdr[0], tuple):
+                    meta = hdr[0][0].decode("ascii", errors="ignore")
+                    m_size = re.search(r"RFC822\.SIZE (\d+)", meta)
+                    subj_h = decode(email.message_from_bytes(hdr[0][1]).get("Subject"))
+                    if re.search(r"FUNCIONAMIENTO\s+DE\s+VASOS", subj_h or "", re.I):
+                        continue
+                    if m_size and int(m_size.group(1)) > 25_000_000:
+                        print(f"Mensaje {uid} omitido por tamaño ({int(m_size.group(1))//1_000_000} MB): {subj_h[:60]}")
+                        continue
+                typ, msg_data = mail.uid("fetch", raw_uid, "(RFC822)")
+            except (TimeoutError, OSError, imaplib.IMAP4.abort) as exc:
+                print(f"IMAP: tiempo agotado o conexión cortada en el mensaje {uid}; se usan los {len(messages)} ya leídos ({exc})")
+                break
             if typ != "OK" or not msg_data:
                 continue
             raw = next((x[1] for x in msg_data if isinstance(x, tuple) and len(x) > 1), None)
