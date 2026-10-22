@@ -10,8 +10,12 @@
     if(!m)return null;
     const segment=('Lacantún'+m[1]).replace(/^\s*BHG21\s+/i,'');
     const nums=[...segment.matchAll(/(?<!\S)-?\d+(?:,\d{3})*(?:\.\d+)?(?!\S)/g)].map(x=>Number(x[0].replace(/,/g,''))).filter(Number.isFinite);
-    if(nums.length<5)return null;
-    const namo=nums[0], anterior=nums[1], actual=nums[3];
+    if(nums.length<4)return null;
+    // 22-oct-2026: el boletín a veces omite la lectura anterior (NAMO, nivel, gasto, lluvia…) y se tomaba la lluvia
+    // como nivel (10.5 m). Los niveles se reconocen por rango (±15 m del NAMO): el último es el actual.
+    const namo=nums[0], hs=nums.slice(1).filter(v=>Number.isFinite(namo)&&v>=namo-15&&v<=namo+10);
+    if(!hs.length)return null;
+    const actual=hs[hs.length-1], anterior=hs.length>1?hs[0]:null;
     if(!Number.isFinite(actual))return null;
     const delta=Number.isFinite(anterior)?actual-anterior:null;
     const dist=Number.isFinite(namo)?actual-namo:null;
