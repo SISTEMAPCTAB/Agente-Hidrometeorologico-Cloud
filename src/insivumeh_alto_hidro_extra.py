@@ -25,10 +25,19 @@ TARGETS = [
     ('San Agustín Chixoy', 'Chixoy', 'Chisec, Alta Verapaz', ['San Agustin Chixoy']),
     ('Playa Grande', 'Chixoy', 'Ixcán, Quiché', ['Playa Grande Chixoy']),
     ('San Luis Ixcán', 'Xaclbal', 'Ixcán, Quiché', ['San Luis Ixcan']),
+    ('Puente Chocox', 'Chixoy', 'Canillá, Quiché', ['Puente Chocox']),
 ]
 
 
+def limpiar_acentos_pdf(s: str) -> str:
+    """23-oct-2026: el PDF del BHVGM (LaTeX) separa los acentos: 'San Agust ´ ın', 'Machaquil´ a', 'Ixc´ an'. Sin esto no se
+    reconocían San Agustín Chixoy, San Luis Ixcán, Machaquilá ni San Pedro Mactún (quedaban 'sin dato')."""
+    s = re.sub(r'\s*[\u00b4`\u00a8\u02dc\u02c6]\s*', '', s or '')
+    return s.replace('\u0131', 'i')
+
+
 def asc(s: str) -> str:
+    s = limpiar_acentos_pdf(s)
     return re.sub(r'\s+', ' ', unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode('ascii')).strip()
 
 
