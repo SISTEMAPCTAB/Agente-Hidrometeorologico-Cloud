@@ -1,2033 +1,2033 @@
 {
-  "version": 2,
-  "criterio": "Clasificación operativa independiente de la extracción SIH. Una estación sin correspondencia conserva el dato y se muestra como 'Por clasificar'. v2: cada estación se ubica con la 'cuenca de disponibilidad' del catálogo oficial SIH (catalogo_climas) o, si no está en el catálogo (redes SGT/CFE/PC), con su municipio verificado o la agrupación del informe horario CONAGUA. Las reglas más específicas van primero. Atención: 'Reforma, Chis.' del SIH 24 h es REFCP (La Concordia, Alto Grijalva), no Reforma junto al Viejo Mezcalapa.",
-  "actualizado": "2026-10-23",
-  "reglas": [
-    {
-      "aliases": [
-        "Pantanos de Centla"
-      ],
-      "subcuencas": [
-        "Confluencia Grijalva–Usumacinta"
-      ],
-      "nota": "Reserva de la Biosfera Pantanos de Centla, Centla, Tab. (Tres Brazos, unión del Grijalva y el Usumacinta)",
-      "fuente": "clasificación indicada por Gilberto (23-oct-2026)"
-    },
-    {
-      "aliases": [
-        "Universidad de Ciencias y Artes de Chiapas, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "Tuxtla Gutiérrez",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Museo de Chiapas de Ciencia y Tecnología, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "Tuxtla Gutiérrez",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Planta de bombeo 2 de La Cangrejera, Ver"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "CB2VC Moloacán: cuenca de disponibilidad Bajo Río Uxpanapa (17.954, -94.254)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Planta de bombeo 3 de La Cangrejera, Ver"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "PB3VC Coatzacoalcos: cuenca de disponibilidad Río Huazuntlán (18.104, -94.377)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Observatorio de Tuxtla Gutiérrez, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "TXOCP Tuxtla Gutiérrez: cuenca de disponibilidad Tuxtla Gutiérrez (16.750, -93.133)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tuxtla Gutiérrez Las Palmas CFE, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "Tuxtla Gutiérrez",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Finca Cuxtepeques hidrométrica, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "río Cuxtepeques (presa La Concordia)",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Observatorio de San Cristóbal, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "SCOCP San Cristóbal de las Casas: cuenca de disponibilidad Presa Chicoasén (16.733, -92.633)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Observatorio de Coatzacoalcos, Ver"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "COTVC Coatzacoalcos: cuenca de disponibilidad Río Huazuntlán (18.100, -94.400)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Observatorio de Villahermosa, Tab"
-      ],
-      "subcuencas": [
-        "Bajo Grijalva (Villahermosa)"
-      ],
-      "nota": "EMUTB Centro: cuenca de disponibilidad Grijalva (17.980, -92.917)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Doctor Belisario Domínguez, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "ANGCP Acala: cuenca de disponibilidad Presa Chicoasén (16.401, -92.779)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "San Cristóbal de las Casas, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "C07144 San Cristóbal de las Casas: cuenca de disponibilidad Presa Chicoasén (16.733, -92.633)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Túneles Juan de Grijalva, Chis"
-      ],
-      "subcuencas": [
-        "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
-      ],
-      "nota": "Grijalva entre Malpaso y Peñitas",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Cred Revolución Mexicana, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "misma localidad que Revolución Mexicana: REVCP Villa Corzo: cuenca de disponibilidad San Pedro (16.158, -93.079)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Macayo Margen Izquierda, Chis"
-      ],
-      "subcuencas": [
-        "Mezcalapa–Samaria/Carrizal"
-      ],
-      "nota": "bifurcación El Macayo",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Observatorio de Arriaga, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "AROCP Arriaga: cuenca de disponibilidad La Punta (16.241, -93.897)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Observatorio de Comitán, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "COOCP Comitán de Domínguez: cuenca de disponibilidad Aguacatenco (16.200, -92.100)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Observatorio de Veracruz, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "VERVC Boca del Río: cuenca de disponibilidad Río La Antigua (19.154, -96.111)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tuxtla Gutiérrez Zoomat, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "TXZCP Tuxtla Gutiérrez: cuenca de disponibilidad Presa Chicoasén (16.717, -93.068)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "San Joaquín Pichucalco, Chis"
-      ],
-      "subcuencas": [
-        "Pichucalco → Grijalva (Villahermosa)"
-      ],
-      "nota": "misma estación que San Joaquín (PICCP)",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Universidad Lindavista, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "Tuxtla Gutiérrez",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Observatorio de Xalapa, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "XOBVC Xalapa: cuenca de disponibilidad Río Actopan (19.533, -96.917)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Puente Club Campestre, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "Tuxtla Gutiérrez",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "San Pedro Nichtalucum, Chis"
-      ],
-      "subcuencas": [
-        "Ríos de la Sierra · Tapijulapa (Oxolotán/Amatán)"
-      ],
-      "nota": "El Bosque, Chis.: cuenca De los Plátanos (alto Oxolotán)",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Manuel Moreno Torres, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "CHICP Osumacinta: cuenca de disponibilidad Presa Chicoasén (16.942, -93.101)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Angel Rosario Cabada, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "ARCVC Angel R. Cabada: cuenca de disponibilidad Llanuras de Papaloapan (18.583, -95.438)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Martínez de la Torre, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "MDTVC Martínez de la Torre: cuenca de disponibilidad Río Nautla (20.067, -97.048)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Revolución Mexicana, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "REVCP Villa Corzo: cuenca de disponibilidad San Pedro (16.158, -93.079)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "San Juan Evangelista, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "SJEVC San Juan Evangelista: cuenca de disponibilidad Río San Juan (17.883, -95.133)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Zacatonal de Juárez, Chis"
-      ],
-      "subcuencas": [
-        "Ríos de la Sierra · Tapijulapa (Oxolotán/Amatán)"
-      ],
-      "nota": "Huitiupán, Chis.: cuenca Almendro (alto Oxolotán)",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Cañón del Sumidero, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "Grijalva en el Cañón del Sumidero (embalse Chicoasén)",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Jonuta hidrométrica, Tab"
-      ],
-      "subcuencas": [
-        "Usumacinta (aguas abajo de Boca del Cerro / local)"
-      ],
-      "nota": "Usumacinta en Jonuta",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "San José del Carmen, Ver"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "JDCVC Las Choapas: cuenca de disponibilidad Tancochapa Bajo (17.874, -94.089)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Villa de Chiapilla, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "C07034 Chiapilla: cuenca de disponibilidad Presa Chicoasén (16.578, -92.715)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Finca Cuxtepeques, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "C07037 La Concordia: cuenca de disponibilidad Presa La Concordia (15.729, -92.969)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Poblado Chicoasén, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "presa Chicoasén",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Sánchez Magallanes, Tab"
-      ],
-      "subcuencas": [
-        "Costa–Chontalpa Grande"
-      ],
-      "nota": "costa",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Tapachula Malpaso, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "TAMCP Tapachula: cuenca de disponibilidad Coatán (14.990, -92.243)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Xalapa Magisterial, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "XMGVC Actopan: cuenca de disponibilidad Río La Antigua (19.547, -96.936)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Juan de Grijalva, Chis"
-      ],
-      "subcuencas": [
-        "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
-      ],
-      "nota": "JDGCP Ostuacán: cuenca de disponibilidad Presa Peñitas (17.364, -93.381)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Puente Concordia, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "PCOCP Frontera Comalapa: cuenca de disponibilidad Selegua (15.849, -91.968)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Puente Huitiupán, Chis"
-      ],
-      "subcuencas": [
-        "Ríos de la Sierra · Tapijulapa (Oxolotán/Amatán)"
-      ],
-      "nota": "Huitiupán, Chis.: cuenca Almendro (alto Oxolotán)",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Xalapa Revolución, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "XREVC Actopan: cuenca de disponibilidad Río Actopan (19.566, -96.916)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Cred Motozintla, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "misma localidad que Motozintla: C07119 Motozintla: cuenca de disponibilidad San Miguel (15.364, -92.248)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Alamo Temapache, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "ALAVC Álamo Temapache: cuenca de disponibilidad Río Tuxpan (20.930, -97.680)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Cred Cintalapa, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "Cintalapa / La Venta (hacia Malpaso)",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Emiliano Zapata, Tab"
-      ],
-      "subcuencas": [
-        "Usumacinta (aguas abajo de Boca del Cerro / local)"
-      ],
-      "nota": "EZATB Emiliano Zapata: cuenca de disponibilidad Usumacinta (17.750, -91.750)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Finca Hamburgo, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "FHACP Tapachula: cuenca de disponibilidad Huixtla (15.174, -92.325)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "La Encrucijada, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "reserva La Encrucijada",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Nezahualcóyotl, Chis"
-      ],
-      "subcuencas": [
-        "Embalse Malpaso (aporte regulado)"
-      ],
-      "nota": "MALCP Tecpatán: cuenca de disponibilidad Presa Nezahualcóyotl (17.179, -93.599)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Parque Oriente, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "Tuxtla Gutiérrez",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Paso de Piedras, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "CHYVC Pánuco: cuenca de disponibilidad Río Chicayán 1 (21.738, -98.156)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Puente Morelos, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "SCRCP San Cristóbal de las Casas: cuenca de disponibilidad Presa Chicoasén (16.742, -92.617)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Puerto Chiapas, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "Puerto Chiapas",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Rómulo Calzada, Chis"
-      ],
-      "subcuencas": [
-        "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
-      ],
-      "nota": "RMLCP Tecpatán: cuenca de disponibilidad Presa Peñitas (17.354, -93.552)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tuxtla Oriente, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "TUXCP Tuxtla Gutiérrez: cuenca de disponibilidad Tuxtla Gutiérrez (16.762, -93.100)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Xalapa Sumidero, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "XSUVC Xalapa: cuenca de disponibilidad Río Actopan (19.556, -96.894)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Boca del Cerro, Tab"
-      ],
-      "subcuencas": [
-        "Usumacinta (aguas abajo de Boca del Cerro / local)"
-      ],
-      "nota": "C27004 Tenosique: cuenca de disponibilidad Usumacinta (17.449, -91.493)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Chacaltianguis, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "CCLVC Chacaltianguis: cuenca de disponibilidad Río Papaloapan (18.300, -95.800)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Chapultenango, Chis"
-      ],
-      "subcuencas": [
-        "Pichucalco → Grijalva (Villahermosa)"
-      ],
-      "nota": "C07032 Chapultenango: cuenca de disponibilidad Pichucalco (17.333, -93.100)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Cred Ocosingo, Chis"
-      ],
-      "subcuencas": [
-        "Alto Usumacinta–Lacantún (aguas arriba de El Tigre)"
-      ],
-      "nota": "Ocosingo (Jataté)",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Finca Argovia, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "FARCP Tapachula: cuenca de disponibilidad Huehuetán (15.127, -92.299)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Finca Chayabé, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "C07055 Las Margaritas: cuenca de disponibilidad Seco (16.381, -91.711)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Jesús Carranza, Ver"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "JCRVC Jesús Carranza: cuenca de disponibilidad Alto Río Coatzacoalcos (17.433, -95.033)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Platón Sánchez, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "PSNVC Tantoyuca: cuenca de disponibilidad Río Tempoal 2 (21.298, -98.357)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Puente Tonalá , Tab"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "río Tonalá",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Salto de Agua, Chis"
-      ],
-      "subcuencas": [
-        "Tulijá–Chilapa"
-      ],
-      "nota": "SAACP Salto de Agua: cuenca de disponibilidad Tulijá (17.567, -92.350)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Santo Domingo, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "SDOCP Chiapa de Corzo: cuenca de disponibilidad Santo Domingo (16.453, -93.056)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Volcán Tacaná, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "volcán Tacaná",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Xalapa Cristal, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "XCRVC Xalapa: cuenca de disponibilidad Río Actopan (19.542, -96.904)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Coatzacoalcos, Ver"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "C30027 Coatzacoalcos: cuenca de disponibilidad Río Huazuntlán (18.140, -94.522)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Cred Arriaga, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "Arriaga",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "El Novillero, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "ELNCP Mapastepec: cuenca de disponibilidad Novillero Alto (15.496, -92.950)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Finca la Paz, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "FPZCP Escuintla: cuenca de disponibilidad Despoblado (15.347, -92.476)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Jonuta puente, Tab"
-      ],
-      "subcuencas": [
-        "Usumacinta (aguas abajo de Boca del Cerro / local)"
-      ],
-      "nota": "Usumacinta en Jonuta",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Juan Sabines, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "JSBCP La Concordia: cuenca de disponibilidad Presa La Concordia (15.996, -92.899)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "La Cangrejera, Ver"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "LCAVC Coatzacoalcos: cuenca de disponibilidad Río Huazuntlán (18.109, -94.331)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Potrero Nuevo, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "PTNVC Atoyac: cuenca de disponibilidad Río Cotaxtla (18.888, -96.795)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "San Jerónimo, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "C07146 Unión Juárez: cuenca de disponibilidad Suchiate (15.040, -92.136)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tierra Morada, Ver"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "TMOVC Las Choapas: cuenca de disponibilidad Bajo Río Uxpanapa (17.572, -94.163)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Chicomuselo, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "CHMCP Chicomuselo: cuenca de disponibilidad San Miguel (15.750, -92.283)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Cuatotolapan, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "CTTVC Hueyapan de Ocampo: cuenca de disponibilidad Río San Juan (18.144, -95.296)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Cuxtepeques, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "río Cuxtepeques (presa La Concordia)",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "El Grijalva, Chis"
-      ],
-      "subcuencas": [
-        "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
-      ],
-      "nota": "GRJCP Ostuacán: cuenca de disponibilidad Presa Peñitas (17.364, -93.381)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Huayacocotla, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "HUYVC Huayacocotla: cuenca de disponibilidad Río Tuxpan (20.533, -98.483)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Huimanguillo, Tab"
-      ],
-      "subcuencas": [
-        "Mezcalapa–Samaria/Carrizal"
-      ],
-      "nota": "C27017 Huimanguillo: cuenca de disponibilidad Mezcalapa (17.829, -93.392)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Pueblo Nuevo, Tab"
-      ],
-      "subcuencas": [
-        "Ríos de la Sierra · Teapa/Puyacatengo/La Sierra"
-      ],
-      "nota": "PNVTB Centro: cuenca de disponibilidad De La Sierra (17.854, -92.879)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "San Joaquín, Chis"
-      ],
-      "subcuencas": [
-        "Pichucalco → Grijalva (Villahermosa)"
-      ],
-      "nota": "C07147 Pichucalco: cuenca de disponibilidad Pichucalco (17.558, -93.108)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Santa María, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "SMACP Larráinzar: cuenca de disponibilidad Hondo (16.939, -92.821)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Sontecomapan, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "SONVC Catemaco: cuenca de disponibilidad Llanuras de Papaloapan (18.517, -95.033)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tenochtitlán, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "TNCVC Tenochtitlán: cuenca de disponibilidad Río Misantla (19.811, -96.917)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tres Zapotes, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "TZAVC Santiago Tuxtla: cuenca de disponibilidad Llanuras de Papaloapan (18.467, -95.417)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Despoblado, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "DESCP Villa Comaltitlán: cuenca de disponibilidad Despoblado (15.204, -92.575)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "El Burrero, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "C07040 Ixtapa: cuenca de disponibilidad Hondo (16.789, -92.828)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "El Porvenir, Tab"
-      ],
-      "subcuencas": [
-        "Bajo Grijalva (Villahermosa)"
-      ],
-      "nota": "EPOTB Centro: cuenca de disponibilidad Grijalva (18.044, -92.815)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Jaltenango, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "JAPCP Angel Albino Corzo: cuenca de disponibilidad Grande o Salinas (15.867, -92.725)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "La Ceibilla, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "LCEVC Isla: cuenca de disponibilidad Río San Juan (18.230, -95.445)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Larrainzar, Chis"
-      ],
-      "subcuencas": [
-        "Ríos de la Sierra · Tapijulapa (Oxolotán/Amatán)"
-      ],
-      "nota": "C07207 Larráinzar: cuenca de disponibilidad De los Plátanos (16.887, -92.716)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Las Flores, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "LFLCP Jiquipilas: cuenca de disponibilidad De La Venta (16.696, -93.561)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Loma Grande, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "LGRVC Mariano Escobedo: cuenca de disponibilidad Río Blanco (18.923, -97.232)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Mapastepec, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "MAPCP Mapastepec: cuenca de disponibilidad Sesecapa (15.450, -92.883)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Motozintla, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "C07119 Motozintla: cuenca de disponibilidad San Miguel (15.364, -92.248)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Pijijiapan, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "PIJCP Pijijiapan: cuenca de disponibilidad Pijijiapan (15.692, -93.217)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Poblado C11, Tab"
-      ],
-      "subcuencas": [
-        "Costa–Chontalpa Grande"
-      ],
-      "nota": "Plan Chontalpa",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Puyacatengo, Tab"
-      ],
-      "subcuencas": [
-        "Ríos de la Sierra · Teapa/Puyacatengo/La Sierra"
-      ],
-      "nota": "PUYTB Teapa: cuenca de disponibilidad De La Sierra (17.567, -92.938)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "San Miguel, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "SMICP Frontera Comalapa: cuenca de disponibilidad San Miguel (15.775, -92.239)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Terrerillos, Ver"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "TRRVC Chicontepec: cuenca de disponibilidad Río Calabozo (21.040, -98.153)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tres Picos, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "TPICP Tonalá: cuenca de disponibilidad Laguna de La Joya (15.875, -93.529)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Yaquintela, Chis"
-      ],
-      "subcuencas": [
-        "Alto Usumacinta–Lacantún (aguas arriba de El Tigre)"
-      ],
-      "nota": "C07114 Ocosingo: cuenca de disponibilidad Jatate (16.909, -91.730)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Agua Dulce, Ver"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "AGDVC Agua Dulce: cuenca de disponibilidad Tonalá (18.142, -94.144)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Angostura, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "presa La Angostura",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Banderilla, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "BANVC Banderilla: cuenca de disponibilidad Río Actopan (19.589, -96.944)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Chicoasén, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "C07035 Osumacinta: cuenca de disponibilidad Presa Chicoasén (16.942, -93.099)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Escuintla, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "ESCCP Escuintla: cuenca de disponibilidad Laguna del Viejo y Temblader (15.317, -92.667)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Huehuetán, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "HUECP Huehuetán: cuenca de disponibilidad Huehuetán (14.997, -92.403)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Monterrey, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "C07349 Villa Corzo: cuenca de disponibilidad Santo Domingo (16.059, -93.369)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Portaceli, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "C07132 Villaflores: cuenca de disponibilidad Santo Domingo (16.449, -93.125)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Soyatitán, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "C07330 Venustiano Carranza: cuenca de disponibilidad Aguacatenco (16.289, -92.428)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tapachapan, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "TAPVC Coatepec: cuenca de disponibilidad Río La Antigua (19.450, -96.967)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tapachula, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "TAPCP Tuxtla Chico: cuenca de disponibilidad Cahuacán (14.908, -92.261)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tapijulapa, Tab"
-      ],
-      "subcuencas": [
-        "Ríos de la Sierra · Tapijulapa (Oxolotán/Amatán)"
-      ],
-      "nota": "TAPTB Tacotalpa: cuenca de disponibilidad Tacotalpa (17.467, -92.817)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Altotonga, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "ALTVC Altotonga: cuenca de disponibilidad Río Nautla (19.762, -97.235)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Bonampak, Chis"
-      ],
-      "subcuencas": [
-        "Alto Usumacinta–Lacantún (aguas arriba de El Tigre)"
-      ],
-      "nota": "C07017 Ocosingo: cuenca de disponibilidad Lacanjá (16.733, -91.083)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Boquerón, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "BOQCP Suchiapa: cuenca de disponibilidad Suchiapa (16.642, -93.150)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Cacaluta, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "CACCP Acacoyagua: cuenca de disponibilidad Cacaluta (15.350, -92.717)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Cascajal, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "CASCP Venustiano Carranza: cuenca de disponibilidad Aguacatenco (16.308, -92.479)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Chacamax, Chis"
-      ],
-      "subcuencas": [
-        "Usumacinta (aguas abajo de Boca del Cerro / local)"
-      ],
-      "nota": "C07028 Palenque: cuenca de disponibilidad Chacamax (17.473, -91.708)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Chicomapa, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "CHMVC Zongolica: cuenca de disponibilidad Río Tonto (18.563, -96.854)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Lacantún, Chis"
-      ],
-      "subcuencas": [
-        "Alto Usumacinta–Lacantún (aguas arriba de El Tigre)"
-      ],
-      "nota": "LACCP Ocosingo: cuenca de disponibilidad Lacantún (16.581, -90.702)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Lauchapan, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "LAUVC San Andrés Tuxtla: cuenca de disponibilidad Río San Juan (18.250, -95.350)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Loma Fina, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "LOFVC Paso de Ovejas: cuenca de disponibilidad Río La Antigua (19.261, -96.411)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Los Hules, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "HLSVC Chalma: cuenca de disponibilidad Río Tempoal 1 (21.194, -98.287)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Macuspana, Tab"
-      ],
-      "subcuencas": [
-        "Puxcatán–Chilapa"
-      ],
-      "nota": "MACTB Macuspana: cuenca de disponibilidad Macuxpana (17.767, -92.600)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Ocosingo, Chis"
-      ],
-      "subcuencas": [
-        "Alto Usumacinta–Lacantún (aguas arriba de El Tigre)"
-      ],
-      "nota": "OCSCP Ocosingo: cuenca de disponibilidad Azul (16.897, -92.092)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Ocotepec, Chis"
-      ],
-      "subcuencas": [
-        "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
-      ],
-      "nota": "OCOCP Ocotepec: cuenca de disponibilidad Tzimbac (17.221, -93.151)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Palenque, Chis"
-      ],
-      "subcuencas": [
-        "Usumacinta (aguas abajo de Boca del Cerro / local)"
-      ],
-      "nota": "C07085 Palenque: cuenca de disponibilidad Chacamax (17.509, -91.982)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Platanar, Chis"
-      ],
-      "subcuencas": [
-        "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
-      ],
-      "nota": "PLACP Pichucalco: cuenca de disponibilidad Platanar (17.578, -93.388)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Poza Rica, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "PRCVC Poza Rica de Hidalgo: cuenca de disponibilidad Río Cazones (20.541, -97.478)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "San Pedro, Tab"
-      ],
-      "subcuencas": [
-        "Usumacinta (aguas abajo de Boca del Cerro / local)"
-      ],
-      "nota": "SPTTB Balancán: cuenca de disponibilidad San Pedro (17.792, -91.158)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Siltepec, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "C07159 Siltepec: cuenca de disponibilidad Zacualpa (15.557, -92.323)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Suchiate, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "río Suchiate",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Talismán, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "Talismán, Tapachula",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Balancán, Tab"
-      ],
-      "subcuencas": [
-        "Usumacinta (aguas abajo de Boca del Cerro / local)"
-      ],
-      "nota": "C27001 Balancán: cuenca de disponibilidad Usumacinta (17.810, -91.537)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Bombana, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "C07016 Soyaló: cuenca de disponibilidad Chicoasén (16.942, -93.017)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Carrizal, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "CRRVC Apazapan: cuenca de disponibilidad Río La Antigua (19.320, -96.647)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Cárdenas, Tab"
-      ],
-      "subcuencas": [
-        "Costa–Chontalpa Grande"
-      ],
-      "nota": "CARTB Cárdenas: cuenca de disponibilidad Cunduacán (18.001, -93.376)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "El Olivo, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "OLVVC Pánuco: cuenca de disponibilidad Río Moctezuma 4 (21.832, -98.504)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "El Tejar, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "ETEVC Medellín de Bravo: cuenca de disponibilidad Jamapa-Cotaxtla (19.069, -96.158)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "González, Tab"
-      ],
-      "subcuencas": [
-        "Carrizal"
-      ],
-      "nota": "GONTB Centro: cuenca de disponibilidad El Carrizal (17.975, -93.000)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Huatusco, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "HTSVC Huatusco: cuenca de disponibilidad Río Jamapa (19.182, -96.951)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Huixtla, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "HUICP Huixtla: cuenca de disponibilidad Huixtla (15.133, -92.472)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Huixtán, Chis"
-      ],
-      "subcuencas": [
-        "Alto Usumacinta–Lacantún (aguas arriba de El Tigre)"
-      ],
-      "nota": "C07076 Huixtán: cuenca de disponibilidad Tzanconeja (16.714, -92.458)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Jaltipán, Ver"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "JALVC Zaragoza: cuenca de disponibilidad Bajo Río Coatzacoalcos (17.950, -94.667)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "La Posta, Tab"
-      ],
-      "subcuencas": [
-        "Carrizal"
-      ],
-      "nota": "Posta (Pte. Los Monos) sobre el Carrizal; sección Puente Los Monos en HEC-RAS",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Malpaso, Chis"
-      ],
-      "subcuencas": [
-        "Embalse Malpaso (aporte regulado)"
-      ],
-      "nota": "presa Malpaso (Nezahualcóyotl); el homónimo de Tapachula es otra estación",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Minzapan, Ver"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "MNZVC Mecayapan: cuenca de disponibilidad Río Huazuntlán (18.135, -94.771)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Misantla, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "MZNVC Misantla: cuenca de disponibilidad Río Misantla (19.933, -96.833)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Naolinco, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "NAOVC Naolinco: cuenca de disponibilidad Río Actopan (19.650, -96.872)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Oxolotán, Tab"
-      ],
-      "subcuencas": [
-        "Ríos de la Sierra · Tapijulapa (Oxolotán/Amatán)"
-      ],
-      "nota": "OXOTB Tacotalpa: cuenca de disponibilidad Almendro (17.392, -92.753)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Paredón, Chis"
-      ],
-      "subcuencas": [
-        "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
-      ],
-      "nota": "cuenca de disponibilidad Paredón (Mezcalapa entre Peñitas y El Macayo)",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Peñitas, Chis"
-      ],
-      "subcuencas": [
-        "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
-      ],
-      "nota": "PNTCP Ostuacán: cuenca de disponibilidad Presa Peñitas (17.445, -93.458)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Reforma, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "REFCP La Concordia: cuenca de disponibilidad Grande o Salinas (15.917, -92.667)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Sihuapán, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "SIHVC San Andrés Tuxtla: cuenca de disponibilidad Río San Juan (18.450, -95.183)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tzimbac, Chis"
-      ],
-      "subcuencas": [
-        "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
-      ],
-      "nota": "TZICP Tecpatán: cuenca de disponibilidad Presa Peñitas (17.283, -93.537)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Yamonhó, Chis"
-      ],
-      "subcuencas": [
-        "Embalse Malpaso (aporte regulado)"
-      ],
-      "nota": "YAMCP Tecpatán: cuenca de disponibilidad Presa Nezahualcóyotl (17.117, -93.331)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Acatlán, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "ACAVC Acatlán: cuenca de disponibilidad Río Actopan (19.696, -96.844)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Cuilco, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "río Cuilco (alto Grijalva)",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "La Joya, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "JOYVC Acajete: cuenca de disponibilidad Río Actopan (19.604, -97.021)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Samaría, Tab"
-      ],
-      "subcuencas": [
-        "Mezcalapa–Samaria/Carrizal"
-      ],
-      "nota": "SAMTB Cunduacán: cuenca de disponibilidad Samaría (17.997, -93.276)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Sayula, Chis"
-      ],
-      "subcuencas": [
-        "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
-      ],
-      "nota": "SAYCP Ostuacán: cuenca de disponibilidad Presa Peñitas (17.425, -93.383)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tempoal, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "TMPVC Tempoal: cuenca de disponibilidad Río Tempoal 2 (21.500, -98.409)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tonalá, Chis"
-      ],
-      "subcuencas": [
-        "Costa de Chiapas (fuera de las cuencas del modelo)"
-      ],
-      "nota": "TONCP Tonalá: cuenca de disponibilidad Laguna Mar Muerto C (16.087, -93.750)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Totutla, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "TOTVC Totutla: cuenca de disponibilidad Río La Antigua (19.234, -96.950)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tuxtla, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "C07165 Tuxtla Gutiérrez: cuenca de disponibilidad Tuxtla Gutiérrez (16.750, -93.133)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Acala, Chis"
-      ],
-      "subcuencas": [
-        "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
-      ],
-      "nota": "ACACP Acala: cuenca de disponibilidad Presa Chicoasén (16.553, -92.804)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Cardel, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "CRDVC La Antigua: cuenca de disponibilidad Río La Antigua (19.365, -96.374)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Idolos, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "IDOVC Actopan: cuenca de disponibilidad Río Actopan (19.404, -96.554)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Perote, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "PERVC Perote: cuenca de disponibilidad Río Nautla (19.581, -97.239)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Pánuco, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "PNCVC Pánuco: cuenca de disponibilidad Río Pánuco 1 (22.060, -98.177)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Tomata, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "TOMVC Atzalan: cuenca de disponibilidad Río Nautla (19.922, -97.222)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Zanapa, Tab"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "río Zanapa, vertiente Tonalá",
-      "fuente": "ubicación verificada / agrupación CONAGUA"
-    },
-    {
-      "aliases": [
-        "Garro, Ver"
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "GARVC Isla: cuenca de disponibilidad Río Tesechoacán (18.271, -95.557)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "Teapa, Tab"
-      ],
-      "subcuencas": [
-        "Ríos de la Sierra · Teapa/Puyacatengo/La Sierra"
-      ],
-      "nota": "TEATB Teapa: cuenca de disponibilidad De La Sierra (17.567, -92.967)",
-      "fuente": "catálogo SIH"
-    },
-    {
-      "aliases": [
-        "San Joaquín Pichucalco",
-        "Chapultenango",
-        "San Joaquín, Chis"
-      ],
-      "subcuencas": [
-        "Pichucalco–Ríos Serranos"
-      ],
-      "nota": "Aporte desde Chiapas hacia el sistema serrano de Tabasco."
-    },
-    {
-      "aliases": [
-        "Peñitas",
-        "Malpaso",
-        "Nezahualcóyotl"
-      ],
-      "subcuencas": [
-        "Mezcalapa–Samaria/Carrizal"
-      ],
-      "nota": "Sistema Alto Grijalva–Mezcalapa."
-    },
-    {
-      "aliases": [
-        "Lacantún",
-        "Ocosingo",
-        "Bonampak",
-        "Guacamayas"
-      ],
-      "subcuencas": [
-        "Alto Usumacinta–Lacantún"
-      ],
-      "nota": "Aporte al Usumacinta aguas arriba de Tabasco."
-    },
-    {
-      "aliases": [
-        "Salto de Agua"
-      ],
-      "subcuencas": [
-        "Tulijá–Chilapa"
-      ],
-      "nota": "Sistema Tulijá hacia Chilapa."
-    },
-    {
-      "aliases": [
-        "Chacamax",
-        "Palenque",
-        "Catazajá"
-      ],
-      "subcuencas": [
-        "Usumacinta"
-      ],
-      "nota": "Zona de influencia del sistema Usumacinta."
-    },
-    {
-      "aliases": [
-        "Jonuta hidrométrica",
-        "Jonuta puente",
-        "Boca del Cerro",
-        "Balancán",
-        "San Pedro, Tab"
-      ],
-      "subcuencas": [
-        "Usumacinta"
-      ],
-      "nota": "Estaciones del sistema Usumacinta en Tabasco."
-    },
-    {
-      "aliases": [
-        "Pueblo Nuevo",
-        "Oxolotán",
-        "Tapijulapa"
-      ],
-      "subcuencas": [
-        "Ríos Serranos–Grijalva"
-      ],
-      "nota": "Sistema serrano con respuesta hacia el Grijalva."
-    },
-    {
-      "aliases": [
-        "Macuspana, Tab"
-      ],
-      "subcuencas": [
-        "Puxcatán–Chilapa"
-      ],
-      "nota": "Referencia operativa para el sistema Puxcatán–Chilapa."
-    },
-    {
-      "aliases": [
-        "González, Tab"
-      ],
-      "subcuencas": [
-        "Carrizal"
-      ],
-      "nota": "Sistema Carrizal."
-    },
-    {
-      "aliases": [
-        "Samaría, Tab",
-        "Samaria, Tab"
-      ],
-      "subcuencas": [
-        "Samaria"
-      ],
-      "nota": "Sistema Samaria."
-    },
-    {
-      "aliases": [
-        "Sánchez Magallanes",
-        "Cárdenas, Tab"
-      ],
-      "subcuencas": [
-        "Costa–Chontalpa Grande"
-      ],
-      "nota": "Influencia operativa costera y Chontalpa Grande."
-    },
-    {
-      "aliases": [
-        "Jesús Carranza",
-        "Observatorio de Coatzacoalcos"
-      ],
-      "subcuencas": [
-        "Coatzacoalcos–Tonalá"
-      ],
-      "nota": "Referencia operativa aguas arriba/entorno de la vertiente Coatzacoalcos–Tonalá."
-    },
-    {
-      "aliases": [
-        ", Ver."
-      ],
-      "subcuencas": [
-        "Veracruz (fuera de las cuencas del modelo)"
-      ],
-      "nota": "Respaldo general para estaciones de Veracruz no listadas arriba."
-    },
-    {
-      "aliases": [
-        "Puente Solidaridad, Tab"
-      ],
-      "subcuencas": [
-        "Mezcalapa–Samaria/Carrizal"
-      ],
-      "nota": "Puente Solidaridad, Villahermosa (Centro): sistema Mezcalapa–Samaria/Carrizal",
-      "fuente": "clasificación indicada por la Dirección Operativa (16/10/2026)"
-    }
-  ],
-  "pendientes_sin_ubicacion_verificada": [
-    "ASUR, Ver.",
-    "Anton Lizardo, Ver. SEMAR*",
-    "Arroyo Grande, Chis. SGT*",
-    "Aza Pac, Chis. CFE*",
-    "Catazajá, Chis. SGT*",
-    "Chalchihuitán, Chis. SGT*",
-    "Citlaltepec, Ver. SMN*",
-    "Cristal TV Azteca, Chis. SGT*",
-    "Córdoba, Ver. SGT*",
-    "El Aguaje, Chis. SGT*",
-    "El Escalón, Chis. SGT*",
-    "El Portillo, Chis. SGT*",
-    "El Salado, Ver. SEMAR*",
-    "El Triunfo, Chis. SMN*",
-    "Emiliano Zapata, Chis. CFE*",
-    "Guacamayas, Chis. SGT*",
-    "Isla de Sacrificios, Ver. SEMAR*",
-    "La Sepultura, Chis. CFE*",
-    "Las Flores Dos, Chis. SGT*",
-    "Los Tuxtlas 2, Ver. SMN*",
-    "Misantla OCGC, Ver.",
-    "Módulo Cinco, Chis. SGT*",
-    "Piletas, Ver.",
-    "Presa Tuxpango, Ver. SMN*",
-    "Puente Cuatro Caminos, Ver. SGT*",
-    "Quiosco, Chis. SGT*",
-    "Río de Janeiro, Chis. SGT*",
-    "Secundaria Técnica 103, Chis. SGT*",
-    "Secundaria Técnica 59, Chis. SGT*",
-    "Sedeño, Ver.",
-    "Sierra Morena, Chis. CFE*",
-    "Sitala, Chis. SGT*",
-    "Tlaquilpa, Ver.",
-    "Xalapa Castillo PC, Ver.",
-    "Xalapa Constituyentes PC, Ver.",
-    "Xalapa Minas PC, Ver.",
-    "Xalapa Moral Protección Civl, Ver.",
-    "Xalapa Naranjal Protección Civil, Ver.",
-    "Yecuatla, Ver."
-  ]
+ "version": 2,
+ "criterio": "Clasificación operativa independiente de la extracción SIH. Una estación sin correspondencia conserva el dato y se muestra como 'Por clasificar'. v2: cada estación se ubica con la 'cuenca de disponibilidad' del catálogo oficial SIH (catalogo_climas) o, si no está en el catálogo (redes SGT/CFE/PC), con su municipio verificado o la agrupación del informe horario CONAGUA. Las reglas más específicas van primero. Atención: 'Reforma, Chis.' del SIH 24 h es REFCP (La Concordia, Alto Grijalva), no Reforma junto al Viejo Mezcalapa.",
+ "actualizado": "2026-10-23",
+ "reglas": [
+  {
+   "aliases": [
+    "Pantanos de Centla"
+   ],
+   "subcuencas": [
+    "Confluencia Grijalva–Usumacinta"
+   ],
+   "nota": "Reserva de la Biosfera Pantanos de Centla, Centla, Tab. (Tres Brazos, unión del Grijalva y el Usumacinta)",
+   "fuente": "clasificación indicada por Gilberto (23-oct-2026)"
+  },
+  {
+   "aliases": [
+    "Universidad de Ciencias y Artes de Chiapas, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "Tuxtla Gutiérrez",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Museo de Chiapas de Ciencia y Tecnología, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "Tuxtla Gutiérrez",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Planta de bombeo 2 de La Cangrejera, Ver"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "CB2VC Moloacán: cuenca de disponibilidad Bajo Río Uxpanapa (17.954, -94.254)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Planta de bombeo 3 de La Cangrejera, Ver"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "PB3VC Coatzacoalcos: cuenca de disponibilidad Río Huazuntlán (18.104, -94.377)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Observatorio de Tuxtla Gutiérrez, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "TXOCP Tuxtla Gutiérrez: cuenca de disponibilidad Tuxtla Gutiérrez (16.750, -93.133)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tuxtla Gutiérrez Las Palmas CFE, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "Tuxtla Gutiérrez",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Finca Cuxtepeques hidrométrica, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "río Cuxtepeques (presa La Concordia)",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Observatorio de San Cristóbal, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "SCOCP San Cristóbal de las Casas: cuenca de disponibilidad Presa Chicoasén (16.733, -92.633)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Observatorio de Coatzacoalcos, Ver"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "COTVC Coatzacoalcos: cuenca de disponibilidad Río Huazuntlán (18.100, -94.400)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Observatorio de Villahermosa, Tab"
+   ],
+   "subcuencas": [
+    "Bajo Grijalva (Villahermosa)"
+   ],
+   "nota": "EMUTB Centro: cuenca de disponibilidad Grijalva (17.980, -92.917)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Doctor Belisario Domínguez, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "ANGCP Acala: cuenca de disponibilidad Presa Chicoasén (16.401, -92.779)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "San Cristóbal de las Casas, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "C07144 San Cristóbal de las Casas: cuenca de disponibilidad Presa Chicoasén (16.733, -92.633)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Túneles Juan de Grijalva, Chis"
+   ],
+   "subcuencas": [
+    "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
+   ],
+   "nota": "Grijalva entre Malpaso y Peñitas",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Cred Revolución Mexicana, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "misma localidad que Revolución Mexicana: REVCP Villa Corzo: cuenca de disponibilidad San Pedro (16.158, -93.079)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Macayo Margen Izquierda, Chis"
+   ],
+   "subcuencas": [
+    "Mezcalapa–Samaria/Carrizal"
+   ],
+   "nota": "bifurcación El Macayo",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Observatorio de Arriaga, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "AROCP Arriaga: cuenca de disponibilidad La Punta (16.241, -93.897)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Observatorio de Comitán, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "COOCP Comitán de Domínguez: cuenca de disponibilidad Aguacatenco (16.200, -92.100)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Observatorio de Veracruz, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "VERVC Boca del Río: cuenca de disponibilidad Río La Antigua (19.154, -96.111)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tuxtla Gutiérrez Zoomat, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "TXZCP Tuxtla Gutiérrez: cuenca de disponibilidad Presa Chicoasén (16.717, -93.068)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "San Joaquín Pichucalco, Chis"
+   ],
+   "subcuencas": [
+    "Pichucalco → Grijalva (Villahermosa)"
+   ],
+   "nota": "misma estación que San Joaquín (PICCP)",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Universidad Lindavista, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "Tuxtla Gutiérrez",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Observatorio de Xalapa, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "XOBVC Xalapa: cuenca de disponibilidad Río Actopan (19.533, -96.917)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Puente Club Campestre, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "Tuxtla Gutiérrez",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "San Pedro Nichtalucum, Chis"
+   ],
+   "subcuencas": [
+    "Ríos de la Sierra · Tapijulapa (Oxolotán/Amatán)"
+   ],
+   "nota": "El Bosque, Chis.: cuenca De los Plátanos (alto Oxolotán)",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Manuel Moreno Torres, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "CHICP Osumacinta: cuenca de disponibilidad Presa Chicoasén (16.942, -93.101)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Angel Rosario Cabada, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "ARCVC Angel R. Cabada: cuenca de disponibilidad Llanuras de Papaloapan (18.583, -95.438)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Martínez de la Torre, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "MDTVC Martínez de la Torre: cuenca de disponibilidad Río Nautla (20.067, -97.048)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Revolución Mexicana, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "REVCP Villa Corzo: cuenca de disponibilidad San Pedro (16.158, -93.079)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "San Juan Evangelista, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "SJEVC San Juan Evangelista: cuenca de disponibilidad Río San Juan (17.883, -95.133)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Zacatonal de Juárez, Chis"
+   ],
+   "subcuencas": [
+    "Ríos de la Sierra · Tapijulapa (Oxolotán/Amatán)"
+   ],
+   "nota": "Huitiupán, Chis.: cuenca Almendro (alto Oxolotán)",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Cañón del Sumidero, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "Grijalva en el Cañón del Sumidero (embalse Chicoasén)",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Jonuta hidrométrica, Tab"
+   ],
+   "subcuencas": [
+    "Usumacinta (aguas abajo de Boca del Cerro / local)"
+   ],
+   "nota": "Usumacinta en Jonuta",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "San José del Carmen, Ver"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "JDCVC Las Choapas: cuenca de disponibilidad Tancochapa Bajo (17.874, -94.089)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Villa de Chiapilla, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "C07034 Chiapilla: cuenca de disponibilidad Presa Chicoasén (16.578, -92.715)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Finca Cuxtepeques, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "C07037 La Concordia: cuenca de disponibilidad Presa La Concordia (15.729, -92.969)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Poblado Chicoasén, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "presa Chicoasén",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Sánchez Magallanes, Tab"
+   ],
+   "subcuencas": [
+    "Costa–Chontalpa Grande"
+   ],
+   "nota": "costa",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Tapachula Malpaso, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "TAMCP Tapachula: cuenca de disponibilidad Coatán (14.990, -92.243)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Xalapa Magisterial, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "XMGVC Actopan: cuenca de disponibilidad Río La Antigua (19.547, -96.936)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Juan de Grijalva, Chis"
+   ],
+   "subcuencas": [
+    "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
+   ],
+   "nota": "JDGCP Ostuacán: cuenca de disponibilidad Presa Peñitas (17.364, -93.381)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Puente Concordia, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "PCOCP Frontera Comalapa: cuenca de disponibilidad Selegua (15.849, -91.968)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Puente Huitiupán, Chis"
+   ],
+   "subcuencas": [
+    "Ríos de la Sierra · Tapijulapa (Oxolotán/Amatán)"
+   ],
+   "nota": "Huitiupán, Chis.: cuenca Almendro (alto Oxolotán)",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Xalapa Revolución, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "XREVC Actopan: cuenca de disponibilidad Río Actopan (19.566, -96.916)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Cred Motozintla, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "misma localidad que Motozintla: C07119 Motozintla: cuenca de disponibilidad San Miguel (15.364, -92.248)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Alamo Temapache, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "ALAVC Álamo Temapache: cuenca de disponibilidad Río Tuxpan (20.930, -97.680)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Cred Cintalapa, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "Cintalapa / La Venta (hacia Malpaso)",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Emiliano Zapata, Tab"
+   ],
+   "subcuencas": [
+    "Usumacinta (aguas abajo de Boca del Cerro / local)"
+   ],
+   "nota": "EZATB Emiliano Zapata: cuenca de disponibilidad Usumacinta (17.750, -91.750)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Finca Hamburgo, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "FHACP Tapachula: cuenca de disponibilidad Huixtla (15.174, -92.325)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "La Encrucijada, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "reserva La Encrucijada",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Nezahualcóyotl, Chis"
+   ],
+   "subcuencas": [
+    "Embalse Malpaso (aporte regulado)"
+   ],
+   "nota": "MALCP Tecpatán: cuenca de disponibilidad Presa Nezahualcóyotl (17.179, -93.599)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Parque Oriente, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "Tuxtla Gutiérrez",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Paso de Piedras, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "CHYVC Pánuco: cuenca de disponibilidad Río Chicayán 1 (21.738, -98.156)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Puente Morelos, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "SCRCP San Cristóbal de las Casas: cuenca de disponibilidad Presa Chicoasén (16.742, -92.617)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Puerto Chiapas, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "Puerto Chiapas",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Rómulo Calzada, Chis"
+   ],
+   "subcuencas": [
+    "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
+   ],
+   "nota": "RMLCP Tecpatán: cuenca de disponibilidad Presa Peñitas (17.354, -93.552)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tuxtla Oriente, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "TUXCP Tuxtla Gutiérrez: cuenca de disponibilidad Tuxtla Gutiérrez (16.762, -93.100)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Xalapa Sumidero, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "XSUVC Xalapa: cuenca de disponibilidad Río Actopan (19.556, -96.894)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Boca del Cerro, Tab"
+   ],
+   "subcuencas": [
+    "Usumacinta (aguas abajo de Boca del Cerro / local)"
+   ],
+   "nota": "C27004 Tenosique: cuenca de disponibilidad Usumacinta (17.449, -91.493)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Chacaltianguis, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "CCLVC Chacaltianguis: cuenca de disponibilidad Río Papaloapan (18.300, -95.800)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Chapultenango, Chis"
+   ],
+   "subcuencas": [
+    "Pichucalco → Grijalva (Villahermosa)"
+   ],
+   "nota": "C07032 Chapultenango: cuenca de disponibilidad Pichucalco (17.333, -93.100)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Cred Ocosingo, Chis"
+   ],
+   "subcuencas": [
+    "Alto Usumacinta–Lacantún (aguas arriba de El Tigre)"
+   ],
+   "nota": "Ocosingo (Jataté)",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Finca Argovia, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "FARCP Tapachula: cuenca de disponibilidad Huehuetán (15.127, -92.299)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Finca Chayabé, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "C07055 Las Margaritas: cuenca de disponibilidad Seco (16.381, -91.711)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Jesús Carranza, Ver"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "JCRVC Jesús Carranza: cuenca de disponibilidad Alto Río Coatzacoalcos (17.433, -95.033)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Platón Sánchez, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "PSNVC Tantoyuca: cuenca de disponibilidad Río Tempoal 2 (21.298, -98.357)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Puente Tonalá , Tab"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "río Tonalá",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Salto de Agua, Chis"
+   ],
+   "subcuencas": [
+    "Tulijá–Chilapa"
+   ],
+   "nota": "SAACP Salto de Agua: cuenca de disponibilidad Tulijá (17.567, -92.350)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Santo Domingo, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "SDOCP Chiapa de Corzo: cuenca de disponibilidad Santo Domingo (16.453, -93.056)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Volcán Tacaná, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "volcán Tacaná",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Xalapa Cristal, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "XCRVC Xalapa: cuenca de disponibilidad Río Actopan (19.542, -96.904)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Coatzacoalcos, Ver"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "C30027 Coatzacoalcos: cuenca de disponibilidad Río Huazuntlán (18.140, -94.522)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Cred Arriaga, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "Arriaga",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "El Novillero, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "ELNCP Mapastepec: cuenca de disponibilidad Novillero Alto (15.496, -92.950)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Finca la Paz, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "FPZCP Escuintla: cuenca de disponibilidad Despoblado (15.347, -92.476)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Jonuta puente, Tab"
+   ],
+   "subcuencas": [
+    "Usumacinta (aguas abajo de Boca del Cerro / local)"
+   ],
+   "nota": "Usumacinta en Jonuta",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Juan Sabines, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "JSBCP La Concordia: cuenca de disponibilidad Presa La Concordia (15.996, -92.899)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "La Cangrejera, Ver"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "LCAVC Coatzacoalcos: cuenca de disponibilidad Río Huazuntlán (18.109, -94.331)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Potrero Nuevo, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "PTNVC Atoyac: cuenca de disponibilidad Río Cotaxtla (18.888, -96.795)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "San Jerónimo, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "C07146 Unión Juárez: cuenca de disponibilidad Suchiate (15.040, -92.136)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tierra Morada, Ver"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "TMOVC Las Choapas: cuenca de disponibilidad Bajo Río Uxpanapa (17.572, -94.163)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Chicomuselo, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "CHMCP Chicomuselo: cuenca de disponibilidad San Miguel (15.750, -92.283)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Cuatotolapan, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "CTTVC Hueyapan de Ocampo: cuenca de disponibilidad Río San Juan (18.144, -95.296)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Cuxtepeques, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "río Cuxtepeques (presa La Concordia)",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "El Grijalva, Chis"
+   ],
+   "subcuencas": [
+    "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
+   ],
+   "nota": "GRJCP Ostuacán: cuenca de disponibilidad Presa Peñitas (17.364, -93.381)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Huayacocotla, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "HUYVC Huayacocotla: cuenca de disponibilidad Río Tuxpan (20.533, -98.483)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Huimanguillo, Tab"
+   ],
+   "subcuencas": [
+    "Mezcalapa–Samaria/Carrizal"
+   ],
+   "nota": "C27017 Huimanguillo: cuenca de disponibilidad Mezcalapa (17.829, -93.392)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Pueblo Nuevo, Tab"
+   ],
+   "subcuencas": [
+    "Ríos de la Sierra · Teapa/Puyacatengo/La Sierra"
+   ],
+   "nota": "PNVTB Centro: cuenca de disponibilidad De La Sierra (17.854, -92.879)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "San Joaquín, Chis"
+   ],
+   "subcuencas": [
+    "Pichucalco → Grijalva (Villahermosa)"
+   ],
+   "nota": "C07147 Pichucalco: cuenca de disponibilidad Pichucalco (17.558, -93.108)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Santa María, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "SMACP Larráinzar: cuenca de disponibilidad Hondo (16.939, -92.821)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Sontecomapan, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "SONVC Catemaco: cuenca de disponibilidad Llanuras de Papaloapan (18.517, -95.033)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tenochtitlán, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "TNCVC Tenochtitlán: cuenca de disponibilidad Río Misantla (19.811, -96.917)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tres Zapotes, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "TZAVC Santiago Tuxtla: cuenca de disponibilidad Llanuras de Papaloapan (18.467, -95.417)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Despoblado, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "DESCP Villa Comaltitlán: cuenca de disponibilidad Despoblado (15.204, -92.575)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "El Burrero, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "C07040 Ixtapa: cuenca de disponibilidad Hondo (16.789, -92.828)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "El Porvenir, Tab"
+   ],
+   "subcuencas": [
+    "Bajo Grijalva (Villahermosa)"
+   ],
+   "nota": "EPOTB Centro: cuenca de disponibilidad Grijalva (18.044, -92.815)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Jaltenango, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "JAPCP Angel Albino Corzo: cuenca de disponibilidad Grande o Salinas (15.867, -92.725)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "La Ceibilla, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "LCEVC Isla: cuenca de disponibilidad Río San Juan (18.230, -95.445)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Larrainzar, Chis"
+   ],
+   "subcuencas": [
+    "Ríos de la Sierra · Tapijulapa (Oxolotán/Amatán)"
+   ],
+   "nota": "C07207 Larráinzar: cuenca de disponibilidad De los Plátanos (16.887, -92.716)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Las Flores, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "LFLCP Jiquipilas: cuenca de disponibilidad De La Venta (16.696, -93.561)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Loma Grande, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "LGRVC Mariano Escobedo: cuenca de disponibilidad Río Blanco (18.923, -97.232)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Mapastepec, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "MAPCP Mapastepec: cuenca de disponibilidad Sesecapa (15.450, -92.883)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Motozintla, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "C07119 Motozintla: cuenca de disponibilidad San Miguel (15.364, -92.248)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Pijijiapan, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "PIJCP Pijijiapan: cuenca de disponibilidad Pijijiapan (15.692, -93.217)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Poblado C11, Tab"
+   ],
+   "subcuencas": [
+    "Costa–Chontalpa Grande"
+   ],
+   "nota": "Plan Chontalpa",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Puyacatengo, Tab"
+   ],
+   "subcuencas": [
+    "Ríos de la Sierra · Teapa/Puyacatengo/La Sierra"
+   ],
+   "nota": "PUYTB Teapa: cuenca de disponibilidad De La Sierra (17.567, -92.938)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "San Miguel, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "SMICP Frontera Comalapa: cuenca de disponibilidad San Miguel (15.775, -92.239)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Terrerillos, Ver"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "TRRVC Chicontepec: cuenca de disponibilidad Río Calabozo (21.040, -98.153)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tres Picos, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "TPICP Tonalá: cuenca de disponibilidad Laguna de La Joya (15.875, -93.529)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Yaquintela, Chis"
+   ],
+   "subcuencas": [
+    "Alto Usumacinta–Lacantún (aguas arriba de El Tigre)"
+   ],
+   "nota": "C07114 Ocosingo: cuenca de disponibilidad Jatate (16.909, -91.730)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Agua Dulce, Ver"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "AGDVC Agua Dulce: cuenca de disponibilidad Tonalá (18.142, -94.144)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Angostura, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "presa La Angostura",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Banderilla, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "BANVC Banderilla: cuenca de disponibilidad Río Actopan (19.589, -96.944)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Chicoasén, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "C07035 Osumacinta: cuenca de disponibilidad Presa Chicoasén (16.942, -93.099)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Escuintla, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "ESCCP Escuintla: cuenca de disponibilidad Laguna del Viejo y Temblader (15.317, -92.667)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Huehuetán, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "HUECP Huehuetán: cuenca de disponibilidad Huehuetán (14.997, -92.403)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Monterrey, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "C07349 Villa Corzo: cuenca de disponibilidad Santo Domingo (16.059, -93.369)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Portaceli, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "C07132 Villaflores: cuenca de disponibilidad Santo Domingo (16.449, -93.125)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Soyatitán, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "C07330 Venustiano Carranza: cuenca de disponibilidad Aguacatenco (16.289, -92.428)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tapachapan, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "TAPVC Coatepec: cuenca de disponibilidad Río La Antigua (19.450, -96.967)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tapachula, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "TAPCP Tuxtla Chico: cuenca de disponibilidad Cahuacán (14.908, -92.261)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tapijulapa, Tab"
+   ],
+   "subcuencas": [
+    "Ríos de la Sierra · Tapijulapa (Oxolotán/Amatán)"
+   ],
+   "nota": "TAPTB Tacotalpa: cuenca de disponibilidad Tacotalpa (17.467, -92.817)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Altotonga, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "ALTVC Altotonga: cuenca de disponibilidad Río Nautla (19.762, -97.235)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Bonampak, Chis"
+   ],
+   "subcuencas": [
+    "Alto Usumacinta–Lacantún (aguas arriba de El Tigre)"
+   ],
+   "nota": "C07017 Ocosingo: cuenca de disponibilidad Lacanjá (16.733, -91.083)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Boquerón, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "BOQCP Suchiapa: cuenca de disponibilidad Suchiapa (16.642, -93.150)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Cacaluta, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "CACCP Acacoyagua: cuenca de disponibilidad Cacaluta (15.350, -92.717)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Cascajal, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "CASCP Venustiano Carranza: cuenca de disponibilidad Aguacatenco (16.308, -92.479)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Chacamax, Chis"
+   ],
+   "subcuencas": [
+    "Usumacinta (aguas abajo de Boca del Cerro / local)"
+   ],
+   "nota": "C07028 Palenque: cuenca de disponibilidad Chacamax (17.473, -91.708)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Chicomapa, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "CHMVC Zongolica: cuenca de disponibilidad Río Tonto (18.563, -96.854)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Lacantún, Chis"
+   ],
+   "subcuencas": [
+    "Alto Usumacinta–Lacantún (aguas arriba de El Tigre)"
+   ],
+   "nota": "LACCP Ocosingo: cuenca de disponibilidad Lacantún (16.581, -90.702)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Lauchapan, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "LAUVC San Andrés Tuxtla: cuenca de disponibilidad Río San Juan (18.250, -95.350)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Loma Fina, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "LOFVC Paso de Ovejas: cuenca de disponibilidad Río La Antigua (19.261, -96.411)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Los Hules, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "HLSVC Chalma: cuenca de disponibilidad Río Tempoal 1 (21.194, -98.287)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Macuspana, Tab"
+   ],
+   "subcuencas": [
+    "Puxcatán–Chilapa"
+   ],
+   "nota": "MACTB Macuspana: cuenca de disponibilidad Macuxpana (17.767, -92.600)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Ocosingo, Chis"
+   ],
+   "subcuencas": [
+    "Alto Usumacinta–Lacantún (aguas arriba de El Tigre)"
+   ],
+   "nota": "OCSCP Ocosingo: cuenca de disponibilidad Azul (16.897, -92.092)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Ocotepec, Chis"
+   ],
+   "subcuencas": [
+    "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
+   ],
+   "nota": "OCOCP Ocotepec: cuenca de disponibilidad Tzimbac (17.221, -93.151)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Palenque, Chis"
+   ],
+   "subcuencas": [
+    "Usumacinta (aguas abajo de Boca del Cerro / local)"
+   ],
+   "nota": "C07085 Palenque: cuenca de disponibilidad Chacamax (17.509, -91.982)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Platanar, Chis"
+   ],
+   "subcuencas": [
+    "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
+   ],
+   "nota": "PLACP Pichucalco: cuenca de disponibilidad Platanar (17.578, -93.388)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Poza Rica, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "PRCVC Poza Rica de Hidalgo: cuenca de disponibilidad Río Cazones (20.541, -97.478)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "San Pedro, Tab"
+   ],
+   "subcuencas": [
+    "Usumacinta (aguas abajo de Boca del Cerro / local)"
+   ],
+   "nota": "SPTTB Balancán: cuenca de disponibilidad San Pedro (17.792, -91.158)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Siltepec, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "C07159 Siltepec: cuenca de disponibilidad Zacualpa (15.557, -92.323)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Suchiate, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "río Suchiate",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Talismán, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "Talismán, Tapachula",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Balancán, Tab"
+   ],
+   "subcuencas": [
+    "Usumacinta (aguas abajo de Boca del Cerro / local)"
+   ],
+   "nota": "C27001 Balancán: cuenca de disponibilidad Usumacinta (17.810, -91.537)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Bombana, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "C07016 Soyaló: cuenca de disponibilidad Chicoasén (16.942, -93.017)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Carrizal, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "CRRVC Apazapan: cuenca de disponibilidad Río La Antigua (19.320, -96.647)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Cárdenas, Tab"
+   ],
+   "subcuencas": [
+    "Costa–Chontalpa Grande"
+   ],
+   "nota": "CARTB Cárdenas: cuenca de disponibilidad Cunduacán (18.001, -93.376)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "El Olivo, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "OLVVC Pánuco: cuenca de disponibilidad Río Moctezuma 4 (21.832, -98.504)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "El Tejar, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "ETEVC Medellín de Bravo: cuenca de disponibilidad Jamapa-Cotaxtla (19.069, -96.158)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "González, Tab"
+   ],
+   "subcuencas": [
+    "Carrizal"
+   ],
+   "nota": "GONTB Centro: cuenca de disponibilidad El Carrizal (17.975, -93.000)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Huatusco, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "HTSVC Huatusco: cuenca de disponibilidad Río Jamapa (19.182, -96.951)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Huixtla, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "HUICP Huixtla: cuenca de disponibilidad Huixtla (15.133, -92.472)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Huixtán, Chis"
+   ],
+   "subcuencas": [
+    "Alto Usumacinta–Lacantún (aguas arriba de El Tigre)"
+   ],
+   "nota": "C07076 Huixtán: cuenca de disponibilidad Tzanconeja (16.714, -92.458)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Jaltipán, Ver"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "JALVC Zaragoza: cuenca de disponibilidad Bajo Río Coatzacoalcos (17.950, -94.667)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "La Posta, Tab"
+   ],
+   "subcuencas": [
+    "Carrizal"
+   ],
+   "nota": "Posta (Pte. Los Monos) sobre el Carrizal; sección Puente Los Monos en HEC-RAS",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Malpaso, Chis"
+   ],
+   "subcuencas": [
+    "Embalse Malpaso (aporte regulado)"
+   ],
+   "nota": "presa Malpaso (Nezahualcóyotl); el homónimo de Tapachula es otra estación",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Minzapan, Ver"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "MNZVC Mecayapan: cuenca de disponibilidad Río Huazuntlán (18.135, -94.771)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Misantla, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "MZNVC Misantla: cuenca de disponibilidad Río Misantla (19.933, -96.833)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Naolinco, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "NAOVC Naolinco: cuenca de disponibilidad Río Actopan (19.650, -96.872)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Oxolotán, Tab"
+   ],
+   "subcuencas": [
+    "Ríos de la Sierra · Tapijulapa (Oxolotán/Amatán)"
+   ],
+   "nota": "OXOTB Tacotalpa: cuenca de disponibilidad Almendro (17.392, -92.753)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Paredón, Chis"
+   ],
+   "subcuencas": [
+    "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
+   ],
+   "nota": "cuenca de disponibilidad Paredón (Mezcalapa entre Peñitas y El Macayo)",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Peñitas, Chis"
+   ],
+   "subcuencas": [
+    "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
+   ],
+   "nota": "PNTCP Ostuacán: cuenca de disponibilidad Presa Peñitas (17.445, -93.458)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Reforma, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "REFCP La Concordia: cuenca de disponibilidad Grande o Salinas (15.917, -92.667)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Sihuapán, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "SIHVC San Andrés Tuxtla: cuenca de disponibilidad Río San Juan (18.450, -95.183)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tzimbac, Chis"
+   ],
+   "subcuencas": [
+    "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
+   ],
+   "nota": "TZICP Tecpatán: cuenca de disponibilidad Presa Peñitas (17.283, -93.537)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Yamonhó, Chis"
+   ],
+   "subcuencas": [
+    "Embalse Malpaso (aporte regulado)"
+   ],
+   "nota": "YAMCP Tecpatán: cuenca de disponibilidad Presa Nezahualcóyotl (17.117, -93.331)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Acatlán, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "ACAVC Acatlán: cuenca de disponibilidad Río Actopan (19.696, -96.844)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Cuilco, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "río Cuilco (alto Grijalva)",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "La Joya, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "JOYVC Acajete: cuenca de disponibilidad Río Actopan (19.604, -97.021)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Samaría, Tab"
+   ],
+   "subcuencas": [
+    "Mezcalapa–Samaria/Carrizal"
+   ],
+   "nota": "SAMTB Cunduacán: cuenca de disponibilidad Samaría (17.997, -93.276)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Sayula, Chis"
+   ],
+   "subcuencas": [
+    "Cuenca libre Peñitas–Platanar → El Macayo (Samaria/Carrizal)"
+   ],
+   "nota": "SAYCP Ostuacán: cuenca de disponibilidad Presa Peñitas (17.425, -93.383)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tempoal, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "TMPVC Tempoal: cuenca de disponibilidad Río Tempoal 2 (21.500, -98.409)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tonalá, Chis"
+   ],
+   "subcuencas": [
+    "Costa de Chiapas (fuera de las cuencas del modelo)"
+   ],
+   "nota": "TONCP Tonalá: cuenca de disponibilidad Laguna Mar Muerto C (16.087, -93.750)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Totutla, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "TOTVC Totutla: cuenca de disponibilidad Río La Antigua (19.234, -96.950)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tuxtla, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "C07165 Tuxtla Gutiérrez: cuenca de disponibilidad Tuxtla Gutiérrez (16.750, -93.133)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Acala, Chis"
+   ],
+   "subcuencas": [
+    "Alto Grijalva · presas Angostura–Chicoasén (aporte regulado)"
+   ],
+   "nota": "ACACP Acala: cuenca de disponibilidad Presa Chicoasén (16.553, -92.804)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Cardel, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "CRDVC La Antigua: cuenca de disponibilidad Río La Antigua (19.365, -96.374)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Idolos, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "IDOVC Actopan: cuenca de disponibilidad Río Actopan (19.404, -96.554)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Perote, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "PERVC Perote: cuenca de disponibilidad Río Nautla (19.581, -97.239)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Pánuco, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "PNCVC Pánuco: cuenca de disponibilidad Río Pánuco 1 (22.060, -98.177)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Tomata, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "TOMVC Atzalan: cuenca de disponibilidad Río Nautla (19.922, -97.222)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Zanapa, Tab"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "río Zanapa, vertiente Tonalá",
+   "fuente": "ubicación verificada / agrupación CONAGUA"
+  },
+  {
+   "aliases": [
+    "Garro, Ver"
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "GARVC Isla: cuenca de disponibilidad Río Tesechoacán (18.271, -95.557)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "Teapa, Tab"
+   ],
+   "subcuencas": [
+    "Ríos de la Sierra · Teapa/Puyacatengo/La Sierra"
+   ],
+   "nota": "TEATB Teapa: cuenca de disponibilidad De La Sierra (17.567, -92.967)",
+   "fuente": "catálogo SIH"
+  },
+  {
+   "aliases": [
+    "San Joaquín Pichucalco",
+    "Chapultenango",
+    "San Joaquín, Chis"
+   ],
+   "subcuencas": [
+    "Pichucalco–Ríos Serranos"
+   ],
+   "nota": "Aporte desde Chiapas hacia el sistema serrano de Tabasco."
+  },
+  {
+   "aliases": [
+    "Peñitas",
+    "Malpaso",
+    "Nezahualcóyotl"
+   ],
+   "subcuencas": [
+    "Mezcalapa–Samaria/Carrizal"
+   ],
+   "nota": "Sistema Alto Grijalva–Mezcalapa."
+  },
+  {
+   "aliases": [
+    "Lacantún",
+    "Ocosingo",
+    "Bonampak",
+    "Guacamayas"
+   ],
+   "subcuencas": [
+    "Alto Usumacinta–Lacantún"
+   ],
+   "nota": "Aporte al Usumacinta aguas arriba de Tabasco."
+  },
+  {
+   "aliases": [
+    "Salto de Agua"
+   ],
+   "subcuencas": [
+    "Tulijá–Chilapa"
+   ],
+   "nota": "Sistema Tulijá hacia Chilapa."
+  },
+  {
+   "aliases": [
+    "Chacamax",
+    "Palenque",
+    "Catazajá"
+   ],
+   "subcuencas": [
+    "Usumacinta"
+   ],
+   "nota": "Zona de influencia del sistema Usumacinta."
+  },
+  {
+   "aliases": [
+    "Jonuta hidrométrica",
+    "Jonuta puente",
+    "Boca del Cerro",
+    "Balancán",
+    "San Pedro, Tab"
+   ],
+   "subcuencas": [
+    "Usumacinta"
+   ],
+   "nota": "Estaciones del sistema Usumacinta en Tabasco."
+  },
+  {
+   "aliases": [
+    "Pueblo Nuevo",
+    "Oxolotán",
+    "Tapijulapa"
+   ],
+   "subcuencas": [
+    "Ríos Serranos–Grijalva"
+   ],
+   "nota": "Sistema serrano con respuesta hacia el Grijalva."
+  },
+  {
+   "aliases": [
+    "Macuspana, Tab"
+   ],
+   "subcuencas": [
+    "Puxcatán–Chilapa"
+   ],
+   "nota": "Referencia operativa para el sistema Puxcatán–Chilapa."
+  },
+  {
+   "aliases": [
+    "González, Tab"
+   ],
+   "subcuencas": [
+    "Carrizal"
+   ],
+   "nota": "Sistema Carrizal."
+  },
+  {
+   "aliases": [
+    "Samaría, Tab",
+    "Samaria, Tab"
+   ],
+   "subcuencas": [
+    "Samaria"
+   ],
+   "nota": "Sistema Samaria."
+  },
+  {
+   "aliases": [
+    "Sánchez Magallanes",
+    "Cárdenas, Tab"
+   ],
+   "subcuencas": [
+    "Costa–Chontalpa Grande"
+   ],
+   "nota": "Influencia operativa costera y Chontalpa Grande."
+  },
+  {
+   "aliases": [
+    "Jesús Carranza",
+    "Observatorio de Coatzacoalcos"
+   ],
+   "subcuencas": [
+    "Coatzacoalcos–Tonalá"
+   ],
+   "nota": "Referencia operativa aguas arriba/entorno de la vertiente Coatzacoalcos–Tonalá."
+  },
+  {
+   "aliases": [
+    ", Ver."
+   ],
+   "subcuencas": [
+    "Veracruz (fuera de las cuencas del modelo)"
+   ],
+   "nota": "Respaldo general para estaciones de Veracruz no listadas arriba."
+  },
+  {
+   "aliases": [
+    "Puente Solidaridad, Tab"
+   ],
+   "subcuencas": [
+    "Mezcalapa–Samaria/Carrizal"
+   ],
+   "nota": "Puente Solidaridad, Villahermosa (Centro): sistema Mezcalapa–Samaria/Carrizal",
+   "fuente": "clasificación indicada por la Dirección Operativa (16/10/2026)"
+  }
+ ],
+ "pendientes_sin_ubicacion_verificada": [
+  "ASUR, Ver.",
+  "Anton Lizardo, Ver. SEMAR*",
+  "Arroyo Grande, Chis. SGT*",
+  "Aza Pac, Chis. CFE*",
+  "Catazajá, Chis. SGT*",
+  "Chalchihuitán, Chis. SGT*",
+  "Citlaltepec, Ver. SMN*",
+  "Cristal TV Azteca, Chis. SGT*",
+  "Córdoba, Ver. SGT*",
+  "El Aguaje, Chis. SGT*",
+  "El Escalón, Chis. SGT*",
+  "El Portillo, Chis. SGT*",
+  "El Salado, Ver. SEMAR*",
+  "El Triunfo, Chis. SMN*",
+  "Emiliano Zapata, Chis. CFE*",
+  "Guacamayas, Chis. SGT*",
+  "Isla de Sacrificios, Ver. SEMAR*",
+  "La Sepultura, Chis. CFE*",
+  "Las Flores Dos, Chis. SGT*",
+  "Los Tuxtlas 2, Ver. SMN*",
+  "Misantla OCGC, Ver.",
+  "Módulo Cinco, Chis. SGT*",
+  "Piletas, Ver.",
+  "Presa Tuxpango, Ver. SMN*",
+  "Puente Cuatro Caminos, Ver. SGT*",
+  "Quiosco, Chis. SGT*",
+  "Río de Janeiro, Chis. SGT*",
+  "Secundaria Técnica 103, Chis. SGT*",
+  "Secundaria Técnica 59, Chis. SGT*",
+  "Sedeño, Ver.",
+  "Sierra Morena, Chis. CFE*",
+  "Sitala, Chis. SGT*",
+  "Tlaquilpa, Ver.",
+  "Xalapa Castillo PC, Ver.",
+  "Xalapa Constituyentes PC, Ver.",
+  "Xalapa Minas PC, Ver.",
+  "Xalapa Moral Protección Civl, Ver.",
+  "Xalapa Naranjal Protección Civil, Ver.",
+  "Yecuatla, Ver."
+ ]
 }
