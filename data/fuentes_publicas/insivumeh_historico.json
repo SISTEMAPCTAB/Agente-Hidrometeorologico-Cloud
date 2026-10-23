@@ -4451,23 +4451,34 @@
     {
       "estacion": "El Tigre",
       "rio": "Usumacinta",
-      "desde": "22/10/2026 08:00",
-      "hasta": "22/10/2026 14:00",
+      "desde": "22/10/2026 14:00",
+      "hasta": "22/10/2026 20:00",
       "horas_transcurridas": 6.0,
-      "delta_nivel_m": 0.06,
-      "delta_caudal_m3s": 26.09,
+      "delta_nivel_m": 0.05,
+      "delta_caudal_m3s": 21.74,
       "tendencia_calculada": "incrementando",
       "fuente_evolucion": "insivumeh_alto_hidro_historico"
     },
     {
       "estacion": "El Porvenir",
       "rio": "La Pasión",
-      "desde": "22/10/2026 08:00",
-      "hasta": "22/10/2026 14:00",
+      "desde": "22/10/2026 14:00",
+      "hasta": "22/10/2026 20:00",
       "horas_transcurridas": 6.0,
-      "delta_nivel_m": 0.08,
-      "delta_caudal_m3s": 30.58,
+      "delta_nivel_m": 0.06,
+      "delta_caudal_m3s": 23.76,
       "tendencia_calculada": "incrementando",
+      "fuente_evolucion": "insivumeh_alto_hidro_historico"
+    },
+    {
+      "estacion": "Playa Grande",
+      "rio": "Chixoy",
+      "desde": "22/10/2026 14:00",
+      "hasta": "22/10/2026 20:00",
+      "horas_transcurridas": 6.0,
+      "delta_nivel_m": -0.05,
+      "delta_caudal_m3s": -25.6,
+      "tendencia_calculada": "disminuyendo",
       "fuente_evolucion": "insivumeh_alto_hidro_historico"
     }
   ],
