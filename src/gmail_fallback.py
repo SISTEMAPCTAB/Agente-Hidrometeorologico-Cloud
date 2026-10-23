@@ -361,6 +361,42 @@ def extraer_lluvia_respaldo(level, tmpdir: Path) -> dict:
     return info
 
 
+# 23-oct-2026: sólo interesan los correos de CONAGUA por su ASUNTO (pedido de Gilberto):
+#   "SE ENVÍA EL INFORME DE NIVELES DE LAS 14:00 HR"            -> niveles horarios
+#   "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 8:00 AM" -> FUENTE2 (06:00 y 08:00)
+#   "Boletín Hidrométrico, Climatológico y de Presas"           -> FUENTE1
+# El servidor de Gmail filtra por asunto y sólo se bajan esos correos (antes se revisaban ~100 de 3 días).
+ASUNTO_RE = re.compile(r"niveles|hidrometr|climatolog|presas", re.I)
+GMAIL_RAW_ASUNTOS = "subject:(niveles OR hidrometria OR hidrometrico OR climatologia OR climatologico OR presas)"  # sólo ASCII (IMAP)
+
+
+def _norm_asunto(texto: str) -> str:
+    import unicodedata
+    return "".join(c for c in unicodedata.normalize("NFD", texto or "") if unicodedata.category(c) != "Mn")
+
+
+def buscar_por_asunto(mail, since: str):
+    """UIDs de correos recientes cuyo asunto corresponde a niveles/boletines. None si la búsqueda falla."""
+    encontrados, ok = set(), False
+    consultas = [("X-GM-RAW", f'"newer_than:{LOOKBACK_DAYS}d {GMAIL_RAW_ASUNTOS}"')]
+    consultas += [("SUBJECT", f'(SINCE "{since}" SUBJECT "{t}")') for t in ("NIVELES", "HIDROMETRIA", "CLIMATOLOGIA", "PRESAS")]
+    for tipo, crit in consultas:
+        try:
+            typ, data = (mail.uid("search", None, "X-GM-RAW", crit) if tipo == "X-GM-RAW"
+                         else mail.uid("search", None, crit))
+        except Exception as exc:
+            print(f"Búsqueda {tipo} {crit[:40]} falló: {exc}")
+            continue
+        if typ == "OK":
+            ok = True
+            uids = set((data[0] or b"").split())
+            print(f"Búsqueda {tipo} {crit[:60]}: {len(uids)} correos")
+            encontrados |= uids
+    if not ok:
+        return None
+    return sorted(encontrados, key=lambda u: int(u))
+
+
 def main():
     now = datetime.now(timezone.utc).astimezone(MX_TZ)
     current_level_time = current_latest_level_time()
@@ -407,9 +443,16 @@ def main():
             time.sleep(attempt * 5)
     try:
         since = cutoff.strftime("%d-%b-%Y")
-        typ, data = mail.uid("search", None, f'(SINCE "{since}")')
-        if typ != "OK":
-            raise RuntimeError("Gmail IMAP no devolvió resultados de búsqueda.")
+        uids_asunto = buscar_por_asunto(mail, since)
+        if uids_asunto is not None:
+            data = [b" ".join(uids_asunto)]
+            status["busqueda"] = f"por asunto ({len(uids_asunto)} correos)"
+            status["max_uid_asunto"] = max((int(u) for u in uids_asunto), default=0)
+        else:
+            typ, data = mail.uid("search", None, f'(SINCE "{since}")')
+            if typ != "OK":
+                raise RuntimeError("Gmail IMAP no devolvió resultados de búsqueda.")
+            status["busqueda"] = "completa (respaldo: la búsqueda por asunto falló)"
         # 22-oct-2026: desde que llegan los reportes CFE "FUNCIONAMIENTO DE VASOS" (Excel + muchas imágenes, varios MB
         # cada uno) bajar el mensaje completo de todos los correos hacía que IMAP excediera el tiempo y fallara toda la
         # revisión de niveles. Ahora: primero sólo encabezado y tamaño; se omiten los reportes CFE (los lee cfe_vasos.py)
@@ -433,6 +476,8 @@ def main():
                     m_size = re.search(r"RFC822\.SIZE (\d+)", meta)
                     subj_h = decode(email.message_from_bytes(hdr[0][1]).get("Subject"))
                     if re.search(r"FUNCIONAMIENTO\s+DE\s+VASOS", subj_h or "", re.I):
+                        continue
+                    if status.get("busqueda", "").startswith("por asunto") and not ASUNTO_RE.search(_norm_asunto(subj_h)):
                         continue
                     if m_size and int(m_size.group(1)) > 25_000_000:
                         print(f"Mensaje {uid} omitido por tamaño ({int(m_size.group(1))//1_000_000} MB): {subj_h[:60]}")

@@ -340,3 +340,14 @@ jobs:
             sleep $((intento * 5))
           done
           exit 0
+
+      # 23-oct-2026: deja vigilando Gmail (sólo asuntos de CONAGUA, cada 90 s) para lanzar esta revisión en cuanto llegue
+      # el siguiente informe, sin esperar la corrida programada. Ver gmail-vigia.yml.
+      - name: Dejar vigía de Gmail
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          desde=$(python3 -c "import json;print(json.load(open('data/niveles/Estado_Gmail_Backup.json')).get('max_uid_asunto') or 0)" 2>/dev/null || echo 0)
+          gh workflow run gmail-vigia.yml --ref main -f desde_uid="$desde" && echo "Vigía lanzado desde UID $desde"

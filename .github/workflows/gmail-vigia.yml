@@ -1,0 +1,51 @@
+name: Gmail vigía de niveles
+
+# 23-oct-2026: vigila Gmail cada 90 s (sólo asuntos de CONAGUA) y lanza gmail-backup-cloud.yml en cuanto llega un
+# informe o boletín, en vez de esperar la revisión de cada 2 h. Lo lanza gmail-backup-cloud.yml al terminar y se
+# relanza solo al cerrar su ventana. Pausa: crear data/control/gmail-vigia-pausa.txt.
+on:
+  workflow_dispatch:
+    inputs:
+      desde_uid:
+        description: "Último UID de Gmail ya revisado (0 = tomar el actual como base)"
+        required: false
+        default: "0"
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: gmail-vigia
+  cancel-in-progress: true
+
+jobs:
+  vigia:
+    runs-on: ubuntu-latest
+    timeout-minutes: 125
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            src/gmail_vigia.py
+            data/control
+          sparse-checkout-cone-mode: false
+      - name: Revisar pausa
+        id: pausa
+        run: |
+          if [ -f data/control/gmail-vigia-pausa.txt ]; then echo "pausado=1" >> "$GITHUB_OUTPUT"; echo "Vigía en pausa"; else echo "pausado=0" >> "$GITHUB_OUTPUT"; fi
+      - name: Vigilar Gmail
+        id: vigia
+        if: steps.pausa.outputs.pausado == '0'
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          GH_TOKEN: ${{ github.token }}
+          VIGIA_DESDE_UID: ${{ inputs.desde_uid }}
+          PYTHONUNBUFFERED: '1'
+        run: python3 src/gmail_vigia.py
+      - name: Relanzar vigía
+        if: always() && steps.pausa.outputs.pausado == '0' && !cancelled()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run gmail-vigia.yml --ref main -f desde_uid="${{ steps.vigia.outputs.desde_uid || inputs.desde_uid || '0' }}" -R "$GITHUB_REPOSITORY"
