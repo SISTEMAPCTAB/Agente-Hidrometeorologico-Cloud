@@ -1,0 +1,95 @@
+{
+ "producto": "Funcionamiento de vasos · Sistema Hidroeléctrico Grijalva",
+ "fuente": "CFE · Subgerencia de Producción Hidroeléctrica Grijalva, Departamento Regional de Hidrometría",
+ "fecha": "2026-10-23",
+ "hora_ultimo_dato": 3,
+ "fecha_hora_ultimo_dato": "2026-10-23T03:00:00-06:00",
+ "mensaje_local": "2026-10-23T03:37-06:00",
+ "actualizado_local": "2026-10-23T03:50-06:00",
+ "penitas": {
+  "nivel_msnm": 85.58,
+  "namo_msnm": 87.4,
+  "dif_namo_m": 1.82,
+  "aportado_m3s": 446.0,
+  "turbinado_m3s": 330.0,
+  "vertido_m3s": 0,
+  "extraccion_m3s": 330.0,
+  "extraccion_prom_6h_m3s": 330.0,
+  "extraccion_prom_dia_m3s": 330.0,
+  "aportado_prom_6h_m3s": 464.6
+ },
+ "juan_grijalva": {
+  "nivel_msnm": 86.79,
+  "aportado_m3s": 354.8,
+  "canal_m3s": 327.3,
+  "tuneles_m3s": 218.2,
+  "salida_total_m3s": 545.5,
+  "salida_prom_6h_m3s": 569.0
+ },
+ "malpaso": {
+  "nivel_msnm": 165.92,
+  "namo_msnm": 182.5,
+  "dif_namo_m": 16.58,
+  "extraccion_m3s": 0.0,
+  "aportado_m3s": 713.7
+ },
+ "angostura": {
+  "nivel_msnm": 517.65
+ },
+ "chicoasen": {
+  "nivel_msnm": 391.15,
+  "namo_msnm": 392.5
+ },
+ "novedades": "Presa Malpaso 3 h en la cota 165.92 msnm, 16.58 m abajo del NAMO, con un almacenamiento del 63.05%, aumentó 1 cm con la hora anterior . Sin unidades de Malpaso operando con una extracción de 0 m3/s y gasto de aportaciones asociados a 714 m3/s promedio. Nivel de la presa Peñitas 3 h en la cota 85.58 msnm, porcentaje de llenado 89.42 %, aportaciones de 446 y extracciones de 330 m3/s con un ascenso estable.",
+ "horario": [
+  {
+   "hora": 1,
+   "penitas_nivel": 85.53,
+   "penitas_aportado": 445.3,
+   "penitas_turbinado": 330.0,
+   "penitas_vertido": null,
+   "penitas_extraccion": 330.0,
+   "jg_nivel": 86.85,
+   "jg_aportado": 402.8,
+   "jg_salida": 593.5,
+   "malpaso_nivel": 165.9,
+   "malpaso_extraccion": 0.0,
+   "malpaso_aportado": 713.7,
+   "angostura_nivel": 517.64,
+   "chicoasen_nivel": 391.08
+  },
+  {
+   "hora": 2,
+   "penitas_nivel": 85.56,
+   "penitas_aportado": 502.5,
+   "penitas_turbinado": 330.0,
+   "penitas_vertido": null,
+   "penitas_extraccion": 330.0,
+   "jg_nivel": 86.82,
+   "jg_aportado": 377.3,
+   "jg_salida": 567.9,
+   "malpaso_nivel": 165.91,
+   "malpaso_extraccion": 0.0,
+   "malpaso_aportado": 713.7,
+   "angostura_nivel": 517.65,
+   "chicoasen_nivel": 391.11
+  },
+  {
+   "hora": 3,
+   "penitas_nivel": 85.58,
+   "penitas_aportado": 446.0,
+   "penitas_turbinado": 330.0,
+   "penitas_vertido": null,
+   "penitas_extraccion": 330.0,
+   "jg_nivel": 86.79,
+   "jg_aportado": 354.8,
+   "jg_salida": 545.5,
+   "malpaso_nivel": 165.92,
+   "malpaso_extraccion": 0.0,
+   "malpaso_aportado": 713.7,
+   "angostura_nivel": 517.65,
+   "chicoasen_nivel": 391.15
+  }
+ ],
+ "nota": "Valores horarios de operación de presas tomados del reporte de CFE; sólo se publican los que usa el modelo."
+}
