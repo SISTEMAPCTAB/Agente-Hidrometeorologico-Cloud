@@ -1,25 +1,25 @@
 {
  "producto": "Modelo Rubio/SegAMH · pronóstico experimental 0–72 h",
  "version": "V107k",
- "calculado_utc": "2026-10-24T17:09:35.722Z",
- "lectura": "Lectura 24/10, 11:09",
+ "calculado_utc": "2026-10-24T18:09:51.541Z",
+ "lectura": "Lectura 24/10, 12:09",
  "lluvia_futura": "Ensamble SMN (corregido con SIH) · corrida 2026-10-23",
  "estaciones": [
   {
    "estacion": "Río Tacotalpa · Tapijulapa",
    "h24": {
-    "nivel_m": 17.17,
-    "gasto_m3s": 130.5,
+    "nivel_m": 17.21,
+    "gasto_m3s": 139,
     "situacion": "Normal"
    },
    "h36": {
-    "nivel_m": 17.17,
-    "gasto_m3s": 130.1,
+    "nivel_m": 17.21,
+    "gasto_m3s": 139,
     "situacion": "Normal"
    },
    "h72": {
-    "nivel_m": 17.17,
-    "gasto_m3s": 129.5,
+    "nivel_m": 17.21,
+    "gasto_m3s": 139,
     "situacion": "Normal"
    },
    "pico": "sin ascenso"
@@ -47,7 +47,7 @@
    "estacion": "Río Pichucalco · San Joaquín",
    "h24": {
     "nivel_m": 21.76,
-    "gasto_m3s": 46.9,
+    "gasto_m3s": 47.1,
     "situacion": "Normal"
    },
    "h36": {
@@ -56,8 +56,8 @@
     "situacion": "Normal"
    },
    "h72": {
-    "nivel_m": 21.76,
-    "gasto_m3s": 47.1,
+    "nivel_m": 21.77,
+    "gasto_m3s": 47.5,
     "situacion": "Normal"
    },
    "pico": "21.91 m · 52 m³/s 27/10, 01:00"
@@ -75,8 +75,8 @@
     "situacion": "Normal"
    },
    "h72": {
-    "nivel_m": 25.06,
-    "gasto_m3s": 14.1,
+    "nivel_m": 25.05,
+    "gasto_m3s": 13.9,
     "situacion": "Normal"
    },
    "pico": "25.06 m · 15 m³/s 27/10, 07:00"
@@ -103,18 +103,18 @@
   {
    "estacion": "Río Usumacinta · Boca del Cerro",
    "h24": {
-    "nivel_m": 18.65,
-    "gasto_m3s": 4518,
+    "nivel_m": 18.67,
+    "gasto_m3s": 4524.3,
     "situacion": "Prevención · rebasado desde el nivel inicial"
    },
    "h36": {
-    "nivel_m": 18.51,
-    "gasto_m3s": 4445.2,
-    "situacion": "Normal"
+    "nivel_m": 18.53,
+    "gasto_m3s": 4457.6,
+    "situacion": "Prevención 25/10, 13:00 · a H+36: Normal"
    },
    "h72": {
-    "nivel_m": 18.46,
-    "gasto_m3s": 4418.6,
+    "nivel_m": 18.48,
+    "gasto_m3s": 4432.4,
     "situacion": "Normal"
    },
    "pico": "sin ascenso"
@@ -128,15 +128,15 @@
    },
    "h36": {
     "nivel_m": 12.86,
-    "gasto_m3s": 871,
+    "gasto_m3s": 870.9,
     "situacion": "Normal"
    },
    "h72": {
     "nivel_m": 12.92,
-    "gasto_m3s": 900.2,
+    "gasto_m3s": 900.1,
     "situacion": "Normal"
    },
-   "pico": "12.92 m · 900 m³/s 27/10, 11:00"
+   "pico": "12.92 m · 900 m³/s 27/10, 12:00"
   },
   {
    "estacion": "Río Carrizal · González",
@@ -155,7 +155,7 @@
     "gasto_m3s": 107.1,
     "situacion": "Normal"
    },
-   "pico": "4.20 m · 107 m³/s 27/10, 11:00"
+   "pico": "4.20 m · 107 m³/s 27/10, 12:00"
   },
   {
    "estacion": "Río Grijalva · Gaviotas",
@@ -174,7 +174,7 @@
     "gasto_m3s": 477,
     "situacion": "Normal"
    },
-   "pico": "3.61 m · ≈ 477 m³/s 27/10, 11:00"
+   "pico": "3.61 m · ≈ 477 m³/s 27/10, 12:00"
   },
   {
    "estacion": "Río Grijalva · El Muelle",
@@ -193,7 +193,7 @@
     "gasto_m3s": null,
     "situacion": "Normal"
    },
-   "pico": "3.51 m 27/10, 11:00"
+   "pico": "3.51 m 27/10, 12:00"
   },
   {
    "estacion": "Río Tulijá · Salto de Agua",
@@ -241,25 +241,25 @@
    "estacion": "Río Tacotalpa · Tapijulapa",
    "gasto_m3s": 139,
    "nivel_m": 17.21,
-   "hora": "H+1 · 24/10, 12:00"
+   "hora": "H+0 · 24/10, 12:00"
   },
   {
    "estacion": "Río Teapa · Teapa",
    "gasto_m3s": 93,
    "nivel_m": 34.33,
-   "hora": "H+0 · 24/10, 11:00"
+   "hora": "H+0 · 24/10, 12:00"
   },
   {
    "estacion": "Río Pichucalco · San Joaquín",
    "gasto_m3s": 52,
    "nivel_m": 21.91,
-   "hora": "H+62 · 27/10, 01:00"
+   "hora": "H+61 · 27/10, 01:00"
   },
   {
    "estacion": "Río Puyacatengo · Puyacatengo",
    "gasto_m3s": 15,
    "nivel_m": 25.06,
-   "hora": "H+68 · 27/10, 07:00"
+   "hora": "H+67 · 27/10, 07:00"
   }
  ],
  "picos_sierra_alto": [
@@ -267,25 +267,25 @@
    "estacion": "Río Tacotalpa · Tapijulapa",
    "gasto_m3s": 139,
    "nivel_m": 17.21,
-   "hora": "H+1 · 24/10, 12:00"
+   "hora": "H+0 · 24/10, 12:00"
   },
   {
    "estacion": "Río Teapa · Teapa",
    "gasto_m3s": 110,
    "nivel_m": 34.43,
-   "hora": "H+61 · 27/10, 00:00"
+   "hora": "H+60 · 27/10, 00:00"
   },
   {
    "estacion": "Río Pichucalco · San Joaquín",
    "gasto_m3s": 61,
    "nivel_m": 22.16,
-   "hora": "H+62 · 27/10, 01:00"
+   "hora": "H+61 · 27/10, 01:00"
   },
   {
    "estacion": "Río Puyacatengo · Puyacatengo",
    "gasto_m3s": 18,
    "nivel_m": 25.07,
-   "hora": "H+68 · 27/10, 07:00"
+   "hora": "H+67 · 27/10, 07:00"
   }
  ],
  "lluvia_acumulada": {
@@ -306,7 +306,7 @@
     "maximo_txt": "2020 (1,746 m³/s)",
     "pct_mediana": 62,
     "pct_maximo": 29,
-    "lectura": "Vigilancia: a medio camino de una crecida mayor"
+    "lectura": "Vigilancia: con este acumulado hubo crecida mayor en 17 % de las tormentas (35 casos SIH) · crecida mayor = gasto ≥ 412 m³/s (≈18.8 m, NAMO 24.63 m)"
    },
    {
     "rio": "Río Teapa · Teapa",
@@ -321,7 +321,7 @@
     "maximo_txt": "2000 (679 m³/s)",
     "pct_mediana": 71,
     "pct_maximo": 26,
-    "lectura": "Vigilancia: a medio camino de una crecida mayor"
+    "lectura": "Vigilancia: con este acumulado hubo crecida mayor en 9 % de las tormentas (45 casos SIH) · crecida mayor = gasto ≥ 245 m³/s (≈36.2 m, NAMO 37.71 m)"
    },
    {
     "rio": "Río Pichucalco · San Joaquín",
@@ -336,7 +336,7 @@
     "maximo_txt": "1979 (285 m³/s)",
     "pct_mediana": 80,
     "pct_maximo": 33,
-    "lectura": "Vigilancia: a medio camino de una crecida mayor"
+    "lectura": "Vigilancia: con este acumulado hubo crecida mayor en 22 % de las tormentas (9 casos SIH) · crecida mayor = gasto ≥ 191 m³/s"
    },
    {
     "rio": "Río Puyacatengo · Puyacatengo",
@@ -351,7 +351,7 @@
     "maximo_txt": "2020 (236 m³/s)",
     "pct_mediana": 116,
     "pct_maximo": 23,
-    "lectura": "En el rango de las crecidas mayores"
+    "lectura": "Acumulado alto: con este acumulado hubo crecida mayor en 23 % de las tormentas (31 casos SIH) · crecida mayor = gasto ≥ 89 m³/s (≈25.8 m, NAMO 29.65 m)"
    },
    {
     "rio": "Río Tulijá · Salto de Agua",
