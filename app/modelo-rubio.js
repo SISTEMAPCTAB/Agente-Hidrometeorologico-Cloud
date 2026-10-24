@@ -29,7 +29,9 @@ async function show(){
  const aviso=al.length&&fresh?'<section class="panel wide" style="border-left:6px solid #b91c1c;background:#fef2f2"><h2 style="color:#b91c1c">⚠ Lluvia intensa observada en cabecera</h2><p>'+al.map(a=>'<b>'+esc(a.estacion)+'</b>: '+esc(a.mm3h)+' mm en 3 h · '+esc(a.mm6h)+' mm en 6 h → río <b>'+esc(a.rio)+'</b>').join('<br>')+'</p><p class="muted">Para esos ríos considerar el escenario alto y la tendencia observada por encima del pronóstico central. Umbral: ≥30 mm en 3 h o ≥50 mm en 6 h (WeatherLink).</p></section>':'';
  // Lluvia acumulada frente a crecidas mayores (exportado por el modelo desde V106l).
  const la=d.lluvia_acumulada,mm=v=>ok(v)?Math.round(v)+' mm':'s/d';
- const col=x=>x.pct_mediana==null?'#666':(x.maximo_mm&&x.total_mm>=x.maximo_mm)?'#9b1c1c':x.pct_mediana>=100?'#c2410c':x.pct_mediana>=50?'#a16207':'#15803d';
+ // V107n del modelo (24-oct-2026): si la lectura trae la frecuencia histórica de crecida mayor, el color sigue esa frecuencia.
+ const probAcum=x=>{const m=String(x.lectura||'').match(/crecida mayor en (\d+) %/);return m?Number(m[1]):null};
+ const col=x=>x.pct_mediana==null?'#666':(x.maximo_mm&&x.total_mm>=x.maximo_mm)?'#9b1c1c':probAcum(x)!=null?(probAcum(x)>=50?'#c2410c':'#a16207'):x.pct_mediana>=100?'#c2410c':x.pct_mediana>=50?'#a16207':'#15803d';
  const acu=la&&Array.isArray(la.rios)&&la.rios.length?'<section class="panel wide"><h2>Lluvia acumulada frente a crecidas mayores</h2>'+
   '<p style="background:#f8fafc;border-left:4px solid #64748b;padding:8px 10px"><b>Qué se analiza:</b> '+esc(la.explicacion||'')+'</p>'+
   '<div class="table-wrap"><table><thead><tr><th>Río · estación</th><th>Observada</th><th>Pronosticada 0–96 h</th><th>SMN 360 h'+(la.smn360_validez?' <small>('+esc(la.smn360_validez)+')</small>':'')+'</th><th>Total</th><th>Crecidas mayores (mediana)</th><th>Lectura</th></tr></thead><tbody>'+
