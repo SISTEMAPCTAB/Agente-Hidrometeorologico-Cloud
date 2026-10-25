@@ -1,15 +1,15 @@
 {
  "producto": "Modelo Rubio/SegAMH · pronóstico experimental 0–72 h",
  "version": "V107k",
- "calculado_utc": "2026-10-25T13:13:51.349Z",
- "lectura": "Lectura 25/10, 07:13",
+ "calculado_utc": "2026-10-25T14:14:03.391Z",
+ "lectura": "Lectura 25/10, 08:14",
  "lluvia_futura": "Ensamble SMN (corregido con SIH) · corrida 2026-10-24",
  "estaciones": [
   {
    "estacion": "Río Tacotalpa · Tapijulapa",
    "h24": {
     "nivel_m": 17.02,
-    "gasto_m3s": 117.4,
+    "gasto_m3s": 117.5,
     "situacion": "Normal"
    },
    "h36": {
@@ -18,7 +18,7 @@
     "situacion": "Normal"
    },
    "h72": {
-    "nivel_m": 17.01,
+    "nivel_m": 17.02,
     "gasto_m3s": 117,
     "situacion": "Normal"
    },
@@ -41,18 +41,18 @@
     "gasto_m3s": 81.1,
     "situacion": "Normal"
    },
-   "pico": "34.20 m · 81 m³/s 28/10, 07:00"
+   "pico": "34.20 m · 81 m³/s 28/10, 08:00"
   },
   {
    "estacion": "Río Pichucalco · San Joaquín",
    "h24": {
     "nivel_m": 21.37,
-    "gasto_m3s": 41.8,
+    "gasto_m3s": 42,
     "situacion": "Normal"
    },
    "h36": {
-    "nivel_m": 21.35,
-    "gasto_m3s": 41.5,
+    "nivel_m": 21.36,
+    "gasto_m3s": 41.6,
     "situacion": "Normal"
    },
    "h72": {
@@ -103,18 +103,18 @@
   {
    "estacion": "Río Usumacinta · Boca del Cerro",
    "h24": {
-    "nivel_m": 18.54,
-    "gasto_m3s": 4600.7,
-    "situacion": "Prevención 25/10, 08:00–00:00 · a H+24: Normal"
+    "nivel_m": 18.56,
+    "gasto_m3s": 4611,
+    "situacion": "Prevención 25/10, 09:00–02:00 · a H+24: Normal"
    },
    "h36": {
-    "nivel_m": 18.42,
-    "gasto_m3s": 4542.7,
+    "nivel_m": 18.45,
+    "gasto_m3s": 4556.3,
     "situacion": "Normal"
    },
    "h72": {
-    "nivel_m": 18.31,
-    "gasto_m3s": 4484.6,
+    "nivel_m": 18.34,
+    "gasto_m3s": 4499.1,
     "situacion": "Normal"
    },
    "pico": "sin ascenso"
@@ -136,7 +136,7 @@
     "gasto_m3s": 893.4,
     "situacion": "Normal"
    },
-   "pico": "12.91 m · 893 m³/s 28/10, 07:00"
+   "pico": "12.91 m · 893 m³/s 28/10, 08:00"
   },
   {
    "estacion": "Río Carrizal · González",
@@ -155,7 +155,7 @@
     "gasto_m3s": 62.1,
     "situacion": "Normal"
    },
-   "pico": "3.77 m · 62 m³/s 28/10, 07:00"
+   "pico": "3.77 m · 62 m³/s 28/10, 08:00"
   },
   {
    "estacion": "Río Grijalva · Gaviotas",
@@ -174,7 +174,7 @@
     "gasto_m3s": 444,
     "situacion": "Normal"
    },
-   "pico": "3.40 m · ≈ 444 m³/s 28/10, 07:00"
+   "pico": "3.40 m · ≈ 444 m³/s 28/10, 08:00"
   },
   {
    "estacion": "Río Grijalva · El Muelle",
@@ -193,7 +193,7 @@
     "gasto_m3s": null,
     "situacion": "Normal"
    },
-   "pico": "3.30 m 28/10, 07:00"
+   "pico": "3.30 m 28/10, 08:00"
   },
   {
    "estacion": "Río Tulijá · Salto de Agua",
@@ -241,25 +241,25 @@
    "estacion": "Río Tacotalpa · Tapijulapa",
    "gasto_m3s": 118,
    "nivel_m": 17.02,
-   "hora": "H+0 · 25/10, 07:00"
+   "hora": "H+0 · 25/10, 08:00"
   },
   {
    "estacion": "Río Teapa · Teapa",
    "gasto_m3s": 81,
    "nivel_m": 34.2,
-   "hora": "H+72 · 28/10, 07:00"
+   "hora": "H+72 · 28/10, 08:00"
   },
   {
    "estacion": "Río Pichucalco · San Joaquín",
    "gasto_m3s": 47,
    "nivel_m": 21.53,
-   "hora": "H+41 · 27/10, 00:00"
+   "hora": "H+40 · 27/10, 00:00"
   },
   {
    "estacion": "Río Puyacatengo · Puyacatengo",
    "gasto_m3s": 13,
    "nivel_m": 25.02,
-   "hora": "H+20 · 26/10, 03:00"
+   "hora": "H+20 · 26/10, 04:00"
   }
  ],
  "picos_sierra_alto": [
@@ -267,25 +267,25 @@
    "estacion": "Río Tacotalpa · Tapijulapa",
    "gasto_m3s": 118,
    "nivel_m": 17.02,
-   "hora": "H+0 · 25/10, 07:00"
+   "hora": "H+0 · 25/10, 08:00"
   },
   {
    "estacion": "Río Teapa · Teapa",
    "gasto_m3s": 87,
    "nivel_m": 34.24,
-   "hora": "H+72 · 28/10, 07:00"
+   "hora": "H+72 · 28/10, 08:00"
   },
   {
    "estacion": "Río Pichucalco · San Joaquín",
    "gasto_m3s": 56,
    "nivel_m": 21.82,
-   "hora": "H+41 · 27/10, 00:00"
+   "hora": "H+40 · 27/10, 00:00"
   },
   {
    "estacion": "Río Puyacatengo · Puyacatengo",
    "gasto_m3s": 15,
    "nivel_m": 25.03,
-   "hora": "H+20 · 26/10, 03:00"
+   "hora": "H+20 · 26/10, 04:00"
   }
  ],
  "lluvia_acumulada": {
