@@ -3,7 +3,7 @@
   "stations": {
     "c04a4e28-b0a3-4044-b6e3-f48c43afab16": {
       "prev_daily_mm": 2.3,
-      "prev_observed_utc": "2026-10-25T23:00:00+00:00",
+      "prev_observed_utc": "2026-10-25T23:30:00+00:00",
       "events": [
         {
           "ts": "2026-10-17T17:15:00+00:00",
@@ -741,7 +741,7 @@
     },
     "707f03fe-ca75-4c47-8404-9348b98a084e": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-25T23:01:57+00:00",
+      "prev_observed_utc": "2026-10-25T23:30:59+00:00",
       "events": [
         {
           "ts": "2026-10-16T15:30:45+00:00",
@@ -1091,7 +1091,7 @@
     },
     "f402f31c-df4c-48bb-8fa7-2bb58326d0c8": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-25T23:01:30+00:00",
+      "prev_observed_utc": "2026-10-25T23:30:31+00:00",
       "events": [
         {
           "ts": "2026-10-16T00:00:52+00:00",
@@ -1280,8 +1280,8 @@
       "year_key": "2026"
     },
     "5a4141e8-0fa1-46ff-a032-bdb484eb2fc2": {
-      "prev_daily_mm": 7.6,
-      "prev_observed_utc": "2026-10-25T23:02:09+00:00",
+      "prev_daily_mm": 7.9,
+      "prev_observed_utc": "2026-10-25T23:31:10+00:00",
       "events": [
         {
           "ts": "2026-10-17T16:00:33+00:00",
@@ -1786,23 +1786,23 @@
           "mm": 2.0,
           "intervalo_incierto": false,
           "intervalo_horas": 0.52
+        },
+        {
+          "ts": "2026-10-25T23:31:10+00:00",
+          "mm": 0.3,
+          "intervalo_incierto": false,
+          "intervalo_horas": 0.48
         }
       ],
-      "month_mm": 350.6,
-      "year_mm": 577.4,
+      "month_mm": 350.9,
+      "year_mm": 577.7,
       "month_key": "2026-10",
       "year_key": "2026"
     },
     "96bdee43-3e9c-45ca-a4b1-5efe1f4577ae": {
       "prev_daily_mm": 0.3,
-      "prev_observed_utc": "2026-10-25T23:00:00+00:00",
+      "prev_observed_utc": "2026-10-25T23:30:00+00:00",
       "events": [
-        {
-          "ts": "2026-10-15T23:30:00+00:00",
-          "mm": 22.8,
-          "intervalo_incierto": false,
-          "intervalo_horas": 0.5
-        },
         {
           "ts": "2026-10-16T00:00:00+00:00",
           "mm": 8.9,
@@ -2284,5 +2284,5 @@
       "year_key": "2026"
     }
   },
-  "last_run_utc": "2026-10-25T23:02:09.749004+00:00"
+  "last_run_utc": "2026-10-25T23:31:25.261636+00:00"
 }
