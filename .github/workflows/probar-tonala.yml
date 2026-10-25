@@ -1,6 +1,11 @@
 name: Probar informes Coatzacoalcos Tonala
 on:
   workflow_dispatch:
+    inputs:
+      url:
+        description: "URL(s) del Informe Matutino en gob.mx para recolectar directamente (opcional)"
+        required: false
+        default: ""
   workflow_run:
     workflows:
       - 'WeatherLink Cloud - 32 estaciones'
@@ -72,6 +77,8 @@ jobs:
         if: steps.gate.outputs.run == 'true'
       - name: Descargar y examinar informes oficiales sin afectar otros datos
         if: steps.gate.outputs.run == 'true'
+        env:
+          TONALA_URLS: ${{ inputs.url }}
         run: python src/coatzacoalcos_tonala_probe.py
       - name: Guardar evidencia de la prueba
         if: ${{ always() && steps.gate.outputs.run == 'true' }}

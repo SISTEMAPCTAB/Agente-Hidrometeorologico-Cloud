@@ -2,6 +2,7 @@
 import datetime as dt
 import io
 import json
+import os
 import pathlib
 import re
 import urllib.parse
@@ -28,6 +29,13 @@ sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/11055
 # Último informe confirmado a mano (13-oct-2026). Sin esta ancla, la predicción del número de archivo
 # partía del 2-oct y se pasaba de la ventana (real 1108510; se predecía ~1109600).
 sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/1108510/Informe_Matutino_13102026.pdf")
+# 25-oct-2026: informe del 23-oct indicado por Gilberto (no se encontró solo: la página de CONAGUA está detrás de una verificación
+# anti-robots y la ventana de números de archivo partía del 13-oct). Sirve de ancla nueva (≈277 archivos por día).
+sources["matutino"].append("https://www.gob.mx/cms/uploads/attachment/file/1111285/Informe_Matutino_23102026.pdf")
+# URL(s) dadas a mano al lanzar el workflow (entrada "url"), separadas por espacio o coma.
+for _u in re.split(r"[\s,]+", os.environ.get("TONALA_URLS", "")):
+ if "Informe_Matutino_" in _u and _u.startswith("https://www.gob.mx/") and _u not in sources["matutino"]:
+  sources["matutino"].insert(0,_u)
 # Anclas adicionales: todos los informes ya validados y guardados, para que la ventana parta del más reciente.
 try:
  _prev=json.loads((OUT/"latest.json").read_text(encoding="utf-8"))
