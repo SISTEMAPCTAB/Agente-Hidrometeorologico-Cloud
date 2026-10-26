@@ -1,25 +1,25 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-10-26T10:09:30.016777-06:00",
+  "run_local": "2026-10-26T10:14:57.192504-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
-  "current_level_time_before_run": "2026-10-25T18:00:00-06:00",
-  "messages_scanned": 22,
+  "current_level_time_before_run": "2026-10-26T10:00:00-06:00",
+  "messages_scanned": 23,
   "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
-  "pdfs_skipped_duplicate_content": 18,
-  "sources_updated": [],
+  "pdfs_skipped_duplicate_content": 19,
+  "sources_updated": [
+    "FUENTE1"
+  ],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (25 correos)",
-  "max_uid_asunto": 65959,
+  "busqueda": "por asunto (26 correos)",
+  "max_uid_asunto": 65960,
   "mensajes_sin_pdf_omitidos": 0,
   "lluvia_conagua": {
     "intentado": true,
-    "actualizada": true,
+    "actualizada": false,
     "corte_niveles": "2026-10-26T10:00:00-06:00",
-    "corte": "2026-10-26T10:00:00-06:00",
-    "estaciones": 69,
-    "observadas_24h": 64
+    "motivo": "la lluvia publicada (2026-10-26T10:00:00-06:00) ya es igual o más reciente"
   }
 }
