@@ -91,6 +91,19 @@ def lanzar(workflow: str, inputs: dict | None = None) -> bool:
 
 
 DESDE_ACTUAL = [DESDE]
+CFE_BASE = [None]
+
+
+def max_cfe(m) -> int:
+    """26-oct-2026: también se vigila el reporte CFE "FUNCIONAMIENTO DE VASOS" (extracción de Peñitas que usa el modelo).
+    Su referencia es el último UID existente al iniciar el vigía (lo procesa cfe_vasos.py dentro de gmail-backup-cloud)."""
+    since = (datetime.now(timezone.utc) - timedelta(days=2)).strftime("%d-%b-%Y")
+    try:
+        typ, data = m.uid("search", None, f'(SINCE "{since}" SUBJECT "FUNCIONAMIENTO DE VASOS")')
+        return max((int(x) for x in (data[0] or b"").split()), default=0) if typ == "OK" else 0
+    except imaplib.IMAP4.error as exc:
+        print("búsqueda CFE falló:", exc)
+        return 0
 
 
 def main():
@@ -111,6 +124,15 @@ def main():
                 DESDE_ACTUAL[0] = max((int(x) for x in (data[0] or b"").split()), default=0)
                 print("Base sin referencia: UID", DESDE_ACTUAL[0])
             nuevos = buscar(m)
+            cfe = max_cfe(m)
+            if CFE_BASE[0] is None:
+                CFE_BASE[0] = cfe
+                print("Base CFE: UID", cfe)
+            elif cfe > CFE_BASE[0]:
+                print(f"{datetime.now(timezone(timedelta(hours=-6))):%H:%M} nuevo reporte CFE funcionamiento de vasos UID {cfe}")
+                if not nuevos and lanzar("gmail-backup-cloud.yml"):
+                    print("Lanzado gmail-backup-cloud.yml (CFE)")
+                CFE_BASE[0] = cfe
             primera = False
             if nuevos:
                 for u, s in nuevos.items():
