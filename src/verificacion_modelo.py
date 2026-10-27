@@ -6,7 +6,7 @@ pronóstico–observado a H+24, H+36 y H+72 de los últimos 60 días. El modelo 
 donde la corrección baja el error en días que no se usaron para calcularla.
 
 Usa el nivel crudo (antes de la corrección V107o) cuando la corrida lo publica, para que la corrección no se mida contra sí
-misma."""
+misma. 'h0' = último nivel observado al emitir (≤ 14 h antes), para comparar contra la persistencia."""
 import datetime as dt
 import json
 import subprocess
@@ -53,8 +53,9 @@ def main():
                 o = obs.get((est, obj))
                 if f is None or o is None:
                     continue
+                h0 = next((obs[(est, run - dt.timedelta(hours=b))] for b in range(15) if (est, run - dt.timedelta(hours=b)) in obs), None)
                 pares.append({'est': est, 'h': H, 'emitido': run.isoformat(), 'objetivo': obj.isoformat(), 'pron': f, 'obs': o,
-                              'version': L.get('version')})
+                              'h0': h0, 'version': L.get('version')})
     pares.sort(key=lambda p: (p['est'], p['h'], p['objetivo'], p['emitido']))
     doc = {'producto': 'Verificación Modelo Rubio/SegAMH: pronóstico (crudo) vs nivel observado CONAGUA',
            'generado_utc': dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds'), 'corridas': corridas,
