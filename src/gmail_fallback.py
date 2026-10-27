@@ -375,6 +375,9 @@ def _norm_asunto(texto: str) -> str:
     return "".join(c for c in unicodedata.normalize("NFD", texto or "") if unicodedata.category(c) != "Mn")
 
 
+DIAG_BUSQUEDA = {}
+
+
 def buscar_por_asunto(mail, since: str):
     """UIDs de correos recientes cuyo asunto corresponde a niveles/boletines. None si la búsqueda falla."""
     encontrados, ok = set(), False
@@ -392,6 +395,29 @@ def buscar_por_asunto(mail, since: str):
             uids = set((data[0] or b"").split())
             print(f"Búsqueda {tipo} {crit[:60]}: {len(uids)} correos")
             encontrados |= uids
+    # 27-oct-2026: la búsqueda de Gmail no encontró "Se envía Boletín de Hidrometría y Climatologia de 6 am" (acentos y
+    # mayúsculas variables): los boletines del 26 y 27-oct no se recolectaron. Respaldo seguro: se leen SÓLO los encabezados
+    # (Asunto) de todos los correos del periodo en una sola consulta y se filtran aquí, sin acentos ni mayúsculas.
+    try:
+        typ, data = mail.uid("search", None, f'(SINCE "{since}")')
+        todos = (data[0] or b"").split() if typ == "OK" else []
+        if todos:
+            ok = True
+            typ, resp = mail.uid("fetch", b",".join(todos[-400:]), "(BODY.PEEK[HEADER.FIELDS (SUBJECT)])")
+            extra = 0
+            for item in resp or []:
+                if not isinstance(item, tuple):
+                    continue
+                m_uid = re.search(rb"UID (\d+)", item[0])
+                if not m_uid:
+                    continue
+                subj = decode(email.message_from_bytes(item[1]).get("Subject"))
+                if ASUNTO_RE.search(_norm_asunto(subj)) and m_uid.group(1) not in encontrados:
+                    encontrados.add(m_uid.group(1)); extra += 1
+            print(f"Revisión local de asuntos: {len(todos)} correos, {extra} adicionales a la búsqueda de Gmail")
+            DIAG_BUSQUEDA["asuntos_locales_adicionales"] = extra
+    except Exception as exc:
+        print("Revisión local de asuntos falló:", exc)
     if not ok:
         return None
     return sorted(encontrados, key=lambda u: int(u))
@@ -448,6 +474,7 @@ def main():
             data = [b" ".join(uids_asunto)]
             status["busqueda"] = f"por asunto ({len(uids_asunto)} correos)"
             status["max_uid_asunto"] = max((int(u) for u in uids_asunto), default=0)
+            status.update(DIAG_BUSQUEDA)
         else:
             typ, data = mail.uid("search", None, f'(SINCE "{since}")')
             if typ != "OK":

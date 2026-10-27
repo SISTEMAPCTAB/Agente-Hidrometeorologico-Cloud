@@ -54,24 +54,26 @@ def conectar():
 
 
 def buscar(m) -> dict[int, str]:
-    since = (datetime.now(timezone.utc) - timedelta(days=2)).strftime("%d-%b-%Y")
-    uids = set()
-    for crit in (("X-GM-RAW", f'"{RAW}"'),) + tuple((f'(SINCE "{since}" SUBJECT "{t}")',) for t in ("NIVELES", "HIDROMETRIA", "PRESAS")):
-        try:
-            typ, data = m.uid("search", None, *crit)
-            if typ == "OK":
-                uids |= {int(x) for x in (data[0] or b"").split()}
-        except imaplib.IMAP4.error as exc:
-            print("búsqueda falló:", crit[0][:30], exc)
+    """27-oct-2026: en vez de confiar en la búsqueda por asunto de Gmail (no encontró "Boletín de Hidrometría y
+    Climatologia de 6 am" por acentos/mayúsculas), se leen los encabezados de TODOS los correos nuevos (UID mayor que el
+    último revisado) y el asunto se compara aquí sin acentos ni mayúsculas."""
+    desde = max(DESDE_ACTUAL[0], VISTO[0])
+    typ, data = m.uid("search", None, f"UID {desde + 1}:*")
+    uids = sorted(int(x) for x in (data[0] or b"").split() if int(x) > desde) if typ == "OK" else []
     out = {}
-    for u in sorted(uids):
-        if u <= DESDE_ACTUAL[0]:
+    if not uids:
+        return out
+    VISTO[0] = max(uids)
+    typ, resp = m.uid("fetch", ",".join(str(u) for u in uids[-200:]), "(BODY.PEEK[HEADER.FIELDS (SUBJECT)])")
+    for item in resp or []:
+        if not isinstance(item, tuple):
             continue
-        typ, hdr = m.uid("fetch", str(u), "(BODY.PEEK[HEADER.FIELDS (SUBJECT)])")
-        if typ == "OK" and hdr and isinstance(hdr[0], tuple):
-            s = asunto(hdr[0][1])
-            if ASUNTO_RE.search(norm(s)) and not re.search(r"FUNCIONAMIENTO\s+DE\s+VASOS", s, re.I):
-                out[u] = s
+        mu = re.search(rb"UID (\d+)", item[0])
+        if not mu:
+            continue
+        s = asunto(item[1])
+        if ASUNTO_RE.search(norm(s)) and not re.search(r"FUNCIONAMIENTO\s+DE\s+VASOS", s, re.I):
+            out[int(mu.group(1))] = s
     return out
 
 
@@ -91,6 +93,7 @@ def lanzar(workflow: str, inputs: dict | None = None) -> bool:
 
 
 DESDE_ACTUAL = [DESDE]
+VISTO = [0]  # último UID cuyo encabezado ya se revisó (coincida o no)
 CFE_BASE = [None]
 
 
