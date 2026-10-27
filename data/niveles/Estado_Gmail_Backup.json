@@ -1,20 +1,39 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-10-27T09:27:53.891886-06:00",
+  "run_local": "2026-10-27T09:34:42.470480-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-10-26T18:00:00-06:00",
-  "messages_scanned": 20,
+  "messages_scanned": 31,
   "levels_processed_now": 0,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 16,
-  "sources_updated": [],
+  "sources_updated": [
+    "FUENTE2"
+  ],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (22 correos)",
-  "max_uid_asunto": 65987,
+  "busqueda": "por asunto (33 correos)",
+  "max_uid_asunto": 66011,
+  "asuntos_locales_adicionales": 11,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66011",
+      "fecha": "2026-10-27T08:29",
+      "asunto": "Se envía Boletín de Hidrometría y Climatología de 8 am",
+      "pdf": [
+        "Boletin del 27 de Octubre  del 2026.pdf"
+      ]
+    },
+    {
+      "uid": "66007",
+      "fecha": "2026-10-27T06:32",
+      "asunto": "Se envía Boletín de Hidrometría y Climatología de 6 am",
+      "pdf": [
+        "Boletin del 27 de Octubre  del 2026.pdf"
+      ]
+    },
     {
       "uid": "65987",
       "fecha": "2026-10-26T18:00",
@@ -48,6 +67,30 @@
       ]
     },
     {
+      "uid": "65964",
+      "fecha": "2026-10-26T10:30",
+      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 26-10-2026 (10:30 horas)",
+      "pdf": [
+        "Reporte y Seguimiento Meteorológico 26-10-2026 (10_30 hrs).pdf"
+      ]
+    },
+    {
+      "uid": "65963",
+      "fecha": "2026-10-26T10:29",
+      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 26-10-2026 (10:30 horas)",
+      "pdf": [
+        "Reporte y Seguimiento Meteorológico 26-10-2026 (10_30 hrs).pdf"
+      ]
+    },
+    {
+      "uid": "65962",
+      "fecha": "2026-10-26T10:28",
+      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 26-10-2026 (10:30 horas)",
+      "pdf": [
+        "Pronóstico Meteorológico 24 h 26-10-2026 (09_00 hrs).pdf"
+      ]
+    },
+    {
       "uid": "65960",
       "fecha": "2026-10-26T10:12",
       "asunto": "Boletín Hidrométrico, Climatológico y de Presas , 26/10/2026",
@@ -61,6 +104,22 @@
       "asunto": "SE ENVÍA EL INFORME DE NIVELES DE LAS 10:00 HR",
       "pdf": [
         "Niveles del 26 de Octubre  del 2026.pdf"
+      ]
+    },
+    {
+      "uid": "65953",
+      "fecha": "2026-10-26T08:11",
+      "asunto": "Se envía Boletín de Hidrometría y Climatología de 8 am",
+      "pdf": [
+        "Boletin del 26 de Octubre  del 2026.pdf"
+      ]
+    },
+    {
+      "uid": "65948",
+      "fecha": "2026-10-26T06:19",
+      "asunto": "​Se envía Boletín de Hidrometría y Climatología de 6 am",
+      "pdf": [
+        "Boletin del 26 de Octubre  del 2026.pdf"
       ]
     },
     {
@@ -93,6 +152,22 @@
       "asunto": "Se envía informe de niveles de las 12:00 horas.",
       "pdf": [
         "Niveles del 25 de Octubre  del 2026.pdf"
+      ]
+    },
+    {
+      "uid": "65909",
+      "fecha": "2026-10-25T10:36",
+      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 25-10-2026 (10:30 horas)",
+      "pdf": [
+        "Reporte y Seguimiento Meteorológico 25-10-2026 (10_30 hrs).pdf"
+      ]
+    },
+    {
+      "uid": "65908",
+      "fecha": "2026-10-25T10:34",
+      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 25-10-2026 (10:30 horas)",
+      "pdf": [
+        "Reporte y Seguimiento Meteorológico 25-10-2026 (10_30 hrs).pdf"
       ]
     },
     {
@@ -141,38 +216,6 @@
       "asunto": "​SE ENVÍA EL ARCHIVO DE NIVELES DE LAS 16:00 HRS.",
       "pdf": [
         "Niveles del 24 de Octubre  del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "65868",
-      "fecha": "2026-10-24T14:28",
-      "asunto": "​SE ENVÍA EL ARCHIVO DE NIVELES DE LAS 14:00 HRS.",
-      "pdf": [
-        "Niveles del 24 de Octubre  del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "65861",
-      "fecha": "2026-10-24T12:12",
-      "asunto": "​SE ENVÍA EL ARCHIVO DE NIVELES DE LAS 12:00 HRS.",
-      "pdf": [
-        "Niveles del 24 de Octubre  del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "65853",
-      "fecha": "2026-10-24T10:14",
-      "asunto": "​SE ENVÍA EL ARCHIVO DE NIVELES DE LAS 10:00 HRS.",
-      "pdf": [
-        "Niveles del 24 de Octubre  del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "65851",
-      "fecha": "2026-10-24T10:03",
-      "asunto": "Boletín Hidrométrico, Climatológico y de Presas , 24/10/2026",
-      "pdf": [
-        "Boletin 24-10-2026.pdf"
       ]
     }
   ]
