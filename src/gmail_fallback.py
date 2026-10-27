@@ -509,6 +509,9 @@ def main():
                 pass
 
     status["messages_scanned"] = len(messages)
+    # 27-oct-2026: lista breve de lo revisado (asunto, hora y PDF) para diagnosticar desde el repositorio sin abrir Gmail.
+    status["revisados"] = [{"uid": m["uid"], "fecha": m["dt"].isoformat()[:16], "asunto": (m["subject"] or "")[:90],
+                            "pdf": [f for f, _ in m["parts"]][:3]} for m in sorted(messages, key=lambda x: x["dt"], reverse=True)[:25]]
     messages.sort(key=lambda x: x["dt"])
     latest_sources = {}
 
