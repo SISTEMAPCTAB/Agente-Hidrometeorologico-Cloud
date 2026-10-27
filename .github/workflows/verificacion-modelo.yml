@@ -1,0 +1,35 @@
+name: Verificación Modelo Rubio
+
+# 27-oct-2026: arma data/modelo_rubio/verificacion.json (pronóstico crudo vs nivel observado, H+24/36/72, 60 días) a partir del
+# historial de corridas publicadas. El modelo (V107o) lo usa para la corrección de sesgo validada.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '52 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: verificacion-modelo
+  cancel-in-progress: false
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Armar verificación
+        run: python3 src/verificacion_modelo.py
+      - name: Publicar
+        run: |
+          git config user.name 'Agente Hidrometeorologico Verificacion'
+          git config user.email 'actions@users.noreply.github.com'
+          git add data/modelo_rubio/verificacion.json
+          git diff --cached --quiet && { echo "Sin cambios"; exit 0; }
+          git commit -m "Verificación Modelo Rubio [skip ci]"
+          for i in 1 2 3 4; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done
+          exit 1
