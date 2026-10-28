@@ -1,29 +1,29 @@
 {
-  "updated_at_utc": "2026-10-25T16:42:47.796911+00:00",
+  "updated_at_utc": "2026-10-28T19:47:44.656221+00:00",
   "state": "Último informe hidrométrico matutino validado, fecha real conservada",
   "reports": {
     "matutino": {
-      "date": "2026-10-23",
-      "url": "https://www.gob.mx/cms/uploads/attachment/file/1111285/Informe_Matutino_23102026.pdf",
+      "date": "2026-10-27",
+      "url": "https://www.gob.mx/cms/uploads/attachment/file/1112847/Informe_Matutino_27102026.pdf",
       "stations": [
         {
           "id": "san-jose-del-carmen",
           "name": "San José del Carmen",
           "river": "Río Tonalá",
           "namo_m": 4.71,
-          "previous_m": 3.96,
-          "current_m": 4.02,
-          "delta_m": 0.06,
-          "below_namo_m": 0.69
+          "previous_m": 3.97,
+          "current_m": 3.89,
+          "delta_m": -0.08,
+          "below_namo_m": 0.82
         },
         {
           "id": "agua-dulce",
           "name": "Agua Dulce",
           "river": "Río Aguadulcita",
           "namo_m": 6.32,
-          "previous_m": 2.4,
+          "previous_m": 2.3,
           "current_m": 2.3,
-          "delta_m": -0.1,
+          "delta_m": 0.0,
           "below_namo_m": 4.02
         }
       ]
@@ -78,6 +78,12 @@
         "period": "matutino",
         "current_m": 4.02,
         "source_url": "https://www.gob.mx/cms/uploads/attachment/file/1111285/Informe_Matutino_23102026.pdf"
+      },
+      {
+        "date": "2026-10-27",
+        "period": "matutino",
+        "current_m": 3.89,
+        "source_url": "https://www.gob.mx/cms/uploads/attachment/file/1112847/Informe_Matutino_27102026.pdf"
       }
     ],
     "agua-dulce": [
@@ -128,6 +134,12 @@
         "period": "matutino",
         "current_m": 2.3,
         "source_url": "https://www.gob.mx/cms/uploads/attachment/file/1111285/Informe_Matutino_23102026.pdf"
+      },
+      {
+        "date": "2026-10-27",
+        "period": "matutino",
+        "current_m": 2.3,
+        "source_url": "https://www.gob.mx/cms/uploads/attachment/file/1112847/Informe_Matutino_27102026.pdf"
       }
     ]
   }
