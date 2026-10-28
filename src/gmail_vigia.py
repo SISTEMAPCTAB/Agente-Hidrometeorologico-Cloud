@@ -6,6 +6,10 @@ CONAGUA (informe de niveles, boletín de hidrometría y climatología 06/08 h, b
 Cuando aparece uno nuevo (UID mayor que el último revisado) lanza gmail-backup-cloud.yml, que lo procesa como siempre.
 No descarga correos ni escribe datos: sólo lee encabezados y lanza el workflow.
 
+28-oct-2026: también vigila la lluvia SIH de 24 h. De 11:30 a 18:00 (hora de Tabasco), cada SIH_CADA_MIN minutos y sólo
+mientras data/sih_lluvia/latest.json no tenga la fecha de hoy, lanza sih-lluvia-conagua.yml. El cron de GitHub del
+sih-watchdog se estaba perdiendo y el dato del día esperaba a la revisión de las 14:00 del Worker (SIH lo publica desde ~12:00).
+
 Al terminar su ventana se relanza a sí mismo (cadena continua). Para pausarlo: crear data/control/gmail-vigia-pausa.txt.
 """
 from __future__ import annotations
@@ -92,6 +96,36 @@ def lanzar(workflow: str, inputs: dict | None = None) -> bool:
         return False
 
 
+SIH_CADA_MIN = int(os.getenv("VIGIA_SIH_CADA_MIN", "20"))
+SIH_ULTIMO = [0.0]
+TZ_TAB = timezone(timedelta(hours=-6))
+
+
+def sih_fecha() -> str | None:
+    req = urllib.request.Request(f"https://api.github.com/repos/{REPO}/contents/data/sih_lluvia/latest.json?ref=main",
+                                 headers={"Authorization": f"Bearer {TOKEN}", "Accept": "application/vnd.github.raw+json"})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            return json.loads(r.read().decode("utf-8")).get("fecha_fuente")
+    except Exception as exc:
+        print("No se pudo leer la fecha SIH:", exc)
+        return None
+
+
+def vigilar_sih() -> None:
+    ahora = datetime.now(TZ_TAB)
+    if not ((ahora.hour, ahora.minute) >= (11, 30) and ahora.hour < 18):
+        return
+    if time.time() - SIH_ULTIMO[0] < SIH_CADA_MIN * 60:
+        return
+    SIH_ULTIMO[0] = time.time()
+    f = sih_fecha()
+    if f is None or f == ahora.date().isoformat():
+        return
+    if lanzar("sih-lluvia-conagua.yml"):
+        print(f"{ahora:%H:%M} lluvia SIH guardada es del {f}: lanzado sih-lluvia-conagua.yml")
+
+
 DESDE_ACTUAL = [DESDE]
 VISTO = [0]  # último UID cuyo encabezado ya se revisó (coincida o no)
 CFE_BASE = [None]
@@ -150,6 +184,10 @@ def main():
             except Exception:
                 pass
             m = None
+        try:
+            vigilar_sih()
+        except Exception as exc:
+            print("SIH:", exc)
         time.sleep(INTERVALO_S)
     try:
         m and m.logout()
