@@ -1,21 +1,31 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-10-28T08:28:03.179238-06:00",
+  "run_local": "2026-10-28T08:36:45.038392-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-10-28T06:00:00-06:00",
   "messages_scanned": 31,
   "levels_processed_now": 0,
   "levels_skipped_not_newer": 0,
-  "pdfs_skipped_duplicate_content": 19,
-  "sources_updated": [],
+  "pdfs_skipped_duplicate_content": 18,
+  "sources_updated": [
+    "FUENTE2"
+  ],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (32 correos)",
-  "max_uid_asunto": 66067,
-  "asuntos_locales_adicionales": 12,
+  "busqueda": "por asunto (33 correos)",
+  "max_uid_asunto": 66072,
+  "asuntos_locales_adicionales": 13,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66072",
+      "fecha": "2026-10-28T08:33",
+      "asunto": "Se envía Boletín de Hidrometría y Climatología de 8 am",
+      "pdf": [
+        "Boletin del 28 de Octubre  del 2026.pdf"
+      ]
+    },
     {
       "uid": "66067",
       "fecha": "2026-10-28T06:20",
@@ -204,14 +214,6 @@
       "uid": "65921",
       "fecha": "2026-10-25T16:15",
       "asunto": "Se envía informe de niveles de las 16:00 horas.",
-      "pdf": [
-        "Niveles del 25 de Octubre  del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "65918",
-      "fecha": "2026-10-25T14:04",
-      "asunto": "Se envía informe de niveles de las 14:00 horas.",
       "pdf": [
         "Niveles del 25 de Octubre  del 2026.pdf"
       ]
