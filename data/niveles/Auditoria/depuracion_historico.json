@@ -658,5 +658,50 @@
       "estado_dato": "heredado"
     },
     "message_id": "principal-17208"
+  },
+  {
+    "depurado": "2026-10-28T10:34:11-06:00",
+    "fecha_hora": "2026-10-28T08:00:00-06:00",
+    "estacion": "Porvenir",
+    "motivo": "cero_espurio",
+    "antes": {
+      "nivel": 0,
+      "estado_dato": "observado"
+    },
+    "despues": {
+      "nivel": 1.84,
+      "estado_dato": "heredado"
+    },
+    "message_id": "gmail-66080"
+  },
+  {
+    "depurado": "2026-10-28T10:34:11-06:00",
+    "fecha_hora": "2026-10-28T09:00:00-06:00",
+    "estacion": "Porvenir",
+    "motivo": "heredado_recalculado",
+    "antes": {
+      "nivel": 0,
+      "estado_dato": "heredado"
+    },
+    "despues": {
+      "nivel": 1.84,
+      "estado_dato": "heredado"
+    },
+    "message_id": "gmail-66080"
+  },
+  {
+    "depurado": "2026-10-28T10:34:11-06:00",
+    "fecha_hora": "2026-10-28T10:00:00-06:00",
+    "estacion": "Porvenir",
+    "motivo": "heredado_recalculado",
+    "antes": {
+      "nivel": 0,
+      "estado_dato": "heredado"
+    },
+    "despues": {
+      "nivel": 1.84,
+      "estado_dato": "heredado"
+    },
+    "message_id": "gmail-66080"
   }
 ]
