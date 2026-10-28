@@ -1,21 +1,29 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-10-28T15:28:27.422240-06:00",
+  "run_local": "2026-10-28T16:11:05.046689-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-10-28T14:00:00-06:00",
-  "messages_scanned": 31,
-  "levels_processed_now": 0,
+  "messages_scanned": 32,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 18,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (39 correos)",
-  "max_uid_asunto": 66094,
+  "busqueda": "por asunto (40 correos)",
+  "max_uid_asunto": 66101,
   "asuntos_locales_adicionales": 15,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66101",
+      "fecha": "2026-10-28T16:09",
+      "asunto": "Informe de Niveles de las 16 hr",
+      "pdf": [
+        "Niveles del 28 de Octubre  del 2026.pdf"
+      ]
+    },
     {
       "uid": "66094",
       "fecha": "2026-10-28T14:20",
@@ -207,14 +215,14 @@
       "pdf": [
         "Reporte y Seguimiento Meteorológico 26-10-2026 (10_30 hrs).pdf"
       ]
-    },
-    {
-      "uid": "65962",
-      "fecha": "2026-10-26T10:28",
-      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 26-10-2026 (10:30 horas)",
-      "pdf": [
-        "Pronóstico Meteorológico 24 h 26-10-2026 (09_00 hrs).pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-10-28T16:00:00-06:00",
+    "corte": "2026-10-28T16:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
