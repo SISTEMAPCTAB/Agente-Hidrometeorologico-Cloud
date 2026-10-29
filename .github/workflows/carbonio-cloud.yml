@@ -99,6 +99,8 @@ jobs:
               if [ "$FUENTE1_NUEVA" = "true" ]; then
                 # workflow_dispatch sí está permitido con GITHUB_TOKEN (a diferencia de un push).
                 gh workflow run niveles-cloud.yml --ref main && echo "Lanzado niveles-cloud.yml"
+                # 29-oct-2026: los gastos del modelo salen de FUENTE1 (el boletín de 06:00 no trae gasto); recalcular en cuanto llega.
+                gh workflow run gastos-modelo.yml --ref main && echo "Lanzado gastos-modelo.yml"
               fi
               exit 0
             fi
