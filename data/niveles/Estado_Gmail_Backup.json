@@ -1,21 +1,37 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-10-29T10:46:36.206831-06:00",
+  "run_local": "2026-10-29T10:49:07.613540-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-10-29T08:00:00-06:00",
-  "messages_scanned": 28,
+  "messages_scanned": 30,
   "levels_processed_now": 0,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 21,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (35 correos)",
-  "max_uid_asunto": 66139,
-  "asuntos_locales_adicionales": 16,
+  "busqueda": "por asunto (37 correos)",
+  "max_uid_asunto": 66142,
+  "asuntos_locales_adicionales": 17,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66142",
+      "fecha": "2026-10-29T10:48",
+      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 29-10-2026 (10:30 horas)",
+      "pdf": [
+        "Reporte y Seguimiento Meteorológico 29-10-2026 (10_30 hrs).pdf"
+      ]
+    },
+    {
+      "uid": "66141",
+      "fecha": "2026-10-29T10:46",
+      "asunto": "Boletín Hidrométrico, Climatológico y de Presas 29-10-2026",
+      "pdf": [
+        "Boletin 29-10-2026.pdf"
+      ]
+    },
     {
       "uid": "66139",
       "fecha": "2026-10-29T10:42",
@@ -198,22 +214,6 @@
       "asunto": "Se envía Boletín de Hidrometría y Climatología de 8 am",
       "pdf": [
         "Boletin del 27 de Octubre  del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66007",
-      "fecha": "2026-10-27T06:32",
-      "asunto": "Se envía Boletín de Hidrometría y Climatología de 6 am",
-      "pdf": [
-        "Boletin del 27 de Octubre  del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "65987",
-      "fecha": "2026-10-26T18:00",
-      "asunto": "Informe de Niveles de las 18 hr",
-      "pdf": [
-        "Niveles del 26 de Octubre  del 2026.pdf"
       ]
     }
   ]
