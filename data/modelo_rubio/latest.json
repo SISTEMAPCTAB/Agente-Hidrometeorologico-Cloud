@@ -1,8 +1,8 @@
 {
  "producto": "Modelo Rubio/SegAMH · pronóstico experimental 0–72 h",
  "version": "V107z",
- "calculado_utc": "2026-10-29T18:39:14.407Z",
- "lectura": "Lectura 29/10, 12:39",
+ "calculado_utc": "2026-10-29T19:39:29.375Z",
+ "lectura": "Lectura 29/10, 13:39",
  "lluvia_futura": "Ensamble SMN (corregido con SIH) · corrida 2026-10-28",
  "estaciones": [
   {
@@ -59,7 +59,7 @@
    },
    "h72": {
     "nivel_m": 20.54,
-    "gasto_m3s": 2.1,
+    "gasto_m3s": 2.6,
     "situacion": "Normal",
     "nivel_crudo_m": 20.54
    },
@@ -81,7 +81,7 @@
    },
    "h72": {
     "nivel_m": 24.74,
-    "gasto_m3s": 2.5,
+    "gasto_m3s": 2.2,
     "situacion": "Normal",
     "nivel_crudo_m": 24.74
    },
@@ -112,17 +112,17 @@
   {
    "estacion": "Río Usumacinta · Boca del Cerro",
    "h24": {
-    "nivel_m": 16.34,
+    "nivel_m": 16.35,
     "gasto_m3s": 0,
     "situacion": "Normal"
    },
    "h36": {
-    "nivel_m": 16.15,
+    "nivel_m": 16.17,
     "gasto_m3s": 0,
     "situacion": "Normal"
    },
    "h72": {
-    "nivel_m": 15.95,
+    "nivel_m": 15.96,
     "gasto_m3s": 0,
     "situacion": "Normal"
    },
@@ -145,7 +145,7 @@
     "gasto_m3s": 1405.6,
     "situacion": "Normal"
    },
-   "pico": "13.79 m · 1406 m³/s 01/11, 12:00"
+   "pico": "13.79 m · 1406 m³/s 01/11, 13:00"
   },
   {
    "estacion": "Río Carrizal · González",
@@ -164,10 +164,10 @@
    "h72": {
     "nivel_m": 8.36,
     "gasto_m3s": 682.9,
-    "situacion": "Alerta · rebase estimado 01/11, 10:00",
+    "situacion": "Alerta · rebase estimado 01/11, 11:00",
     "nivel_crudo_m": 8.11
    },
-   "pico": "8.36 m · 683 m³/s 01/11, 12:00"
+   "pico": "8.36 m · 683 m³/s 01/11, 13:00"
   },
   {
    "estacion": "Río Grijalva · Gaviotas",
@@ -189,7 +189,7 @@
     "situacion": "Normal",
     "nivel_crudo_m": 4.86
    },
-   "pico": "4.96 m · ≈ 715 m³/s 01/11, 12:00"
+   "pico": "4.96 m · ≈ 715 m³/s 01/11, 13:00"
   },
   {
    "estacion": "Río Grijalva · El Muelle",
@@ -208,7 +208,7 @@
     "gasto_m3s": null,
     "situacion": "Normal"
    },
-   "pico": "4.86 m 01/11, 12:00"
+   "pico": "4.86 m 01/11, 13:00"
   },
   {
    "estacion": "Río Tulijá · Salto de Agua",
@@ -218,7 +218,7 @@
     "situacion": "Normal"
    },
    "h36": {
-    "nivel_m": 3.07,
+    "nivel_m": 3.06,
     "gasto_m3s": null,
     "situacion": "Normal"
    },
@@ -256,25 +256,25 @@
    "estacion": "Río Tacotalpa · Tapijulapa",
    "gasto_m3s": 0,
    "nivel_m": null,
-   "hora": "H+0 · 29/10, 12:00"
+   "hora": "H+0 · 29/10, 13:00"
   },
   {
    "estacion": "Río Teapa · Teapa",
    "gasto_m3s": 0,
    "nivel_m": null,
-   "hora": "H+0 · 29/10, 12:00"
+   "hora": "H+0 · 29/10, 13:00"
   },
   {
    "estacion": "Río Pichucalco · San Joaquín",
    "gasto_m3s": 4,
    "nivel_m": 20.54,
-   "hora": "H+64 · 01/11, 04:00"
+   "hora": "H+63 · 01/11, 04:00"
   },
   {
    "estacion": "Río Puyacatengo · Puyacatengo",
    "gasto_m3s": 3,
    "nivel_m": 24.74,
-   "hora": "H+67 · 01/11, 07:00"
+   "hora": "H+66 · 01/11, 07:00"
   }
  ],
  "picos_sierra_alto": [
@@ -282,25 +282,25 @@
    "estacion": "Río Tacotalpa · Tapijulapa",
    "gasto_m3s": 0,
    "nivel_m": null,
-   "hora": "H+0 · 29/10, 12:00"
+   "hora": "H+0 · 29/10, 13:00"
   },
   {
    "estacion": "Río Teapa · Teapa",
    "gasto_m3s": 10,
    "nivel_m": null,
-   "hora": "H+58 · 31/10, 22:00"
+   "hora": "H+57 · 31/10, 22:00"
   },
   {
    "estacion": "Río Pichucalco · San Joaquín",
    "gasto_m3s": 13,
    "nivel_m": 20.54,
-   "hora": "H+59 · 31/10, 23:00"
+   "hora": "H+58 · 31/10, 23:00"
   },
   {
    "estacion": "Río Puyacatengo · Puyacatengo",
    "gasto_m3s": 5,
    "nivel_m": 24.74,
-   "hora": "H+67 · 01/11, 07:00"
+   "hora": "H+66 · 01/11, 07:00"
   }
  ],
  "lluvia_acumulada": {
@@ -474,21 +474,21 @@
   },
   "Pueblo Nuevo": {
    "d24_m": -0.22,
-   "lluvia72_mm": 3.7,
+   "lluvia72_mm": 3.8,
    "r": 0.65,
-   "ajustados": 68
+   "ajustados": 72
   },
   "Salto de Agua": {
    "d24_m": -0.2,
    "lluvia72_mm": 3.1,
    "r": 0.6,
-   "ajustados": 46
+   "ajustados": 54
   },
   "Macuspana": {
    "d24_m": -0.27,
    "lluvia72_mm": 3.4,
    "r": 0.6,
-   "ajustados": 46
+   "ajustados": 54
   }
  }
 }
