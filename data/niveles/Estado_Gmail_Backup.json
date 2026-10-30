@@ -1,23 +1,29 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-10-30T10:02:34.152983-06:00",
+  "run_local": "2026-10-30T10:27:40.772371-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-10-30T08:00:00-06:00",
-  "messages_scanned": 31,
-  "levels_processed_now": 0,
+  "messages_scanned": 30,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
-  "pdfs_skipped_duplicate_content": 23,
-  "sources_updated": [
-    "FUENTE1"
-  ],
+  "pdfs_skipped_duplicate_content": 21,
+  "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (33 correos)",
-  "max_uid_asunto": 66199,
+  "busqueda": "por asunto (34 correos)",
+  "max_uid_asunto": 66201,
   "asuntos_locales_adicionales": 14,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66201",
+      "fecha": "2026-10-30T10:27",
+      "asunto": "INFORME DE NIVELES DE RIOS Y PRESAS DE 10 HRS",
+      "pdf": [
+        "Niveles del 30 de Octubre del 2026.pdf"
+      ]
+    },
     {
       "uid": "66199",
       "fecha": "2026-10-30T10:01",
@@ -209,14 +215,14 @@
       "pdf": [
         "Niveles del 27 de Octubre  del 2026.pdf"
       ]
-    },
-    {
-      "uid": "66040",
-      "fecha": "2026-10-27T16:20",
-      "asunto": "Informe de Niveles de las 16 hr",
-      "pdf": [
-        "Niveles del 27 de Octubre  del 2026.pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-10-30T10:00:00-06:00",
+    "corte": "2026-10-30T10:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
