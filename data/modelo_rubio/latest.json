@@ -1,8 +1,8 @@
 {
  "producto": "Modelo Rubio/SegAMH · pronóstico experimental 0–72 h",
  "version": "V107z",
- "calculado_utc": "2026-10-30T04:42:37.865Z",
- "lectura": "Lectura 29/10, 22:42",
+ "calculado_utc": "2026-10-30T05:43:02.724Z",
+ "lectura": "Lectura 29/10, 23:43",
  "lluvia_futura": "Ensamble SMN (corregido con SIH) · corrida 2026-10-29",
  "estaciones": [
   {
@@ -19,7 +19,7 @@
    },
    "h72": {
     "nivel_m": null,
-    "gasto_m3s": 22.9,
+    "gasto_m3s": 23.9,
     "situacion": "Sin pronóstico"
    },
    "pico": "s/d"
@@ -38,7 +38,7 @@
    },
    "h72": {
     "nivel_m": null,
-    "gasto_m3s": 13.3,
+    "gasto_m3s": 10.5,
     "situacion": "Sin pronóstico"
    },
    "pico": "s/d"
@@ -59,7 +59,7 @@
    },
    "h72": {
     "nivel_m": 20.55,
-    "gasto_m3s": 11.8,
+    "gasto_m3s": 9.6,
     "situacion": "Normal",
     "nivel_crudo_m": 20.55
    },
@@ -81,7 +81,7 @@
    },
    "h72": {
     "nivel_m": 24.75,
-    "gasto_m3s": 8.4,
+    "gasto_m3s": 9,
     "situacion": "Normal",
     "nivel_crudo_m": 24.75
    },
@@ -96,10 +96,10 @@
     "nivel_crudo_m": 3.55
    },
    "h36": {
-    "nivel_m": 3.51,
+    "nivel_m": 3.5,
     "gasto_m3s": 127.2,
     "situacion": "Normal",
-    "nivel_crudo_m": 3.51
+    "nivel_crudo_m": 3.5
    },
    "h72": {
     "nivel_m": 3.42,
@@ -112,17 +112,17 @@
   {
    "estacion": "Río Usumacinta · Boca del Cerro",
    "h24": {
-    "nivel_m": 16.1,
+    "nivel_m": 16.11,
     "gasto_m3s": 0,
     "situacion": "Normal"
    },
    "h36": {
-    "nivel_m": 15.89,
+    "nivel_m": 15.9,
     "gasto_m3s": 0,
     "situacion": "Normal"
    },
    "h72": {
-    "nivel_m": 15.66,
+    "nivel_m": 15.67,
     "gasto_m3s": 0,
     "situacion": "Normal"
    },
@@ -145,7 +145,7 @@
     "gasto_m3s": 1394.4,
     "situacion": "Normal"
    },
-   "pico": "13.77 m · 1394 m³/s 01/11, 22:00"
+   "pico": "13.77 m · 1394 m³/s 01/11, 23:00"
   },
   {
    "estacion": "Río Carrizal · González",
@@ -164,10 +164,10 @@
    "h72": {
     "nivel_m": 8.36,
     "gasto_m3s": 683.5,
-    "situacion": "Alerta · rebase estimado 01/11, 20:00",
+    "situacion": "Alerta · rebase estimado 01/11, 21:00",
     "nivel_crudo_m": 8.11
    },
-   "pico": "8.36 m · 684 m³/s 01/11, 22:00"
+   "pico": "8.36 m · 684 m³/s 01/11, 23:00"
   },
   {
    "estacion": "Río Grijalva · Gaviotas",
@@ -232,12 +232,12 @@
   {
    "estacion": "Río Puxcatán · Macuspana",
    "h24": {
-    "nivel_m": 2.69,
+    "nivel_m": 2.68,
     "gasto_m3s": null,
     "situacion": "Normal"
    },
    "h36": {
-    "nivel_m": 2.65,
+    "nivel_m": 2.64,
     "gasto_m3s": null,
     "situacion": "Normal"
    },
@@ -254,53 +254,53 @@
  "picos_sierra": [
   {
    "estacion": "Río Tacotalpa · Tapijulapa",
-   "gasto_m3s": 23,
+   "gasto_m3s": 24,
    "nivel_m": null,
-   "hora": "H+72 · 01/11, 22:00"
+   "hora": "H+72 · 01/11, 23:00"
   },
   {
    "estacion": "Río Teapa · Teapa",
    "gasto_m3s": 27,
    "nivel_m": null,
-   "hora": "H+67 · 01/11, 17:00"
+   "hora": "H+66 · 01/11, 17:00"
   },
   {
    "estacion": "Río Pichucalco · San Joaquín",
-   "gasto_m3s": 20,
+   "gasto_m3s": 19,
    "nivel_m": 20.55,
-   "hora": "H+67 · 01/11, 17:00"
+   "hora": "H+66 · 01/11, 17:00"
   },
   {
    "estacion": "Río Puyacatengo · Puyacatengo",
-   "gasto_m3s": 8,
+   "gasto_m3s": 9,
    "nivel_m": 24.75,
-   "hora": "H+72 · 01/11, 22:00"
+   "hora": "H+72 · 01/11, 23:00"
   }
  ],
  "picos_sierra_alto": [
   {
    "estacion": "Río Tacotalpa · Tapijulapa",
-   "gasto_m3s": 54,
+   "gasto_m3s": 53,
    "nivel_m": null,
-   "hora": "H+71 · 01/11, 21:00"
+   "hora": "H+70 · 01/11, 21:00"
   },
   {
    "estacion": "Río Teapa · Teapa",
-   "gasto_m3s": 29,
+   "gasto_m3s": 28,
    "nivel_m": null,
-   "hora": "H+67 · 01/11, 17:00"
+   "hora": "H+66 · 01/11, 17:00"
   },
   {
    "estacion": "Río Pichucalco · San Joaquín",
    "gasto_m3s": 21,
    "nivel_m": 20.55,
-   "hora": "H+67 · 01/11, 17:00"
+   "hora": "H+66 · 01/11, 17:00"
   },
   {
    "estacion": "Río Puyacatengo · Puyacatengo",
-   "gasto_m3s": 8,
+   "gasto_m3s": 9,
    "nivel_m": 24.75,
-   "hora": "H+72 · 01/11, 22:00"
+   "hora": "H+72 · 01/11, 23:00"
   }
  ],
  "lluvia_acumulada": {
@@ -450,13 +450,13 @@
  "recesion_v107v": {
   "San Joaquín": {
    "d24_m": -0.03,
-   "lluvia72_mm": 8.8,
+   "lluvia72_mm": 8.7,
    "r": 0.45,
    "ajustados": 72
   },
   "Puyacatengo": {
    "d24_m": -0.03,
-   "lluvia72_mm": 9.9,
+   "lluvia72_mm": 9.8,
    "r": 0.3,
    "ajustados": 72
   },
@@ -474,13 +474,13 @@
   },
   "Salto de Agua": {
    "d24_m": -0.19,
-   "lluvia72_mm": 6.5,
+   "lluvia72_mm": 6.6,
    "r": 0.6,
    "ajustados": 72
   },
   "Macuspana": {
    "d24_m": -0.21,
-   "lluvia72_mm": 8.8,
+   "lluvia72_mm": 8.9,
    "r": 0.6,
    "ajustados": 72
   }
