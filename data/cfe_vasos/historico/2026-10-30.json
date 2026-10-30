@@ -1,0 +1,63 @@
+{
+ "producto": "Funcionamiento de vasos · Sistema Hidroeléctrico Grijalva",
+ "fuente": "CFE · Subgerencia de Producción Hidroeléctrica Grijalva, Departamento Regional de Hidrometría",
+ "fecha": "2026-10-30",
+ "hora_ultimo_dato": 1,
+ "fecha_hora_ultimo_dato": "2026-10-30T01:00:00-06:00",
+ "mensaje_local": "2026-10-30T01:21-06:00",
+ "actualizado_local": "2026-10-30T01:23-06:00",
+ "penitas": {
+  "nivel_msnm": 85.59,
+  "namo_msnm": 87.4,
+  "dif_namo_m": 1.81,
+  "aportado_m3s": 397.5,
+  "turbinado_m3s": 340.0,
+  "vertido_m3s": 0,
+  "extraccion_m3s": 340.0,
+  "extraccion_prom_6h_m3s": 340.0,
+  "extraccion_prom_dia_m3s": 340.0,
+  "aportado_prom_6h_m3s": 397.5
+ },
+ "juan_grijalva": {
+  "nivel_msnm": 86.74,
+  "aportado_m3s": 642.0,
+  "canal_m3s": 308.9,
+  "tuneles_m3s": 205.9,
+  "salida_total_m3s": 514.8,
+  "salida_prom_6h_m3s": 514.8
+ },
+ "malpaso": {
+  "nivel_msnm": 166.0,
+  "namo_msnm": 182.5,
+  "dif_namo_m": 16.5,
+  "extraccion_m3s": 411.3,
+  "aportado_m3s": 411.3
+ },
+ "angostura": {
+  "nivel_msnm": 517.76
+ },
+ "chicoasen": {
+  "nivel_msnm": 391.1,
+  "namo_msnm": 392.5
+ },
+ "novedades": "Presa Malpaso 1 h en la cota 166 msnm, 16.5 m abajo del NAMO, con un almacenamiento del 63.22%, se mantiene el nivel con la hora anterior . 2 unidades de Malpaso operando con una extracción de 411 m3/s y gasto de aportaciones asociados a 411 m3/s promedio. Nivel de la presa Peñitas 1 h en la cota 85.59 msnm, porcentaje de llenado 89.47 %, aportaciones de 398 y extracciones de 340 m3/s con un ascenso estable.",
+ "horario": [
+  {
+   "hora": 1,
+   "penitas_nivel": 85.59,
+   "penitas_aportado": 397.5,
+   "penitas_turbinado": 340.0,
+   "penitas_vertido": null,
+   "penitas_extraccion": 340.0,
+   "jg_nivel": 86.74,
+   "jg_aportado": 642.0,
+   "jg_salida": 514.8,
+   "malpaso_nivel": 166.0,
+   "malpaso_extraccion": 411.3,
+   "malpaso_aportado": 411.3,
+   "angostura_nivel": 517.76,
+   "chicoasen_nivel": 391.1
+  }
+ ],
+ "nota": "Valores horarios de operación de presas tomados del reporte de CFE; sólo se publican los que usa el modelo."
+}
