@@ -245,6 +245,7 @@ jobs:
               b=source_time('data/latest/'+source+'.txt')
               if a and (not b or a>b):updates.append(source)
           print('Cortes Gmail/remoto:',candidate,current,'fuentes nuevas:',updates)
+          Path('/tmp/gmail-fuentes-nuevas.txt').write_text(' '.join(updates))
           # Corte hidrométrico publicado nunca debe regresar ni ser sobrescrito
           # por productos procesados con un boletín igual o anterior.
           raise SystemExit(0 if candidate is None or (current and candidate<=current) else 1)
@@ -265,6 +266,17 @@ jobs:
               then
                 cp /tmp/gmail-estado-candidato.json data/niveles/Estado_Gmail_Backup.json
                 git add data/niveles/Estado_Gmail_Backup.json
+                # 31-oct-2026: aunque el corte de niveles ya esté publicado (p. ej. por niveles-cloud), un boletín FUENTE1/FUENTE2
+                # más reciente sí se publica (antes se perdía el de 08:00 cuando los niveles llegaban por otra vía).
+                for source in $(cat /tmp/gmail-fuentes-nuevas.txt 2>/dev/null); do
+                  if [ -f "/tmp/gmail-${source}.txt" ]; then
+                    dia=$(sed -n 's/^FECHA\/HORA MENSAJE: \([0-9-]\{10\}\).*/\1/p' "/tmp/gmail-${source}.txt" | head -1)
+                    cp "/tmp/gmail-${source}.txt" "data/latest/${source}.txt"
+                    if [ -n "$dia" ]; then mkdir -p "data/archive/${dia}"; cp "/tmp/gmail-${source}.txt" "data/archive/${dia}/${source}.txt"; fi
+                    git add "data/latest/${source}.txt" data/archive
+                    echo "Fuente ${source} publicada aunque el corte ya estaba."
+                  fi
+                done
                 if git diff --cached --quiet; then exit 0; fi
                 git commit -m "Actualiza estado real Gmail sin alterar cortes [skip ci]"
                 if git push origin HEAD:main; then exit 0; fi
