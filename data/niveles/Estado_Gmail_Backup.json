@@ -1,24 +1,31 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-10-31T09:50:06.212665-06:00",
+  "run_local": "2026-10-31T10:17:08.453481-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-01T06:00:00-06:00",
-  "messages_scanned": 31,
-  "levels_processed_now": 0,
+  "messages_scanned": 30,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 21,
   "sources_updated": [
-    "FUENTE1",
     "FUENTE2"
   ],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (34 correos)",
-  "max_uid_asunto": 66258,
+  "busqueda": "por asunto (35 correos)",
+  "max_uid_asunto": 66263,
   "asuntos_locales_adicionales": 15,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66263",
+      "fecha": "2026-10-31T10:15",
+      "asunto": "SE ENVÍA EL INFORME DE NIVELES DE LAS 10:00 HORAS.",
+      "pdf": [
+        "Niveles del 31 de Octubre del 2026.pdf"
+      ]
+    },
     {
       "uid": "66258",
       "fecha": "2026-10-31T09:30",
@@ -210,14 +217,14 @@
       "pdf": [
         "Boletin del 29 de Octubre  del 2026.pdf"
       ]
-    },
-    {
-      "uid": "66107",
-      "fecha": "2026-10-28T18:00",
-      "asunto": "Informe de Niveles de las 18 hr",
-      "pdf": [
-        "Niveles del 28 de Octubre  del 2026.pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-10-31T10:00:00-06:00",
+    "corte": "2026-10-31T10:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
