@@ -3,7 +3,7 @@ import json
 import math
 import re
 import unicodedata
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -46,7 +46,23 @@ def parse_cut(text):
     hm = re.search(r"\b(\d{1,2}):00\s+horas\b", n)
     if not dm or not hm:
         raise RuntimeError("FUENTE2 no contiene fecha/hora de corte identificable.")
-    return datetime(int(dm.group(3)), months[dm.group(2)], int(dm.group(1)), int(hm.group(1)), tzinfo=MX)
+    cut = datetime(int(dm.group(3)), months[dm.group(2)], int(dm.group(1)), int(hm.group(1)), tzinfo=MX)
+    # 31-oct-2026: el PDF de las 06:00 del 31 de octubre decía "01 DE NOVIEMBRE" (error de captura de CONAGUA) y el corte
+    # quedó en el futuro: los informes de 08:00 y 10:00 parecían "anteriores" y no se publicaron. Un corte no puede ser
+    # posterior al correo que lo trae: en ese caso se toma la fecha del correo con la hora del PDF.
+    m = re.search(r"^FECHA/HORA MENSAJE:\s*(\S+)", text, re.M)
+    if m:
+        try:
+            msg = datetime.fromisoformat(m.group(1)).astimezone(MX)
+            if cut > msg + timedelta(hours=1):
+                fixed = cut.replace(year=msg.year, month=msg.month, day=msg.day)
+                if fixed > msg + timedelta(hours=1):
+                    fixed -= timedelta(days=1)
+                print(f"FUENTE2: fecha del PDF {cut.isoformat()} posterior al correo {msg.isoformat()}; se usa {fixed.isoformat()}")
+                cut = fixed
+        except ValueError:
+            pass
+    return cut
 
 
 def header(text, key):
