@@ -1,21 +1,29 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-10-31T11:33:26.122870-06:00",
+  "run_local": "2026-10-31T12:01:05.679743-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-10-31T10:00:00-06:00",
-  "messages_scanned": 31,
-  "levels_processed_now": 1,
+  "messages_scanned": 32,
+  "levels_processed_now": 2,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 20,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (37 correos)",
-  "max_uid_asunto": 66266,
+  "busqueda": "por asunto (38 correos)",
+  "max_uid_asunto": 66268,
   "asuntos_locales_adicionales": 17,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66268",
+      "fecha": "2026-10-31T12:00",
+      "asunto": "SE ENVÍA EL INFORME DE NIVELES DE LAS 12:00 HORAS.",
+      "pdf": [
+        "Niveles del 31 de Octubre del 2026.pdf"
+      ]
+    },
     {
       "uid": "66266",
       "fecha": "2026-10-31T10:54",
@@ -207,20 +215,14 @@
       "pdf": [
         "Reporte y Seguimiento Meteorológico 29-10-2026 (10_30 hrs).pdf"
       ]
-    },
-    {
-      "uid": "66135",
-      "fecha": "2026-10-29T10:31",
-      "asunto": "Boletín Hidrométrico, Climatológico y de Presas 29-octubre-2026",
-      "pdf": [
-        "Boletin 29-10-2026.pdf"
-      ]
     }
   ],
   "lluvia_conagua": {
     "intentado": true,
-    "actualizada": false,
-    "corte_niveles": "2026-10-31T10:00:00-06:00",
-    "motivo": "la lluvia publicada (2026-10-31T10:00:00-06:00) ya es igual o más reciente"
+    "actualizada": true,
+    "corte_niveles": "2026-10-31T12:00:00-06:00",
+    "corte": "2026-10-31T12:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
   }
 }
