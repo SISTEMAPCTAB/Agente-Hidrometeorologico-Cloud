@@ -1,9 +1,9 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-10-31T11:09:05.589841-06:00",
+  "run_local": "2026-10-31T11:11:11.008738-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
-  "current_level_time_before_run": "2026-10-31T06:00:00-06:00",
+  "current_level_time_before_run": "2026-10-31T10:00:00-06:00",
   "messages_scanned": 31,
   "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
@@ -221,10 +221,8 @@
   ],
   "lluvia_conagua": {
     "intentado": true,
-    "actualizada": true,
+    "actualizada": false,
     "corte_niveles": "2026-10-31T10:00:00-06:00",
-    "corte": "2026-10-31T10:00:00-06:00",
-    "estaciones": 69,
-    "observadas_24h": 64
+    "motivo": "la lluvia publicada (2026-10-31T10:00:00-06:00) ya es igual o más reciente"
   }
 }
