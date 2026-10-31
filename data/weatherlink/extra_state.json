@@ -3,7 +3,7 @@
   "stations": {
     "c04a4e28-b0a3-4044-b6e3-f48c43afab16": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-31T04:30:00+00:00",
+      "prev_observed_utc": "2026-10-31T05:00:00+00:00",
       "events": [
         {
           "ts": "2026-10-21T06:15:00+00:00",
@@ -160,12 +160,6 @@
       "prev_observed_utc": "2026-10-29T16:00:00+00:00",
       "events": [
         {
-          "ts": "2026-10-21T05:00:00+00:00",
-          "mm": 2.3,
-          "intervalo_incierto": false,
-          "intervalo_horas": 1.0
-        },
-        {
           "ts": "2026-10-21T08:00:00+00:00",
           "mm": 0.5,
           "intervalo_incierto": false,
@@ -221,14 +215,8 @@
     },
     "bf6a4e56-a2c4-4138-84ba-19b7ced4e630": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-31T04:00:00+00:00",
+      "prev_observed_utc": "2026-10-31T05:00:00+00:00",
       "events": [
-        {
-          "ts": "2026-10-21T05:00:00+00:00",
-          "mm": 31.5,
-          "intervalo_incierto": false,
-          "intervalo_horas": 1.0
-        },
         {
           "ts": "2026-10-22T03:00:00+00:00",
           "mm": 0.5,
@@ -261,7 +249,7 @@
     },
     "707f03fe-ca75-4c47-8404-9348b98a084e": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-31T04:41:04+00:00",
+      "prev_observed_utc": "2026-10-31T05:11:06+00:00",
       "events": [
         {
           "ts": "2026-10-21T22:30:40+00:00",
@@ -319,7 +307,7 @@
     },
     "afb0f522-e068-41e3-8154-7a32e23726f3": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-31T04:40:23+00:00",
+      "prev_observed_utc": "2026-10-31T05:11:12+00:00",
       "events": [
         {
           "ts": "2026-10-21T14:31:03+00:00",
@@ -377,7 +365,7 @@
     },
     "f402f31c-df4c-48bb-8fa7-2bb58326d0c8": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-31T04:40:36+00:00",
+      "prev_observed_utc": "2026-10-31T05:10:37+00:00",
       "events": [
         {
           "ts": "2026-10-21T14:01:26+00:00",
@@ -477,7 +465,7 @@
     },
     "5a4141e8-0fa1-46ff-a032-bdb484eb2fc2": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-31T04:40:57+00:00",
+      "prev_observed_utc": "2026-10-31T05:10:58+00:00",
       "events": [
         {
           "ts": "2026-10-21T09:31:22+00:00",
@@ -637,7 +625,7 @@
     },
     "96bdee43-3e9c-45ca-a4b1-5efe1f4577ae": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-10-31T04:30:00+00:00",
+      "prev_observed_utc": "2026-10-31T05:00:00+00:00",
       "events": [
         {
           "ts": "2026-10-21T12:30:00+00:00",
@@ -766,5 +754,5 @@
       "year_key": "2026"
     }
   },
-  "last_run_utc": "2026-10-31T04:41:20.772496+00:00"
+  "last_run_utc": "2026-10-31T05:11:20.797224+00:00"
 }
