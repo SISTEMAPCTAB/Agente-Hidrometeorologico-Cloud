@@ -1,21 +1,31 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-01T06:23:43.296069-06:00",
+  "run_local": "2026-11-01T06:29:29.521479-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-10-31T18:00:00-06:00",
-  "messages_scanned": 30,
+  "messages_scanned": 31,
   "levels_processed_now": 0,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 19,
-  "sources_updated": [],
+  "sources_updated": [
+    "FUENTE2"
+  ],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (31 correos)",
-  "max_uid_asunto": 66295,
-  "asuntos_locales_adicionales": 13,
+  "busqueda": "por asunto (32 correos)",
+  "max_uid_asunto": 66315,
+  "asuntos_locales_adicionales": 14,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66315",
+      "fecha": "2026-11-01T06:27",
+      "asunto": "Se envía Boletín de Hidrometría y Climatología de 6 am",
+      "pdf": [
+        "Boletin del 01 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "66295",
       "fecha": "2026-10-31T18:03",
@@ -204,14 +214,6 @@
       "uid": "66155",
       "fecha": "2026-10-29T14:23",
       "asunto": "INFORME DE NIVELES DE RIOS Y PRESAS DE 14 HRS",
-      "pdf": [
-        "Niveles del 29 de Octubre  del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66148",
-      "fecha": "2026-10-29T12:30",
-      "asunto": "INFORME DE NIVELES DE RIOS Y PRESAS DE 12 HRS",
       "pdf": [
         "Niveles del 29 de Octubre  del 2026.pdf"
       ]
