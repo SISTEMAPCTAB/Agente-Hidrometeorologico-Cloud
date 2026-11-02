@@ -1,21 +1,29 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-02T12:27:29.663252-06:00",
+  "run_local": "2026-11-02T12:29:12.344062-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-02T10:00:00-06:00",
-  "messages_scanned": 30,
-  "levels_processed_now": 0,
+  "messages_scanned": 31,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 18,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (37 correos)",
-  "max_uid_asunto": 66386,
+  "busqueda": "por asunto (38 correos)",
+  "max_uid_asunto": 66389,
   "asuntos_locales_adicionales": 15,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66389",
+      "fecha": "2026-11-02T12:28",
+      "asunto": "SE ENVIA NIVELES DE LAS 12 HRS. DEL 02 DE NOVIEMBRE DEL 2026",
+      "pdf": [
+        "Niveles de las 12 hrs.  del 02 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "66386",
       "fecha": "2026-11-02T10:45",
@@ -207,14 +215,14 @@
       "pdf": [
         "Boletin 31-10-2026.pdf"
       ]
-    },
-    {
-      "uid": "66257",
-      "fecha": "2026-10-31T08:36",
-      "asunto": "Se envía Boletín de Hidrometría y Climatología de 8 am",
-      "pdf": [
-        "Boletin del 31 de Octubre del 2026.pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-11-02T12:00:00-06:00",
+    "corte": "2026-11-02T12:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
