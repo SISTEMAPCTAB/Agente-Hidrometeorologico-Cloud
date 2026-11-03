@@ -139,6 +139,11 @@ def main():
   if newer and (source_time(t2) or 0) > (source_time(t) or 0):
    hp,qp,ha,qa=(newer[x] for x in ("hp","qp","ha","qa"))
    d.update(h_anterior_m=hp,q_anterior_m3s=qp,h_actual_m=ha,q_actual_m3s=qa,delta_h_m=round(ha-hp,3),delta_q_m3s=round(qa-qp,3),fuente_fecha_hora=source_iso(t2),validacion="fuente2_layout_columnas_actual_gasto")
+  # 3-nov-2026: el boletín del 29-oct traía el gasto ACTUAL en 0 (celda vacía) en todas las estaciones y el modelo arrancó
+  # con Q0 = 0 durante 23 h (González +4.8 m, Samaria +2.3 m a 72 h). Un gasto actual 0 con gasto anterior > 0 es dato faltante:
+  # se usa el gasto anterior del mismo boletín y se marca.
+  if d.get("q_actual_m3s") is not None and d["q_actual_m3s"]<=0 and (d.get("q_anterior_m3s") or 0)>0:
+   d.update(q_actual_m3s=d["q_anterior_m3s"],delta_q_m3s=0.0,validacion=d["validacion"]+"|gasto_actual_vacio_se_usa_anterior")
   out.append(d)
 
  # Peñitas: elegir el boletín más reciente entre FUENTE1 y FUENTE2.
