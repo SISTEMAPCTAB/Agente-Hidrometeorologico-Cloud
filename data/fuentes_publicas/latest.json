@@ -1,11 +1,11 @@
 {
-  "generated_utc": "2026-11-03T19:11:36.098759+00:00",
+  "generated_utc": "2026-11-04T16:11:19.954656+00:00",
   "smn96": {
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 96 h",
-    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h?_ipcet=1793733105",
-    "aviso": "307",
-    "fecha": "03 de Noviembre del 2026.",
+    "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-96h?_ipcet=1793808680",
+    "aviso": "308",
+    "fecha": "04 de Noviembre del 2026.",
     "emision": "10:00h",
     "ventanas": {
       "0-24": {
@@ -99,9 +99,9 @@
           "max_mm": 5.0
         },
         "La Angostura": {
-          "texto": "0.1 a 5",
-          "min_mm": 0.1,
-          "max_mm": 5.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Bajo Grijalva-Ríos de la Sierra": {
           "texto": "5 a 25",
@@ -121,9 +121,9 @@
       },
       "72-96": {
         "Peñitas": {
-          "texto": "0.1 a 5",
-          "min_mm": 0.1,
-          "max_mm": 5.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Malpaso": {
           "texto": "5 a 25",
@@ -136,9 +136,9 @@
           "max_mm": 5.0
         },
         "La Angostura": {
-          "texto": "0.1 a 5",
-          "min_mm": 0.1,
-          "max_mm": 5.0
+          "texto": "5 a 25",
+          "min_mm": 5.0,
+          "max_mm": 25.0
         },
         "Bajo Grijalva-Ríos de la Sierra": {
           "texto": "5 a 25",
@@ -161,10 +161,10 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Tue, 03 Nov 2026 19:11:37 GMT",
+      "last_modified": "Wed, 04 Nov 2026 16:11:20 GMT",
       "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
     },
-    "resumen": "Durante este día, un canal de baja presión sobre el sureste mexicano y el ingreso de humedad del golfo de México, ocasionarán lluvias y chubascos en las cuencas de Peñitas, Malpaso, Usumacinta, La Angostura, Baja Grijalva, Chicoasén y Juan Sabines. Durante el periodo de pronóstico prevalecerán lluvias e intervalos de chubascos en la región.",
+    "resumen": "Durante este día, una vaguada en niveles altos de la atmósfera y un canal de baja presión sobre el sureste mexicano, aunado al ingreso de humedad del golfo de México, ocasionarán lluvias y chubascos en las cuencas de Peñitas, Malpaso, Usumacinta, La Angostura, Baja Grijalva, Chicoasén y Juan Sabines. Durante el periodo de pronóstico prevalecerán lluvias e intervalos de chubascos en la región.",
     "detalle_ventanas": {
       "0-24": {
         "Peñitas": {
@@ -308,7 +308,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "La Angostura": {
-          "precipitacion_mm": "0.1 a 5",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "27 a 29",
           "temperatura_min_c": "19 a 21",
           "viento_sostenido_kmh": "Variable 10 a 20",
@@ -342,7 +342,7 @@
       },
       "72-96": {
         "Peñitas": {
-          "precipitacion_mm": "0.1 a 5",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "28 a 30",
           "temperatura_min_c": "21 a 23",
           "viento_sostenido_kmh": "N 5 a 15",
@@ -366,7 +366,7 @@
           "precipitacion_fuente": "smn96.ventanas_validada"
         },
         "La Angostura": {
-          "precipitacion_mm": "0.1 a 5",
+          "precipitacion_mm": "5 a 25",
           "temperatura_max_c": "29 a 31",
           "temperatura_min_c": "21 a 23",
           "viento_sostenido_kmh": "Variable 5 a 15",
@@ -426,10 +426,10 @@
         "validado": "5 a 25"
       },
       {
-        "ventana": "24-48",
-        "cuenca": "La Angostura",
-        "extraido_detalle": "0.1 a 5",
-        "validado": "5 a 25"
+        "ventana": "48-72",
+        "cuenca": "Peñitas",
+        "extraido_detalle": "5 a 25",
+        "validado": "0.1 a 5"
       },
       {
         "ventana": "48-72",
@@ -444,14 +444,14 @@
     "fuente": "SMN",
     "producto": "Pronóstico especial por cuencas 360 h",
     "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticossubmenu/pronostico-meteorologico-especial-cuencas-360h",
-    "aviso": "307",
-    "fecha": "03 de Noviembre del 2026.",
+    "aviso": "308",
+    "fecha": "04 de Noviembre del 2026.",
     "emision": "10:00h",
     "periodos": [
       {
         "ventana": "96-168 h",
-        "validez": "del 06 al 09 de noviembre de 2026",
-        "descripcion": "Se prevén lluvias con acumulados de 50 a 75 mm en la cuenca de Bajo Grijalva, así como lluvias con acumulados de 5 a 25 mm en las cuencas de Usumacinta, Peñitas, Malpaso, Chicoasén, La Angostura y Juan Sabines.",
+        "validez": "del 07 al 10 de noviembre de 2026",
+        "descripcion": "Se prevén lluvias con acumulados de 50 a 75 mm en las cuencas de Peñitas, Bajo Grijalva y Usumacinta, lluvias con acumulados de 25 a 50 mm en la cuenca de Malpaso; así como lluvias con acumulados de 5 a 25 mm en las cuencas de Chicoasén, La Angostura y Juan Sabines.",
         "rangos_por_cuenca": {
           "Peñitas": {
             "texto": "50 a 75",
@@ -459,16 +459,6 @@
             "max_mm": 75.0
           },
           "Malpaso": {
-            "texto": "50 a 75",
-            "min_mm": 50.0,
-            "max_mm": 75.0
-          },
-          "Chicoasén": {
-            "texto": "50 a 75",
-            "min_mm": 50.0,
-            "max_mm": 75.0
-          },
-          "La Angostura": {
             "texto": "50 a 75",
             "min_mm": 50.0,
             "max_mm": 75.0
@@ -483,44 +473,54 @@
             "min_mm": 50.0,
             "max_mm": 75.0
           },
+          "Chicoasén": {
+            "texto": "5 a 25",
+            "min_mm": 5.0,
+            "max_mm": 25.0
+          },
+          "La Angostura": {
+            "texto": "5 a 25",
+            "min_mm": 5.0,
+            "max_mm": 25.0
+          },
           "Presa Juan Sabines": {
-            "texto": "50 a 75",
-            "min_mm": 50.0,
-            "max_mm": 75.0
+            "texto": "5 a 25",
+            "min_mm": 5.0,
+            "max_mm": 25.0
           }
         }
       },
       {
         "ventana": "168-360 h",
-        "validez": "del 09 al 17 de noviembre 2026",
-        "descripcion": "Se prevén lluvias con acumulados de 50 a 75 mm en las cuencas de La Angostura, Bajo Grijalva y Usumacinta; así como lluvias con acumulados de 5 a 25 mm en las cuencas de Peñitas, Malpaso, Chicoasén y Juan Sabines.",
+        "validez": "del 10 al 18 de noviembre 2026",
+        "descripcion": "Se prevén lluvias con acumulados de 75 a 150 mm en las cuencas de Peñitas, Malpaso y Bajo Grijalva, lluvias con acumulados de 25 a 50 mm en la cuenca de Usumacinta; así como lluvias con acumulados de 5 a 25 mm en las cuencas de Chicoasén, La Angostura y Juan Sabines.",
         "rangos_por_cuenca": {
-          "La Angostura": {
-            "texto": "50 a 75",
-            "min_mm": 50.0,
-            "max_mm": 75.0
-          },
-          "Bajo Grijalva-Ríos de la Sierra": {
-            "texto": "50 a 75",
-            "min_mm": 50.0,
-            "max_mm": 75.0
-          },
-          "Usumacinta": {
-            "texto": "50 a 75",
-            "min_mm": 50.0,
-            "max_mm": 75.0
-          },
           "Peñitas": {
-            "texto": "5 a 25",
-            "min_mm": 5.0,
-            "max_mm": 25.0
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
           },
           "Malpaso": {
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
+          },
+          "Bajo Grijalva-Ríos de la Sierra": {
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
+          },
+          "Usumacinta": {
+            "texto": "75 a 150",
+            "min_mm": 75.0,
+            "max_mm": 150.0
+          },
+          "Chicoasén": {
             "texto": "5 a 25",
             "min_mm": 5.0,
             "max_mm": 25.0
           },
-          "Chicoasén": {
+          "La Angostura": {
             "texto": "5 a 25",
             "min_mm": 5.0,
             "max_mm": 25.0
@@ -537,7 +537,7 @@
     "http": {
       "status_code": 200,
       "etag": null,
-      "last_modified": "Tue, 03 Nov 2026 19:11:44 GMT",
+      "last_modified": "Wed, 04 Nov 2026 16:11:20 GMT",
       "cache_control": "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
     }
   },
