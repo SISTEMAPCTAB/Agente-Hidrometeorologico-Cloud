@@ -1,21 +1,29 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-04T10:03:18.913382-06:00",
+  "run_local": "2026-11-04T10:04:49.752899-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-04T08:00:00-06:00",
-  "messages_scanned": 31,
+  "messages_scanned": 32,
   "levels_processed_now": 0,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 21,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (34 correos)",
-  "max_uid_asunto": 66488,
-  "asuntos_locales_adicionales": 9,
+  "busqueda": "por asunto (35 correos)",
+  "max_uid_asunto": 66489,
+  "asuntos_locales_adicionales": 10,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66489",
+      "fecha": "2026-11-04T10:03",
+      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 04-11-2026 (10:30 horas)",
+      "pdf": [
+        "Reporte y Seguimiento Meteorológico 04-11-2026 (10_30 hrs).pdf"
+      ]
+    },
     {
       "uid": "66488",
       "fecha": "2026-11-04T10:00",
@@ -206,14 +214,6 @@
       "asunto": "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 6:00 AM",
       "pdf": [
         "Boletin del 02 de Noviembre del 2026..pdf"
-      ]
-    },
-    {
-      "uid": "66352",
-      "fecha": "2026-11-01T17:59",
-      "asunto": "SE ENVÍA REPORTE DE NIVELES DE LAS 18:00 HORAS",
-      "pdf": [
-        "Niveles del 01 de Noviembre del 2026.pdf"
       ]
     }
   ]
