@@ -1,21 +1,29 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-05T11:29:07.256396-06:00",
+  "run_local": "2026-11-05T12:17:51.821676-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-05T10:00:00-06:00",
-  "messages_scanned": 31,
-  "levels_processed_now": 0,
+  "messages_scanned": 32,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 20,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (37 correos)",
-  "max_uid_asunto": 66550,
+  "busqueda": "por asunto (38 correos)",
+  "max_uid_asunto": 66559,
   "asuntos_locales_adicionales": 8,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66559",
+      "fecha": "2026-11-05T12:15",
+      "asunto": "SE ENVÍA EL INFORME DE NIVELES DE LAS 12:00 HR",
+      "pdf": [
+        "Niveles del 05 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "66550",
       "fecha": "2026-11-05T10:31",
@@ -207,14 +215,14 @@
       "pdf": [
         "Niveles del 03 de Noviembre del 2026.pdf"
       ]
-    },
-    {
-      "uid": "66431",
-      "fecha": "2026-11-03T10:08",
-      "asunto": "Boletín Hidrométrico, Climatológico y de Presas 03-11-2026",
-      "pdf": [
-        "Boletin 03-11-2026.pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-11-05T12:00:00-06:00",
+    "corte": "2026-11-05T12:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
