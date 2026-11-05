@@ -1,11 +1,11 @@
 {
   "fuente": "INSIVUMEH",
   "producto": "BHVGM · estaciones Alto Usumacinta",
-  "consultado_utc": "2026-11-05T02:12:36.371651+00:00",
+  "consultado_utc": "2026-11-05T18:11:15.190662+00:00",
   "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
-  "fecha": "04/11/2026",
-  "hora": "20:00",
-  "boletin": "925-2026",
+  "fecha": "05/11/2026",
+  "hora": "08:00",
+  "boletin": "926-2026",
   "estaciones": [
     {
       "estacion": "El Tigre",
@@ -15,11 +15,11 @@
       "nivel_referencia_max_m": 10.0,
       "caudal_referencia_min_m3s": 486.87,
       "caudal_referencia_max_m3s": 2856.43,
-      "nivel_instantaneo_m": 7.9,
-      "caudal_instantaneo_m3s": 1943.39,
+      "nivel_instantaneo_m": 7.83,
+      "caudal_instantaneo_m3s": 1912.96,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "04/11/2026 20:00"
+      "ultima_observacion_fuente": "05/11/2026 08:00"
     },
     {
       "estacion": "El Porvenir",
@@ -29,11 +29,11 @@
       "nivel_referencia_max_m": 3.0,
       "caudal_referencia_min_m3s": 93.04,
       "caudal_referencia_max_m3s": 399.28,
-      "nivel_instantaneo_m": 4.56,
-      "caudal_instantaneo_m3s": 872.95,
+      "nivel_instantaneo_m": 4.46,
+      "caudal_instantaneo_m3s": 835.26,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "04/11/2026 20:00"
+      "ultima_observacion_fuente": "05/11/2026 08:00"
     },
     {
       "estacion": "Machaquilá",
@@ -43,11 +43,11 @@
       "nivel_referencia_max_m": 2.5,
       "caudal_referencia_min_m3s": 0.18,
       "caudal_referencia_max_m3s": 54.29,
-      "nivel_instantaneo_m": 1.02,
-      "caudal_instantaneo_m3s": 1.22,
+      "nivel_instantaneo_m": 1.52,
+      "caudal_instantaneo_m3s": 19.29,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "04/11/2026 20:00"
+      "ultima_observacion_fuente": "05/11/2026 08:00"
     },
     {
       "estacion": "San Pedro Mactún",
@@ -57,11 +57,11 @@
       "nivel_referencia_max_m": 2.0,
       "caudal_referencia_min_m3s": 6.49,
       "caudal_referencia_max_m3s": 64.24,
-      "nivel_instantaneo_m": 1.85,
-      "caudal_instantaneo_m3s": 49.32,
+      "nivel_instantaneo_m": 1.84,
+      "caudal_instantaneo_m3s": 48.45,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "04/11/2026 20:00"
+      "ultima_observacion_fuente": "05/11/2026 08:00"
     },
     {
       "estacion": "San Agustín Chixoy",
@@ -71,11 +71,11 @@
       "nivel_referencia_max_m": 3.0,
       "caudal_referencia_min_m3s": 121.4,
       "caudal_referencia_max_m3s": 904.28,
-      "nivel_instantaneo_m": 1.11,
-      "caudal_instantaneo_m3s": 379.28,
+      "nivel_instantaneo_m": 1.0,
+      "caudal_instantaneo_m3s": 348.72,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "04/11/2026 20:00"
+      "ultima_observacion_fuente": "05/11/2026 08:00"
     },
     {
       "estacion": "Playa Grande",
@@ -87,9 +87,10 @@
       "caudal_referencia_max_m3s": 633.81,
       "nivel_instantaneo_m": 0.02,
       "caudal_instantaneo_m3s": 200.76,
-      "estado_dato": "observado",
+      "estado_dato": "heredado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "04/11/2026 20:00"
+      "ultima_observacion_fuente": "04/11/2026 20:00",
+      "heredado_en_utc": "2026-11-05T18:11:15.190662+00:00"
     },
     {
       "estacion": "San Luis Ixcán",
@@ -103,7 +104,7 @@
       "caudal_instantaneo_m3s": 45.22,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "04/11/2026 20:00"
+      "ultima_observacion_fuente": "05/11/2026 08:00"
     },
     {
       "estacion": "Puente Chocox",
@@ -117,13 +118,13 @@
       "caudal_instantaneo_m3s": 15.71,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "04/11/2026 20:00"
+      "ultima_observacion_fuente": "05/11/2026 08:00"
     }
   ],
   "errors": [],
   "nota": "Se prioriza dato estructurado del BHVGM; si falta una lectura, se conserva el último valor válido y se marca heredado. Ausencia nunca equivale a cero.",
-  "observadas": 8,
-  "heredadas": 0,
+  "observadas": 7,
+  "heredadas": 1,
   "sin_dato": 0,
   "estado": "ok"
 }
