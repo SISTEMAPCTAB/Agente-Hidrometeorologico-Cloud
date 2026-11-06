@@ -1,21 +1,31 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-06T06:21:34.203032-06:00",
+  "run_local": "2026-11-06T06:28:51.091426-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-05T18:00:00-06:00",
-  "messages_scanned": 31,
+  "messages_scanned": 32,
   "levels_processed_now": 0,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 19,
-  "sources_updated": [],
+  "sources_updated": [
+    "FUENTE2"
+  ],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (32 correos)",
-  "max_uid_asunto": 66592,
+  "busqueda": "por asunto (33 correos)",
+  "max_uid_asunto": 66607,
   "asuntos_locales_adicionales": 7,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66607",
+      "fecha": "2026-11-06T06:27",
+      "asunto": "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 6:00 AM",
+      "pdf": [
+        "Boletin del 06 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "66592",
       "fecha": "2026-11-05T21:12",
@@ -204,14 +214,6 @@
       "uid": "66452",
       "fecha": "2026-11-03T16:09",
       "asunto": "Informe de Niveles de las 16 hr",
-      "pdf": [
-        "Niveles del 03 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66447",
-      "fecha": "2026-11-03T14:11",
-      "asunto": "SE ENVÍA EL INFORME DE NIVELES DE LAS 14:00 HR",
       "pdf": [
         "Niveles del 03 de Noviembre del 2026.pdf"
       ]
