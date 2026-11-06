@@ -2,162 +2,111 @@
   "fuente": "CONAGUA · Sistema de Información Hidrológica (SIH)",
   "producto": "Precipitaciones acumuladas últimas 24 h",
   "url": "https://sih.conagua.gob.mx/docs/precipitacion24horas.pdf",
-  "fecha_fuente": "2026-11-05",
+  "fecha_fuente": "2026-11-06",
   "hora_dato": "08:00",
-  "fecha_hora_dato": "2026-11-05T08:00:00-06:00",
+  "fecha_hora_dato": "2026-11-06T08:00:00-06:00",
   "periodo_fuente": "24 h anteriores a las 08:00 h",
-  "consultado_utc": "2026-11-05T23:01:18.405958+00:00",
-  "consultado_local": "2026-11-05T17:01:18.405958-06:00",
+  "consultado_utc": "2026-11-06T17:31:11.767009+00:00",
+  "consultado_local": "2026-11-06T11:31:11.767009-06:00",
   "fetch_variant": "normal",
   "resumen_tabasco": {
-    "promedio_mm": 0.24,
+    "promedio_mm": 0.06,
     "numero_estaciones": 39,
-    "maxima_mm": 2.1,
-    "maxima_referencia": "Pantanos de Centla, Tab. SMN* Centla"
+    "maxima_mm": 2.6,
+    "maxima_referencia": "Sánchez Magallanes, Tab. SGT* Cárdenas"
   },
   "estaciones_chiapas_interes": [
     {
+      "estacion": "Bonampak, Chis. PC*",
+      "precipitacion_24h_mm": 3.6,
+      "estado": "Chiapas"
+    },
+    {
+      "estacion": "Huixtla, Chis.",
+      "precipitacion_24h_mm": 2.8,
+      "estado": "Chiapas"
+    },
+    {
+      "estacion": "Villa de Chiapilla, Chis. SGT*",
+      "precipitacion_24h_mm": 2.6,
+      "estado": "Chiapas"
+    },
+    {
+      "estacion": "Mojostic, Chis. SGT*",
+      "precipitacion_24h_mm": 1.8,
+      "estado": "Chiapas"
+    },
+    {
+      "estacion": "Volcán Tacaná, Chis. SMN*",
+      "precipitacion_24h_mm": 0.7,
+      "estado": "Chiapas"
+    },
+    {
+      "estacion": "Cacaluta, Chis.",
+      "precipitacion_24h_mm": 0.4,
+      "estado": "Chiapas"
+    },
+    {
+      "estacion": "Reforma, Chis. CFE*",
+      "precipitacion_24h_mm": 0.3,
+      "estado": "Chiapas"
+    },
+    {
+      "estacion": "Reforma, Chis.",
+      "precipitacion_24h_mm": 0.3,
+      "estado": "Chiapas"
+    },
+    {
+      "estacion": "Finca Chayabé, Chis. SGT*",
+      "precipitacion_24h_mm": 0.3,
+      "estado": "Chiapas"
+    },
+    {
       "estacion": "San Pedro Nichtalucum, Chis. SGT*",
-      "precipitacion_24h_mm": 50.9,
+      "precipitacion_24h_mm": 0.2,
       "estado": "Chiapas"
     },
     {
-      "estacion": "El Dorado, Chis. CFE*",
-      "precipitacion_24h_mm": 37.1,
+      "estacion": "La Encrucijada, Chis. SMN*",
+      "precipitacion_24h_mm": 0.2,
       "estado": "Chiapas"
     },
     {
-      "estacion": "Peñitas, Chis. CFE*",
-      "precipitacion_24h_mm": 22.5,
+      "estacion": "Puente Huitiupán, Chis. SGT*",
+      "precipitacion_24h_mm": 0.2,
       "estado": "Chiapas"
     },
     {
-      "estacion": "Chapultenango, Chis. SGT*",
-      "precipitacion_24h_mm": 16.5,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Pijijiapan, Chis.",
-      "precipitacion_24h_mm": 11.0,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Cred Revolución Mexicana, Chis. PC*",
-      "precipitacion_24h_mm": 9.1,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Revolución Mexicana, Chis. CFE*",
-      "precipitacion_24h_mm": 8.7,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Juan Sabines, Chis.",
-      "precipitacion_24h_mm": 8.7,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Revolución Mexicana, Chis.",
-      "precipitacion_24h_mm": 8.7,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "San Joaquín Pichucalco, Chis.",
-      "precipitacion_24h_mm": 6.4,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "San Joaquín, Chis.",
-      "precipitacion_24h_mm": 6.4,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "El Burrero, Chis. SGT*",
+      "estacion": "Siltepec, Chis. SGT*",
       "precipitacion_24h_mm": 0.1,
       "estado": "Chiapas"
     },
     {
-      "estacion": "Cuilco, Chis. CFE*",
+      "estacion": "La Encrucijada, Chis. SGT*",
       "precipitacion_24h_mm": 0.1,
       "estado": "Chiapas"
     },
     {
-      "estacion": "Ocosingo, Chis. SGT*",
+      "estacion": "Zacatonal de Juárez, Chis. SGT*",
       "precipitacion_24h_mm": 0.1,
       "estado": "Chiapas"
     }
   ],
   "estaciones_tabasco": [
     {
-      "estacion": "Pantanos de Centla, Tab. SMN*",
-      "precipitacion_24h_mm": 2.1,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Puente Solidaridad, Tab. SGT*",
-      "precipitacion_24h_mm": 0.4,
-      "estado": "Tabasco"
-    },
-    {
       "estacion": "Sánchez Magallanes, Tab. SGT*",
-      "precipitacion_24h_mm": 0.1,
+      "precipitacion_24h_mm": 2.6,
       "estado": "Tabasco"
     },
     {
-      "estacion": "Zanapa, Tab. SGT*",
+      "estacion": "Pantanos de Centla, Tab. SMN*",
       "precipitacion_24h_mm": 0.1,
       "estado": "Tabasco"
     }
   ],
-  "estaciones_veracruz_interes": [
-    {
-      "estacion": "Planta de bombeo 3 de La Cangrejera, Ver.",
-      "precipitacion_24h_mm": 35.0,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "Coatzacoalcos, Ver. SEMAR*",
-      "precipitacion_24h_mm": 26.9,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "Jaltipán, Ver.",
-      "precipitacion_24h_mm": 15.8,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "Fortín, Ver.",
-      "precipitacion_24h_mm": 0.8,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "Presa Tuxpango, Ver. SMN*",
-      "precipitacion_24h_mm": 0.8,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "Citlaltepec, Ver. SMN*",
-      "precipitacion_24h_mm": 0.7,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "Puente Cuatro Caminos, Ver. SGT*",
-      "precipitacion_24h_mm": 0.4,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "Observatorio de Coatzacoalcos, Ver.",
-      "precipitacion_24h_mm": 0.3,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "Actopan, Ver. SGT*",
-      "precipitacion_24h_mm": 0.1,
-      "estado": "Veracruz"
-    }
-  ],
-  "numero_extraido": 4,
-  "numero_chiapas_interes": 14,
-  "numero_veracruz_interes": 9,
+  "estaciones_veracruz_interes": [],
+  "numero_extraido": 2,
+  "numero_chiapas_interes": 15,
+  "numero_veracruz_interes": 0,
   "calidad": "preliminar_sujeta_a_revision"
 }
