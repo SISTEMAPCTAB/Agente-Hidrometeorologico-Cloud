@@ -93,6 +93,12 @@ jobs:
       - name: Extraer lluvia y temperatura de boletines CONAGUA Tabasco y Frontera Sur
         run: python src/extraer_clima_boletines.py
 
+      # 6-nov-2026 (Gilberto / Modelo Hidrológico V109z): niveles diarios de Palizada y Candelaria (Campeche) del boletín
+      # OCFS al histórico; sólo filas completas del boletín; no toca a las 15 estaciones de Tabasco.
+      - name: Integrar Palizada y Candelaria del boletín OCFS al histórico
+        continue-on-error: true
+        run: python src/palizada_boletin.py
+
       - name: Extraer lluvia horaria CONAGUA del reporte más reciente
         env:
           CARBONIO_BASE: https://correo.tabasco.gob.mx
