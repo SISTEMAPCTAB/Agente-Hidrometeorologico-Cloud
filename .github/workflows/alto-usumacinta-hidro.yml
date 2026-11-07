@@ -104,6 +104,14 @@ jobs:
                   'url_pdf':source.get('url_pdf'),'estaciones':observed,
                   'el_tigre_publicado':any(r.get('estacion')=='El Tigre' for r in observed)
               }
+              # 6-nov-2026: la sección "insivumeh" de latest.json sólo la escribía fuentes-publicas-cloud.yml, que dejó de
+              # publicar latest.json el 8-oct: quedó congelada en el BHVGM del 07/10/2026 20:00 (El Tigre 11.07 m) y se colaba
+              # como dato nuevo. Se sincroniza aquí con el mismo corte observado (sólo filas observadas de ese boletín).
+              ins=dict(aggregate.get('insivumeh') or {})
+              ins.update({'fecha':source['fecha'],'hora':source['hora'],'boletin':source.get('boletin'),'url_pdf':source.get('url_pdf'),
+                          'estaciones_estructuradas':observed,'fragmentos_relevantes':[],'completo':True,
+                          'validacion_fecha':'encabezado_pdf','sincronizado_desde':'insivumeh_alto_hidro.json'})
+              aggregate['insivumeh']=ins
               target.write_text(json.dumps(aggregate,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
               print('BHVGM agregado actualizado:',source['fecha'],source['hora'])
           else:print('BHVGM agregado conservado; no existe corte observado más reciente')
