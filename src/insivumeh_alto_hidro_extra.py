@@ -93,8 +93,14 @@ def aliases_for_target(name):
     return {n}
 
 
-def structured_from_latest(latest, station):
-    rows = ((latest.get('insivumeh') or {}).get('estaciones_estructuradas') or [])
+def structured_from_latest(latest, station, fecha=None, hora=None):
+    # 6-nov-2026: latest.json puede quedar congelado (sección INSIVUMEH en el boletín del 07/10/2026 20:00) y su fila se
+    # colaba como "observada" con la fecha del boletín nuevo (El Tigre 11.07 m el 01/11 y 04/11; El Porvenir 4.40 el 10, 24 y
+    # 25/10). Sólo se usa si es del MISMO boletín (fecha y hora) que el PDF fresco; si no, se hereda la lectura anterior.
+    ins = latest.get('insivumeh') or {}
+    if fecha and hora and (ins.get('fecha') != fecha or str(ins.get('hora') or '')[:5] != str(hora)[:5]):
+        return None
+    rows = (ins.get('estaciones_estructuradas') or [])
     wanted = aliases_for_target(station)
     for x in rows:
         if norm_name(x.get('estacion')) in wanted and x.get('nivel_instantaneo_m') is not None:
@@ -169,7 +175,7 @@ def main():
     for station, river, location, _aliases in TARGETS:
         key = norm_name(station)
         # Prioridad: PDF fresco > estructura heredada de latest.json.
-        row = parsed_by.get(key) or structured_from_latest(latest, station)
+        row = parsed_by.get(key) or structured_from_latest(latest, station, result.get('fecha'), result.get('hora'))
         if row:
             row = dict(row)
             row['estacion'] = station
