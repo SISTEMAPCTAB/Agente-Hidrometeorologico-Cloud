@@ -50,7 +50,24 @@ def parse_cut(text):
         # ("SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 8:00 AM"); la fecha ya sale del nombre del archivo.
         hm = re.search(r"\b(\d{1,2}):00\s*(?:a\.?\s*m\b|hrs\b|h\b|horas\b)", norm(header(text, "ASUNTO")))
     if not dm or not hm:
-        raise RuntimeError("FUENTE2 no contiene fecha/hora de corte identificable.")
+        # Último respaldo: fecha del correo y hora del asunto (o 08:00, que es lo que es FUENTE2). Si el correo tampoco
+        # tiene fecha, no hay corte confiable.
+        mm = re.search(r"^FECHA/HORA MENSAJE:\s*(\S+)", text, re.M)
+        try:
+            msg = datetime.fromisoformat(mm.group(1)).astimezone(MX) if mm else None
+        except ValueError:
+            msg = None
+        if not dm and not msg:
+            raise RuntimeError("FUENTE2 no contiene fecha/hora de corte identificable.")
+        hora = int(hm.group(1)) if hm else 8
+        if dm:
+            cut = datetime(int(dm.group(3)), months[dm.group(2)], int(dm.group(1)), hora, tzinfo=MX)
+        else:
+            cut = msg.replace(hour=hora, minute=0, second=0, microsecond=0)
+            if cut > msg + timedelta(hours=1):
+                cut -= timedelta(days=1)
+        print(f"FUENTE2: corte sin fecha/hora completa en el PDF; se usa {cut.isoformat()} (archivo, asunto o correo)")
+        return cut
     cut = datetime(int(dm.group(3)), months[dm.group(2)], int(dm.group(1)), int(hm.group(1)), tzinfo=MX)
     # 31-oct-2026: el PDF de las 06:00 del 31 de octubre decía "01 DE NOVIEMBRE" (error de captura de CONAGUA) y el corte
     # quedó en el futuro: los informes de 08:00 y 10:00 parecían "anteriores" y no se publicaron. Un corte no puede ser
@@ -240,7 +257,11 @@ def main():
         print("FUENTE2 no disponible; se conserva el histórico existente.")
         return
     text = SRC.read_text(encoding="utf-8-sig")
-    cut = parse_cut(text)
+    try:
+        cut = parse_cut(text)
+    except RuntimeError as exc:
+        print(f"FUENTE2 omitido: {exc} Se conserva el histórico; los demás productos siguen.")
+        return
     stamp = cut.isoformat()
     subject = header(text, "ASUNTO")
     message_id = header(text, "ID MENSAJE") or "sin-id"
