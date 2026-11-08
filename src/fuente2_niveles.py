@@ -44,6 +44,11 @@ def parse_cut(text):
     n = norm(text)
     dm = re.search(r"\b(\d{1,2})\s+de\s+(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\s+(?:del\s+)?(20\d{2})\b", n)
     hm = re.search(r"\b(\d{1,2}):00\s+horas\b", n)
+    if dm and not hm:
+        # 8-nov-2026: el boletín de 08:00 llegó con "FECHA:" vacío (sin "8:00 horas" en el PDF) y el flujo de Gmail completo
+        # se detenía aquí, sin publicar tampoco los niveles horarios. Respaldo: la hora del ASUNTO del correo
+        # ("SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 8:00 AM"); la fecha ya sale del nombre del archivo.
+        hm = re.search(r"\b(\d{1,2}):00\s*(?:a\.?\s*m\b|hrs\b|h\b|horas\b)", norm(header(text, "ASUNTO")))
     if not dm or not hm:
         raise RuntimeError("FUENTE2 no contiene fecha/hora de corte identificable.")
     cut = datetime(int(dm.group(3)), months[dm.group(2)], int(dm.group(1)), int(hm.group(1)), tzinfo=MX)

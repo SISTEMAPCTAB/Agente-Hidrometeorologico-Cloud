@@ -115,6 +115,9 @@ jobs:
 
       - name: Revalidar FUENTE2 vigente sin crear duplicados
         if: steps.gmail.outputs.enabled == 'true'
+        # 8-nov-2026: un boletín FUENTE2 sin fecha legible detuvo todo el flujo de 08:25 a 13:00 (sin niveles horarios).
+        # Una falla aquí no debe impedir publicar lo demás; el paso de derivados vuelve a correr fuente2_niveles.py.
+        continue-on-error: true
         shell: bash
         run: |
           set -e
