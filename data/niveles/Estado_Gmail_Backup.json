@@ -1,23 +1,61 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-08T09:59:17.840923-06:00",
+  "run_local": "2026-11-08T13:14:08.533300-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-08T08:00:00-06:00",
-  "messages_scanned": 31,
-  "levels_processed_now": 0,
+  "messages_scanned": 30,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
-  "pdfs_skipped_duplicate_content": 20,
+  "pdfs_skipped_duplicate_content": 18,
   "sources_updated": [
-    "FUENTE1"
+    "FUENTE2"
   ],
   "errors": [],
-  "mensajes_con_error": [],
-  "busqueda": "por asunto (34 correos)",
-  "max_uid_asunto": 66734,
-  "asuntos_locales_adicionales": 7,
+  "mensajes_con_error": [
+    {
+      "uid": "66735",
+      "subject": "Se envia informe de niveles de las 10 hors",
+      "error": "RuntimeError: ERROR COMPAT: Error: No se pudo identificar la hora del corte.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:22:158"
+    }
+  ],
+  "busqueda": "por asunto (38 correos)",
+  "max_uid_asunto": 66743,
+  "asuntos_locales_adicionales": 9,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66743",
+      "fecha": "2026-11-08T12:07",
+      "asunto": "Se envia informe de niveles de las 12 horas",
+      "pdf": [
+        "Boletin del 08 de Noviembre del 2026.pdf"
+      ]
+    },
+    {
+      "uid": "66737",
+      "fecha": "2026-11-08T10:20",
+      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 08-11-2026 (10:30 horas)",
+      "pdf": [
+        "Reporte y Seguimiento Meteorológico 08-11-2026 (10_30 hrs).pdf"
+      ]
+    },
+    {
+      "uid": "66736",
+      "fecha": "2026-11-08T10:19",
+      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 08-11-2026 (10:30 horas)",
+      "pdf": [
+        "Reporte y Seguimiento Meteorológico 08-11-2026 (10_30 hrs).pdf"
+      ]
+    },
+    {
+      "uid": "66735",
+      "fecha": "2026-11-08T10:03",
+      "asunto": "Se envia informe de niveles de las 10 hors",
+      "pdf": [
+        "Boletin del 08 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "66734",
       "fecha": "2026-11-08T09:57",
@@ -185,38 +223,14 @@
       "pdf": [
         "Boletin del 06 de Noviembre del 2026.pdf"
       ]
-    },
-    {
-      "uid": "66607",
-      "fecha": "2026-11-06T06:27",
-      "asunto": "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 6:00 AM",
-      "pdf": [
-        "Boletin del 06 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66592",
-      "fecha": "2026-11-05T21:12",
-      "asunto": "Resumen climatológico septiembre 2026",
-      "pdf": [
-        "Resumen Climatológico Mensual SEPTIEMBRE 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66580",
-      "fecha": "2026-11-05T18:01",
-      "asunto": "Informe de Niveles de las 18 hr",
-      "pdf": [
-        "Niveles del 05 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66574",
-      "fecha": "2026-11-05T16:02",
-      "asunto": "Informe de Niveles de las 16 hr",
-      "pdf": [
-        "Niveles del 05 de Noviembre del 2026.pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-11-08T12:00:00-06:00",
+    "corte": "2026-11-08T12:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
