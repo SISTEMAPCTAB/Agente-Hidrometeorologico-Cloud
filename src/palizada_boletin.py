@@ -56,27 +56,42 @@ def fecha_boletin(text):
 
 
 def lecturas(text):
-    """{estación: {"anterior": nivel|None, "actual": nivel|None}} sólo para filas completas."""
+    """{estación: {"anterior": nivel|None, "actual": nivel|None}} según cuántos números trae la fila.
+
+    V110p (9-nov-2026): antes sólo se aceptaban filas completas y, peor, una fila con un solo par MÁS lluvia/Tmax/Tmin se leía como
+    dos pares (Tmax como "gasto"). El OCFS publica a veces la fila a medias. Por posición, con NAMO al inicio:
+      Palizada (nivel y gasto), sin contar NAMO: 7 números = anterior, actual, clima · 4 = anterior, actual · 2 = sólo anterior (fila cortada antes del
+      dato del día) · 5 = un par + clima = ACTUAL (el día anterior no se repitió).
+      Candelaria (sólo nivel): 5 = anterior, actual, clima · 2 = anterior, actual · 1 = sólo anterior · 4 = un nivel + clima = ACTUAL.
+    Comprobado con los boletines 2 a 9-nov-2026: el "anterior" de cada día coincide con el actual (o el par suelto) del día previo
+    (Palizada 4.52 el 3 y 4-nov; 4.18 el 6 y 7-nov; 4.06 el 7 y 8-nov; Candelaria 35.95 el 3 y 4-nov; 35.92 el 5 y 6-nov).
+    Cada nivel se valida por rango; un gasto debe ser > 20 m³/s."""
     out = {}
     for clave, (est, _rio, (lo, hi), con_gasto) in ESTACIONES.items():
         m = re.search(re.escape(clave) + r"\s+([^A-Za-z\n]*)", text)
         if not m:
             continue
         n = [float(x) for x in NUM.findall(m.group(1))]
-        if len(n) < (5 if con_gasto else 3):
-            continue                                   # falta un par: no se puede saber cuál es cuál
-        namo = n[0]
-        ok = lambda v: lo < v <= hi
-        if con_gasto:
-            ant, act = n[1], n[3]
-            # fila completa: los dos gastos presentes y los dos niveles plausibles o con el punto corrido (502.00 = 5.02)
-            completa = n[2] > 20 and n[4] > 20 and all(ok(x) or x > 100 for x in (ant, act))
-        else:
-            ant, act = n[1], n[2]
-            completa = ok(ant) and ok(act)
-        if not completa:
+        if len(n) < 2:
             continue
-        out[est] = {"namo": namo, "anterior": ant if ok(ant) else None, "actual": act if ok(act) else None}
+        namo, r = n[0], n[1:]
+        ok = lambda v: v is not None and lo < v <= hi
+        ant = act = None
+        if con_gasto:
+            par = lambda k: r[k] if len(r) > k + 1 and r[k + 1] > 20 and (ok(r[k]) or r[k] > 100) else None
+            if len(r) in (7, 4):  ant, act = par(0), par(2)          # dos pares (+ clima)
+            elif len(r) == 5:     act = par(0)                       # un par + clima = actual
+            elif len(r) == 2:     ant = par(0)                       # fila cortada: sólo el día anterior
+            else:                 continue
+        else:
+            if len(r) in (5, 2):  ant, act = r[0], r[1]              # dos niveles (+ clima)
+            elif len(r) == 4:     act = r[0]                         # un nivel + clima = actual
+            elif len(r) == 1:     ant = r[0]                         # fila cortada: sólo el día anterior
+            else:                 continue
+        ant = ant if ok(ant) else None; act = act if ok(act) else None
+        if ant is None and act is None:
+            continue
+        out[est] = {"namo": namo, "anterior": ant, "actual": act}
     return out
 
 
