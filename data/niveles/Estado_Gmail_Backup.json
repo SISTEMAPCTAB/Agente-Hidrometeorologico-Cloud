@@ -1,22 +1,16 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-09T10:31:43.916048-06:00",
+  "run_local": "2026-11-09T10:33:47.869759-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-09T10:00:00-06:00",
-  "messages_scanned": 29,
+  "messages_scanned": 11,
   "levels_processed_now": 0,
   "levels_skipped_not_newer": 0,
-  "pdfs_skipped_duplicate_content": 18,
+  "pdfs_skipped_duplicate_content": 6,
   "sources_updated": [],
   "errors": [],
-  "mensajes_con_error": [
-    {
-      "uid": "66735",
-      "subject": "Se envia informe de niveles de las 10 hors",
-      "error": "RuntimeError: ERROR COMPAT: Error: No se pudo identificar la hora del corte.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:22:158"
-    }
-  ],
+  "mensajes_con_error": [],
   "busqueda": "por asunto (35 correos)",
   "max_uid_asunto": 66798,
   "asuntos_locales_adicionales": 10,
@@ -108,118 +102,6 @@
       "asunto": "Seguimiento Meteorológico y Reporte Climatológico 08-11-2026 (10:30 horas)",
       "pdf": [
         "Reporte y Seguimiento Meteorológico 08-11-2026 (10_30 hrs).pdf"
-      ]
-    },
-    {
-      "uid": "66736",
-      "fecha": "2026-11-08T10:19",
-      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 08-11-2026 (10:30 horas)",
-      "pdf": [
-        "Reporte y Seguimiento Meteorológico 08-11-2026 (10_30 hrs).pdf"
-      ]
-    },
-    {
-      "uid": "66735",
-      "fecha": "2026-11-08T10:03",
-      "asunto": "Se envia informe de niveles de las 10 hors",
-      "pdf": [
-        "Boletin del 08 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66734",
-      "fecha": "2026-11-08T09:57",
-      "asunto": "Boletín Hidrométrico, Climatológico y de Presas,08/11/2026",
-      "pdf": [
-        "Boletin 08-11-2026.pdf"
-      ]
-    },
-    {
-      "uid": "66728",
-      "fecha": "2026-11-08T08:24",
-      "asunto": "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 8:00 AM",
-      "pdf": [
-        "Boletin del 08 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66726",
-      "fecha": "2026-11-08T06:32",
-      "asunto": "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 6:00 AM",
-      "pdf": [
-        "Boletin del 08 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66704",
-      "fecha": "2026-11-07T18:02",
-      "asunto": "SE ENVÍA INFORME DE NIVELES DE LAS 18:00 HORAS",
-      "pdf": [
-        "Niveles del 07 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66700",
-      "fecha": "2026-11-07T16:14",
-      "asunto": "SE ENVÍA INFORME DE NIVELES DE LAS 16:00 HORAS",
-      "pdf": [
-        "Niveles del 07 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66694",
-      "fecha": "2026-11-07T14:12",
-      "asunto": "SE ENVÍA INFORMACIÓN DE NIVELES DE LAS 14:00 HORAS",
-      "pdf": [
-        "Niveles del 07 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66684",
-      "fecha": "2026-11-07T12:20",
-      "asunto": "SE ENVÍA INFORMACIÓN DE NIVELES DE LAS 12:00 HORAS",
-      "pdf": [
-        "Niveles del 07 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66679",
-      "fecha": "2026-11-07T10:36",
-      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 07-11-2026 (10:30 horas)",
-      "pdf": [
-        "Reporte y Seguimiento Meteorológico 07-11-2026 (10_30 hrs).pdf"
-      ]
-    },
-    {
-      "uid": "66678",
-      "fecha": "2026-11-07T10:35",
-      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 07-11-2026 (10:30 horas)",
-      "pdf": [
-        "Reporte y Seguimiento Meteorológico 07-11-2026 (10_30 hrs).pdf"
-      ]
-    },
-    {
-      "uid": "66676",
-      "fecha": "2026-11-07T10:12",
-      "asunto": "SE ENVÍA INFORME DE NIVELES DE LAS 10:00 HORAS",
-      "pdf": [
-        "Niveles del 07 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "66671",
-      "fecha": "2026-11-07T09:28",
-      "asunto": "Boletín Hidrométrico, Climatológico y de Presas , 07/11/2026",
-      "pdf": [
-        "Boletin 07-11-2026.pdf"
-      ]
-    },
-    {
-      "uid": "66668",
-      "fecha": "2026-11-07T08:30",
-      "asunto": "SE ENVIA BOLETIN DE HIDROMETRIA Y CLIMATOLOGIA DE 8:00 AM",
-      "pdf": [
-        "Boletin del 07 de Noviembre del 2026.pdf"
       ]
     }
   ]
