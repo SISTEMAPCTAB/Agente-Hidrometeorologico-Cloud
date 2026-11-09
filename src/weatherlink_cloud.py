@@ -413,6 +413,18 @@ def main():
             item["error"] = f"{type(exc).__name__}: {exc}"
         raw.append(item)
 
+    # V110m: pluviómetros detenidos (siguen reportando pero su lluvia no cambia mientras las vecinas sí registran).
+    try:
+        from weatherlink_pluviometro import revisar
+        detenidas = revisar(raw, state, now_utc.astimezone(MX_TZ))
+        for r in rows:
+            if r["Estacion"] in detenidas:
+                r["Calidad"] = r["Calidad"] + " + pluviómetro detenido (las vecinas sí registran lluvia)"
+        if detenidas:
+            print("Pluviómetros detenidos:", ", ".join(detenidas))
+    except Exception as exc:
+        print("Revisión de pluviómetros no disponible:", exc)
+
     state["last_run_utc"] = now_utc.isoformat()
     write_json(STATE_PATH, state)
     write_json(LATEST_JSON, {
