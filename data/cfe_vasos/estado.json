@@ -1,11 +1,11 @@
 {
- "revision_local": "2026-11-09T08:30-06:00",
- "error": null,
+ "revision_local": "2026-11-09T08:47-06:00",
+ "error": "OSError: cannot read from timed out object",
  "resultado": "procesado",
  "busqueda": {
   "INBOX:gm_raw": 48,
   "INBOX:imap": 57,
-  "INBOX:asunto": 57
+  "INBOX:asunto": "error The read operation timed out"
  },
  "message_id": "<SA7PR05MB9985967C89CF6AF7E3B57A3D39FD732@SA7PR05MB998596.namprd05.prod.outlook.com>",
  "mensaje_local": "2026-11-09T08:25-06:00",
