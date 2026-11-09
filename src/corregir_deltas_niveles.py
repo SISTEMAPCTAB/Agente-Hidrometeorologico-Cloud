@@ -116,6 +116,11 @@ def main():
         station = row.get("estacion")
         current_time = parse_dt(row.get("fecha_hora"))
         current_level = row.get("ultimo_nivel")
+        # 8-nov-2026: con lectura heredada (la estación no vino en los informes de 16:00 y 18:00) el Δ se buscaba 24 h antes
+        # de la hora del corte (18:00) y no de la lectura real (14:00); sin lectura observada a ±3 h salía "s/d" (Tapijulapa,
+        # Teapa). El Δ se mide desde la hora real de la lectura, igual que delta_window de niveles_postprocess.py.
+        if row.get("estado_dato") == "heredado" and parse_dt(row.get("ultima_actualizacion_real")):
+            current_time = parse_dt(row.get("ultima_actualizacion_real"))
         obs = observed_station(history, station)
 
         for hours, field in ((24, "delta_24h"), (48, "delta_48h"), (72, "delta_72h")):
