@@ -2,392 +2,162 @@
   "fuente": "CONAGUA · Sistema de Información Hidrológica (SIH)",
   "producto": "Precipitaciones acumuladas últimas 24 h",
   "url": "https://sih.conagua.gob.mx/docs/precipitacion24horas.pdf",
-  "fecha_fuente": "2026-11-08",
+  "fecha_fuente": "2026-11-09",
   "hora_dato": "08:00",
-  "fecha_hora_dato": "2026-11-08T08:00:00-06:00",
+  "fecha_hora_dato": "2026-11-09T08:00:00-06:00",
   "periodo_fuente": "24 h anteriores a las 08:00 h",
-  "consultado_utc": "2026-11-08T23:01:25.781558+00:00",
-  "consultado_local": "2026-11-08T17:01:25.781558-06:00",
+  "consultado_utc": "2026-11-09T17:31:36.961147+00:00",
+  "consultado_local": "2026-11-09T11:31:36.961147-06:00",
   "fetch_variant": "normal",
   "resumen_tabasco": {
-    "promedio_mm": 8.83,
+    "promedio_mm": 4.33,
     "numero_estaciones": 25,
-    "maxima_mm": 94.7,
-    "maxima_referencia": "Tapijulapa, Tab. Tacotalpa"
+    "maxima_mm": 12.5,
+    "maxima_referencia": "Oxolotán, Tab. Tacotalpa"
   },
   "estaciones_chiapas_interes": [
     {
-      "estacion": "Salto de Agua, Chis.",
-      "precipitacion_24h_mm": 53.9,
+      "estacion": "Cacaluta, Chis.",
+      "precipitacion_24h_mm": 0.2,
       "estado": "Chiapas"
     },
     {
-      "estacion": "El Escalón, Chis. SGT*",
-      "precipitacion_24h_mm": 36.1,
+      "estacion": "Siltepec, Chis. SGT*",
+      "precipitacion_24h_mm": 0.2,
       "estado": "Chiapas"
     },
     {
-      "estacion": "Guacamayas, Chis. SGT*",
-      "precipitacion_24h_mm": 28.2,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Palenque, Chis. SMN*",
-      "precipitacion_24h_mm": 25.3,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Lacantún, Chis. SGT*",
-      "precipitacion_24h_mm": 24.2,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Lacantún, Chis.",
-      "precipitacion_24h_mm": 23.7,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Lacantún, Chis. CFE*",
-      "precipitacion_24h_mm": 23.7,
+      "estacion": "Rómulo Calzada, Chis. CFE*",
+      "precipitacion_24h_mm": 0.2,
       "estado": "Chiapas"
     },
     {
       "estacion": "Chacamax, Chis. SGT*",
-      "precipitacion_24h_mm": 16.2,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Finca Argovia, Chis.",
-      "precipitacion_24h_mm": 13.5,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Cacaluta, Chis.",
-      "precipitacion_24h_mm": 12.5,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Finca Chayabé, Chis. SGT*",
-      "precipitacion_24h_mm": 12.1,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Bonampak, Chis. PC*",
-      "precipitacion_24h_mm": 11.7,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "San Joaquín, Chis.",
-      "precipitacion_24h_mm": 7.8,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "San Joaquín Pichucalco, Chis.",
-      "precipitacion_24h_mm": 7.8,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Jaltenango, Chis.",
-      "precipitacion_24h_mm": 7.0,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Chicomuselo, Chis.",
-      "precipitacion_24h_mm": 5.1,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Zacatonal de Juárez, Chis. SGT*",
-      "precipitacion_24h_mm": 4.9,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Finca Hamburgo, Chis.",
-      "precipitacion_24h_mm": 4.8,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Platanar, Chis. SGT*",
-      "precipitacion_24h_mm": 3.4,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "San Pedro Nichtalucum, Chis. SGT*",
-      "precipitacion_24h_mm": 3.1,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Observatorio de Comitán, Chis. SMN*",
-      "precipitacion_24h_mm": 2.9,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Chalchihuitán, Chis. SGT*",
-      "precipitacion_24h_mm": 2.8,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Chapultenango, Chis. SGT*",
-      "precipitacion_24h_mm": 2.5,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "El Triunfo, Chis. SMN*",
-      "precipitacion_24h_mm": 2.4,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Ocotepec, Chis. SGT*",
-      "precipitacion_24h_mm": 1.2,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Arroyo Grande, Chis. SGT*",
-      "precipitacion_24h_mm": 1.1,
+      "precipitacion_24h_mm": 0.2,
       "estado": "Chiapas"
     },
     {
       "estacion": "Emiliano Zapata, Chis. CFE*",
-      "precipitacion_24h_mm": 1.1,
+      "precipitacion_24h_mm": 0.1,
       "estado": "Chiapas"
     },
     {
-      "estacion": "Acala, Chis. CFE*",
-      "precipitacion_24h_mm": 1.0,
+      "estacion": "Palenque, Chis. SMN*",
+      "precipitacion_24h_mm": 0.1,
       "estado": "Chiapas"
     },
     {
-      "estacion": "Finca la Paz, Chis.",
-      "precipitacion_24h_mm": 1.0,
+      "estacion": "Cuilco, Chis. CFE*",
+      "precipitacion_24h_mm": 0.1,
       "estado": "Chiapas"
     },
     {
-      "estacion": "Cred Ocosingo, Chis. SMN*",
-      "precipitacion_24h_mm": 1.0,
+      "estacion": "Zacatonal de Juárez, Chis. SGT*",
+      "precipitacion_24h_mm": 0.1,
       "estado": "Chiapas"
     },
     {
-      "estacion": "Acala, Chis.",
-      "precipitacion_24h_mm": 1.0,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Macayo Margen Izquierda, Chis. SGT*",
-      "precipitacion_24h_mm": 0.8,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Ocotepec, Chis. CFE*",
-      "precipitacion_24h_mm": 0.7,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Volcán Tacaná, Chis. SMN*",
-      "precipitacion_24h_mm": 0.7,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Grijalva, Chis.",
-      "precipitacion_24h_mm": 0.5,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Peñitas, Chis. CFE*",
-      "precipitacion_24h_mm": 0.5,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Juan de Grijalva, Chis.",
-      "precipitacion_24h_mm": 0.5,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Reforma, Chis.",
-      "precipitacion_24h_mm": 0.4,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Reforma, Chis. CFE*",
-      "precipitacion_24h_mm": 0.4,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Puente Huitiupán, Chis. SGT*",
-      "precipitacion_24h_mm": 0.4,
+      "estacion": "El Escalón, Chis. SGT*",
+      "precipitacion_24h_mm": 0.1,
       "estado": "Chiapas"
     }
   ],
   "estaciones_tabasco": [
     {
-      "estacion": "Tapijulapa, Tab.",
-      "precipitacion_24h_mm": 94.7,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Boca del Cerro, Tab.",
-      "precipitacion_24h_mm": 39.0,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Boca del Cerro, Tab. SGT*",
-      "precipitacion_24h_mm": 36.3,
-      "estado": "Tabasco"
-    },
-    {
       "estacion": "Oxolotán, Tab.",
-      "precipitacion_24h_mm": 29.0,
+      "precipitacion_24h_mm": 12.5,
       "estado": "Tabasco"
     },
     {
-      "estacion": "San Pedro, Tab.",
-      "precipitacion_24h_mm": 17.9,
+      "estacion": "González, Tab. SGT*",
+      "precipitacion_24h_mm": 8.9,
       "estado": "Tabasco"
     },
     {
-      "estacion": "Emiliano Zapata, Tab. SGT*",
-      "precipitacion_24h_mm": 15.3,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Macuspana, Tab.",
-      "precipitacion_24h_mm": 14.9,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Macuspana, Tab. SGT*",
-      "precipitacion_24h_mm": 12.8,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Jonuta hidrométrica, Tab. SGT*",
-      "precipitacion_24h_mm": 11.1,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Samaría, Tab.",
-      "precipitacion_24h_mm": 9.3,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Jonuta puente, Tab. SGT*",
-      "precipitacion_24h_mm": 7.7,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Teapa, Tab.",
-      "precipitacion_24h_mm": 5.0,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Pueblo Nuevo, Tab.",
-      "precipitacion_24h_mm": 3.1,
+      "estacion": "Puente Tonalá , Tab. SGT*",
+      "precipitacion_24h_mm": 7.6,
       "estado": "Tabasco"
     },
     {
       "estacion": "Puyacatengo, Tab.",
-      "precipitacion_24h_mm": 2.5,
+      "precipitacion_24h_mm": 5.1,
       "estado": "Tabasco"
     },
     {
-      "estacion": "Balancán, Tab. SGT*",
-      "precipitacion_24h_mm": 0.3,
+      "estacion": "Teapa, Tab.",
+      "precipitacion_24h_mm": 4.5,
       "estado": "Tabasco"
     },
     {
-      "estacion": "Pueblo Nuevo, Tab. SGT*",
-      "precipitacion_24h_mm": 0.2,
+      "estacion": "González, Tab.",
+      "precipitacion_24h_mm": 1.5,
       "estado": "Tabasco"
     },
     {
-      "estacion": "La Posta, Tab. SGT*",
-      "precipitacion_24h_mm": 0.2,
+      "estacion": "Tapijulapa, Tab.",
+      "precipitacion_24h_mm": 1.5,
       "estado": "Tabasco"
     },
     {
       "estacion": "Pantanos de Centla, Tab. SMN*",
-      "precipitacion_24h_mm": 0.2,
+      "precipitacion_24h_mm": 0.1,
       "estado": "Tabasco"
     }
   ],
   "estaciones_veracruz_interes": [
     {
-      "estacion": "Planta de bombeo 3 de La Cangrejera, Ver.",
-      "precipitacion_24h_mm": 8.5,
+      "estacion": "Agua Dulce, Ver.",
+      "precipitacion_24h_mm": 14.0,
       "estado": "Veracruz"
     },
     {
-      "estacion": "Chacaltianguis, Ver.",
-      "precipitacion_24h_mm": 6.9,
+      "estacion": "San José del Carmen, Ver.",
+      "precipitacion_24h_mm": 10.0,
       "estado": "Veracruz"
     },
     {
-      "estacion": "Pánuco, Ver.",
-      "precipitacion_24h_mm": 5.0,
+      "estacion": "Angel Rosario Cabada, Ver.",
+      "precipitacion_24h_mm": 2.2,
       "estado": "Veracruz"
     },
     {
-      "estacion": "Potrero Nuevo, Ver.",
-      "precipitacion_24h_mm": 4.8,
+      "estacion": "Cuatotolapan, Ver.",
+      "precipitacion_24h_mm": 1.6,
       "estado": "Veracruz"
     },
     {
-      "estacion": "Actopan, Ver.",
-      "precipitacion_24h_mm": 4.1,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "Observatorio de Coatzacoalcos, Ver.",
-      "precipitacion_24h_mm": 4.0,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "Piletas, Ver.",
-      "precipitacion_24h_mm": 3.2,
+      "estacion": "Tenochtitlán, Ver.",
+      "precipitacion_24h_mm": 1.0,
       "estado": "Veracruz"
     },
     {
       "estacion": "La Cangrejera, Ver.",
-      "precipitacion_24h_mm": 2.0,
+      "precipitacion_24h_mm": 1.0,
       "estado": "Veracruz"
     },
     {
-      "estacion": "Sombrerete, Ver.",
-      "precipitacion_24h_mm": 1.8,
+      "estacion": "Lauchapan, Ver.",
+      "precipitacion_24h_mm": 0.7,
       "estado": "Veracruz"
     },
     {
-      "estacion": "Actopan, Ver. SGT*",
-      "precipitacion_24h_mm": 1.7,
+      "estacion": "Otilpan, Ver.",
+      "precipitacion_24h_mm": 0.5,
       "estado": "Veracruz"
     },
     {
-      "estacion": "Tapachapan, Ver.",
-      "precipitacion_24h_mm": 1.3,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "San Andrés Tuxtla AC, Ver.",
-      "precipitacion_24h_mm": 0.9,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "Tlaquilpa, Ver.",
-      "precipitacion_24h_mm": 0.9,
+      "estacion": "ASUR, Ver.",
+      "precipitacion_24h_mm": 0.3,
       "estado": "Veracruz"
     },
     {
       "estacion": "Coatzacoalcos, Ver. SEMAR*",
-      "precipitacion_24h_mm": 0.8,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "Alamo Temapache, Ver.",
-      "precipitacion_24h_mm": 0.5,
+      "precipitacion_24h_mm": 0.3,
       "estado": "Veracruz"
     }
   ],
-  "numero_extraido": 18,
-  "numero_chiapas_interes": 40,
-  "numero_veracruz_interes": 15,
+  "numero_extraido": 8,
+  "numero_chiapas_interes": 9,
+  "numero_veracruz_interes": 10,
   "calidad": "preliminar_sujeta_a_revision"
 }
