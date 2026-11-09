@@ -1,13 +1,13 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-09T15:22:23.406508-06:00",
+  "run_local": "2026-11-09T16:12:57.738902-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-09T14:00:00-06:00",
   "messages_scanned": 28,
-  "levels_processed_now": 0,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
-  "pdfs_skipped_duplicate_content": 17,
+  "pdfs_skipped_duplicate_content": 16,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [
@@ -17,11 +17,19 @@
       "error": "RuntimeError: ERROR COMPAT: Error: No se pudo identificar la hora del corte.\n    at /home/runner/work/Agente-Hidrometeorologico-Cloud/Agente-Hidrometeorologico-Cloud/src/procesar_niveles.js:22:158"
     }
   ],
-  "busqueda": "por asunto (36 correos)",
-  "max_uid_asunto": 66810,
+  "busqueda": "por asunto (37 correos)",
+  "max_uid_asunto": 66815,
   "asuntos_locales_adicionales": 10,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "66815",
+      "fecha": "2026-11-09T16:07",
+      "asunto": "Informe de Niveles de las 16 hr",
+      "pdf": [
+        "Niveles del 09 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "66810",
       "fecha": "2026-11-09T14:51",
@@ -213,14 +221,14 @@
       "pdf": [
         "Niveles del 07 de Noviembre del 2026.pdf"
       ]
-    },
-    {
-      "uid": "66671",
-      "fecha": "2026-11-07T09:28",
-      "asunto": "Boletín Hidrométrico, Climatológico y de Presas , 07/11/2026",
-      "pdf": [
-        "Boletin 07-11-2026.pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-11-09T16:00:00-06:00",
+    "corte": "2026-11-09T16:00:00-06:00",
+    "estaciones": 70,
+    "observadas_24h": 64
+  }
 }
