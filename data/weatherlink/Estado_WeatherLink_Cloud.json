@@ -1,11 +1,11 @@
 {
   "agent": "WeatherLink Cloud",
-  "run_utc": "2026-11-10T15:01:15.035946+00:00",
-  "run_local": "2026-11-10T09:01:15.035946-06:00",
+  "run_utc": "2026-11-10T15:31:14.319616+00:00",
+  "run_local": "2026-11-10T09:31:14.319616-06:00",
   "stations_expected": 32,
-  "stations_ok": 30,
-  "stations_error": 2,
-  "coverage_hours_since_seed": 1604.99,
+  "stations_ok": 32,
+  "stations_error": 0,
+  "coverage_hours_since_seed": 1605.49,
   "window_maturity": {
     "1h": true,
     "6h": true,
@@ -15,17 +15,8 @@
     "96h": true,
     "120h": true
   },
-  "complete": false,
-  "errors": [
-    {
-      "estacion": "BERRIOZÁBAL PCIVILCHIAPAS",
-      "error": "ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))"
-    },
-    {
-      "estacion": "Yaxhá - INSIVUMEH PETEN",
-      "error": "ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))"
-    }
-  ],
+  "complete": true,
+  "errors": [],
   "source": "WeatherLink public map endpoint /map/data/station/{uuid}",
   "note": "Hoy (dailyRain) es acumulado desde medianoche. Las ventanas móviles se reconstruyen con incrementos observados. Si un cruce de medianoche no puede verificarse, la ventana afectada se conserva como mínimo observado (≥ valor), no como exacta ni como s/d. La incertidumbre se propaga coherentemente a 24/48/72/96/120 h mientras ese tramo permanezca dentro de cada ventana."
 }
