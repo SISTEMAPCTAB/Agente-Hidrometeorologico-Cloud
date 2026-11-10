@@ -2,162 +2,101 @@
   "fuente": "CONAGUA · Sistema de Información Hidrológica (SIH)",
   "producto": "Precipitaciones acumuladas últimas 24 h",
   "url": "https://sih.conagua.gob.mx/docs/precipitacion24horas.pdf",
-  "fecha_fuente": "2026-11-09",
+  "fecha_fuente": "2026-11-10",
   "hora_dato": "08:00",
-  "fecha_hora_dato": "2026-11-09T08:00:00-06:00",
+  "fecha_hora_dato": "2026-11-10T08:00:00-06:00",
   "periodo_fuente": "24 h anteriores a las 08:00 h",
-  "consultado_utc": "2026-11-10T17:31:23.000351+00:00",
-  "consultado_local": "2026-11-10T11:31:23.000351-06:00",
+  "consultado_utc": "2026-11-10T17:52:03.581130+00:00",
+  "consultado_local": "2026-11-10T11:52:03.581130-06:00",
   "fetch_variant": "normal",
   "resumen_tabasco": {
-    "promedio_mm": 4.33,
-    "numero_estaciones": 25,
-    "maxima_mm": 12.5,
-    "maxima_referencia": "Oxolotán, Tab. Tacotalpa"
+    "promedio_mm": 0.02,
+    "numero_estaciones": 40,
+    "maxima_mm": 0.7,
+    "maxima_referencia": "Sánchez Magallanes, Tab. SGT* Cárdenas"
   },
-  "estaciones_chiapas_interes": [
-    {
-      "estacion": "Cacaluta, Chis.",
-      "precipitacion_24h_mm": 0.2,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Siltepec, Chis. SGT*",
-      "precipitacion_24h_mm": 0.2,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Rómulo Calzada, Chis. CFE*",
-      "precipitacion_24h_mm": 0.2,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Chacamax, Chis. SGT*",
-      "precipitacion_24h_mm": 0.2,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Emiliano Zapata, Chis. CFE*",
-      "precipitacion_24h_mm": 0.1,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Palenque, Chis. SMN*",
-      "precipitacion_24h_mm": 0.1,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Cuilco, Chis. CFE*",
-      "precipitacion_24h_mm": 0.1,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "Zacatonal de Juárez, Chis. SGT*",
-      "precipitacion_24h_mm": 0.1,
-      "estado": "Chiapas"
-    },
-    {
-      "estacion": "El Escalón, Chis. SGT*",
-      "precipitacion_24h_mm": 0.1,
-      "estado": "Chiapas"
-    }
-  ],
+  "estaciones_chiapas_interes": [],
   "estaciones_tabasco": [
     {
-      "estacion": "Oxolotán, Tab.",
-      "precipitacion_24h_mm": 12.5,
+      "estacion": "Sánchez Magallanes, Tab. SGT*",
+      "precipitacion_24h_mm": 0.7,
       "estado": "Tabasco"
     },
     {
-      "estacion": "González, Tab. SGT*",
-      "precipitacion_24h_mm": 8.9,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Puente Tonalá , Tab. SGT*",
-      "precipitacion_24h_mm": 7.6,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Puyacatengo, Tab.",
-      "precipitacion_24h_mm": 5.1,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Teapa, Tab.",
-      "precipitacion_24h_mm": 4.5,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "González, Tab.",
-      "precipitacion_24h_mm": 1.5,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Tapijulapa, Tab.",
-      "precipitacion_24h_mm": 1.5,
-      "estado": "Tabasco"
-    },
-    {
-      "estacion": "Pantanos de Centla, Tab. SMN*",
-      "precipitacion_24h_mm": 0.1,
+      "estacion": "Boca del Cerro, Tab. SGT*",
+      "precipitacion_24h_mm": 0.4,
       "estado": "Tabasco"
     }
   ],
   "estaciones_veracruz_interes": [
     {
+      "estacion": "Poza Rica, Ver.",
+      "precipitacion_24h_mm": 12.0,
+      "estado": "Veracruz"
+    },
+    {
+      "estacion": "Planta de bombeo 3 de La Cangrejera, Ver.",
+      "precipitacion_24h_mm": 11.5,
+      "estado": "Veracruz"
+    },
+    {
+      "estacion": "Jaltipán, Ver.",
+      "precipitacion_24h_mm": 9.2,
+      "estado": "Veracruz"
+    },
+    {
+      "estacion": "Sihuapán, Ver.",
+      "precipitacion_24h_mm": 7.7,
+      "estado": "Veracruz"
+    },
+    {
+      "estacion": "Presa Tuxpango, Ver. SMN*",
+      "precipitacion_24h_mm": 6.2,
+      "estado": "Veracruz"
+    },
+    {
       "estacion": "Agua Dulce, Ver.",
-      "precipitacion_24h_mm": 14.0,
+      "precipitacion_24h_mm": 5.5,
       "estado": "Veracruz"
     },
     {
-      "estacion": "San José del Carmen, Ver.",
-      "precipitacion_24h_mm": 10.0,
+      "estacion": "Tuxpan CFE, Ver.",
+      "precipitacion_24h_mm": 5.0,
       "estado": "Veracruz"
     },
     {
-      "estacion": "Angel Rosario Cabada, Ver.",
-      "precipitacion_24h_mm": 2.2,
+      "estacion": "El Salado, Ver. SEMAR*",
+      "precipitacion_24h_mm": 1.8,
       "estado": "Veracruz"
     },
     {
-      "estacion": "Cuatotolapan, Ver.",
-      "precipitacion_24h_mm": 1.6,
+      "estacion": "Isla de Sacrificios, Ver. SEMAR*",
+      "precipitacion_24h_mm": 1.8,
       "estado": "Veracruz"
     },
     {
-      "estacion": "Tenochtitlán, Ver.",
-      "precipitacion_24h_mm": 1.0,
+      "estacion": "Briones, Ver.",
+      "precipitacion_24h_mm": 1.5,
       "estado": "Veracruz"
     },
     {
-      "estacion": "La Cangrejera, Ver.",
-      "precipitacion_24h_mm": 1.0,
+      "estacion": "Coatepec, Ver.",
+      "precipitacion_24h_mm": 1.5,
       "estado": "Veracruz"
     },
     {
-      "estacion": "Lauchapan, Ver.",
-      "precipitacion_24h_mm": 0.7,
+      "estacion": "Libertad, Ver.",
+      "precipitacion_24h_mm": 1.3,
       "estado": "Veracruz"
     },
     {
-      "estacion": "Otilpan, Ver.",
-      "precipitacion_24h_mm": 0.5,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "ASUR, Ver.",
-      "precipitacion_24h_mm": 0.3,
-      "estado": "Veracruz"
-    },
-    {
-      "estacion": "Coatzacoalcos, Ver. SEMAR*",
-      "precipitacion_24h_mm": 0.3,
+      "estacion": "Observatorio de Coatzacoalcos, Ver.",
+      "precipitacion_24h_mm": 1.2,
       "estado": "Veracruz"
     }
   ],
-  "numero_extraido": 8,
-  "numero_chiapas_interes": 9,
-  "numero_veracruz_interes": 10,
+  "numero_extraido": 2,
+  "numero_chiapas_interes": 0,
+  "numero_veracruz_interes": 13,
   "calidad": "preliminar_sujeta_a_revision"
 }
