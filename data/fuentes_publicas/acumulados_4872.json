@@ -1,8 +1,8 @@
 {
-  "generated_utc": "2026-11-12T15:46:15.871951+00:00",
+  "generated_utc": "2026-11-12T16:46:15.946504+00:00",
   "regla": "48 h y 72 h sólo se forman con ventanas de 24 h asociadas a cortes fuente distintos de INSIVUMEH, separados aproximadamente 24 h. La hora de consulta del agente nunca sustituye al corte fuente. Si falta una ventana verificable, se conserva s/d.",
   "tolerancia_historica_min": 120,
-  "insivumeh_corte_fuente_actual": "11/Nov/2026 20:00",
+  "insivumeh_corte_fuente_actual": "12/Nov/2026 10:00",
   "insivumeh_corte_fuente_valido": true,
   "insivumeh": [
     {
@@ -13,19 +13,19 @@
       "precipitacion_72h_mm": 37.5,
       "componentes": {
         "actual": {
-          "corte_fuente": "11/Nov/2026 20:00",
-          "corte_utc": "2026-11-12T02:00:00+00:00",
-          "consultado_utc": "2026-11-12T02:02:17.142044+00:00",
+          "corte_fuente": "12/Nov/2026 10:00",
+          "corte_utc": "2026-11-12T16:00:00+00:00",
+          "consultado_utc": "2026-11-12T16:02:15.440726+00:00",
           "mm": 12.5
         },
         "menos_24h": {
-          "corte_fuente": "10/Nov/2026 20:00",
-          "corte_utc": "2026-11-11T02:00:00+00:00",
+          "corte_fuente": "11/Nov/2026 12:00",
+          "corte_utc": "2026-11-11T18:00:00+00:00",
           "mm": 12.5
         },
         "menos_48h": {
-          "corte_fuente": "09/Nov/2026 20:00",
-          "corte_utc": "2026-11-10T02:00:00+00:00",
+          "corte_fuente": "10/Nov/2026 10:00",
+          "corte_utc": "2026-11-10T16:00:00+00:00",
           "mm": 12.5
         }
       }
@@ -33,25 +33,25 @@
     {
       "codigo": "INS161201CV",
       "estacion": "Santa María Cahabón",
-      "precipitacion_24h_mm": 0.0,
-      "precipitacion_48h_mm": 0.0,
-      "precipitacion_72h_mm": 13.0,
+      "precipitacion_24h_mm": 18.9,
+      "precipitacion_48h_mm": 18.9,
+      "precipitacion_72h_mm": 18.9,
       "componentes": {
         "actual": {
-          "corte_fuente": "11/Nov/2026 20:00",
-          "corte_utc": "2026-11-12T02:00:00+00:00",
-          "consultado_utc": "2026-11-12T02:02:17.142044+00:00",
-          "mm": 0.0
+          "corte_fuente": "12/Nov/2026 10:00",
+          "corte_utc": "2026-11-12T16:00:00+00:00",
+          "consultado_utc": "2026-11-12T16:02:15.440726+00:00",
+          "mm": 18.9
         },
         "menos_24h": {
-          "corte_fuente": "10/Nov/2026 20:00",
-          "corte_utc": "2026-11-11T02:00:00+00:00",
+          "corte_fuente": "11/Nov/2026 12:00",
+          "corte_utc": "2026-11-11T18:00:00+00:00",
           "mm": 0.0
         },
         "menos_48h": {
-          "corte_fuente": "09/Nov/2026 20:00",
-          "corte_utc": "2026-11-10T02:00:00+00:00",
-          "mm": 13.0
+          "corte_fuente": "10/Nov/2026 10:00",
+          "corte_utc": "2026-11-10T16:00:00+00:00",
+          "mm": 0.0
         }
       }
     },
@@ -63,94 +63,69 @@
       "precipitacion_72h_mm": 10.8,
       "componentes": {
         "actual": {
-          "corte_fuente": "11/Nov/2026 20:00",
-          "corte_utc": "2026-11-12T02:00:00+00:00",
-          "consultado_utc": "2026-11-12T02:02:17.142044+00:00",
+          "corte_fuente": "12/Nov/2026 10:00",
+          "corte_utc": "2026-11-12T16:00:00+00:00",
+          "consultado_utc": "2026-11-12T16:02:15.440726+00:00",
           "mm": 3.6
         },
         "menos_24h": {
-          "corte_fuente": "10/Nov/2026 20:00",
-          "corte_utc": "2026-11-11T02:00:00+00:00",
+          "corte_fuente": "11/Nov/2026 12:00",
+          "corte_utc": "2026-11-11T18:00:00+00:00",
           "mm": 3.6
         },
         "menos_48h": {
-          "corte_fuente": "09/Nov/2026 20:00",
-          "corte_utc": "2026-11-10T02:00:00+00:00",
+          "corte_fuente": "10/Nov/2026 10:00",
+          "corte_utc": "2026-11-10T16:00:00+00:00",
           "mm": 3.6
-        }
-      }
-    },
-    {
-      "codigo": "INS171302AT",
-      "estacion": "El Tigre",
-      "precipitacion_24h_mm": 4.3,
-      "precipitacion_48h_mm": 4.3,
-      "precipitacion_72h_mm": 4.6,
-      "componentes": {
-        "actual": {
-          "corte_fuente": "11/Nov/2026 20:00",
-          "corte_utc": "2026-11-12T02:00:00+00:00",
-          "consultado_utc": "2026-11-12T02:02:17.142044+00:00",
-          "mm": 4.3
-        },
-        "menos_24h": {
-          "corte_fuente": "10/Nov/2026 20:00",
-          "corte_utc": "2026-11-11T02:00:00+00:00",
-          "mm": 0.0
-        },
-        "menos_48h": {
-          "corte_fuente": "09/Nov/2026 20:00",
-          "corte_utc": "2026-11-10T02:00:00+00:00",
-          "mm": 0.3
         }
       }
     },
     {
       "codigo": "INS171001AT",
       "estacion": "El Porvenir",
-      "precipitacion_24h_mm": 2.0,
-      "precipitacion_48h_mm": 2.0,
-      "precipitacion_72h_mm": 2.1,
+      "precipitacion_24h_mm": 2.8,
+      "precipitacion_48h_mm": 4.8,
+      "precipitacion_72h_mm": 4.8,
       "componentes": {
         "actual": {
-          "corte_fuente": "11/Nov/2026 20:00",
-          "corte_utc": "2026-11-12T02:00:00+00:00",
-          "consultado_utc": "2026-11-12T02:02:17.142044+00:00",
-          "mm": 2.0
+          "corte_fuente": "12/Nov/2026 10:00",
+          "corte_utc": "2026-11-12T16:00:00+00:00",
+          "consultado_utc": "2026-11-12T16:02:15.440726+00:00",
+          "mm": 2.8
         },
         "menos_24h": {
-          "corte_fuente": "10/Nov/2026 20:00",
-          "corte_utc": "2026-11-11T02:00:00+00:00",
-          "mm": 0.0
+          "corte_fuente": "11/Nov/2026 12:00",
+          "corte_utc": "2026-11-11T18:00:00+00:00",
+          "mm": 2.0
         },
         "menos_48h": {
-          "corte_fuente": "09/Nov/2026 20:00",
-          "corte_utc": "2026-11-10T02:00:00+00:00",
-          "mm": 0.1
+          "corte_fuente": "10/Nov/2026 10:00",
+          "corte_utc": "2026-11-10T16:00:00+00:00",
+          "mm": 0.0
         }
       }
     },
     {
       "codigo": "INS171301AT",
       "estacion": "Bethel",
-      "precipitacion_24h_mm": 14.7,
-      "precipitacion_48h_mm": 14.7,
-      "precipitacion_72h_mm": 14.7,
+      "precipitacion_24h_mm": 4.8,
+      "precipitacion_48h_mm": 19.5,
+      "precipitacion_72h_mm": 19.5,
       "componentes": {
         "actual": {
-          "corte_fuente": "11/Nov/2026 20:00",
-          "corte_utc": "2026-11-12T02:00:00+00:00",
-          "consultado_utc": "2026-11-12T02:02:17.142044+00:00",
-          "mm": 14.7
+          "corte_fuente": "12/Nov/2026 10:00",
+          "corte_utc": "2026-11-12T16:00:00+00:00",
+          "consultado_utc": "2026-11-12T16:02:15.440726+00:00",
+          "mm": 4.8
         },
         "menos_24h": {
-          "corte_fuente": "10/Nov/2026 20:00",
-          "corte_utc": "2026-11-11T02:00:00+00:00",
-          "mm": 0.0
+          "corte_fuente": "11/Nov/2026 12:00",
+          "corte_utc": "2026-11-11T18:00:00+00:00",
+          "mm": 14.7
         },
         "menos_48h": {
-          "corte_fuente": "09/Nov/2026 20:00",
-          "corte_utc": "2026-11-10T02:00:00+00:00",
+          "corte_fuente": "10/Nov/2026 10:00",
+          "corte_utc": "2026-11-10T16:00:00+00:00",
           "mm": 0.0
         }
       }
@@ -158,74 +133,74 @@
     {
       "codigo": "INS171201AT",
       "estacion": "Machaquilá",
-      "precipitacion_24h_mm": 12.7,
-      "precipitacion_48h_mm": 13.1,
-      "precipitacion_72h_mm": 22.5,
+      "precipitacion_24h_mm": 16.5,
+      "precipitacion_48h_mm": 29.2,
+      "precipitacion_72h_mm": 29.6,
       "componentes": {
         "actual": {
-          "corte_fuente": "11/Nov/2026 20:00",
-          "corte_utc": "2026-11-12T02:00:00+00:00",
-          "consultado_utc": "2026-11-12T02:02:17.142044+00:00",
-          "mm": 12.7
+          "corte_fuente": "12/Nov/2026 10:00",
+          "corte_utc": "2026-11-12T16:00:00+00:00",
+          "consultado_utc": "2026-11-12T16:02:15.440726+00:00",
+          "mm": 16.5
         },
         "menos_24h": {
-          "corte_fuente": "10/Nov/2026 20:00",
-          "corte_utc": "2026-11-11T02:00:00+00:00",
-          "mm": 0.4
+          "corte_fuente": "11/Nov/2026 12:00",
+          "corte_utc": "2026-11-11T18:00:00+00:00",
+          "mm": 12.7
         },
         "menos_48h": {
-          "corte_fuente": "09/Nov/2026 20:00",
-          "corte_utc": "2026-11-10T02:00:00+00:00",
-          "mm": 9.4
+          "corte_fuente": "10/Nov/2026 10:00",
+          "corte_utc": "2026-11-10T16:00:00+00:00",
+          "mm": 0.4
         }
       }
     },
     {
       "codigo": "INS170401AT",
       "estacion": "Mactún",
-      "precipitacion_24h_mm": 5.2,
-      "precipitacion_48h_mm": 5.4,
-      "precipitacion_72h_mm": 7.4,
+      "precipitacion_24h_mm": 0.0,
+      "precipitacion_48h_mm": 5.2,
+      "precipitacion_72h_mm": 5.4,
       "componentes": {
         "actual": {
-          "corte_fuente": "11/Nov/2026 20:00",
-          "corte_utc": "2026-11-12T02:00:00+00:00",
-          "consultado_utc": "2026-11-12T02:02:17.142044+00:00",
-          "mm": 5.2
+          "corte_fuente": "12/Nov/2026 10:00",
+          "corte_utc": "2026-11-12T16:00:00+00:00",
+          "consultado_utc": "2026-11-12T16:02:15.440726+00:00",
+          "mm": 0.0
         },
         "menos_24h": {
-          "corte_fuente": "10/Nov/2026 20:00",
-          "corte_utc": "2026-11-11T02:00:00+00:00",
-          "mm": 0.2
+          "corte_fuente": "11/Nov/2026 12:00",
+          "corte_utc": "2026-11-11T18:00:00+00:00",
+          "mm": 5.2
         },
         "menos_48h": {
-          "corte_fuente": "09/Nov/2026 20:00",
-          "corte_utc": "2026-11-10T02:00:00+00:00",
-          "mm": 2.0
+          "corte_fuente": "10/Nov/2026 10:00",
+          "corte_utc": "2026-11-10T16:00:00+00:00",
+          "mm": 0.2
         }
       }
     },
     {
       "codigo": "INS161301AT",
       "estacion": "Chixoy Hidro",
-      "precipitacion_24h_mm": 0.8,
-      "precipitacion_48h_mm": 0.8,
-      "precipitacion_72h_mm": 0.8,
+      "precipitacion_24h_mm": 17.1,
+      "precipitacion_48h_mm": 17.9,
+      "precipitacion_72h_mm": 17.9,
       "componentes": {
         "actual": {
-          "corte_fuente": "11/Nov/2026 20:00",
-          "corte_utc": "2026-11-12T02:00:00+00:00",
-          "consultado_utc": "2026-11-12T02:02:17.142044+00:00",
-          "mm": 0.8
+          "corte_fuente": "12/Nov/2026 10:00",
+          "corte_utc": "2026-11-12T16:00:00+00:00",
+          "consultado_utc": "2026-11-12T16:02:15.440726+00:00",
+          "mm": 17.1
         },
         "menos_24h": {
-          "corte_fuente": "10/Nov/2026 20:00",
-          "corte_utc": "2026-11-11T02:00:00+00:00",
-          "mm": 0.0
+          "corte_fuente": "11/Nov/2026 12:00",
+          "corte_utc": "2026-11-11T18:00:00+00:00",
+          "mm": 0.8
         },
         "menos_48h": {
-          "corte_fuente": "09/Nov/2026 20:00",
-          "corte_utc": "2026-11-10T02:00:00+00:00",
+          "corte_fuente": "10/Nov/2026 10:00",
+          "corte_utc": "2026-11-10T16:00:00+00:00",
           "mm": 0.0
         }
       }
