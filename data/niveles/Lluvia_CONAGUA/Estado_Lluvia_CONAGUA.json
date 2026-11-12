@@ -19,5 +19,9 @@
     "ceros_explicitos_24h": 52,
     "ceros_explicitos_hoy": 56
   },
-  "diagnostic": null
+  "diagnostic": null,
+  "run_utc": "2026-11-12T16:02:51.810428+00:00",
+  "status": "fuente_temporalmente_no_disponible",
+  "warning": "No se pudo consultar un reporte reciente de CONAGUA en esta ejecución. principal: ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7de1a439fb60>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=12)')); fuente1: ConnectTimeout: HTTPSConnectionPool(host='correo.tabasco.gob.mx', port=443): Max retries exceeded with url: /service/soap (Caused by ConnectTimeoutError(<HTTPSConnection(host='correo.tabasco.gob.mx', port=443) at 0x7de1a439ea80>, 'Connection to correo.tabasco.gob.mx timed out. (connect timeout=12)'))",
+  "regla": "Se conserva el último dato válido; ausencia de fuente nunca equivale a cero."
 }
