@@ -1,0 +1,54 @@
+name: Satélite GOES - lluvia y temperatura de superficie
+
+# 13-nov-2026: lluvia (RRQPEF, 10 min) y temperatura de superficie (LSTF, horaria) de GOES-19 para las isoyetas e isotermas del modelo.
+# El estado (72 h de lluvia por hora) va en la caché de Actions; la salida va a la rama "satelite" sin historial (no crece el repositorio).
+on:
+  schedule:
+    - cron: '25 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: satelite-goes
+  cancel-in-progress: false
+
+jobs:
+  goes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependencias
+        run: pip install --disable-pip-version-check --no-cache-dir requests h5py numpy
+      - name: Recuperar estado
+        uses: actions/cache/restore@v4
+        with:
+          path: estado_goes
+          key: goes-estado-${{ github.run_id }}
+          restore-keys: goes-estado-
+      - name: Bajar y recortar GOES-19
+        run: python src/satelite_goes.py estado_goes salida/goes_latest.json
+      - name: Guardar estado
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: estado_goes
+          key: goes-estado-${{ github.run_id }}
+      - name: Publicar en la rama satelite (sin historial)
+        shell: bash
+        run: |
+          set -e
+          cd salida
+          git init -q -b satelite
+          git config user.name "Agente Satelite GOES"
+          git config user.email "actions@users.noreply.github.com"
+          git add goes_latest.json
+          git commit -q -m "GOES-19 $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]"
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" satelite
