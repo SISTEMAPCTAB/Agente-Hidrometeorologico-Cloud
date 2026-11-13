@@ -112,6 +112,14 @@ jobs:
           print(f"WeatherLink validado: {s['stations_ok']}/32; fallas aisladas: {s['stations_error']}; corte reciente.")
           PY
 
+      - name: Actualizar resumen de temperaturas máximas del día
+        if: steps.freshness.outputs.stale == 'true'
+        shell: bash
+        run: |
+          # 13-nov-2026: lo hacía weatherlink-cloud.yml (ahora sólo manual); sin este paso el resumen quedó en el 7-oct-2026.
+          # Si falla, no se detiene la publicación de WeatherLink: se conserva el resumen anterior.
+          python src/temperature_summary.py || { echo "Aviso: falló el resumen térmico; se conserva el anterior."; git checkout -- data/weatherlink/temperature_state.json data/weatherlink/temperature_summary.json; }
+
       - name: Publicar sólo productos WeatherLink vigentes
         if: steps.freshness.outputs.stale == 'true'
         shell: bash
@@ -127,6 +135,8 @@ jobs:
             data/weatherlink/extra_latest.json
             data/weatherlink/Tabla_WeatherLink_Cloud.csv
             data/weatherlink/Estado_WeatherLink_Cloud.json
+            data/weatherlink/temperature_state.json
+            data/weatherlink/temperature_summary.json
           )
 
           if [ "${{ steps.collect.outputs.extra_ok }}" != "true" ]; then

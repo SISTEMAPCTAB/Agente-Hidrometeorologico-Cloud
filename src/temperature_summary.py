@@ -5,6 +5,7 @@ from zoneinfo import ZoneInfo
 
 MX_TZ = ZoneInfo("America/Mexico_City")
 LATEST = Path("data/weatherlink/latest.json")
+EXTRA = Path("data/weatherlink/extra_latest.json")   # 8 estaciones adicionales (13-nov-2026)
 STATE = Path("data/weatherlink/temperature_state.json")
 OUTPUT = Path("data/weatherlink/temperature_summary.json")
 MAX_CURRENT_AGE_SECONDS = 7200
@@ -48,6 +49,8 @@ def territory(location):
         return "Tabasco"
     if "chiapas" in s:
         return "Chiapas"
+    if "camp" in s or "carmen" in s:
+        return "Campeche"
     if "pet" in s or "guatemala" in s:
         return "Guatemala/Petén"
     return "Otra ubicación"
@@ -97,7 +100,10 @@ def main():
 
     excluded = []
     valid_current = 0
-    for st in latest.get("stations", []):
+    extra = load(EXTRA, {})
+    for st in latest.get("stations", []) + extra.get("stations", []):
+        if str(st.get("estado") or "").lower().startswith("dato rezagado"):
+            excluded.append({"estacion": st.get("nombre"), "motivo": "edad_mayor_2h"}); continue
         name = st.get("nombre")
         if not name:
             continue
