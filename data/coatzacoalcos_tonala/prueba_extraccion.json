@@ -1,54 +1,19 @@
 {
-  "checked_at_utc": "2026-11-13T08:33:46.774971+00:00",
+  "checked_at_utc": "2026-11-13T20:57:39.069377+00:00",
   "source_page": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
   "discovery": {
     "http": 200,
     "transport": "reader",
     "url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
-    "request_url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia?_ipcet=1794558826",
+    "request_url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia?_ipcet=1794603459",
     "candidates": 8,
-    "browser_network_urls": [
-      "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia?_ipcet=1794558833",
-      "https://www.gob.mx/jAbgtfFjL90PQk3iM_fB/VmOp/NSI_DCcC/fgB/nHxwQMz4t",
-      "https://www.gob.mx/jAbgtfFjL90PQk3iM_fB/VmOp/NSI_DCcC/PV4/lBkJPTCFY",
-      "https://www.gob.mx/jAbgtfFjL90PQk3iM_fB/VmOp/NSI_DCcC/SFM/iRy8mYEYCAQ",
-      "https://www.gob.mx/jAbgtfFjL90PQk3iM_fB/VmOp/NSI_DCcC/C30/AGlAfY2tX",
-      "https://s.go-mpulse.net/boomerang/948VY-ZM68F-X7Y7K-BEYVV-MSV5F",
-      "https://www.gob.mx/jAbgtfFjL90PQk3iM_fB/VmOp/NSI_DCcC/KG9/sLnYwThYAAQ",
-      "https://www.gob.mx/jAbgtfFjL90PQk3iM_fB/VmOp/NSI_DCcC/YVw/hAkJTUEdY",
-      "https://www.gob.mx/jAbgtfFjL90PQk3iM_fB/VmOp/NSI_DCcC/SQl/7Mxx7Hn4r",
-      "https://c.go-mpulse.net/api/config.json?key=948VY-ZM68F-X7Y7K-BEYVV-MSV5F&d=www.gob.mx&t=5981863&v=1.571.0&if=&sl=0&si=lpzk0ambtth-NaN&plugins=AK,ConfigOverride,Continuity,PageParams,IFrameDelay,AutoXHR,SPA,Angular,Backbone,Ember,History,RT,CrossDomain,BW,PaintTiming,NavigationTiming,ResourceTiming,Memory,CACHE_RELOAD,Errors,TPAnalytics,UserTiming,LOGN&acao=",
-      "https://c.go-mpulse.net/api/config.json?key=948VY-ZM68F-X7Y7K-BEYVV-MSV5F&d=www.gob.mx&t=5981863&v=1.571.0&if=&sl=0&si=wq8y9wiyrx-NaN&plugins=AK,ConfigOverride,Continuity,PageParams,IFrameDelay,AutoXHR,SPA,Angular,Backbone,Ember,History,RT,CrossDomain,BW,PaintTiming,NavigationTiming,ResourceTiming,Memory,CACHE_RELOAD,Errors,TPAnalytics,UserTiming,LOGN&acao=",
-      "https://www.gob.mx/_sec/verify?provider=crypto"
-    ],
-    "browser_links": [],
-    "browser_matutino_snippets": [],
-    "browser_render": true,
     "publicaciones_selects": [],
     "publicaciones_buttons": [],
-    "filename_probe_windows": [
-      {
-        "date": "2026-11-13",
-        "from": 1115798,
-        "to": 1117237,
-        "predicted": 1116337,
-        "daily_rate": 270,
-        "base_date": "2026-11-11",
-        "base_id": 1115797
-      },
-      {
-        "date": "2026-11-12",
-        "from": 1115798,
-        "to": 1116967,
-        "predicted": 1116067,
-        "daily_rate": 270,
-        "base_date": "2026-11-11",
-        "base_id": 1115797
-      }
-    ],
+    "filename_probe_windows": [],
     "matutino_candidates": [
+      "https://www.gob.mx/cms/uploads/attachment/file/1116452/Informe_Matutino_13112026.pdf",
+      "https://www.gob.mx/cms/uploads/attachment/file/1116453/Mapa_Matutino_13112026.pdf",
       "https://www.gob.mx/cms/uploads/attachment/file/1115796/Informe_Matutino_11112026.pdf",
-      "https://www.gob.mx/cms/uploads/attachment/file/1115797/Mapa_Matutino_11112026.pdf",
       "https://www.gob.mx/cms/uploads/attachment/file/1115578/Informe_Matutino_10112026.pdf",
       "https://www.gob.mx/cms/uploads/attachment/file/1115120/Informe_Matutino_06112026.pdf",
       "https://www.gob.mx/cms/uploads/attachment/file/1114403/Informe_Matutino_04112026.pdf",
@@ -57,36 +22,39 @@
       "https://www.gob.mx/cms/uploads/attachment/file/1108510/Informe_Matutino_13102026.pdf",
       "https://www.gob.mx/cms/uploads/attachment/file/1107378/Informe_Matutino_07102026.pdf",
       "https://www.gob.mx/cms/uploads/attachment/file/1107114/Informe_Matutino_06102026.pdf",
-      "https://www.gob.mx/cms/uploads/attachment/file/1106630/Informe_Matutino_02102026.pdf",
-      "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf"
+      "https://www.gob.mx/cms/uploads/attachment/file/1106630/Informe_Matutino_02102026.pdf"
     ]
   },
   "reports": {
     "matutino": [
       {
-        "url": "https://www.gob.mx/cms/uploads/attachment/file/1115796/Informe_Matutino_11112026.pdf",
-        "transport": "reader",
-        "http": 403,
-        "bytes": 21804,
-        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1115796/Informe_Matutino_11112026.pdf",
-        "document_header": "Title: Informe_Matutino_11112026.pdf  URL Source: http://www.gob.mx/cms/uploads/attachment/file/1115796/Informe_Matutino_11112026.pdf  Final URL: https://www.gob.mx/cms/uploads/attachment/file/1115796/Informe_Matutino_11112026.pdf  Published Time: Wed, 11 Nov 2026 19:56:41 GMT  Number of Pages: 6  Markdown Content: Xalapa, Veracruz  JEFATURA DE PROYECTO DE HIDROMETEOROLOGÍA  DIRECCIÓN TÉCNICA  ORGANISMO DE CUENCA GOLFO CENTRO  miércoles, 11 de noviembre de 2026  COMISIÓN NACIONAL DEL AGUA  > N.A.M.E. N.A.M.O. N.A.M.E. N.A.M.O. Ayer Hoy Ayer Hoy Entrada Salida  Los Reyes  29.263  24.031  2,167.000  2,165.000  13.866  13.887  57.8  2160.75  2160.76  0.243  0.000  La Laguna  49.227  40.638  2,184.500  2,183.000  20.990  21.133  52.0  2179.30  2179.33  1.655  0.000  Necaxa  38.860  29.055  1,342.870  1,338.000  25.567  25.168  86.6  1336.12  1335.90  20.550  25.168  Nexapa  15.755  12.500  1,362.350  1,360.000  13.068  13.068  104.5  1360.41  1360.41  3.500  3.500  Tenango  35.339  28.480  1,347.970  1,345.600  22.578  22.206  78.0  1343.34  1343.19  3.794  8.100  La Soledad  14.980  13.900  805.000  804.500  4.146  4.522  32.5  799.30  798.39  > Subtotal 183.424 148.604 100.215 99.984  - - -  Miguel Alemán  > (Temascal)  9,105.540  8,119.090  68.500  66.500  4,875.680  4,883.160  60.1  58.88  58.90  339.144  252.570  > Miguel de la Madrid (Cerro de Oro)  3,547.160  2,599.510  70.010  64.860  1,719.250  1,714.020  65.9  59.07  59.03  - 36.180  > Subtotal 12,652.700 10,718.600 6,594.930 6,597.180 61.5%  - - -  Chicayan  572.348  456.920  28.280  26.900  249.438  249.438  54.6  23.63  23.63  -  El Moralillo (Derivadora)  8.126  2.500  115.940  110.780  2.547  2.547  101.9  110.85  110.85  1.206  1.206  El Encanto (Derivadora)  0.250  0.233  333.250  323.000  - - - 323.30  323.30  - -  Tuxpango (Derivadora)  - - 985.800  981.900  - - - 979.90  979.90  - -  Canseco  > (Laguna de Catemaco)  552.700  493.020  333.500  332.700  480.508  479.036  97.2  332.53  332.51  31.600  17.065  21.650  19.430  18.787  18.504  108.4  19.74  19.69  - 2.737  31.600  28.537  21.650  21.25 * 18.787  18.504  64.8  19.74  19.69  - 2.737  > Subtotal 1,196.794 998.415 770.067 768.029  Total  14,032.918  11,865.619  7,465.212  7,465.193  > Hidalgo Puebla  Cuenca del Papaloapan  Cuencas del Pánuco, Tuxpan, Papaloapan y Coatzacoalcos  > Veracruz  La Cangrejera  > *N.A.M.O. respecto al Rubber ",
-        "reader_text": true,
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1116452/Informe_Matutino_13112026.pdf",
+        "transport": "direct",
+        "http": 200,
+        "bytes": 813007,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1116452/Informe_Matutino_13112026.pdf",
+        "pages": 6,
+        "document_header": "COMISIÓN NACIONAL DEL AGUA\nORGANISMO DE CUENCA GOLFO CENTRO\nDIRECCIÓN TÉCNICA\nJEFATURA DE PROYECTO DE HIDROMETEOROLOGÍA\nXalapa, Veracruz viernes, 13 de noviembre de 2026\nE\nst\na d o Presa\nN.A\nC\n.M\nap\n.\na\nE\n( c\n.\nM id m ad ³\nN\n) t\n.\no\nA\nt\n.\na\nM\nl\n.O. N\nN\n.\ni c\nA\nv a e\n.\np\nM\nl a c\n.\nc o\nE\ni n\n.\nd a r d es t p o\nN\ne t c a\n.A\nt l o\n.\n(\nM\nm a\n.\n) s\nO\nu\n. Ay\nA\ne\nlm\nr\nac (M en m am ³) ien\nH\nto\noy\nN\n%\n. A\nA\n.\na l\nM\nm l a\n.O\nc.\n.\nAyer\nNi ( v m el ) es\nHoy\nTendencia\nEntr\nG\nad\na\na\nstos (m3/\nS\ns\na\n)\nlida\nCuenca del Tecolutla\no Los Reyes 29.263 24.031 2,167.",
         "station_rows": [
           {
-            "row_text": "San José del Carmen  Ver.  Tonalá  Río Tonalá  4.71  2.86  2.82  - -1.89",
-            "page_text_method": "reader"
+            "row_text": "San José del Carmen Ver. Tonalá Río Tonalá 4.71 2.90 3.00 - -1.71",
+            "page_text_method": "pdfplumber"
           },
           {
-            "row_text": "Agua Dulce  Ver.  Tonalá  Río Aguadulcita  6.32  2.30  2.30  - -4.02",
-            "page_text_method": "reader"
+            "row_text": "Agua Dulce Ver. Tonalá Río Aguadulcita 6.32 2.30 2.30 - -4.02",
+            "page_text_method": "pdfplumber"
           },
           {
-            "row_text": "San José del Carmen  Ver.  Tonalá  0.0  31.0  18.0  24.5  2.95  12.0  2,033.5",
-            "page_text_method": "reader"
+            "row_text": "San José del Carmen Ver. Tonalá 12.0 30.0 17.5 23.8 2.57 27.5 2,049.0",
+            "page_text_method": "pdfplumber"
           },
           {
-            "row_text": "Agua Dulce (Centro)  Ver.  Tonala  0.0  - - - - 56.5  1,673.8",
-            "page_text_method": "reader"
+            "row_text": "Agua Dulce (Centro) Ver. Tonala 24.4 - - - - 80.9 1,698.2",
+            "page_text_method": "pdfplumber"
+          },
+          {
+            "row_text": "Misantla, Ver. Misantla Misantla 31.1 Las Choapas, Ver. San José del Carmen Tonalá 30.0",
+            "page_text_method": "pdfplumber"
           }
         ],
         "extraction_status": "Filas recuperadas; columnas numéricas pendientes de validación"
