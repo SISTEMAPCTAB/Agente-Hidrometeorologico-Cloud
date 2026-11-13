@@ -138,6 +138,9 @@ jobs:
             data/weatherlink/temperature_state.json
             data/weatherlink/temperature_summary.json
           )
+          # 13-nov-2026: máximas del día anterior (las crea temperature_summary.py al cambiar de día; las lee el modelo)
+          [ -f data/weatherlink/temperature_summary_ayer.json ] && PRODUCTOS+=(data/weatherlink/temperature_summary_ayer.json)
+          [ -d data/weatherlink/temperatura_maxima ] && PRODUCTOS+=(data/weatherlink/temperatura_maxima)
 
           if [ "${{ steps.collect.outputs.extra_ok }}" != "true" ]; then
             PRODUCTOS_FILTRADOS=()

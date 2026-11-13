@@ -8,6 +8,8 @@ LATEST = Path("data/weatherlink/latest.json")
 EXTRA = Path("data/weatherlink/extra_latest.json")   # 8 estaciones adicionales (13-nov-2026)
 STATE = Path("data/weatherlink/temperature_state.json")
 OUTPUT = Path("data/weatherlink/temperature_summary.json")
+AYER = Path("data/weatherlink/temperature_summary_ayer.json")      # 13-nov-2026: lo lee el modelo (mapa "Máxima de ayer")
+ARCHIVO = Path("data/weatherlink/temperatura_maxima")               # un archivo por día
 MAX_CURRENT_AGE_SECONDS = 7200
 
 
@@ -96,6 +98,12 @@ def main():
     now = datetime.now(MX_TZ)
     day = now.strftime("%Y-%m-%d")
     if state.get("date_local") != day:
+        # 13-nov-2026: antes de reiniciar, guardar las máximas del día que termina (el modelo las muestra como "Máxima de ayer")
+        prev = load(OUTPUT, {})
+        if prev.get("date_local") and prev.get("date_local") == state.get("date_local") and prev.get("stations"):
+            prev["nota_ayer"] = "Último resumen del día " + prev["date_local"] + " (máximas WeatherLink del día completo hasta la última corrida)."
+            save(AYER, prev)
+            save(ARCHIVO / (prev["date_local"] + ".json"), prev)
         state = {"date_local": day, "stations": {}}
 
     excluded = []
@@ -141,6 +149,8 @@ def main():
             rec["max_heat_basis"] = basis
         rec["territory"] = territory(st.get("ubicacion"))
         rec["ubicacion"] = st.get("ubicacion")
+        rec["latitude"] = st.get("latitude")      # 13-nov-2026: para el mapa de máximas del modelo
+        rec["longitude"] = st.get("longitude")
         rec["last_valid_time"] = obs_time
 
     rows = []
