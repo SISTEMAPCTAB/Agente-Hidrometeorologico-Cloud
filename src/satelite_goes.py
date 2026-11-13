@@ -112,6 +112,14 @@ def main():
             cnt = horas.get(hk + '#n', np.zeros(1)); horas[hk + '#n'] = cnt + 1
             hechos.add(k); nuevos += 1
         t += dt.timedelta(hours=1)
+    if nuevos == 0 and not horas:     # diagnóstico: qué productos ABI-L2 hay en el depósito
+        for b in ('noaa-goes19', 'noaa-goes18', 'noaa-goes16'):
+            try:
+                r = requests.get(f'https://{b}.s3.amazonaws.com/?list-type=2&delimiter=/&prefix=ABI-L2-R', timeout=60)
+                print(b, re.findall(r'<Prefix>([^<]+)</Prefix>', r.text)[:20])
+                r = requests.get(f'https://{b}.s3.amazonaws.com/?list-type=2&prefix=ABI-L2-RRQPEF/{ahora:%Y}/{ahora.timetuple().tm_yday:03d}/&max-keys=3', timeout=60)
+                print(b, 'RRQPEF hoy:', re.findall(r'<Key>([^<]+)</Key>', r.text)[:3])
+            except Exception as e: print(b, e)
     hechos = {k for k in hechos if inicio(k) >= corte}
     np.savez_compressed(estf, horas=np.array(horas, dtype=object), hechos=np.array(sorted(hechos)))
     hs = sorted(k for k in horas if '#' not in k)
