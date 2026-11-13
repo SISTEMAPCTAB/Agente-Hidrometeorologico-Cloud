@@ -1,11 +1,11 @@
 {
   "date_local": "2026-11-13",
-  "updated_local": "2026-11-13T06:21:29.939594-06:00",
+  "updated_local": "2026-11-13T06:51:27.641403-06:00",
   "units": {
     "temperature": "°C",
     "heat_index": "°C"
   },
-  "current_valid_stations": 23,
+  "current_valid_stations": 24,
   "current_excluded_stations": [
     {
       "estacion": "ACALA PCIVILCHIAPAS",
@@ -48,10 +48,6 @@
       "motivo": "edad_mayor_2h"
     },
     {
-      "estacion": "PALENQUE PCIVILCHIAPAS",
-      "motivo": "sin_temperatura"
-    },
-    {
       "estacion": "PICHUCALCO PCIVILCHIAPAS",
       "motivo": "edad_mayor_2h"
     },
@@ -87,7 +83,7 @@
       "max_heat_basis": "Índice de calor",
       "territory": "Campeche",
       "ubicacion": "Ciudad del Carmen, Camp., Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:21 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
       "nivel_riesgo_max": "Precaución"
     },
     {
@@ -99,7 +95,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Villahermosa, Tab., Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:20 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:50 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -111,7 +107,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Otra ubicación",
       "ubicacion": "Palenque, Chis., Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:15 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:45 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -123,7 +119,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Juárez, Chiapas, Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:21 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -135,7 +131,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ostuacán, Chiapas, Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:21 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -171,7 +167,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Los Ídolos, Tab., Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:21 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -183,7 +179,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Tabasco, Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:15 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:45 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -195,7 +191,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Dos Montes, Tab., Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:20 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:50 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -207,7 +203,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Reforma, Chiapas, Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:21 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -219,7 +215,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Guatemala/Petén",
       "ubicacion": "Las Cruces, Petén, Guatemala",
-      "last_valid_time": "Nov 13, 2026/ 6:19 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:50 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -231,7 +227,19 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Guatemala/Petén",
       "ubicacion": "Guatemala · Alto Usumacinta",
-      "last_valid_time": "Nov 13, 2026/ 6:20 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
+      "nivel_riesgo_max": "Normal"
+    },
+    {
+      "estacion": "PALENQUE PCIVILCHIAPAS",
+      "max_temp_c": 23.9,
+      "max_temp_time": "Nov 13, 2026/ 6:51 AM",
+      "max_heat_index_c": 23.9,
+      "max_heat_index_time": "Nov 13, 2026/ 6:51 AM",
+      "max_heat_basis": "Temperatura del aire",
+      "territory": "Chiapas",
+      "ubicacion": "Palenque, Chiapas, Mexico",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -267,7 +275,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Guatemala/Petén",
       "ubicacion": "Guatemala · Alto Usumacinta",
-      "last_valid_time": "Nov 13, 2026/ 6:15 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:45 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -297,25 +305,25 @@
     {
       "estacion": "SAN FRANCISCO",
       "max_temp_c": 23.3,
-      "max_temp_time": "Nov 13, 2026/ 5:21 AM",
+      "max_temp_time": "Nov 13, 2026/ 6:50 AM",
       "max_heat_index_c": 23.3,
-      "max_heat_index_time": "Nov 13, 2026/ 5:21 AM",
+      "max_heat_index_time": "Nov 13, 2026/ 6:50 AM",
       "max_heat_basis": "Temperatura del aire",
       "territory": "Guatemala/Petén",
       "ubicacion": "San Francisco, Petén, Guatemala",
-      "last_valid_time": "Nov 13, 2026/ 6:21 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:50 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
       "estacion": "SANTA ANA 2",
       "max_temp_c": 23.3,
-      "max_temp_time": "Nov 13, 2026/ 6:20 AM",
+      "max_temp_time": "Nov 13, 2026/ 6:51 AM",
       "max_heat_index_c": 23.3,
-      "max_heat_index_time": "Nov 13, 2026/ 6:20 AM",
+      "max_heat_index_time": "Nov 13, 2026/ 6:51 AM",
       "max_heat_basis": "Temperatura del aire",
       "territory": "Guatemala/Petén",
       "ubicacion": "Santa Ana, Petén, Guatemala",
-      "last_valid_time": "Nov 13, 2026/ 6:20 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -327,7 +335,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Tabasco",
       "ubicacion": "Emiliano Zapata, Tabasco, Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:21 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -339,7 +347,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ixhuatán, Chiapas, Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:20 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -351,7 +359,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Chapultenango, Chiapas, Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:21 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -363,7 +371,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:21 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -387,7 +395,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Ocozocoautla, Chiapas, Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:21 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
       "nivel_riesgo_max": "Normal"
     },
     {
@@ -411,7 +419,7 @@
       "max_heat_basis": "Temperatura del aire",
       "territory": "Chiapas",
       "ubicacion": "Berriozábal, Chiapas, Mexico",
-      "last_valid_time": "Nov 13, 2026/ 6:21 AM",
+      "last_valid_time": "Nov 13, 2026/ 6:51 AM",
       "nivel_riesgo_max": "Normal"
     }
   ],
@@ -442,7 +450,7 @@
     },
     {
       "territorio": "Chiapas",
-      "estaciones": 12,
+      "estaciones": 13,
       "max_temp_c": 24.4,
       "max_heat_index_c": 24.4,
       "estacion_mas_caliente": "JUÁREZ PCIVILCHIAPAS",
