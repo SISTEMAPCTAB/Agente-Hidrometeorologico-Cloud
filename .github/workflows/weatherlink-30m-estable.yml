@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: write   # 13-nov-2026: lanzar satelite-goes.yml (el cron de GitHub no lo está corriendo)
 
 concurrency:
   group: weatherlink-periodico
@@ -203,3 +204,22 @@ jobs:
 
           echo "No fue posible publicar WeatherLink autónomo."
           exit 1
+
+  # 13-nov-2026: satélite GOES (LST) cada hora. El cron de satelite-goes.yml no se ejecuta (GitHub retrasa o pierde los cron);
+  # se lanza desde aquí, que ya corre cada 30 min por el despachador de Cloudflare, si la rama 'satelite' tiene más de 50 min.
+  satelite:
+    needs: weatherlink
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Lanzar satelite-goes.yml si hace falta
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          ult=$(gh api "repos/${GITHUB_REPOSITORY}/commits/satelite" --jq .commit.committer.date 2>/dev/null || echo "")
+          edad=999
+          if [ -n "$ult" ]; then edad=$(( ( $(date -u +%s) - $(date -u -d "$ult" +%s) ) / 60 )); fi
+          echo "Rama satelite: último corte $ult (hace $edad min)"
+          if [ "$edad" -ge 50 ]; then gh workflow run satelite-goes.yml --ref main -R "$GITHUB_REPOSITORY" && echo "Lanzado satelite-goes.yml"; fi
