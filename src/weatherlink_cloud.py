@@ -218,6 +218,21 @@ def window_sum(events, now_utc, hours):
     return r1(sum(float(e["mm"]) for e in events if iso_to_dt(e.get("ts")) and iso_to_dt(e["ts"]) > cutoff))
 
 
+def since_08_local(events, now_utc, coverage_hours):
+    """Lluvia desde las 08:00 hora local (día hidrológico de CONAGUA), para el mapa de tiempo real del modelo (V111ar).
+    None si el historial no cubre desde las 08:00."""
+    now_local = now_utc.astimezone(MX_TZ)
+    ini = now_local.replace(hour=8, minute=0, second=0, microsecond=0)
+    if ini > now_local:
+        ini -= timedelta(days=1)
+    horas = (now_local - ini).total_seconds() / 3600
+    if coverage_hours < horas:
+        return None, None
+    ini_utc = ini.astimezone(timezone.utc)
+    v = r1(sum(float(e["mm"]) for e in events if iso_to_dt(e.get("ts")) and iso_to_dt(e["ts"]) > ini_utc))
+    return v, ini.isoformat()
+
+
 def fmt(value):
     if value is None:
         return ""
@@ -400,6 +415,11 @@ def main():
             item["rollover_uncertain_24h"] = window_status.get(24) == "minimo_observado"
             item["accumulations_mm"] = {str(k): acc[k] for k in WINDOWS}
             item["accumulation_status"] = {str(k): window_status.get(k, "sin_dato") for k in WINDOWS}
+            # 13-nov-2026: acumulado desde las 08:00 locales (lo lee el modelo, mapa de tiempo real V111ar)
+            d08, d08_ini = since_08_local(st["events"], now_utc, coverage_hours)
+            item["accumulations_mm"]["d08"] = d08
+            item["accumulation_status"]["d08"] = "exacto_reconstruido" if d08 is not None else "sin_dato"
+            item["d08_desde_local"] = d08_ini
             item["reconstructed_24h_mm_raw"] = acc[24]
             item["quality"] = quality
         except Exception as exc:
