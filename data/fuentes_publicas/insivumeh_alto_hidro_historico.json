@@ -12104,8 +12104,115 @@
           "ultima_observacion_fuente": "13/11/2026 08:00"
         }
       ]
+    },
+    {
+      "clave": "13/11/2026|14:00|951-2026",
+      "fecha": "13/11/2026",
+      "hora": "14:00",
+      "boletin": "951-2026",
+      "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
+      "estaciones": [
+        {
+          "estacion": "El Tigre",
+          "rio": "Usumacinta",
+          "ubicacion": "Las Cruces, Petén",
+          "nivel_referencia_min_m": 4.55,
+          "nivel_referencia_max_m": 10.0,
+          "caudal_referencia_min_m3s": 486.87,
+          "caudal_referencia_max_m3s": 2856.43,
+          "nivel_instantaneo_m": 6.94,
+          "caudal_instantaneo_m3s": 1526.0,
+          "estado_dato": "observado",
+          "calidad": "extraido_del_BHVGM",
+          "ultima_observacion_fuente": "13/11/2026 14:00"
+        },
+        {
+          "estacion": "El Porvenir",
+          "rio": "La Pasión",
+          "ubicacion": "Las Cruces, Petén",
+          "nivel_referencia_min_m": 1.03,
+          "nivel_referencia_max_m": 3.0,
+          "caudal_referencia_min_m3s": 93.04,
+          "caudal_referencia_max_m3s": 399.28,
+          "nivel_instantaneo_m": 3.32,
+          "caudal_instantaneo_m3s": 477.58,
+          "estado_dato": "observado",
+          "calidad": "extraido_del_BHVGM",
+          "ultima_observacion_fuente": "13/11/2026 14:00"
+        },
+        {
+          "estacion": "Machaquilá",
+          "rio": "Machaquilá",
+          "ubicacion": "Poptún, Petén",
+          "nivel_referencia_min_m": 0.78,
+          "nivel_referencia_max_m": 2.5,
+          "caudal_referencia_min_m3s": 0.18,
+          "caudal_referencia_max_m3s": 54.29,
+          "nivel_instantaneo_m": 1.39,
+          "caudal_instantaneo_m3s": 14.64,
+          "estado_dato": "observado",
+          "calidad": "extraido_del_BHVGM",
+          "ultima_observacion_fuente": "13/11/2026 14:00"
+        },
+        {
+          "estacion": "San Pedro Mactún",
+          "rio": "San Pedro",
+          "ubicacion": "San Andrés, Petén",
+          "nivel_referencia_min_m": 0.83,
+          "nivel_referencia_max_m": 2.0,
+          "caudal_referencia_min_m3s": 6.49,
+          "caudal_referencia_max_m3s": 64.24,
+          "nivel_instantaneo_m": 1.76,
+          "caudal_instantaneo_m3s": 41.94,
+          "estado_dato": "observado",
+          "calidad": "extraido_del_BHVGM",
+          "ultima_observacion_fuente": "13/11/2026 14:00"
+        },
+        {
+          "estacion": "San Agustín Chixoy",
+          "rio": "Chixoy",
+          "ubicacion": "Chisec, Alta Verapaz",
+          "nivel_referencia_min_m": 0.13,
+          "nivel_referencia_max_m": 3.0,
+          "caudal_referencia_min_m3s": 121.4,
+          "caudal_referencia_max_m3s": 904.28,
+          "nivel_instantaneo_m": 2.77,
+          "caudal_instantaneo_m3s": 840.39,
+          "estado_dato": "observado",
+          "calidad": "extraido_del_BHVGM",
+          "ultima_observacion_fuente": "13/11/2026 14:00"
+        },
+        {
+          "estacion": "Playa Grande",
+          "rio": "Chixoy",
+          "ubicacion": "Ixcán, Quiché",
+          "nivel_referencia_min_m": -0.22,
+          "nivel_referencia_max_m": 1.9,
+          "caudal_referencia_min_m3s": 178.87,
+          "caudal_referencia_max_m3s": 633.81,
+          "nivel_instantaneo_m": 1.35,
+          "caudal_instantaneo_m3s": 576.72,
+          "estado_dato": "observado",
+          "calidad": "extraido_del_BHVGM",
+          "ultima_observacion_fuente": "13/11/2026 14:00"
+        },
+        {
+          "estacion": "Puente Chocox",
+          "rio": "Chixoy",
+          "ubicacion": "Canillá, Quiché",
+          "nivel_referencia_min_m": 0.56,
+          "nivel_referencia_max_m": 2.33,
+          "caudal_referencia_min_m3s": 7.9,
+          "caudal_referencia_max_m3s": 110.1,
+          "nivel_instantaneo_m": 0.83,
+          "caudal_instantaneo_m3s": 15.07,
+          "estado_dato": "observado",
+          "calidad": "extraido_del_BHVGM",
+          "ultima_observacion_fuente": "13/11/2026 14:00"
+        }
+      ]
     }
   ],
-  "actualizado_utc": "2026-11-13T18:11:20.327436+00:00",
+  "actualizado_utc": "2026-11-13T20:11:24.871843+00:00",
   "limpieza_v107z3": "6-nov-2026: se quitaron 6 lecturas copiadas del boletín del 07/10/2026 20:00 (latest.json congelado), no observadas en su boletín."
 }
