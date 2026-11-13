@@ -119,6 +119,12 @@ def main():
                 print(b, re.findall(r'<Prefix>([^<]+)</Prefix>', r.text)[:20])
                 r = requests.get(f'https://{b}.s3.amazonaws.com/?list-type=2&prefix=ABI-L2-RRQPEF/{ahora:%Y}/{ahora.timetuple().tm_yday:03d}/&max-keys=3', timeout=60)
                 print(b, 'RRQPEF hoy:', re.findall(r'<Key>([^<]+)</Key>', r.text)[:3])
+                pre = 'ABI-L2-RRQPEF/'
+                for _ in range(3):
+                    r = requests.get(f'https://{b}.s3.amazonaws.com/?list-type=2&delimiter=/&prefix={pre}', timeout=60)
+                    ps = re.findall(r'<Prefix>([^<]+)</Prefix>', r.text)[1:]
+                    if not ps: break
+                    print(b, pre, '->', ps[-3:]); pre = ps[-1]
             except Exception as e: print(b, e)
     hechos = {k for k in hechos if inicio(k) >= corte}
     np.savez_compressed(estf, horas=np.array(horas, dtype=object), hechos=np.array(sorted(hechos)))
