@@ -99,6 +99,7 @@ def main():
     while t <= ahora and time.time() - t0 < 900:
         try: keys = listar('ABI-L2-RRQPEF', t)
         except Exception as e: print('lista', t, e); keys = []
+        print(f'RRQPEF {t:%Y-%m-%d %H} UTC: {len(keys)} archivos')
         for k in keys:
             if k in hechos: continue
             s = inicio(k)
