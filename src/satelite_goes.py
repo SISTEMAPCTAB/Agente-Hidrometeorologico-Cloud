@@ -115,8 +115,8 @@ def main():
     if nuevos == 0 and not horas:     # diagnóstico: qué productos ABI-L2 hay en el depósito
         for b in ('noaa-goes19', 'noaa-goes18', 'noaa-goes16'):
             try:
-                r = requests.get(f'https://{b}.s3.amazonaws.com/?list-type=2&delimiter=/&prefix=ABI-L2-R', timeout=60)
-                print(b, re.findall(r'<Prefix>([^<]+)</Prefix>', r.text)[:20])
+                r = requests.get(f'https://{b}.s3.amazonaws.com/?list-type=2&delimiter=/', timeout=60)
+                print(b, [x for x in re.findall(r'<Prefix>([^<]+)</Prefix>', r.text) if 'RR' in x or 'FLDK' in x or 'AWIPS' in x or 'Rain' in x])
                 r = requests.get(f'https://{b}.s3.amazonaws.com/?list-type=2&prefix=ABI-L2-RRQPEF/{ahora:%Y}/{ahora.timetuple().tm_yday:03d}/&max-keys=3', timeout=60)
                 print(b, 'RRQPEF hoy:', re.findall(r'<Key>([^<]+)</Key>', r.text)[:3])
                 pre = 'ABI-L2-RRQPEF/'
