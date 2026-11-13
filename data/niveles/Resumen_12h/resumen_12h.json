@@ -1,6 +1,6 @@
 {
-  "generated_from_latest_observation": "2026-11-13T06:00:00-06:00",
-  "window_start": "2026-11-12T18:00:00-06:00",
+  "generated_from_latest_observation": "2026-11-13T08:00:00-06:00",
+  "window_start": "2026-11-12T20:00:00-06:00",
   "window_hours": 12,
   "criterio": "Sólo observaciones hidrométricas reales. Heredados excluidos. Cambio >0.02 m ascendente; <-0.02 m descendente; ±0.02 m estable. La etiqueta mejorando/deteriorándose describe la dirección agregada del nivel, no el riesgo por sí sola.",
   "systems": [
@@ -9,8 +9,8 @@
       "sistema": "Presas–Mezcalapa–Samaria/Carrizal",
       "evolucion_operativa_12h": "estable/mixta",
       "hidrometria": {
-        "ascendentes": 1,
-        "descendentes": 0,
+        "ascendentes": 0,
+        "descendentes": 1,
         "estables": 1,
         "comparables": 2
       },
@@ -18,19 +18,19 @@
         {
           "estacion": "González",
           "rio": "Río Carrizal",
-          "inicio": "2026-11-12T18:00:00-06:00",
-          "fin": "2026-11-13T06:00:00-06:00",
-          "nivel_inicio_m": 3.19,
-          "nivel_fin_m": 3.32,
-          "delta_m": 0.13,
-          "tendencia_12h": "ascendente",
+          "inicio": "2026-11-13T06:00:00-06:00",
+          "fin": "2026-11-13T08:00:00-06:00",
+          "nivel_inicio_m": 3.32,
+          "nivel_fin_m": 3.3,
+          "delta_m": -0.02,
+          "tendencia_12h": "descendente",
           "observaciones": 2
         },
         {
           "estacion": "Samaria",
           "rio": "Río Samaria",
-          "inicio": "2026-11-12T18:00:00-06:00",
-          "fin": "2026-11-13T06:00:00-06:00",
+          "inicio": "2026-11-13T06:00:00-06:00",
+          "fin": "2026-11-13T08:00:00-06:00",
           "nivel_inicio_m": 11.46,
           "nivel_fin_m": 11.46,
           "delta_m": 0.0,
@@ -42,79 +42,79 @@
     {
       "id": "serranos",
       "sistema": "Ríos Serranos–Grijalva",
-      "evolucion_operativa_12h": "mejorando",
+      "evolucion_operativa_12h": "estable",
       "hidrometria": {
         "ascendentes": 0,
-        "descendentes": 2,
-        "estables": 1,
-        "comparables": 3
+        "descendentes": 0,
+        "estables": 6,
+        "comparables": 6
       },
       "estaciones": [
         {
           "estacion": "Oxolotán",
           "rio": "Ríos de la Sierra",
-          "inicio": "2026-11-12T18:00:00-06:00",
-          "fin": "2026-11-13T06:00:00-06:00",
-          "nivel_inicio_m": 34.09,
+          "inicio": "2026-11-13T06:00:00-06:00",
+          "fin": "2026-11-13T08:00:00-06:00",
+          "nivel_inicio_m": 34.08,
           "nivel_fin_m": 34.08,
-          "delta_m": -0.01,
+          "delta_m": 0.0,
           "tendencia_12h": "estable",
           "observaciones": 2
         },
         {
           "estacion": "Pueblo Nuevo",
           "rio": "Ríos de la Sierra",
-          "inicio": "2026-11-12T18:00:00-06:00",
-          "fin": "2026-11-13T06:00:00-06:00",
-          "nivel_inicio_m": 2.61,
+          "inicio": "2026-11-13T06:00:00-06:00",
+          "fin": "2026-11-13T08:00:00-06:00",
+          "nivel_inicio_m": 2.48,
           "nivel_fin_m": 2.48,
-          "delta_m": -0.13,
-          "tendencia_12h": "descendente",
+          "delta_m": 0.0,
+          "tendencia_12h": "estable",
           "observaciones": 2
         },
         {
           "estacion": "Puyacatengo",
           "rio": "Ríos de la Sierra",
           "inicio": "2026-11-13T06:00:00-06:00",
-          "fin": "2026-11-13T06:00:00-06:00",
+          "fin": "2026-11-13T08:00:00-06:00",
           "nivel_inicio_m": 24.66,
           "nivel_fin_m": 24.66,
-          "delta_m": null,
-          "tendencia_12h": "sin comparación",
-          "observaciones": 1
+          "delta_m": 0.0,
+          "tendencia_12h": "estable",
+          "observaciones": 2
         },
         {
           "estacion": "San Joaquín",
           "rio": "Ríos de la Sierra",
-          "inicio": "2026-11-12T18:00:00-06:00",
-          "fin": "2026-11-13T06:00:00-06:00",
-          "nivel_inicio_m": 20.17,
+          "inicio": "2026-11-13T06:00:00-06:00",
+          "fin": "2026-11-13T08:00:00-06:00",
+          "nivel_inicio_m": 20.14,
           "nivel_fin_m": 20.14,
-          "delta_m": -0.03,
-          "tendencia_12h": "descendente",
+          "delta_m": 0.0,
+          "tendencia_12h": "estable",
           "observaciones": 2
         },
         {
           "estacion": "Tapijulapa",
           "rio": "Ríos de la Sierra",
           "inicio": "2026-11-13T06:00:00-06:00",
-          "fin": "2026-11-13T06:00:00-06:00",
+          "fin": "2026-11-13T08:00:00-06:00",
           "nivel_inicio_m": 16.4,
-          "nivel_fin_m": 16.4,
-          "delta_m": null,
-          "tendencia_12h": "sin comparación",
-          "observaciones": 1
+          "nivel_fin_m": 16.39,
+          "delta_m": -0.01,
+          "tendencia_12h": "estable",
+          "observaciones": 2
         },
         {
           "estacion": "Teapa",
           "rio": "Ríos de la Sierra",
           "inicio": "2026-11-13T06:00:00-06:00",
-          "fin": "2026-11-13T06:00:00-06:00",
+          "fin": "2026-11-13T08:00:00-06:00",
           "nivel_inicio_m": 33.69,
           "nivel_fin_m": 33.69,
-          "delta_m": null,
-          "tendencia_12h": "sin comparación",
-          "observaciones": 1
+          "delta_m": 0.0,
+          "tendencia_12h": "estable",
+          "observaciones": 2
         }
       ]
     },
@@ -123,31 +123,31 @@
       "sistema": "Tulijá–Puxcatán–Chilapa",
       "evolucion_operativa_12h": "estable/mixta",
       "hidrometria": {
-        "ascendentes": 1,
+        "ascendentes": 0,
         "descendentes": 1,
-        "estables": 0,
+        "estables": 1,
         "comparables": 2
       },
       "estaciones": [
         {
           "estacion": "Macuspana",
           "rio": "Río Puxcatán",
-          "inicio": "2026-11-12T18:00:00-06:00",
-          "fin": "2026-11-13T06:00:00-06:00",
-          "nivel_inicio_m": 2.87,
-          "nivel_fin_m": 2.9,
-          "delta_m": 0.03,
-          "tendencia_12h": "ascendente",
+          "inicio": "2026-11-13T06:00:00-06:00",
+          "fin": "2026-11-13T08:00:00-06:00",
+          "nivel_inicio_m": 2.9,
+          "nivel_fin_m": 2.89,
+          "delta_m": -0.01,
+          "tendencia_12h": "estable",
           "observaciones": 2
         },
         {
           "estacion": "Salto de Agua",
           "rio": "Río Tulijá",
-          "inicio": "2026-11-12T18:00:00-06:00",
-          "fin": "2026-11-13T06:00:00-06:00",
-          "nivel_inicio_m": 3.21,
-          "nivel_fin_m": 3.15,
-          "delta_m": -0.06,
+          "inicio": "2026-11-13T06:00:00-06:00",
+          "fin": "2026-11-13T08:00:00-06:00",
+          "nivel_inicio_m": 3.15,
+          "nivel_fin_m": 3.13,
+          "delta_m": -0.02,
           "tendencia_12h": "descendente",
           "observaciones": 2
         }
@@ -167,22 +167,22 @@
         {
           "estacion": "Boca del Cerro",
           "rio": "Río Usumacinta",
-          "inicio": "2026-11-12T18:00:00-06:00",
-          "fin": "2026-11-13T06:00:00-06:00",
-          "nivel_inicio_m": 13.76,
-          "nivel_fin_m": 13.75,
-          "delta_m": -0.01,
+          "inicio": "2026-11-13T06:00:00-06:00",
+          "fin": "2026-11-13T08:00:00-06:00",
+          "nivel_inicio_m": 13.75,
+          "nivel_fin_m": 13.73,
+          "delta_m": -0.02,
           "tendencia_12h": "estable",
           "observaciones": 2
         },
         {
           "estacion": "San Pedro",
           "rio": "Río San Pedro",
-          "inicio": "2026-11-12T18:00:00-06:00",
-          "fin": "2026-11-13T06:00:00-06:00",
-          "nivel_inicio_m": 8.73,
+          "inicio": "2026-11-13T06:00:00-06:00",
+          "fin": "2026-11-13T08:00:00-06:00",
+          "nivel_inicio_m": 8.72,
           "nivel_fin_m": 8.72,
-          "delta_m": -0.01,
+          "delta_m": 0.0,
           "tendencia_12h": "estable",
           "observaciones": 2
         }
