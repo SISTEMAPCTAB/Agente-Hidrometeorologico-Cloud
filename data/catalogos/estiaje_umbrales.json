@@ -61,6 +61,12 @@
     ],
     "anios": 29,
     "namino_conagua": 15.92
+   },
+   "recesion": {
+    "k50": 0.95888,
+    "k25": 0.94341,
+    "tramos": 187,
+    "q_hasta": 29.64
    }
   },
   "Oxolotán": {
@@ -115,6 +121,12 @@
     ],
     "anios": 27,
     "namino_conagua": 31.2
+   },
+   "recesion": {
+    "k50": 0.96168,
+    "k25": 0.94293,
+    "tramos": 169,
+    "q_hasta": 22.4
    }
   },
   "Teapa": {
@@ -169,6 +181,12 @@
     ],
     "anios": 27,
     "namino_conagua": 33.8
+   },
+   "recesion": {
+    "k50": 0.95031,
+    "k25": 0.92587,
+    "tramos": 257,
+    "q_hasta": 14.1
    }
   },
   "Puyacatengo": {
@@ -223,6 +241,12 @@
     ],
     "anios": 24,
     "namino_conagua": 24.21
+   },
+   "recesion": {
+    "k50": 0.95611,
+    "k25": 0.93466,
+    "tramos": 271,
+    "q_hasta": 8.38
    }
   },
   "San Joaquín": {
@@ -277,6 +301,12 @@
     ],
     "anios": 29,
     "namino_conagua": 17.75
+   },
+   "recesion": {
+    "k50": 0.93664,
+    "k25": 0.91408,
+    "tramos": 235,
+    "q_hasta": 13.24
    }
   },
   "Pueblo Nuevo": {
@@ -331,6 +361,12 @@
     ],
     "anios": 29,
     "namino_conagua": 1.16
+   },
+   "recesion": {
+    "k50": 0.95598,
+    "k25": 0.93643,
+    "tramos": 198,
+    "q_hasta": 63.0
    }
   },
   "Gaviotas": {
@@ -385,6 +421,12 @@
     ],
     "anios": 18,
     "namino_conagua": 0.82
+   },
+   "recesion": {
+    "k50": 0.9406,
+    "k25": 0.91886,
+    "tramos": 132,
+    "q_hasta": 113.35
    }
   },
   "El Muelle": {
@@ -468,6 +510,12 @@
     ],
     "anios": 14,
     "namino_conagua": 0.51
+   },
+   "recesion": {
+    "k50": 0.97352,
+    "k25": 0.95889,
+    "tramos": 44,
+    "q_hasta": 265.0
    }
   },
   "González": {
@@ -630,6 +678,12 @@
     ],
     "anios": 29,
     "namino_conagua": 0.69
+   },
+   "recesion": {
+    "k50": 0.95094,
+    "k25": 0.92579,
+    "tramos": 184,
+    "q_hasta": 45.39
    }
   },
   "Salto de Agua": {
@@ -684,6 +738,12 @@
     ],
     "anios": 29,
     "namino_conagua": 0.84
+   },
+   "recesion": {
+    "k50": 0.982,
+    "k25": 0.97552,
+    "tramos": 204,
+    "q_hasta": 92.63
    }
   },
   "Boca del Cerro": {
@@ -738,6 +798,12 @@
     ],
     "anios": 29,
     "namino_conagua": 10.63
+   },
+   "recesion": {
+    "k50": 0.98268,
+    "k25": 0.97298,
+    "tramos": 229,
+    "q_hasta": 751.04
    }
   },
   "San Pedro": {
@@ -792,6 +858,12 @@
     ],
     "anios": 29,
     "namino_conagua": 7.58
+   },
+   "recesion": {
+    "k50": 0.97602,
+    "k25": 0.96691,
+    "tramos": 97,
+    "q_hasta": 41.0
    }
   },
   "Palizada": {
@@ -845,7 +917,14 @@
      2026
     ],
     "anios": 23
+   },
+   "recesion": {
+    "k50": 0.97524,
+    "k25": 0.96704,
+    "tramos": 29,
+    "q_hasta": 106.47
    }
   }
- }
+ },
+ "regla_recesion": "Días sin lluvia hasta un umbral = ln(U/Q)/ln(k); k de tramos de recesión nov-jun con gasto <= mediana de feb-may (V111v)."
 }

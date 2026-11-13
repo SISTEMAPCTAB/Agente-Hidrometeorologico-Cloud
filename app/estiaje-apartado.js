@@ -30,10 +30,14 @@ async function show(){
  // Pronóstico 0-72 h del Modelo Rubio/SegAMH (publicado por la PC del modelo); sólo si tiene 6 h o menos, como en su apartado.
  const md=M.status==='fulfilled'?M.value:null,mAge=md?(Date.now()-Date.parse(md.calculado_utc||''))/3600000:NaN,mOk=Number.isFinite(mAge)&&mAge<=6;
  const P={};if(mOk)for(const e of (md.estaciones||[])){const est=String(e.estacion||'').split('·').pop().trim();P[nm(est)]={q:num(e.h72?.gasto_m3s),h:num(e.h72?.nivel_m)}}
- const pron=(pr,ug,un,q,h,mes)=>{const pq=num(pr?.q),ph=num(pr?.h);
-  if(pq>0&&ug)return `${fx(pq,1)} m³/s ${chip(clase(pq,ug,mes))}<br><small>${Number.isFinite(q)?tend(pq-q,'m³/s',1)+' vs. hoy':'sin gasto observado'}</small>`;
+ // Sin lluvia: días hasta alerta y crítico con la recesión de estiaje de cada río (V111v del modelo): n = ln(U/Q)/ln(k).
+ const sinLluvia=(q,ug,rec)=>{if(!Number.isFinite(q)||!ug||!rec?.k50)return '';const d=(U,k)=>Math.round(Math.log(U/q)/Math.log(k));
+  const f=(et,U)=>{U=num(U);if(!Number.isFinite(U))return '';if(q<=U)return et+' ya';const a=d(U,rec.k25),b=d(U,rec.k50);return et+' ~'+b+' d'+(a<b?' ('+a+'–'+b+')':'')};
+  return '<br><small>Sin lluvia: '+[f('alerta',ug.alerta_tr5_min7d),f('crítico',ug.critico_tr10)].filter(Boolean).join(' · ')+'</small>'};
+ const pron=(pr,ug,un,q,h,mes,rec)=>{const pq=num(pr?.q),ph=num(pr?.h);
+  if(pq>0&&ug)return `${fx(pq,1)} m³/s ${chip(clase(pq,ug,mes))}<br><small>${Number.isFinite(q)?tend(pq-q,'m³/s',1)+' vs. hoy':'sin gasto observado'}</small>`+sinLluvia(Number.isFinite(q)?q:pq,ug,rec);
   if(Number.isFinite(ph)&&un)return `${fx(ph)} m ${chip(clase(ph,un,mes))}<br><small>${Number.isFinite(h)?tend(ph-h,'m',2)+' vs. hoy':''}</small>`;
-  return `<small>${mOk?'sin pronóstico':'modelo sin corrida reciente'}</small>`};
+  return `<small>${mOk?'sin pronóstico':'modelo sin corrida reciente'}</small>`+sinLluvia(q,ug,rec)};
  const mes=new Date().getMonth()+1;let filas='',cuenta={};
  for(const [sis,ests] of GRUPOS){filas+=`<tr><td colspan="10" style="background:#f3efe8"><b>${esc(sis)}</b></td></tr>`;
   for(const e of ests){const u=um.estaciones?.[e]||{};const g=gs.find(x=>nm(x.estacion)===nm(e));const l=lv.find(x=>nm(x.estacion)===nm(e));
@@ -44,7 +48,7 @@ async function show(){
     <td>${fx(q,1)}${u.gasto&&Number.isFinite(q)?`<br><small>mín. ${fx(u.gasto.minimo_historico,1)} (${esc(String(u.gasto.fecha_minimo||'').slice(0,4))})</small>`:''}</td>
     <td><b>${Number.isFinite(q)&&u.gasto?fx(q-u.gasto.minimo_historico,1):'s/d'}</b></td><td>${tend(dq,'m³/s',1)}<br><small>24 h</small></td>
     <td>${fx(h)}${viejo?' <small>('+esc(l.estado_dato)+')</small>':''}${u.nivel?`<br><small>mín. ${fx(u.nivel.minimo_historico)} (${esc(String(u.nivel.fecha_minimo||'').slice(0,4))})</small>`:''}</td>
-    <td><b>${Number.isFinite(h)&&u.nivel?fx(h-u.nivel.minimo_historico):'s/d'}</b></td><td>24 h: ${tend(num(l?.delta_24h),'m',2)}<br>72 h: ${tend(num(l?.delta_72h),'m',2)}</td><td>${pron(P[nm(e)],u.gasto,u.nivel,q,h,mes)}</td>
+    <td><b>${Number.isFinite(h)&&u.nivel?fx(h-u.nivel.minimo_historico):'s/d'}</b></td><td>24 h: ${tend(num(l?.delta_24h),'m',2)}<br>72 h: ${tend(num(l?.delta_72h),'m',2)}</td><td>${pron(P[nm(e)],u.gasto,u.nivel,q,h,mes,u.recesion)}</td>
     <td><small>${u.gasto?`Q: ${fx(u.gasto.p10_mes?.[String(mes)],1)} · ${fx(u.gasto.alerta_tr5_min7d,1)} · ${fx(u.gasto.critico_tr10,1)}`:''}${u.nivel?`<br>H: ${fx(u.nivel.p10_mes?.[String(mes)])} · ${fx(u.nivel.alerta_tr5_min7d)} · ${fx(u.nivel.critico_tr10)}`:''}</small></td></tr>`}}
  const res=['record','critico','alerta','vigilancia'].filter(x=>cuenta[x]).map(x=>`${chip(x)} ${cuenta[x]}`).join(' ')||chip('normal')+' en todas las estaciones con dato';
  root.innerHTML=`<section class="panel wide"><h2>Estiaje · semáforo de mínimos</h2>
@@ -52,9 +56,9 @@ async function show(){
   <p style="background:#f8fafc;border-left:4px solid #7b4a1e;padding:8px 10px"><b>Cómo se lee:</b> la <b>diferencia</b> es el registro actual menos el mínimo histórico; la <b>tendencia</b> marca
   <b style="color:#7b4a1e">↓ −</b> cuando baja hacia el mínimo y <b style="color:#2f6b3a">↑ +</b> cuando sube y se aleja. El semáforo va por <b>gasto</b> (registro de 50 a 78 años, SIH + BANDAS);
   el nivel en msnm (SIH 1996-2025) es complemento. Vigilancia: menor que el percentil 10 del mes · Alerta: menor que el mínimo de 7 días de 1 vez cada 5 años · Crítico: menor que el mínimo diario
-  de 1 vez cada 10 años · Récord: menor que el mínimo histórico. Fuera de febrero–junio, la vigilancia sólo indica gasto más bajo que en 9 de cada 10 años para ese mes. El <b>pronóstico a 72 h</b> es el del Modelo Rubio/SegAMH (con la lluvia pronosticada): dice si en 3 días el gasto cruzará algún umbral.</p>
+  de 1 vez cada 10 años · Récord: menor que el mínimo histórico. Fuera de febrero–junio, la vigilancia sólo indica gasto más bajo que en 9 de cada 10 años para ese mes. El <b>pronóstico a 72 h</b> es el del Modelo Rubio/SegAMH (con la lluvia pronosticada): dice si en 3 días el gasto cruzará algún umbral. <b>Sin lluvia</b>: días que tardaría en llegar a alerta y a crítico si no llueve, con la recesión de estiaje de cada río (entre paréntesis, si baja rápido).</p>
   <div class="table-wrap"><table><thead><tr><th>Estación</th><th>Estiaje</th><th>Gasto actual (m³/s)</th><th>Diferencia al mínimo (m³/s)</th><th>Tendencia gasto</th>
-  <th>Nivel actual (msnm)</th><th>Diferencia al mínimo (m)</th><th>Tendencia nivel</th><th>Pronóstico del modelo a 72 h</th><th>Umbrales del mes: vigilancia · alerta · crítico</th></tr></thead><tbody>${filas}</tbody></table></div>
+  <th>Nivel actual (msnm)</th><th>Diferencia al mínimo (m)</th><th>Tendencia nivel</th><th>Pronóstico del modelo a 72 h · sin lluvia</th><th>Umbrales del mes: vigilancia · alerta · crítico</th></tr></thead><tbody>${filas}</tbody></table></div>
   <p class="muted">Gasto: boletín CONAGUA-OCFS (${esc(Q.value?.fuente1_fecha_hora||Q.value?.generado_utc||'s/d')}). Nivel: último corte de niveles. Umbrales del ${esc(um.generado||'s/d')} (Modelo Hidrológico, V111o).
   El Nivel Mínimo publicado por CONAGUA se conserva en el semáforo NAMINO de cada sistema; varias estaciones ya registraron niveles más bajos que ese valor.</p></section>`}
 document.addEventListener('DOMContentLoaded',()=>{const c=document.getElementById('content');c?.addEventListener('app-rendered',e=>{if(e.detail?.section==='estiaje')show()});
