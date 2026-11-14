@@ -31,7 +31,7 @@ const NOCOMP_DEF='No comparable: el nivel da una clase mucho peor que el gasto; 
 // 14-nov-2026 (Gilberto): diferencia contra el mínimo del SIH y contra el NAMINO de CONAGUA, juntas.
 const difNivel=(e,h,un,noComp)=>{if(!Number.isFinite(h)||!un)return '<b>s/d</b>';const nb=num(un.namino_conagua);
  const sih=noComp?`<span style="color:#888">SIH ${fx(h-un.minimo_historico)}</span>`:`<b>SIH ${fx(h-un.minimo_historico)}</b>`;
- return sih+(Number.isFinite(nb)?`<br><small>NAMINO CONAGUA (${fx(nb)}): ${(h-nb>=0?'+':'')+fx(h-nb)}</small>`:'')+(noComp?`<small style="color:#666;display:block;max-width:320px;white-space:normal;line-height:1.3">${esc(NOCOMP[e]||NOCOMP_DEF)}</small>`:'')};
+ return sih+(Number.isFinite(nb)?`<br><small>NAMINO CONAGUA (${fx(nb)}): ${(h-nb>=0?'+':'')+fx(h-nb)}</small>`+(h<nb?'<br><span style="display:inline-block;margin-top:2px;padding:1px 6px;border:1.5px solid #7b4a1e;border-radius:9px;color:#7b4a1e;font-weight:700;font-size:11px;white-space:nowrap">abajo del NAMINO CONAGUA</span>':''):'')+(noComp?`<small style="color:#666;display:block;max-width:320px;white-space:normal;line-height:1.3">${esc(NOCOMP[e]||NOCOMP_DEF)}</small>`:'')};
 const vig=u=>u?.vigilancia_tr2??u?.p10_mes?.[String(new Date().getMonth()+1)];
 function tend(d,u,dec){if(!Number.isFinite(d))return 's/d';if(Math.abs(d)<(dec===2?0.005:0.05))return 'estable';const s=(d>0?'+':'−')+Math.abs(d).toFixed(dec)+' '+u;
  return d<0?`<b style="color:#7b4a1e">↓ ${s}</b>`:`<span style="color:#2f6b3a">↑ ${s}</span>`}
