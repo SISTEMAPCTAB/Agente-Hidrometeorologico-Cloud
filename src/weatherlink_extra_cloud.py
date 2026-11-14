@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from weatherlink_cloud import fetch_station, parse_float, r1, iso_to_dt, json_default, since_08_local
+from weatherlink_cloud import fetch_station, parse_float, r1, iso_to_dt, json_default, since_08_local, corte_08_local
 
 MX_TZ=ZoneInfo('America/Mexico_City')
 CONFIG=Path('config/weatherlink_stations_extra.json')
@@ -78,6 +78,7 @@ def main():
                     acc[str(h)]=None
             item['intervalos_inciertos']=uncertain_windows
             acc['d08'],item['d08_desde_local']=since_08_local(st['events'],now,coverage)   # 13-nov-2026: desde las 08:00 (modelo V111ar)
+            acc['c08'],item['c08_hasta_local']=corte_08_local(st['events'],now,coverage)   # 14-nov-2026: día 08-08 completo (modelo V111bx)
             item['increment_mm']=inc;item['accumulations_mm']=acc;item['month_mm']=st.get('month_mm');item['year_mm']=st.get('year_mm')
             age=obs.get('age_seconds');item['estado']='OK' if age is None or age<=7200 else 'Dato rezagado';item['quality']='Cloud adicional'
         except Exception as e:

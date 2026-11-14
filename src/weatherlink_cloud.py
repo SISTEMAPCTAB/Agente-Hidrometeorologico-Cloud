@@ -233,6 +233,21 @@ def since_08_local(events, now_utc, coverage_hours):
     return v, ini.isoformat()
 
 
+def corte_08_local(events, now_utc, coverage_hours):
+    """14-nov-2026 (Gilberto): lluvia del último día hidrológico COMPLETO de CONAGUA (de las 08:00 de ayer a las 08:00 de hoy), para las
+    isoyetas del modelo con el mismo corte que el mapa de CONAGUA-OCFS. None si el historial no cubre ese día."""
+    now_local = now_utc.astimezone(MX_TZ)
+    fin = now_local.replace(hour=8, minute=0, second=0, microsecond=0)
+    if fin > now_local:
+        fin -= timedelta(days=1)
+    ini = fin - timedelta(days=1)
+    if coverage_hours < (now_local - ini).total_seconds() / 3600:
+        return None, None
+    a, b = ini.astimezone(timezone.utc), fin.astimezone(timezone.utc)
+    v = r1(sum(float(e["mm"]) for e in events if iso_to_dt(e.get("ts")) and a < iso_to_dt(e["ts"]) <= b))
+    return v, fin.isoformat()
+
+
 def fmt(value):
     if value is None:
         return ""
@@ -420,6 +435,10 @@ def main():
             item["accumulations_mm"]["d08"] = d08
             item["accumulation_status"]["d08"] = "exacto_reconstruido" if d08 is not None else "sin_dato"
             item["d08_desde_local"] = d08_ini
+            c08, c08_fin = corte_08_local(st["events"], now_utc, coverage_hours)   # 14-nov-2026: día 08-08 completo (modelo V111bx)
+            item["accumulations_mm"]["c08"] = c08
+            item["accumulation_status"]["c08"] = "exacto_reconstruido" if c08 is not None else "sin_dato"
+            item["c08_hasta_local"] = c08_fin
             item["reconstructed_24h_mm_raw"] = acc[24]
             item["quality"] = quality
         except Exception as exc:
