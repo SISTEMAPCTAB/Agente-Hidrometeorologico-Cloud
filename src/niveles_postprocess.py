@@ -123,6 +123,12 @@ def trend_label(rows, cutoff):
         return "Sin tendencia suficiente", None
 
     recent = [(t, r) for t, r in real if t >= cutoff - timedelta(hours=6)]
+    # 14-nov-2026: de noche no hay lecturas (18:00 -> 06:00); con sólo 06:00-08:00 en la ventana casi todo salía
+    # "Estable" aunque el río hubiera subido o bajado 10-20 cm. Se ancla en la última lectura anterior a la ventana
+    # (hasta 24 h atrás), para que la tendencia cubra al menos 6 h.
+    previas = [(t, r) for t, r in real if cutoff - timedelta(hours=24) <= t < cutoff - timedelta(hours=6)]
+    if previas:
+        recent = [previas[-1]] + recent
     if len(recent) < 2:
         recent = real[-2:]
 
