@@ -1,0 +1,66 @@
+name: Oleaje WW3 (costa de Tabasco)
+
+# Pronóstico de oleaje NOAA WAVEWATCH III frente a Paraíso, Centla, Cárdenas y Huimanguillo (src/oleaje_ww3.py).
+# Lo lee el modelo hidrológico (bloque V111bq). Cada 6 h: el dataset se actualiza unas 4 veces al día.
+on:
+  schedule:
+    - cron: '23 1,7,13,19 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/oleaje_ww3.py'
+      - '.github/workflows/oleaje-ww3.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: oleaje-ww3
+  cancel-in-progress: true
+
+jobs:
+  oleaje:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Bajar oleaje WW3
+        run: python src/oleaje_ww3.py
+      - name: Verificar producto
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/oleaje/latest.json',encoding='utf-8'))
+          assert len(d['tramos'])>=5, 'faltan tramos'
+          for n,p in d['tramos'].items():
+              assert p['serie'], f'{n} sin serie'
+              assert 0<=p['serie'][0][1]<20, f'{n} Hs fuera de rango'
+          print('Oleaje verificado:',d['generado_utc'],d['fin_pronostico'])
+          PY
+      - name: Publicar sólo oleaje
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Agente Oleaje"
+          git config user.email "actions@users.noreply.github.com"
+          tar -cf /tmp/oleaje.tar data/oleaje
+          for ciclo in 1 2 3 4; do
+            git fetch origin main
+            git reset --hard origin/main
+            tar -xf /tmp/oleaje.tar
+            git add data/oleaje
+            if git diff --cached --quiet; then echo "Sin cambios."; exit 0; fi
+            git commit -m "Actualiza oleaje WW3 [skip ci]"
+            for intento in 1 2 3; do
+              if git push origin HEAD:main; then echo "Oleaje publicado."; exit 0; fi
+              sleep $((intento * 10))
+            done
+            sleep $((ciclo * 8))
+          done
+          echo "No fue posible publicar el oleaje."; exit 1
