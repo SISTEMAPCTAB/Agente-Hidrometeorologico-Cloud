@@ -1,7 +1,7 @@
 {
-  "run_utc": "2026-11-14T16:21:13.758476+00:00",
-  "run_local": "2026-11-14T10:21:13.758476-06:00",
-  "coverage_hours": 1702.33,
+  "run_utc": "2026-11-14T16:51:23.441185+00:00",
+  "run_local": "2026-11-14T10:51:23.441185-06:00",
+  "coverage_hours": 1702.83,
   "stations": [
     {
       "nombre": "ACALA PCIVILCHIAPAS",
@@ -16,13 +16,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 14,
-      "temperature_f": 81.0,
-      "humidity_pct": 65.0,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 23,
+      "temperature_f": 80.0,
+      "humidity_pct": 66.0,
       "wind_mph": 0.0,
-      "barometer_inhg": 30.07,
+      "barometer_inhg": 30.06,
       "source_url": "https://www.weatherlink.com/map/data/station/223fd3da-5715-46cb-9e36-a8f53283baf8",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -35,7 +35,8 @@
         "72": 0.0,
         "96": 0.0,
         "120": 0.0,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -45,9 +46,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud"
     },
@@ -64,13 +67,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 14,
-      "temperature_f": 70.0,
-      "humidity_pct": 89.0,
-      "wind_mph": 1.0,
-      "barometer_inhg": 30.14,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 23,
+      "temperature_f": 71.0,
+      "humidity_pct": 88.0,
+      "wind_mph": 0.0,
+      "barometer_inhg": 30.13,
       "source_url": "https://www.weatherlink.com/map/data/station/53d370e6-a6a4-424d-bb54-b4a4fa8b48a8",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -83,7 +86,8 @@
         "72": 8.6,
         "96": 14.7,
         "120": 14.7,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 4.3
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -93,9 +97,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 4.3,
       "quality": "Cloud"
     },
@@ -112,13 +118,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:20:37+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:20 AM",
-      "age_seconds": 37,
-      "temperature_f": 80.0,
-      "humidity_pct": 92.0,
-      "wind_mph": 4.0,
-      "barometer_inhg": 29.96,
+      "observed_utc": "2026-11-14T16:50:37+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:50 AM",
+      "age_seconds": 47,
+      "temperature_f": 81.0,
+      "humidity_pct": 89.0,
+      "wind_mph": 0.0,
+      "barometer_inhg": 29.95,
       "source_url": "https://www.weatherlink.com/map/data/station/77ead3a5-9f34-4f2d-aa8d-2dfeed3eba4f",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -131,7 +137,8 @@
         "72": 6.6,
         "96": 6.6,
         "120": 6.6,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 5.6
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -141,9 +148,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 5.6,
       "quality": "Cloud"
     },
@@ -160,9 +169,9 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:14.639988+00:00",
+      "observed_utc": "2026-11-14T16:51:24.432687+00:00",
       "last_updated_at": "--",
-      "age_seconds": 1794673274,
+      "age_seconds": 1794675084,
       "temperature_f": null,
       "humidity_pct": null,
       "wind_mph": null,
@@ -179,7 +188,8 @@
         "72": 0.0,
         "96": 0.0,
         "120": 0.0,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -189,9 +199,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud"
     },
@@ -208,13 +220,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 14,
-      "temperature_f": 71.0,
-      "humidity_pct": 85.0,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 24,
+      "temperature_f": 72.0,
+      "humidity_pct": 83.0,
       "wind_mph": 4.0,
-      "barometer_inhg": 30.13,
+      "barometer_inhg": 30.12,
       "source_url": "https://www.weatherlink.com/map/data/station/83de353f-1000-4ce4-90c2-f13d47f3bb3a",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -227,7 +239,8 @@
         "72": 0.0,
         "96": 0.0,
         "120": 0.0,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -237,9 +250,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud"
     },
@@ -256,13 +271,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:20:36+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:20 AM",
-      "age_seconds": 38,
+      "observed_utc": "2026-11-14T16:50:36+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:50 AM",
+      "age_seconds": 48,
       "temperature_f": 80.0,
-      "humidity_pct": 90.0,
-      "wind_mph": 3.0,
-      "barometer_inhg": 30.02,
+      "humidity_pct": 89.0,
+      "wind_mph": 1.0,
+      "barometer_inhg": 30.0,
       "source_url": "https://www.weatherlink.com/map/data/station/903123f2-ae03-4f9c-9f75-2ce5ec49af35",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -275,7 +290,8 @@
         "72": 9.2,
         "96": 9.2,
         "120": 9.2,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 8.9
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -285,9 +301,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 8.9,
       "quality": "Cloud"
     },
@@ -304,13 +322,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 15,
-      "temperature_f": 72.0,
-      "humidity_pct": 92.0,
-      "wind_mph": 1.0,
-      "barometer_inhg": 30.13,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 24,
+      "temperature_f": 74.0,
+      "humidity_pct": 89.0,
+      "wind_mph": 2.0,
+      "barometer_inhg": 30.11,
       "source_url": "https://www.weatherlink.com/map/data/station/45f56f1b-d4ad-467b-9764-1294db4b454b",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -318,12 +336,13 @@
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.2,
-        "24": 15.5,
+        "24": 15.2,
         "48": 20.5,
         "72": 20.7,
         "96": 21.3,
         "120": 21.3,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 17.2
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -333,10 +352,12 @@
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
-      "reconstructed_24h_mm_raw": 15.5,
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
+      "reconstructed_24h_mm_raw": 15.2,
       "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 24h/48h/72h/96h/120h"
     },
     {
@@ -352,13 +373,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 15,
-      "temperature_f": 73.0,
-      "humidity_pct": 76.0,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 25,
+      "temperature_f": 74.0,
+      "humidity_pct": 73.0,
       "wind_mph": 1.0,
-      "barometer_inhg": 30.14,
+      "barometer_inhg": 30.13,
       "source_url": "https://www.weatherlink.com/map/data/station/158b577e-cfd9-4f4c-aa57-15c41c09caa8",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -371,7 +392,8 @@
         "72": 2.6,
         "96": 6.4,
         "120": 6.4,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -381,9 +403,11 @@
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
@@ -400,13 +424,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 15,
-      "temperature_f": 76.0,
-      "humidity_pct": 82.0,
-      "wind_mph": 0.0,
-      "barometer_inhg": 30.11,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 25,
+      "temperature_f": 77.0,
+      "humidity_pct": 76.0,
+      "wind_mph": 6.0,
+      "barometer_inhg": 30.1,
       "source_url": "https://www.weatherlink.com/map/data/station/37d1c155-0eeb-4a8a-bac7-7cec1b527e7f",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -419,7 +443,8 @@
         "72": 0.5,
         "96": 0.5,
         "120": 0.5,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.5
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -429,9 +454,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.5,
       "quality": "Cloud"
     },
@@ -450,7 +477,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-08-11T22:30:00+00:00",
       "last_updated_at": "Aug 11, 2026/ 4:30 PM",
-      "age_seconds": 8185875,
+      "age_seconds": 8187685,
       "temperature_f": 90.0,
       "humidity_pct": 71.0,
       "wind_mph": 12.0,
@@ -467,7 +494,8 @@
         "72": 0.0,
         "96": 0.0,
         "120": 0.0,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -477,9 +505,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud"
     },
@@ -498,7 +528,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-03-27T17:00:53+00:00",
       "last_updated_at": "Mar 27, 2026/ 11:00 AM",
-      "age_seconds": 20042422,
+      "age_seconds": 20044232,
       "temperature_f": 81.0,
       "humidity_pct": 9.0,
       "wind_mph": 2.0,
@@ -515,7 +545,8 @@
         "72": 0.0,
         "96": 0.0,
         "120": 0.0,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -525,9 +556,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud"
     },
@@ -544,12 +577,12 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 16,
-      "temperature_f": 79.0,
-      "humidity_pct": 81.0,
-      "wind_mph": 0.0,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 26,
+      "temperature_f": 80.0,
+      "humidity_pct": 79.0,
+      "wind_mph": 2.0,
       "barometer_inhg": 29.98,
       "source_url": "https://www.weatherlink.com/map/data/station/518d187c-15e3-4e0c-acff-ef61f201d588",
       "increment_mm": 0.0,
@@ -563,7 +596,8 @@
         "72": 35.8,
         "96": 35.8,
         "120": 35.8,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 5.1
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -573,9 +607,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 5.1,
       "quality": "Cloud"
     },
@@ -592,9 +628,9 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 16,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 26,
       "temperature_f": null,
       "humidity_pct": null,
       "wind_mph": null,
@@ -611,7 +647,8 @@
         "72": 0.0,
         "96": 0.0,
         "120": 0.0,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -621,9 +658,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud"
     },
@@ -642,7 +681,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-10-18T01:00:00+00:00",
       "last_updated_at": "Oct 17, 2026/ 7:00 PM",
-      "age_seconds": 2388076,
+      "age_seconds": 2389886,
       "temperature_f": null,
       "humidity_pct": null,
       "wind_mph": null,
@@ -659,7 +698,8 @@
         "72": 0.0,
         "96": 0.0,
         "120": 0.0,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -669,9 +709,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud"
     },
@@ -690,7 +732,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-11-14T03:29:00+00:00",
       "last_updated_at": "Nov 13, 2026/ 9:29 PM",
-      "age_seconds": 46336,
+      "age_seconds": 48146,
       "temperature_f": 70.0,
       "humidity_pct": 96.0,
       "wind_mph": 0.0,
@@ -707,7 +749,8 @@
         "72": 1.3,
         "96": 1.3,
         "120": 1.3,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.5
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -717,9 +760,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.5,
       "quality": "Cloud"
     },
@@ -736,13 +781,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 16,
-      "temperature_f": 79.0,
-      "humidity_pct": 89.0,
-      "wind_mph": 1.0,
-      "barometer_inhg": 30.01,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 26,
+      "temperature_f": 80.0,
+      "humidity_pct": 88.0,
+      "wind_mph": 4.0,
+      "barometer_inhg": 30.0,
       "source_url": "https://www.weatherlink.com/map/data/station/05721cd1-e674-4345-ae4b-f1c69587da25",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -750,12 +795,13 @@
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
-        "24": 8.4,
+        "24": 7.4,
         "48": 16.3,
         "72": 16.3,
         "96": 16.3,
         "120": 16.3,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 16.3
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -765,10 +811,12 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
-      "reconstructed_24h_mm_raw": 8.4,
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
+      "reconstructed_24h_mm_raw": 7.4,
       "quality": "Cloud"
     },
     {
@@ -786,14 +834,14 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-10-30T03:45:00+00:00",
       "last_updated_at": "Oct 29, 2026/ 9:45 PM",
-      "age_seconds": 1341376,
+      "age_seconds": 1343187,
       "temperature_f": 76.0,
       "humidity_pct": 89.0,
       "wind_mph": 0.0,
       "barometer_inhg": 29.99,
       "source_url": "https://www.weatherlink.com/map/data/station/6fcffa90-7f41-41fb-a8e4-f906d78d9b12",
-      "increment_mm": 0.0,
-      "increment_method": "diferencia_diaria",
+      "increment_mm": null,
+      "increment_method": "sin_dato",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
@@ -803,7 +851,8 @@
         "72": 0.0,
         "96": 0.0,
         "120": 0.0,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -813,9 +862,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud"
     },
@@ -832,13 +883,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 17,
-      "temperature_f": 70.0,
-      "humidity_pct": 84.0,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 27,
+      "temperature_f": 72.0,
+      "humidity_pct": 82.0,
       "wind_mph": 2.0,
-      "barometer_inhg": 30.16,
+      "barometer_inhg": 30.15,
       "source_url": "https://www.weatherlink.com/map/data/station/35471877-6f85-49a0-9aa1-cd646ffa7dd0",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -851,7 +902,8 @@
         "72": 1.3,
         "96": 1.3,
         "120": 1.3,
-        "d08": 0.3
+        "d08": 0.3,
+        "c08": 1.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -861,9 +913,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 1.3,
       "quality": "Cloud"
     },
@@ -882,7 +936,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-10-18T00:00:00+00:00",
       "last_updated_at": "Oct 17, 2026/ 6:00 PM",
-      "age_seconds": 2391677,
+      "age_seconds": 2393487,
       "temperature_f": 76.0,
       "humidity_pct": 66.0,
       "wind_mph": 8.0,
@@ -899,7 +953,8 @@
         "72": 0.0,
         "96": 0.0,
         "120": 0.0,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -909,9 +964,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud"
     },
@@ -928,13 +985,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 17,
-      "temperature_f": 79.0,
-      "humidity_pct": 84.0,
-      "wind_mph": 0.0,
-      "barometer_inhg": 29.69,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 27,
+      "temperature_f": 80.0,
+      "humidity_pct": 83.0,
+      "wind_mph": 3.0,
+      "barometer_inhg": 29.68,
       "source_url": "https://www.weatherlink.com/map/data/station/00f3c40c-9bbf-4d71-9ca0-5b035962e911",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -942,12 +999,13 @@
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
-        "24": 8.4,
+        "24": 8.1,
         "48": 10.9,
         "72": 10.9,
         "96": 10.9,
         "120": 10.9,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 9.4
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -957,10 +1015,12 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
-      "reconstructed_24h_mm_raw": 8.4,
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
+      "reconstructed_24h_mm_raw": 8.1,
       "quality": "Cloud"
     },
     {
@@ -976,13 +1036,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 17,
-      "temperature_f": 81.0,
-      "humidity_pct": 75.0,
-      "wind_mph": 2.0,
-      "barometer_inhg": 30.01,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 27,
+      "temperature_f": 82.0,
+      "humidity_pct": 74.0,
+      "wind_mph": 1.0,
+      "barometer_inhg": 30.0,
       "source_url": "https://www.weatherlink.com/map/data/station/58c7addf-e60b-414f-baec-0f1a2d7073da",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -990,12 +1050,13 @@
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.3,
-        "24": 8.2,
+        "24": 3.6,
         "48": 8.7,
         "72": 8.7,
         "96": 8.7,
         "120": 8.7,
-        "d08": 0.3
+        "d08": 0.3,
+        "c08": 8.4
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -1005,10 +1066,12 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
-      "reconstructed_24h_mm_raw": 8.2,
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
+      "reconstructed_24h_mm_raw": 3.6,
       "quality": "Cloud"
     },
     {
@@ -1026,14 +1089,14 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-11-14T16:00:00+00:00",
       "last_updated_at": "Nov 14, 2026/ 10:00 AM",
-      "age_seconds": 1277,
+      "age_seconds": 3087,
       "temperature_f": 80.0,
       "humidity_pct": 87.0,
       "wind_mph": 1.0,
       "barometer_inhg": 30.01,
       "source_url": "https://www.weatherlink.com/map/data/station/a86b31af-4828-44e9-8709-47f86d62b20e",
-      "increment_mm": 0.0,
-      "increment_method": "diferencia_diaria",
+      "increment_mm": null,
+      "increment_method": "sin_dato",
       "rollover_uncertain_24h": true,
       "accumulations_mm": {
         "1": 0.0,
@@ -1043,7 +1106,8 @@
         "72": 29.4,
         "96": 34.0,
         "120": 34.0,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 27.1
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -1053,9 +1117,11 @@
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 27.1,
       "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 24h/48h/72h/96h/120h"
     },
@@ -1072,13 +1138,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 17,
-      "temperature_f": 81.0,
-      "humidity_pct": 84.0,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 28,
+      "temperature_f": 82.0,
+      "humidity_pct": 83.0,
       "wind_mph": 3.0,
-      "barometer_inhg": 29.92,
+      "barometer_inhg": 29.9,
       "source_url": "https://www.weatherlink.com/map/data/station/cee4af20-176f-41b3-a0c3-dcc0d81f0424",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -1091,7 +1157,8 @@
         "72": 21.9,
         "96": 21.9,
         "120": 21.9,
-        "d08": 0.3
+        "d08": 0.3,
+        "c08": 21.1
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -1101,9 +1168,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 21.4,
       "quality": "Cloud"
     },
@@ -1122,7 +1191,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-11-14T14:06:00+00:00",
       "last_updated_at": "Nov 14, 2026/ 8:06 AM",
-      "age_seconds": 8117,
+      "age_seconds": 9928,
       "temperature_f": 74.0,
       "humidity_pct": 100.0,
       "wind_mph": 4.0,
@@ -1139,7 +1208,8 @@
         "72": 19.9,
         "96": 19.9,
         "120": 19.9,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 19.9
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -1149,9 +1219,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 19.9,
       "quality": "Cloud"
     },
@@ -1168,13 +1240,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 17,
-      "temperature_f": 82.0,
-      "humidity_pct": 76.0,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 28,
+      "temperature_f": 83.0,
+      "humidity_pct": 78.0,
       "wind_mph": 2.0,
-      "barometer_inhg": 29.98,
+      "barometer_inhg": 29.96,
       "source_url": "https://www.weatherlink.com/map/data/station/d0fdf036-46ea-4769-ada0-ba6dac46ba77",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -1187,7 +1259,8 @@
         "72": 15.0,
         "96": 24.2,
         "120": 24.2,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 6.9
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -1197,9 +1270,11 @@
         "72": "exacto_reconstruido",
         "96": "minimo_observado",
         "120": "minimo_observado",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 6.9,
       "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 96h/120h"
     },
@@ -1216,13 +1291,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:21:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:21 AM",
-      "age_seconds": 19,
-      "temperature_f": 80.0,
-      "humidity_pct": 87.0,
-      "wind_mph": 0.0,
-      "barometer_inhg": 29.94,
+      "observed_utc": "2026-11-14T16:51:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 28,
+      "temperature_f": 82.0,
+      "humidity_pct": 83.0,
+      "wind_mph": 2.0,
+      "barometer_inhg": 29.92,
       "source_url": "https://www.weatherlink.com/map/data/station/a0fb45f0-742f-4136-98fb-024bcc3d9e36",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -1230,12 +1305,13 @@
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
-        "24": 8.9,
+        "24": 8.6,
         "48": 8.9,
         "72": 8.9,
         "96": 8.9,
         "120": 8.9,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 8.9
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -1245,10 +1321,12 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
-      "reconstructed_24h_mm_raw": 8.9,
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
+      "reconstructed_24h_mm_raw": 8.6,
       "quality": "Cloud"
     },
     {
@@ -1266,7 +1344,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-11-12T23:17:46+00:00",
       "last_updated_at": "Nov 12, 2026/ 5:17 PM",
-      "age_seconds": 147814,
+      "age_seconds": 149622,
       "temperature_f": -90.0,
       "humidity_pct": null,
       "wind_mph": 18.0,
@@ -1283,7 +1361,8 @@
         "72": 0.0,
         "96": 0.0,
         "120": 0.0,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -1293,9 +1372,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud"
     },
@@ -1314,7 +1395,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-11-07T14:17:41+00:00",
       "last_updated_at": "Nov 07, 2026/ 8:17 AM",
-      "age_seconds": 612219,
+      "age_seconds": 614028,
       "temperature_f": 85.0,
       "humidity_pct": 78.0,
       "wind_mph": 4.0,
@@ -1331,7 +1412,8 @@
         "72": 0.0,
         "96": 0.0,
         "120": 0.0,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -1341,9 +1423,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud"
     },
@@ -1360,13 +1444,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:20:59+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:20 AM",
-      "age_seconds": 21,
+      "observed_utc": "2026-11-14T16:51:02+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 27,
       "temperature_f": 80.0,
-      "humidity_pct": 84.0,
-      "wind_mph": 5.0,
-      "barometer_inhg": 29.97,
+      "humidity_pct": 82.0,
+      "wind_mph": 0.0,
+      "barometer_inhg": 29.96,
       "source_url": "https://www.weatherlink.com/map/data/station/179b2e03-d930-4c64-a53c-b05d6814cd99",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -1379,7 +1463,8 @@
         "72": 4.3,
         "96": 5.6,
         "120": 19.6,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 3.6
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -1389,9 +1474,11 @@
         "72": "exacto_reconstruido",
         "96": "minimo_observado",
         "120": "minimo_observado",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 3.6,
       "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 96h/120h"
     },
@@ -1408,13 +1495,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:15:00+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:15 AM",
-      "age_seconds": 381,
+      "observed_utc": "2026-11-14T16:45:00+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:45 AM",
+      "age_seconds": 389,
       "temperature_f": 80.0,
-      "humidity_pct": 82.0,
+      "humidity_pct": 79.0,
       "wind_mph": 1.0,
-      "barometer_inhg": 29.81,
+      "barometer_inhg": 29.8,
       "source_url": "https://www.weatherlink.com/map/data/station/6a6be1ae-627b-49f0-8bad-10622e2834bc",
       "increment_mm": 0.0,
       "increment_method": "diferencia_diaria",
@@ -1422,12 +1509,13 @@
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
-        "24": 10.4,
+        "24": 6.3,
         "48": 12.7,
         "72": 15.5,
         "96": 15.5,
         "120": 15.5,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 12.7
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -1437,10 +1525,12 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
-      "reconstructed_24h_mm_raw": 10.4,
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
+      "reconstructed_24h_mm_raw": 6.3,
       "quality": "Cloud"
     },
     {
@@ -1458,7 +1548,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-11-13T02:36:18+00:00",
       "last_updated_at": "Nov 12, 2026/ 8:36 PM",
-      "age_seconds": 135903,
+      "age_seconds": 137711,
       "temperature_f": 77.0,
       "humidity_pct": 96.0,
       "wind_mph": 0.0,
@@ -1475,7 +1565,8 @@
         "72": 0.5,
         "96": 0.5,
         "120": 0.5,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -1485,9 +1576,11 @@
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
@@ -1504,12 +1597,12 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-14T16:20:23+00:00",
-      "last_updated_at": "Nov 14, 2026/ 10:20 AM",
-      "age_seconds": 58,
-      "temperature_f": 77.0,
-      "humidity_pct": 89.0,
-      "wind_mph": 3.0,
+      "observed_utc": "2026-11-14T16:51:29+00:00",
+      "last_updated_at": "Nov 14, 2026/ 10:51 AM",
+      "age_seconds": 0,
+      "temperature_f": 78.0,
+      "humidity_pct": 86.0,
+      "wind_mph": 1.0,
       "barometer_inhg": 29.85,
       "source_url": "https://www.weatherlink.com/map/data/station/c7cd2939-bb5b-4724-a033-ee7fceaf240e",
       "increment_mm": 0.0,
@@ -1523,7 +1616,8 @@
         "72": 0.0,
         "96": 0.0,
         "120": 0.0,
-        "d08": 0.0
+        "d08": 0.0,
+        "c08": 0.0
       },
       "accumulation_status": {
         "1": "exacto_reconstruido",
@@ -1533,9 +1627,11 @@
         "72": "exacto_reconstruido",
         "96": "exacto_reconstruido",
         "120": "exacto_reconstruido",
-        "d08": "exacto_reconstruido"
+        "d08": "exacto_reconstruido",
+        "c08": "exacto_reconstruido"
       },
       "d08_desde_local": "2026-11-14T08:00:00-06:00",
+      "c08_hasta_local": "2026-11-14T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
       "quality": "Cloud"
     }
