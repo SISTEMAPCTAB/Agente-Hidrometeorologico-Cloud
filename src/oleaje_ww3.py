@@ -13,10 +13,10 @@ Salidas (las lee el modelo, bloque V111bq):
 """
 import csv, datetime as dt, io, json, math, sys, time
 from pathlib import Path
-import urllib.request
+import urllib.request, urllib.parse, urllib.error
 
 OUT = Path('data/oleaje')
-SERVIDORES = ['https://coastwatch.pfeg.noaa.gov/erddap', 'https://upwell.pfeg.noaa.gov/erddap', 'https://pae-paha.pacioos.hawaii.edu/erddap']
+SERVIDORES = ['https://coastwatch.pfeg.noaa.gov/erddap', 'https://upwell.pfeg.noaa.gov/erddap']
 DS = 'NWW3_Global_Best'
 VARS = ['Thgt', 'Tper', 'Tdir', 'whgt']
 CAJA = (17.5, 19.5, 265.0, 268.5)      # lat0, lat1, lon0, lon1 (0-360) = -95.0 a -91.5
@@ -34,13 +34,18 @@ UA = {'User-Agent': 'IPCET-Hidromet/1.0 (Agente Hidrometeorologico; oleaje)'}
 def pedir(consulta):
     ult = None
     for base in SERVIDORES:
-        url = f'{base}/griddap/{DS}.csv?{consulta}'
+        url = f'{base}/griddap/{DS}.csv?' + urllib.parse.quote(consulta, safe='=&,:*')   # ERDDAP pide [ ] ( ) codificados
         for i in range(3):
             try:
                 with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=120) as r:
                     return r.read().decode('utf-8'), base
+            except urllib.error.HTTPError as e:
+                cuerpo = e.read().decode('utf-8', 'ignore')[:300]
+                ult = f'{base}: HTTP {e.code} {cuerpo}'; print('   ', ult, file=sys.stderr)
+                if e.code in (400, 404): break
+                time.sleep(5 * (i + 1))
             except Exception as e:
-                ult = f'{base}: {e}'; time.sleep(5 * (i + 1))
+                ult = f'{base}: {e}'; print('   ', ult, file=sys.stderr); time.sleep(5 * (i + 1))
     raise RuntimeError(f'ERDDAP sin respuesta ({ult})')
 
 
