@@ -1,23 +1,29 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-14T09:40:09.688594-06:00",
+  "run_local": "2026-11-14T10:14:34.219777-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-14T08:00:00-06:00",
-  "messages_scanned": 31,
-  "levels_processed_now": 0,
+  "messages_scanned": 30,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
-  "pdfs_skipped_duplicate_content": 21,
-  "sources_updated": [
-    "FUENTE1"
-  ],
+  "pdfs_skipped_duplicate_content": 20,
+  "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (34 correos)",
-  "max_uid_asunto": 67099,
+  "busqueda": "por asunto (35 correos)",
+  "max_uid_asunto": 67101,
   "asuntos_locales_adicionales": 14,
   "mensajes_sin_pdf_omitidos": 1,
   "revisados": [
+    {
+      "uid": "67101",
+      "fecha": "2026-11-14T10:13",
+      "asunto": "SE ENVIA EL INFORME DE NIVELES DE LAS 10:00 HORAS.",
+      "pdf": [
+        "Niveles del 14 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "67099",
       "fecha": "2026-11-14T09:37",
@@ -209,14 +215,14 @@
       "pdf": [
         "Niveles del 11 de Noviembre del 2026.pdf"
       ]
-    },
-    {
-      "uid": "66939",
-      "fecha": "2026-11-11T16:24",
-      "asunto": "Informe de Niveles de las 16 hr",
-      "pdf": [
-        "Niveles del 11 de Noviembre del 2026.pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-11-14T10:00:00-06:00",
+    "corte": "2026-11-14T10:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
