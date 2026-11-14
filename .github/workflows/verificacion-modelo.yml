@@ -24,11 +24,13 @@ jobs:
           fetch-depth: 0
       - name: Armar verificación
         run: python3 src/verificacion_modelo.py
+      - name: Envolvente de localidades de la temporada (14-nov-2026, modelo V111ca)
+        run: python3 src/envolvente_localidades.py
       - name: Publicar
         run: |
           git config user.name 'Agente Hidrometeorologico Verificacion'
           git config user.email 'actions@users.noreply.github.com'
-          git add data/modelo_rubio/verificacion.json
+          git add data/modelo_rubio/verificacion.json data/modelo_rubio/envolvente_localidades.json
           git diff --cached --quiet && { echo "Sin cambios"; exit 0; }
           git commit -m "Verificación Modelo Rubio [skip ci]"
           for i in 1 2 3 4; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done
