@@ -129,10 +129,17 @@ def trend_label(rows, cutoff):
     previas = [(t, r) for t, r in real if cutoff - timedelta(hours=24) <= t < cutoff - timedelta(hours=6)]
     if previas:
         recent = [previas[-1]] + recent
+        # Gilberto (14-nov): los boletines de 06:00 y 08:00 traen "Día anterior" y "Actual"; si el hueco nocturno
+        # (> 8 h) cae dentro de la ventana, la tendencia es la del boletín: actual contra la lectura de 24 h antes.
+        if len(recent) >= 2 and recent[1][0] - recent[0][0] > timedelta(hours=8):
+            t_last = real[-1][0]
+            dia_ant = [(t, r) for t, r in real if t_last - timedelta(hours=25) <= t <= t_last - timedelta(hours=23)]
+            if dia_ant:
+                recent = [min(dia_ant, key=lambda x: abs((x[0] - (t_last - timedelta(hours=24))).total_seconds())), real[-1]]
     if len(recent) < 2:
         recent = real[-2:]
 
-    aggregate = float(recent[-1][1]["nivel"]) - float(recent[0][1]["nivel"])
+    aggregate = round(float(recent[-1][1]["nivel"]) - float(recent[0][1]["nivel"]), 3)
     last = float(real[-1][1]["nivel"]) - float(real[-2][1]["nivel"])
     eps = 0.02
 
