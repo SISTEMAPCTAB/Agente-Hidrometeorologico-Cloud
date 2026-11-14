@@ -3,7 +3,10 @@
 // Apartado "Estiaje" (12-nov-2026, aprobado por Gilberto). Sólo lectura; no altera fuentes, semáforos de creciente ni otros apartados.
 // Umbrales: data/catalogos/estiaje_umbrales.json, generado por el Modelo Hidrológico (calibracion_sierra/umbrales_estiaje_v111g.py, V111o)
 // con el SIH-CONAGUA diario y BANDAS. Semáforo principal por GASTO (no depende del cero de la escala); nivel en msnm como complemento:
-//   vigilancia < percentil 10 del mes · alerta < mínimo de 7 días de Tr 5 años · crítico < mínimo diario de Tr 10 años · récord < mínimo histórico.
+//   vigilancia < mínimo diario de Tr 2 años · alerta < mínimo de 7 días de Tr 5 años · crítico < mínimo diario de Tr 10 años · récord < mínimo histórico.
+// 14-nov-2026 (Gilberto: "que sea congruente" con la diferencia al mínimo): la vigilancia era el p10 del mes y en noviembre marcaba Gaviotas y
+// El Muelle a más de 1 m del mínimo. Ahora todos los umbrales son contra los mínimos; el p10 queda como nota "bajo lo normal del mes".
+// Si manda el gasto y el nivel da 2 o más clases peor (Teapa, Puyacatengo: el cauce bajó), la diferencia del nivel sale en gris.
 // Dato actual: gastos_conagua.json (Q y ΔQ 24 h) y ultimo_resumen.json (nivel, Δ24 h y Δ72 h).
 // Diferencia = registro actual − mínimo histórico; tendencia − (baja, hacia el mínimo) o + (sube, se aleja).
 const SRC={umb:'../data/catalogos/estiaje_umbrales.json',q:'../data/pronostico_hidrologico/gastos_conagua.json',h:'../data/niveles/Ultimo_Corte/ultimo_resumen.json',m:'../data/modelo_rubio/latest.json'};
@@ -16,7 +19,11 @@ const num=v=>v===null||v===undefined||v===''?NaN:Number(v);
 const fx=(v,d=2)=>Number.isFinite(num(v))?Number(v).toFixed(d):'s/d';
 const chip=k=>{const n=NIV[k]||NIV.sd;return `<span style="display:inline-block;padding:2px 8px;border-radius:10px;background:${n[1]};color:${n[2]};font-weight:600;white-space:nowrap">${n[0]}</span>`};
 function clase(v,u,mes){if(!u||!Number.isFinite(v))return 'sd';if(v<num(u.minimo_historico))return 'record';if(v<num(u.critico_tr10))return 'critico';
- if(v<num(u.alerta_tr5_min7d))return 'alerta';const p=num(u.p10_mes?.[String(mes)]);if(Number.isFinite(p)&&v<p)return 'vigilancia';return 'normal'}
+ if(v<num(u.alerta_tr5_min7d))return 'alerta';const t2=num(u.vigilancia_tr2),p=num(u.p10_mes?.[String(mes)]);
+ if(Number.isFinite(t2)?v<t2:(Number.isFinite(p)&&v<p))return 'vigilancia';return 'normal'}
+const MESES=['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const bajoMes=(v,u,mes)=>{const p=num(u?.p10_mes?.[String(mes)]);return Number.isFinite(v)&&Number.isFinite(p)&&v<p?`<br><small title="menor que en 9 de cada 10 años para este mes">bajo lo normal de ${MESES[mes]}</small>`:''};
+const vig=u=>u?.vigilancia_tr2??u?.p10_mes?.[String(new Date().getMonth()+1)];
 function tend(d,u,dec){if(!Number.isFinite(d))return 's/d';if(Math.abs(d)<(dec===2?0.005:0.05))return 'estable';const s=(d>0?'+':'−')+Math.abs(d).toFixed(dec)+' '+u;
  return d<0?`<b style="color:#7b4a1e">↓ ${s}</b>`:`<span style="color:#2f6b3a">↑ ${s}</span>`}
 async function get(u){const r=await fetch(u+'?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error(r.status+' '+u);return r.json()}
@@ -44,21 +51,23 @@ async function show(){
    let q=num(g?.q_actual_m3s);if(!(q>0))q=NaN;const dq=Number.isFinite(q)?num(g?.delta_q_m3s):NaN;
    let h=num(l?.ultimo_nivel);if(h===0)h=NaN;const viejo=l&&l.estado_dato&&l.estado_dato!=='observado';
    const kq=clase(q,u.gasto,mes),kh=clase(h,u.nivel,mes),k=Number.isFinite(q)&&u.gasto?kq:kh;cuenta[k]=(cuenta[k]||0)+1;
-   filas+=`<tr><td><b>${esc(e)}</b></td><td>${chip(k)}<br><small>${Number.isFinite(q)&&u.gasto?'por gasto':'por nivel'}</small></td>
+   const noComp=Number.isFinite(q)&&!!u.gasto&&Number.isFinite(h)&&!!u.nivel&&((NIV[kh]?.[3]??0)-(NIV[kq]?.[3]??0)>=2);
+   filas+=`<tr><td><b>${esc(e)}</b></td><td>${chip(k)}<br><small>${Number.isFinite(q)&&u.gasto?'por gasto':'por nivel'}</small>${Number.isFinite(q)&&u.gasto?bajoMes(q,u.gasto,mes):bajoMes(h,u.nivel,mes)}</td>
     <td>${fx(q,1)}${u.gasto&&Number.isFinite(q)?`<br><small>mín. ${fx(u.gasto.minimo_historico,1)} (${esc(String(u.gasto.fecha_minimo||'').slice(0,4))})</small>`:''}</td>
     <td><b>${Number.isFinite(q)&&u.gasto?fx(q-u.gasto.minimo_historico,1):'s/d'}</b></td><td>${tend(dq,'m³/s',1)}<br><small>24 h</small></td>
     <td>${fx(h)}${viejo?' <small>('+esc(l.estado_dato)+')</small>':''}${u.nivel?`<br><small>mín. ${fx(u.nivel.minimo_historico)} (${esc(String(u.nivel.fecha_minimo||'').slice(0,4))})</small>`:''}</td>
-    <td><b>${Number.isFinite(h)&&u.nivel?fx(h-u.nivel.minimo_historico):'s/d'}</b></td><td>24 h: ${tend(num(l?.delta_24h),'m',2)}<br>72 h: ${tend(num(l?.delta_72h),'m',2)}</td><td>${pron(P[nm(e)],u.gasto,u.nivel,q,h,mes,u.recesion)}</td>
-    <td><small>${u.gasto?`Q: ${fx(u.gasto.p10_mes?.[String(mes)],1)} · ${fx(u.gasto.alerta_tr5_min7d,1)} · ${fx(u.gasto.critico_tr10,1)}`:''}${u.nivel?`<br>H: ${fx(u.nivel.p10_mes?.[String(mes)])} · ${fx(u.nivel.alerta_tr5_min7d)} · ${fx(u.nivel.critico_tr10)}`:''}</small></td></tr>`}}
+    <td>${noComp?`<span style="color:#888">${fx(h-u.nivel.minimo_historico)}</span><br><small>no comparable: el cauce o la escala cambió; manda el gasto</small>`:`<b>${Number.isFinite(h)&&u.nivel?fx(h-u.nivel.minimo_historico):'s/d'}</b>`}</td><td>24 h: ${tend(num(l?.delta_24h),'m',2)}<br>72 h: ${tend(num(l?.delta_72h),'m',2)}</td><td>${pron(P[nm(e)],u.gasto,u.nivel,q,h,mes,u.recesion)}</td>
+    <td><small>${u.gasto?`Q: ${fx(vig(u.gasto),1)} · ${fx(u.gasto.alerta_tr5_min7d,1)} · ${fx(u.gasto.critico_tr10,1)}`:''}${u.nivel?`<br>H: ${fx(vig(u.nivel))} · ${fx(u.nivel.alerta_tr5_min7d)} · ${fx(u.nivel.critico_tr10)}`:''}</small></td></tr>`}}
  const res=['record','critico','alerta','vigilancia'].filter(x=>cuenta[x]).map(x=>`${chip(x)} ${cuenta[x]}`).join(' ')||chip('normal')+' en todas las estaciones con dato';
  root.innerHTML=`<section class="panel wide"><h2>Estiaje · semáforo de mínimos</h2>
   <p><b>Estado:</b> ${res}</p>
   <p style="background:#f8fafc;border-left:4px solid #7b4a1e;padding:8px 10px"><b>Cómo se lee:</b> la <b>diferencia</b> es el registro actual menos el mínimo histórico; la <b>tendencia</b> marca
   <b style="color:#7b4a1e">↓ −</b> cuando baja hacia el mínimo y <b style="color:#2f6b3a">↑ +</b> cuando sube y se aleja. El semáforo va por <b>gasto</b> (registro de 50 a 78 años, SIH + BANDAS);
-  el nivel en msnm (SIH 1996-2025) es complemento. Vigilancia: menor que el percentil 10 del mes · Alerta: menor que el mínimo de 7 días de 1 vez cada 5 años · Crítico: menor que el mínimo diario
-  de 1 vez cada 10 años · Récord: menor que el mínimo histórico. Fuera de febrero–junio, la vigilancia sólo indica gasto más bajo que en 9 de cada 10 años para ese mes. El <b>pronóstico a 72 h</b> es el del Modelo Rubio/SegAMH (con la lluvia pronosticada): dice si en 3 días el gasto cruzará algún umbral. <b>Sin lluvia</b>: días que tardaría en llegar a alerta y a crítico si no llueve, con la recesión de estiaje de cada río (entre paréntesis, si baja rápido).</p>
+  el nivel en msnm (SIH 1996-2025) es complemento. Todos los umbrales se miden contra los mínimos, igual todo el año: Vigilancia: menor que el mínimo anual de 1 vez cada 2 años · Alerta: menor que el mínimo de 7 días de 1 vez cada 5 años · Crítico: menor que el mínimo diario
+  de 1 vez cada 10 años · Récord: menor que el mínimo histórico. "Bajo lo normal del mes" (sin color) = menor que en 9 de cada 10 años para ese mes: aviso temprano, no estiaje.
+  Si el nivel da una clase mucho peor que el gasto o queda bajo su mínimo (Puyacatengo, Teapa), es cambio del cauce o de la escala: su diferencia sale en gris y manda el gasto. El <b>pronóstico a 72 h</b> es el del Modelo Rubio/SegAMH (con la lluvia pronosticada): dice si en 3 días el gasto cruzará algún umbral. <b>Sin lluvia</b>: días que tardaría en llegar a alerta y a crítico si no llueve, con la recesión de estiaje de cada río (entre paréntesis, si baja rápido).</p>
   <div class="table-wrap"><table><thead><tr><th>Estación</th><th>Estiaje</th><th>Gasto actual (m³/s)</th><th>Diferencia al mínimo (m³/s)</th><th>Tendencia gasto</th>
-  <th>Nivel actual (msnm)</th><th>Diferencia al mínimo (m)</th><th>Tendencia nivel</th><th>Pronóstico del modelo a 72 h · sin lluvia</th><th>Umbrales del mes: vigilancia · alerta · crítico</th></tr></thead><tbody>${filas}</tbody></table></div>
+  <th>Nivel actual (msnm)</th><th>Diferencia al mínimo (m)</th><th>Tendencia nivel</th><th>Pronóstico del modelo a 72 h · sin lluvia</th><th>Umbrales: vigilancia · alerta · crítico</th></tr></thead><tbody>${filas}</tbody></table></div>
   ${(()=>{const t=um.estaciones?.['González']?.tomas;if(!t)return '';const g=(Q.value?.estaciones||[]).find(x=>nm(x.estacion)===nm('González'));const q=num(g?.q_actual_m3s);return `<p style="background:#fdf8f3;border-left:4px solid #7b4a1e;padding:8px 10px"><b>Tomas de agua potable en el Carrizal (González):</b> `+t.referencias.map(r=>`<b>${fx(r.q,0)} m³/s</b> ${esc(r.que)} (${esc(r.fuente)})`).join('; ')+(Number.isFinite(q)&&q>0?`. Hoy: <b>${fx(q,1)} m³/s</b> (`+t.referencias.map(r=>tend(q-r.q,'m³/s',1)+' contra '+fx(r.q,0)).join(' · ')+')':'')+`. ${esc(t.nota)}</p>`})()}
   <p class="muted">Gasto: boletín CONAGUA-OCFS (${esc(Q.value?.fuente1_fecha_hora||Q.value?.generado_utc||'s/d')}). Nivel: último corte de niveles. Umbrales del ${esc(um.generado||'s/d')} (Modelo Hidrológico, V111o).
   <b>s/d</b> en gasto: el boletín no publica gasto actual de esa estación (Gaviotas, El Muelle, San Pedro, Palizada); ahí el semáforo va por nivel.

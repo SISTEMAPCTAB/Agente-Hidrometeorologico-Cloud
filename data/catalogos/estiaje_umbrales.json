@@ -1,8 +1,8 @@
 {
- "version": "V111o",
+ "version": "V111o-8",
  "generado": "2026-11-13",
  "fuente": "umbrales_estiaje_v111g.py (SIH-CONAGUA diario + BANDAS)",
- "regla": "Principal por gasto (m³/s); nivel en msnm (SIH) como complemento. vigilancia < p10 del mes; alerta < mínimo de 7 días Tr 5 años; crítico < mínimo diario Tr 10 años; récord < mínimo histórico. Aprobado por Gilberto, 12-nov-2026.",
+ "regla": "Principal por gasto (m³/s); nivel en msnm (SIH) como complemento. vigilancia < mínimo diario Tr 2 años (V111o-8, 14-nov-2026; el p10 del mes queda como nota \"bajo lo normal del mes\"); alerta < mínimo de 7 días Tr 5 años; crítico < mínimo diario Tr 10 años; récord < mínimo histórico. Aprobado por Gilberto, 12-nov-2026.",
  "notas": [
   "Los 0.00 del SIH son falta de dato.",
   "Samaria desde 1987 (Peñitas) y González desde 2012 (El Macayo) en gasto.",
@@ -26,6 +26,7 @@
      "11": 41.44,
      "12": 28.85
     },
+    "vigilancia_tr2": 13.15,
     "alerta_tr5_min7d": 10.042,
     "critico_tr10": 5.252,
     "minimo_historico": 1.67,
@@ -51,6 +52,7 @@
      "11": 16.28,
      "12": 16.02
     },
+    "vigilancia_tr2": 16.07,
     "alerta_tr5_min7d": 15.724,
     "critico_tr10": 15.5,
     "minimo_historico": 15.17,
@@ -86,6 +88,7 @@
      "11": 39.22,
      "12": 26.81
     },
+    "vigilancia_tr2": 10.72,
     "alerta_tr5_min7d": 8.143,
     "critico_tr10": 5.0,
     "minimo_historico": 3.0,
@@ -111,6 +114,7 @@
      "11": 34.4,
      "12": 34.22
     },
+    "vigilancia_tr2": 34.07,
     "alerta_tr5_min7d": 33.988,
     "critico_tr10": 33.798,
     "minimo_historico": 33.36,
@@ -146,6 +150,7 @@
      "11": 13.0,
      "12": 10.3
     },
+    "vigilancia_tr2": 5.19,
     "alerta_tr5_min7d": 3.257,
     "critico_tr10": 2.0,
     "minimo_historico": 0.24,
@@ -171,6 +176,7 @@
      "11": 34.01,
      "12": 33.93
     },
+    "vigilancia_tr2": 33.87,
     "alerta_tr5_min7d": 33.721,
     "critico_tr10": 33.496,
     "minimo_historico": 33.34,
@@ -206,6 +212,7 @@
      "11": 7.32,
      "12": 6.0
     },
+    "vigilancia_tr2": 3.35,
     "alerta_tr5_min7d": 2.0,
     "critico_tr10": 1.0,
     "minimo_historico": 0.18,
@@ -231,6 +238,7 @@
      "11": 25.14,
      "12": 25.12
     },
+    "vigilancia_tr2": 25.06,
     "alerta_tr5_min7d": 25.05,
     "critico_tr10": 25.02,
     "minimo_historico": 24.99,
@@ -266,6 +274,7 @@
      "11": 11.0,
      "12": 9.62
     },
+    "vigilancia_tr2": 3.79,
     "alerta_tr5_min7d": 2.718,
     "critico_tr10": 1.558,
     "minimo_historico": 0.48,
@@ -291,6 +300,7 @@
      "11": 19.09,
      "12": 19.08
     },
+    "vigilancia_tr2": 18.99,
     "alerta_tr5_min7d": 18.544,
     "critico_tr10": 18.01,
     "minimo_historico": 17.49,
@@ -326,6 +336,7 @@
      "11": 90.0,
      "12": 65.34
     },
+    "vigilancia_tr2": 25.42,
     "alerta_tr5_min7d": 23.282,
     "critico_tr10": 13.9,
     "minimo_historico": 2.81,
@@ -351,6 +362,7 @@
      "11": 3.24,
      "12": 2.54
     },
+    "vigilancia_tr2": 1.72,
     "alerta_tr5_min7d": 1.577,
     "critico_tr10": 1.12,
     "minimo_historico": 1.0,
@@ -386,6 +398,7 @@
      "11": 151.88,
      "12": 104.7
     },
+    "vigilancia_tr2": 35.99,
     "alerta_tr5_min7d": 32.681,
     "critico_tr10": 17.846,
     "minimo_historico": 10.98,
@@ -411,6 +424,7 @@
      "11": 1.655,
      "12": 1.16
     },
+    "vigilancia_tr2": 0.65,
     "alerta_tr5_min7d": 0.36,
     "critico_tr10": 0.179,
     "minimo_historico": 0.17,
@@ -446,6 +460,7 @@
      "11": 2.11,
      "12": 1.15
     },
+    "vigilancia_tr2": 0.85,
     "alerta_tr5_min7d": 0.231,
     "critico_tr10": 0.08,
     "minimo_historico": 0.05,
@@ -475,6 +490,7 @@
      "11": 226.0,
      "12": 138.0
     },
+    "vigilancia_tr2": 153.5,
     "alerta_tr5_min7d": 78.0,
     "critico_tr10": 42.5,
     "minimo_historico": 38.0,
@@ -500,6 +516,7 @@
      "11": 1.0,
      "12": 0.58
     },
+    "vigilancia_tr2": 0.14,
     "alerta_tr5_min7d": 0.041,
     "critico_tr10": 0.015,
     "minimo_historico": 0.01,
@@ -535,6 +552,7 @@
      "11": 50.81,
      "12": 44.6
     },
+    "vigilancia_tr2": 48.17,
     "alerta_tr5_min7d": 32.501,
     "critico_tr10": 17.266,
     "minimo_historico": 14.11,
@@ -560,6 +578,7 @@
      "11": 3.76,
      "12": 3.63
     },
+    "vigilancia_tr2": 4.44,
     "alerta_tr5_min7d": 3.701,
     "critico_tr10": 3.34,
     "minimo_historico": 3.15,
@@ -604,6 +623,7 @@
      "11": 183.0,
      "12": 138.0
     },
+    "vigilancia_tr2": 171.09,
     "alerta_tr5_min7d": 118.857,
     "critico_tr10": 66.536,
     "minimo_historico": 17.0,
@@ -629,6 +649,7 @@
      "11": 11.5,
      "12": 11.38
     },
+    "vigilancia_tr2": 12.41,
     "alerta_tr5_min7d": 11.434,
     "critico_tr10": 11.2,
     "minimo_historico": 11.0,
@@ -658,6 +679,7 @@
      "11": 55.46,
      "12": 38.43
     },
+    "vigilancia_tr2": 17.87,
     "alerta_tr5_min7d": 11.834,
     "critico_tr10": 6.2,
     "minimo_historico": 3.87,
@@ -683,6 +705,7 @@
      "11": 2.64,
      "12": 1.92
     },
+    "vigilancia_tr2": 0.98,
     "alerta_tr5_min7d": 0.807,
     "critico_tr10": 0.64,
     "minimo_historico": 0.17,
@@ -718,6 +741,7 @@
      "11": 118.0,
      "12": 99.98
     },
+    "vigilancia_tr2": 65.38,
     "alerta_tr5_min7d": 58.066,
     "critico_tr10": 33.2,
     "minimo_historico": 26.0,
@@ -743,6 +767,7 @@
      "11": 3.08,
      "12": 2.64
     },
+    "vigilancia_tr2": 2.13,
     "alerta_tr5_min7d": 2.08,
     "critico_tr10": 1.982,
     "minimo_historico": 1.92,
@@ -778,6 +803,7 @@
      "11": 1503.37,
      "12": 1096.0
     },
+    "vigilancia_tr2": 484.0,
     "alerta_tr5_min7d": 418.797,
     "critico_tr10": 312.371,
     "minimo_historico": 218.0,
@@ -803,6 +829,7 @@
      "11": 13.64,
      "12": 12.67
     },
+    "vigilancia_tr2": 11.2,
     "alerta_tr5_min7d": 11.103,
     "critico_tr10": 10.91,
     "minimo_historico": 10.88,
@@ -838,6 +865,7 @@
      "11": 30.0,
      "12": 14.0
     },
+    "vigilancia_tr2": 25.0,
     "alerta_tr5_min7d": 5.486,
     "critico_tr10": 3.0,
     "minimo_historico": 2.0,
@@ -863,6 +891,7 @@
      "11": 8.53,
      "12": 8.44
     },
+    "vigilancia_tr2": 8.37,
     "alerta_tr5_min7d": 8.321,
     "critico_tr10": 8.29,
     "minimo_historico": 8.18,
@@ -898,6 +927,7 @@
      "11": 225.735,
      "12": 150.22
     },
+    "vigilancia_tr2": 63.92,
     "alerta_tr5_min7d": 57.341,
     "critico_tr10": 37.145,
     "minimo_historico": 34.012,
@@ -923,6 +953,7 @@
      "11": 2.62,
      "12": 1.7
     },
+    "vigilancia_tr2": 0.68,
     "alerta_tr5_min7d": 0.563,
     "critico_tr10": 0.396,
     "minimo_historico": 0.36,
