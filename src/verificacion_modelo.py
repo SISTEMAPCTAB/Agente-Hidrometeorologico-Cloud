@@ -20,6 +20,12 @@ TZ = dt.timezone(dt.timedelta(hours=-6))
 EST = {'Tapijulapa': 'Tapijulapa', 'Teapa · Teapa': 'Teapa', 'San Joaquín': 'San Joaquín', 'Puyacatengo · Puyacatengo': 'Puyacatengo',
        'Pueblo Nuevo': 'Pueblo Nuevo', 'Boca del Cerro': 'Boca del Cerro', 'Samaria · Samaria': 'Samaria', 'González': 'González',
        'Gaviotas': 'Gaviotas', 'El Muelle': 'El Muelle', 'Salto de Agua': 'Salto de Agua', 'Macuspana': 'Macuspana'}
+# Corridas emitidas con gastos de entrada erróneos: no cuentan en la verificación ni en la corrección de sesgo (V107o).
+#  - 29/30-oct-2026: gastos_conagua.json con 0.0 m³/s en todas las estaciones (Q0 = 0; ver V107z2 del modelo).
+#  - 13/14-nov-2026: gastos detenidos en el boletín del 12-nov 11:06 (la verificación del flujo esperaba 13 estaciones y
+#    eran 14 desde que se agregó Boca del Cerro); del primer boletín que no se publicó (13-nov 06:32) a la corrección (14-nov 09:13).
+EXCLUIR = [(dt.datetime(2026, 10, 29, 18, tzinfo=TZ), dt.datetime(2026, 10, 30, 10, tzinfo=TZ), 'gastos en 0'),
+           (dt.datetime(2026, 11, 13, 6, 32, tzinfo=TZ), dt.datetime(2026, 11, 14, 9, 13, tzinfo=TZ), 'gastos del 12-nov sin actualizar')]
 
 
 def git(*a):
@@ -32,7 +38,7 @@ def main():
         if r.get('estado_dato') == 'observado' and r.get('nivel') is not None:
             obs[(r['estacion'], dt.datetime.fromisoformat(r['fecha_hora']).astimezone(dt.timezone.utc).replace(minute=0, second=0, microsecond=0))] = float(r['nivel'])
     desde = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=60)).date().isoformat()
-    pares, vistos, corridas = [], set(), 0
+    pares, vistos, corridas, excluidas = [], set(), 0, 0
     for h in filter(None, git('log', f'--since={desde}', '--format=%h', '--', LATEST).split('\n')):
         try:
             L = json.loads(git('show', f'{h}:{LATEST}'))
@@ -40,6 +46,9 @@ def main():
         except Exception:
             continue
         if run in vistos:
+            continue
+        if any(a <= run <= b for a, b, _ in EXCLUIR):
+            vistos.add(run); excluidas += 1
             continue
         vistos.add(run); corridas += 1
         for e in L.get('estaciones', []):
@@ -59,9 +68,10 @@ def main():
     pares.sort(key=lambda p: (p['est'], p['h'], p['objetivo'], p['emitido']))
     doc = {'producto': 'Verificación Modelo Rubio/SegAMH: pronóstico (crudo) vs nivel observado CONAGUA',
            'generado_utc': dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds'), 'corridas': corridas,
-           'ventana_dias': 60, 'pares': pares}
+           'ventana_dias': 60, 'corridas_excluidas': excluidas,
+           'periodos_excluidos': [{'desde': a.isoformat(), 'hasta': b.isoformat(), 'motivo': m} for a, b, m in EXCLUIR], 'pares': pares}
     OUT.write_text(json.dumps(doc, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
-    print(f'{corridas} corridas, {len(pares)} pares -> {OUT}')
+    print(f'{corridas} corridas ({excluidas} excluidas por gastos erróneos), {len(pares)} pares -> {OUT}')
 
 
 if __name__ == '__main__':
