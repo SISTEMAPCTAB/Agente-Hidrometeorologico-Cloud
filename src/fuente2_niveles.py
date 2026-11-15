@@ -170,6 +170,61 @@ def locate_actual(st, nums):
     return matches[0]
 
 
+
+def actual_sin_anterior_layout(text, st, flat_line):
+    """Escala Actual por columna del PDF cuando falta el nivel anterior."""
+    # N/A conserva su significado; nunca tomar temperatura como variación.
+    tail = flat_line.split()
+    if len(tail) < 2 or tail[-2].upper() != "N/A" or st.get("namo") is None:
+        return None
+    marker = "===== GASTOS_LAYOUT_FUENTE2 ====="
+    if marker not in text:
+        return None
+    block = text.split(marker, 1)[1]
+    headers = []
+    for row in block.splitlines():
+        cols = list(re.finditer(r"\b(?:Escala|Gasto)\b", row))
+        if [c.group() for c in cols] == ["Escala", "Gasto"] * 4:
+            headers.append(cols)
+    if len(headers) != 1:
+        return None
+    centers = [(c.start() + c.end()) / 2 for c in headers[0]]
+    rows = [row for row in block.splitlines()
+            if re.match(r"^\s*\*?\s*" + re.escape(norm(st["label"])) + r"\s{2,}", norm(row))]
+    if len(rows) != 1:
+        return None
+    row = rows[0]
+    cells = {}
+    for token in re.finditer(r"(?<!\S)-?\d+(?:,\d{3})*(?:\.\d+)?(?!\S)", row):
+        center = (token.start() + token.end()) / 2
+        col = min(range(8), key=lambda j: abs(centers[j] - center))
+        radius = min(abs(centers[col] - c) for j, c in enumerate(centers) if j != col) / 2
+        if abs(centers[col] - center) >= radius:
+            continue
+        if col in cells:
+            return None
+        cells[col] = float(token.group().replace(",", ""))
+    # Respaldo sólo sin escala anterior; Actual/Escala es la columna 6.
+    if 4 in cells or not all(j in cells for j in (0, 2, 6)):
+        return None
+    if abs(cells[0] - st["name"]) > 0.05 or abs(cells[2] - st["namo"]) > 0.05:
+        return None
+    layout_tail = row.split()
+    if len(layout_tail) < 2 or layout_tail[-2].upper() != "N/A":
+        return None
+    try:
+        distance = float(layout_tail[-1])
+        flat_distance = float(tail[-1])
+    except ValueError:
+        return None
+    actual = cells[6]
+    if (not math.isfinite(actual) or not -5 <= actual <= 60
+            or abs(distance - flat_distance) > 0.001
+            or abs(actual - st["namo"] - distance) > 0.06):
+        return None
+    return actual
+
+
 def extract_values(text):
     values = {}
     diagnostics = {}
@@ -200,12 +255,22 @@ def extract_values(text):
             else:
                 value = candidate
 
+        method = "variacion_namo_o_esquema"
+        if value is None and line:
+            layout_value = actual_sin_anterior_layout(text, st, line)
+            if layout_value is not None:
+                value = layout_value
+                errors = []
+                idx_used = None
+                method = "layout_actual_namo_sin_anterior"
+
         values[st["estacion"]] = value
         diagnostics[st["estacion"]] = {
             "line": line,
             "numeric_count": len(nums),
             "tokens": nums,
             "idx_actual": idx_used,
+            "metodo_validacion": method,
             "value": value,
             "validation_errors": errors,
         }
@@ -287,7 +352,7 @@ def main():
                     record["nivel"] = observed
                     record["estado_dato"] = "observado"
                     record["ultima_actualizacion_real"] = stamp
-                    record["correccion_fundamento"] = "FUENTE2: escala actual validada con variación/NAMO"
+                    record["correccion_fundamento"] = "FUENTE2: " + diagnostics[st["estacion"]]["metodo_validacion"]
                     corrected += 1
             if same_cut:
                 continue
