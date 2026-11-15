@@ -128,7 +128,9 @@ def main():
   for line in lines:
    for part in re.split(r"(?=AFT\d+\s+)",line):
     if re.match(r"AFT\d+\s+",part,re.I) and norm(key) in norm(part):
-     seg=re.split(r"\s+ACNA\d+\s+",part,1,flags=re.I)[0]; break
+     # 15-nov-2026 (evaluación operativa): cortar también en la siguiente estación AFC/AFT; con la fila de Macuspana incompleta
+     # (sin el par actual) se leían los números de Candelaria (37.15) como gasto de Macuspana.
+     seg=re.split(r"\s+(?:ACNA|AFC|AFT)\d+\s+",part,maxsplit=1,flags=re.I)[0]; break
    if seg: break
   if seg:
    a=nums(re.sub(r"^AFT\d+\s+","",seg,flags=re.I))

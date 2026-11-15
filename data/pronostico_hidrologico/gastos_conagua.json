@@ -1,7 +1,7 @@
 {
   "fuente": "CONAGUA OCFS / fuentes ya recolectadas",
   "producto": "Gastos para modelo hidrologico",
-  "generado_utc": "2026-11-15T14:34:49.437639+00:00",
+  "generado_utc": "2026-11-15T14:40:56.680351+00:00",
   "fuente1_fecha_hora": "2026-11-14T09:37:34-06:00",
   "fuente2_fecha_hora": "2026-11-15T08:31:25-06:00",
   "regla": "Q FUENTE2: columna Actual/Gasto verificada por layout del PDF; FUENTE1 respaldo; Peñitas extracción promedio 24 h; ausente=null",
@@ -129,14 +129,14 @@
     {
       "estacion": "Macuspana",
       "rio": "Puxcatán",
-      "h_anterior_m": 2.89,
-      "q_anterior_m3s": 59.89,
-      "h_actual_m": 2.0,
-      "q_actual_m3s": 37.15,
-      "delta_h_m": -0.89,
-      "delta_q_m3s": -22.74,
-      "fuente_fecha_hora": "2026-11-14T09:37:34-06:00",
-      "validacion": "columnas_gasto_conagua_dia_anterior_actual"
+      "h_anterior_m": null,
+      "q_anterior_m3s": null,
+      "h_actual_m": null,
+      "q_actual_m3s": null,
+      "delta_h_m": null,
+      "delta_q_m3s": null,
+      "fuente_fecha_hora": null,
+      "validacion": "sin_q_validado"
     },
     {
       "estacion": "Platanar",
