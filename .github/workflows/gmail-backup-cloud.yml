@@ -249,9 +249,37 @@ jobs:
               if a and (not b or a>b):updates.append(source)
           print('Cortes Gmail/remoto:',candidate,current,'fuentes nuevas:',updates)
           Path('/tmp/gmail-fuentes-nuevas.txt').write_text(' '.join(updates))
-          # Corte hidrométrico publicado nunca debe regresar ni ser sobrescrito
-          # por productos procesados con un boletín igual o anterior.
-          raise SystemExit(0 if candidate is None or (current and candidate<=current) else 1)
+          def improves_same_cut():
+              """Permitir sólo mejoras heredado -> observado, sin perder observaciones."""
+              try:
+                  proposed=json.loads(Path('/tmp/gmail-candidato.json').read_text(encoding='utf-8'))
+                  published=json.loads(Path('data/niveles/Ultimo_Corte/ultimo_resumen.json').read_text(encoding='utf-8'))
+                  a={r['estacion']:r for r in proposed}
+                  b={r['estacion']:r for r in published}
+                  if len(a)!=len(proposed) or len(b)!=len(published) or a.keys()!=b.keys():return False
+                  improved=False
+                  for station,old in b.items():
+                      new=a[station]
+                      if new.get('fecha_hora')!=old.get('fecha_hora'):return False
+                      if old.get('estado_dato')=='observado':
+                          if any(new.get(k)!=old.get(k) for k in ('estado_dato','ultimo_nivel','ultima_actualizacion_real')):return False
+                      elif new.get('estado_dato')=='observado':
+                          from math import isfinite
+                          level=new.get('ultimo_nivel')
+                          if not isinstance(level,(int,float)) or not isfinite(level):return False
+                          if new.get('ultima_actualizacion_real')!=new.get('fecha_hora'):return False
+                          improved=True
+                      elif new!=old:return False
+                  for source in ('FUENTE1','FUENTE2'):
+                      before=source_time('data/latest/'+source+'.txt')
+                      after=source_time('/tmp/gmail-'+source+'.txt')
+                      if before and (not after or after<before):return False
+                  return improved
+              except (OSError,ValueError,KeyError,TypeError):return False
+          # Nunca retroceder. A igual corte, admitir sólo mejoras verificadas.
+          improvement=bool(candidate and current and candidate==current and improves_same_cut())
+          print('Mejora verificada del mismo corte:',improvement)
+          raise SystemExit(0 if candidate is None or (current and (candidate<current or (candidate==current and not improvement))) else 1)
           PY
             then
               echo "Corte hidrométrico ya publicado; actualizar únicamente hora real de consulta Gmail."
