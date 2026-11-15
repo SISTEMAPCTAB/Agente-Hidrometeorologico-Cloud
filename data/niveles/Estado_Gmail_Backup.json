@@ -1,21 +1,29 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-15T15:29:38.255020-06:00",
+  "run_local": "2026-11-15T16:10:43.502289-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-15T14:00:00-06:00",
-  "messages_scanned": 28,
-  "levels_processed_now": 0,
+  "messages_scanned": 29,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 20,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (37 correos)",
-  "max_uid_asunto": 67167,
+  "busqueda": "por asunto (38 correos)",
+  "max_uid_asunto": 67175,
   "asuntos_locales_adicionales": 14,
   "mensajes_sin_pdf_omitidos": 1,
   "revisados": [
+    {
+      "uid": "67175",
+      "fecha": "2026-11-15T16:08",
+      "asunto": "SE ENVIA NIVELES DE LAS 16 HRS. DEL 15 DE NOVIEMBRE DEL 2026",
+      "pdf": [
+        "Niveles de las 16 hrs. del 15 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "67167",
       "fecha": "2026-11-15T14:24",
@@ -207,14 +215,14 @@
       "pdf": [
         "Boletin 13-11-2026.pdf"
       ]
-    },
-    {
-      "uid": "67021",
-      "fecha": "2026-11-13T08:22",
-      "asunto": "Se envía Boletín de Hidrometría y Climatología de 8 am",
-      "pdf": [
-        "Boletin del 13 de Noviembre del 2026.pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-11-15T16:00:00-06:00",
+    "corte": "2026-11-15T16:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
