@@ -15,6 +15,8 @@ let seq=0;
 async function show(){
  const root=document.getElementById('modelo-rubio-root');if(!root)return;const id=++seq;
  let d=null;try{const r=await fetch(SRC+'?v='+Date.now(),{cache:'no-store'});if(r.ok)d=await r.json()}catch(_){}
+ // 15-nov-2026 (evaluación operativa): último intento NO publicado por la PC y su motivo (data/modelo_rubio/estado_corrida.json).
+ let ec=null;try{const r=await fetch(SRC.replace('latest.json','estado_corrida.json')+'?v='+Date.now(),{cache:'no-store'});if(r.ok)ec=await r.json()}catch(_){}
  if(id!==seq||!document.getElementById('modelo-rubio-root'))return;
  if(!d||!Array.isArray(d.estaciones)){root.innerHTML='<section class="panel wide"><h2>Modelo Rubio/SegAMH</h2><p>Aún no hay una corrida publicada por la PC del modelo.</p></section>';return}
  const age=(Date.now()-Date.parse(d.calculado_utc||''))/3600000;
@@ -24,7 +26,9 @@ async function show(){
  const rows=d.estaciones.map(e=>'<tr><td><b>'+esc(e.estacion)+'</b></td>'+['h24','h36','h72'].map(k=>'<td>'+m(e[k]?.nivel_m)+'</td><td>'+q(e[k]?.gasto_m3s)+'</td><td>'+sit(e[k]?.situacion)+'</td>').join('')+(conPico?'<td>'+esc(e.pico||'—')+'</td>':'')+'</tr>').join('');
  const alto=new Map((d.picos_sierra_alto||[]).map(p=>[p.estacion,p]));
  const picos=(d.picos_sierra||[]).map(p=>{const a=alto.get(p.estacion);return '<tr><td><b>'+esc(p.estacion)+'</b></td><td>'+q(p.gasto_m3s)+' m³/s</td><td>'+m(p.nivel_m)+'</td><td>'+esc(p.hora)+'</td>'+(alto.size?'<td>'+(a?q(a.gasto_m3s)+' m³/s · '+m(a.nivel_m)+'<br><small>'+esc(a.hora)+'</small>':'—')+'</td>':'')+'</tr>'}).join('');
- const estado=fresh?'<span style="color:#15803d"><b>Vigente</b></span>':'<span style="color:#b45309"><b>Desactualizado</b> · la PC del modelo no ha publicado en '+(Number.isFinite(age)?age.toFixed(0)+' h':'s/d')+'</span>';
+ const tEc=Date.parse(ec?.intento_utc||''),noPub=Number.isFinite(tEc)&&tEc>Date.parse(d.calculado_utc||'')&&(Date.now()-tEc)<12*3600000;
+ const estado=(fresh?'<span style="color:#15803d"><b>Vigente</b></span>':'<span style="color:#b45309"><b>Desactualizado</b> · la PC del modelo no ha publicado en '+(Number.isFinite(age)?age.toFixed(0)+' h':'s/d')+'</span>')+
+  (noPub?'<br><span style="color:#475569">Último intento '+fdate(ec.intento_utc)+': <b>no publicado</b> · '+esc(ec.motivo||'')+' (regla: sólo se publican corridas con niveles de la Sierra de menos de 6 h)</span>':'');
  const al=Array.isArray(d.alertas_cabecera)?d.alertas_cabecera:[];
  const aviso=al.length&&fresh?'<section class="panel wide" style="border-left:6px solid #b91c1c;background:#fef2f2"><h2 style="color:#b91c1c">⚠ Lluvia intensa observada en cabecera</h2><p>'+al.map(a=>'<b>'+esc(a.estacion)+'</b>: '+esc(a.mm3h)+' mm en 3 h · '+esc(a.mm6h)+' mm en 6 h → río <b>'+esc(a.rio)+'</b>').join('<br>')+'</p><p class="muted">Para esos ríos considerar el escenario alto y la tendencia observada por encima del pronóstico central. Umbral: ≥30 mm en 3 h o ≥50 mm en 6 h (WeatherLink).</p></section>':'';
  // Lluvia acumulada frente a crecidas mayores (exportado por el modelo desde V106l).
