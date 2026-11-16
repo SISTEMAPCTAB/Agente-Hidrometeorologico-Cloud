@@ -1,21 +1,37 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-16T09:39:55.597495-06:00",
+  "run_local": "2026-11-16T10:04:58.642422-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-16T08:00:00-06:00",
-  "messages_scanned": 28,
+  "messages_scanned": 30,
   "levels_processed_now": 0,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 21,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (32 correos)",
-  "max_uid_asunto": 67208,
-  "asuntos_locales_adicionales": 10,
+  "busqueda": "por asunto (34 correos)",
+  "max_uid_asunto": 67211,
+  "asuntos_locales_adicionales": 12,
   "mensajes_sin_pdf_omitidos": 1,
   "revisados": [
+    {
+      "uid": "67211",
+      "fecha": "2026-11-16T10:03",
+      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 16-11-2026 (10:30 horas)",
+      "pdf": [
+        "Reporte y Seguimiento Meteorológico 16-11-2026 (10_30 hrs).pdf"
+      ]
+    },
+    {
+      "uid": "67210",
+      "fecha": "2026-11-16T10:02",
+      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 16-11-2026 (10:30 horas)",
+      "pdf": [
+        "Reporte y Seguimiento Meteorológico 16-11-2026 (10_30 hrs).pdf"
+      ]
+    },
     {
       "uid": "67208",
       "fecha": "2026-11-16T09:36",
@@ -196,22 +212,6 @@
       "uid": "67057",
       "fecha": "2026-11-13T16:11",
       "asunto": "Informe de Niveles de las 16 hr",
-      "pdf": [
-        "Niveles del 13 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "67051",
-      "fecha": "2026-11-13T14:18",
-      "asunto": "INFORME DE NIVELES DE RIOS Y PRESAS DE 14 HRS",
-      "pdf": [
-        "Niveles del 13 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "67042",
-      "fecha": "2026-11-13T12:27",
-      "asunto": "INFORME DE NIVELES DE RIOS Y PRESAS DE 12 HRS",
       "pdf": [
         "Niveles del 13 de Noviembre del 2026.pdf"
       ]
