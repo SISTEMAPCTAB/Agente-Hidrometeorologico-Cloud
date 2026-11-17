@@ -9,17 +9,18 @@
   };
   let history=[];
   let loading=null;
+  let loadedAt=0; // 16-nov-2026: antes se cargaba una sola vez y la gráfica se quedaba con los datos de la hora en que se abrió la página
   const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const num=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v));
   function current(){return document.querySelector('#nav button.active')?.dataset.section||'resumen'}
   async function load(){
-    if(history.length)return history;
+    if(history.length&&Date.now()-loadedAt<10*60000)return history;
     if(loading)return loading;
     loading=fetch(`${BASE}/data/niveles/Historico/niveles_historicos.json?v=${Date.now()}`,{cache:'no-store'})
       .then(r=>r.ok?r.json():Promise.reject(new Error(r.status)))
-      .then(j=>history=Array.isArray(j)?j:[])
-      .catch(()=>history=[])
+      .then(j=>{history=Array.isArray(j)?j:[];loadedAt=Date.now();return history})
+      .catch(()=>history)
       .finally(()=>loading=null);
     return loading;
   }
