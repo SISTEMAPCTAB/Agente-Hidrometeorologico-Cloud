@@ -1,21 +1,29 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-18T15:29:48.212572-06:00",
+  "run_local": "2026-11-18T16:08:51.867150-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-18T14:00:00-06:00",
   "messages_scanned": 30,
-  "levels_processed_now": 0,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
-  "pdfs_skipped_duplicate_content": 20,
+  "pdfs_skipped_duplicate_content": 19,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (38 correos)",
-  "max_uid_asunto": 67357,
+  "busqueda": "por asunto (39 correos)",
+  "max_uid_asunto": 67363,
   "asuntos_locales_adicionales": 10,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "67363",
+      "fecha": "2026-11-18T16:06",
+      "asunto": "Se envia Informe de Niveles de 16 hrs",
+      "pdf": [
+        "Niveles del 18 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "67357",
       "fecha": "2026-11-18T14:23",
@@ -207,14 +215,14 @@
       "pdf": [
         "Reporte y Seguimiento Meteorológico 16-11-2026 (10_30 hrs).pdf"
       ]
-    },
-    {
-      "uid": "67210",
-      "fecha": "2026-11-16T10:02",
-      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 16-11-2026 (10:30 horas)",
-      "pdf": [
-        "Reporte y Seguimiento Meteorológico 16-11-2026 (10_30 hrs).pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-11-18T16:00:00-06:00",
+    "corte": "2026-11-18T16:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
