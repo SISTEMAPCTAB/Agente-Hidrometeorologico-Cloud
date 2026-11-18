@@ -14,7 +14,7 @@ const SRC={
  sih:`${BASE}/data/sih_lluvia/latest.json`,
  sihSubcuencas:`${BASE}/data/sih_lluvia/subcuencas.json`
 };
-const SECTIONS=[['resumen','Resumen operativo'],['weather','WeatherLink / CONAGUA'],['sih','Lluvia SIH-CONAGUA'],['pronostico','Pronóstico SMN 96 / 360 h'],['tonala','Coatzacoalcos–Tonalá'],['presas','Presas–Mezcalapa–Samaria y Carrizal'],['serranos','Ríos Serranos–Grijalva'],['tulija','Tulijá–Puxcatán–Chilapa'],['usumacinta','Usumacinta'],['estiaje','Estiaje'],['modelo','Modelo Rubio/SegAMH'],];
+const SECTIONS=[['resumen','Resumen operativo'],['weather','WeatherLink / CONAGUA'],['sih','Lluvia SIH-CONAGUA'],['pronostico','Pronóstico SMN 96 / 360 h'],['tonala','Coatzacoalcos–Tonalá'],['presas','Presas–Mezcalapa–Samaria y Carrizal'],['serranos','Ríos Serranos–Grijalva'],['tulija','Tulijá–Puxcatán–Chilapa'],['usumacinta','Usumacinta'],['estiaje','Estiaje'],['modelo','Modelo Rubio/Segovia'],];
 const SYSTEMS={
  presas:{title:'Presas–Mezcalapa–Samaria y Carrizal',terms:['samaria','gonzalez','carrizal','mezcalapa','platanar','macayo','penitas']},
  serranos:{title:'Ríos Serranos–Grijalva',terms:['oxolotan','tapijulapa','teapa','puyacatengo','san joaquin','pueblo nuevo','rios de la sierra','pichucalco','gaviotas','el muelle','porvenir']},
