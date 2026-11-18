@@ -1,20 +1,20 @@
 {
  "producto": "Modelo Rubio/SegAMH: último intento no publicado",
- "intento_utc": "2026-11-18T10:10:31.474Z",
- "intento_local": "2026-11-18T04:10",
+ "intento_utc": "2026-11-18T11:10:57.327Z",
+ "intento_local": "2026-11-18T05:11",
  "publicada": false,
- "motivo": "lectura de nivel de hace 10.2 h (máximo 6 h)",
+ "motivo": "lectura de nivel de hace 11.2 h (máximo 6 h)",
  "calidad_entrada": {
   "version": "V111ac",
   "max_h": 6,
   "edad_niveles_h": {
-   "Tapijulapa": 10.2,
-   "Teapa": 10.2,
-   "San Joaquín": 10.2,
-   "Puyacatengo": 10.2,
-   "Pueblo Nuevo": 10.2
+   "Tapijulapa": 11.2,
+   "Teapa": 11.2,
+   "San Joaquín": 11.2,
+   "Puyacatengo": 11.2,
+   "Pueblo Nuevo": 11.2
   },
-  "edad_max_h": 10.2,
+  "edad_max_h": 11.2,
   "sin_lectura": [],
   "heredadas": [
    "Tapijulapa (heredado)",
@@ -22,48 +22,48 @@
   ],
   "otras_estaciones_edad_h": {
    "Gaviotas": {
-    "nivel_h": 10.2,
+    "nivel_h": 11.2,
     "estado": "observado",
     "gasto_h": null
    },
    "El Muelle": {
-    "nivel_h": 10.2,
+    "nivel_h": 11.2,
     "estado": "observado",
     "gasto_h": null
    },
    "Samaria": {
-    "nivel_h": 10.2,
+    "nivel_h": 11.2,
     "estado": "observado",
-    "gasto_h": 17.6
+    "gasto_h": 18.6
    },
    "González": {
-    "nivel_h": 10.2,
+    "nivel_h": 11.2,
     "estado": "observado",
-    "gasto_h": 17.6
+    "gasto_h": 18.6
    },
    "Boca del Cerro": {
-    "nivel_h": 10.2,
+    "nivel_h": 11.2,
     "estado": "observado",
-    "gasto_h": 17.6
+    "gasto_h": 18.6
    },
    "Salto de Agua": {
-    "nivel_h": 10.2,
+    "nivel_h": 11.2,
     "estado": "observado",
-    "gasto_h": 17.6
+    "gasto_h": 18.6
    },
    "Macuspana": {
-    "nivel_h": 10.2,
+    "nivel_h": 11.2,
     "estado": "observado",
-    "gasto_h": 17.6
+    "gasto_h": 18.6
    }
   },
   "version_codigo": "V111cf · commit 7fda25f",
   "lluvia_futura": "Sierra: ECMWF IFS (Earth Engine) · corrida 2026-11-18 00 UTC · Tulijá y Puxcatán: ensamble SMN corregido · corrida 2026-11-17; respaldo ensamble SMN / NOAA",
   "lluvia_de_respaldo": false,
   "apta": false,
-  "motivo": "lectura de nivel de hace 10.2 h (máximo 6 h)"
+  "motivo": "lectura de nivel de hace 11.2 h (máximo 6 h)"
  },
  "regla": "V111ac: no se publica si algún nivel de la Sierra o Pueblo Nuevo tiene más de 6 h o no es válido",
- "_subido_epoch": 1794996636.2846472,
- "_clave": "lectura de nivel de hace 10.2 h (máximo 6 h)"
+ "_subido_epoch": 1795000260.03135,
+ "_clave": "lectura de nivel de hace 11.2 h (máximo 6 h)"
 }
