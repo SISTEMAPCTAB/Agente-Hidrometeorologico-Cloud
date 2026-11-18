@@ -4,15 +4,18 @@
   const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
   const finite=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v));
   const mm=v=>finite(v)?`${Number(v).toFixed(1)} mm`:'s/d';
-  let rainMap=null,trendMap=null,loading=null;
+  let rainMap=null,trendMap=null,loading=null,wlMap=null; // wlMap (18-nov-2026): HOY desde 08:00 de WeatherLink (d08), antes salía s/d
 
   async function load(){
-    if(rainMap&&trendMap)return;
+    if(rainMap&&trendMap&&wlMap)return;
     if(loading)return loading;
     loading=Promise.all([
       fetch(`${RAIN_URL}?v=${Date.now()}`,{cache:'no-store'}).then(r=>r.ok?r.json():[]).catch(()=>[]),
-      fetch(`${INS_HIST_URL}?v=${Date.now()}`,{cache:'no-store'}).then(r=>r.ok?r.json():{}).catch(()=>({}))
-    ]).then(([rain,hist])=>{
+      fetch(`${INS_HIST_URL}?v=${Date.now()}`,{cache:'no-store'}).then(r=>r.ok?r.json():{}).catch(()=>({})),
+      fetch(`../data/weatherlink/latest.json?v=${Date.now()}`,{cache:'no-store'}).then(r=>r.ok?r.json():{}).catch(()=>({}))
+    ]).then(([rain,hist,wl])=>{
+      const st=Array.isArray(wl?.stations)?wl.stations:(Array.isArray(wl?.estaciones)?wl.estaciones:[]);
+      wlMap=new Map(st.filter(x=>x&&x.accumulations_mm&&finite(x.accumulations_mm.d08)&&String(x.accumulation_status?.d08||'').startsWith('exacto')&&Number(x.age_seconds)<=7200).map(x=>[norm(x.nombre),Number(x.accumulations_mm.d08)]));
       rainMap=new Map((Array.isArray(rain)?rain:[]).map(x=>[norm(x.estacion),x]));
       trendMap=new Map((Array.isArray(hist?.ultima_evolucion_real)?hist.ultima_evolucion_real:[]).map(x=>[norm(x.estacion),x]));
     }).finally(()=>{loading=null});
@@ -78,7 +81,7 @@
       const station=norm(tr.cells[stationIdx]?.textContent);
       const r=rainMap?.get(station);
       const td=document.createElement('td');
-      td.innerHTML=r&&r.estado_hoy==='observado'?`<b>${mm(r.lluvia_hoy_desde_08_mm)}</b>`:'s/d';
+      const w=wlMap?.get(station);td.innerHTML=r&&r.estado_hoy==='observado'?`<b>${mm(r.lluvia_hoy_desde_08_mm)}</b>`:(Number.isFinite(w)?`<b>${mm(w)}</b>`:'s/d');
       tr.insertBefore(td,tr.cells[stationIdx+1]||null);
 
       if(r){
