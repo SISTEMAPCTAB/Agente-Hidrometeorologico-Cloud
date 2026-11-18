@@ -1,69 +1,72 @@
 {
  "producto": "Modelo Rubio/SegAMH: último intento no publicado",
- "intento_utc": "2026-11-18T08:08:05.814Z",
- "intento_local": "2026-11-18T02:08",
+ "intento_utc": "2026-11-18T09:09:19.156Z",
+ "intento_local": "2026-11-18T03:09",
  "publicada": false,
- "motivo": "lectura de nivel de hace 8.1 h (máximo 6 h)",
+ "motivo": "sin lectura de nivel: Tapijulapa, Teapa, San Joaquín, Puyacatengo, Pueblo Nuevo",
  "calidad_entrada": {
   "version": "V111ac",
   "max_h": 6,
   "edad_niveles_h": {
-   "Tapijulapa": 8.1,
-   "Teapa": 8.1,
-   "San Joaquín": 8.1,
-   "Puyacatengo": 8.1,
-   "Pueblo Nuevo": 8.1
+   "Tapijulapa": null,
+   "Teapa": null,
+   "San Joaquín": null,
+   "Puyacatengo": null,
+   "Pueblo Nuevo": null
   },
-  "edad_max_h": 8.1,
-  "sin_lectura": [],
-  "heredadas": [
-   "Tapijulapa (heredado)",
-   "Teapa (heredado)"
+  "edad_max_h": 0,
+  "sin_lectura": [
+   "Tapijulapa",
+   "Teapa",
+   "San Joaquín",
+   "Puyacatengo",
+   "Pueblo Nuevo"
   ],
+  "heredadas": [],
   "otras_estaciones_edad_h": {
    "Gaviotas": {
-    "nivel_h": 8.1,
-    "estado": "observado",
+    "nivel_h": null,
+    "estado": null,
     "gasto_h": null
    },
    "El Muelle": {
-    "nivel_h": 8.1,
-    "estado": "observado",
+    "nivel_h": null,
+    "estado": null,
     "gasto_h": null
    },
    "Samaria": {
-    "nivel_h": 8.1,
-    "estado": "observado",
-    "gasto_h": 15.6
+    "nivel_h": null,
+    "estado": null,
+    "gasto_h": 16.6
    },
    "González": {
-    "nivel_h": 8.1,
-    "estado": "observado",
-    "gasto_h": 15.6
+    "nivel_h": null,
+    "estado": null,
+    "gasto_h": 16.6
    },
    "Boca del Cerro": {
-    "nivel_h": 8.1,
-    "estado": "observado",
-    "gasto_h": 15.6
+    "nivel_h": null,
+    "estado": null,
+    "gasto_h": 16.6
    },
    "Salto de Agua": {
-    "nivel_h": 8.1,
-    "estado": "observado",
-    "gasto_h": 15.6
+    "nivel_h": null,
+    "estado": null,
+    "gasto_h": 16.6
    },
    "Macuspana": {
-    "nivel_h": 8.1,
-    "estado": "observado",
-    "gasto_h": 15.6
+    "nivel_h": null,
+    "estado": null,
+    "gasto_h": 16.6
    }
   },
   "version_codigo": "V111cf · commit 7fda25f",
-  "lluvia_futura": "Sierra: ECMWF IFS (Earth Engine) · corrida 2026-11-17 12 UTC · Tulijá y Puxcatán: ensamble SMN corregido · corrida 2026-11-17; respaldo ensamble SMN / NOAA",
+  "lluvia_futura": "Sierra: ECMWF IFS (Earth Engine) · corrida 2026-11-18 00 UTC · Tulijá y Puxcatán: ensamble SMN corregido · corrida 2026-11-17; respaldo ensamble SMN / NOAA",
   "lluvia_de_respaldo": false,
   "apta": false,
-  "motivo": "lectura de nivel de hace 8.1 h (máximo 6 h)"
+  "motivo": "sin lectura de nivel: Tapijulapa, Teapa, San Joaquín, Puyacatengo, Pueblo Nuevo"
  },
  "regla": "V111ac: no se publica si algún nivel de la Sierra o Pueblo Nuevo tiene más de 6 h o no es válido",
- "_subido_epoch": 1794989290.8301716,
- "_clave": "lectura de nivel de hace 8.1 h (máximo 6 h)"
+ "_subido_epoch": 1794992964.0226135,
+ "_clave": "sin lectura de nivel: Tapijulapa, Teapa, San Joaquín, Puyacatengo, Pueblo Nuevo"
 }
