@@ -1,20 +1,20 @@
 {
  "producto": "Modelo Rubio/SegAMH: último intento no publicado",
- "intento_utc": "2026-11-17T12:15:09.100Z",
- "intento_local": "2026-11-17T06:15",
+ "intento_utc": "2026-11-18T06:05:38.779Z",
+ "intento_local": "2026-11-18T00:05",
  "publicada": false,
- "motivo": "lectura de nivel de hace 12.3 h (máximo 6 h)",
+ "motivo": "lectura de nivel de hace 6.1 h (máximo 6 h)",
  "calidad_entrada": {
   "version": "V111ac",
   "max_h": 6,
   "edad_niveles_h": {
-   "Tapijulapa": 12.3,
-   "Teapa": 12.3,
-   "San Joaquín": 12.3,
-   "Puyacatengo": 12.3,
-   "Pueblo Nuevo": 12.3
+   "Tapijulapa": 6.1,
+   "Teapa": 6.1,
+   "San Joaquín": 6.1,
+   "Puyacatengo": 6.1,
+   "Pueblo Nuevo": 6.1
   },
-  "edad_max_h": 12.3,
+  "edad_max_h": 6.1,
   "sin_lectura": [],
   "heredadas": [
    "Tapijulapa (heredado)",
@@ -22,48 +22,48 @@
   ],
   "otras_estaciones_edad_h": {
    "Gaviotas": {
-    "nivel_h": 12.3,
+    "nivel_h": 6.1,
     "estado": "observado",
     "gasto_h": null
    },
    "El Muelle": {
-    "nivel_h": 12.3,
+    "nivel_h": 6.1,
     "estado": "observado",
     "gasto_h": null
    },
    "Samaria": {
-    "nivel_h": 12.3,
+    "nivel_h": 6.1,
     "estado": "observado",
-    "gasto_h": 20.6
+    "gasto_h": 13.5
    },
    "González": {
-    "nivel_h": 12.3,
+    "nivel_h": 6.1,
     "estado": "observado",
-    "gasto_h": 20.6
+    "gasto_h": 13.5
    },
    "Boca del Cerro": {
-    "nivel_h": 12.3,
+    "nivel_h": 6.1,
     "estado": "observado",
-    "gasto_h": 20.6
+    "gasto_h": 13.5
    },
    "Salto de Agua": {
-    "nivel_h": 12.3,
+    "nivel_h": 6.1,
     "estado": "observado",
-    "gasto_h": 20.6
+    "gasto_h": 13.5
    },
    "Macuspana": {
-    "nivel_h": 12.3,
+    "nivel_h": 6.1,
     "estado": "observado",
-    "gasto_h": 20.6
+    "gasto_h": 13.5
    }
   },
   "version_codigo": "V111cf · commit 7fda25f",
-  "lluvia_futura": "Sierra: ECMWF IFS (Earth Engine) · corrida 2026-11-17 00 UTC · Tulijá y Puxcatán: ensamble SMN corregido · corrida 2026-11-16; respaldo ensamble SMN / NOAA",
+  "lluvia_futura": "Sierra: ECMWF IFS (Earth Engine) · corrida 2026-11-17 18 UTC · Tulijá y Puxcatán: ensamble SMN corregido · corrida 2026-11-17; respaldo ensamble SMN / NOAA",
   "lluvia_de_respaldo": false,
   "apta": false,
-  "motivo": "lectura de nivel de hace 12.3 h (máximo 6 h)"
+  "motivo": "lectura de nivel de hace 6.1 h (máximo 6 h)"
  },
  "regla": "V111ac: no se publica si algún nivel de la Sierra o Pueblo Nuevo tiene más de 6 h o no es válido",
- "_subido_epoch": 1794917713.794361,
- "_clave": "lectura de nivel de hace 12.3 h (máximo 6 h)"
+ "_subido_epoch": 1794981943.5389276,
+ "_clave": "lectura de nivel de hace 6.1 h (máximo 6 h)"
 }
