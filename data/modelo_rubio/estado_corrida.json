@@ -1,20 +1,20 @@
 {
  "producto": "Modelo Grijalva-Usumacinta Rubio/Segovia: último intento no publicado",
- "intento_utc": "2026-11-19T10:23:12.508Z",
- "intento_local": "2026-11-19T04:23",
+ "intento_utc": "2026-11-19T11:23:38.524Z",
+ "intento_local": "2026-11-19T05:23",
  "publicada": false,
- "motivo": "lectura de nivel de hace 10.4 h (máximo 6 h)",
+ "motivo": "lectura de nivel de hace 11.4 h (máximo 6 h)",
  "calidad_entrada": {
   "version": "V111ac",
   "max_h": 6,
   "edad_niveles_h": {
-   "Tapijulapa": 10.4,
-   "Teapa": 10.4,
-   "San Joaquín": 10.4,
-   "Puyacatengo": 10.4,
-   "Pueblo Nuevo": 10.4
+   "Tapijulapa": 11.4,
+   "Teapa": 11.4,
+   "San Joaquín": 11.4,
+   "Puyacatengo": 11.4,
+   "Pueblo Nuevo": 11.4
   },
-  "edad_max_h": 10.4,
+  "edad_max_h": 11.4,
   "sin_lectura": [],
   "heredadas": [
    "Tapijulapa (heredado)",
@@ -22,48 +22,48 @@
   ],
   "otras_estaciones_edad_h": {
    "Gaviotas": {
-    "nivel_h": 10.4,
+    "nivel_h": 11.4,
     "estado": "observado",
     "gasto_h": null
    },
    "El Muelle": {
-    "nivel_h": 10.4,
+    "nivel_h": 11.4,
     "estado": "observado",
     "gasto_h": null
    },
    "Samaria": {
-    "nivel_h": 10.4,
+    "nivel_h": 11.4,
     "estado": "observado",
-    "gasto_h": 18.5
+    "gasto_h": 19.5
    },
    "González": {
-    "nivel_h": 10.4,
+    "nivel_h": 11.4,
     "estado": "observado",
-    "gasto_h": 18.5
+    "gasto_h": 19.5
    },
    "Boca del Cerro": {
-    "nivel_h": 10.4,
+    "nivel_h": 11.4,
     "estado": "observado",
-    "gasto_h": 18.5
+    "gasto_h": 19.5
    },
    "Salto de Agua": {
-    "nivel_h": 10.4,
+    "nivel_h": 11.4,
     "estado": "observado",
-    "gasto_h": 18.5
+    "gasto_h": 19.5
    },
    "Macuspana": {
-    "nivel_h": 10.4,
+    "nivel_h": 11.4,
     "estado": "observado",
-    "gasto_h": 18.5
+    "gasto_h": 19.5
    }
   },
   "version_codigo": "V111dr · commit 7e0eb39",
   "lluvia_futura": "Sierra: ECMWF IFS (Earth Engine) · corrida 2026-11-19 00 UTC · Tulijá y Puxcatán: ensamble SMN corregido · corrida 2026-11-18; respaldo ensamble SMN / NOAA",
   "lluvia_de_respaldo": false,
   "apta": false,
-  "motivo": "lectura de nivel de hace 10.4 h (máximo 6 h)"
+  "motivo": "lectura de nivel de hace 11.4 h (máximo 6 h)"
  },
  "regla": "V111ac: no se publica si algún nivel de la Sierra o Pueblo Nuevo tiene más de 6 h o no es válido",
- "_subido_epoch": 1795083797.4655654,
- "_clave": "lectura de nivel de hace 10.4 h (máximo 6 h)"
+ "_subido_epoch": 1795087423.485465,
+ "_clave": "lectura de nivel de hace 11.4 h (máximo 6 h)"
 }
