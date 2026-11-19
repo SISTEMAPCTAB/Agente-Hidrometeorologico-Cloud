@@ -1,21 +1,29 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-19T13:29:24.429900-06:00",
+  "run_local": "2026-11-19T14:18:41.500302-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-19T12:00:00-06:00",
   "messages_scanned": 30,
-  "levels_processed_now": 0,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
-  "pdfs_skipped_duplicate_content": 20,
+  "pdfs_skipped_duplicate_content": 19,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (37 correos)",
-  "max_uid_asunto": 67415,
+  "busqueda": "por asunto (38 correos)",
+  "max_uid_asunto": 67420,
   "asuntos_locales_adicionales": 8,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "67420",
+      "fecha": "2026-11-19T14:16",
+      "asunto": "SE ENVIA REPORTE DE NIVELES DE LAS 14:00 HRS",
+      "pdf": [
+        "Niveles del 19 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "67415",
       "fecha": "2026-11-19T12:16",
@@ -207,14 +215,14 @@
       "pdf": [
         "Boletin 17-11-2026.pdf"
       ]
-    },
-    {
-      "uid": "67277",
-      "fecha": "2026-11-17T10:05",
-      "asunto": "SE ENVIA REPORTE DE NIVELES DE LAS 10:00 HRS",
-      "pdf": [
-        "Niveles del 17 de Noviembre del 2026.pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-11-19T14:00:00-06:00",
+    "corte": "2026-11-19T14:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
