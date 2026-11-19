@@ -2,65 +2,65 @@
  "fuente": "SIH-CONAGUA, docs/precdia.asc (malla nacional 0.02°, lluvia 24 h interpolada de estaciones)",
  "version": "V110j",
  "uso": "contraste observado; no impulsa el pronóstico hasta validarse",
- "fecha": "2026-11-18",
- "publicada_local": "2026-11-18T10:40-06:00",
- "consultada_utc": "2026-11-18T17:32+00:00",
- "sha1": "05d4340d51d1ff2e",
- "fecha_fuente_pdf_24h": "2026-11-17",
+ "fecha": "2026-11-19",
+ "publicada_local": "2026-11-19T10:54-06:00",
+ "consultada_utc": "2026-11-19T17:31+00:00",
+ "sha1": "676508eeb82fad03",
+ "fecha_fuente_pdf_24h": "2026-11-18",
  "periodo": "lluvia acumulada en las 24 h previas al corte de la mañana (mismo producto que el reporte SIH de 24 h)",
  "cuencas": {
   "Oxolotán": {
-   "mm": 4.68,
-   "mm_max": 33.7,
+   "mm": 5.05,
+   "mm_max": 39.1,
    "frac_valida": 1.0,
    "area_km2": 2499.7,
    "completa": true
   },
   "Tapijulapa": {
-   "mm": 7.7,
-   "mm_max": 68.5,
+   "mm": 7.78,
+   "mm_max": 40.6,
    "frac_valida": 1.0,
    "area_km2": 2791.7,
    "completa": true
   },
   "Teapa": {
-   "mm": 47.21,
-   "mm_max": 113.0,
+   "mm": 31.01,
+   "mm_max": 42.8,
    "frac_valida": 1.0,
    "area_km2": 409.3,
    "completa": true
   },
   "Puyacatengo": {
-   "mm": 33.37,
-   "mm_max": 68.6,
+   "mm": 31.19,
+   "mm_max": 38.0,
    "frac_valida": 1.0,
    "area_km2": 158.7,
    "completa": true
   },
   "San Joaquín": {
-   "mm": 85.78,
-   "mm_max": 155.4,
+   "mm": 37.43,
+   "mm_max": 46.0,
    "frac_valida": 1.0,
    "area_km2": 331.3,
    "completa": true
   },
   "Pueblo Nuevo": {
-   "mm": 16.13,
-   "mm_max": 113.0,
+   "mm": 13.08,
+   "mm_max": 42.8,
    "frac_valida": 1.0,
    "area_km2": 3965.5,
    "completa": true
   },
   "Macuspana": {
-   "mm": 33.3,
-   "mm_max": 55.9,
+   "mm": 16.86,
+   "mm_max": 38.6,
    "frac_valida": 1.0,
    "area_km2": 1442.1,
    "completa": true
   },
   "Salto de Agua": {
-   "mm": 10.94,
-   "mm_max": 42.9,
+   "mm": 0.73,
+   "mm_max": 10.9,
    "frac_valida": 1.0,
    "area_km2": 3276.2,
    "completa": true
@@ -68,43 +68,43 @@
  },
  "recuadros": {
   "sierra_tapijulapa": {
-   "mm": 30.14,
-   "mm_max": 155.4,
+   "mm": 22.48,
+   "mm_max": 90.5,
    "frac_valida": 1.0
   },
   "sierra_teapa": {
-   "mm": 36.08,
-   "mm_max": 155.4,
+   "mm": 30.51,
+   "mm_max": 103.1,
    "frac_valida": 1.0
   },
   "sierra_pichucalco": {
-   "mm": 31.07,
-   "mm_max": 155.4,
+   "mm": 34.74,
+   "mm_max": 106.1,
    "frac_valida": 1.0
   },
   "sierra_puyacatengo": {
-   "mm": 33.08,
-   "mm_max": 155.4,
+   "mm": 32.08,
+   "mm_max": 106.1,
    "frac_valida": 1.0
   },
   "tulija": {
-   "mm": 10.88,
-   "mm_max": 55.9,
+   "mm": 3.63,
+   "mm_max": 38.6,
    "frac_valida": 0.998
   },
   "puxcatan": {
-   "mm": 25.25,
-   "mm_max": 155.4,
+   "mm": 14.09,
+   "mm_max": 90.5,
    "frac_valida": 1.0
   },
   "penitas_cuenca_libre": {
-   "mm": 27.43,
-   "mm_max": 70.8,
+   "mm": 38.4,
+   "mm_max": 106.1,
    "frac_valida": 1.0
   },
   "guatemala_proxy": {
-   "mm": 3.9,
-   "mm_max": 51.5,
+   "mm": 1.26,
+   "mm_max": 51.1,
    "frac_valida": 0.429
   }
  }
