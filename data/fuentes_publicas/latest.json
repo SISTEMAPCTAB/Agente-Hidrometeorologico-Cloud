@@ -578,11 +578,11 @@
         "nivel_referencia_max_m": 10.0,
         "caudal_referencia_min_m3s": 486.87,
         "caudal_referencia_max_m3s": 2856.43,
-        "nivel_instantaneo_m": 7.75,
-        "caudal_instantaneo_m3s": 1878.17,
+        "nivel_instantaneo_m": 7.87,
+        "caudal_instantaneo_m3s": 1930.35,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "19/11/2026 14:00"
+        "ultima_observacion_fuente": "19/11/2026 20:00"
       },
       {
         "estacion": "El Porvenir",
@@ -592,11 +592,11 @@
         "nivel_referencia_max_m": 3.0,
         "caudal_referencia_min_m3s": 93.04,
         "caudal_referencia_max_m3s": 399.28,
-        "nivel_instantaneo_m": 3.9,
-        "caudal_instantaneo_m3s": 643.5,
+        "nivel_instantaneo_m": 4.08,
+        "caudal_instantaneo_m3s": 701.64,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "19/11/2026 14:00"
+        "ultima_observacion_fuente": "19/11/2026 20:00"
       },
       {
         "estacion": "Machaquilá",
@@ -606,11 +606,11 @@
         "nivel_referencia_max_m": 2.5,
         "caudal_referencia_min_m3s": 0.18,
         "caudal_referencia_max_m3s": 54.29,
-        "nivel_instantaneo_m": 1.26,
-        "caudal_instantaneo_m3s": 4.0,
+        "nivel_instantaneo_m": 1.25,
+        "caudal_instantaneo_m3s": 3.84,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "19/11/2026 14:00"
+        "ultima_observacion_fuente": "19/11/2026 20:00"
       },
       {
         "estacion": "San Pedro Mactún",
@@ -624,7 +624,7 @@
         "caudal_instantaneo_m3s": 32.4,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "19/11/2026 14:00"
+        "ultima_observacion_fuente": "19/11/2026 20:00"
       },
       {
         "estacion": "San Agustín Chixoy",
@@ -634,11 +634,11 @@
         "nivel_referencia_max_m": 3.0,
         "caudal_referencia_min_m3s": 121.4,
         "caudal_referencia_max_m3s": 904.28,
-        "nivel_instantaneo_m": 3.81,
-        "caudal_instantaneo_m3s": 1129.28,
+        "nivel_instantaneo_m": 3.72,
+        "caudal_instantaneo_m3s": 1104.28,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "19/11/2026 14:00"
+        "ultima_observacion_fuente": "19/11/2026 20:00"
       },
       {
         "estacion": "San Luis Ixcán",
@@ -648,19 +648,19 @@
         "nivel_referencia_max_m": 0.86,
         "caudal_referencia_min_m3s": 9.75,
         "caudal_referencia_max_m3s": 76.39,
-        "nivel_instantaneo_m": 0.45,
-        "caudal_instantaneo_m3s": 41.83,
+        "nivel_instantaneo_m": 0.6,
+        "caudal_instantaneo_m3s": 52.64,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "19/11/2026 14:00"
+        "ultima_observacion_fuente": "19/11/2026 20:00"
       }
     ],
     "fragmentos_relevantes": [],
     "completo": true,
     "pdf_bytes": 305973,
-    "boletin": "969-2026",
+    "boletin": "970-2026",
     "fecha": "19/11/2026",
-    "hora": "14:00",
+    "hora": "20:00",
     "hora_fuente": "encabezado_BHVGM",
     "validacion_fecha": "encabezado_pdf",
     "sincronizado_desde": "insivumeh_alto_hidro.json"
@@ -669,56 +669,67 @@
     {
       "estacion": "El Tigre",
       "rio": "Usumacinta",
-      "desde": "19/11/2026 08:00",
-      "hasta": "19/11/2026 14:00",
+      "desde": "19/11/2026 14:00",
+      "hasta": "19/11/2026 20:00",
       "horas_transcurridas": 6.0,
-      "delta_nivel_m": 0.07,
-      "delta_caudal_m3s": 30.43,
+      "delta_nivel_m": 0.12,
+      "delta_caudal_m3s": 52.18,
+      "tendencia_calculada": "incrementando",
+      "fuente_evolucion": "insivumeh_alto_hidro_historico"
+    },
+    {
+      "estacion": "El Porvenir",
+      "rio": "La Pasión",
+      "desde": "19/11/2026 14:00",
+      "hasta": "19/11/2026 20:00",
+      "horas_transcurridas": 6.0,
+      "delta_nivel_m": 0.18,
+      "delta_caudal_m3s": 58.14,
       "tendencia_calculada": "incrementando",
       "fuente_evolucion": "insivumeh_alto_hidro_historico"
     },
     {
       "estacion": "Machaquilá",
       "rio": "Machaquilá",
-      "desde": "19/11/2026 08:00",
-      "hasta": "19/11/2026 14:00",
+      "desde": "19/11/2026 14:00",
+      "hasta": "19/11/2026 20:00",
       "horas_transcurridas": 6.0,
       "delta_nivel_m": -0.01,
-      "delta_caudal_m3s": -0.17,
+      "delta_caudal_m3s": -0.16,
       "tendencia_calculada": "estable",
       "fuente_evolucion": "insivumeh_alto_hidro_historico"
     },
     {
       "estacion": "San Pedro Mactún",
       "rio": "San Pedro",
-      "desde": "19/11/2026 08:00",
-      "hasta": "19/11/2026 14:00",
+      "desde": "19/11/2026 14:00",
+      "hasta": "19/11/2026 20:00",
       "horas_transcurridas": 6.0,
-      "delta_nivel_m": -0.01,
-      "delta_caudal_m3s": -0.61,
+      "delta_nivel_m": 0.0,
+      "delta_caudal_m3s": 0.0,
       "tendencia_calculada": "estable",
       "fuente_evolucion": "insivumeh_alto_hidro_historico"
     },
     {
       "estacion": "San Agustín Chixoy",
       "rio": "Chixoy",
-      "desde": "19/11/2026 08:00",
-      "hasta": "19/11/2026 14:00",
+      "desde": "19/11/2026 14:00",
+      "hasta": "19/11/2026 20:00",
       "horas_transcurridas": 6.0,
-      "delta_nivel_m": 0.15,
-      "delta_caudal_m3s": 41.67,
-      "tendencia_calculada": "incrementando",
+      "delta_nivel_m": -0.09,
+      "delta_caudal_m3s": -25.0,
+      "tendencia_calculada": "disminuyendo",
       "fuente_evolucion": "insivumeh_alto_hidro_historico"
     },
     {
       "estacion": "San Luis Ixcán",
       "rio": "Xaclbal",
-      "desde": "19/11/2026 08:00",
-      "hasta": "19/11/2026 14:00",
+      "desde": "19/11/2026 14:00",
+      "hasta": "19/11/2026 20:00",
       "horas_transcurridas": 6.0,
-      "delta_nivel_m": -0.05,
-      "delta_caudal_m3s": -3.39,
-      "tendencia_calculada": "disminuyendo",
+      "delta_nivel_m": 0.15,
+      "delta_caudal_m3s": 10.81,
+      "tendencia_calculada": "incrementando",
       "fuente_evolucion": "insivumeh_alto_hidro_historico"
     }
   ],
@@ -923,9 +934,9 @@
   },
   "senal_usumacinta_alta": "Señal aguas arriba en aumento",
   "insivumeh_bhvgm_actual": {
-    "boletin": "969-2026",
+    "boletin": "970-2026",
     "fecha": "19/11/2026",
-    "hora": "14:00",
+    "hora": "20:00",
     "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
     "estaciones": [
       {
@@ -936,11 +947,11 @@
         "nivel_referencia_max_m": 10.0,
         "caudal_referencia_min_m3s": 486.87,
         "caudal_referencia_max_m3s": 2856.43,
-        "nivel_instantaneo_m": 7.75,
-        "caudal_instantaneo_m3s": 1878.17,
+        "nivel_instantaneo_m": 7.87,
+        "caudal_instantaneo_m3s": 1930.35,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "19/11/2026 14:00"
+        "ultima_observacion_fuente": "19/11/2026 20:00"
       },
       {
         "estacion": "El Porvenir",
@@ -950,11 +961,11 @@
         "nivel_referencia_max_m": 3.0,
         "caudal_referencia_min_m3s": 93.04,
         "caudal_referencia_max_m3s": 399.28,
-        "nivel_instantaneo_m": 3.9,
-        "caudal_instantaneo_m3s": 643.5,
+        "nivel_instantaneo_m": 4.08,
+        "caudal_instantaneo_m3s": 701.64,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "19/11/2026 14:00"
+        "ultima_observacion_fuente": "19/11/2026 20:00"
       },
       {
         "estacion": "Machaquilá",
@@ -964,11 +975,11 @@
         "nivel_referencia_max_m": 2.5,
         "caudal_referencia_min_m3s": 0.18,
         "caudal_referencia_max_m3s": 54.29,
-        "nivel_instantaneo_m": 1.26,
-        "caudal_instantaneo_m3s": 4.0,
+        "nivel_instantaneo_m": 1.25,
+        "caudal_instantaneo_m3s": 3.84,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "19/11/2026 14:00"
+        "ultima_observacion_fuente": "19/11/2026 20:00"
       },
       {
         "estacion": "San Pedro Mactún",
@@ -982,7 +993,7 @@
         "caudal_instantaneo_m3s": 32.4,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "19/11/2026 14:00"
+        "ultima_observacion_fuente": "19/11/2026 20:00"
       },
       {
         "estacion": "San Agustín Chixoy",
@@ -992,11 +1003,11 @@
         "nivel_referencia_max_m": 3.0,
         "caudal_referencia_min_m3s": 121.4,
         "caudal_referencia_max_m3s": 904.28,
-        "nivel_instantaneo_m": 3.81,
-        "caudal_instantaneo_m3s": 1129.28,
+        "nivel_instantaneo_m": 3.72,
+        "caudal_instantaneo_m3s": 1104.28,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "19/11/2026 14:00"
+        "ultima_observacion_fuente": "19/11/2026 20:00"
       },
       {
         "estacion": "San Luis Ixcán",
@@ -1006,11 +1017,11 @@
         "nivel_referencia_max_m": 0.86,
         "caudal_referencia_min_m3s": 9.75,
         "caudal_referencia_max_m3s": 76.39,
-        "nivel_instantaneo_m": 0.45,
-        "caudal_instantaneo_m3s": 41.83,
+        "nivel_instantaneo_m": 0.6,
+        "caudal_instantaneo_m3s": 52.64,
         "estado_dato": "observado",
         "calidad": "extraido_del_BHVGM",
-        "ultima_observacion_fuente": "19/11/2026 14:00"
+        "ultima_observacion_fuente": "19/11/2026 20:00"
       }
     ],
     "el_tigre_publicado": true
