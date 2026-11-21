@@ -1,11 +1,11 @@
 {
   "fuente": "INSIVUMEH",
   "producto": "BHVGM · estaciones Alto Usumacinta",
-  "consultado_utc": "2026-11-21T18:11:20.526497+00:00",
+  "consultado_utc": "2026-11-21T20:11:26.492809+00:00",
   "url_pdf": "https://insivumeh.gob.gt/hidrologia/hidro/niveles/BHVGM.pdf",
   "fecha": "21/11/2026",
-  "hora": "08:00",
-  "boletin": "974-2026",
+  "hora": "14:00",
+  "boletin": "975-2026",
   "estaciones": [
     {
       "estacion": "El Tigre",
@@ -15,11 +15,11 @@
       "nivel_referencia_max_m": 10.0,
       "caudal_referencia_min_m3s": 486.87,
       "caudal_referencia_max_m3s": 2856.43,
-      "nivel_instantaneo_m": 8.98,
-      "caudal_instantaneo_m3s": 2412.96,
+      "nivel_instantaneo_m": 9.01,
+      "caudal_instantaneo_m3s": 2426.0,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "21/11/2026 08:00"
+      "ultima_observacion_fuente": "21/11/2026 14:00"
     },
     {
       "estacion": "El Porvenir",
@@ -29,11 +29,11 @@
       "nivel_referencia_max_m": 3.0,
       "caudal_referencia_min_m3s": 93.04,
       "caudal_referencia_max_m3s": 399.28,
-      "nivel_instantaneo_m": 4.68,
-      "caudal_instantaneo_m3s": 919.62,
+      "nivel_instantaneo_m": 4.69,
+      "caudal_instantaneo_m3s": 923.57,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "21/11/2026 08:00"
+      "ultima_observacion_fuente": "21/11/2026 14:00"
     },
     {
       "estacion": "Machaquilá",
@@ -47,7 +47,7 @@
       "caudal_instantaneo_m3s": 15.36,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "21/11/2026 08:00"
+      "ultima_observacion_fuente": "21/11/2026 14:00"
     },
     {
       "estacion": "San Pedro Mactún",
@@ -61,7 +61,7 @@
       "caudal_instantaneo_m3s": 31.21,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "21/11/2026 08:00"
+      "ultima_observacion_fuente": "21/11/2026 14:00"
     },
     {
       "estacion": "San Agustín Chixoy",
@@ -71,11 +71,11 @@
       "nivel_referencia_max_m": 3.0,
       "caudal_referencia_min_m3s": 121.4,
       "caudal_referencia_max_m3s": 904.28,
-      "nivel_instantaneo_m": 2.88,
-      "caudal_instantaneo_m3s": 870.94,
+      "nivel_instantaneo_m": 2.87,
+      "caudal_instantaneo_m3s": 868.17,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "21/11/2026 08:00"
+      "ultima_observacion_fuente": "21/11/2026 14:00"
     },
     {
       "estacion": "Playa Grande",
@@ -87,9 +87,10 @@
       "caudal_referencia_max_m3s": 633.81,
       "nivel_instantaneo_m": 1.2,
       "caudal_instantaneo_m3s": 519.24,
-      "estado_dato": "observado",
+      "estado_dato": "heredado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "21/11/2026 08:00"
+      "ultima_observacion_fuente": "21/11/2026 08:00",
+      "heredado_en_utc": "2026-11-21T20:11:26.492809+00:00"
     },
     {
       "estacion": "San Luis Ixcán",
@@ -103,7 +104,7 @@
       "caudal_instantaneo_m3s": 41.83,
       "estado_dato": "observado",
       "calidad": "extraido_del_BHVGM",
-      "ultima_observacion_fuente": "21/11/2026 08:00"
+      "ultima_observacion_fuente": "21/11/2026 14:00"
     },
     {
       "estacion": "Puente Chocox",
@@ -118,13 +119,13 @@
       "estado_dato": "heredado",
       "calidad": "extraido_del_BHVGM",
       "ultima_observacion_fuente": "15/11/2026 20:00",
-      "heredado_en_utc": "2026-11-21T18:11:20.526497+00:00"
+      "heredado_en_utc": "2026-11-21T20:11:26.492809+00:00"
     }
   ],
   "errors": [],
   "nota": "Se prioriza dato estructurado del BHVGM; si falta una lectura, se conserva el último valor válido y se marca heredado. Ausencia nunca equivale a cero.",
-  "observadas": 7,
-  "heredadas": 1,
+  "observadas": 6,
+  "heredadas": 2,
   "sin_dato": 0,
   "estado": "ok"
 }
