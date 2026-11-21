@@ -1,15 +1,42 @@
 {
-  "checked_at_utc": "2026-11-20T23:18:37.010100+00:00",
+  "checked_at_utc": "2026-11-21T08:38:41.098730+00:00",
   "source_page": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
   "discovery": {
     "http": 200,
     "transport": "reader",
     "url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
-    "request_url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia?_ipcet=1795216717",
+    "request_url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia?_ipcet=1795250321",
     "candidates": 8,
+    "browser_network_urls": [
+      "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia?_ipcet=1795250325",
+      "https://www.gob.mx/ps3tI/io/ZM/5f3p/f9foGRs/cS/fgp0dwMB/bhErc/XpKBxBY",
+      "https://www.gob.mx/ps3tI/io/ZM/5f3p/f9foGRs/cS/fgp0dwMB/MDNsC/1ULbSwt",
+      "https://www.gob.mx/ps3tI/io/ZM/5f3p/f9foGRs/cS/fgp0dwMB/WSJyG/jAsCQUAAQ",
+      "https://www.gob.mx/ps3tI/io/ZM/5f3p/f9foGRs/cS/fgp0dwMB/eQYoM/2ghGzUCAQ",
+      "https://www.gob.mx/ps3tI/io/ZM/5f3p/f9foGRs/cS/fgp0dwMB/ExAnb/XpOCzZY",
+      "https://www.gob.mx/ps3tI/io/ZM/5f3p/f9foGRs/cS/fgp0dwMB/XBItc/3pIBXxX",
+      "https://www.gob.mx/ps3tI/io/ZM/5f3p/f9foGRs/cS/fgp0dwMB/Gx4oD/kclQA8s",
+      "https://s.go-mpulse.net/boomerang/948VY-ZM68F-X7Y7K-BEYVV-MSV5F",
+      "https://c.go-mpulse.net/api/config.json?key=948VY-ZM68F-X7Y7K-BEYVV-MSV5F&d=www.gob.mx&t=5984168&v=1.571.0&if=&sl=0&si=w2sh3vxep8-NaN&plugins=AK,ConfigOverride,Continuity,PageParams,IFrameDelay,AutoXHR,SPA,Angular,Backbone,Ember,History,RT,CrossDomain,BW,PaintTiming,NavigationTiming,ResourceTiming,Memory,CACHE_RELOAD,Errors,TPAnalytics,UserTiming,LOGN&acao=",
+      "https://c.go-mpulse.net/api/config.json?key=948VY-ZM68F-X7Y7K-BEYVV-MSV5F&d=www.gob.mx&t=5984168&v=1.571.0&if=&sl=0&si=sxpds7vou-NaN&plugins=AK,ConfigOverride,Continuity,PageParams,IFrameDelay,AutoXHR,SPA,Angular,Backbone,Ember,History,RT,CrossDomain,BW,PaintTiming,NavigationTiming,ResourceTiming,Memory,CACHE_RELOAD,Errors,TPAnalytics,UserTiming,LOGN&acao=",
+      "https://www.gob.mx/_sec/verify?provider=crypto"
+    ],
+    "browser_links": [],
+    "browser_matutino_snippets": [],
+    "browser_render": true,
     "publicaciones_selects": [],
     "publicaciones_buttons": [],
-    "filename_probe_windows": [],
+    "filename_probe_windows": [
+      {
+        "date": "2026-11-21",
+        "from": 1117218,
+        "to": 1118387,
+        "predicted": 1117487,
+        "daily_rate": 270,
+        "base_date": "2026-11-20",
+        "base_id": 1117217
+      }
+    ],
     "matutino_candidates": [
       "https://www.gob.mx/cms/uploads/attachment/file/1117216/Informe_Matutino_20112026.pdf",
       "https://www.gob.mx/cms/uploads/attachment/file/1117217/Mapa_Matutino_20112026.pdf",
@@ -29,36 +56,36 @@
     "matutino": [
       {
         "url": "https://www.gob.mx/cms/uploads/attachment/file/1117216/Informe_Matutino_20112026.pdf",
-        "transport": "direct",
-        "http": 200,
-        "bytes": 801498,
+        "transport": "reader",
+        "http": 403,
+        "bytes": 21603,
         "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1117216/Informe_Matutino_20112026.pdf",
-        "pages": 6,
-        "document_header": "COMISIÓN NACIONAL DEL AGUA\nORGANISMO DE CUENCA GOLFO CENTRO\nDIRECCIÓN TÉCNICA\nJEFATURA DE PROYECTO DE HIDROMETEOROLOGÍA\nXalapa, Veracruz viernes, 20 de noviembre de 2026\nE\nst\na d o Presa\nN.A\nC\n.M\nap\n.\na\nE\n( c\n.\nM id m ad ³\nN\n) t\n.\no\nA\nt\n.\na\nM\nl\n.O. N\nN\n.\ni c\nA\nv a e\n.\np\nM\nl a c\n.\nc o\nE\ni n\n.\nd a r d es t p o\nN\ne t c a\n.A\nt l o\n.\n(\nM\nm a\n.\n) s\nO\nu\n. Ay\nA\ne\nlm\nr\nac (M en m am ³) ien\nH\nto\noy\nN\n%\n. A\nA\n.\na l\nM\nm l a\n.O\nc.\n.\nAyer\nNi ( v m el ) es\nHoy\nTendencia\nEntr\nG\nad\na\na\nstos (m3/\nS\ns\na\n)\nlida\nCuenca del Tecolutla\no Los Reyes 29.263 24.031 2,167.",
+        "document_header": "Title: Informe_Matutino_20112026.pdf  URL Source: http://www.gob.mx/cms/uploads/attachment/file/1117216/Informe_Matutino_20112026.pdf  Final URL: https://www.gob.mx/cms/uploads/attachment/file/1117216/Informe_Matutino_20112026.pdf  Published Time: Fri, 20 Nov 2026 19:22:58 GMT  Number of Pages: 6  Markdown Content: Xalapa, Veracruz  > N.A.M.E. N.A.M.O. N.A.M.E. N.A.M.O. Ayer Hoy Ayer Hoy Entrada Salida  Los Reyes  29.263  24.031  2,167.000  2,165.000  14.198  14.219  59.2  2160.91  2160.92  0.243  0.000  La Laguna  49.227  40.638  2,184.500  2,183.000  21.897  21.993  54.1  2179.49  2179.51  1.111  0.000  Necaxa  38.860  29.055  1,342.870  1,338.000  25.769  25.585  88.1  1336.23  1336.13  23.455  25.585  Nexapa  15.755  12.500  1,362.350  1,360.000  13.096  13.096  104.8  1360.43  1360.43  4.100  4.100  Tenango  35.339  28.480  1,347.970  1,345.600  21.619  21.549  75.7  1342.95  1342.92  5.090  5.900  La Soledad  14.980  13.900  805.000  804.500  0.649  0.623  4.5  792.00  791.90  > Subtotal 183.424 148.604 97.228 97.065  - - -  Miguel Alemán  > (Temascal)  9,105.540  8,119.090  68.500  66.500  5,038.500  5,042.310  62.1  59.31  59.32  286.277  242.180  > Miguel de la Madrid (Cerro de Oro)  3,547.160  2,599.510  70.010  64.860  1,772.170  1,774.850  68.3  59.47  59.49  67.919  36.900  > Subtotal 12,652.700 10,718.600 6,810.670 6,817.160 63.6%  - - -  Chicayan  572.348  456.920  28.280  26.900  248.911  248.911  54.5  23.62  23.62  -  El Moralillo (Derivadora)  8.126  2.500  115.940  110.780  2.527  2.520  100.8  110.82  110.81  0.365  0.446  El Encanto (Derivadora)  0.250  0.233  333.250  323.000  - - - 323.40  323.37  - -  Tuxpango (Derivadora)  - - 985.800  981.900  - - - 979.90  979.90  - -  Canseco  > (Laguna de Catemaco)  552.700  493.020  333.500  332.700  484.924  486.396  98.7  332.59  332.61  31.600  18.843  21.650  19.750  20.255  21.534  114.3  20.00  20.21  17.449  2.646  31.600  28.537  21.650  21.25 * 20.255  21.534  75.5  20.00  20.21  17.449  2.646  > Subtotal 1,196.794 1,000.193 776.872 780.895  Total  14,032.918  11,867.397  7,684.770  7,695.120  JEFATURA DE PROYECTO DE HIDROMETEOROLOGÍA  DIRECCIÓN TÉCNICA  ORGANISMO DE CUENCA GOLFO CENTRO  viernes, 20 de noviembre de 2026  COMISIÓN NACIONAL DEL AGUA  > Niveles (m) > Nivel con respecto a su capacidad total (m) > Tendencia  Gastos (m 3/s)  Cuenca del Tecolutla  > Estado > Presa > Capacidad",
+        "reader_text": true,
         "station_rows": [
           {
-            "row_text": "San José del Carmen Ver. Tonalá Río Tonalá 4.71 3.41 3.45 - -1.26",
-            "page_text_method": "pdfplumber"
+            "row_text": "San José del Carmen  Ver.  Tonalá  Río Tonalá  4.71  3.41  3.45  - -1.26",
+            "page_text_method": "reader"
           },
           {
-            "row_text": "Agua Dulce Ver. Tonalá Río Aguadulcita 6.32 2.40 2.30 - -4.02",
-            "page_text_method": "pdfplumber"
+            "row_text": "Agua Dulce  Ver.  Tonalá  Río Aguadulcita  6.32  2.40  2.30  - -4.02",
+            "page_text_method": "reader"
           },
           {
-            "row_text": "San José del Carmen Ver. Tonalá 15.0 28.0 16.0 22.0 1.76 187.5 2,209.0",
-            "page_text_method": "pdfplumber"
+            "row_text": "San José del Carmen  Ver.  Tonalá  15.0  28.0  16.0  22.0  1.76  187.5  2,209.0",
+            "page_text_method": "reader"
           },
           {
-            "row_text": "Agua Dulce (Centro) Ver. Tonala 25.5 - - - - 250.7 1,868.0",
-            "page_text_method": "pdfplumber"
+            "row_text": "Agua Dulce (Centro)  Ver.  Tonala  25.5  - - - - 250.7  1,868.0",
+            "page_text_method": "reader"
           },
           {
-            "row_text": "Agua Dulce, Ver. Agua Dulce Tonalá 25.5 Tuxpan, Ver. Chalahuite Tuxpan 32.0 Las Vigas de Ramírez, Ver. Las Vigas de Ramírez Actopan 6.0",
-            "page_text_method": "pdfplumber"
+            "row_text": "Agua Dulce, Ver.  Agua Dulce  Tonalá  25.5  Tuxpan, Ver.  Chalahuite  Tuxpan  32.0  Las Vigas de Ramírez, Ver.  Las Vigas de Ramírez  Actopan  6.0",
+            "page_text_method": "reader"
           },
           {
-            "row_text": "Las Choapas, Ver. San José del Carmen Tonalá 15.0 San Juan Bautista Tuxtepec, Oax. Papaloapan Papaloapan 29.5 Tepango de Rodríguez, Pue. Tepango de Rodríguez Tecolutla 7.0",
-            "page_text_method": "pdfplumber"
+            "row_text": "Las Choapas, Ver.  San José del Carmen  Tonalá  15.0  San Juan Bautista Tuxtepec, Oax.  Papaloapan  Papaloapan  29.5  Tepango de Rodríguez, Pue.  Tepango de Rodríguez  Tecolutla  7.0",
+            "page_text_method": "reader"
           }
         ],
         "extraction_status": "Filas recuperadas; columnas numéricas pendientes de validación"
