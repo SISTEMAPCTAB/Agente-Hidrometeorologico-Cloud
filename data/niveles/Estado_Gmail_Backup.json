@@ -1,21 +1,29 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-22T15:34:59.390423-06:00",
+  "run_local": "2026-11-22T16:19:55.848444-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-22T14:00:00-06:00",
   "messages_scanned": 30,
-  "levels_processed_now": 0,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
-  "pdfs_skipped_duplicate_content": 20,
+  "pdfs_skipped_duplicate_content": 19,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (38 correos)",
-  "max_uid_asunto": 67597,
+  "busqueda": "por asunto (39 correos)",
+  "max_uid_asunto": 67602,
   "asuntos_locales_adicionales": 8,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "67602",
+      "fecha": "2026-11-22T16:18",
+      "asunto": "INFORME DE NIVELES DE RIOS Y PRESAS DE 16 HRS",
+      "pdf": [
+        "Niveles del 22 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "67597",
       "fecha": "2026-11-22T14:30",
@@ -207,14 +215,14 @@
       "pdf": [
         "Niveles del 20 de Noviembre del 2026.pdf"
       ]
-    },
-    {
-      "uid": "67468",
-      "fecha": "2026-11-20T09:38",
-      "asunto": "Boletín Hidrométrico, Climatológico y de Presas 20-11-2026",
-      "pdf": [
-        "Boletin 20-11-2026.pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-11-22T16:00:00-06:00",
+    "corte": "2026-11-22T16:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
