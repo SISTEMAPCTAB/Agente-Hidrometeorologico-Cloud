@@ -1,0 +1,17 @@
+name: Sondeo SMN EMA (temporal)
+on:
+  workflow_dispatch:
+jobs:
+  sondeo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Bajar páginas EMA del SMN
+        run: |
+          mkdir -p s; cd s
+          for u in "https://smn.conagua.gob.mx/tools/GUI/EMAS_v2.php?logo=0" "https://smn.conagua.gob.mx/tools/GUI/EMAS.php" "https://smn.conagua.gob.mx/es/observando-el-tiempo/estaciones-meteorologicas-automaticas-ema-s"; do
+            f=$(echo "$u" | md5sum | cut -c1-8).html; curl -sL -m 40 -A "Mozilla/5.0" -o "$f" -w "%{http_code} $u -> $f\n" "$u" || true
+          done
+          ls -la
+      - uses: actions/upload-artifact@v4
+        with: {name: sondeo, path: s, retention-days: 3}
