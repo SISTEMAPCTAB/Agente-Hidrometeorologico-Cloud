@@ -10,7 +10,9 @@ jobs:
         run: |
           mkdir -p s; cd s
           curl -sL -m 40 -A "Mozilla/5.0" -o e.js "https://smn.conagua.gob.mx/tools/JS/EMAS_v2.js"
-          echo "=== tamaño"; wc -c e.js
-          echo "=== urls"; grep -oiE '["'"'"'][^"'"'"' ]*\.(php|json|csv|txt|zip|xls[x]?|kml|geojson)[^"'"'"' ]*["'"'"']' e.js | sort -u | head -60
-          echo "=== ajax"; grep -oiE '.{0,160}(ajax|\$\.get|getJSON|\.load\(|url *:).{0,240}' e.js | head -40
-          echo "=== js completo (primeros 6000)"; head -c 6000 e.js
+          echo "=== bloques ajax"; python3 - <<'PY'
+          import re
+          t=open('e.js',encoding='utf-8',errors='ignore').read()
+          for m in re.finditer(r'(GetInfoEMAS_v2|ConsultaCluster|EMAS_reporte_v2|EMAS_zip|GetTablaVariables_v3|GetComboEMA|DescargaArchivo)',t):
+              print('---',m.group(1)); print(t[max(0,m.start()-300):m.start()+700].replace('\t',' '))
+          PY
