@@ -9,10 +9,8 @@ jobs:
       - name: Analizar páginas EMA del SMN
         run: |
           mkdir -p s; cd s
-          curl -sL -m 40 -A "Mozilla/5.0" -o v2.html "https://smn.conagua.gob.mx/tools/GUI/EMAS_v2.php?logo=0"
-          echo "=== tamaño"; wc -c v2.html
-          echo "=== scripts y urls"; grep -oiE '(src|href|url)\s*[=:(]\s*["'"'"']?[^"'"'"' )>]+' v2.html | sort -u | head -80
-          echo "=== php/json/csv/txt"; grep -oiE '[A-Za-z0-9_./:-]+\.(php|json|csv|txt|zip|xls[x]?)(\?[^"'"'"' <]*)?' v2.html | sort -u | head -80
-          echo "=== palenque"; grep -oi '.\{0,200\}palenque.\{0,200\}' v2.html | head -5
-          echo "=== fetch/ajax"; grep -oiE '.{0,120}(fetch|ajax|\$\.get|XMLHttpRequest|getJSON).{0,200}' v2.html | head -20
-          echo "=== cabeza"; head -c 3000 v2.html
+          curl -sL -m 40 -A "Mozilla/5.0" -o e.js "https://smn.conagua.gob.mx/tools/JS/EMAS_v2.js"
+          echo "=== tamaño"; wc -c e.js
+          echo "=== urls"; grep -oiE '["'"'"'][^"'"'"' ]*\.(php|json|csv|txt|zip|xls[x]?|kml|geojson)[^"'"'"' ]*["'"'"']' e.js | sort -u | head -60
+          echo "=== ajax"; grep -oiE '.{0,160}(ajax|\$\.get|getJSON|\.load\(|url *:).{0,240}' e.js | head -40
+          echo "=== js completo (primeros 6000)"; head -c 6000 e.js
