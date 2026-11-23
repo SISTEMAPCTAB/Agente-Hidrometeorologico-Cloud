@@ -10,9 +10,9 @@ jobs:
         run: |
           mkdir -p s; cd s
           B=https://smn.conagua.gob.mx/tools
-          echo "=== capas"; curl -sL -m 40 -A "Mozilla/5.0" "$B/PHP/ConsultaCapas.php?tipo=EMAS" | head -c 1500; echo
+          echo "=== capas"
           grep -oE '.{0,200}ConsultaCapas.{0,500}' <(curl -sL -m 40 "$B/JS/EMAS_v2.js") | head -3
-          echo "=== cluster sin clave"; curl -sL -m 60 -A "Mozilla/5.0" "$B/PHP/ConsultaCluster.php?clave=&tipo=EMAS" -o c0.json; wc -c c0.json; head -c 600 c0.json; echo
+          echo "=== cluster sin clave"; curl -sL -m 60 -A "Mozilla/5.0" "$B/PHP/ConsultaCapas.php?tipo=EMAS" -o c0.json; wc -c c0.json; head -c 600 c0.json; echo
           python3 - <<'PY'
           import json
           try: d=json.load(open('c0.json'))
