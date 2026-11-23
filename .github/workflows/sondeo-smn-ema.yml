@@ -6,12 +6,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
-      - name: Bajar páginas EMA del SMN
+      - name: Analizar páginas EMA del SMN
         run: |
           mkdir -p s; cd s
-          for u in "https://smn.conagua.gob.mx/tools/GUI/EMAS_v2.php?logo=0" "https://smn.conagua.gob.mx/tools/GUI/EMAS.php" "https://smn.conagua.gob.mx/es/observando-el-tiempo/estaciones-meteorologicas-automaticas-ema-s"; do
-            f=$(echo "$u" | md5sum | cut -c1-8).html; curl -sL -m 40 -A "Mozilla/5.0" -o "$f" -w "%{http_code} $u -> $f\n" "$u" || true
-          done
-          ls -la
-      - uses: actions/upload-artifact@v4
-        with: {name: sondeo, path: s, retention-days: 3}
+          curl -sL -m 40 -A "Mozilla/5.0" -o v2.html "https://smn.conagua.gob.mx/tools/GUI/EMAS_v2.php?logo=0"
+          echo "=== tamaño"; wc -c v2.html
+          echo "=== scripts y urls"; grep -oiE '(src|href|url)\s*[=:(]\s*["'"'"']?[^"'"'"' )>]+' v2.html | sort -u | head -80
+          echo "=== php/json/csv/txt"; grep -oiE '[A-Za-z0-9_./:-]+\.(php|json|csv|txt|zip|xls[x]?)(\?[^"'"'"' <]*)?' v2.html | sort -u | head -80
+          echo "=== palenque"; grep -oi '.\{0,200\}palenque.\{0,200\}' v2.html | head -5
+          echo "=== fetch/ajax"; grep -oiE '.{0,120}(fetch|ajax|\$\.get|XMLHttpRequest|getJSON).{0,200}' v2.html | head -20
+          echo "=== cabeza"; head -c 3000 v2.html
