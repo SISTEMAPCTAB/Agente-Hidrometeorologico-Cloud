@@ -9,10 +9,28 @@ jobs:
       - name: Analizar páginas EMA del SMN
         run: |
           mkdir -p s; cd s
-          curl -sL -m 40 -A "Mozilla/5.0" -o e.js "https://smn.conagua.gob.mx/tools/JS/EMAS_v2.js"
-          echo "=== bloques ajax"; python3 - <<'PY'
-          import re
-          t=open('e.js',encoding='utf-8',errors='ignore').read()
-          for m in re.finditer(r'(GetInfoEMAS_v2|ConsultaCluster|EMAS_reporte_v2|EMAS_zip|GetTablaVariables_v3|GetComboEMA|DescargaArchivo)',t):
-              print('---',m.group(1)); print(t[max(0,m.start()-300):m.start()+700].replace('\t',' '))
+          B=https://smn.conagua.gob.mx/tools
+          echo "=== capas"; curl -sL -m 40 -A "Mozilla/5.0" "$B/PHP/ConsultaCapas.php?tipo=EMAS" | head -c 1500; echo
+          grep -oE '.{0,200}ConsultaCapas.{0,500}' <(curl -sL -m 40 "$B/JS/EMAS_v2.js") | head -3
+          echo "=== cluster sin clave"; curl -sL -m 60 -A "Mozilla/5.0" "$B/PHP/ConsultaCluster.php?clave=&tipo=EMAS" -o c0.json; wc -c c0.json; head -c 600 c0.json; echo
+          python3 - <<'PY'
+          import json
+          try: d=json.load(open('c0.json'))
+          except Exception as e: print('no json',e); d=[]
+          print('n',len(d)); 
+          if d: print('campos',list(d[0]))
+          for x in d:
+              try: la,lo=float(x['latitud']),float(x['longitud'])
+              except: continue
+              if 15.5<=la<=19 and -93.6<=lo<=-89.5: print('EST',x.get('id_estacion'),x.get('nombre') or x.get('name'),la,lo,{k:v for k,v in x.items() if k not in('latitud','longitud','id_estacion','nombre')})
           PY
+          ID=$(python3 -c "
+          import json
+          d=json.load(open('c0.json'))
+          print(next((x['id_estacion'] for x in d if 'alenque' in str(x)),''))" 2>/dev/null)
+          echo "=== Palenque id=$ID"
+          if [ -n "$ID" ]; then
+            curl -sL -m 60 -A "Mozilla/5.0" "$B/GUI/EMAS_reporte_v2.php?id=$ID&formato=txt&tipo=24h" -o r.txt; wc -c r.txt; head -c 2500 r.txt; echo; echo ...; tail -c 800 r.txt
+            echo "=== info"; curl -sL -m 60 -A "Mozilla/5.0" "$B/PHP/GetInfoEMAS_v2.php?id_estacion=$ID" | head -c 1500; echo
+          fi
+          exit 0
