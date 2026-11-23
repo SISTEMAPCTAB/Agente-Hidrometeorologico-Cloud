@@ -31,8 +31,15 @@ jobs:
         with:
           python-version: '3.12'
       - name: Bajar oleaje WW3
-        run: python src/oleaje_ww3.py
+        # 23-nov-2026: los ERDDAP de NOAA a veces no responden o bloquean por un rato las IP compartidas de GitHub (HTTP 403 "blacklist").
+        # Eso no es falla del Agente: se avisa como advertencia, se conserva el último latest.json y se reintenta en el siguiente ciclo (6 h).
+        run: |
+          if ! python src/oleaje_ww3.py; then
+            echo "::warning::ERDDAP de NOAA sin respuesta; se conserva el oleaje anterior y se reintenta en el siguiente ciclo."
+            echo "OMITIR=1" >> "$GITHUB_ENV"
+          fi
       - name: Verificar producto
+        if: env.OMITIR != '1'
         run: |
           python - <<'PY'
           import json
@@ -44,6 +51,7 @@ jobs:
           print('Oleaje verificado:',d['generado_utc'],d['fin_pronostico'])
           PY
       - name: Publicar sólo oleaje
+        if: env.OMITIR != '1'
         shell: bash
         run: |
           set -euo pipefail
