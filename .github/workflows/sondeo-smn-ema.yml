@@ -24,8 +24,11 @@ jobs:
               except: continue
               if 15.5<=la<=19 and -93.6<=lo<=-89.5: print('EST',x.get('id_estacion'),x.get('nombre') or x.get('name'),la,lo,{k:v for k,v in x.items() if k not in('latitud','longitud','id_estacion','nombre')})
           PY
-          for ID in 122 21 740 539; do
-            echo "=== id=$ID 1s"; curl -sL -m 60 -A "Mozilla/5.0" "$B/GUI/EMAS_reporte_v2.php?id=$ID&formato=txt&tipo=1s" -o r$ID.txt; wc -c r$ID.txt; head -c 1800 r$ID.txt; echo; echo ...; tail -c 600 r$ID.txt; echo
+          echo "=== iconos"; python3 -c "
+          import json,collections;d=json.load(open('c0.json'));print(collections.Counter(x['icono'] for x in d))"
+          for ID in 122 21; do
+            for T in 24h 90d; do echo "=== id=$ID $T"; curl -sL -m 90 -A "Mozilla/5.0" "$B/GUI/EMAS_reporte_v2.php?id=$ID&formato=txt&tipo=$T" -o r.txt; wc -c r.txt; sed -n '8,14p' r.txt; done
+            echo "=== tabla $ID"; curl -sL -m 60 -A "Mozilla/5.0" "$B/PHP/GetTablaVariables_v3.php?id_estacion=$ID&tipo=EMAS" | sed 's/<[^>]*>/ /g' | tr -s ' \n' ' ' | head -c 2500; echo
           done
-          echo "=== info 122"; curl -sL -m 60 -A "Mozilla/5.0" "$B/PHP/GetInfoEMAS_v2.php?id_estacion=122" | head -c 2500; echo
+          echo "=== sivea v3"; curl -sL -m 40 -A "Mozilla/5.0" "https://smn.conagua.gob.mx/tools/PHP/sivea_v3/div.php" | head -c 1500; echo
           exit 0
