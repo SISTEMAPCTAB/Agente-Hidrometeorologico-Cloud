@@ -2,34 +2,34 @@
  "producto": "Funcionamiento de vasos · Sistema Hidroeléctrico Grijalva",
  "fuente": "CFE · Subgerencia de Producción Hidroeléctrica Grijalva, Departamento Regional de Hidrometría",
  "fecha": "2026-11-24",
- "hora_ultimo_dato": 4,
- "fecha_hora_ultimo_dato": "2026-11-24T04:00:00-06:00",
- "mensaje_local": "2026-11-24T04:28-06:00",
- "actualizado_local": "2026-11-24T04:31-06:00",
+ "hora_ultimo_dato": 5,
+ "fecha_hora_ultimo_dato": "2026-11-24T05:00:00-06:00",
+ "mensaje_local": "2026-11-24T05:19-06:00",
+ "actualizado_local": "2026-11-24T05:24-06:00",
  "penitas": {
-  "nivel_msnm": 85.5,
+  "nivel_msnm": 85.52,
   "namo_msnm": 87.4,
-  "dif_namo_m": 1.9,
-  "aportado_m3s": 447.6,
+  "dif_namo_m": 1.88,
+  "aportado_m3s": 447.4,
   "turbinado_m3s": 330.0,
   "vertido_m3s": 0,
   "extraccion_m3s": 330.0,
   "extraccion_prom_6h_m3s": 330.0,
   "extraccion_prom_dia_m3s": 330.0,
-  "aportado_prom_6h_m3s": 419.2
+  "aportado_prom_6h_m3s": 424.8
  },
  "juan_grijalva": {
-  "nivel_msnm": 86.83,
-  "aportado_m3s": 907.9,
-  "canal_m3s": 354.0,
-  "tuneles_m3s": 236.0,
-  "salida_total_m3s": 590.1,
-  "salida_prom_6h_m3s": 558.9
+  "nivel_msnm": 86.86,
+  "aportado_m3s": 792.7,
+  "canal_m3s": 361.2,
+  "tuneles_m3s": 240.8,
+  "salida_total_m3s": 602.1,
+  "salida_prom_6h_m3s": 567.6
  },
  "malpaso": {
-  "nivel_msnm": 165.87,
+  "nivel_msnm": 165.88,
   "namo_msnm": 182.5,
-  "dif_namo_m": 16.63,
+  "dif_namo_m": 16.62,
   "extraccion_m3s": 0.0,
   "aportado_m3s": 0.0
  },
@@ -37,7 +37,7 @@
   "nivel_msnm": 517.42
  },
  "chicoasen": {
-  "nivel_msnm": 391.07,
+  "nivel_msnm": 391.13,
   "namo_msnm": 392.5
  },
  "novedades": null,
@@ -105,6 +105,22 @@
    "malpaso_aportado": 0.0,
    "angostura_nivel": 517.42,
    "chicoasen_nivel": 391.07
+  },
+  {
+   "hora": 5,
+   "penitas_nivel": 85.52,
+   "penitas_aportado": 447.4,
+   "penitas_turbinado": 330.0,
+   "penitas_vertido": null,
+   "penitas_extraccion": 330.0,
+   "jg_nivel": 86.86,
+   "jg_aportado": 792.7,
+   "jg_salida": 602.1,
+   "malpaso_nivel": 165.88,
+   "malpaso_extraccion": 0.0,
+   "malpaso_aportado": 0.0,
+   "angostura_nivel": 517.42,
+   "chicoasen_nivel": 391.13
   }
  ],
  "nota": "Valores horarios de operación de presas tomados del reporte de CFE; sólo se publican los que usa el modelo."
