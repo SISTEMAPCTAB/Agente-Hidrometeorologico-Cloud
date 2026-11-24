@@ -1,0 +1,23 @@
+name: Sondeo temperatura informe horario (manual)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['src/sondeo_temperatura_horaria.py', '.github/workflows/sondeo-temperatura.yml']
+permissions:
+  contents: read
+jobs:
+  sondeo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12', cache: pip}
+      - run: pip install -r requirements.txt
+      - name: Leer MAX/MIN de los informes horarios de hoy y ayer
+        env:
+          GMAIL_BACKUP_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_BACKUP_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        working-directory: src
+        run: python sondeo_temperatura_horaria.py
