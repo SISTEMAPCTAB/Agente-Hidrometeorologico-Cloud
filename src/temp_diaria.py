@@ -25,7 +25,7 @@ def actualizar(st, obs, now, tz):
         if T.get('fecha') != dia:
             if T.get('fecha'):
                 st['temp_ayer'] = T
-            T = {'fecha': dia}
+            T = {'fecha': dia, 'desde': hora}
         if T.get('max_c') is None or tc > T['max_c']:
             T['max_c'], T['max_hora'] = tc, hora
         if T.get('min_c') is None or tc < T['min_c']:
@@ -33,6 +33,7 @@ def actualizar(st, obs, now, tz):
         h = round(_hi(tc, float(rh)) if rh is not None else tc, 1)
         if T.get('st_max_c') is None or h > T['st_max_c']:
             T['st_max_c'], T['st_max_hora'], T['st_hr'] = h, hora, rh
+        T.setdefault('desde', hora)
         T['n'] = int(T.get('n', 0)) + 1
         st['temp_dia'] = T
     except Exception:
