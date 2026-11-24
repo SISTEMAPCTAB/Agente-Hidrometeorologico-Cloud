@@ -64,3 +64,21 @@ jobs:
             sleep $((intento*5))
           done
           exit 1
+      - name: Publicar la malla aunque falle el PDF de 24 h (24-nov-2026; antes se perdía el día, p. ej. 16 y 22-nov)
+        if: failure()
+        run: |
+          set -euo pipefail
+          git config user.name "Agente Hidrometeorologico SIH"
+          git config user.email "actions@users.noreply.github.com"
+          [ -d data/sih_malla_lluvia ] || exit 0
+          tar -cf /tmp/malla.tar data/sih_malla_lluvia
+          for intento in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            tar -xf /tmp/malla.tar
+            git add data/sih_malla_lluvia
+            git diff --cached --quiet && exit 0
+            git commit -m "Actualiza malla de lluvia SIH (PDF 24 h no disponible) [skip ci]"
+            git push origin HEAD:main && exit 0
+            sleep $((intento*5))
+          done
