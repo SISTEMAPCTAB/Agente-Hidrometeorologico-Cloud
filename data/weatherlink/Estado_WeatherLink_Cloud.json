@@ -1,11 +1,11 @@
 {
   "agent": "WeatherLink Cloud",
-  "run_utc": "2026-11-24T21:51:22.400296+00:00",
-  "run_local": "2026-11-24T15:51:22.400296-06:00",
+  "run_utc": "2026-11-24T22:21:20.384537+00:00",
+  "run_local": "2026-11-24T16:21:20.384537-06:00",
   "stations_expected": 32,
-  "stations_ok": 32,
-  "stations_error": 0,
-  "coverage_hours_since_seed": 1947.83,
+  "stations_ok": 18,
+  "stations_error": 14,
+  "coverage_hours_since_seed": 1948.33,
   "window_maturity": {
     "1h": true,
     "6h": true,
@@ -15,8 +15,65 @@
     "96h": true,
     "120h": true
   },
-  "complete": true,
-  "errors": [],
+  "complete": false,
+  "errors": [
+    {
+      "estacion": "ASUR Villahermosa",
+      "error": "ReadTimeout: HTTPSConnectionPool(host='www.weatherlink.com', port=443): Read timed out. (read timeout=12)"
+    },
+    {
+      "estacion": "OSTUACÁN PCIVILCHIAPAS",
+      "error": "HTTPError: 503 Server Error: Service Temporarily Unavailable for url: https://www.weatherlink.com/map/data/station/00f3c40c-9bbf-4d71-9ca0-5b035962e911"
+    },
+    {
+      "estacion": "PALENQUE PCIVILCHIAPAS",
+      "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://www.weatherlink.com/map/data/station/58c7addf-e60b-414f-baec-0f1a2d7073da"
+    },
+    {
+      "estacion": "PASO LA MINA",
+      "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://www.weatherlink.com/map/data/station/a86b31af-4828-44e9-8709-47f86d62b20e"
+    },
+    {
+      "estacion": "PICHUCALCO PCIVILCHIAPAS",
+      "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://www.weatherlink.com/map/data/station/cee4af20-176f-41b3-a0c3-dcc0d81f0424"
+    },
+    {
+      "estacion": "REFORMA PCIVILCHIAPAS",
+      "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://www.weatherlink.com/map/data/station/641faf59-6b57-47fe-b533-36c651533ab8"
+    },
+    {
+      "estacion": "SALTO DE AGUA PCIVILCHIAPAS",
+      "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://www.weatherlink.com/map/data/station/d0fdf036-46ea-4769-ada0-ba6dac46ba77"
+    },
+    {
+      "estacion": "SAN CAYETANO CONSOLA",
+      "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://www.weatherlink.com/map/data/station/a0fb45f0-742f-4136-98fb-024bcc3d9e36"
+    },
+    {
+      "estacion": "SEMAR Capitanía de Pto. Alvarado, Ver.",
+      "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://www.weatherlink.com/map/data/station/cf76e43a-f5ed-4822-9453-9804b01cc970"
+    },
+    {
+      "estacion": "SEMAR Capitanía de Pto. Dos Bocas",
+      "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://www.weatherlink.com/map/data/station/581d053d-cedb-4fcd-afb2-7194bcb4d471"
+    },
+    {
+      "estacion": "SEMAR E.I.O. Cd. del Carmen.",
+      "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://www.weatherlink.com/map/data/station/179b2e03-d930-4c64-a53c-b05d6814cd99"
+    },
+    {
+      "estacion": "Sinai",
+      "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://www.weatherlink.com/map/data/station/6a6be1ae-627b-49f0-8bad-10622e2834bc"
+    },
+    {
+      "estacion": "Urrutia",
+      "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://www.weatherlink.com/map/data/station/7570c2bf-2c41-4c67-bff8-69e9e877475f"
+    },
+    {
+      "estacion": "Yaxhá - INSIVUMEH PETEN",
+      "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://www.weatherlink.com/map/data/station/c7cd2939-bb5b-4724-a033-ee7fceaf240e"
+    }
+  ],
   "source": "WeatherLink public map endpoint /map/data/station/{uuid}",
   "note": "Hoy (dailyRain) es acumulado desde medianoche. Las ventanas móviles se reconstruyen con incrementos observados. Si un cruce de medianoche no puede verificarse, la ventana afectada se conserva como mínimo observado (≥ valor), no como exacta ni como s/d. La incertidumbre se propaga coherentemente a 24/48/72/96/120 h mientras ese tramo permanezca dentro de cada ventana."
 }
