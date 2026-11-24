@@ -1,27 +1,27 @@
 {
  "producto": "Modelo Grijalva-Usumacinta Rubio/Segovia · pronóstico experimental 0–72 h",
- "version": "V111et · commit 4fff819",
- "calculado_utc": "2026-11-24T14:39:46.085Z",
- "lectura": "Lectura 24/11, 08:39",
+ "version": "V111ev · commit 177f190",
+ "calculado_utc": "2026-11-24T15:40:43.162Z",
+ "lectura": "Lectura 24/11, 09:40",
  "lluvia_futura": "Sierra: WeatherNext 2 (Google, IA; Earth Engine; ECMWF IFS de respaldo) · corrida 2026-11-24 06 UTC · Tulijá: WeatherNext 2 · Puxcatán: ensamble SMN corregido · corrida 2026-11-23; respaldo ensamble SMN / NOAA",
  "estaciones": [
   {
    "estacion": "Río Tacotalpa · Tapijulapa",
    "h24": {
-    "nivel_m": 16.97,
-    "gasto_m3s": 221.8,
+    "nivel_m": 16.96,
+    "gasto_m3s": 218.2,
     "situacion": "Normal",
-    "nivel_crudo_m": 17.13
+    "nivel_crudo_m": 17.11
    },
    "h36": {
-    "nivel_m": 17.13,
-    "gasto_m3s": 268.4,
+    "nivel_m": 17.17,
+    "gasto_m3s": 283.7,
     "situacion": "Normal",
-    "nivel_crudo_m": 17.22
+    "nivel_crudo_m": 17.27
    },
    "h72": {
-    "nivel_m": 16.6,
-    "gasto_m3s": 130.7,
+    "nivel_m": 16.59,
+    "gasto_m3s": 129,
     "situacion": "Normal",
     "nivel_crudo_m": 16.68
    },
@@ -30,76 +30,76 @@
   {
    "estacion": "Río Teapa · Teapa",
    "h24": {
-    "nivel_m": 34.78,
-    "gasto_m3s": 173.6,
+    "nivel_m": 34.76,
+    "gasto_m3s": 169.9,
     "situacion": "Normal",
-    "nivel_crudo_m": 34.85
+    "nivel_crudo_m": 34.83
    },
    "h36": {
-    "nivel_m": 35.03,
-    "gasto_m3s": 233.6,
+    "nivel_m": 35.06,
+    "gasto_m3s": 242.7,
     "situacion": "Normal",
-    "nivel_crudo_m": 35.05
+    "nivel_crudo_m": 35.08
    },
    "h72": {
-    "nivel_m": 34.3,
-    "gasto_m3s": 84.1,
+    "nivel_m": 34.29,
+    "gasto_m3s": 83.2,
     "situacion": "Normal",
-    "nivel_crudo_m": 34.41
+    "nivel_crudo_m": 34.4
    },
-   "pico": "35.16 m · 267 m³/s 26/11, 06:00"
+   "pico": "35.16 m · 268 m³/s 26/11, 06:00"
   },
   {
    "estacion": "Río Pichucalco · San Joaquín",
    "h24": {
-    "nivel_m": 23.58,
-    "gasto_m3s": 140.5,
+    "nivel_m": 23.57,
+    "gasto_m3s": 140.3,
     "situacion": "Prevención · rebase estimado 24/11, 13:00",
-    "nivel_crudo_m": 23.9
+    "nivel_crudo_m": 23.88
    },
    "h36": {
-    "nivel_m": 24,
-    "gasto_m3s": 179.9,
+    "nivel_m": 24.09,
+    "gasto_m3s": 188.3,
     "situacion": "Prevención",
-    "nivel_crudo_m": 24.36
+    "nivel_crudo_m": 24.48
    },
    "h72": {
-    "nivel_m": 22.16,
-    "gasto_m3s": 45.2,
-    "situacion": "Prevención 25/11, 21:00–14:00 · a H+72: Normal",
-    "nivel_crudo_m": 22.52
+    "nivel_m": 22.15,
+    "gasto_m3s": 44.8,
+    "situacion": "Prevención 25/11, 22:00–14:00 · a H+72: Normal",
+    "nivel_crudo_m": 22.51
    },
-   "pico": "24.24 m · 200 m³/s 26/11, 06:00"
+   "pico": "24.25 m · 201 m³/s 26/11, 06:00"
   },
   {
    "estacion": "Río Puyacatengo · Puyacatengo",
    "h24": {
-    "nivel_m": 25.44,
-    "gasto_m3s": 60.8,
+    "nivel_m": 25.45,
+    "gasto_m3s": 62,
+    "situacion": "Normal",
+    "nivel_crudo_m": 25.55
+   },
+   "h36": {
+    "nivel_m": 25.35,
+    "gasto_m3s": 63.2,
     "situacion": "Normal",
     "nivel_crudo_m": 25.54
    },
-   "h36": {
-    "nivel_m": 25.33,
-    "gasto_m3s": 61.6,
-    "situacion": "Normal",
-    "nivel_crudo_m": 25.53
-   },
    "h72": {
-    "nivel_m": 24.91,
-    "gasto_m3s": 6.3,
+    "nivel_m": 24.9,
+    "gasto_m3s": 5.4,
     "situacion": "Normal",
-    "nivel_crudo_m": 25.11
+    "nivel_crudo_m": 25.1
    },
    "pico": "25.58 m · 87 m³/s 26/11, 09:00"
   },
   {
    "estacion": "Río La Sierra · Pueblo Nuevo",
    "h24": {
-    "nivel_m": 4.3,
-    "gasto_m3s": 177.4,
+    "nivel_m": 4.28,
+    "gasto_m3s": 176.1,
     "situacion": "Normal",
-    "nivel_crudo_m": 4.39
+    "nivel_crudo_m": 4.36
    },
    "h36": {
     "nivel_m": 4.75,
@@ -108,28 +108,28 @@
     "nivel_crudo_m": 4.75
    },
    "h72": {
-    "nivel_m": 4.81,
-    "gasto_m3s": 210.2,
+    "nivel_m": 4.79,
+    "gasto_m3s": 208.6,
     "situacion": "Normal",
-    "nivel_crudo_m": 4.81
+    "nivel_crudo_m": 4.79
    },
    "pico": "4.83 m · 212 m³/s 27/11, 07:00"
   },
   {
    "estacion": "Río Usumacinta · Boca del Cerro",
    "h24": {
-    "nivel_m": 15.12,
-    "gasto_m3s": 2399.1,
+    "nivel_m": 15.13,
+    "gasto_m3s": 2407.3,
     "situacion": "Normal"
    },
    "h36": {
-    "nivel_m": 15.05,
-    "gasto_m3s": 2364.5,
+    "nivel_m": 15.07,
+    "gasto_m3s": 2374.7,
     "situacion": "Normal"
    },
    "h72": {
-    "nivel_m": 14.97,
-    "gasto_m3s": 2324.4,
+    "nivel_m": 14.99,
+    "gasto_m3s": 2335.3,
     "situacion": "Normal"
    },
    "pico": "sin ascenso"
@@ -138,45 +138,45 @@
    "estacion": "Río Samaria · Samaria",
    "h24": {
     "nivel_m": 11.65,
-    "gasto_m3s": 341.5,
+    "gasto_m3s": 343,
     "situacion": "Normal",
     "nivel_crudo_m": 11.72
    },
    "h36": {
     "nivel_m": 11.68,
-    "gasto_m3s": 363.3,
+    "gasto_m3s": 363.7,
     "situacion": "Normal",
     "nivel_crudo_m": 11.78
    },
    "h72": {
     "nivel_m": 11.8,
-    "gasto_m3s": 372.1,
+    "gasto_m3s": 371.2,
     "situacion": "Normal",
     "nivel_crudo_m": 11.8
    },
-   "pico": "11.80 m · 372 m³/s 27/11, 08:00"
+   "pico": "11.80 m · 371 m³/s 27/11, 09:00"
   },
   {
    "estacion": "Río Carrizal · González",
    "h24": {
     "nivel_m": 3.35,
-    "gasto_m3s": 33.9,
+    "gasto_m3s": 34,
     "situacion": "Normal",
     "nivel_crudo_m": 3.35
    },
    "h36": {
     "nivel_m": 3.37,
-    "gasto_m3s": 35.5,
+    "gasto_m3s": 35.6,
     "situacion": "Normal",
     "nivel_crudo_m": 3.37
    },
    "h72": {
     "nivel_m": 3.4,
-    "gasto_m3s": 37.2,
+    "gasto_m3s": 37.1,
     "situacion": "Normal",
     "nivel_crudo_m": 3.4
    },
-   "pico": "3.40 m · 37 m³/s 27/11, 08:00"
+   "pico": "3.40 m · 37 m³/s 27/11, 09:00"
   },
   {
    "estacion": "Río Grijalva · Gaviotas",
@@ -194,11 +194,11 @@
    },
    "h72": {
     "nivel_m": 2.32,
-    "gasto_m3s": 283,
+    "gasto_m3s": 282,
     "situacion": "Normal",
     "nivel_crudo_m": 2.24
    },
-   "pico": "2.32 m · ≈ 283 m³/s 27/11, 08:00"
+   "pico": "2.32 m · ≈ 282 m³/s 27/11, 09:00"
   },
   {
    "estacion": "Río Grijalva · El Muelle",
@@ -217,42 +217,42 @@
     "gasto_m3s": null,
     "situacion": "Normal"
    },
-   "pico": "2.22 m 27/11, 08:00"
+   "pico": "2.22 m 27/11, 09:00"
   },
   {
    "estacion": "Río Tulijá · Salto de Agua",
    "h24": {
-    "nivel_m": 7.59,
-    "gasto_m3s": 212.9,
+    "nivel_m": 7.6,
+    "gasto_m3s": 214.3,
     "situacion": "Normal"
    },
    "h36": {
-    "nivel_m": 7.83,
-    "gasto_m3s": 255.6,
+    "nivel_m": 7.85,
+    "gasto_m3s": 261.1,
     "situacion": "Normal"
    },
    "h72": {
-    "nivel_m": 9.16,
-    "gasto_m3s": 304,
+    "nivel_m": 9.13,
+    "gasto_m3s": 300.9,
     "situacion": "Normal"
    },
-   "pico": "9.16 m · 304 m³/s 27/11, 08:00"
+   "pico": "9.13 m · 301 m³/s 27/11, 09:00"
   },
   {
    "estacion": "Río Puxcatán · Macuspana",
    "h24": {
-    "nivel_m": 3.55,
-    "gasto_m3s": 106,
+    "nivel_m": 3.56,
+    "gasto_m3s": 106.7,
     "situacion": "Normal"
    },
    "h36": {
-    "nivel_m": 4.06,
-    "gasto_m3s": 129.1,
+    "nivel_m": 4.09,
+    "gasto_m3s": 130.6,
     "situacion": "Normal"
    },
    "h72": {
-    "nivel_m": 4.34,
-    "gasto_m3s": 141.4,
+    "nivel_m": 4.33,
+    "gasto_m3s": 141,
     "situacion": "Normal"
    },
    "pico": "4.48 m · 148 m³/s 26/11, 17:00"
@@ -265,51 +265,51 @@
    "estacion": "Río Tacotalpa · Tapijulapa",
    "gasto_m3s": 353,
    "nivel_m": 17.38,
-   "hora": "H+46 · 26/11, 06:00"
+   "hora": "H+45 · 26/11, 06:00"
   },
   {
    "estacion": "Río Teapa · Teapa",
-   "gasto_m3s": 267,
+   "gasto_m3s": 268,
    "nivel_m": 35.16,
-   "hora": "H+46 · 26/11, 06:00"
+   "hora": "H+45 · 26/11, 06:00"
   },
   {
    "estacion": "Río Pichucalco · San Joaquín",
-   "gasto_m3s": 200,
-   "nivel_m": 24.24,
-   "hora": "H+46 · 26/11, 06:00"
+   "gasto_m3s": 201,
+   "nivel_m": 24.25,
+   "hora": "H+45 · 26/11, 06:00"
   },
   {
    "estacion": "Río Puyacatengo · Puyacatengo",
    "gasto_m3s": 87,
    "nivel_m": 25.58,
-   "hora": "H+49 · 26/11, 09:00"
+   "hora": "H+48 · 26/11, 09:00"
   }
  ],
  "picos_sierra_alto": [
   {
    "estacion": "Río Tacotalpa · Tapijulapa",
-   "gasto_m3s": 391,
+   "gasto_m3s": 390,
    "nivel_m": 17.48,
-   "hora": "H+46 · 26/11, 06:00"
+   "hora": "H+45 · 26/11, 06:00"
   },
   {
    "estacion": "Río Teapa · Teapa",
-   "gasto_m3s": 273,
+   "gasto_m3s": 272,
    "nivel_m": 35.17,
-   "hora": "H+46 · 26/11, 06:00"
+   "hora": "H+45 · 26/11, 06:00"
   },
   {
    "estacion": "Río Pichucalco · San Joaquín",
-   "gasto_m3s": 233,
-   "nivel_m": 24.66,
-   "hora": "H+46 · 26/11, 06:00"
+   "gasto_m3s": 234,
+   "nivel_m": 24.68,
+   "hora": "H+45 · 26/11, 06:00"
   },
   {
    "estacion": "Río Puyacatengo · Puyacatengo",
    "gasto_m3s": 94,
    "nivel_m": 25.65,
-   "hora": "H+49 · 26/11, 09:00"
+   "hora": "H+48 · 26/11, 09:00"
   }
  ],
  "lluvia_acumulada": {
@@ -324,7 +324,7 @@
     "dias_tot": 7,
     "pronosticada_96h_mm": 56,
     "smn360_mm": 2,
-    "total_mm": 170,
+    "total_mm": 169,
     "mediana_mm": 238,
     "maximo_mm": 504,
     "maximo_txt": "2020 (1,746 m³/s)",
@@ -397,7 +397,7 @@
     "observada_mm": 125,
     "dias_obs": 4,
     "dias_tot": 7,
-    "pronosticada_96h_mm": 77,
+    "pronosticada_96h_mm": 76,
     "smn360_mm": 2,
     "total_mm": 203,
     "mediana_mm": 222,
@@ -427,9 +427,9 @@
     "observada_mm": 126,
     "dias_obs": 5,
     "dias_tot": 7,
-    "pronosticada_96h_mm": 48,
+    "pronosticada_96h_mm": 47,
     "smn360_mm": 2,
-    "total_mm": 175,
+    "total_mm": 174,
     "mediana_mm": 287,
     "maximo_mm": 668,
     "maximo_txt": "1956 (910 m³/s)",
@@ -444,13 +444,13 @@
     "dias_tot": 7,
     "pronosticada_96h_mm": 46,
     "smn360_mm": 2,
-    "total_mm": 188,
+    "total_mm": 187,
     "mediana_mm": null,
     "maximo_mm": null,
     "maximo_txt": null,
     "pct_mediana": null,
     "pct_maximo": null,
-    "lectura": "40 % del umbral de crecida mayor de Samaria · Bajo · crecida mayor de Samaria ≥ 965 m³/s · Samaria hasta 385 m³/s en 72 h = Peñitas 330 m³/s (≈ 290 a Samaria) + cuenca libre ≈ 95 m³/s"
+    "lectura": "40 % del umbral de crecida mayor de Samaria · Bajo · crecida mayor de Samaria ≥ 965 m³/s · Samaria hasta 384 m³/s en 72 h = Peñitas 330 m³/s (≈ 290 a Samaria) + cuenca libre ≈ 94 m³/s"
    }
   ]
  },
@@ -483,7 +483,64 @@
    "margen_alto_m": 4.79
   },
   "criterio": "Desbordamiento probable: pronóstico central ≥ umbral; Riesgo: nivel alto probable (escenario alto + error P90) ≥ umbral; Vigilar: a menos de 1 m.",
-  "fuente": "Umbral: SIH-CONAGUA 9-nov-2020 (Gaviotas 7.69 m, El Muelle 7.59 m, a 10 cm de desbordar) y HEC-RAS del malecón del Dr. J. E. León Jiménez (UJAT)."
+  "fuente": "Umbral: SIH-CONAGUA 9-nov-2020 (Gaviotas 7.69 m, El Muelle 7.59 m, a 10 cm de desbordar) y HEC-RAS del malecón del Dr. J. E. León Jiménez (UJAT).",
+  "semaforo_bordos": {
+   "prevencion_m": 5.6,
+   "alerta_m": 6.2,
+   "emergencia_m": 7,
+   "estado_actual": "Normal",
+   "estado_central": "Normal",
+   "estado_alto": "Normal",
+   "criterio": "Semáforo de bordos y muros en Gaviotas: prevención = el agua llega al pie de los bordos; alerta = bordo trabajando; emergencia = 0.20 m antes de la corona del bordo/muro más bajo (Bordo Armenia). Pies y coronas del HEC-RAS del Dr. J. E. León Jiménez (UJAT) y levantamiento de M.I.H. J. A. Vidal Flores; validado con SIH 2008–2025 y la creciente de 2020."
+  },
+  "puntos": [
+   {
+    "punto": "Bordo Armenia (Gaviotas Sur)",
+    "lado": "aguas arriba, margen derecha",
+    "gaviotas_m": 7.13,
+    "ya": false,
+    "central_h": null,
+    "alto_h": null,
+    "nota": "desbordó en un tramo en 2020; corona ±0.3 m"
+   },
+   {
+    "punto": "Bordo secc. 327 (aguas arriba)",
+    "lado": "aguas arriba, margen derecha",
+    "gaviotas_m": 7.27,
+    "ya": false,
+    "central_h": null,
+    "alto_h": null,
+    "nota": "por confirmar"
+   },
+   {
+    "punto": "Muro de la planta potabilizadora (Guayabal)",
+    "lado": "margen derecha",
+    "gaviotas_m": 7.52,
+    "ya": false,
+    "central_h": null,
+    "alto_h": null,
+    "nota": "al límite en 2020"
+   },
+   {
+    "punto": "Bordo Casa Blanca",
+    "lado": "aguas abajo, margen izquierda",
+    "gaviotas_m": 6.98,
+    "ya": false,
+    "central_h": null,
+    "alto_h": null,
+    "nota": "por confirmar; con remanso del Carrizal"
+   },
+   {
+    "punto": "Bordo secc. 39 (aguas abajo)",
+    "lado": "aguas abajo, margen izquierda",
+    "gaviotas_m": 7.09,
+    "ya": false,
+    "central_h": null,
+    "alto_h": null,
+    "nota": "por confirmar; con remanso del Carrizal"
+   }
+  ],
+  "puntos_nota": "Nivel de Gaviotas con el que el agua queda a 10 cm de la corona de cada punto. Es \"vigilar\", no \"desborda\" (corona ±0.3 m; aguas abajo influye el remanso del Carrizal)."
  },
  "sesgo_v107o": {
   "Gaviotas|36": -0.06,
@@ -498,53 +555,53 @@
   "version": "V111ac",
   "max_h": 6,
   "edad_niveles_h": {
-   "Tapijulapa": 0.7,
-   "Teapa": 0.7,
-   "San Joaquín": 0.7,
-   "Puyacatengo": 0.7,
-   "Pueblo Nuevo": 0.7
+   "Tapijulapa": 1.7,
+   "Teapa": 1.7,
+   "San Joaquín": 1.7,
+   "Puyacatengo": 1.7,
+   "Pueblo Nuevo": 1.7
   },
-  "edad_max_h": 0.7,
+  "edad_max_h": 1.7,
   "sin_lectura": [],
   "heredadas": [],
   "otras_estaciones_edad_h": {
    "Gaviotas": {
-    "nivel_h": 0.7,
+    "nivel_h": 1.7,
     "estado": "observado",
     "gasto_h": null
    },
    "El Muelle": {
-    "nivel_h": 0.7,
+    "nivel_h": 1.7,
     "estado": "observado",
     "gasto_h": null
    },
    "Samaria": {
-    "nivel_h": 0.7,
+    "nivel_h": 1.7,
     "estado": "observado",
-    "gasto_h": 0.1
+    "gasto_h": 1.1
    },
    "González": {
-    "nivel_h": 0.7,
+    "nivel_h": 1.7,
     "estado": "observado",
-    "gasto_h": 0.1
+    "gasto_h": 1.1
    },
    "Boca del Cerro": {
-    "nivel_h": 0.7,
+    "nivel_h": 1.7,
     "estado": "observado",
-    "gasto_h": 0.1
+    "gasto_h": 1.1
    },
    "Salto de Agua": {
-    "nivel_h": 0.7,
+    "nivel_h": 1.7,
     "estado": "observado",
-    "gasto_h": 0.1
+    "gasto_h": 1.1
    },
    "Macuspana": {
-    "nivel_h": 0.7,
+    "nivel_h": 1.7,
     "estado": "observado",
-    "gasto_h": 0.1
+    "gasto_h": 1.1
    }
   },
-  "version_codigo": "V111et · commit 4fff819",
+  "version_codigo": "V111ev · commit 177f190",
   "lluvia_futura": "Sierra: WeatherNext 2 (Google, IA; Earth Engine; ECMWF IFS de respaldo) · corrida 2026-11-24 06 UTC · Tulijá: WeatherNext 2 · Puxcatán: ensamble SMN corregido · corrida 2026-11-23; respaldo ensamble SMN / NOAA",
   "lluvia_de_respaldo": false,
   "apta": true,
