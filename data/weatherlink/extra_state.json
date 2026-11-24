@@ -3,7 +3,7 @@
   "stations": {
     "c04a4e28-b0a3-4044-b6e3-f48c43afab16": {
       "prev_daily_mm": 5.1,
-      "prev_observed_utc": "2026-11-24T14:15:00+00:00",
+      "prev_observed_utc": "2026-11-24T14:45:00+00:00",
       "events": [
         {
           "ts": "2026-11-17T06:45:00+00:00",
@@ -795,7 +795,7 @@
     },
     "707f03fe-ca75-4c47-8404-9348b98a084e": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-11-24T14:20:56+00:00",
+      "prev_observed_utc": "2026-11-24T14:50:57+00:00",
       "events": [
         {
           "ts": "2026-11-17T23:20:31+00:00",
@@ -990,8 +990,8 @@
       "year_key": "2026"
     },
     "afb0f522-e068-41e3-8154-7a32e23726f3": {
-      "prev_daily_mm": 8.6,
-      "prev_observed_utc": "2026-11-24T14:20:08+00:00",
+      "prev_daily_mm": 13.0,
+      "prev_observed_utc": "2026-11-24T14:49:58+00:00",
       "events": [
         {
           "ts": "2026-11-18T00:50:09+00:00",
@@ -1100,16 +1100,22 @@
           "mm": 8.6,
           "intervalo_incierto": true,
           "intervalo_horas": 12.11
+        },
+        {
+          "ts": "2026-11-24T14:49:58+00:00",
+          "mm": 4.4,
+          "intervalo_incierto": false,
+          "intervalo_horas": 0.5
         }
       ],
-      "month_mm": 120.6,
-      "year_mm": 393.0,
+      "month_mm": 125.0,
+      "year_mm": 397.4,
       "month_key": "2026-11",
       "year_key": "2026"
     },
     "f402f31c-df4c-48bb-8fa7-2bb58326d0c8": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-11-24T14:21:23+00:00",
+      "prev_observed_utc": "2026-11-24T14:51:28+00:00",
       "events": [
         {
           "ts": "2026-11-18T04:20:43+00:00",
@@ -1251,7 +1257,7 @@
     },
     "5a4141e8-0fa1-46ff-a032-bdb484eb2fc2": {
       "prev_daily_mm": 11.9,
-      "prev_observed_utc": "2026-11-24T14:21:07+00:00",
+      "prev_observed_utc": "2026-11-24T14:51:13+00:00",
       "events": [
         {
           "ts": "2026-11-17T03:21:07+00:00",
@@ -1627,7 +1633,7 @@
     },
     "96bdee43-3e9c-45ca-a4b1-5efe1f4577ae": {
       "prev_daily_mm": 21.3,
-      "prev_observed_utc": "2026-11-24T14:15:00+00:00",
+      "prev_observed_utc": "2026-11-24T14:45:00+00:00",
       "events": [
         {
           "ts": "2026-11-17T10:45:00+00:00",
@@ -1918,5 +1924,5 @@
       "year_key": "2026"
     }
   },
-  "last_run_utc": "2026-11-24T14:21:26.382677+00:00"
+  "last_run_utc": "2026-11-24T14:51:31.390492+00:00"
 }
