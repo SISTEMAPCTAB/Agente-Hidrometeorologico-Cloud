@@ -1,15 +1,42 @@
 {
-  "checked_at_utc": "2026-11-24T03:27:54.034559+00:00",
+  "checked_at_utc": "2026-11-24T11:28:02.550029+00:00",
   "source_page": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
   "discovery": {
     "http": 200,
-    "transport": "reader",
+    "transport": "direct",
     "url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia",
-    "request_url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia?_ipcet=1795490874",
-    "candidates": 8,
+    "request_url": "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia?_ipcet=1795519682",
+    "candidates": 10,
+    "browser_network_urls": [
+      "https://www.gob.mx/conagua/acciones-y-programas/hidrometeorologia?_ipcet=1795519686",
+      "https://www.gob.mx/gKdA5d/XO4w/8/b/DfGcazoHosAv/kN/d1E1dCkmegE/Ji/5KNzBFeiBY",
+      "https://www.gob.mx/gKdA5d/XO4w/8/b/DfGcazoHosAv/kN/d1E1dCkmegE/Z0/8MUQoGYT0t",
+      "https://www.gob.mx/gKdA5d/XO4w/8/b/DfGcazoHosAv/kN/d1E1dCkmegE/ET/8SYGQmfBUAAQ",
+      "https://www.gob.mx/gKdA5d/XO4w/8/b/DfGcazoHosAv/kN/d1E1dCkmegE/MS/NHeB0cD0YCAQ",
+      "https://www.gob.mx/gKdA5d/XO4w/8/b/DfGcazoHosAv/kN/d1E1dCkmegE/Ml/ggZQpxTH0r",
+      "https://s.go-mpulse.net/boomerang/948VY-ZM68F-X7Y7K-BEYVV-MSV5F",
+      "https://www.gob.mx/gKdA5d/XO4w/8/b/DfGcazoHosAv/kN/d1E1dCkmegE/Si/xGMzBJfkZY",
+      "https://www.gob.mx/gKdA5d/XO4w/8/b/DfGcazoHosAv/kN/d1E1dCkmegE/c0/wlSz4VEmtX",
+      "https://c.go-mpulse.net/api/config.json?key=948VY-ZM68F-X7Y7K-BEYVV-MSV5F&d=www.gob.mx&t=5985066&v=1.571.0&if=&sl=0&si=uzdnadbcvma-NaN&plugins=AK,ConfigOverride,Continuity,PageParams,IFrameDelay,AutoXHR,SPA,Angular,Backbone,Ember,History,RT,CrossDomain,BW,PaintTiming,NavigationTiming,ResourceTiming,Memory,CACHE_RELOAD,Errors,TPAnalytics,UserTiming,LOGN&acao=",
+      "https://c.go-mpulse.net/api/config.json?key=948VY-ZM68F-X7Y7K-BEYVV-MSV5F&d=www.gob.mx&t=5985066&v=1.571.0&if=&sl=1&si=qbn6ct8towe-tp07uv&plugins=AK,ConfigOverride,Continuity,PageParams,IFrameDelay,AutoXHR,SPA,Angular,Backbone,Ember,History,RT,CrossDomain,BW,PaintTiming,NavigationTiming,ResourceTiming,Memory,CACHE_RELOAD,Errors,TPAnalytics,UserTiming,LOGN&acao=",
+      "https://www.gob.mx/_sec/verify?provider=crypto"
+    ],
+    "browser_links": [],
+    "browser_matutino_snippets": [],
+    "browser_render": true,
     "publicaciones_selects": [],
     "publicaciones_buttons": [],
-    "filename_probe_windows": [],
+    "filename_probe_windows": [
+      {
+        "date": "2026-11-24",
+        "from": 1117535,
+        "to": 1118704,
+        "predicted": 1117804,
+        "daily_rate": 270,
+        "base_date": "2026-11-23",
+        "base_id": 1117534
+      }
+    ],
     "matutino_candidates": [
       "https://www.gob.mx/cms/uploads/attachment/file/1117533/Informe_Matutino_23112026.pdf",
       "https://www.gob.mx/cms/uploads/attachment/file/1117534/Mapa_Matutino_23112026.pdf",
@@ -30,34 +57,146 @@
       {
         "url": "https://www.gob.mx/cms/uploads/attachment/file/1117533/Informe_Matutino_23112026.pdf",
         "transport": "direct",
-        "http": 200,
-        "bytes": 800886,
+        "http": 403,
+        "bytes": 461,
         "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1117533/Informe_Matutino_23112026.pdf",
-        "pages": 6,
-        "document_header": "COMISIÓN NACIONAL DEL AGUA\nORGANISMO DE CUENCA GOLFO CENTRO\nDIRECCIÓN TÉCNICA\nJEFATURA DE PROYECTO DE HIDROMETEOROLOGÍA\nXalapa, Veracruz lunes, 23 de noviembre de 2026\nE\nst\na d o Presa\nN.A\nC\n.M\nap\n.\na\nE\n( c\n.\nM id m ad ³\nN\n) t\n.\no\nA\nt\n.\na\nM\nl\n.O. N\nN\n.\ni c\nA\nv a e\n.\np\nM\nl a c\n.\nc o\nE\ni n\n.\nd a r d es t p o\nN\ne t c a\n.A\nt l o\n.\n(\nM\nm a\n.\n) s\nO\nu\n. Ay\nA\ne\nlm\nr\nac (M en m am ³) ien\nH\nto\noy\nN\n%\n. A\nA\n.\na l\nM\nm l a\n.O\nc.\n.\nAyer\nNi ( v m el ) es\nHoy\nTendencia\nEntr\nG\nad\na\na\nstos (m3/\nS\ns\na\n)\nlida\nCuenca del Tecolutla\no Los Reyes 29.263 24.031 2,167.00",
-        "station_rows": [
-          {
-            "row_text": "San José del Carmen Ver. Tonalá Río Tonalá 4.71 3.54 3.56 - -1.15",
-            "page_text_method": "pdfplumber"
-          },
-          {
-            "row_text": "Agua Dulce Ver. Tonalá Río Aguadulcita 6.32 2.30 2.30 - -4.02",
-            "page_text_method": "pdfplumber"
-          },
-          {
-            "row_text": "San José del Carmen Ver. Tonalá 0.0 32.0 18.0 25.0 3.10 187.5 2,209.0",
-            "page_text_method": "pdfplumber"
-          },
-          {
-            "row_text": "Agua Dulce (Centro) Ver. Tonala 11.7 - - - - 262.4 1,879.7",
-            "page_text_method": "pdfplumber"
-          },
-          {
-            "row_text": "Agua Dulce, Ver. Agua Dulce Tonalá 11.7 Puente Nacional, Ver. Tamarindo La Antigua 34.0 Tepeyahualco, Pue. Alchichica, Pue. Alto Balsas 5.0",
-            "page_text_method": "pdfplumber"
-          }
-        ],
-        "extraction_status": "Filas recuperadas; columnas numéricas pendientes de validación"
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1117534/Mapa_Matutino_23112026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 456,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1117534/Mapa_Matutino_23112026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1117216/Informe_Matutino_20112026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 459,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1117216/Informe_Matutino_20112026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1117020/Informe_Matutino_19112026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 461,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1117020/Informe_Matutino_19112026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1116452/Informe_Matutino_13112026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 459,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1116452/Informe_Matutino_13112026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1115796/Informe_Matutino_11112026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 461,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1115796/Informe_Matutino_11112026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1115578/Informe_Matutino_10112026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 459,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1115578/Informe_Matutino_10112026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1115120/Informe_Matutino_06112026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 461,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1115120/Informe_Matutino_06112026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1114403/Informe_Matutino_04112026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 459,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1114403/Informe_Matutino_04112026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1112847/Informe_Matutino_27102026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 459,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1112847/Informe_Matutino_27102026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1111285/Informe_Matutino_23102026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 461,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1111285/Informe_Matutino_23102026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1108510/Informe_Matutino_13102026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 461,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1108510/Informe_Matutino_13102026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1107378/Informe_Matutino_07102026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 461,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1107378/Informe_Matutino_07102026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1107114/Informe_Matutino_06102026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 459,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1107114/Informe_Matutino_06102026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1106630/Informe_Matutino_02102026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 459,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1106630/Informe_Matutino_02102026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 459,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1105820/Informe_Matutino_29092026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 461,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1105531/Informe_Matutino_28092026.pdf",
+        "error": "No se recibió contenido válido"
+      },
+      {
+        "url": "https://www.gob.mx/cms/uploads/attachment/file/1105250/Informe_Matutino_25092026.pdf",
+        "transport": "direct",
+        "http": 403,
+        "bytes": 459,
+        "final_url": "https://www.gob.mx/cms/uploads/attachment/file/1105250/Informe_Matutino_25092026.pdf",
+        "error": "No se recibió contenido válido"
       }
     ]
   }
