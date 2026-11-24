@@ -42,6 +42,16 @@ async function show(){
   la.rios.map(x=>'<tr><td><b>'+esc(x.rio)+'</b></td><td>'+mm(x.observada_mm)+(x.dias_obs<x.dias_tot?' <small>('+esc(x.dias_obs)+'/'+esc(x.dias_tot)+' días)</small>':'')+'</td><td>'+mm(x.pronosticada_96h_mm)+'</td><td>'+mm(x.smn360_mm)+'</td><td><b>'+mm(x.total_mm)+'</b></td><td>'+(ok(x.mediana_mm)?mm(x.mediana_mm)+'<br><small>máx.: '+mm(x.maximo_mm)+' · '+esc(x.maximo_txt||'')+'</small>':'—')+'</td><td>'+
    (x.pct_mediana==null?'<span style="color:#666">'+esc(x.lectura)+'</span>':'<b style="color:'+col(x)+'">'+esc(x.pct_mediana)+' % de la mediana</b>'+(ok(x.pct_maximo)?' <span style="color:#555">· '+esc(x.pct_maximo)+' % del máximo</span>':'')+'<br><span style="color:'+col(x)+'">'+esc(x.lectura)+'</span>')+'</td></tr>').join('')+
   '</tbody></table></div><p class="muted">Lluvia observada: cortes SIH de 24 h'+(la.observada_hasta?' hasta el '+esc(la.observada_hasta):'')+'. SMN 360 h convertido a lluvia media con ×0.3 (indicativo). No es un pronóstico de nivel.</p></section>':'';
+
+ // 23-nov-2026: semáforo de bordos y muros (Modelo V111es) y puntos vulnerables antes y después del malecón (V111er), exportados en d.malecon.
+ function bordosHtml(mc){const sb=mc&&mc.semaforo_bordos;if(!sb)return '';
+  const C={'Normal':'#15803d','Prevención':'#a16207','Alerta':'#c2410c','Emergencia':'#b91c1c'},b=t=>'<b style="color:'+(C[t]||'#666')+'">'+esc(t||'s/d')+'</b>';
+  const n2=v=>ok(v)?Number(v).toFixed(2)+' m':'s/d',hh=h=>h==null?'':'H+'+h;
+  let h='<h3 style="margin-top:14px">Semáforo de bordos y muros (nivel en Gaviotas)</h3><div class="table-wrap"><table><thead><tr><th>Prevención · agua al pie</th><th>Alerta · bordo trabajando</th><th>Emergencia · 20 cm antes de la corona más baja</th><th>Ahora</th><th>Máximo 0–72 h central</th><th>Nivel alto probable</th></tr></thead><tbody><tr><td>'+n2(sb.prevencion_m)+'</td><td>'+n2(sb.alerta_m)+'</td><td>'+n2(sb.emergencia_m)+'</td><td>'+b(sb.estado_actual)+'</td><td>'+b(sb.estado_central)+'</td><td>'+b(sb.estado_alto)+'</td></tr></tbody></table></div><p class="muted">'+esc(sb.criterio||'')+'</p>';
+  if(Array.isArray(mc.puntos)&&mc.puntos.length){h+='<h3>Puntos vulnerables antes y después del malecón</h3><div class="table-wrap"><table><thead><tr><th>Punto</th><th>Vigilar con Gaviotas en</th><th>Estado 0–72 h</th><th>Nota</th></tr></thead><tbody>'+
+   mc.puntos.map(p=>'<tr><td><b>'+esc(p.punto)+'</b><br><small>'+esc(p.lado||'')+'</small></td><td>'+n2(p.gaviotas_m)+'</td><td>'+(p.ya?'<b style="color:#b91c1c">Ya en nivel de vigilancia</b>':p.central_h!=null?'<b style="color:#b91c1c">Vigilar desde '+hh(p.central_h)+'</b> (central)':p.alto_h!=null?'<b style="color:#c2410c">Posible desde '+hh(p.alto_h)+'</b> (escenario alto)':'Sin aviso en 72 h')+'</td><td><small>'+esc(p.nota||'')+'</small></td></tr>').join('')+
+   '</tbody></table></div><p class="muted">'+esc(mc.puntos_nota||'')+'</p>'}
+  return h}
  const mc=d.malecon,f2=v=>ok(v)?Number(v).toFixed(2)+' m':'s/d';
  const mcol={'Desbordamiento probable':'#9b1c1c','Riesgo de desbordamiento':'#b91c1c','Vigilar':'#a16207','Sin riesgo':'#15803d'}[mc?.estado]||'#666';
  const mal=mc&&mc.estado?'<section class="panel wide" style="border-left:6px solid '+mcol+'"><h2>Malecón de Villahermosa · riesgo de desbordamiento</h2>'+
@@ -49,7 +59,7 @@ async function show(){
   '<div class="table-wrap"><table><thead><tr><th>Estación</th><th>Nivel actual</th><th>Máximo 0–72 h (central)</th><th>Nivel alto probable</th><th>Umbral (10 cm bajo la corona)</th><th>Margen con nivel alto</th></tr></thead><tbody>'+
   '<tr><td><b>Río Grijalva · Gaviotas</b></td><td>'+f2(mc.gaviotas?.actual_m)+'</td><td>'+f2(mc.gaviotas?.max72_central_m)+' <small>'+esc(mc.gaviotas?.hora_central||'')+'</small></td><td>'+f2(mc.gaviotas?.max72_alto_m)+'</td><td><b>'+f2(mc.umbral_gaviotas_m)+'</b></td><td>'+f2(mc.gaviotas?.margen_alto_m)+'</td></tr>'+
   '<tr><td><b>Río Grijalva · El Muelle</b></td><td>'+f2(mc.muelle?.actual_m)+'</td><td>'+f2(mc.muelle?.max72_central_m)+'</td><td>'+f2(mc.muelle?.max72_alto_m)+'</td><td><b>'+f2(mc.umbral_muelle_m)+'</b></td><td>'+f2(mc.muelle?.margen_alto_m)+'</td></tr>'+
-  '</tbody></table></div><p class="muted">'+esc(mc.criterio||'')+' '+esc(mc.fuente||'')+'</p></section>':'';
+  '</tbody></table></div><p class="muted">'+esc(mc.criterio||'')+' '+esc(mc.fuente||'')+'</p>'+bordosHtml(mc)+'</section>':'';
  root.innerHTML=aviso+mal+
   '<section class="panel wide"><h2>Modelo Grijalva-Usumacinta Rubio/Segovia · pronóstico 0–72 h</h2>'+
   '<p class="muted">Corrida '+esc(d.version||'')+' · calculada '+fdate(d.calculado_utc)+' · '+estado+'<br>Lluvia futura: '+esc(d.lluvia_futura||'s/d')+'</p>'+
