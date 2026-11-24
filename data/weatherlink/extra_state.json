@@ -3,7 +3,7 @@
   "stations": {
     "c04a4e28-b0a3-4044-b6e3-f48c43afab16": {
       "prev_daily_mm": 5.1,
-      "prev_observed_utc": "2026-11-24T11:15:00+00:00",
+      "prev_observed_utc": "2026-11-24T11:45:00+00:00",
       "events": [
         {
           "ts": "2026-11-17T06:45:00+00:00",
@@ -789,7 +789,7 @@
     },
     "707f03fe-ca75-4c47-8404-9348b98a084e": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-11-24T11:21:26+00:00",
+      "prev_observed_utc": "2026-11-24T11:51:27+00:00",
       "events": [
         {
           "ts": "2026-11-17T23:20:31+00:00",
@@ -1097,7 +1097,7 @@
     },
     "f402f31c-df4c-48bb-8fa7-2bb58326d0c8": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-11-24T11:21:07+00:00",
+      "prev_observed_utc": "2026-11-24T11:51:08+00:00",
       "events": [
         {
           "ts": "2026-11-18T04:20:43+00:00",
@@ -1239,7 +1239,7 @@
     },
     "5a4141e8-0fa1-46ff-a032-bdb484eb2fc2": {
       "prev_daily_mm": 11.9,
-      "prev_observed_utc": "2026-11-24T11:20:49+00:00",
+      "prev_observed_utc": "2026-11-24T11:50:53+00:00",
       "events": [
         {
           "ts": "2026-11-17T03:21:07+00:00",
@@ -1614,8 +1614,8 @@
       "year_key": "2026"
     },
     "96bdee43-3e9c-45ca-a4b1-5efe1f4577ae": {
-      "prev_daily_mm": 20.3,
-      "prev_observed_utc": "2026-11-24T11:15:00+00:00",
+      "prev_daily_mm": 20.6,
+      "prev_observed_utc": "2026-11-24T11:45:00+00:00",
       "events": [
         {
           "ts": "2026-11-17T10:45:00+00:00",
@@ -1874,13 +1874,19 @@
           "mm": 2.0,
           "intervalo_incierto": false,
           "intervalo_horas": 0.5
+        },
+        {
+          "ts": "2026-11-24T11:45:00+00:00",
+          "mm": 0.3,
+          "intervalo_incierto": false,
+          "intervalo_horas": 0.5
         }
       ],
-      "month_mm": 195.6,
-      "year_mm": 435.1,
+      "month_mm": 195.9,
+      "year_mm": 435.4,
       "month_key": "2026-11",
       "year_key": "2026"
     }
   },
-  "last_run_utc": "2026-11-24T11:21:25.876073+00:00"
+  "last_run_utc": "2026-11-24T11:51:41.893946+00:00"
 }
