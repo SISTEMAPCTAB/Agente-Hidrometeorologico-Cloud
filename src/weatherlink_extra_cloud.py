@@ -1,3 +1,4 @@
+import temp_diaria
 import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -40,6 +41,7 @@ def main():
         item={'nombre':s['nombre'],'ubicacion':s['ubicacion'],'uuid':uid,'grupo':s['grupo']}
         try:
             obs=fetch_station(s);item.update(obs)
+            item.update(temp_diaria.actualizar(st,obs,now,MX_TZ))   # 24-nov-2026: máx/mín del día (Modelo V111fd)
             observed=obs['observed_utc'];local=observed.astimezone(MX_TZ)
             cur=obs.get('daily_mm');prev=parse_float(st.get('prev_daily_mm'));prev_dt=iso_to_dt(st.get('prev_observed_utc'))
             inc=0.0

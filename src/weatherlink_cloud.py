@@ -1,3 +1,4 @@
+import temp_diaria
 import csv
 import json
 from datetime import datetime, timedelta, timezone
@@ -425,6 +426,7 @@ def main():
                 "Calidad": quality,
             })
             ok += 1
+            item.update(temp_diaria.actualizar(st, obs, now_utc, MX_TZ))   # 24-nov-2026: máx/mín del día (Modelo V111fd)
             item["increment_mm"] = increment
             item["increment_method"] = increment_method
             item["rollover_uncertain_24h"] = window_status.get(24) == "minimo_observado"
