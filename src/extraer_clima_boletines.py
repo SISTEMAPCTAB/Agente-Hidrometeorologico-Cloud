@@ -8,6 +8,7 @@ F2 = Path('data/latest/FUENTE2.txt')
 OUT_DIR = Path('data/niveles/Clima_CONAGUA')
 OUT = OUT_DIR / 'ultimo_corte.json'
 STATE = OUT_DIR / 'Estado_Clima_CONAGUA.json'
+HIST = OUT_DIR / 'historico.json'   # 25-nov-2026 (Modelo V111fi): máx./mín. diarias del boletín 8 am por estación, 120 días (ondas de calor/frío)
 
 
 def header(text, key):
@@ -158,8 +159,45 @@ def main():
         'regla': 'Sólo se publican lluvia y temperaturas cuando la fila contiene valores numéricos estructurados y físicamente plausibles. Ausencia = s/d; nunca se inventa ni se convierte a cero.'
     }
     STATE.write_text(json.dumps(state, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    try:
+        historico(r2)
+    except Exception as e:
+        print('historico clima:', e)
     print(json.dumps(state, ensure_ascii=False))
 
 
+def historico(rows, H=None):
+    """Guarda por fecha DEL DATO (día anterior al boletín de las 8 am) la máxima y mínima de cada estación de CONAGUA Tabasco."""
+    import datetime as _dt
+    H = H if H is not None else (json.loads(HIST.read_text(encoding='utf-8')) if HIST.exists() else {})
+    for r in rows:
+        f = str(r.get('fecha_hora_mensaje') or '')[:10]
+        if not f or r.get('estado_dato') != 'observado':
+            continue
+        dia = (_dt.date.fromisoformat(f) - _dt.timedelta(days=1)).isoformat()
+        tx, tn = r.get('temp_max_c'), r.get('temp_min_c')
+        if tx is None and tn is None:
+            continue
+        H.setdefault(dia, {})[r['estacion']] = {'max': tx, 'min': tn, 'lluvia': r.get('lluvia_24h_mm')}
+    for k in sorted(H)[:-120]:
+        H.pop(k)
+    HIST.write_text(json.dumps(H, ensure_ascii=False, separators=(',', ':')) + '\n', encoding='utf-8')
+    return H
+
+
+def rellenar_desde_archivo():
+    """Uso único: reconstruye el histórico con data/archive/*/FUENTE2.txt."""
+    H = json.loads(HIST.read_text(encoding='utf-8')) if HIST.exists() else {}
+    for f in sorted(Path('data/archive').glob('*/FUENTE2.txt')):
+        try:
+            H = historico(parse_fuente2(f.read_text(encoding='utf-8-sig')), H)
+        except Exception as e:
+            print('archivo', f, e)
+    print('días en histórico:', len(H))
+
+
 if __name__ == '__main__':
+    import sys
+    if '--rellenar' in sys.argv:
+        rellenar_desde_archivo()
     main()
