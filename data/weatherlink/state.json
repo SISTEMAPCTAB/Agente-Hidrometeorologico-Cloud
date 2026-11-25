@@ -1,12 +1,12 @@
 {
   "version": 1,
   "seed_utc": "2026-09-04T18:01:34.725000+00:00",
-  "last_run_utc": "2026-11-25T12:11:28.029815+00:00",
+  "last_run_utc": "2026-11-25T12:41:36.179712+00:00",
   "stations": {
     "223fd3da-5715-46cb-9e36-a8f53283baf8": {
       "nombre": "ACALA PCIVILCHIAPAS",
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
       "month_mm": 0.0,
       "year_mm": 310.3,
       "month_key": "2026-11",
@@ -69,7 +69,7 @@
     "53d370e6-a6a4-424d-bb54-b4a4fa8b48a8": {
       "nombre": "AMATÁN PCIVILCHIAPAS",
       "prev_daily_mm": 4.1,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
       "month_mm": 183.9,
       "year_mm": 2731.9,
       "month_key": "2026-11",
@@ -569,7 +569,7 @@
     "77ead3a5-9f34-4f2d-aa8d-2dfeed3eba4f": {
       "nombre": "ASUR Villahermosa",
       "prev_daily_mm": 4.1,
-      "prev_observed_utc": "2026-11-25T12:10:36+00:00",
+      "prev_observed_utc": "2026-11-25T12:40:36+00:00",
       "month_mm": 95.8,
       "year_mm": 1144.9,
       "month_key": "2026-11",
@@ -918,7 +918,7 @@
         "st_max_c": 23.3,
         "st_max_hora": "00:10",
         "st_hr": 100.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -936,7 +936,7 @@
     "4a24b77f-0bb9-4885-8258-d82b9487d759": {
       "nombre": "ATA",
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-11-25T12:11:28.296002+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:36.893765+00:00",
       "month_mm": 0.0,
       "year_mm": null,
       "month_key": "2026-11",
@@ -952,7 +952,7 @@
     "83de353f-1000-4ce4-90c2-f13d47f3bb3a": {
       "nombre": "BERRIOZÁBAL PCIVILCHIAPAS",
       "prev_daily_mm": 1.5,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
       "month_mm": 1.8,
       "year_mm": 461.9,
       "month_key": "2026-11",
@@ -1044,12 +1044,12 @@
         "desde": "00:11",
         "max_c": 19.4,
         "max_hora": "00:11",
-        "min_c": 18.9,
-        "min_hora": "05:41",
+        "min_c": 18.3,
+        "min_hora": "06:41",
         "st_max_c": 19.4,
         "st_max_hora": "00:11",
         "st_hr": 95.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -1067,7 +1067,7 @@
     "903123f2-ae03-4f9c-9f75-2ce5ec49af35": {
       "nombre": "Centro",
       "prev_daily_mm": 4.3,
-      "prev_observed_utc": "2026-11-25T12:10:35+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:35+00:00",
       "month_mm": 84.4,
       "year_mm": 863.6,
       "month_key": "2026-11",
@@ -1416,7 +1416,7 @@
         "st_max_c": 23.9,
         "st_max_hora": "00:10",
         "st_hr": 100.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -1433,10 +1433,10 @@
     },
     "45f56f1b-d4ad-467b-9764-1294db4b454b": {
       "nombre": "CHAPULTENANGO PCIVILCHIAPAS",
-      "prev_daily_mm": 14.5,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
-      "month_mm": 441.6,
-      "year_mm": 2295.0,
+      "prev_daily_mm": 15.5,
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
+      "month_mm": 442.6,
+      "year_mm": 2296.0,
       "month_key": "2026-11",
       "year_key": "2026",
       "seed_1h_mm": 0.0,
@@ -2331,6 +2331,13 @@
           "metodo": "diferencia_diaria",
           "rollover_incierto": false,
           "intervalo_incierto": false
+        },
+        {
+          "ts": "2026-11-25T12:41:00+00:00",
+          "mm": 1.0,
+          "metodo": "diferencia_diaria",
+          "rollover_incierto": false,
+          "intervalo_incierto": false
         }
       ],
       "prev_storm_mm": null,
@@ -2366,7 +2373,7 @@
         "2026-11-22": 2182.2,
         "2026-11-23": 2223.6,
         "2026-11-24": 2280.5,
-        "2026-11-25": 2295.0
+        "2026-11-25": 2296.0
       },
       "temp_dia": {
         "fecha": "2026-11-25",
@@ -2378,7 +2385,7 @@
         "st_max_c": 20.0,
         "st_max_hora": "00:11",
         "st_hr": 98.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -2396,7 +2403,7 @@
     "158b577e-cfd9-4f4c-aa57-15c41c09caa8": {
       "nombre": "CHILÓN PCIVILCHIAPAS",
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-11-25T12:07:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
       "month_mm": 26.8,
       "year_mm": 547.5,
       "month_key": "2026-11",
@@ -2496,7 +2503,7 @@
     "37d1c155-0eeb-4a8a-bac7-7cec1b527e7f": {
       "nombre": "Cipat Chiapas",
       "prev_daily_mm": 1.3,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
       "month_mm": 9.5,
       "year_mm": 280.8,
       "month_key": "2026-11",
@@ -2651,12 +2658,12 @@
         "desde": "00:11",
         "max_c": 20.6,
         "max_hora": "03:41",
-        "min_c": 19.4,
-        "min_hora": "05:11",
+        "min_c": 18.9,
+        "min_hora": "06:41",
         "st_max_c": 20.6,
         "st_max_hora": "03:41",
         "st_hr": 91.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -2706,7 +2713,7 @@
     "518d187c-15e3-4e0c-acff-ef61f201d588": {
       "nombre": "ETM Bertollini",
       "prev_daily_mm": 0.5,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
       "month_mm": 87.9,
       "year_mm": 512.5,
       "month_key": "2026-11",
@@ -2883,7 +2890,7 @@
         "st_max_c": 23.3,
         "st_max_hora": "01:10",
         "st_hr": 90.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -2901,7 +2908,7 @@
     "82c54050-8aed-42fd-9c0f-b4ccbc4de1d5": {
       "nombre": "IGeofisica-M2",
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
       "month_mm": 0.0,
       "year_mm": 165.8,
       "month_key": "2026-11",
@@ -2965,7 +2972,7 @@
     "81047df6-545f-4167-8274-89bcc90ca8e8": {
       "nombre": "IXHUATAN PCIVILCHIAPAS",
       "prev_daily_mm": 19.3,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
       "month_mm": 156.3,
       "year_mm": 708.7,
       "month_key": "2026-11",
@@ -3573,7 +3580,7 @@
         "st_max_c": 21.1,
         "st_max_hora": "00:11",
         "st_hr": 97.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -3591,7 +3598,7 @@
     "05721cd1-e674-4345-ae4b-f1c69587da25": {
       "nombre": "JUÁREZ PCIVILCHIAPAS",
       "prev_daily_mm": 18.8,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
       "month_mm": 267.4,
       "year_mm": 2423.0,
       "month_key": "2026-11",
@@ -4080,7 +4087,7 @@
         "st_max_c": 22.8,
         "st_max_hora": "00:03",
         "st_hr": 96.0,
-        "n": 5
+        "n": 6
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -4098,7 +4105,7 @@
     "6fcffa90-7f41-41fb-a8e4-f906d78d9b12": {
       "nombre": "La Pampa",
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-11-16T13:00:00+00:00",
+      "prev_observed_utc": "2026-11-16T20:00:00+00:00",
       "month_mm": 0.0,
       "year_mm": null,
       "month_key": "2026-11",
@@ -4113,10 +4120,10 @@
     },
     "35471877-6f85-49a0-9aa1-cd646ffa7dd0": {
       "nombre": "MAYA BERRIOZABAL PCIVILCHIAPAS",
-      "prev_daily_mm": 1.0,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
-      "month_mm": 2.3,
-      "year_mm": 856.7,
+      "prev_daily_mm": 1.3,
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
+      "month_mm": 2.6,
+      "year_mm": 857.0,
       "month_key": "2026-11",
       "year_key": "2026",
       "seed_1h_mm": 0.0,
@@ -4147,6 +4154,13 @@
         {
           "ts": "2026-11-25T11:41:00+00:00",
           "mm": 0.2,
+          "metodo": "diferencia_diaria",
+          "rollover_incierto": false,
+          "intervalo_incierto": false
+        },
+        {
+          "ts": "2026-11-25T12:41:00+00:00",
+          "mm": 0.3,
           "metodo": "diferencia_diaria",
           "rollover_incierto": false,
           "intervalo_incierto": false
@@ -4185,7 +4199,7 @@
         "2026-11-22": 855.7,
         "2026-11-23": 855.7,
         "2026-11-24": 855.7,
-        "2026-11-25": 856.7
+        "2026-11-25": 857.0
       },
       "temp_dia": {
         "fecha": "2026-11-25",
@@ -4197,7 +4211,7 @@
         "st_max_c": 18.9,
         "st_max_hora": "00:11",
         "st_hr": 94.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -4230,10 +4244,10 @@
     },
     "00f3c40c-9bbf-4d71-9ca0-5b035962e911": {
       "nombre": "OSTUACÁN PCIVILCHIAPAS",
-      "prev_daily_mm": 15.2,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
-      "month_mm": 251.9,
-      "year_mm": 2305.3,
+      "prev_daily_mm": 15.5,
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
+      "month_mm": 252.2,
+      "year_mm": 2305.6,
       "month_key": "2026-11",
       "year_key": "2026",
       "seed_1h_mm": 0.0,
@@ -4988,6 +5002,13 @@
           "metodo": "diferencia_diaria",
           "rollover_incierto": false,
           "intervalo_incierto": false
+        },
+        {
+          "ts": "2026-11-25T12:41:00+00:00",
+          "mm": 0.3,
+          "metodo": "diferencia_diaria",
+          "rollover_incierto": false,
+          "intervalo_incierto": false
         }
       ],
       "prev_storm_mm": null,
@@ -5023,7 +5044,7 @@
         "2026-11-22": 2219.7,
         "2026-11-23": 2229.6,
         "2026-11-24": 2290.1,
-        "2026-11-25": 2305.3
+        "2026-11-25": 2305.6
       },
       "temp_dia": {
         "fecha": "2026-11-25",
@@ -5035,7 +5056,7 @@
         "st_max_c": 22.8,
         "st_max_hora": "00:11",
         "st_hr": 95.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -5053,7 +5074,7 @@
     "58c7addf-e60b-414f-baec-0f1a2d7073da": {
       "nombre": "PALENQUE PCIVILCHIAPAS",
       "prev_daily_mm": 0.5,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
       "month_mm": 223.8,
       "year_mm": 1384.1,
       "month_key": "2026-11",
@@ -5681,7 +5702,7 @@
         "st_max_c": 23.9,
         "st_max_hora": "00:00",
         "st_hr": 96.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -5699,7 +5720,7 @@
     "cee4af20-176f-41b3-a0c3-dcc0d81f0424": {
       "nombre": "PICHUCALCO PCIVILCHIAPAS",
       "prev_daily_mm": 20.3,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
       "month_mm": 285.1,
       "year_mm": 1456.4,
       "month_key": "2026-11",
@@ -6321,7 +6342,7 @@
         "st_max_c": 23.3,
         "st_max_hora": "00:11",
         "st_hr": 99.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -6453,7 +6474,7 @@
     "d0fdf036-46ea-4769-ada0-ba6dac46ba77": {
       "nombre": "SALTO DE AGUA PCIVILCHIAPAS",
       "prev_daily_mm": 1.8,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
       "month_mm": 184.3,
       "year_mm": 1447.9,
       "month_key": "2026-11",
@@ -6684,7 +6705,7 @@
     "a0fb45f0-742f-4136-98fb-024bcc3d9e36": {
       "nombre": "SAN CAYETANO CONSOLA",
       "prev_daily_mm": 21.3,
-      "prev_observed_utc": "2026-11-25T12:11:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:00+00:00",
       "month_mm": 211.7,
       "year_mm": 1516.4,
       "month_key": "2026-11",
@@ -7222,7 +7243,7 @@
         "st_max_c": 23.3,
         "st_max_hora": "00:11",
         "st_hr": 94.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -7240,7 +7261,7 @@
     "cf76e43a-f5ed-4822-9453-9804b01cc970": {
       "nombre": "SEMAR Capitanía de Pto. Alvarado, Ver.",
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-11-25T12:10:40+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:18+00:00",
       "month_mm": 2.9,
       "year_mm": null,
       "month_key": "2026-11",
@@ -7344,7 +7365,7 @@
     "179b2e03-d930-4c64-a53c-b05d6814cd99": {
       "nombre": "SEMAR E.I.O. Cd. del Carmen.",
       "prev_daily_mm": 3.6,
-      "prev_observed_utc": "2026-11-25T12:10:51+00:00",
+      "prev_observed_utc": "2026-11-25T12:41:24+00:00",
       "month_mm": 42.5,
       "year_mm": null,
       "month_key": "2026-11",
@@ -7416,7 +7437,7 @@
         "st_max_c": 25.6,
         "st_max_hora": "00:11",
         "st_hr": 83.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -7434,7 +7455,7 @@
     "6a6be1ae-627b-49f0-8bad-10622e2834bc": {
       "nombre": "Sinai",
       "prev_daily_mm": 13.7,
-      "prev_observed_utc": "2026-11-25T12:00:00+00:00",
+      "prev_observed_utc": "2026-11-25T12:30:00+00:00",
       "month_mm": 253.9,
       "year_mm": null,
       "month_key": "2026-11",
@@ -7716,7 +7737,7 @@
         "st_max_c": 22.8,
         "st_max_hora": "00:00",
         "st_hr": 97.0,
-        "n": 13
+        "n": 14
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
@@ -7834,7 +7855,7 @@
         "st_max_c": 23.3,
         "st_max_hora": "03:11",
         "st_hr": 97.0,
-        "n": 7
+        "n": 8
       },
       "temp_ayer": {
         "fecha": "2026-11-24",
