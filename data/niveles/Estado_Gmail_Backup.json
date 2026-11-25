@@ -1,21 +1,47 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-25T09:23:41.375648-06:00",
+  "run_local": "2026-11-25T10:21:31.619764-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-25T08:00:00-06:00",
-  "messages_scanned": 29,
-  "levels_processed_now": 0,
+  "messages_scanned": 32,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 20,
-  "sources_updated": [],
+  "sources_updated": [
+    "FUENTE1"
+  ],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (31 correos)",
-  "max_uid_asunto": 67772,
-  "asuntos_locales_adicionales": 12,
+  "busqueda": "por asunto (34 correos)",
+  "max_uid_asunto": 67781,
+  "asuntos_locales_adicionales": 13,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "67781",
+      "fecha": "2026-11-25T10:19",
+      "asunto": "INFORME DE NIVELES DE RIOS Y PRESAS DE 10 HRS",
+      "pdf": [
+        "Niveles del 25 de Noviembre del 2026.pdf"
+      ]
+    },
+    {
+      "uid": "67780",
+      "fecha": "2026-11-25T10:18",
+      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 25-11-2026 (10:30 horas)",
+      "pdf": [
+        "Reporte y Seguimiento Meteorológico 25-11-2026 (10_30 hrs).pdf"
+      ]
+    },
+    {
+      "uid": "67779",
+      "fecha": "2026-11-25T10:16",
+      "asunto": "Boletín Hidrométrico, Climatológico y de Presas, 25/11/2026",
+      "pdf": [
+        "Boletin 25-11-2026.pdf"
+      ]
+    },
     {
       "uid": "67772",
       "fecha": "2026-11-25T08:14",
@@ -192,30 +218,14 @@
       "pdf": [
         "Boletin del 23 de Noviembre del 2026.pdf"
       ]
-    },
-    {
-      "uid": "67611",
-      "fecha": "2026-11-22T18:04",
-      "asunto": "INFORME DE NIVELES DE RIOS Y PRESAS DE 18 HRS",
-      "pdf": [
-        "Niveles del 22 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "67602",
-      "fecha": "2026-11-22T16:18",
-      "asunto": "INFORME DE NIVELES DE RIOS Y PRESAS DE 16 HRS",
-      "pdf": [
-        "Niveles del 22 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "67597",
-      "fecha": "2026-11-22T14:30",
-      "asunto": "INFORME DE NIVELES DE RIOS Y PRESAS DE 14 HRS",
-      "pdf": [
-        "Niveles del 22 de Noviembre del 2026.pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-11-25T10:00:00-06:00",
+    "corte": "2026-11-25T10:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
