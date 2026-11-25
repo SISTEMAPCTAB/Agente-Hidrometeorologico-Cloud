@@ -1,21 +1,31 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-25T06:23:11.117128-06:00",
+  "run_local": "2026-11-25T06:31:23.995552-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-24T18:00:00-06:00",
-  "messages_scanned": 29,
+  "messages_scanned": 30,
   "levels_processed_now": 0,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 19,
-  "sources_updated": [],
+  "sources_updated": [
+    "FUENTE2"
+  ],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (29 correos)",
-  "max_uid_asunto": 67743,
-  "asuntos_locales_adicionales": 10,
+  "busqueda": "por asunto (30 correos)",
+  "max_uid_asunto": 67770,
+  "asuntos_locales_adicionales": 11,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "67770",
+      "fecha": "2026-11-25T06:28",
+      "asunto": "Se envía Boletín de Hidrometría y Climatología de 6 am",
+      "pdf": [
+        "Boletin del 25 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "67743",
       "fecha": "2026-11-24T18:00",
@@ -207,14 +217,6 @@
       "asunto": "INFORME DE NIVELES DE RIOS Y PRESAS DE 12 HRS",
       "pdf": [
         "Niveles del 22 de Noviembre del 2026.pdf"
-      ]
-    },
-    {
-      "uid": "67586",
-      "fecha": "2026-11-22T11:32",
-      "asunto": "Seguimiento Meteorológico y Reporte Climatológico 22-11-2026 (10:30 horas)",
-      "pdf": [
-        "Reporte y Seguimiento Meteorológico 22-11-2026 (10_30 hrs).pdf"
       ]
     }
   ]
