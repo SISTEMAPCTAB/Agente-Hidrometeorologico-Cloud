@@ -5,10 +5,11 @@
 set -euo pipefail
 D=modhidrologicotabrsamh.tech; R=https://github.com/SISTEMAPCTAB/agente-hidrometeorologico-cloud.git
 if [ ! -d /srv/agente/.git ]; then sudo -u modelo git clone -q --depth 1 "$R" /srv/agente.tmp 2>/dev/null || git clone -q --depth 1 "$R" /srv/agente.tmp; mv /srv/agente.tmp /srv/agente; fi
+rm -rf /srv/agente/data/cfe_vasos   # datos del FTP de CFE: los usa el modelo, no se publican (Gilberto, 26-nov-2026)
 chown -R modelo:modelo /srv/agente
 cat > /usr/local/bin/actualizar-portada <<'UP'
 #!/usr/bin/env bash
-cd /srv/agente && git fetch -q --depth 1 origin main && git reset -q --hard origin/main && git gc -q --prune=now --auto
+cd /srv/agente && git fetch -q --depth 1 origin main && git reset -q --hard origin/main && rm -rf /srv/agente/data/cfe_vasos && git gc -q --prune=now --auto
 UP
 chmod 755 /usr/local/bin/actualizar-portada
 cat > /etc/systemd/system/actualizar-portada.service <<'SV'
@@ -33,7 +34,7 @@ cat > /etc/caddy/Caddyfile <<CF
 $D, www.$D {
 	root * /srv/agente
 	encode gzip
-	@oculto path /.git* /src/* /config/* /cloudflare/* /vps/* /requirements.txt /package.json
+	@oculto path /data/cfe_vasos/* /.git* /src/* /config/* /cloudflare/* /vps/* /requirements.txt /package.json
 	respond @oculto 404
 	redir / /app/ 302
 	file_server
