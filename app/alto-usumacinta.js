@@ -139,7 +139,7 @@
   function styles(){
     if(document.getElementById('altoUsuStyle'))return;
     const s=document.createElement('style');s.id='altoUsuStyle';
-    s.textContent='.alto-usu{margin:16px 0 22px}.alto-usu h3{color:#6f112d;margin:0 0 6px}.alto-usu .source-note{font-size:12px;color:#666;line-height:1.45;margin:6px 0 12px}.alto-usu table{min-width:1280px}.usu-upper-levels{margin-bottom:18px}.usu-upper-levels h2{color:#6f112d}';
+    s.textContent='.alto-usu{margin:16px 0 22px}.alto-usu h3{color:#1a447c;margin:0 0 6px}.alto-usu .source-note{font-size:12px;color:#666;line-height:1.45;margin:6px 0 12px}.alto-usu table{min-width:1280px}.usu-upper-levels{margin-bottom:18px}.usu-upper-levels h2{color:#1a447c}';
     document.head.appendChild(s);
   }
 

@@ -9,7 +9,7 @@ const norm=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase(
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const active=()=>document.querySelector('#nav button.active')?.dataset.section||'resumen';
 // Colores propios de la escala SMN (de menor a mayor intensidad), independientes de otros apartados.
-const COL={'Extraordinarias':['#eee6ff','#5b2a86'],'Torrenciales':['#fde2e2','#8f1838'],'Intensas':['#ffe6cc','#9a4a00'],'Muy fuertes':['#fff4b8','#6f5b00'],'Fuertes':['#e3eeff','#174a7a'],'Chubascos':['#edf0f2','#4d5358'],'Aisladas':['#f5f5f5','#6d7176'],'Sin lluvia':['#f5f5f5','#6d7176']};
+const COL={'Extraordinarias':['#eee6ff','#5b2a86'],'Torrenciales':['#fde2e2','#2c64a8'],'Intensas':['#ffe6cc','#9a4a00'],'Muy fuertes':['#fff4b8','#6f5b00'],'Fuertes':['#e3eeff','#174a7a'],'Chubascos':['#edf0f2','#4d5358'],'Aisladas':['#f5f5f5','#6d7176'],'Sin lluvia':['#f5f5f5','#6d7176']};
 const chip=c=>{const k=COL[c]||['#edf0f2','#5e646a'];return '<span class="rain-intensity" style="background:'+k[0]+';color:'+k[1]+'">'+esc(c||'s/d')+'</span>'};
 const TZ='America/Mexico_City';
 const dia=v=>{const d=new Date(v);return Number.isFinite(+d)?d.toLocaleDateString('es-MX',{timeZone:TZ,weekday:'short',day:'numeric'}):'s/d'};

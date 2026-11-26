@@ -21,9 +21,9 @@ function chart(series,namo){
  // Mismo criterio visual que las demás gráficas: NAMO punteado granate,
  // valor identificado incluso cuando está fuera del rango observado.
  const ref=n(namo)?(Number(namo)>=lo&&Number(namo)<=hi
-  ?'<line x1="62" x2="702" y1="'+Y(Number(namo))+'" y2="'+Y(Number(namo))+'" stroke="#7a1230" stroke-width="2" stroke-dasharray="8 5"/><text x="68" y="'+(Y(Number(namo))-6)+'" font-size="12" font-weight="700" fill="#7a1230">NAMO '+num(namo)+' m</text>'
-  :'<line x1="62" x2="702" y1="57" y2="57" stroke="#7a1230" stroke-width="2" stroke-dasharray="8 5"/><text x="68" y="51" font-size="11" font-weight="700" fill="#7a1230">NAMO '+num(namo)+' m · fuera de escala</text>'):'';
- return '<svg role="img" aria-label="Evolución de nivel del Tonalá en metros" viewBox="0 0 760 260" style="max-width:100%;height:auto">'+grid+ref+'<path d="'+path+'" fill="none" stroke="#711833" stroke-width="3"/>'+points.map((p,i)=>'<circle cx="'+X(i)+'" cy="'+Y(p.current_m)+'" r="4" fill="#711833"><title>'+esc(p.date)+' · '+num(p.current_m)+' m</title></circle>').join('')+'<text x="62" y="243" font-size="11">'+esc(points[0].date)+'</text><text x="702" y="243" font-size="11" text-anchor="end">'+esc(points.at(-1).date)+'</text></svg>';
+  ?'<line x1="62" x2="702" y1="'+Y(Number(namo))+'" y2="'+Y(Number(namo))+'" stroke="#1f4f8f" stroke-width="2" stroke-dasharray="8 5"/><text x="68" y="'+(Y(Number(namo))-6)+'" font-size="12" font-weight="700" fill="#1f4f8f">NAMO '+num(namo)+' m</text>'
+  :'<line x1="62" x2="702" y1="57" y2="57" stroke="#1f4f8f" stroke-width="2" stroke-dasharray="8 5"/><text x="68" y="51" font-size="11" font-weight="700" fill="#1f4f8f">NAMO '+num(namo)+' m · fuera de escala</text>'):'';
+ return '<svg role="img" aria-label="Evolución de nivel del Tonalá en metros" viewBox="0 0 760 260" style="max-width:100%;height:auto">'+grid+ref+'<path d="'+path+'" fill="none" stroke="#1c4782" stroke-width="3"/>'+points.map((p,i)=>'<circle cx="'+X(i)+'" cy="'+Y(p.current_m)+'" r="4" fill="#1c4782"><title>'+esc(p.date)+' · '+num(p.current_m)+' m</title></circle>').join('')+'<text x="62" y="243" font-size="11">'+esc(points[0].date)+'</text><text x="702" y="243" font-size="11" text-anchor="end">'+esc(points.at(-1).date)+'</text></svg>';
 }
 function weatherRows(doc){
  const found=(doc?.stations||[]).filter(x=>existing.has(x.uuid));

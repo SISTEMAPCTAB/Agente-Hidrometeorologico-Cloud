@@ -1,10 +1,10 @@
 (()=>{
 'use strict';
 // Encabezado en todo lo que se copia (14-nov-2026, Gilberto): "Toda tabla, gráfico, mapa etc. que tenga la opción de copiar en el Agente y el
-// modelo lleve un encabezado: Modelo Grijalva-Usumacinta Rubio/Segovia, fecha y hora simplificada en una sola línea".
+// modelo lleve un encabezado: Modelo Grijalva-Usumacinta-Tonalá Rubio/Segovia/AMH, fecha y hora simplificada en una sola línea".
 // Un solo punto: se envuelve navigator.clipboard. Imagen PNG -> franja de una línea arriba; texto y HTML -> primera línea.
 // Fecha y hora = último corte de niveles observado (la del dato, no la de la copia). Si algo falla, se copia como antes.
-const ETIQUETA='Modelo Grijalva-Usumacinta Rubio/Segovia';
+const ETIQUETA='Modelo Grijalva-Usumacinta-Tonalá Rubio/Segovia/AMH';
 const URL_CORTE=(typeof BASE==='string'&&BASE?BASE:'..')+'/data/niveles/Ultimo_Corte/ultimo_resumen.json';
 let corte=null;
 async function leerCorte(){
