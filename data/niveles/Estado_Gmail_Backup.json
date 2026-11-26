@@ -1,21 +1,29 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-26T16:21:33.808355-06:00",
+  "run_local": "2026-11-26T16:30:05.868015-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-26T14:00:00-06:00",
   "messages_scanned": 30,
-  "levels_processed_now": 0,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
-  "pdfs_skipped_duplicate_content": 21,
+  "pdfs_skipped_duplicate_content": 20,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (38 correos)",
-  "max_uid_asunto": 67863,
+  "busqueda": "por asunto (39 correos)",
+  "max_uid_asunto": 67874,
   "asuntos_locales_adicionales": 16,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "67874",
+      "fecha": "2026-11-26T16:28",
+      "asunto": "Informe de Niveles de las 16 hr",
+      "pdf": [
+        "Niveles del 26 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "67863",
       "fecha": "2026-11-26T14:30",
@@ -207,14 +215,14 @@
       "pdf": [
         "Reporte y Seguimiento Meteorológico 24-11-2026 (10_30 hrs).pdf"
       ]
-    },
-    {
-      "uid": "67711",
-      "fecha": "2026-11-24T10:13",
-      "asunto": "INFORME DE NIVELES DE RIOS Y PRESAS DE 10 HRS",
-      "pdf": [
-        "Niveles del 24 de Noviembre del 2026.pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-11-26T16:00:00-06:00",
+    "corte": "2026-11-26T16:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
