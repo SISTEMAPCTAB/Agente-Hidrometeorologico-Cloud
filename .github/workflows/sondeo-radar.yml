@@ -12,4 +12,5 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - run: pip install requests
       - run: python src/sondeo_radar_sabancuy.py
