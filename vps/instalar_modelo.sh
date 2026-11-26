@@ -17,7 +17,7 @@ if ! sudo -u modelo GIT_SSH_COMMAND="$GIT_SSH_COMMAND" git ls-remote -q "$R" HEA
   exit 0
 fi
 if [ ! -d /srv/modelo/.git ]; then
-  rm -rf /srv/modelo.tmp; sudo -u modelo GIT_SSH_COMMAND="$GIT_SSH_COMMAND" git clone -q --depth 1 "$R" /srv/modelo.tmp
+  rm -rf /srv/modelo.tmp; mkdir /srv/modelo.tmp && chown modelo:modelo /srv/modelo.tmp; sudo -u modelo GIT_SSH_COMMAND="$GIT_SSH_COMMAND" git clone -q --depth 1 "$R" /srv/modelo.tmp
   rm -rf /srv/modelo.vieja; [ -d /srv/modelo ] && mv /srv/modelo /srv/modelo.vieja; mv /srv/modelo.tmp /srv/modelo
 fi
 cat > /usr/local/bin/actualizar-modelo <<UP
