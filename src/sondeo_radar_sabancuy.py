@@ -22,3 +22,8 @@ t,s=get('https://smn.conagua.gob.mx/es/observando-el-tiempo/radares-meteorologic
 print('IFR', re.findall(r'<iframe[^>]+src="([^"]+)"',t)[:5]); print('SCR', [x for x in re.findall(r'src="([^"]+\.js[^"]*)"',t) if 'gob.mx' not in x][:20])
 for x in re.findall(r'<iframe[^>]+src="([^"]+)"',t)[:3]:
     u=x if x.startswith('http') else 'https://smn.conagua.gob.mx'+x; t3,s3=get(u); print('== ifr',u,s3,len(t3)); print('   ', re.findall(r'[\w/:.\-]*(?:\.png|\.gif|\.json|\.php|radar)[\w/:.\-?=&]*',t3)[:60])
+B='https://smn.conagua.gob.mx/tools/GUI/visor_radares_v3/'
+t,s=get(B+'index.html'); print('IDX', t[:500].replace('\n',' '))
+for x in re.findall(r'(?:src|href)="([^"]+)"',t):
+    if x.startswith('http'): continue
+    t2,s2=get(B+x); print('== sub',x,s2,len(t2)); print('   ', sorted(set(re.findall(r'[\w/:.\-]*(?:\.png|\.gif|\.jpg|\.json|\.php|\.txt|sabancuy|Sabancuy)[\w/:.\-?=&]*',t2)))[:80])
