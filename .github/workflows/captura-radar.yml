@@ -1,0 +1,23 @@
+name: Captura radar Sabancuy (prueba)
+on:
+  schedule: [{cron: '17 */2 * * *'}]
+  workflow_dispatch:
+permissions: {contents: write}
+concurrency: {group: captura-radar, cancel-in-progress: false}
+jobs:
+  captura:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {path: main}
+      - name: Rama radar
+        run: |
+          git clone -q --depth 1 --branch radar "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" radar || {
+            mkdir radar && cd radar && git init -q -b radar && git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"; }
+      - run: pip install -q requests
+      - name: Capturar
+        run: cd radar && python ../main/src/captura_radar_sabancuy.py sabancuy || echo "::warning::SMN no respondió (OMITIR)"
+      - name: Subir
+        run: |
+          cd radar; git config user.name agente; git config user.email agente@users.noreply.github.com
+          git add -A; git diff --cached --quiet || { git commit -qm "radar Sabancuy $(date -u +%FT%H%MZ)"; git push -q origin radar; }
