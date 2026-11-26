@@ -24,7 +24,10 @@ chown -R modelo:modelo /srv/portada /srv/modelo
 [ -f /srv/portada/index.html ] || echo '<!doctype html><meta charset="utf-8"><title>Modelo Hidrológico Grijalva-Usumacinta</title><h1>Modelo Hidrológico Grijalva-Usumacinta</h1><p>Portada en preparación.</p>' > /srv/portada/index.html
 [ -f /srv/modelo/index.html ] || echo '<!doctype html><meta charset="utf-8"><title>Modelo</title><p>Acceso al modelo en preparación.</p>' > /srv/modelo/index.html
 # hash de una clave aleatoria desechada: el sitio queda cerrado hasta usar fijar-clave-modelo
-[ -f /etc/caddy/claves/modelo.caddy ] || echo 'basic_auth { cerrado $2b$14$gwbzhuKrO49WkaLkDHzFYOrZn7M46XlJlOJcqfGQQLkgv4JwnbF1G }' > /etc/caddy/claves/modelo.caddy
+# (V2) Caddy exige basic_auth en varias líneas; si quedó el formato de una línea de la primera versión, se reescribe cerrado
+if [ ! -f /etc/caddy/claves/modelo.caddy ] || grep -q 'basic_auth {.*}' /etc/caddy/claves/modelo.caddy; then
+  printf 'basic_auth {\n\tcerrado %s\n}\n' '$2b$14$gwbzhuKrO49WkaLkDHzFYOrZn7M46XlJlOJcqfGQQLkgv4JwnbF1G' > /etc/caddy/claves/modelo.caddy
+fi
 cat > /etc/caddy/Caddyfile <<CF
 $D, www.$D {
 	root * /srv/portada
@@ -44,7 +47,7 @@ cat > /usr/local/sbin/fijar-clave-modelo <<'FX'
 #!/usr/bin/env bash
 # Fija usuario y contraseña del sitio modelo.* (la contraseña se escribe en pantalla oculta y sólo se guarda su hash bcrypt)
 set -e; read -rp "Usuario para el modelo: " U; H=$(caddy hash-password)
-echo "basic_auth { $U $H }" > /etc/caddy/claves/modelo.caddy; chmod 640 /etc/caddy/claves/modelo.caddy; chgrp caddy /etc/caddy/claves/modelo.caddy
+printf 'basic_auth {\n\t%s %s\n}\n' "$U" "$H" > /etc/caddy/claves/modelo.caddy; chmod 640 /etc/caddy/claves/modelo.caddy; chgrp caddy /etc/caddy/claves/modelo.caddy
 systemctl reload caddy && echo "Listo: usuario $U"
 FX
 chmod 750 /usr/local/sbin/fijar-clave-modelo
