@@ -37,3 +37,8 @@ t,s=get('https://smn.conagua.gob.mx/tools/PHP/RDA/static/php/RDA_repository.php?
 d=J.loads(t); print('RDA n',len(d)); print('RDA0',J.dumps(d[:2])[:800])
 sab=[x for x in d if 'sab' in J.dumps(x).lower()]; print('RDAS',J.dumps(sab[:3])[:1500])
 for m in re.finditer(r'ecos/',js): print('ECO',js[max(0,m.start()-200):m.start()+200].replace('\n',' '))
+pr=sorted(set('_'.join(x.split('_')[:5]) for x in d if x.startswith('SABA'))); print('PROD',pr)
+f=[x for x in d if x.startswith('SABA')]; print('NSAB',len(f),f[-1],f[0])
+r=requests.get(B+'ecos/'+f[0],timeout=60); print('GIF',r.status_code,len(r.content),r.headers.get('content-type'))
+db=requests.get(B+'utils/radarsDB.json',timeout=120).json()
+s=J.dumps(db); i=s.find('SABA'); print('DB',s[max(0,i-1500):i+2500])
