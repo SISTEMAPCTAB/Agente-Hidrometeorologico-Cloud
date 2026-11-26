@@ -28,7 +28,7 @@ UP
 chmod 755 /usr/local/bin/actualizar-modelo
 printf '[Unit]\nDescription=Actualiza el modelo desde GitHub\n[Service]\nType=oneshot\nUser=modelo\nExecStart=/usr/local/bin/actualizar-modelo\n' > /etc/systemd/system/actualizar-modelo.service
 printf '[Unit]\nDescription=Actualiza el modelo cada 5 minutos\n[Timer]\nOnBootSec=2min\nOnUnitActiveSec=5min\n[Install]\nWantedBy=timers.target\n' > /etc/systemd/system/actualizar-modelo.timer
-systemctl daemon-reload && systemctl enable --now actualizar-modelo.timer && sudo -u modelo /usr/local/bin/actualizar-modelo
+systemctl daemon-reload && systemctl enable --now actualizar-modelo.timer; sleep 3; rm -f /srv/modelo/.git/shallow.lock; systemctl start actualizar-modelo.service || true
 # Caddyfile vigente (oculta .git y datos no publicables también en el modelo)
 curl -fsSL https://raw.githubusercontent.com/SISTEMAPCTAB/agente-hidrometeorologico-cloud/main/vps/instalar_portada.sh | bash
 echo "== Modelo instalado: https://modelo.modhidrologicotabrsamh.tech (versión $(cat /srv/modelo/VERSION_VPS.txt))"
