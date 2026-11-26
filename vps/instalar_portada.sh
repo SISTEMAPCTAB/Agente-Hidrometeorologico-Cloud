@@ -59,6 +59,8 @@ $D, www.$D {
 }
 modelo.$D {
 	import /etc/caddy/claves/modelo.caddy
+	@ocultoM path /.git* /datos/smn_ftp/* /mareometro/* /crudos/*
+	respond @ocultoM 404
 	root * /srv/modelo
 	encode gzip
 	file_server
