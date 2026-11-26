@@ -9,3 +9,12 @@ for u in ['https://smn.conagua.gob.mx/es/observando-el-tiempo/radares-meteorolog
     t,s=get(u);print('==',u,s,len(t),t[:150] if s is None else '')
     for m in sorted(set(re.findall(r'[\w/:.\-%?=&]*(?:sabancuy|Sabancuy|SAB|radar)[\w/:.\-%?=&]*\.(?:png|gif|jpg|jpeg|json|php)[\w=&?.\-]*',t)))[:60]: print('  ',m)
     for m in sorted(set(re.findall(r'href="([^"]*radar[^"]*)"',t,re.I)))[:40]: print('  href',m)
+
+t,s=get('https://smn.conagua.gob.mx/es/')
+links=sorted(set(re.findall(r'href="([^"]+)"',t)))
+print('LINKS', [l for l in links if re.search(r'radar|observ|satel|imagen',l,re.I)][:80])
+for l in [l for l in links if re.search(r'radar',l,re.I)][:10]:
+    u=l if l.startswith('http') else 'https://smn.conagua.gob.mx'+l
+    t2,s2=get(u);print('== sub',u,s2,len(t2))
+    print('   img', sorted(set(re.findall(r'(?:src|href|data-src)="([^"]+\.(?:png|gif|jpg|jpeg|json|php)[^"]*)"',t2)))[:50])
+    print('   sab', sorted(set(re.findall(r'[^"\' ]*[Ss]abancuy[^"\' ]*',t2)))[:30])
