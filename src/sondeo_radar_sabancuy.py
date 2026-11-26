@@ -18,3 +18,7 @@ for l in [l for l in links if re.search(r'radar',l,re.I)][:10]:
     t2,s2=get(u);print('== sub',u,s2,len(t2))
     print('   img', sorted(set(re.findall(r'(?:src|href|data-src)="([^"]+\.(?:png|gif|jpg|jpeg|json|php)[^"]*)"',t2)))[:50])
     print('   sab', sorted(set(re.findall(r'[^"\' ]*[Ss]abancuy[^"\' ]*',t2)))[:30])
+t,s=get('https://smn.conagua.gob.mx/es/observando-el-tiempo/radares-meteorologicos-separador/visor-de-radares-meteorologicos')
+print('IFR', re.findall(r'<iframe[^>]+src="([^"]+)"',t)[:5]); print('SCR', [x for x in re.findall(r'src="([^"]+\.js[^"]*)"',t) if 'gob.mx' not in x][:20])
+for x in re.findall(r'<iframe[^>]+src="([^"]+)"',t)[:3]:
+    u=x if x.startswith('http') else 'https://smn.conagua.gob.mx'+x; t3,s3=get(u); print('== ifr',u,s3,len(t3)); print('   ', re.findall(r'[\w/:.\-]*(?:\.png|\.gif|\.json|\.php|radar)[\w/:.\-?=&]*',t3)[:60])
