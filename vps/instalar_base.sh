@@ -23,7 +23,8 @@ mkdir -p /srv/portada /srv/modelo /etc/caddy/claves
 chown -R modelo:modelo /srv/portada /srv/modelo
 [ -f /srv/portada/index.html ] || echo '<!doctype html><meta charset="utf-8"><title>Modelo Hidrológico Grijalva-Usumacinta</title><h1>Modelo Hidrológico Grijalva-Usumacinta</h1><p>Portada en preparación.</p>' > /srv/portada/index.html
 [ -f /srv/modelo/index.html ] || echo '<!doctype html><meta charset="utf-8"><title>Modelo</title><p>Acceso al modelo en preparación.</p>' > /srv/modelo/index.html
-[ -f /etc/caddy/claves/modelo.caddy ] || echo 'basic_auth { cerrado $2a$14$000000000000000000000uJ6Yb0u9pXf6dQ9Vfxk8E1l0lYF2b5W }' > /etc/caddy/claves/modelo.caddy
+# hash de una clave aleatoria desechada: el sitio queda cerrado hasta usar fijar-clave-modelo
+[ -f /etc/caddy/claves/modelo.caddy ] || echo 'basic_auth { cerrado $2b$14$gwbzhuKrO49WkaLkDHzFYOrZn7M46XlJlOJcqfGQQLkgv4JwnbF1G }' > /etc/caddy/claves/modelo.caddy
 cat > /etc/caddy/Caddyfile <<CF
 $D, www.$D {
 	root * /srv/portada
