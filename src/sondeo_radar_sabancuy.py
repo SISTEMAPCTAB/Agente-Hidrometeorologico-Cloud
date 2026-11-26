@@ -33,3 +33,7 @@ for u in [B+'utils/radarsDB.json',B+'utils/ultimas_v4.json','https://smn.conagua
 js,_=get(B+'assets/index-BbChE2h9.js')
 for k in ['ultimas_v4','radarsDB','RDA_repository','lista.json']:
     for m in re.finditer(k,js): print('CTX',k,js[max(0,m.start()-250):m.start()+250].replace('\n',' '))
+t,s=get('https://smn.conagua.gob.mx/tools/PHP/RDA/static/php/RDA_repository.php?dir=ecos&type=json')
+d=J.loads(t); print('RDA n',len(d)); print('RDA0',J.dumps(d[:2])[:800])
+sab=[x for x in d if 'sab' in J.dumps(x).lower()]; print('RDAS',J.dumps(sab[:3])[:1500])
+for m in re.finditer(r'ecos/',js): print('ECO',js[max(0,m.start()-200):m.start()+200].replace('\n',' '))
