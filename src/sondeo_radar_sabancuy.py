@@ -27,3 +27,9 @@ t,s=get(B+'index.html'); print('IDX', t[:500].replace('\n',' '))
 for x in re.findall(r'(?:src|href)="([^"]+)"',t):
     if x.startswith('http'): continue
     t2,s2=get(B+x); print('== sub',x,s2,len(t2)); print('   ', sorted(set(re.findall(r'[\w/:.\-]*(?:\.png|\.gif|\.jpg|\.json|\.php|\.txt|sabancuy|Sabancuy)[\w/:.\-?=&]*',t2)))[:80])
+import json as J
+for u in [B+'utils/radarsDB.json',B+'utils/ultimas_v4.json','https://smn.conagua.gob.mx/tools/PHP/RDA/static/php/RDA_repository.php?dir=ecos&type=json']:
+    t,s=get(u); print('== J',u,s,len(t)); i=t.lower().find('sabancuy'); print('   SAB',t[max(0,i-300):i+900].replace('\n',' ') if i>=0 else t[:600])
+js,_=get(B+'assets/index-BbChE2h9.js')
+for k in ['ultimas_v4','radarsDB','RDA_repository','lista.json']:
+    for m in re.finditer(k,js): print('CTX',k,js[max(0,m.start()-250):m.start()+250].replace('\n',' '))
