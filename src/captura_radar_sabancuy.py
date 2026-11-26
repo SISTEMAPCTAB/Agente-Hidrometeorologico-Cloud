@@ -13,5 +13,9 @@ for f in lista:
     if os.path.exists(p): continue
     r = requests.get(B + 'ecos/' + f, timeout=60)
     if r.status_code == 200 and r.content[:3] == b'GIF':
+        pass
+    else:
+        print('fallo', f, r.status_code, r.content[:40]); continue
+    if True:
         os.makedirs(os.path.dirname(p), exist_ok=True); open(p, 'wb').write(r.content); n += 1
 print('radar Sabancuy: lista', len(lista), 'nuevos', n)
