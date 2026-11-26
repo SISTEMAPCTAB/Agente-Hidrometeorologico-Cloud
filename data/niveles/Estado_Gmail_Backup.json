@@ -1,21 +1,29 @@
 {
   "agent": "Gmail Backup Cloud",
-  "run_local": "2026-11-26T11:29:42.841957-06:00",
+  "run_local": "2026-11-26T12:22:16.829870-06:00",
   "configured": true,
   "gmail_user": "gsegoviaq1@gmail.com",
   "current_level_time_before_run": "2026-11-26T10:00:00-06:00",
-  "messages_scanned": 30,
-  "levels_processed_now": 0,
+  "messages_scanned": 31,
+  "levels_processed_now": 1,
   "levels_skipped_not_newer": 0,
   "pdfs_skipped_duplicate_content": 21,
   "sources_updated": [],
   "errors": [],
   "mensajes_con_error": [],
-  "busqueda": "por asunto (36 correos)",
-  "max_uid_asunto": 67840,
+  "busqueda": "por asunto (37 correos)",
+  "max_uid_asunto": 67845,
   "asuntos_locales_adicionales": 16,
   "mensajes_sin_pdf_omitidos": 0,
   "revisados": [
+    {
+      "uid": "67845",
+      "fecha": "2026-11-26T12:19",
+      "asunto": "INFORME DE NIVELES DE RIOS Y PRESAS DE 12 HRS",
+      "pdf": [
+        "Niveles del 26 de Noviembre del 2026.pdf"
+      ]
+    },
     {
       "uid": "67840",
       "fecha": "2026-11-26T10:31",
@@ -207,14 +215,14 @@
       "pdf": [
         "Boletin 24-11-2026.pdf"
       ]
-    },
-    {
-      "uid": "67705",
-      "fecha": "2026-11-24T08:33",
-      "asunto": "Se envía Boletín de Hidrometría y Climatología de 8 am",
-      "pdf": [
-        "Boletin del 24 de Noviembre del 2026.pdf"
-      ]
     }
-  ]
+  ],
+  "lluvia_conagua": {
+    "intentado": true,
+    "actualizada": true,
+    "corte_niveles": "2026-11-26T12:00:00-06:00",
+    "corte": "2026-11-26T12:00:00-06:00",
+    "estaciones": 69,
+    "observadas_24h": 64
+  }
 }
