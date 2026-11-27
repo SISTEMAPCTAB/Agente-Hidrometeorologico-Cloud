@@ -33,7 +33,7 @@ function html(d){
   '<div class="maturity-row"><span class="badge '+(vieja?'warn':'ok')+'">Corrida 00z del '+esc(diaUTC(d.corrida_utc))+'</span><span class="badge">Actualizado '+esc(fecha(d.generado_utc))+'</span>'+(vieja?'<span class="badge warn">Corrida con más de 48 h</span>':'')+'</div>'+
   '<p>Categoría del <b>punto más lluvioso</b> de cada subcuenca, con la escala SMN de 24 h, para compararla con el pronóstico oficial. Debajo, el <b>promedio</b> de la subcuenca, que es lo que usa el modelo hidrológico.</p>'+
   '<div class="table-wrap"><table><thead>'+head+'</thead><tbody>'+rows+'</tbody></table></div>'+
-  '<div class="section-note">Fuente: SMN · FTP de modelos numéricos (ensamble 00z), procesado en la PC del modelo hidrológico. Recuadros aproximados, no polígonos oficiales de cuenca. El máximo es sin corrección; el promedio lleva la corrección de sesgo del modelo. La categoría oficial es la del pronóstico SMN; esta tabla sirve para ubicar en qué subcuencas y días se concentra la lluvia.</div>';
+  '<div class="section-note">Fuente: SMN, procesado en la PC del modelo hidrológico. Recuadros aproximados, no polígonos oficiales de cuenca. El máximo es sin corrección; el promedio lleva la corrección de sesgo del modelo. La categoría oficial es la del pronóstico SMN; esta tabla sirve para ubicar en qué subcuencas y días se concentra la lluvia.</div>';
 }
 
 async function render(){

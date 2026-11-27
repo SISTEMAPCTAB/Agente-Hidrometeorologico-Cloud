@@ -1,0 +1,61 @@
+/* Presentación únicamente. No modifica las reglas ni los datos hidrológicos. */
+:root{--bg:#f2f6fa;--ink:#182f43;--muted:#536779;--line:#dce5ed;--nav:#123e62;--nav2:#216b8b;--shadow:0 3px 14px #133e6210}
+body{background:var(--bg)!important;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+button,a,input,select{touch-action:manipulation}button:focus-visible,a:focus-visible,[tabindex]:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #087fa4;outline-offset:3px}
+.app-shell{grid-template-columns:260px minmax(0,1fr)}
+.sidebar{background:#123e62;padding:24px 16px;gap:20px;border:0}.logo-amh{max-width:174px;padding:10px;border-radius:12px}.brand-copy{font-size:12px;line-height:1.55;text-align:center;color:#d6e7f1}.nav{gap:4px}.nav button{min-height:44px;font-size:13px;padding:10px 14px;cursor:pointer;border-left:3px solid transparent;border-radius:7px}.nav button.active{background:#ffffff19;border-left-color:#6dd7df;font-weight:750}.nav button:hover{background:#ffffff15}
+.topbar{min-height:98px;padding:20px 30px;position:relative}.directorate{font-size:10px!important;letter-spacing:.08em}.topbar h1{font-size:28px!important;line-height:1.2!important;letter-spacing:-.03em;margin:6px 0!important}.topbar p{font-size:13px!important;color:#536779}.content{padding:22px 30px 50px}.status-strip{padding:20px 30px 0;gap:12px}.status-card{border-top:3px solid #2c8199;box-shadow:none}.status-card b{font-size:15px}.status-card span,.muted,.section-note{font-size:13px}.panel{border-radius:14px;padding:22px;box-shadow:var(--shadow)}.panel h2{font-size:18px;margin-bottom:16px}.panel h3{font-size:15px}.panel p{font-size:14px;line-height:1.65}.grid{gap:20px}.trace-strip,.trace-line{font-size:11px;line-height:1.6}
+.table-wrap,.op-table-wrap,.analysis-table-wrap{border-radius:10px;overscroll-behavior-x:contain;scrollbar-color:#8aa6b9 #eff4f7}table{font-size:14px!important;font-variant-numeric:tabular-nums}th,td{padding:13px 14px!important;line-height:1.5}th{background:#eaf1f7!important;color:#163e5a!important;font-size:12px;white-space:normal}tbody tr:nth-child(even){background:#f7fafc}tbody tr:hover{background:#edf6fa}td:first-child{font-weight:550}th small{display:block}.ui-table-hint{font-size:12px;color:#536779;margin:8px 0}.badge,.attention-badge,.coh-badge,.rain-intensity{font-size:12px;padding:5px 9px}.btn{font-size:14px;min-height:44px;border-radius:8px}.ui-preview{background:#e4eff5;color:#234a62;padding:8px 30px;font-size:12px;border-bottom:1px solid #cadde8}.ui-preview strong{margin-right:10px}.ui-intro{margin-bottom:22px;padding:24px 28px;border-radius:14px;color:#fff;background:linear-gradient(115deg,#123e62,#176980)}.ui-intro p{color:#d9edf2;margin:6px 0 16px;font-size:14px}.ui-intro h2{font-size:24px;margin:0;letter-spacing:-.02em}.ui-kicker{text-transform:uppercase;font-size:11px;letter-spacing:.1em;font-weight:750;margin-bottom:8px}.ui-links{display:flex;flex-wrap:wrap;gap:8px}.ui-links button{border:1px solid #ffffff50;border-radius:8px;min-height:44px;background:#ffffff12;color:white;padding:8px 14px;font-size:13px;cursor:pointer}.ui-links button:hover{background:#ffffff25}.ui-context{margin:0 0 18px;padding:14px 18px;background:#eaf4f5;border-left:4px solid #167286;border-radius:8px;font-size:14px}.ui-context.forecast{background:#f3effb;border-color:#7654a5}.ui-context small{display:block;color:#536779;margin-top:4px}.ui-close{display:none}.ui-backdrop{display:none}.ui-skip{position:fixed;top:-70px;left:12px;z-index:200;background:white;padding:12px}.ui-skip:focus{top:10px}
+body.ui-map .map-wrap{display:flex;flex-direction:column;overflow:hidden}body.ui-map #map{order:0;width:100%;flex:none}body.ui-map .map-overlay-legend,body.ui-map #forecastSummary{position:static!important;inset:auto!important;transform:none!important;max-width:none!important;width:100%!important;box-shadow:none!important;pointer-events:auto;padding:18px!important;margin:0;border-radius:0;font-size:13px!important}body.ui-map .map-overlay-legend{order:2;border:0;border-top:1px solid #dce5ed}body.ui-map #forecastSummary{order:1}body.ui-map #forecastSummary:empty{display:none}body.ui-map .legend-grid{max-width:800px}body.ui-map .controls{gap:16px;display:flex;flex-wrap:wrap}body.ui-map .controls label{min-height:44px;display:flex;align-items:center;gap:7px}body.ui-map .topbar{position:relative}body.ui-map main{max-width:1600px;margin:auto}body.ui-map .card{border-top-color:#2c8199}
+@media(max-width:1000px){.app-shell{grid-template-columns:225px minmax(0,1fr)}.content{padding:18px}.status-strip{padding:18px 18px 0}.topbar{padding:18px}.op-alert-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.app-shell{display:block}.sidebar{display:flex;position:fixed;height:100dvh;width:min(88vw,330px);z-index:110;padding:18px}.ui-close{display:block;align-self:flex-end;color:white;background:transparent;border:1px solid #ffffff50;border-radius:8px;min-height:44px;padding:8px 14px}.ui-backdrop.open{display:block;position:fixed;inset:0;background:#071e36aa;z-index:100;border:0;width:100%;height:100%}.topbar{min-height:90px;padding:14px 12px;gap:12px}.topbar h1{font-size:22px!important}.topbar p{font-size:12px!important;display:block!important}.directorate{font-size:9px!important}.icon-btn{min-width:44px;min-height:44px}.content{padding:14px 12px 32px}.status-strip{padding:14px 12px 0;grid-template-columns:1fr 1fr;gap:8px}.status-card{padding:12px}.status-card b{font-size:13px}.panel{padding:16px}.panel h2{font-size:17px}.panel p{font-size:13px}.ui-intro{padding:20px}.ui-intro h2{font-size:22px}.ui-preview{padding:8px 12px}.ui-context{font-size:13px}.ui-links button{flex:1 1 120px}.op-alert-grid{grid-template-columns:1fr}.hydro48-grid{grid-template-columns:minmax(0,1fr)}.aviso-construccion{margin:12px!important;font-size:12px!important}th,td{padding:11px 12px!important}.trace-strip,.trace-line{font-size:11px}body.ui-map main{padding:10px}body.ui-map .summary{grid-template-columns:1fr}body.ui-map .topbar h1{font-size:20px!important}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+/* Revisión 2: apartados de ancho completo y navegación persistente bajo demanda. */
+.ui-focus-layout .app-shell{display:block}
+.ui-focus-layout .sidebar{position:fixed;inset:0 auto 0 0;width:min(360px,90vw);height:100dvh;z-index:110;display:flex;transform:translateX(-105%);padding:18px 20px;overflow:hidden}
+.ui-focus-layout .sidebar.open{transform:translateX(0)}
+.ui-focus-layout .nav{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.ui-focus-layout .nav button{font-size:17px;line-height:1.4;min-height:50px;padding:12px 14px}
+.ui-focus-layout .logo-amh{max-width:140px;margin-bottom:6px}
+.ui-focus-layout .brand-copy{font-size:11px}
+.ui-focus-layout .ui-close{display:block;align-self:flex-end;color:white;background:transparent;border:1px solid #ffffff70;border-radius:8px;min-height:44px;padding:8px 14px}
+.ui-focus-layout .ui-backdrop.open{display:block;position:fixed;inset:0;z-index:100;width:100%;height:100%;border:0;background:#071e3699}
+.ui-focus-layout #menuBtn{position:fixed;top:12px;left:16px;z-index:90;display:inline-flex;width:auto;height:44px;min-height:44px;padding:8px 15px;font-size:16px;font-weight:700;border:1px solid #9bb5c9;box-shadow:0 3px 12px #133e6220;background:white}
+.ui-focus-layout .ui-preview{padding:10px 24px 10px 140px;min-height:64px;display:flex;align-items:center;flex-wrap:wrap}
+.ui-focus-layout .topbar{min-height:82px;padding:12px 24px}
+.ui-focus-layout .content{padding:16px 24px 40px}
+.ui-focus-layout .status-strip{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));padding:14px 24px 0}
+.ui-focus-layout .status-card{min-height:100px}
+.ui-focus-layout .ui-context{padding:10px 16px;margin-bottom:14px}
+.ui-focus-layout .panel{padding:18px;border-radius:10px}
+.ui-focus-layout[data-section='mapa'] #statusStrip{display:none}
+.ui-focus-layout[data-section='mapa'] .content{padding:12px}
+.ui-focus-layout[data-section='mapa'] .ui-context{display:none}
+.ui-focus-layout[data-section='modelo'] .topbar{border-bottom:3px solid #7654a5;background:#f9f7fd}
+.ui-focus-layout[data-section='modelo'] .status-strip{display:none}
+.ui-focus-layout[data-section='pronostico'] .topbar{border-bottom:3px solid #4c6a9c;background:#f2f6fc}
+.ui-focus-layout[data-section='weather'] .topbar,.ui-focus-layout[data-section='sih'] .topbar{border-bottom:3px solid #218399;background:#f0f9fa}
+.ui-focus-layout[data-section='fuentes'] .panel{box-shadow:none;border-left:4px solid #8da1af}
+.ui-focus-layout[data-section='estiaje'] .topbar{border-bottom:3px solid #9a7b42;background:#fbf9f3}
+@media(max-width:760px){.ui-focus-layout .ui-preview{padding:10px 12px 10px 125px;font-size:10px;min-height:70px}.ui-focus-layout #menuBtn{left:10px;top:12px}.ui-focus-layout .content{padding:12px}.ui-focus-layout .topbar{padding:12px}.ui-focus-layout .status-strip{padding:12px 12px 0;grid-template-columns:1fr}.ui-focus-layout .nav button{font-size:17px}}
+/* Revisión 3: cabecera institucional y controles de navegación. */
+.ui-focus-layout .sidebar{padding:0 0 16px;background:#173f60;gap:0;border-right:1px solid #d5e0e8;box-shadow:8px 0 32px #0d2e4926}
+.ui-focus-layout .sidebar .brand{background:white;padding:25px 54px 20px 24px;min-height:176px;margin:0 0 14px;text-align:left}
+.ui-focus-layout .sidebar .logo-amh{width:198px;max-width:100%;height:118px;object-fit:contain;object-position:left center;background:transparent;border-radius:0;padding:0;margin:0}
+.ui-focus-layout .sidebar .brand-copy{display:none}
+.ui-focus-layout .sidebar .brand::after{content:'Portal hidrológico · Tabasco';display:block;margin-top:8px;font-size:12px;letter-spacing:.02em;font-weight:600;color:#33536b}
+.ui-focus-layout .sidebar .ui-close{position:absolute;top:14px;right:14px;display:flex;align-items:center;justify-content:center;width:38px;height:38px;min-height:38px;padding:0;border:1px solid #dce5eb;border-radius:50%;background:#f4f7fa;color:#294a63;font-size:25px;line-height:1;cursor:pointer}
+.ui-focus-layout .sidebar .ui-close:hover{background:#e5eef4}
+.ui-focus-layout .sidebar .nav{padding:0 12px;scrollbar-width:thin;scrollbar-color:#7895aa transparent}
+.ui-focus-layout .sidebar .nav button{border-radius:7px;margin:2px 0;font-size:17px;padding:12px 15px}
+.ui-focus-layout #menuBtn{border:0;border-radius:10px;background:#173f60;color:white;box-shadow:0 2px 8px #173f6020;font-size:15px;gap:10px;padding:10px 16px;height:44px;font-weight:600;letter-spacing:.01em}
+.ui-focus-layout #menuBtn:hover{background:#245674}
+.ui-menu-icon{width:19px;height:19px;display:block;flex:none}
+@media(max-width:760px){.ui-focus-layout .sidebar .brand{padding-top:20px;min-height:164px}.ui-focus-layout .sidebar .logo-amh{height:108px}}
+/* Barra de navegación con espacio propio: no se superpone a las tablas. */
+.ui-focus-layout{padding-top:64px}
+.ui-focus-layout .ui-preview{position:fixed;top:0;left:0;right:0;z-index:80;height:64px;min-height:64px;background:#edf4f8;border-bottom:1px solid #ccdce7;box-shadow:0 2px 8px #173f6010}
+.ui-focus-layout #menuBtn{z-index:90;top:10px}
+.ui-focus-layout{scroll-padding-top:80px}
+.ui-focus-layout .content{scroll-margin-top:80px}
+@media(max-width:760px){.ui-focus-layout{padding-top:70px}.ui-focus-layout .ui-preview{height:70px;min-height:70px}.ui-focus-layout #menuBtn{top:13px}}
