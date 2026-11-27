@@ -172,10 +172,10 @@ def locate_actual(st, nums):
 
 
 def actual_sin_anterior_layout(text, st, flat_line):
-    """Escala Actual por columna del PDF cuando falta el nivel anterior."""
+    """Escala Actual por columna del PDF ante ambigüedad o falta del nivel anterior."""
     # N/A conserva su significado; nunca tomar temperatura como variación.
     tail = flat_line.split()
-    if len(tail) < 2 or tail[-2].upper() != "N/A" or st.get("namo") is None:
+    if len(tail) < 2 or st.get("namo") is None:
         return None
     marker = "===== GASTOS_LAYOUT_FUENTE2 ====="
     if marker not in text:
@@ -204,13 +204,13 @@ def actual_sin_anterior_layout(text, st, flat_line):
         if col in cells:
             return None
         cells[col] = float(token.group().replace(",", ""))
-    # Respaldo sólo sin escala anterior; Actual/Escala es la columna 6.
-    if 4 in cells or not all(j in cells for j in (0, 2, 6)):
+    # Respaldo por posición física; Actual/Escala es la columna 6.
+    if not all(j in cells for j in (0, 2, 6)):
         return None
     if abs(cells[0] - st["name"]) > 0.05 or abs(cells[2] - st["namo"]) > 0.05:
         return None
     layout_tail = row.split()
-    if len(layout_tail) < 2 or layout_tail[-2].upper() != "N/A":
+    if len(layout_tail) < 2 or layout_tail[-2] != tail[-2]:
         return None
     try:
         distance = float(layout_tail[-1])
@@ -218,6 +218,16 @@ def actual_sin_anterior_layout(text, st, flat_line):
     except ValueError:
         return None
     actual = cells[6]
+    if tail[-2].upper() == "N/A":
+        if 4 in cells:
+            return None
+    else:
+        try:
+            variation = float(tail[-2])
+        except ValueError:
+            return None
+        if 4 not in cells or abs(actual - cells[4] - variation) > 0.06:
+            return None
     if (not math.isfinite(actual) or not -5 <= actual <= 60
             or abs(distance - flat_distance) > 0.001
             or abs(actual - st["namo"] - distance) > 0.06):
@@ -262,7 +272,7 @@ def extract_values(text):
                 value = layout_value
                 errors = []
                 idx_used = None
-                method = "layout_actual_namo_sin_anterior"
+                method = "layout_actual_namo_validado"
 
         values[st["estacion"]] = value
         diagnostics[st["estacion"]] = {
