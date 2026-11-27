@@ -3,7 +3,7 @@
   "stations": {
     "c04a4e28-b0a3-4044-b6e3-f48c43afab16": {
       "prev_daily_mm": 2.3,
-      "prev_observed_utc": "2026-11-27T04:00:00+00:00",
+      "prev_observed_utc": "2026-11-27T04:30:00+00:00",
       "events": [
         {
           "ts": "2026-11-17T06:45:00+00:00",
@@ -422,7 +422,7 @@
         "st_max_c": 23.3,
         "st_max_hora": "11:30",
         "st_hr": 86.0,
-        "n": 45
+        "n": 46
       },
       "temp_ayer": {
         "fecha": "2026-11-25",
@@ -714,7 +714,7 @@
         "st_max_c": 24.4,
         "st_max_hora": "13:00",
         "st_hr": 88.0,
-        "n": 45
+        "n": 46
       },
       "temp_ayer": {
         "fecha": "2026-11-25",
@@ -952,7 +952,7 @@
         "st_max_c": 25.0,
         "st_max_hora": "13:00",
         "st_hr": 81.0,
-        "n": 45
+        "n": 46
       },
       "temp_ayer": {
         "fecha": "2026-11-25",
@@ -969,7 +969,7 @@
     },
     "707f03fe-ca75-4c47-8404-9348b98a084e": {
       "prev_daily_mm": 0.0,
-      "prev_observed_utc": "2026-11-27T04:11:44+00:00",
+      "prev_observed_utc": "2026-11-27T04:40:47+00:00",
       "events": [
         {
           "ts": "2026-11-17T23:20:31+00:00",
@@ -1202,7 +1202,7 @@
         "st_max_c": 25.0,
         "st_max_hora": "13:41",
         "st_hr": 81.0,
-        "n": 45
+        "n": 46
       },
       "temp_ayer": {
         "fecha": "2026-11-25",
@@ -1219,7 +1219,7 @@
     },
     "afb0f522-e068-41e3-8154-7a32e23726f3": {
       "prev_daily_mm": 0.8,
-      "prev_observed_utc": "2026-11-27T04:11:44+00:00",
+      "prev_observed_utc": "2026-11-27T04:39:31+00:00",
       "events": [
         {
           "ts": "2026-11-18T00:50:09+00:00",
@@ -1368,7 +1368,7 @@
         "st_max_c": 25.6,
         "st_max_hora": "15:10",
         "st_hr": 76.0,
-        "n": 45
+        "n": 46
       },
       "temp_ayer": {
         "fecha": "2026-11-25",
@@ -1385,7 +1385,7 @@
     },
     "f402f31c-df4c-48bb-8fa7-2bb58326d0c8": {
       "prev_daily_mm": 0.3,
-      "prev_observed_utc": "2026-11-27T04:11:23+00:00",
+      "prev_observed_utc": "2026-11-27T04:41:26+00:00",
       "events": [
         {
           "ts": "2026-11-18T04:20:43+00:00",
@@ -1571,12 +1571,12 @@
         "desde": "00:04",
         "max_c": 25.6,
         "max_hora": "11:10",
-        "min_c": 20.6,
-        "min_hora": "06:11",
+        "min_c": 20.0,
+        "min_hora": "22:41",
         "st_max_c": 25.6,
         "st_max_hora": "11:10",
         "st_hr": 72.0,
-        "n": 45
+        "n": 46
       },
       "temp_ayer": {
         "fecha": "2026-11-25",
@@ -1592,15 +1592,9 @@
       }
     },
     "5a4141e8-0fa1-46ff-a032-bdb484eb2fc2": {
-      "prev_daily_mm": 20.8,
-      "prev_observed_utc": "2026-11-27T04:11:23+00:00",
+      "prev_daily_mm": 21.1,
+      "prev_observed_utc": "2026-11-27T04:41:24+00:00",
       "events": [
-        {
-          "ts": "2026-11-17T04:21:14+00:00",
-          "mm": 5.8,
-          "intervalo_incierto": false,
-          "intervalo_horas": 0.5
-        },
         {
           "ts": "2026-11-17T04:51:17+00:00",
           "mm": 0.8,
@@ -2080,10 +2074,16 @@
           "mm": 0.2,
           "intervalo_incierto": false,
           "intervalo_horas": 0.5
+        },
+        {
+          "ts": "2026-11-27T04:41:24+00:00",
+          "mm": 0.3,
+          "intervalo_incierto": false,
+          "intervalo_horas": 0.5
         }
       ],
-      "month_mm": 466.5,
-      "year_mm": 1045.5,
+      "month_mm": 466.8,
+      "year_mm": 1045.8,
       "month_key": "2026-11",
       "year_key": "2026",
       "temp_dia": {
@@ -2096,7 +2096,7 @@
         "st_max_c": 23.3,
         "st_max_hora": "09:41",
         "st_hr": 92.0,
-        "n": 45
+        "n": 46
       },
       "temp_ayer": {
         "fecha": "2026-11-25",
@@ -2113,7 +2113,7 @@
     },
     "96bdee43-3e9c-45ca-a4b1-5efe1f4577ae": {
       "prev_daily_mm": 9.1,
-      "prev_observed_utc": "2026-11-27T04:00:00+00:00",
+      "prev_observed_utc": "2026-11-27T04:30:00+00:00",
       "events": [
         {
           "ts": "2026-11-17T10:45:00+00:00",
@@ -2730,7 +2730,7 @@
         "st_max_c": 23.9,
         "st_max_hora": "15:30",
         "st_hr": 100.0,
-        "n": 45
+        "n": 46
       },
       "temp_ayer": {
         "fecha": "2026-11-25",
@@ -2746,5 +2746,5 @@
       }
     }
   },
-  "last_run_utc": "2026-11-27T04:11:44.976097+00:00"
+  "last_run_utc": "2026-11-27T04:41:26.094682+00:00"
 }
