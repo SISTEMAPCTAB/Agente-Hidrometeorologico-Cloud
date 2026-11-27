@@ -46,6 +46,10 @@ document.body.dataset.section=section;
  if(wrap.dataset.uiReady)continue;wrap.dataset.uiReady='1';wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label','Tabla de información hidrológica; desplazamiento horizontal disponible');
  const hint=element('div','ui-table-hint','↔ Desliza la tabla para consultar todas las columnas.');wrap.before(hint);
  }
+ for(const bar of c.querySelectorAll('.copy-table-bar')){
+ const wrap=bar.parentElement,hint=wrap.previousElementSibling;
+ if(hint?.classList.contains('ui-table-hint'))bar.prepend(hint);
+ }
  for(const th of c.querySelectorAll('th')){if(!th.hasAttribute('scope'))th.scope=th.colSpan>1?'colgroup':'col'}
  current=section;
 }
