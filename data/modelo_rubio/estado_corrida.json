@@ -1,20 +1,20 @@
 {
  "producto": "Modelo Grijalva-Usumacinta Rubio/Segovia: último intento no publicado",
- "intento_utc": "2026-11-27T09:52:13.251Z",
- "intento_local": "2026-11-27T03:52",
+ "intento_utc": "2026-11-27T10:53:15.014Z",
+ "intento_local": "2026-11-27T04:53",
  "publicada": false,
- "motivo": "lectura de nivel de hace 15.9 h (máximo 6 h)",
+ "motivo": "lectura de nivel de hace 16.9 h (máximo 6 h)",
  "calidad_entrada": {
   "version": "V111ac",
   "max_h": 6,
   "edad_niveles_h": {
-   "Tapijulapa": 15.9,
-   "Teapa": 9.9,
-   "San Joaquín": 9.9,
-   "Puyacatengo": 9.9,
-   "Pueblo Nuevo": 9.9
+   "Tapijulapa": 16.9,
+   "Teapa": 10.9,
+   "San Joaquín": 10.9,
+   "Puyacatengo": 10.9,
+   "Pueblo Nuevo": 10.9
   },
-  "edad_max_h": 15.9,
+  "edad_max_h": 16.9,
   "sin_lectura": [],
   "heredadas": [
    "Tapijulapa (heredado)",
@@ -22,48 +22,48 @@
   ],
   "otras_estaciones_edad_h": {
    "Gaviotas": {
-    "nivel_h": 9.9,
+    "nivel_h": 10.9,
     "estado": "observado",
     "gasto_h": null
    },
    "El Muelle": {
-    "nivel_h": 9.9,
+    "nivel_h": 10.9,
     "estado": "observado",
     "gasto_h": null
    },
    "Samaria": {
-    "nivel_h": 9.9,
+    "nivel_h": 10.9,
     "estado": "observado",
-    "gasto_h": 18.1
+    "gasto_h": 19.1
    },
    "González": {
-    "nivel_h": 9.9,
+    "nivel_h": 10.9,
     "estado": "observado",
-    "gasto_h": 18.1
+    "gasto_h": 19.1
    },
    "Boca del Cerro": {
-    "nivel_h": 9.9,
+    "nivel_h": 10.9,
     "estado": "observado",
-    "gasto_h": 18.1
+    "gasto_h": 19.1
    },
    "Salto de Agua": {
-    "nivel_h": 9.9,
+    "nivel_h": 10.9,
     "estado": "observado",
-    "gasto_h": 18.1
+    "gasto_h": 19.1
    },
    "Macuspana": {
-    "nivel_h": 9.9,
+    "nivel_h": 10.9,
     "estado": "observado",
-    "gasto_h": 18.1
+    "gasto_h": 19.1
    }
   },
   "version_codigo": "V111fk-2 · commit 888dc35",
   "lluvia_futura": "Sierra: WeatherNext 2 (Google, IA; Earth Engine; ECMWF IFS de respaldo) · corrida 2026-11-27 00 UTC · Tulijá: WeatherNext 2 · Puxcatán: ensamble SMN corregido · corrida 2026-11-26; respaldo ensamble SMN / NOAA",
   "lluvia_de_respaldo": false,
   "apta": false,
-  "motivo": "lectura de nivel de hace 15.9 h (máximo 6 h)"
+  "motivo": "lectura de nivel de hace 16.9 h (máximo 6 h)"
  },
  "regla": "V111ac: no se publica si algún nivel de la Sierra o Pueblo Nuevo tiene más de 6 h o no es válido",
- "_subido_epoch": 1795773138.1426914,
- "_clave": "lectura de nivel de hace 15.9 h (máximo 6 h)"
+ "_subido_epoch": 1795776799.8653684,
+ "_clave": "lectura de nivel de hace 16.9 h (máximo 6 h)"
 }
