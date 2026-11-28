@@ -1,7 +1,7 @@
 {
-  "run_utc": "2026-11-28T06:11:22.309613+00:00",
-  "run_local": "2026-11-28T00:11:22.309613-06:00",
-  "coverage_hours": 2028.16,
+  "run_utc": "2026-11-28T06:41:27.940179+00:00",
+  "run_local": "2026-11-28T00:41:27.940179-06:00",
+  "coverage_hours": 2028.66,
   "stations": [
     {
       "nombre": "ACALA PCIVILCHIAPAS",
@@ -16,13 +16,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 22,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 28,
       "temperature_f": 71.0,
       "humidity_pct": 76.0,
       "wind_mph": 0.0,
-      "barometer_inhg": 30.14,
+      "barometer_inhg": 30.13,
       "source_url": "https://www.weatherlink.com/map/data/station/223fd3da-5715-46cb-9e36-a8f53283baf8",
       "temp_dia": {
         "fecha": "2026-11-28",
@@ -34,7 +34,7 @@
         "st_max_c": 21.7,
         "st_max_hora": "00:11",
         "st_hr": 76.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -49,7 +49,7 @@
         "n": 39
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
@@ -91,13 +91,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 22,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 28,
       "temperature_f": 63.0,
       "humidity_pct": 90.0,
-      "wind_mph": 1.0,
-      "barometer_inhg": 30.23,
+      "wind_mph": 0.0,
+      "barometer_inhg": 30.22,
       "source_url": "https://www.weatherlink.com/map/data/station/53d370e6-a6a4-424d-bb54-b4a4fa8b48a8",
       "temp_dia": {
         "fecha": "2026-11-28",
@@ -109,7 +109,7 @@
         "st_max_c": 17.2,
         "st_max_hora": "00:11",
         "st_hr": 90.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -124,15 +124,15 @@
         "n": 25
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
         "24": 0.0,
-        "48": 8.1,
+        "48": 4.8,
         "72": 44.9,
-        "96": 75.4,
+        "96": 64.5,
         "120": 79.7,
         "d08": 0.0,
         "c08": 0.0
@@ -141,7 +141,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -151,7 +151,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "ASUR Villahermosa",
@@ -166,9 +166,9 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:10:37+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:10 AM",
-      "age_seconds": 45,
+      "observed_utc": "2026-11-28T06:40:37+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:40 AM",
+      "age_seconds": 51,
       "temperature_f": 73.0,
       "humidity_pct": 97.0,
       "wind_mph": 0.0,
@@ -184,7 +184,7 @@
         "st_max_c": 22.8,
         "st_max_hora": "00:10",
         "st_hr": 97.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -199,13 +199,13 @@
         "n": 48
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
         "24": 0.0,
-        "48": 8.9,
+        "48": 7.9,
         "72": 20.1,
         "96": 50.6,
         "120": 50.6,
@@ -216,7 +216,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -226,7 +226,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "ATA",
@@ -241,9 +241,9 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:23.061659+00:00",
+      "observed_utc": "2026-11-28T06:41:28.595539+00:00",
       "last_updated_at": "--",
-      "age_seconds": 1795846283,
+      "age_seconds": 1795848088,
       "temperature_f": null,
       "humidity_pct": null,
       "wind_mph": null,
@@ -251,7 +251,7 @@
       "source_url": "https://www.weatherlink.com/map/data/station/4a24b77f-0bb9-4885-8258-d82b9487d759",
       "temp_dia": null,
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
@@ -293,12 +293,12 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 23,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 28,
       "temperature_f": 63.0,
       "humidity_pct": 92.0,
-      "wind_mph": 4.0,
+      "wind_mph": 2.0,
       "barometer_inhg": 30.18,
       "source_url": "https://www.weatherlink.com/map/data/station/83de353f-1000-4ce4-90c2-f13d47f3bb3a",
       "temp_dia": {
@@ -311,7 +311,7 @@
         "st_max_c": 17.2,
         "st_max_hora": "00:11",
         "st_hr": 92.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -326,7 +326,7 @@
         "n": 46
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
@@ -368,13 +368,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:10:35+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:10 AM",
-      "age_seconds": 48,
+      "observed_utc": "2026-11-28T06:40:35+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:40 AM",
+      "age_seconds": 53,
       "temperature_f": 74.0,
-      "humidity_pct": 94.0,
+      "humidity_pct": 95.0,
       "wind_mph": 0.0,
-      "barometer_inhg": 30.13,
+      "barometer_inhg": 30.12,
       "source_url": "https://www.weatherlink.com/map/data/station/903123f2-ae03-4f9c-9f75-2ce5ec49af35",
       "temp_dia": {
         "fecha": "2026-11-28",
@@ -386,7 +386,7 @@
         "st_max_c": 23.3,
         "st_max_hora": "00:10",
         "st_hr": 94.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -401,13 +401,13 @@
         "n": 48
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
         "24": 0.0,
-        "48": 10.7,
+        "48": 8.2,
         "72": 22.4,
         "96": 30.5,
         "120": 38.4,
@@ -418,7 +418,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -428,7 +428,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "CHAPULTENANGO PCIVILCHIAPAS",
@@ -443,25 +443,25 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 23,
-      "temperature_f": 65.0,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 28,
+      "temperature_f": 64.0,
       "humidity_pct": 98.0,
       "wind_mph": 1.0,
-      "barometer_inhg": 30.21,
+      "barometer_inhg": 30.2,
       "source_url": "https://www.weatherlink.com/map/data/station/45f56f1b-d4ad-467b-9764-1294db4b454b",
       "temp_dia": {
         "fecha": "2026-11-28",
         "desde": "00:11",
         "max_c": 18.3,
         "max_hora": "00:11",
-        "min_c": 18.3,
-        "min_hora": "00:11",
+        "min_c": 17.8,
+        "min_hora": "00:41",
         "st_max_c": 18.3,
         "st_max_hora": "00:11",
         "st_hr": 98.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -476,15 +476,15 @@
         "n": 48
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
-        "6": 0.7,
+        "6": 0.5,
         "24": 1.5,
-        "48": 50.0,
+        "48": 47.7,
         "72": 99.3,
-        "96": 156.2,
+        "96": 155.9,
         "120": 197.6,
         "d08": 1.5,
         "c08": 20.6
@@ -493,7 +493,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -503,7 +503,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 1.5,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "CHILÓN PCIVILCHIAPAS",
@@ -518,13 +518,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 23,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 28,
       "temperature_f": 61.0,
       "humidity_pct": 92.0,
       "wind_mph": 0.0,
-      "barometer_inhg": 30.25,
+      "barometer_inhg": 30.24,
       "source_url": "https://www.weatherlink.com/map/data/station/158b577e-cfd9-4f4c-aa57-15c41c09caa8",
       "temp_dia": {
         "fecha": "2026-11-28",
@@ -536,7 +536,7 @@
         "st_max_c": 16.1,
         "st_max_hora": "00:11",
         "st_hr": 92.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -551,13 +551,13 @@
         "n": 36
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
-        "6": 0.5,
+        "6": 0.2,
         "24": 0.5,
-        "48": 1.0,
+        "48": 0.5,
         "72": 5.3,
         "96": 7.6,
         "120": 11.4,
@@ -568,7 +568,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -578,7 +578,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.5,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "Cipat Chiapas",
@@ -593,13 +593,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 23,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 29,
       "temperature_f": 65.0,
       "humidity_pct": 90.0,
-      "wind_mph": 3.0,
-      "barometer_inhg": 30.19,
+      "wind_mph": 2.0,
+      "barometer_inhg": 30.18,
       "source_url": "https://www.weatherlink.com/map/data/station/37d1c155-0eeb-4a8a-bac7-7cec1b527e7f",
       "temp_dia": {
         "fecha": "2026-11-28",
@@ -611,7 +611,7 @@
         "st_max_c": 18.3,
         "st_max_hora": "00:11",
         "st_hr": 90.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -626,13 +626,13 @@
         "n": 48
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
         "24": 0.0,
-        "48": 0.5,
+        "48": 0.2,
         "72": 5.8,
         "96": 5.8,
         "120": 5.8,
@@ -643,7 +643,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -653,7 +653,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "CitrusMax IP Gateway S2",
@@ -670,7 +670,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-08-11T22:30:00+00:00",
       "last_updated_at": "Aug 11, 2026/ 4:30 PM",
-      "age_seconds": 9358884,
+      "age_seconds": 9360689,
       "temperature_f": 90.0,
       "humidity_pct": 71.0,
       "wind_mph": 12.0,
@@ -722,7 +722,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-03-27T17:00:53+00:00",
       "last_updated_at": "Mar 27, 2026/ 11:00 AM",
-      "age_seconds": 21215431,
+      "age_seconds": 21217236,
       "temperature_f": 81.0,
       "humidity_pct": 9.0,
       "wind_mph": 2.0,
@@ -772,13 +772,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 24,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 29,
       "temperature_f": 71.0,
       "humidity_pct": 90.0,
       "wind_mph": 0.0,
-      "barometer_inhg": 30.09,
+      "barometer_inhg": 30.08,
       "source_url": "https://www.weatherlink.com/map/data/station/518d187c-15e3-4e0c-acff-ef61f201d588",
       "temp_dia": {
         "fecha": "2026-11-28",
@@ -790,7 +790,7 @@
         "st_max_c": 21.7,
         "st_max_hora": "00:11",
         "st_hr": 90.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -805,13 +805,13 @@
         "n": 48
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
         "24": 0.3,
-        "48": 20.6,
+        "48": 20.3,
         "72": 39.9,
         "96": 50.3,
         "120": 50.3,
@@ -822,7 +822,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -832,7 +832,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.3,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "IGeofisica-M2",
@@ -847,17 +847,17 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 24,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 29,
       "temperature_f": null,
       "humidity_pct": null,
       "wind_mph": null,
-      "barometer_inhg": 30.15,
+      "barometer_inhg": 30.14,
       "source_url": "https://www.weatherlink.com/map/data/station/82c54050-8aed-42fd-9c0f-b4ccbc4de1d5",
       "temp_dia": null,
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
@@ -911,7 +911,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-10-18T01:00:00+00:00",
       "last_updated_at": "Oct 17, 2026/ 7:00 PM",
-      "age_seconds": 3561084,
+      "age_seconds": 3562889,
       "temperature_f": null,
       "humidity_pct": null,
       "wind_mph": null,
@@ -961,9 +961,9 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 24,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 29,
       "temperature_f": 68.0,
       "humidity_pct": 94.0,
       "wind_mph": 1.0,
@@ -979,7 +979,7 @@
         "st_max_c": 20.0,
         "st_max_hora": "00:11",
         "st_hr": 94.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -994,13 +994,13 @@
         "n": 45
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
         "24": 0.0,
-        "48": 6.1,
+        "48": 5.6,
         "72": 47.5,
         "96": 61.0,
         "120": 61.0,
@@ -1011,7 +1011,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -1021,7 +1021,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "JUÁREZ PCIVILCHIAPAS",
@@ -1036,13 +1036,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 24,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 29,
       "temperature_f": 69.0,
       "humidity_pct": 95.0,
-      "wind_mph": 0.0,
-      "barometer_inhg": 30.13,
+      "wind_mph": 2.0,
+      "barometer_inhg": 30.12,
       "source_url": "https://www.weatherlink.com/map/data/station/05721cd1-e674-4345-ae4b-f1c69587da25",
       "temp_dia": {
         "fecha": "2026-11-28",
@@ -1054,7 +1054,7 @@
         "st_max_c": 20.6,
         "st_max_hora": "00:11",
         "st_hr": 95.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -1069,13 +1069,13 @@
         "n": 48
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
         "24": 0.0,
-        "48": 29.7,
+        "48": 28.4,
         "72": 53.1,
         "96": 102.6,
         "120": 187.4,
@@ -1086,7 +1086,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -1096,7 +1096,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "La Pampa",
@@ -1113,7 +1113,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-11-19T11:15:00+00:00",
       "last_updated_at": "Nov 19, 2026/ 5:15 AM",
-      "age_seconds": 759385,
+      "age_seconds": 761190,
       "temperature_f": 73.0,
       "humidity_pct": 98.0,
       "wind_mph": 1.0,
@@ -1163,13 +1163,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 25,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 30,
       "temperature_f": 61.0,
       "humidity_pct": 89.0,
-      "wind_mph": 3.0,
-      "barometer_inhg": 30.21,
+      "wind_mph": 6.0,
+      "barometer_inhg": 30.2,
       "source_url": "https://www.weatherlink.com/map/data/station/35471877-6f85-49a0-9aa1-cd646ffa7dd0",
       "temp_dia": {
         "fecha": "2026-11-28",
@@ -1181,7 +1181,7 @@
         "st_max_c": 16.1,
         "st_max_hora": "00:11",
         "st_hr": 89.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -1196,7 +1196,7 @@
         "n": 48
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
@@ -1240,7 +1240,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-10-18T00:00:00+00:00",
       "last_updated_at": "Oct 17, 2026/ 6:00 PM",
-      "age_seconds": 3564685,
+      "age_seconds": 3566490,
       "temperature_f": 76.0,
       "humidity_pct": 66.0,
       "wind_mph": 8.0,
@@ -1290,13 +1290,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 25,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 30,
       "temperature_f": 69.0,
-      "humidity_pct": 92.0,
-      "wind_mph": 0.0,
-      "barometer_inhg": 29.81,
+      "humidity_pct": 93.0,
+      "wind_mph": 3.0,
+      "barometer_inhg": 29.8,
       "source_url": "https://www.weatherlink.com/map/data/station/00f3c40c-9bbf-4d71-9ca0-5b035962e911",
       "temp_dia": {
         "fecha": "2026-11-28",
@@ -1308,7 +1308,7 @@
         "st_max_c": 20.6,
         "st_max_hora": "00:11",
         "st_hr": 92.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -1323,15 +1323,15 @@
         "n": 48
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
-        "6": 0.5,
+        "6": 0.2,
         "24": 0.5,
-        "48": 13.2,
+        "48": 12.4,
         "72": 51.8,
-        "96": 112.3,
+        "96": 108.5,
         "120": 122.2,
         "d08": 0.5,
         "c08": 4.1
@@ -1340,7 +1340,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -1350,7 +1350,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.5,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "PALENQUE PCIVILCHIAPAS",
@@ -1365,12 +1365,12 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 25,
-      "temperature_f": 72.0,
-      "humidity_pct": 85.0,
-      "wind_mph": 0.0,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 30,
+      "temperature_f": 71.0,
+      "humidity_pct": 86.0,
+      "wind_mph": 1.0,
       "barometer_inhg": 30.12,
       "source_url": "https://www.weatherlink.com/map/data/station/58c7addf-e60b-414f-baec-0f1a2d7073da",
       "temp_dia": {
@@ -1378,12 +1378,12 @@
         "desde": "00:11",
         "max_c": 22.2,
         "max_hora": "00:11",
-        "min_c": 22.2,
-        "min_hora": "00:11",
+        "min_c": 21.7,
+        "min_hora": "00:41",
         "st_max_c": 22.2,
         "st_max_hora": "00:11",
         "st_hr": 85.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -1398,13 +1398,13 @@
         "n": 37
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
         "24": 0.0,
-        "48": 30.7,
+        "48": 28.4,
         "72": 69.8,
         "96": 85.3,
         "120": 85.3,
@@ -1415,7 +1415,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -1425,7 +1425,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "PASO LA MINA",
@@ -1442,7 +1442,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-11-28T06:00:00+00:00",
       "last_updated_at": "Nov 28, 2026/ 12:00 AM",
-      "age_seconds": 686,
+      "age_seconds": 2490,
       "temperature_f": 69.0,
       "humidity_pct": 95.0,
       "wind_mph": 0.0,
@@ -1458,7 +1458,7 @@
         "st_max_c": 20.6,
         "st_max_hora": "00:00",
         "st_hr": 95.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -1472,8 +1472,8 @@
         "st_hr": 82.0,
         "n": 48
       },
-      "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_mm": null,
+      "increment_method": "sin_dato",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
@@ -1515,9 +1515,9 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 26,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 30,
       "temperature_f": 71.0,
       "humidity_pct": 96.0,
       "wind_mph": 0.0,
@@ -1533,7 +1533,7 @@
         "st_max_c": 21.7,
         "st_max_hora": "00:11",
         "st_hr": 96.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -1548,13 +1548,13 @@
         "n": 48
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
         "24": 0.3,
-        "48": 24.7,
+        "48": 24.4,
         "72": 54.2,
         "96": 105.8,
         "120": 120.3,
@@ -1565,7 +1565,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -1575,7 +1575,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.3,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "REFORMA PCIVILCHIAPAS",
@@ -1592,7 +1592,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-11-21T15:23:00+00:00",
       "last_updated_at": "Nov 21, 2026/ 9:23 AM",
-      "age_seconds": 571706,
+      "age_seconds": 573510,
       "temperature_f": 74.0,
       "humidity_pct": 100.0,
       "wind_mph": 3.0,
@@ -1642,12 +1642,12 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 26,
-      "temperature_f": 72.0,
-      "humidity_pct": 84.0,
-      "wind_mph": 1.0,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 30,
+      "temperature_f": null,
+      "humidity_pct": null,
+      "wind_mph": null,
       "barometer_inhg": 30.08,
       "source_url": "https://www.weatherlink.com/map/data/station/d0fdf036-46ea-4769-ada0-ba6dac46ba77",
       "temp_dia": {
@@ -1675,15 +1675,15 @@
         "n": 36
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
         "24": 0.0,
-        "48": 14.0,
-        "72": 16.0,
-        "96": 89.2,
+        "48": 12.5,
+        "72": 14.2,
+        "96": 68.4,
         "120": 101.1,
         "d08": 0.0,
         "c08": 11.7
@@ -1692,7 +1692,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -1702,7 +1702,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "SAN CAYETANO CONSOLA",
@@ -1717,11 +1717,11 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 26,
+      "observed_utc": "2026-11-28T06:41:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 30,
       "temperature_f": 70.0,
-      "humidity_pct": 93.0,
+      "humidity_pct": 94.0,
       "wind_mph": 0.0,
       "barometer_inhg": 30.05,
       "source_url": "https://www.weatherlink.com/map/data/station/a0fb45f0-742f-4136-98fb-024bcc3d9e36",
@@ -1735,7 +1735,7 @@
         "st_max_c": 21.1,
         "st_max_hora": "00:11",
         "st_hr": 93.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -1750,15 +1750,15 @@
         "n": 24
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
         "24": 0.0,
-        "48": 21.8,
+        "48": 20.8,
         "72": 56.6,
-        "96": 109.9,
+        "96": 109.1,
         "120": 151.6,
         "d08": 0.0,
         "c08": 10.1
@@ -1767,7 +1767,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -1777,7 +1777,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.0,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "SEMAR Capitanía de Pto. Alvarado, Ver.",
@@ -1792,17 +1792,17 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:10:54+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:10 AM",
-      "age_seconds": 33,
+      "observed_utc": "2026-11-28T06:41:30+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 0,
       "temperature_f": -90.0,
       "humidity_pct": null,
-      "wind_mph": 9.0,
+      "wind_mph": 5.0,
       "barometer_inhg": 30.13,
       "source_url": "https://www.weatherlink.com/map/data/station/cf76e43a-f5ed-4822-9453-9804b01cc970",
       "temp_dia": null,
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
@@ -1846,7 +1846,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-11-21T00:00:37+00:00",
       "last_updated_at": "Nov 20, 2026/ 6:00 PM",
-      "age_seconds": 627050,
+      "age_seconds": 628854,
       "temperature_f": 80.0,
       "humidity_pct": 87.0,
       "wind_mph": 1.0,
@@ -1896,12 +1896,12 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:10:33+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:10 AM",
-      "age_seconds": 54,
+      "observed_utc": "2026-11-28T06:40:36+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:40 AM",
+      "age_seconds": 55,
       "temperature_f": 76.0,
-      "humidity_pct": 74.0,
-      "wind_mph": 2.0,
+      "humidity_pct": 75.0,
+      "wind_mph": 0.0,
       "barometer_inhg": 30.07,
       "source_url": "https://www.weatherlink.com/map/data/station/179b2e03-d930-4c64-a53c-b05d6814cd99",
       "temp_dia": {
@@ -1914,7 +1914,7 @@
         "st_max_c": 24.4,
         "st_max_hora": "00:10",
         "st_hr": 74.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -1929,7 +1929,7 @@
         "n": 48
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
@@ -1971,13 +1971,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:00:00+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:00 AM",
-      "age_seconds": 687,
+      "observed_utc": "2026-11-28T06:30:00+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:30 AM",
+      "age_seconds": 691,
       "temperature_f": 71.0,
       "humidity_pct": 95.0,
       "wind_mph": 0.0,
-      "barometer_inhg": 29.91,
+      "barometer_inhg": 29.9,
       "source_url": "https://www.weatherlink.com/map/data/station/6a6be1ae-627b-49f0-8bad-10622e2834bc",
       "temp_dia": {
         "fecha": "2026-11-28",
@@ -1989,7 +1989,7 @@
         "st_max_c": 21.7,
         "st_max_hora": "00:00",
         "st_hr": 95.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -2004,14 +2004,14 @@
         "n": 48
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
         "6": 0.0,
         "24": 0.3,
-        "48": 50.3,
-        "72": 95.0,
+        "48": 47.0,
+        "72": 93.5,
         "96": 165.9,
         "120": 166.9,
         "d08": 0.0,
@@ -2021,7 +2021,7 @@
         "1": "exacto_reconstruido",
         "6": "exacto_reconstruido",
         "24": "exacto_reconstruido",
-        "48": "minimo_observado",
+        "48": "exacto_reconstruido",
         "72": "minimo_observado",
         "96": "minimo_observado",
         "120": "minimo_observado",
@@ -2031,7 +2031,7 @@
       "d08_desde_local": "2026-11-27T08:00:00-06:00",
       "c08_hasta_local": "2026-11-27T08:00:00-06:00",
       "reconstructed_24h_mm_raw": 0.3,
-      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 48h/72h/96h/120h"
+      "quality": "Cloud + ventanas con mínimo observado por cruce de medianoche: 72h/96h/120h"
     },
     {
       "nombre": "Urrutia",
@@ -2048,7 +2048,7 @@
       "rain_rate_mmh": null,
       "observed_utc": "2026-11-28T06:10:22+00:00",
       "last_updated_at": "Nov 28, 2026/ 12:10 AM",
-      "age_seconds": 65,
+      "age_seconds": 1869,
       "temperature_f": 70.0,
       "humidity_pct": 98.0,
       "wind_mph": 0.0,
@@ -2064,7 +2064,7 @@
         "st_max_c": 21.1,
         "st_max_hora": "00:10",
         "st_hr": 98.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -2078,8 +2078,8 @@
         "st_hr": 87.0,
         "n": 39
       },
-      "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_mm": null,
+      "increment_method": "sin_dato",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
@@ -2121,13 +2121,13 @@
       "monthly_native_mm": null,
       "yearly_native_mm": null,
       "rain_rate_mmh": null,
-      "observed_utc": "2026-11-28T06:11:12+00:00",
-      "last_updated_at": "Nov 28, 2026/ 12:11 AM",
-      "age_seconds": 15,
+      "observed_utc": "2026-11-28T06:41:15+00:00",
+      "last_updated_at": "Nov 28, 2026/ 12:41 AM",
+      "age_seconds": 16,
       "temperature_f": 66.0,
       "humidity_pct": 95.0,
-      "wind_mph": 3.0,
-      "barometer_inhg": 29.97,
+      "wind_mph": 2.0,
+      "barometer_inhg": 29.96,
       "source_url": "https://www.weatherlink.com/map/data/station/c7cd2939-bb5b-4724-a033-ee7fceaf240e",
       "temp_dia": {
         "fecha": "2026-11-28",
@@ -2139,7 +2139,7 @@
         "st_max_c": 18.9,
         "st_max_hora": "00:11",
         "st_hr": 95.0,
-        "n": 1
+        "n": 2
       },
       "temp_ayer": {
         "fecha": "2026-11-27",
@@ -2154,7 +2154,7 @@
         "n": 32
       },
       "increment_mm": 0.0,
-      "increment_method": "rollover_sin_puente",
+      "increment_method": "diferencia_diaria",
       "rollover_uncertain_24h": false,
       "accumulations_mm": {
         "1": 0.0,
